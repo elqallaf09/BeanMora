@@ -32,8 +32,21 @@ create index recipes_bean_id_idx on public.recipes (bean_id);
 create index recipes_brew_method_idx on public.recipes (brew_method);
 create index recipes_visibility_idx on public.recipes (visibility);
 create index recipes_created_at_idx on public.recipes (created_at desc);
-create index recipes_search_idx on public.recipes
-  using gin (to_tsvector('simple', unaccent(coalesce(title, '') || ' ' || coalesce(notes, ''))));
+-- Trigram GIN index, not to_tsvector(unaccent(...)) — unaccent() is STABLE,
+-- not IMMUTABLE, and Postgres rejects non-IMMUTABLE functions in index
+-- expressions. See roasters_search_idx / beans_search_idx in migration 04
+-- for the same fix and full rationale. Search queries should normalize
+-- with lower() and use ILIKE or trigram similarity.
+create index recipes_search_idx
+  on public.recipes
+  using gin (
+    (
+      lower(
+        coalesce(title, '') || ' ' ||
+        coalesce(notes, '')
+      )
+    ) gin_trgm_ops
+  );
 
 create trigger recipes_set_updated_at
   before update on public.recipes

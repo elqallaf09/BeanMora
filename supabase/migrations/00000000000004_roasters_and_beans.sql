@@ -18,8 +18,23 @@ create table public.roasters (
 );
 
 create index roasters_country_idx on public.roasters (country);
-create index roasters_search_idx on public.roasters
-  using gin (to_tsvector('simple', unaccent(coalesce(name_ar, '') || ' ' || coalesce(name_en, ''))));
+
+-- Trigram GIN index for typo-tolerant search. Not to_tsvector(unaccent(...))
+-- — unaccent() is STABLE, not IMMUTABLE, and Postgres rejects non-IMMUTABLE
+-- functions in index expressions (they could return different results for
+-- the same input over time, which would silently corrupt the index).
+-- Search queries against this index should normalize the same way:
+-- lower(...) plus ILIKE or `%` trigram similarity — see docs/DATABASE.md.
+create index roasters_search_idx
+  on public.roasters
+  using gin (
+    (
+      lower(
+        coalesce(name_ar, '') || ' ' ||
+        coalesce(name_en, '')
+      )
+    ) gin_trgm_ops
+  );
 
 create trigger roasters_set_updated_at
   before update on public.roasters
@@ -75,11 +90,23 @@ create index beans_origin_country_idx on public.beans (origin_country);
 create index beans_process_idx on public.beans (process);
 create index beans_roast_level_idx on public.beans (roast_level);
 create index beans_published_idx on public.beans (is_published);
-create index beans_search_idx on public.beans
-  using gin (to_tsvector('simple', unaccent(
-    coalesce(name_ar, '') || ' ' || coalesce(name_en, '') || ' ' ||
-    coalesce(origin_country, '') || ' ' || coalesce(origin_region, '') || ' ' || coalesce(farm, '')
-  )));
+
+-- Same trigram approach as roasters_search_idx above, and for the same
+-- reason (unaccent() is not IMMUTABLE, so it can't be used in an index
+-- expression).
+create index beans_search_idx
+  on public.beans
+  using gin (
+    (
+      lower(
+        coalesce(name_ar, '') || ' ' ||
+        coalesce(name_en, '') || ' ' ||
+        coalesce(origin_country, '') || ' ' ||
+        coalesce(origin_region, '') || ' ' ||
+        coalesce(farm, '')
+      )
+    ) gin_trgm_ops
+  );
 
 create trigger beans_set_updated_at
   before update on public.beans
