@@ -201,9 +201,18 @@ as $$
     from public.recipes
     where id = p_recipe_id
   )
-  select round(
+  select round((
     -- Volume: attempts matter, but with diminishing returns (log scale).
-    (least(ln(1 + coalesce(a.attempt_count, 0)) / ln(101), 1) * 30)
+    -- ln() must be called on numeric here, not double precision: count(*)
+    -- is bigint, and PostgreSQL only defines round(numeric, integer) — not
+    -- round(double precision, integer). Casting the ln() operands to
+    -- numeric keeps the whole expression in the numeric type family so the
+    -- final round(..., 2) below resolves to the two-argument numeric form.
+    (least(
+      ln((1 + coalesce(a.attempt_count, 0))::numeric)
+        / ln(101::numeric),
+      1::numeric
+    ) * 30)
     -- Quality: average review rating, 0-5 -> 0-30.
     + (coalesce(r.avg_rating, 0) / 5 * 30)
     -- Success rate among attempts that recorded an outcome.
@@ -224,7 +233,7 @@ as $$
          when r.last_review_at > now() - interval '180 days' then 5
          else 3
        end)
-  , 2)
+  )::numeric, 2)
   from attempts a, reviews r, recipe rc;
 $$;
 
