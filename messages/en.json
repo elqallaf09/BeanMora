@@ -113,6 +113,7 @@
     "invalidCredentials": "The email or password is incorrect.",
     "tooManyRequests": "Too many attempts. Please wait a moment and try again.",
     "emailNotConfirmed": "Please confirm your email before signing in.",
+    "googleOAuthFailed": "Google sign-in failed. Please try again.",
     "guestBadge": "Guest",
     "guestUpgradeTitle": "Create an account to save your data and use this feature.",
     "guestUpgradeCreateAccount": "Create account",

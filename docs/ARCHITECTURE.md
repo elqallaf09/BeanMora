@@ -41,6 +41,38 @@ Deploy target: Vercel (Next.js) + Supabase (managed Postgres/Auth/Storage).
 Local dev talks to the same hosted Supabase project via `.env.local`
 (`NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY`).
 
+### 1.1 Auth provider setup (Supabase Dashboard)
+
+The Google OAuth callback lives at `src/app/[locale]/api/auth/callback/route.ts`
+(locale-scoped — see that file's header comment for why it cannot live
+under `src/app/api/...`). It must be registered as a **Redirect URL** in
+Supabase (Authentication → URL Configuration → Redirect URLs), one entry
+per locale, in addition to whatever production domain(s) you add later:
+
+```
+http://localhost:3000/ar/api/auth/callback
+http://localhost:3000/en/api/auth/callback
+```
+
+Google Cloud Console's own **Authorized redirect URI** does *not* change —
+it keeps pointing at Supabase's own hosted callback, never at the app
+directly:
+
+```
+https://<PROJECT_REF>.supabase.co/auth/v1/callback
+```
+
+(Supabase completes the Google exchange there, then redirects the browser
+on to whichever of the two app URLs above `signInWithOAuth({ redirectTo })`
+requested.)
+
+**Anonymous Sign-ins** (Authentication → Providers → Anonymous Sign-ins)
+must also be enabled for the guest-login button to work. Before turning it
+on, confirm migration 18 (`supabase/migrations/00000000000018_guest_access_controls.sql`)
+is applied (`npx supabase migration list`) — it is what keeps an anonymous
+session from writing anywhere a guest shouldn't (see that file and
+`supabase/tests/guest_access_control.sql`).
+
 ## 2. Information architecture / sitemap
 
 ```

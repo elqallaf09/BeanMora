@@ -113,6 +113,7 @@
     "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
     "tooManyRequests": "محاولات كثيرة جدًا. الرجاء الانتظار قليلًا والمحاولة مجددًا.",
     "emailNotConfirmed": "الرجاء تأكيد بريدك الإلكتروني قبل تسجيل الدخول.",
+    "googleOAuthFailed": "تعذر تسجيل الدخول عبر Google. حاول مرة أخرى.",
     "guestBadge": "ضيف",
     "guestUpgradeTitle": "أنشئ حسابًا لحفظ بياناتك واستخدام هذه الميزة.",
     "guestUpgradeCreateAccount": "إنشاء حساب",

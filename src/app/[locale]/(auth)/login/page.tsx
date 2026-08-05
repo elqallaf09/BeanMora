@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -39,6 +39,18 @@ export default function LoginPage() {
     formState: { errors },
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
+  // Surfaces the OAuth callback route's failure redirect
+  // (/{locale}/login?error=google_oauth_failed) as the same localized
+  // error UI as every other login failure — the callback route itself
+  // never carries a raw Supabase error message in the URL, only this
+  // fixed code.
+  useEffect(() => {
+    if (searchParams.get("error") === "google_oauth_failed") {
+      setServerError(t("auth.googleOAuthFailed"));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
   async function onSubmit(values: FormValues) {
     if (isBusy) return;
     setServerError(null);
@@ -69,7 +81,9 @@ export default function LoginPage() {
       const supabase = createClient();
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
-        options: { redirectTo: `${window.location.origin}/api/auth/callback` },
+        options: {
+          redirectTo: `${window.location.origin}/${locale}/api/auth/callback?next=/${locale}/home`,
+        },
       });
       if (error) {
         setServerError(t(mapLoginErrorToMessageKey(error)));
