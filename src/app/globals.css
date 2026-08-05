@@ -1,26 +1,158 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------- */
+/* BeanMora design tokens                                                 */
+/* ---------------------------------------------------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand palette (see docs/design-system.md) */
+  --color-espresso: #2b1812;
+  --color-roast-brown: #5a321e;
+  --color-caramel: #d38746;
+  --color-copper: #b85e2e;
+  --color-cream: #f8f0e4;
+  --color-soft-white: #fffdf9;
+  --color-teal: #1fa7a0;
+  --color-teal-dark: #17847f;
+  --color-dark-text: #1c1714;
+  --color-muted-text: #75675f;
+  --color-success: #2e9b69;
+  --color-warning: #e7a83e;
+  --color-error: #d84c4c;
+
+  /* Semantic tokens (light theme is the BeanMora default everywhere) */
+  --background: var(--color-soft-white);
+  --foreground: var(--color-dark-text);
+  --surface: #ffffff;
+  --surface-muted: var(--color-cream);
+  --border: #ece1d3;
+  --primary: var(--color-teal);
+  --primary-foreground: var(--color-soft-white);
+  --accent: var(--color-caramel);
+  --accent-foreground: var(--color-espresso);
+  --muted: var(--color-muted-text);
+  --success: var(--color-success);
+  --warning: var(--color-warning);
+  --error: var(--color-error);
+  --radius: 0.875rem;
+}
+
+/* BeanMora intentionally does not ship a fully dark theme — the brand is
+   warm/cream-forward. `.theme-dark` provides a dimmed surface variant for
+   users who prefer it (Settings > Appearance), not pure black. */
+.theme-dark {
+  --background: #241a14;
+  --foreground: var(--color-cream);
+  --surface: #2f2119;
+  --surface-muted: #3a291f;
+  --border: #4a362a;
+  --primary: var(--color-teal);
+  --primary-foreground: var(--color-soft-white);
+  --accent: var(--color-caramel);
+  --accent-foreground: var(--color-soft-white);
+  --muted: #c9b8ab;
 }
 
 @theme inline {
+  --color-espresso: var(--color-espresso);
+  --color-roast-brown: var(--color-roast-brown);
+  --color-caramel: var(--color-caramel);
+  --color-copper: var(--color-copper);
+  --color-cream: var(--color-cream);
+  --color-soft-white: var(--color-soft-white);
+  --color-teal: var(--color-teal);
+  --color-teal-dark: var(--color-teal-dark);
+  --color-dark-text: var(--color-dark-text);
+  --color-muted-text: var(--color-muted-text);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+
+  --radius-brand: var(--radius);
+
+  --font-arabic: var(--font-ibm-plex-arabic);
+  --font-latin: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html[dir="rtl"] body {
+  font-family: var(--font-arabic), var(--font-latin), system-ui, sans-serif;
+}
+
+html[dir="ltr"] body {
+  font-family: var(--font-latin), var(--font-arabic), system-ui, sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+/* Always render numerals as ASCII 0-9, even in Arabic locale/RTL context. */
+html[dir="rtl"] {
+  font-variant-numeric: normal;
+}
+html[dir="rtl"] input,
+html[dir="rtl"] .tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Directional icon flipping: only flip icons explicitly marked, never
+   photos/avatars/logos. Use the `.icon-flip-rtl` class on chevrons/arrows
+   that indicate navigation direction. */
+html[dir="rtl"] .icon-flip-rtl {
+  transform: scaleX(-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes bloom-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+.animate-bloom {
+  animation: bloom-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes drop-fall {
+  0% {
+    transform: translateY(-8px);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(4px);
+    opacity: 0;
+  }
+}
+.animate-drop {
+  animation: drop-fall 1.4s ease-in infinite;
 }
