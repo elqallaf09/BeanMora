@@ -1,0 +1,22 @@
+# Normalize line endings so Windows checkouts (CRLF) never show up as a
+# full-file diff against the LF blobs actually stored in git. Without this,
+# every file touched from a Windows client can appear 100% "modified" even
+# when nothing semantic changed — a recurring source of noisy diffs on this
+# project.
+* text=auto eol=lf
+
+*.sql text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.mjs text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.css text eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.ico binary

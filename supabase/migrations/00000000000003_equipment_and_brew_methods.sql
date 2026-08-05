@@ -17,8 +17,8 @@ create policy "brew methods are publicly readable"
 -- Reference data managed by admins/migrations only.
 create policy "only admins write brew methods"
   on public.brew_methods for all
-  using (public.has_role('admin'))
-  with check (public.has_role('admin'));
+  using ((select private.has_role('admin')))
+  with check ((select private.has_role('admin')));
 
 -- ---------------------------------------------------------------------- --
 
@@ -37,8 +37,8 @@ create policy "equipment brands are publicly readable"
 
 create policy "only admins write equipment brands"
   on public.equipment_brands for all
-  using (public.has_role('admin'))
-  with check (public.has_role('admin'));
+  using ((select private.has_role('admin')))
+  with check ((select private.has_role('admin')));
 
 -- ---------------------------------------------------------------------- --
 
@@ -66,8 +66,8 @@ create policy "equipment models are publicly readable"
 
 create policy "only admins write equipment models"
   on public.equipment_models for all
-  using (public.has_role('admin'))
-  with check (public.has_role('admin'));
+  using ((select private.has_role('admin')))
+  with check ((select private.has_role('admin')));
 
 -- ---------------------------------------------------------------------- --
 

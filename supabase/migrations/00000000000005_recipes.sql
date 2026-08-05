@@ -46,7 +46,7 @@ create policy "public recipes are readable by everyone"
   using (
     visibility = 'public'
     or auth.uid() = user_id
-    or public.has_role('admin')
+    or (select private.has_role('admin'))
   );
 
 create policy "authenticated users create recipes"
@@ -61,7 +61,7 @@ create policy "owners update their own recipes"
 
 create policy "owners delete their own recipes"
   on public.recipes for delete
-  using (auth.uid() = user_id or public.has_role('admin'));
+  using (auth.uid() = user_id or (select private.has_role('admin')));
 
 -- ---------------------------------------------------------------------- --
 
@@ -85,7 +85,7 @@ create policy "recipe steps follow parent recipe visibility"
   using (exists (
     select 1 from public.recipes r
     where r.id = recipe_id
-      and (r.visibility = 'public' or r.user_id = auth.uid() or public.has_role('admin'))
+      and (r.visibility = 'public' or r.user_id = auth.uid() or (select private.has_role('admin')))
   ));
 
 create policy "recipe owners manage steps"
@@ -115,7 +115,7 @@ create policy "recipe pours follow parent recipe visibility"
   using (exists (
     select 1 from public.recipes r
     where r.id = recipe_id
-      and (r.visibility = 'public' or r.user_id = auth.uid() or public.has_role('admin'))
+      and (r.visibility = 'public' or r.user_id = auth.uid() or (select private.has_role('admin')))
   ));
 
 create policy "recipe owners manage pours"
@@ -144,7 +144,7 @@ create policy "recipe equipment follows parent recipe visibility"
   using (exists (
     select 1 from public.recipes r
     where r.id = recipe_id
-      and (r.visibility = 'public' or r.user_id = auth.uid() or public.has_role('admin'))
+      and (r.visibility = 'public' or r.user_id = auth.uid() or (select private.has_role('admin')))
   ));
 
 create policy "recipe owners manage recipe equipment"
@@ -171,7 +171,7 @@ create policy "recipe images follow parent recipe visibility"
   using (exists (
     select 1 from public.recipes r
     where r.id = recipe_id
-      and (r.visibility = 'public' or r.user_id = auth.uid() or public.has_role('admin'))
+      and (r.visibility = 'public' or r.user_id = auth.uid() or (select private.has_role('admin')))
   ));
 
 create policy "recipe owners manage recipe images"
@@ -204,7 +204,7 @@ create policy "recipe versions follow parent recipe visibility"
   using (exists (
     select 1 from public.recipes r
     where r.id = recipe_id
-      and (r.visibility = 'public' or r.user_id = auth.uid() or public.has_role('admin'))
+      and (r.visibility = 'public' or r.user_id = auth.uid() or (select private.has_role('admin')))
   ));
 
 create policy "recipe owners write versions"

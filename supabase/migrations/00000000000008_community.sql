@@ -56,8 +56,8 @@ create policy "public, non-hidden posts are readable by everyone"
   using (
     (visibility = 'public' and not is_hidden)
     or auth.uid() = user_id
-    or public.has_role('admin')
-    or public.has_role('moderator')
+    or (select private.has_role('admin'))
+    or (select private.has_role('moderator'))
   );
 
 create policy "authenticated users create posts"
@@ -67,12 +67,12 @@ create policy "authenticated users create posts"
 
 create policy "owners edit their own posts"
   on public.posts for update
-  using (auth.uid() = user_id or public.has_role('admin') or public.has_role('moderator'))
-  with check (auth.uid() = user_id or public.has_role('admin') or public.has_role('moderator'));
+  using (auth.uid() = user_id or (select private.has_role('admin')) or (select private.has_role('moderator')))
+  with check (auth.uid() = user_id or (select private.has_role('admin')) or (select private.has_role('moderator')));
 
 create policy "owners delete their own posts"
   on public.posts for delete
-  using (auth.uid() = user_id or public.has_role('admin'));
+  using (auth.uid() = user_id or (select private.has_role('admin')));
 
 -- ---------------------------------------------------------------------- --
 
@@ -94,7 +94,7 @@ create policy "post media follows parent post visibility"
   using (exists (
     select 1 from public.posts p
     where p.id = post_id
-      and ((p.visibility = 'public' and not p.is_hidden) or p.user_id = auth.uid() or public.has_role('admin'))
+      and ((p.visibility = 'public' and not p.is_hidden) or p.user_id = auth.uid() or (select private.has_role('admin')))
   ));
 
 create policy "post owners manage post media"
@@ -176,8 +176,8 @@ create policy "comments follow parent content visibility"
       )
     )
     or auth.uid() = user_id
-    or public.has_role('admin')
-    or public.has_role('moderator')
+    or (select private.has_role('admin'))
+    or (select private.has_role('moderator'))
   );
 
 create policy "authenticated users comment"
@@ -187,12 +187,12 @@ create policy "authenticated users comment"
 
 create policy "comment owners edit their own comment"
   on public.comments for update
-  using (auth.uid() = user_id or public.has_role('admin') or public.has_role('moderator'))
-  with check (auth.uid() = user_id or public.has_role('admin') or public.has_role('moderator'));
+  using (auth.uid() = user_id or (select private.has_role('admin')) or (select private.has_role('moderator')))
+  with check (auth.uid() = user_id or (select private.has_role('admin')) or (select private.has_role('moderator')));
 
 create policy "comment owners delete their own comment"
   on public.comments for delete
-  using (auth.uid() = user_id or public.has_role('admin'));
+  using (auth.uid() = user_id or (select private.has_role('admin')));
 
 -- ---------------------------------------------------------------------- --
 

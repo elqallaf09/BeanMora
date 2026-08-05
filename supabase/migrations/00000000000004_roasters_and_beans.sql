@@ -38,8 +38,8 @@ create policy "owners manage their roaster page"
 
 create policy "admins manage all roasters"
   on public.roasters for all
-  using (public.has_role('admin'))
-  with check (public.has_role('admin'));
+  using ((select private.has_role('admin')))
+  with check ((select private.has_role('admin')));
 
 -- ---------------------------------------------------------------------- --
 
@@ -89,7 +89,7 @@ alter table public.beans enable row level security;
 
 create policy "published beans are publicly readable"
   on public.beans for select
-  using (is_published or auth.uid() = created_by or public.has_role('admin'));
+  using (is_published or auth.uid() = created_by or (select private.has_role('admin')));
 
 create policy "authenticated users add beans"
   on public.beans for insert
@@ -98,12 +98,12 @@ create policy "authenticated users add beans"
 
 create policy "creators or admins edit beans"
   on public.beans for update
-  using (auth.uid() = created_by or public.has_role('admin'))
-  with check (auth.uid() = created_by or public.has_role('admin'));
+  using (auth.uid() = created_by or (select private.has_role('admin')))
+  with check (auth.uid() = created_by or (select private.has_role('admin')));
 
 create policy "admins delete beans"
   on public.beans for delete
-  using (public.has_role('admin'));
+  using ((select private.has_role('admin')));
 
 -- ---------------------------------------------------------------------- --
 
@@ -127,11 +127,11 @@ create policy "bean owners manage bean images"
   on public.bean_images for all
   using (exists (
     select 1 from public.beans b
-    where b.id = bean_id and (b.created_by = auth.uid() or public.has_role('admin'))
+    where b.id = bean_id and (b.created_by = auth.uid() or (select private.has_role('admin')))
   ))
   with check (exists (
     select 1 from public.beans b
-    where b.id = bean_id and (b.created_by = auth.uid() or public.has_role('admin'))
+    where b.id = bean_id and (b.created_by = auth.uid() or (select private.has_role('admin')))
   ));
 
 -- ---------------------------------------------------------------------- --
@@ -157,9 +157,9 @@ create policy "bean owners manage flavor notes"
   on public.bean_flavor_notes for all
   using (exists (
     select 1 from public.beans b
-    where b.id = bean_id and (b.created_by = auth.uid() or public.has_role('admin'))
+    where b.id = bean_id and (b.created_by = auth.uid() or (select private.has_role('admin')))
   ))
   with check (exists (
     select 1 from public.beans b
-    where b.id = bean_id and (b.created_by = auth.uid() or public.has_role('admin'))
+    where b.id = bean_id and (b.created_by = auth.uid() or (select private.has_role('admin')))
   ));
