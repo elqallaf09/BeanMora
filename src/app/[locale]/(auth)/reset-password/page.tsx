@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -56,14 +56,14 @@ export default function ResetPasswordPage() {
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="password">{t("auth.passwordLabel")}</Label>
-            <Input id="password" type="password" autoComplete="new-password" {...register("password")} />
+            <PasswordInput id="password" autoComplete="new-password" {...register("password")} />
             {errors.password ? (
               <p className="text-xs text-[var(--color-error)]">{errors.password.message}</p>
             ) : null}
           </div>
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="confirmPassword">{t("auth.confirmPasswordLabel")}</Label>
-            <Input id="confirmPassword" type="password" autoComplete="new-password" {...register("confirmPassword")} />
+            <PasswordInput id="confirmPassword" autoComplete="new-password" {...register("confirmPassword")} />
             {errors.confirmPassword ? (
               <p className="text-xs text-[var(--color-error)]">{errors.confirmPassword.message}</p>
             ) : null}

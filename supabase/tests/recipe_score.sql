@@ -33,14 +33,17 @@ begin
   values ('v60', 'V60', 'V60')
   on conflict (code) do nothing;
 
-  -- Minimal fixture users.
+  -- Minimal fixture users. public.handle_new_user() (migration 02, patched
+  -- by migration 18) fires on this insert and creates the matching
+  -- public.profiles row automatically — do NOT also insert into profiles
+  -- here, it would collide on the primary key. Give the auto-created rows
+  -- more readable names via UPDATE instead.
   insert into auth.users (id, email) values
     (v_user1, 'recipe-score-test-1@example.invalid'),
     (v_user2, 'recipe-score-test-2@example.invalid');
 
-  insert into public.profiles (id, name, username) values
-    (v_user1, 'Recipe Score Test User 1', 'recipe_score_test_1'),
-    (v_user2, 'Recipe Score Test User 2', 'recipe_score_test_2');
+  update public.profiles set name = 'Recipe Score Test User 1' where id = v_user1;
+  update public.profiles set name = 'Recipe Score Test User 2' where id = v_user2;
 
   -- --------------------------------------------------------------------
   -- Scenario 1: recipe with no attempts and no reviews at all. This is

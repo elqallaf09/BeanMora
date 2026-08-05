@@ -4,12 +4,15 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
+import { Coffee } from "lucide-react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { mapLoginErrorToMessageKey, mapGuestErrorToMessageKey } from "@/lib/auth-errors";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -19,12 +22,16 @@ const schema = z.object({
 });
 type FormValues = z.infer<typeof schema>;
 
+type PendingAction = "password" | "google" | "guest" | null;
+
 export default function LoginPage() {
   const t = useTranslations();
+  const locale = useLocale();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [serverError, setServerError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [pendingAction, setPendingAction] = useState<PendingAction>(null);
+  const isBusy = pendingAction !== null;
 
   const {
     register,
@@ -33,25 +40,75 @@ export default function LoginPage() {
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
   async function onSubmit(values: FormValues) {
+    if (isBusy) return;
     setServerError(null);
-    setLoading(true);
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword(values);
-    setLoading(false);
-    if (error) {
-      setServerError(error.message);
-      return;
+    setPendingAction("password");
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithPassword(values);
+      if (error) {
+        setServerError(t(mapLoginErrorToMessageKey(error)));
+        return;
+      }
+      router.push((searchParams.get("next") as `/${string}`) ?? "/home");
+      router.refresh();
+    } catch (error) {
+      // Network failures, CORS issues, etc. throw rather than returning
+      // `{ error }` — never let those reach the Next.js error overlay.
+      setServerError(t(mapLoginErrorToMessageKey(error)));
+    } finally {
+      setPendingAction(null);
     }
-    router.push((searchParams.get("next") as `/${string}`) ?? "/home");
-    router.refresh();
   }
 
   async function onGoogle() {
-    const supabase = createClient();
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: `${window.location.origin}/api/auth/callback` },
-    });
+    if (isBusy) return;
+    setServerError(null);
+    setPendingAction("google");
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: `${window.location.origin}/api/auth/callback` },
+      });
+      if (error) {
+        setServerError(t(mapLoginErrorToMessageKey(error)));
+      }
+      // On success the browser is redirected to Google, so there is
+      // nothing further to do here — `finally` still resets the loading
+      // state for the (rare) case the redirect is blocked.
+    } catch (error) {
+      setServerError(t(mapLoginErrorToMessageKey(error)));
+    } finally {
+      setPendingAction(null);
+    }
+  }
+
+  async function onGuest() {
+    if (isBusy) return;
+    setServerError(null);
+    setPendingAction("guest");
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInAnonymously({
+        options: {
+          data: {
+            language: locale,
+            source: "guest_login",
+          },
+        },
+      });
+      if (error) {
+        setServerError(t(mapGuestErrorToMessageKey(error)));
+        return;
+      }
+      router.push("/home");
+      router.refresh();
+    } catch (error) {
+      setServerError(t(mapGuestErrorToMessageKey(error)));
+    } finally {
+      setPendingAction(null);
+    }
   }
 
   return (
@@ -75,16 +132,20 @@ export default function LoginPage() {
                 {t("auth.forgotPassword")}
               </Link>
             </div>
-            <Input id="password" type="password" autoComplete="current-password" {...register("password")} />
+            <PasswordInput id="password" autoComplete="current-password" {...register("password")} />
             {errors.password ? (
               <p className="text-xs text-[var(--color-error)]">{errors.password.message}</p>
             ) : null}
           </div>
 
-          {serverError ? <p role="alert" className="text-sm text-[var(--color-error)]">{serverError}</p> : null}
+          {serverError ? (
+            <p role="alert" className="text-sm text-[var(--color-error)]">
+              {serverError}
+            </p>
+          ) : null}
 
-          <Button type="submit" disabled={loading}>
-            {loading ? t("common.loading") : t("auth.loginButton")}
+          <Button type="submit" disabled={isBusy}>
+            {pendingAction === "password" ? t("common.loading") : t("auth.loginButton")}
           </Button>
         </form>
 
@@ -94,8 +155,20 @@ export default function LoginPage() {
           <span className="h-px flex-1 bg-[var(--color-border,#ece1d3)]" />
         </div>
 
-        <Button type="button" variant="outline" className="w-full" onClick={onGoogle}>
-          {t("auth.googleButton")}
+        <Button type="button" variant="outline" className="w-full" onClick={onGoogle} disabled={isBusy}>
+          {pendingAction === "google" ? t("common.loading") : t("auth.googleButton")}
+        </Button>
+
+        <Button
+          type="button"
+          variant="secondary"
+          className="mt-2 w-full"
+          onClick={onGuest}
+          disabled={isBusy}
+          aria-busy={pendingAction === "guest"}
+        >
+          <Coffee className="h-4 w-4" aria-hidden />
+          {pendingAction === "guest" ? t("auth.guestLoadingLabel") : t("auth.continueAsGuest")}
         </Button>
 
         <p className="mt-6 text-center text-sm text-[var(--color-muted-text)]">
