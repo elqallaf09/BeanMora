@@ -9,7 +9,8 @@ import { useSearchParams } from "next/navigation";
 import { Coffee } from "lucide-react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { mapLoginErrorToMessageKey, mapGuestErrorToMessageKey } from "@/lib/auth-errors";
+import { mapLoginErrorToMessageKey } from "@/lib/auth-errors";
+import { useGuestSignIn } from "@/hooks/use-guest-sign-in";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
@@ -98,31 +99,18 @@ export default function LoginPage() {
     }
   }
 
+  const { signInAsGuest, error: guestError } = useGuestSignIn("/home");
+
+  useEffect(() => {
+    if (guestError) setServerError(guestError);
+  }, [guestError]);
+
   async function onGuest() {
     if (isBusy) return;
     setServerError(null);
     setPendingAction("guest");
-    try {
-      const supabase = createClient();
-      const { error } = await supabase.auth.signInAnonymously({
-        options: {
-          data: {
-            language: locale,
-            source: "guest_login",
-          },
-        },
-      });
-      if (error) {
-        setServerError(t(mapGuestErrorToMessageKey(error)));
-        return;
-      }
-      router.push("/home");
-      router.refresh();
-    } catch (error) {
-      setServerError(t(mapGuestErrorToMessageKey(error)));
-    } finally {
-      setPendingAction(null);
-    }
+    await signInAsGuest();
+    setPendingAction(null);
   }
 
   return (

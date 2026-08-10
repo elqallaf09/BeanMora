@@ -36,7 +36,10 @@ export default async function AppLayout({
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <div className="flex min-h-screen flex-1 flex-col">
+      {/* min-w-0 is required: a flex item defaults to min-width:auto, so the
+          max-w-6xl page containers inside would refuse to shrink below their
+          preferred width and blow the layout out horizontally on mobile. */}
+      <div className="flex min-h-screen min-w-0 flex-1 flex-col">
         <Header isGuest={isGuest} />
         {isGuest ? <GuestBanner /> : null}
         <main className="flex-1 pb-20 md:pb-0">{children}</main>
