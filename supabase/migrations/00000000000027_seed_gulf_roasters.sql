@@ -21,16 +21,25 @@
 -- Qatar — GREY Specialty Coffee (independently fetched: greydoha.qa)
 -- ---------------------------------------------------------------------- --
 
+-- Moderator note (documentation only — public.roasters has no `notes`
+-- column, see migration 26 for the full rationale): name_ar is a phonetic
+-- transliteration, not confirmed from source.
+--
+-- has_physical_store = true and ships_to_gcc = true are both taken directly
+-- from this row's own description above ("Cafes in Al Wakra and Gewan
+-- Island" / "ships ... across Qatar and the GCC") — not defaults, not
+-- guesses; the source states both facts explicitly (see migration 26's
+-- schema-fix header for why the column can't silently default to false for
+-- roasters where this genuinely isn't stated).
 insert into public.roasters
-  (slug, name_ar, name_en, description_en, country, website_url,
-   source_type, source_url, source_name, last_verified_at, data_confidence, requires_review, notes)
+  (slug, name_ar, name_en, description_en, country, website_url, has_physical_store, ships_to_gcc,
+   source_type, source_url, source_name, last_verified_at, data_confidence, requires_review)
 values
   ('grey-specialty-coffee', 'جراي سبيشالتي كوفي', 'GREY',
    'Specialty coffee roaster based in Doha, Qatar, established 2020. Cafes in Al Wakra and Gewan Island; roasts and ships single-origin filter and espresso coffee across Qatar and the GCC, and publishes a per-bean V60 brew recipe with every product.',
-   'QA', 'https://greydoha.qa/',
+   'QA', 'https://greydoha.qa/', true, true,
    'official_website', 'https://greydoha.qa/', 'GREY — official site',
-   now(), 'verified', false,
-   'name_ar is a phonetic transliteration, not confirmed from source.')
+   now(), 'verified', false)
 on conflict (slug) do nothing;
 
 insert into public.beans
@@ -64,16 +73,22 @@ on conflict (slug) do nothing;
 -- UAE — Gold Box Roastery (independently fetched: goldboxroastery.com)
 -- ---------------------------------------------------------------------- --
 
+-- Moderator note (documentation only): name_ar is a phonetic
+-- transliteration, not confirmed from source.
+--
+-- has_physical_store = true comes from "a Dubai, UAE location (Al Quoz
+-- Industrial)" in the description above. ships_to_gcc is left null — the
+-- description states a UK head office and a UAE base but never states
+-- GCC-wide shipping, so that fact is not established, not false.
 insert into public.roasters
-  (slug, name_ar, name_en, description_en, country, website_url, instagram_url,
-   source_type, source_url, source_name, last_verified_at, data_confidence, requires_review, notes)
+  (slug, name_ar, name_en, description_en, country, website_url, instagram_url, has_physical_store, ships_to_gcc,
+   source_type, source_url, source_name, last_verified_at, data_confidence, requires_review)
 values
   ('gold-box-roastery', 'جولد بوكس روستري', 'Gold Box Roastery',
    'Specialty coffee roaster with a UK head office and a Dubai, UAE location (Al Quoz Industrial). Brewer''s Cup baristas and licensed Q-graders on staff; sells single-origin and blended coffee plus espresso machines and grinders.',
-   'AE', 'https://goldboxroastery.com/', 'https://www.instagram.com/goldboxroastery',
+   'AE', 'https://goldboxroastery.com/', 'https://www.instagram.com/goldboxroastery', true, null,
    'official_website', 'https://goldboxroastery.com/', 'Gold Box Roastery — official site',
-   now(), 'verified', false,
-   'name_ar is a phonetic transliteration, not confirmed from source.')
+   now(), 'verified', false)
 on conflict (slug) do nothing;
 
 insert into public.beans
@@ -99,16 +114,21 @@ on conflict (slug) do nothing;
 -- Oman — Windrose Coffee (independently fetched: windrosecoffee.com)
 -- ---------------------------------------------------------------------- --
 
+-- Moderator note (documentation only): name_ar is a phonetic
+-- transliteration, not confirmed from source.
+--
+-- has_physical_store = true comes from "Retail cafe" in the description
+-- above. ships_to_gcc is left null — the description confirms wholesale
+-- distribution "across Oman" only, never GCC-wide shipping.
 insert into public.roasters
-  (slug, name_ar, name_en, description_en, country, website_url, instagram_url,
-   source_type, source_url, source_name, last_verified_at, data_confidence, requires_review, notes)
+  (slug, name_ar, name_en, description_en, country, website_url, instagram_url, has_physical_store, ships_to_gcc,
+   source_type, source_url, source_name, last_verified_at, data_confidence, requires_review)
 values
   ('windrose-coffee', 'ويندروز كوفي', 'Windrose Coffee',
    'Oman''s first specialty coffee roastery, founded 2012, one of the first in the Gulf. Retail cafe plus wholesale roasting for cafes and restaurants across Oman.',
-   'OM', 'https://www.windrosecoffee.com/', 'https://www.instagram.com/windrosecoffee/',
+   'OM', 'https://www.windrosecoffee.com/', 'https://www.instagram.com/windrosecoffee/', true, null,
    'official_website', 'https://www.windrosecoffee.com/', 'Windrose Coffee — official site',
-   now(), 'verified', false,
-   'name_ar is a phonetic transliteration, not confirmed from source.')
+   now(), 'verified', false)
 on conflict (slug) do nothing;
 
 insert into public.beans
@@ -146,16 +166,26 @@ on conflict (slug) do nothing;
 -- verified facts.
 -- ---------------------------------------------------------------------- --
 
+-- Moderator note (documentation only): name_ar is a phonetic
+-- transliteration, not confirmed from source. Site copy is heavily
+-- promotional; only concrete, checkable facts (products, pricing, location)
+-- were imported — marketing superlatives were not treated as verified
+-- claims.
+--
+-- has_physical_store and ships_to_gcc are both left null: unlike GREY/Gold
+-- Box/Windrose, nothing in the fetched copy states a retail location or
+-- GCC-wide shipping as a concrete, checkable fact (per the promotional-copy
+-- caveat above) — recording either as false would assert a negative this
+-- source never confirmed.
 insert into public.roasters
-  (slug, name_ar, name_en, description_en, country, website_url, instagram_url,
-   source_type, source_url, source_name, last_verified_at, data_confidence, requires_review, notes)
+  (slug, name_ar, name_en, description_en, country, website_url, instagram_url, has_physical_store, ships_to_gcc,
+   source_type, source_url, source_name, last_verified_at, data_confidence, requires_review)
 values
   ('bahrain-roastery', 'باحرين روستري', 'Bahrain Roastery',
    'Bahrain-based coffee roastery selling a large catalogue of whole-bean blends, single origins, and flavored coffees, plus wood-fired roasted lines.',
-   'BH', 'https://bahrainroastery.com/', 'https://www.instagram.com/bahrainroastery/',
+   'BH', 'https://bahrainroastery.com/', 'https://www.instagram.com/bahrainroastery/', null, null,
    'official_website', 'https://bahrainroastery.com/', 'Bahrain Roastery — official site',
-   now(), 'verified', false,
-   'name_ar is a phonetic transliteration, not confirmed from source. Site copy is heavily promotional; only concrete, checkable facts (products, pricing, location) were imported — marketing superlatives were not treated as verified claims.')
+   now(), 'verified', false)
 on conflict (slug) do nothing;
 
 insert into public.beans
@@ -183,12 +213,24 @@ on conflict (slug) do nothing;
 -- not shown publicly, exactly like the Kuwait wave's JS-rendered sites.
 -- ---------------------------------------------------------------------- --
 
+-- Moderator note (documentation only): Founded 2013 in Riyadh per
+-- third-party listings; widely cited as a pioneer of Saudi specialty
+-- coffee, flagship on Abi Bakr As Siddiq Road plus a Hail location. Needs a
+-- browser-capable fetch of camelstep.com to confirm and upgrade to
+-- verified. name_ar is a phonetic transliteration.
+--
+-- has_physical_store and ships_to_gcc are left null even though the note
+-- above mentions two locations — that detail is third-party (LinkedIn/
+-- ArchDaily/directory listings), and this entire row's data_confidence is
+-- 'unverified' precisely because nothing was independently confirmed from
+-- the roaster's own source. A structured "true" here would outrank the
+-- row's own confidence level; leave it for a moderator to confirm alongside
+-- everything else once camelstep.com can be fetched directly.
 insert into public.roasters
-  (slug, name_ar, name_en, country, website_url,
-   source_type, source_url, source_name, data_confidence, requires_review, notes)
+  (slug, name_ar, name_en, country, website_url, has_physical_store, ships_to_gcc,
+   source_type, source_url, source_name, data_confidence, requires_review)
 values
-  ('camel-step-coffee-roasters', 'كامل ستيب لتحميص القهوة', 'Camel Step Coffee Roasters', 'SA', 'https://www.camelstep.com/',
+  ('camel-step-coffee-roasters', 'كامل ستيب لتحميص القهوة', 'Camel Step Coffee Roasters', 'SA', 'https://www.camelstep.com/', null, null,
    'official_website', 'https://www.camelstep.com/', 'Fetch returned empty (JS-rendered site) — identity corroborated via LinkedIn/ArchDaily/coffee-directory listings only, not independently confirmed from the source itself',
-   'unverified', true,
-   'Founded 2013 in Riyadh per third-party listings; widely cited as a pioneer of Saudi specialty coffee, flagship on Abi Bakr As Siddiq Road plus a Hail location. Needs a browser-capable fetch of camelstep.com to confirm and upgrade to verified. name_ar is a phonetic transliteration.')
+   'unverified', true)
 on conflict (slug) do nothing;
