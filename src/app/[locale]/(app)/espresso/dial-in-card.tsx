@@ -8,6 +8,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "@/i18n/navigation";
+import { TASTING_NOTES, type TastingNote } from "@/lib/espresso-attempt";
+import { cn } from "@/lib/utils";
+
+const TASTING_NOTE_LABEL_KEY: Record<TastingNote, string> = {
+  balanced: "tastingNoteBalanced",
+  too_sour: "tastingNoteTooSour",
+  too_bitter: "tastingNoteTooBitter",
+  too_fast: "tastingNoteTooFast",
+  too_slow: "tastingNoteTooSlow",
+  custom: "tastingNoteCustom",
+};
 
 /**
  * Standard barista dial-in heuristics: a ~1:2 ratio pulled in 25-32s is the
@@ -36,6 +47,9 @@ export function DialInCard() {
   const [yieldG, setYieldG] = useState(36);
   const [time, setTime] = useState(28);
   const [saving, setSaving] = useState(false);
+  const [showNote, setShowNote] = useState(false);
+  const [tastingNote, setTastingNote] = useState<TastingNote | null>(null);
+  const [notes, setNotes] = useState("");
 
   const result = useMemo(() => diagnose(dose, yieldG, time), [dose, yieldG, time]);
   const isBalanced = result === "resultBalanced";
@@ -54,7 +68,12 @@ export function DialInCard() {
         dose_grams: dose,
         water_grams: yieldG,
         actual_time_seconds: time,
+        tasting_note: tastingNote,
+        notes: notes.trim() || null,
       });
+      setTastingNote(null);
+      setNotes("");
+      setShowNote(false);
       router.refresh();
     } finally {
       setSaving(false);
@@ -99,6 +118,44 @@ export function DialInCard() {
           {t(result)}
         </div>
       ) : null}
+
+      {!showNote ? (
+        <button
+          type="button"
+          onClick={() => setShowNote(true)}
+          className="mt-3 text-xs font-semibold text-[var(--color-teal)]"
+        >
+          {t("addTastingNote")}
+        </button>
+      ) : (
+        <div className="mt-3">
+          <Label className="text-xs">{t("tastingNote")}</Label>
+          <div className="mt-1.5 flex flex-wrap gap-1.5">
+            {TASTING_NOTES.map((note) => (
+              <button
+                key={note}
+                type="button"
+                onClick={() => setTastingNote(tastingNote === note ? null : note)}
+                className={cn(
+                  "rounded-full border px-2.5 py-1 text-xs font-medium transition-colors",
+                  tastingNote === note
+                    ? "border-transparent bg-[var(--color-teal)] text-[var(--color-soft-white)]"
+                    : "border-[var(--color-border,#ece1d3)] text-[var(--color-muted-text)] hover:bg-[var(--surface-hover)]",
+                )}
+              >
+                {t(TASTING_NOTE_LABEL_KEY[note])}
+              </button>
+            ))}
+          </div>
+          <textarea
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder={tastingNote === "custom" ? t("notesCustomPlaceholder") : t("notesPlaceholder")}
+            rows={2}
+            className="mt-2 flex w-full rounded-[calc(var(--radius-brand)-4px)] border border-[var(--color-border,#ece1d3)] bg-[var(--color-surface,#fff)] px-3 py-2 text-sm text-[var(--color-dark-text)] placeholder:text-[var(--color-muted-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-teal)]"
+          />
+        </div>
+      )}
 
       <Button className="mt-3 w-full" variant="accent" onClick={handleLog} disabled={saving}>
         {t("logAttempt")}

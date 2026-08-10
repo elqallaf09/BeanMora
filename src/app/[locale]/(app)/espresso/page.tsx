@@ -6,6 +6,7 @@ import { AbstractCoffeeBackground } from "@/components/coffee/fallback-art";
 import { SectionIntro } from "@/components/coffee/editorial";
 import { RichEmptyState } from "@/components/coffee/empty-states";
 import { DialInCard } from "./dial-in-card";
+import { AttemptsTimeline } from "./attempts-timeline";
 
 export const dynamic = "force-dynamic";
 
@@ -32,7 +33,7 @@ export default async function EspressoHubPage() {
     user
       ? supabase
           .from("brew_logs")
-          .select("id, dose_grams, water_grams, actual_time_seconds, created_at")
+          .select("id, dose_grams, water_grams, actual_time_seconds, grind_setting, notes, tasting_note, created_at")
           .eq("user_id", user.id)
           .eq("brew_method", "espresso")
           .order("created_at", { ascending: false })
@@ -92,24 +93,7 @@ export default async function EspressoHubPage() {
         {!attempts || attempts.length === 0 ? (
           <RichEmptyState icon={Zap} title={t("espresso.attemptsEmptyTitle")} description={t("espresso.attemptsEmptyHint")} className="py-8" />
         ) : (
-          <ol className="flex flex-col gap-0">
-            {attempts.map((a: AnyRow, i: number) => (
-              <li key={a.id} className="relative flex gap-3 pb-5">
-                {i < attempts.length - 1 ? (
-                  <span className="absolute start-[7px] top-4 h-full w-px bg-[var(--color-border,#ece1d3)]" aria-hidden />
-                ) : null}
-                <span className="relative mt-1.5 h-3.5 w-3.5 shrink-0 rounded-full border-2 border-[var(--color-teal)] bg-[var(--color-surface,#fff)]" />
-                <div className="rounded-xl border border-[var(--color-border,#ece1d3)] bg-[var(--color-surface,#fff)] px-3 py-2 text-sm">
-                  <p className="font-semibold text-[var(--color-dark-text)]">
-                    {a.dose_grams}g → {a.water_grams}g · {a.actual_time_seconds}s
-                  </p>
-                  <p className="text-xs text-[var(--color-muted-text)]">
-                    1:{(a.water_grams / a.dose_grams).toFixed(1)}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ol>
+          <AttemptsTimeline attempts={attempts as AnyRow[]} />
         )}
       </section>
     </div>
