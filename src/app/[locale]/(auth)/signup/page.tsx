@@ -6,10 +6,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { isGuestUser } from "@/lib/guest";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -33,6 +36,7 @@ type FormValues = z.infer<typeof schema>;
 export default function SignupPage() {
   const t = useTranslations();
   const locale = useLocale();
+  const searchParams = useSearchParams();
   const [serverError, setServerError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -46,25 +50,80 @@ export default function SignupPage() {
   async function onSubmit(values: FormValues) {
     setServerError(null);
     setLoading(true);
-    const supabase = createClient();
-    const { error } = await supabase.auth.signUp({
-      email: values.email,
-      password: values.password,
-      options: {
-        data: {
-          name: values.name,
-          username: values.username,
-          language: locale,
+    try {
+      const supabase = createClient();
+      const emailRedirectTo = `${window.location.origin}/${locale}${searchParams.get("next") ?? "/onboarding"}`;
+
+      // A guest (anonymous) session upgrades in place — we link the email
+      // and password onto the SAME auth.uid() via updateUser(), never
+      // supabase.auth.signUp(), which would create an unrelated second
+      // user and strand every row the guest already owns (draft recipes,
+      // brew logs, saved gear, ...). See migration 18 and
+      // docs/ROADMAP.md's auth section for the full rationale. The guest
+      // is never signed out first — updateUser() runs on their existing
+      // session.
+      const {
+        data: { user: currentUser },
+      } = await supabase.auth.getUser();
+
+      if (isGuestUser(currentUser)) {
+        const { error: updateError } = await supabase.auth.updateUser(
+          {
+            email: values.email,
+            password: values.password,
+            data: { name: values.name, username: values.username, language: locale },
+          },
+          { emailRedirectTo },
+        );
+        if (updateError) {
+          setServerError(updateError.message);
+          return;
+        }
+        // auth.users.raw_user_meta_data is updated above, but the
+        // public.profiles row was already created (with placeholder
+        // "Guest" / "guest_xxxxxxxx" values) by handle_new_user() at
+        // anonymous sign-in time and only fires on INSERT — an UPDATE
+        // never re-triggers it. Update the profile directly with the
+        // real name/username the guest just chose.
+        const { error: profileError } = await supabase
+          .from("profiles")
+          .update({ name: values.name, username: values.username, language: locale })
+          .eq("id", currentUser!.id);
+        if (profileError) {
+          setServerError(profileError.message);
+          return;
+        }
+        setSubmitted(true);
+        return;
+      }
+
+      const { error } = await supabase.auth.signUp({
+        email: values.email,
+        password: values.password,
+        options: {
+          data: {
+            name: values.name,
+            username: values.username,
+            language: locale,
+          },
+          // Preserve the page the user was on as the post-confirmation
+          // destination; default to onboarding for a fresh signup with no
+          // prior context.
+          emailRedirectTo,
         },
-        emailRedirectTo: `${window.location.origin}/${locale}/onboarding`,
-      },
-    });
-    setLoading(false);
-    if (error) {
-      setServerError(error.message);
-      return;
+      });
+      if (error) {
+        setServerError(error.message);
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      // Network failures etc. throw rather than returning `{ error }` —
+      // never let those reach the Next.js error overlay.
+      setServerError(t("errors.generic"));
+    } finally {
+      setLoading(false);
     }
-    setSubmitted(true);
   }
 
   if (submitted) {
@@ -106,14 +165,14 @@ export default function SignupPage() {
           </div>
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="password">{t("auth.passwordLabel")}</Label>
-            <Input id="password" type="password" autoComplete="new-password" {...register("password")} />
+            <PasswordInput id="password" autoComplete="new-password" {...register("password")} />
             {errors.password ? (
               <p className="text-xs text-[var(--color-error)]">{errors.password.message}</p>
             ) : null}
           </div>
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="confirmPassword">{t("auth.confirmPasswordLabel")}</Label>
-            <Input id="confirmPassword" type="password" autoComplete="new-password" {...register("confirmPassword")} />
+            <PasswordInput id="confirmPassword" autoComplete="new-password" {...register("confirmPassword")} />
             {errors.confirmPassword ? (
               <p className="text-xs text-[var(--color-error)]">{errors.confirmPassword.message}</p>
             ) : null}

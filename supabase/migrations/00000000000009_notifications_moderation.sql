@@ -61,7 +61,7 @@ alter table public.reports enable row level security;
 
 create policy "reporters see their own reports; moderators see all"
   on public.reports for select
-  using (auth.uid() = reporter_id or public.has_role('admin') or public.has_role('moderator'));
+  using (auth.uid() = reporter_id or (select private.has_role('admin')) or (select private.has_role('moderator')));
 
 create policy "authenticated users file reports"
   on public.reports for insert
@@ -70,8 +70,8 @@ create policy "authenticated users file reports"
 
 create policy "moderators update report status"
   on public.reports for update
-  using (public.has_role('admin') or public.has_role('moderator'))
-  with check (public.has_role('admin') or public.has_role('moderator'));
+  using ((select private.has_role('admin')) or (select private.has_role('moderator')))
+  with check ((select private.has_role('admin')) or (select private.has_role('moderator')));
 
 -- ---------------------------------------------------------------------- --
 
@@ -119,8 +119,8 @@ alter table public.moderation_actions enable row level security;
 
 create policy "only moderators and admins see moderation actions"
   on public.moderation_actions for select
-  using (public.has_role('admin') or public.has_role('moderator'));
+  using ((select private.has_role('admin')) or (select private.has_role('moderator')));
 
 create policy "only moderators and admins write moderation actions"
   on public.moderation_actions for insert
-  with check (public.has_role('admin') or public.has_role('moderator'));
+  with check ((select private.has_role('admin')) or (select private.has_role('moderator')));

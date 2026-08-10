@@ -56,7 +56,7 @@ create policy "xbloom recipe profiles follow parent recipe visibility"
   using (exists (
     select 1 from public.recipes r
     where r.id = recipe_id
-      and (r.visibility = 'public' or r.user_id = auth.uid() or public.has_role('admin'))
+      and (r.visibility = 'public' or r.user_id = auth.uid() or (select private.has_role('admin')))
   ));
 
 create policy "recipe owners manage their xbloom profile"
@@ -140,7 +140,7 @@ alter table public.audit_logs enable row level security;
 
 create policy "only admins read audit logs"
   on public.audit_logs for select
-  using (public.has_role('admin'));
+  using ((select private.has_role('admin')));
 
 -- Writes happen via SECURITY DEFINER functions / service role only; no
 -- client-side insert policy so audit trails can't be forged by the client.

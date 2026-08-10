@@ -18,8 +18,23 @@ create table public.roasters (
 );
 
 create index roasters_country_idx on public.roasters (country);
-create index roasters_search_idx on public.roasters
-  using gin (to_tsvector('simple', unaccent(coalesce(name_ar, '') || ' ' || coalesce(name_en, ''))));
+
+-- Trigram GIN index for typo-tolerant search. Not to_tsvector(unaccent(...))
+-- — unaccent() is STABLE, not IMMUTABLE, and Postgres rejects non-IMMUTABLE
+-- functions in index expressions (they could return different results for
+-- the same input over time, which would silently corrupt the index).
+-- Search queries against this index should normalize the same way:
+-- lower(...) plus ILIKE or `%` trigram similarity — see docs/DATABASE.md.
+create index roasters_search_idx
+  on public.roasters
+  using gin (
+    (
+      lower(
+        coalesce(name_ar, '') || ' ' ||
+        coalesce(name_en, '')
+      )
+    ) gin_trgm_ops
+  );
 
 create trigger roasters_set_updated_at
   before update on public.roasters
@@ -38,8 +53,8 @@ create policy "owners manage their roaster page"
 
 create policy "admins manage all roasters"
   on public.roasters for all
-  using (public.has_role('admin'))
-  with check (public.has_role('admin'));
+  using ((select private.has_role('admin')))
+  with check ((select private.has_role('admin')));
 
 -- ---------------------------------------------------------------------- --
 
@@ -75,11 +90,23 @@ create index beans_origin_country_idx on public.beans (origin_country);
 create index beans_process_idx on public.beans (process);
 create index beans_roast_level_idx on public.beans (roast_level);
 create index beans_published_idx on public.beans (is_published);
-create index beans_search_idx on public.beans
-  using gin (to_tsvector('simple', unaccent(
-    coalesce(name_ar, '') || ' ' || coalesce(name_en, '') || ' ' ||
-    coalesce(origin_country, '') || ' ' || coalesce(origin_region, '') || ' ' || coalesce(farm, '')
-  )));
+
+-- Same trigram approach as roasters_search_idx above, and for the same
+-- reason (unaccent() is not IMMUTABLE, so it can't be used in an index
+-- expression).
+create index beans_search_idx
+  on public.beans
+  using gin (
+    (
+      lower(
+        coalesce(name_ar, '') || ' ' ||
+        coalesce(name_en, '') || ' ' ||
+        coalesce(origin_country, '') || ' ' ||
+        coalesce(origin_region, '') || ' ' ||
+        coalesce(farm, '')
+      )
+    ) gin_trgm_ops
+  );
 
 create trigger beans_set_updated_at
   before update on public.beans
@@ -89,7 +116,7 @@ alter table public.beans enable row level security;
 
 create policy "published beans are publicly readable"
   on public.beans for select
-  using (is_published or auth.uid() = created_by or public.has_role('admin'));
+  using (is_published or auth.uid() = created_by or (select private.has_role('admin')));
 
 create policy "authenticated users add beans"
   on public.beans for insert
@@ -98,12 +125,12 @@ create policy "authenticated users add beans"
 
 create policy "creators or admins edit beans"
   on public.beans for update
-  using (auth.uid() = created_by or public.has_role('admin'))
-  with check (auth.uid() = created_by or public.has_role('admin'));
+  using (auth.uid() = created_by or (select private.has_role('admin')))
+  with check (auth.uid() = created_by or (select private.has_role('admin')));
 
 create policy "admins delete beans"
   on public.beans for delete
-  using (public.has_role('admin'));
+  using ((select private.has_role('admin')));
 
 -- ---------------------------------------------------------------------- --
 
@@ -127,11 +154,11 @@ create policy "bean owners manage bean images"
   on public.bean_images for all
   using (exists (
     select 1 from public.beans b
-    where b.id = bean_id and (b.created_by = auth.uid() or public.has_role('admin'))
+    where b.id = bean_id and (b.created_by = auth.uid() or (select private.has_role('admin')))
   ))
   with check (exists (
     select 1 from public.beans b
-    where b.id = bean_id and (b.created_by = auth.uid() or public.has_role('admin'))
+    where b.id = bean_id and (b.created_by = auth.uid() or (select private.has_role('admin')))
   ));
 
 -- ---------------------------------------------------------------------- --
@@ -157,9 +184,9 @@ create policy "bean owners manage flavor notes"
   on public.bean_flavor_notes for all
   using (exists (
     select 1 from public.beans b
-    where b.id = bean_id and (b.created_by = auth.uid() or public.has_role('admin'))
+    where b.id = bean_id and (b.created_by = auth.uid() or (select private.has_role('admin')))
   ))
   with check (exists (
     select 1 from public.beans b
-    where b.id = bean_id and (b.created_by = auth.uid() or public.has_role('admin'))
+    where b.id = bean_id and (b.created_by = auth.uid() or (select private.has_role('admin')))
   ));

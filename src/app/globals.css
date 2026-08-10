@@ -1,10 +1,17 @@
 @import "tailwindcss";
 
-/* ---------------------------------------------------------------------- */
-/* BeanMora design tokens                                                 */
-/* ---------------------------------------------------------------------- */
+/* ====================================================================== */
+/* BeanMora design foundation                                             */
+/*                                                                        */
+/* This is an editorial coffee product, not a dashboard. The single       */
+/* biggest thing separating the two is the SURFACE: dashboards sit on     */
+/* flat white with bordered cards; editorial products sit on warm,        */
+/* layered, tonal grounds where imagery and type do the structuring.      */
+/* Everything below follows from that.                                    */
+/* ====================================================================== */
+
 :root {
-  /* Brand palette (see docs/design-system.md) */
+  /* ---------- Brand palette ---------- */
   --color-espresso: #2b1812;
   --color-roast-brown: #5a321e;
   --color-caramel: #d38746;
@@ -19,12 +26,34 @@
   --color-warning: #e7a83e;
   --color-error: #d84c4c;
 
-  /* Semantic tokens (light theme is the BeanMora default everywhere) */
-  --background: var(--color-soft-white);
+  /* ---------- Extended warm tonal ramp ----------
+     A real range between cream and espresso, so surfaces can be layered
+     tonally instead of every panel being white-on-white. */
+  --warm-50: #fdf8f1;
+  --warm-100: #f8efe1;
+  --warm-200: #f0e2cd;
+  --warm-300: #e3cdb0;
+  --warm-400: #cfae87;
+  --warm-500: #b3855c;
+  --warm-600: #8d6140;
+  --warm-700: #66422b;
+  --warm-800: #422a1c;
+  --warm-900: #2b1812;
+  --warm-950: #1a0f0a;
+
+  /* ---------- Semantic surfaces ----------
+     `background` is warm parchment, not #FFF. `surface` is a raised tone
+     above it, `surface-sunken` a recess below — so panels read as layers
+     of one material rather than white rectangles on white. */
+  --background: var(--warm-50);
   --foreground: var(--color-dark-text);
   --surface: #ffffff;
-  --surface-muted: var(--color-cream);
+  --surface-raised: #fffaf3;
+  --surface-sunken: var(--warm-100);
+  --surface-inverse: var(--warm-900);
   --border: #ece1d3;
+  --border-soft: rgba(66, 42, 28, 0.08);
+
   --primary: var(--color-teal);
   --primary-foreground: var(--color-soft-white);
   --accent: var(--color-caramel);
@@ -33,23 +62,42 @@
   --success: var(--color-success);
   --warning: var(--color-warning);
   --error: var(--color-error);
+
   --radius: 0.875rem;
+
+  /* ---------- Editorial radii ---------- */
+  --radius-tile: 20px;
+  --radius-card: 26px;
+  --radius-feature: 34px;
+  --radius-hero: 40px;
+
+  /* ---------- Layered warm shadows ----------
+     Tinted toward espresso rather than neutral black; a warm product with
+     grey shadows reads as cold and synthetic. */
+  --shadow-sm: 0 1px 2px rgba(43, 24, 18, 0.06), 0 1px 3px rgba(43, 24, 18, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(43, 24, 18, 0.1), 0 2px 6px -2px rgba(43, 24, 18, 0.06);
+  --shadow-lg: 0 12px 28px -8px rgba(43, 24, 18, 0.18), 0 4px 12px -4px rgba(43, 24, 18, 0.1);
+  --shadow-xl: 0 24px 48px -12px rgba(43, 24, 18, 0.26), 0 8px 20px -8px rgba(43, 24, 18, 0.14);
+  --shadow-feature: 0 40px 80px -24px rgba(43, 24, 18, 0.4), 0 12px 32px -12px rgba(43, 24, 18, 0.22);
+
+  /* ---------- Motion ---------- */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
 }
 
-/* BeanMora intentionally does not ship a fully dark theme — the brand is
-   warm/cream-forward. `.theme-dark` provides a dimmed surface variant for
-   users who prefer it (Settings > Appearance), not pure black. */
+/* BeanMora is warm/cream-forward by design and intentionally has no pure
+   dark theme. `.theme-dark` is a dimmed roasted variant, not black. */
 .theme-dark {
-  --background: #241a14;
+  --background: #201510;
   --foreground: var(--color-cream);
-  --surface: #2f2119;
-  --surface-muted: #3a291f;
+  --surface: #2c1e16;
+  --surface-raised: #35251b;
+  --surface-sunken: #1a110c;
+  --surface-inverse: var(--warm-100);
   --border: #4a362a;
-  --primary: var(--color-teal);
-  --primary-foreground: var(--color-soft-white);
-  --accent: var(--color-caramel);
-  --accent-foreground: var(--color-soft-white);
+  --border-soft: rgba(248, 240, 228, 0.1);
   --muted: #c9b8ab;
+  --accent-foreground: var(--color-soft-white);
 }
 
 @theme inline {
@@ -64,10 +112,24 @@
   --color-dark-text: var(--color-dark-text);
   --color-muted-text: var(--color-muted-text);
 
+  --color-warm-50: var(--warm-50);
+  --color-warm-100: var(--warm-100);
+  --color-warm-200: var(--warm-200);
+  --color-warm-300: var(--warm-300);
+  --color-warm-400: var(--warm-400);
+  --color-warm-500: var(--warm-500);
+  --color-warm-600: var(--warm-600);
+  --color-warm-700: var(--warm-700);
+  --color-warm-800: var(--warm-800);
+  --color-warm-900: var(--warm-900);
+  --color-warm-950: var(--warm-950);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-surface: var(--surface);
-  --color-surface-muted: var(--surface-muted);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-surface-muted: var(--surface-sunken);
   --color-border: var(--border);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
@@ -79,26 +141,41 @@
   --color-error: var(--error);
 
   --radius-brand: var(--radius);
+  --radius-tile: var(--radius-tile);
+  --radius-card: var(--radius-card);
+  --radius-feature: var(--radius-feature);
+  --radius-hero: var(--radius-hero);
 
   --font-arabic: var(--font-ibm-plex-arabic);
   --font-latin: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
+/* ---------------------------------------------------------------------- */
+/* Base                                                                    */
+/* ---------------------------------------------------------------------- */
+
 html[dir="rtl"] body {
   font-family: var(--font-arabic), var(--font-latin), system-ui, sans-serif;
 }
-
 html[dir="ltr"] body {
   font-family: var(--font-latin), var(--font-arabic), system-ui, sans-serif;
 }
 
 body {
-  background: var(--color-background);
   color: var(--color-foreground);
+  /* Warm parchment ground with two soft tonal washes — the page itself is
+     a material, never a blank white sheet. */
+  background-color: var(--background);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(211, 135, 70, 0.14), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 100% 20%, rgba(31, 167, 160, 0.06), transparent 70%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* Always render numerals as ASCII 0-9, even in Arabic locale/RTL context. */
+/* Always render ASCII numerals, even in RTL. */
 html[dir="rtl"] {
   font-variant-numeric: normal;
 }
@@ -107,12 +184,148 @@ html[dir="rtl"] .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
 
-/* Directional icon flipping: only flip icons explicitly marked, never
-   photos/avatars/logos. Use the `.icon-flip-rtl` class on chevrons/arrows
-   that indicate navigation direction. */
+/* Flip only icons explicitly marked directional — never photos or logos. */
 html[dir="rtl"] .icon-flip-rtl {
   transform: scaleX(-1);
 }
+
+::selection {
+  background: var(--color-caramel);
+  color: var(--color-espresso);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Editorial typography                                                    */
+/*                                                                         */
+/* Dashboard type is uniform and small. Editorial type has dramatic jumps  */
+/* between levels, tight tracking at display sizes, generous measure.      */
+/* ---------------------------------------------------------------------- */
+
+.type-display {
+  font-size: clamp(2.75rem, 9vw, 5.5rem);
+  line-height: 0.94;
+  letter-spacing: -0.045em;
+  font-weight: 800;
+}
+
+.type-headline {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+}
+
+.type-title {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+}
+
+.type-subtitle {
+  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  font-weight: 700;
+}
+
+.type-eyebrow {
+  font-size: 0.6875rem;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.type-lede {
+  font-size: clamp(1rem, 2vw, 1.1875rem);
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+}
+
+/* Arabic display sizes need looser leading and no negative tracking —
+   Arabic letterforms connect, so tightening damages them. */
+html[dir="rtl"] .type-display,
+html[dir="rtl"] .type-headline,
+html[dir="rtl"] .type-title,
+html[dir="rtl"] .type-subtitle {
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+html[dir="rtl"] .type-eyebrow {
+  letter-spacing: 0.08em;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Surfaces, glass and depth                                               */
+/* ---------------------------------------------------------------------- */
+
+.glass {
+  background: rgba(255, 253, 249, 0.14);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255, 253, 249, 0.2);
+}
+
+.glass-dark {
+  background: rgba(27, 15, 10, 0.5);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(255, 253, 249, 0.12);
+}
+
+/* A raised warm panel — replaces "white card with a grey border". */
+.surface-panel {
+  background: linear-gradient(160deg, var(--surface-raised), var(--surface));
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-md);
+}
+
+/* Espresso-toned block for inverted editorial sections. */
+.surface-roast {
+  background:
+    radial-gradient(ellipse 70% 60% at 20% 0%, rgba(211, 135, 70, 0.28), transparent 65%),
+    linear-gradient(160deg, var(--warm-800), var(--warm-950));
+  color: var(--color-cream);
+}
+
+/* Subtle paper grain over large tonal areas, so flat fills never look
+   like flat CSS colour. Requires a positioned parent. */
+.texture-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='0.35'/></svg>");
+}
+
+/* Scrim presets so text over photography is always legible. */
+.scrim-bottom {
+  background: linear-gradient(
+    to top,
+    rgba(26, 15, 10, 0.96) 0%,
+    rgba(26, 15, 10, 0.88) 24%,
+    rgba(26, 15, 10, 0.55) 48%,
+    rgba(26, 15, 10, 0.12) 74%,
+    transparent 100%
+  );
+}
+.scrim-full {
+  background: linear-gradient(to top, rgba(26, 15, 10, 0.92), rgba(26, 15, 10, 0.35) 55%, rgba(26, 15, 10, 0.5));
+}
+
+/* Shadow utilities (Tailwind v4 shadow-* tokens don't accept multi-layer
+   custom values cleanly, so these are explicit classes). */
+.shadow-warm-md { box-shadow: var(--shadow-md); }
+.shadow-warm-lg { box-shadow: var(--shadow-lg); }
+.shadow-warm-xl { box-shadow: var(--shadow-xl); }
+.shadow-feature { box-shadow: var(--shadow-feature); }
+
+/* ---------------------------------------------------------------------- */
+/* Motion                                                                  */
+/* ---------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -125,34 +338,139 @@ html[dir="rtl"] .icon-flip-rtl {
   }
 }
 
-@keyframes bloom-pulse {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.7;
-  }
-  50% {
-    transform: scale(1.15);
-    opacity: 1;
-  }
-}
-.animate-bloom {
-  animation: bloom-pulse 1.8s ease-in-out infinite;
+/* Manual override for Settings > Reduced motion, for users whose OS
+   doesn't expose the media feature. */
+.force-reduced-motion *,
+.force-reduced-motion *::before,
+.force-reduced-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
 }
 
-@keyframes drop-fall {
-  0% {
-    transform: translateY(-8px);
-    opacity: 0;
-  }
-  40% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(4px);
-    opacity: 0;
-  }
+@keyframes bloom-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.15); opacity: 1; }
 }
-.animate-drop {
-  animation: drop-fall 1.4s ease-in infinite;
+.animate-bloom { animation: bloom-pulse 1.8s ease-in-out infinite; }
+
+@keyframes drop-fall {
+  0% { transform: translateY(-8px); opacity: 0; }
+  40% { opacity: 1; }
+  100% { transform: translateY(4px); opacity: 0; }
+}
+.animate-drop { animation: drop-fall 1.4s ease-in infinite; }
+
+@keyframes steam-rise {
+  0% { transform: translateY(0) scaleX(1); opacity: 0; }
+  15% { opacity: 0.5; }
+  100% { transform: translateY(-26px) scaleX(1.5); opacity: 0; }
+}
+.animate-steam { animation: steam-rise 3.4s ease-in-out infinite; }
+.animate-steam-delay { animation: steam-rise 3.4s ease-in-out infinite; animation-delay: 1.2s; }
+
+@keyframes shimmer-sweep {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.animate-shimmer {
+  background-image: linear-gradient(90deg, var(--warm-100) 0%, var(--warm-200) 40%, var(--warm-100) 80%);
+  background-size: 200% 100%;
+  animation: shimmer-sweep 1.6s ease-in-out infinite;
+}
+
+@keyframes heart-pop {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.35); }
+  60% { transform: scale(0.92); }
+  100% { transform: scale(1); }
+}
+.animate-heart-pop { animation: heart-pop 0.4s var(--ease-spring); }
+
+@keyframes crema-swirl {
+  0% { transform: rotate(0deg) scale(0.9); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: rotate(220deg) scale(1.05); opacity: 0.9; }
+}
+.animate-crema { animation: crema-swirl 1.2s ease-out both; }
+
+/* Entrance — editorial sections rise in as they mount. */
+@keyframes rise-in {
+  0% { opacity: 0; transform: translateY(22px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.animate-rise { animation: rise-in 0.7s var(--ease-out-soft) both; }
+.delay-1 { animation-delay: 0.06s; }
+.delay-2 { animation-delay: 0.12s; }
+.delay-3 { animation-delay: 0.18s; }
+.delay-4 { animation-delay: 0.24s; }
+.delay-5 { animation-delay: 0.3s; }
+
+@keyframes slow-zoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.08); }
+}
+/* Ken-Burns drift so heroes are never static. */
+.animate-kenburns { animation: slow-zoom 18s var(--ease-out-soft) infinite alternate; }
+
+/* Hover depth — warmer and softer than a material bump. */
+.lift {
+  transition:
+    transform 0.45s var(--ease-out-soft),
+    box-shadow 0.45s var(--ease-out-soft);
+  will-change: transform;
+}
+.lift:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Image zoom on hover inside an overflow-hidden frame. */
+.zoom-frame img,
+.zoom-frame > span[style] {
+  transition: transform 0.8s var(--ease-out-soft);
+}
+.zoom-frame:hover img,
+.zoom-frame:hover > span[style] {
+  transform: scale(1.07);
+}
+
+/* Legacy alias kept so existing call sites keep working. */
+.card-lift {
+  transition:
+    transform 0.45s var(--ease-out-soft),
+    box-shadow 0.45s var(--ease-out-soft);
+}
+.card-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Scrolling rails                                                         */
+/* ---------------------------------------------------------------------- */
+
+.snap-x-scroll {
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.snap-x-scroll::-webkit-scrollbar { display: none; }
+.snap-x-scroll > * { scroll-snap-align: start; }
+
+/* ---------------------------------------------------------------------- */
+/* Masonry (Discover)                                                      */
+/* ---------------------------------------------------------------------- */
+
+.masonry {
+  column-gap: 1rem;
+  columns: 2;
+}
+@media (min-width: 640px) { .masonry { columns: 3; } }
+@media (min-width: 1024px) { .masonry { columns: 4; } }
+.masonry > * {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+  display: block;
 }

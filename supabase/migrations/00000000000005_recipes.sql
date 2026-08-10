@@ -32,8 +32,21 @@ create index recipes_bean_id_idx on public.recipes (bean_id);
 create index recipes_brew_method_idx on public.recipes (brew_method);
 create index recipes_visibility_idx on public.recipes (visibility);
 create index recipes_created_at_idx on public.recipes (created_at desc);
-create index recipes_search_idx on public.recipes
-  using gin (to_tsvector('simple', unaccent(coalesce(title, '') || ' ' || coalesce(notes, ''))));
+-- Trigram GIN index, not to_tsvector(unaccent(...)) — unaccent() is STABLE,
+-- not IMMUTABLE, and Postgres rejects non-IMMUTABLE functions in index
+-- expressions. See roasters_search_idx / beans_search_idx in migration 04
+-- for the same fix and full rationale. Search queries should normalize
+-- with lower() and use ILIKE or trigram similarity.
+create index recipes_search_idx
+  on public.recipes
+  using gin (
+    (
+      lower(
+        coalesce(title, '') || ' ' ||
+        coalesce(notes, '')
+      )
+    ) gin_trgm_ops
+  );
 
 create trigger recipes_set_updated_at
   before update on public.recipes
@@ -46,7 +59,7 @@ create policy "public recipes are readable by everyone"
   using (
     visibility = 'public'
     or auth.uid() = user_id
-    or public.has_role('admin')
+    or (select private.has_role('admin'))
   );
 
 create policy "authenticated users create recipes"
@@ -61,7 +74,7 @@ create policy "owners update their own recipes"
 
 create policy "owners delete their own recipes"
   on public.recipes for delete
-  using (auth.uid() = user_id or public.has_role('admin'));
+  using (auth.uid() = user_id or (select private.has_role('admin')));
 
 -- ---------------------------------------------------------------------- --
 
@@ -85,7 +98,7 @@ create policy "recipe steps follow parent recipe visibility"
   using (exists (
     select 1 from public.recipes r
     where r.id = recipe_id
-      and (r.visibility = 'public' or r.user_id = auth.uid() or public.has_role('admin'))
+      and (r.visibility = 'public' or r.user_id = auth.uid() or (select private.has_role('admin')))
   ));
 
 create policy "recipe owners manage steps"
@@ -115,7 +128,7 @@ create policy "recipe pours follow parent recipe visibility"
   using (exists (
     select 1 from public.recipes r
     where r.id = recipe_id
-      and (r.visibility = 'public' or r.user_id = auth.uid() or public.has_role('admin'))
+      and (r.visibility = 'public' or r.user_id = auth.uid() or (select private.has_role('admin')))
   ));
 
 create policy "recipe owners manage pours"
@@ -144,7 +157,7 @@ create policy "recipe equipment follows parent recipe visibility"
   using (exists (
     select 1 from public.recipes r
     where r.id = recipe_id
-      and (r.visibility = 'public' or r.user_id = auth.uid() or public.has_role('admin'))
+      and (r.visibility = 'public' or r.user_id = auth.uid() or (select private.has_role('admin')))
   ));
 
 create policy "recipe owners manage recipe equipment"
@@ -171,7 +184,7 @@ create policy "recipe images follow parent recipe visibility"
   using (exists (
     select 1 from public.recipes r
     where r.id = recipe_id
-      and (r.visibility = 'public' or r.user_id = auth.uid() or public.has_role('admin'))
+      and (r.visibility = 'public' or r.user_id = auth.uid() or (select private.has_role('admin')))
   ));
 
 create policy "recipe owners manage recipe images"
@@ -204,7 +217,7 @@ create policy "recipe versions follow parent recipe visibility"
   using (exists (
     select 1 from public.recipes r
     where r.id = recipe_id
-      and (r.visibility = 'public' or r.user_id = auth.uid() or public.has_role('admin'))
+      and (r.visibility = 'public' or r.user_id = auth.uid() or (select private.has_role('admin')))
   ));
 
 create policy "recipe owners write versions"

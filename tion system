@@ -1,0 +1,85 @@
+warning: in the working copy of '.env.example', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of '.gitignore', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'README.md', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/ARCHITECTURE.md', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/DATABASE.md', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/DESIGN-SYSTEM.md', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/ROADMAP.md', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'e2e/i18n-and-navigation.spec.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'eslint.config.mjs', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'next.config.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'package-lock.json', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'package.json', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'playwright.config.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'postcss.config.mjs', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'public/icons/icon.svg', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'public/manifest.json', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/app/[locale]/(app)/admin/page.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/app/[locale]/(app)/layout.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/app/[locale]/(auth)/confirm/page.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/app/[locale]/(auth)/forgot-password/page.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/app/[locale]/(auth)/layout.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/app/[locale]/(auth)/reset-password/page.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/app/[locale]/(auth)/signup/page.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/app/[locale]/layout.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/app/[locale]/onboarding/layout.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/app/[locale]/onboarding/page.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/components/layout/bottom-nav.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/components/layout/header.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/components/layout/language-switcher.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/components/layout/logo.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/components/layout/nav-items.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/components/layout/sidebar.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/components/shared/state-views.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/components/ui/button.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/components/ui/card.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/components/ui/input.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/components/ui/label.tsx', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/i18n/navigation.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/i18n/request.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/i18n/routing.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/lib/__tests__/recipe-calculations.test.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/lib/integrations/xbloom.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/lib/recipe-calculations.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/lib/supabase/client.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/lib/supabase/middleware.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/lib/supabase/server.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/lib/supabase/types.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/lib/utils.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'src/middleware.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'supabase/migrations/00000000000007_brew_logs.sql', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'supabase/migrations/00000000000011_storage_buckets.sql', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'supabase/seed/brew_methods.sql', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'vitest.config.ts', CRLF will be replaced by LF the next time Git touches it
+ .env.example                                       |  20 [32m+[m
+ messages/ar.json                                   | 578 [32m++++++++++++++++++[m[31m-[m
+ messages/en.json                                   | 578 [32m++++++++++++++++++[m[31m-[m
+ package.json                                       |   1 [32m+[m
+ src/app/[locale]/(app)/beans/[slug]/page.tsx       | 401 [32m++++++++++++[m[31m-[m
+ src/app/[locale]/(app)/beans/page.tsx              |  24 [32m+[m[31m-[m
+ src/app/[locale]/(app)/brew/page.tsx               | 240 [32m+++++++[m[31m-[m
+ src/app/[locale]/(app)/community/page.tsx          | 249 [32m++++++++[m[31m-[m
+ src/app/[locale]/(app)/discover/page.tsx           | 365 [32m+++++++++++[m[31m-[m
+ src/app/[locale]/(app)/espresso/page.tsx           | 123 [32m+++[m[31m-[m
+ src/app/[locale]/(app)/gear/beans/page.tsx         | 127 [32m+++[m[31m--[m
+ src/app/[locale]/(app)/gear/page.tsx               |  63 [32m++[m[31m-[m
+ src/app/[locale]/(app)/home/page.tsx               | 619 [32m+++++++++++++++++++[m[31m--[m
+ src/app/[locale]/(app)/layout.tsx                  |   5 [32m+[m[31m-[m
+ src/app/[locale]/(app)/notifications/page.tsx      | 121 [32m+++[m[31m-[m
+ src/app/[locale]/(app)/profile/[username]/page.tsx | 392 [32m++++++++++++[m[31m-[m
+ src/app/[locale]/(app)/recipes/[id]/page.tsx       | 445 [32m++++++++++++++[m[31m-[m
+ src/app/[locale]/(app)/recipes/create/page.tsx     |  32 [32m+[m[31m-[m
+ src/app/[locale]/(app)/recipes/page.tsx            |  24 [32m+[m[31m-[m
+ src/app/[locale]/(app)/roasters/[slug]/page.tsx    | 229 [32m++++++[m[31m--[m
+ src/app/[locale]/(app)/roasters/page.tsx           |  24 [32m+[m[31m-[m
+ src/app/[locale]/(app)/saved/page.tsx              | 207 [32m++++++[m[31m-[m
+ src/app/[locale]/(app)/settings/page.tsx           | 113 [32m+++[m[31m-[m
+ src/app/[locale]/(app)/v60/page.tsx                | 178 [32m+++++[m[31m-[m
+ src/app/[locale]/(app)/xbloom/page.tsx             | 204 [32m++++++[m[31m-[m
+ src/app/[locale]/(auth)/login/page.tsx             |  32 [32m+[m[31m-[m
+ src/app/[locale]/page.tsx                          | 111 [32m+++[m[31m-[m
+ src/app/globals.css                                | 416 [32m++++++++++++[m[31m--[m
+ src/components/layout/bottom-nav.tsx               |  48 [32m+[m[31m-[m
+ src/components/layout/header.tsx                   |  18 [32m+[m[31m-[m
+ tsconfig.json                                      |   2 [32m+[m[31m-[m
+ 31 files changed, 5461 insertions(+), 528 deletions(-)

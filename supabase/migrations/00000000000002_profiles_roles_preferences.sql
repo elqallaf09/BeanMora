@@ -26,11 +26,18 @@ create trigger profiles_set_updated_at
 -- from signUp() metadata (name/username/language) collected on the signup
 -- form. Username collisions are surfaced back to the client as a normal
 -- signup error, not silently altered.
+--
+-- Hardened per security review: search_path = '' (every reference is
+-- schema-qualified below, so an empty search_path can't be hijacked by a
+-- same-named object in another schema), and EXECUTE is revoked from
+-- PUBLIC/anon/authenticated — this function is only ever meant to run via
+-- the auth.users trigger below, never as a direct RPC call. Trigger
+-- firing does not require the invoking session to hold EXECUTE.
 create or replace function public.handle_new_user()
 returns trigger
 language plpgsql
 security definer
-set search_path = public
+set search_path = ''
 as $$
 begin
   insert into public.profiles (id, name, username, language)
@@ -44,6 +51,8 @@ begin
 end;
 $$;
 
+revoke all on function public.handle_new_user() from public;
+
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_user();
@@ -56,12 +65,12 @@ create policy "profiles are publicly readable"
 
 create policy "users insert their own profile"
   on public.profiles for insert
-  with check (auth.uid() = id);
+  with check ((select auth.uid()) = id);
 
 create policy "users update their own profile"
   on public.profiles for update
-  using (auth.uid() = id)
-  with check (auth.uid() = id);
+  using ((select auth.uid()) = id)
+  with check ((select auth.uid()) = id);
 
 -- ---------------------------------------------------------------------- --
 
@@ -78,19 +87,63 @@ create index user_roles_user_id_idx on public.user_roles (user_id);
 
 alter table public.user_roles enable row level security;
 
+-- ---------------------------------------------------------------------- --
+-- RLS role-checking helper.
+--
+-- This must be created here — after public.user_roles (table, index, RLS)
+-- exists — and before any policy (in this file or later migrations) calls
+-- it. A `language sql` function's body is validated against the catalog at
+-- CREATE time, so defining this any earlier fails with
+-- "relation public.user_roles does not exist".
+--
+-- Lives in a private, non-exposed schema (not `public`) so it can never be
+-- invoked directly as a PostgREST RPC call (`/rest/v1/rpc/has_role`) — it
+-- is only reachable from inside RLS policy expressions evaluated by
+-- Postgres itself. EXECUTE is granted to both `anon` and `authenticated`:
+-- several public-read policies (beans, recipes, posts, comments, ...) call
+-- it as one branch of an `or` inside a SELECT policy that anonymous
+-- visitors also hit, and Postgres needs EXECUTE to plan that expression
+-- even when the other branch short-circuits it at runtime.
+create schema if not exists private;
+revoke all on schema private from public;
+grant usage on schema private to anon, authenticated;
+
+create or replace function private.has_role(target_role text)
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select exists (
+    select 1
+    from public.user_roles ur
+    where ur.user_id = (select auth.uid())
+      and ur.role = target_role
+  );
+$$;
+
+comment on function private.has_role is
+  'RLS helper: true if the current auth.uid() holds target_role in user_roles. Never expose role checks via user_metadata. Not in an exposed schema — call only from within RLS policies.';
+
+revoke all on function private.has_role(text) from public;
+grant execute on function private.has_role(text) to anon, authenticated;
+
+-- ---------------------------------------------------------------------- --
+
 -- Deliberately no SELECT policy for regular users on other people's roles.
 -- A user may see their own role rows; admins may see all.
 create policy "users see their own roles"
   on public.user_roles for select
-  using (auth.uid() = user_id or public.has_role('admin'));
+  using ((select auth.uid()) = user_id or (select private.has_role('admin')));
 
 create policy "only admins grant roles"
   on public.user_roles for insert
-  with check (public.has_role('admin'));
+  with check ((select private.has_role('admin')));
 
 create policy "only admins revoke roles"
   on public.user_roles for delete
-  using (public.has_role('admin'));
+  using ((select private.has_role('admin')));
 
 -- ---------------------------------------------------------------------- --
 
@@ -112,5 +165,5 @@ alter table public.user_preferences enable row level security;
 
 create policy "users manage their own preferences"
   on public.user_preferences for all
-  using (auth.uid() = user_id)
-  with check (auth.uid() = user_id);
+  using ((select auth.uid()) = user_id)
+  with check ((select auth.uid()) = user_id);

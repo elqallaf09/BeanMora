@@ -1,6 +1,61 @@
 # BeanMora — Development phases, MVP scope, roadmap
 
-## Status: Phase 1 complete (this delivery)
+## Status: Phase 1 complete, Phase 2 (GCC data foundation) delivered in this pass
+
+Phase 2 was a separate, later spec ("BeanMora — Phase 2: GCC Coffee Beans,
+Recipes & Community Data") layered on top of Phase 1's app skeleton — it is
+not the same as the "Phase 2 — Profiles & Gear" step in the original 8-phase
+plan below (that step is still pending; see the phase list further down,
+which is unchanged from the original spec numbering). This section
+summarizes what the GCC-data-foundation pass added.
+
+**Schema (done):** migrations 12–17 — GCC geography (`countries`, `cities`,
+roaster locations/shipping), the Coffee-Lot/Roasted-Product split with full
+price/availability/source/image history, recipe provenance + verification,
+bean/recipe reviews split from confirmed brew attempts with a computed
+Recipe Score, personal bean inventory + brew-log adjustment history, and the
+full admin pipeline (import jobs, research jobs, duplicate candidates,
+roaster claims, correction requests). 62 tables total, RLS on every one,
+verified with a static forward-reference checker (no live Postgres available
+in this environment) — see `docs/DATABASE.md` §6.
+
+**Real research (done, Wave 1 only):** `supabase/research/kuwait/` — 3
+independently verified Kuwait specialty roasters (ORU Roasters, 48 East
+Coffee Roasters, Roots Roastery) with real source URLs and
+`last_verified_at` timestamps, plus 5 discovered-but-unverified roasters
+flagged `data_confidence: "unverified"` pending independent fetch
+verification. Nothing was written to the live database — the anon key has
+still not been provided, so this data exists only as reviewable JSON, not as
+rows an admin has approved through the import-preview flow described in
+§6.5. Waves 2–4 (Saudi Arabia, UAE, then Qatar/Bahrain/Oman) are not started.
+
+**UI (triaged, partial by design):** given the size of the full Phase 2 spec
+(28 sections), UI effort was deliberately focused on the highest-value new
+surfaces rather than attempting full coverage in one pass: a real roaster
+detail page with data-confidence/verification badges, a "My Beans" inventory
+page with client-computed freshness alerts, and admin-gated stub pages for
+the research and import queues. Not built yet: the product detail page
+(coffee-lot + roasted-product view with prices/availability/images), the
+review-vs-attempt submission flow, GCC search/filter facets, multi-currency
+display, the roaster portal, and the admin import preview UI itself (the
+`data_import_jobs`/`data_import_rows` tables and governance rules exist;
+the screen that renders a diff and asks an admin to approve it does not).
+
+**Duplicate detection (done):** `src/lib/duplicate-detection.ts` — pure,
+unit-tested (12 tests) similarity scoring for coffee lots and roasted
+products, feeding `suggestAction()` (`merge` / `needs_review` /
+`keep_separate`). Suggestions only — nothing in the codebase executes a
+merge automatically, per the explicit requirement.
+
+**What's still missing relative to the full Phase 2 spec:** roaster/product
+discovery for Saudi Arabia, UAE, Qatar, Bahrain, and Oman; the roaster
+portal; the CSV/Excel/JSON import preview screen; multi-currency
+conversion display; GCC-specific search facets; the product availability
+monitoring UI (archive-not-delete is enforced at the schema level via
+`product_availability` states, but no UI surfaces it yet); and end-to-end
+manual testing against real data, which is blocked on the Supabase anon key.
+
+## Status: Phase 1 complete (original 8-phase plan, below)
 
 - Next.js 15 (App Router) + TypeScript + Tailwind v4, pinned dependency
   versions with `package-lock.json` committed.

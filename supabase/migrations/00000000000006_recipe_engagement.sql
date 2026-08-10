@@ -29,7 +29,7 @@ create policy "ratings follow parent recipe visibility"
   using (exists (
     select 1 from public.recipes r
     where r.id = recipe_id
-      and (r.visibility = 'public' or r.user_id = auth.uid() or public.has_role('admin'))
+      and (r.visibility = 'public' or r.user_id = auth.uid() or (select private.has_role('admin')))
   ));
 
 create policy "authenticated users rate recipes"
@@ -44,7 +44,7 @@ create policy "users edit their own rating"
 
 create policy "users delete their own rating"
   on public.recipe_ratings for delete
-  using (auth.uid() = user_id or public.has_role('admin'));
+  using (auth.uid() = user_id or (select private.has_role('admin')));
 
 -- ---------------------------------------------------------------------- --
 

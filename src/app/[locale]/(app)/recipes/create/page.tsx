@@ -1,20 +1,28 @@
 import { getTranslations } from "next-intl/server";
-import { EmptyState } from "@/components/shared/state-views";
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "@/i18n/navigation";
+import { isGuestUser } from "@/lib/guest";
+import { RecipeBuilderForm } from "./recipe-builder-form";
 
-/**
- * Route scaffold for the BeanMora IA. This screen is intentionally a real,
- * navigable Next.js route (not a design mock) so the sitemap in
- * docs/SITEMAP.md is end-to-end clickable from Phase 1. Deep functionality
- * for this route ships in a later phase — see docs/ROADMAP.md.
- * Phase 4 — Multi-step recipe builder
- */
-export default async function Page() {
+export const dynamic = "force-dynamic";
+
+export default async function CreateRecipePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   const t = await getTranslations();
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect({ href: "/login", locale });
+  }
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10 md:px-6">
-      <h1 className="mb-6 text-2xl font-semibold text-[var(--color-espresso)]">{t("nav.recipes")}</h1>
-      <EmptyState title={t("nav.recipes")} hint="Phase 4 — Multi-step recipe builder" />
+    <div className="mx-auto max-w-2xl px-4 py-5 sm:px-6 lg:py-8">
+      <header className="mb-7"><p className="type-eyebrow text-[var(--color-copper)]">{t("brand.name")}</p><h1 className="type-headline mt-2.5 text-[var(--color-espresso)]">{t("recipeCreate.title")}</h1></header>
+      <RecipeBuilderForm isGuest={isGuestUser(user)} locale={locale} />
     </div>
   );
 }

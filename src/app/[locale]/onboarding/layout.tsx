@@ -2,6 +2,10 @@ import type { ReactNode } from "react";
 import { redirect } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 
+// Gates on the current request's session (including guest/anonymous
+// sessions) — must never be statically cached across visitors.
+export const dynamic = "force-dynamic";
+
 export default async function OnboardingLayout({
   children,
   params,
