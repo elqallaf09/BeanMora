@@ -790,7 +790,10 @@
     "noAvailability": "No availability history yet",
     "confidence": "Data confidence",
     "verified": "Last verified",
-    "source": "Source"
+    "source": "Source",
+    "watch": "Watch price & stock",
+    "watching": "Stop watching",
+    "watchError": "Could not update this watch. Try again."
   },
   "adminImport": {
     "title": "Data import review",

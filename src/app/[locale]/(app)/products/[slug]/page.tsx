@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { ExternalLink } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { localizedField } from "@/lib/localized";
+import { ProductWatchButton } from "./product-watch-button";
+import { isGuestUser } from "@/lib/guest";
 
 export const dynamic = "force-dynamic";
 
@@ -11,10 +13,13 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const locale = await getLocale();
   const t = await getTranslations("productDetail");
   const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
   const { data: p } = await supabase.from("roasted_products").select(
     "id,slug,name_ar,name_en,short_description,roast_level,status,weight_grams,purchase_url,flavor_notes_on_bag,suitable_for_v60,suitable_for_espresso,suitable_for_xbloom,last_verified_at,data_confidence,source_url,source_name,roaster:roasters(name_ar,name_en,country),lot:coffee_lots(origin_country,origin_region,farm,producer,varietal,process,altitude_min_meters,altitude_max_meters,harvest_season),prices:product_prices(price,currency,recorded_at,source_url),availability:product_availability(status,note,recorded_at,source_url)"
   ).eq("slug", slug).eq("requires_review", false).maybeSingle();
   if (!p) notFound();
+  const guest = isGuestUser(user);
+  const { data: watch } = user && !guest ? await supabase.from("product_watches").select("id").eq("user_id", user.id).eq("roasted_product_id", p.id).maybeSingle() : { data: null };
   const prices=[...(p.prices??[])].sort((a:any,b:any)=>new Date(b.recorded_at).getTime()-new Date(a.recorded_at).getTime());
   const availability=[...(p.availability??[])].sort((a:any,b:any)=>new Date(b.recorded_at).getTime()-new Date(a.recorded_at).getTime());
   return <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6">
@@ -23,6 +28,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       <h1 className="mt-2 text-3xl font-bold text-[var(--color-espresso)]">{localizedField(p,"name",locale)}</h1>
       <p className="mt-3 text-sm text-[var(--color-muted-text)]">{p.short_description}</p>
       <div className="mt-4 flex flex-wrap gap-2">{[p.status,p.roast_level,p.weight_grams? `${p.weight_grams} g`:null].filter(Boolean).map((x:any)=><span key={x} className="rounded-full border px-3 py-1 text-xs">{x}</span>)}</div>
+      {user && !guest ? <ProductWatchButton productId={p.id} userId={user.id} initialWatching={Boolean(watch)} labels={{watch:t("watch"),watching:t("watching"),error:t("watchError")}} /> : null}
       {p.purchase_url?<a href={p.purchase_url} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 rounded-full bg-[var(--color-espresso)] px-4 py-2 text-sm font-semibold text-white">{t("productPage")}<ExternalLink className="h-4 w-4"/></a>:null}
     </header>
     <div className="mt-5 grid gap-5 lg:grid-cols-2">
