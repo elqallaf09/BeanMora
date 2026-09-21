@@ -47,13 +47,29 @@ products, feeding `suggestAction()` (`merge` / `needs_review` /
 `keep_separate`). Suggestions only — nothing in the codebase executes a
 merge automatically, per the explicit requirement.
 
-**What's still missing relative to the full Phase 2 spec:** roaster/product
-discovery for Saudi Arabia, UAE, Qatar, Bahrain, and Oman; the roaster
-portal; the CSV/Excel/JSON import preview screen; multi-currency
-conversion display; GCC-specific search facets; the product availability
-monitoring UI (archive-not-delete is enforced at the schema level via
-`product_availability` states, but no UI surfaces it yet); and end-to-end
-manual testing against real data, which is blocked on the Supabase anon key.
+**Historical note:** several items originally listed here as missing have since shipped, including GCC roaster seed coverage, GCC catalog filters, product discovery/detail, and product price/availability history UI. Use the 2026-09-21 implementation snapshot above as the authoritative current status.
+
+## Current implementation snapshot — 2026-09-21
+
+The repository has moved materially beyond the older status notes below. The following surfaces are now present in the application and should be treated as the baseline for future work:
+
+- Profiles, settings, gear CRUD, My Beans inventory, bean and equipment detail pages.
+- Discover search across beans, roasters, recipes, and equipment with real database-backed filtering.
+- GCC roaster seed coverage for Kuwait, Saudi Arabia, UAE, Qatar, Bahrain, and Oman (migrations 26–27), plus catalog provenance and equipment/recipe seed migrations through 29.
+- V60 guided brewing, Espresso dial-in, recipe creation/detail, saved content, community feed/detail/actions, notifications, xBloom hub, and admin ingestion/research surfaces.
+- Phase 2 roasted-product discovery at `/products`, with GCC country/currency filtering.
+- Roasted-product detail pages with Coffee Lot provenance, source/confidence metadata, price history, and availability history.
+- Anonymous guest access controls and localized OAuth callback are implemented.
+
+### Highest-priority remaining work
+
+1. **Admin import preview and approval workflow** — turn the existing `data_import_jobs` / `data_import_rows` model into a complete review UI with row-level validation, conflict/duplicate presentation, and explicit approval. No automatic publishing.
+2. **Catalog depth and freshness** — continuously expand reviewed roaster/products across all GCC countries and surface stale-data warnings based on `last_verified_at`.
+3. **Price intelligence** — normalized price-per-100g comparison, price history trends, and cross-roaster comparison while preserving original currency/source evidence. Currency conversion must carry rate source and timestamp rather than silently rewriting source prices.
+4. **Roaster portal** — claim/verification flow, owned product management, locations/shipping, corrections, and provenance-aware edits.
+5. **Quality/release hardening** — run migrations against the linked Supabase project, generate strict DB types, broaden Playwright coverage, accessibility review, Core Web Vitals/performance budget, and production monitoring.
+6. **Community completion** — finish moderation and notification-generation paths and verify guest restrictions across every newly interactive action.
+7. **xBloom** — keep direct sync disabled until an official supported integration exists; continue improving safe export/fallback workflows.
 
 ## Status: Phase 1 complete (original 8-phase plan, below)
 
