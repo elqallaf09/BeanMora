@@ -570,9 +570,9 @@
     "typeVerificationApproved": "Your recipe was verified",
     "typeXbloomSyncStatus": "xBloom sync update",
     "typeSavedRecipeUpdated": "A recipe you saved was updated",
-    "typeProductPriceDrop": "A product you watch dropped in price",
-    "typeProductBackInStock": "A product you watch is back in stock",
-    "typeProductSoldOut": "A product you watch sold out"
+    "typeProductPriceDrop": "A watched coffee dropped in price",
+    "typeProductBackInStock": "A watched coffee is back in stock",
+    "typeProductSoldOut": "A watched coffee sold out"
   },
   "roasterProfile": {
     "notFoundTitle": "Roaster not found",
@@ -871,5 +871,13 @@
     "soldOut": "Sold out",
     "remove": "Remove watch",
     "updateError": "Could not update watch settings."
+  },
+  "watches": {
+    "title": "Coffee watches",
+    "lede": "Products you watch for price and stock changes.",
+    "empty": "You are not watching any products yet. Open a product and choose Watch price & stock.",
+    "priceDrop": "Price drop",
+    "backStock": "Back in stock",
+    "soldOut": "Sold out"
   }
 }
