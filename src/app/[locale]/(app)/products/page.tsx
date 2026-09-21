@@ -19,6 +19,8 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
   const roast = value(sp, "roast");
   const method = value(sp, "method");
   const status = value(sp, "status");
+  const country = value(sp, "country");
+  const currency = value(sp, "currency");
 
   let query = supabase.from("roasted_products").select(
     "id,slug,name_ar,name_en,short_description,roast_level,status,weight_grams,purchase_url,flavor_notes_on_bag,suitable_for_v60,suitable_for_espresso,suitable_for_xbloom,last_verified_at,data_confidence,roaster:roasters(name_ar,name_en,country),lot:coffee_lots(origin_country,origin_region,process),prices:product_prices(price,currency,recorded_at),images:product_images(storage_path,image_usage_status,is_primary,position)"
@@ -32,7 +34,9 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
   if (method === "xbloom") query = query.eq("suitable_for_xbloom", true);
 
   const { data, error } = await query.order("updated_at", { ascending: false });
-  const products = data ?? [];
+  let products = data ?? [];
+  if (country) products = products.filter((p:any) => p.roaster?.country === country);
+  if (currency) products = products.filter((p:any) => (p.prices ?? []).some((x:any) => x.currency === currency));
 
   return <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
     <header className="mb-6">
@@ -40,10 +44,18 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
       <h1 className="type-headline mt-2 text-[var(--color-espresso)]">{t("title")}</h1>
       <p className="mt-2 max-w-2xl text-sm text-[var(--color-muted-text)]">{t("lede")}</p>
     </header>
-    <form className="mb-6 grid gap-2 sm:grid-cols-4">
-      <input name="q" defaultValue={q} placeholder={t("search")} className="h-11 rounded-xl border bg-[var(--color-surface)] px-3 sm:col-span-2" />
+    <form className="mb-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-6">
+      <input name="q" defaultValue={q} placeholder={t("search")} className="h-11 rounded-xl border bg-[var(--color-surface)] px-3 lg:col-span-2" />
       <select name="method" defaultValue={method} className="h-11 rounded-xl border bg-[var(--color-surface)] px-3">
         <option value="">{t("allMethods")}</option><option value="v60">V60</option><option value="espresso">{t("espresso")}</option><option value="xbloom">xBloom</option>
+      </select>
+      <select name="country" defaultValue={country} className="h-11 rounded-xl border bg-[var(--color-surface)] px-3">
+        <option value="">{t("allCountries")}</option>
+        {["Kuwait","Saudi Arabia","United Arab Emirates","Qatar","Bahrain","Oman"].map(c=><option key={c} value={c}>{t(`countries.${c}`)}</option>)}
+      </select>
+      <select name="currency" defaultValue={currency} className="h-11 rounded-xl border bg-[var(--color-surface)] px-3">
+        <option value="">{t("allCurrencies")}</option>
+        {["KWD","SAR","AED","QAR","BHD","OMR"].map(c=><option key={c} value={c}>{c}</option>)}
       </select>
       <button className="h-11 rounded-xl bg-[var(--color-espresso)] px-4 font-semibold text-white">{t("apply")}</button>
     </form>

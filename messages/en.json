@@ -761,6 +761,16 @@
       "seasonal": "Seasonal",
       "archived": "Archived",
       "unknown": "Unknown"
+    },
+    "allCountries": "All GCC countries",
+    "allCurrencies": "All currencies",
+    "countries": {
+      "Kuwait": "Kuwait",
+      "Saudi Arabia": "Saudi Arabia",
+      "United Arab Emirates": "United Arab Emirates",
+      "Qatar": "Qatar",
+      "Bahrain": "Bahrain",
+      "Oman": "Oman"
     }
   },
   "productDetail": {
