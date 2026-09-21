@@ -569,7 +569,10 @@
     "typeNewRecipeFromFollowed": "published a new recipe",
     "typeVerificationApproved": "Your recipe was verified",
     "typeXbloomSyncStatus": "xBloom sync update",
-    "typeSavedRecipeUpdated": "A recipe you saved was updated"
+    "typeSavedRecipeUpdated": "A recipe you saved was updated",
+    "typeProductPriceDrop": "A product you watch dropped in price",
+    "typeProductBackInStock": "A product you watch is back in stock",
+    "typeProductSoldOut": "A product you watch sold out"
   },
   "roasterProfile": {
     "notFoundTitle": "Roaster not found",
