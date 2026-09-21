@@ -761,6 +761,16 @@
       "seasonal": "موسمي",
       "archived": "مؤرشف",
       "unknown": "غير معروف"
+    },
+    "allCountries": "كل دول الخليج",
+    "allCurrencies": "كل العملات",
+    "countries": {
+      "Kuwait": "الكويت",
+      "Saudi Arabia": "السعودية",
+      "United Arab Emirates": "الإمارات",
+      "Qatar": "قطر",
+      "Bahrain": "البحرين",
+      "Oman": "عُمان"
     }
   },
   "productDetail": {
