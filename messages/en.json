@@ -211,7 +211,8 @@
     "emptyRecipesTitle": "No public recipes yet",
     "emptyRecipesHint": "Be the first to publish a recipe for this method.",
     "emptyEquipmentTitle": "No equipment listed yet",
-    "emptyEquipmentHint": "The equipment catalog is growing — check back soon."
+    "emptyEquipmentHint": "The equipment catalog is growing — check back soon.",
+    "categoryProducts": "Roaster products"
   },
   "v60": {
     "heroTitle": "Brew a V60",
