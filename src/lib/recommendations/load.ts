@@ -1,9 +1,6 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
-import {
-  communityEvidence, emptyProfile, isMethod, validChoice, ROASTS,
-  type Attempt, type Coffee, type Gear, type Method, type Profile, type Recipe, type Review,
-} from "./engine";
+import { communityEvidence, emptyProfile, isMethod, validChoice, ROASTS, type Attempt, type Coffee, type Gear, type Method, type Profile, type Recipe, type Review } from "./engine";
 
 export const CATALOG_LIMIT = 300;
 const EVIDENCE_LIMIT = 1000;
@@ -31,8 +28,7 @@ const positiveNumber = (value: unknown): number | null => {
 interface RecipeRow {
   id: string; title: string; brew_method: string; visibility: string; bean_id: string | null;
   roasted_product_id: string | null; flavor_notes: string[]; difficulty: string | null;
-  is_incomplete_source: boolean; dose_grams: number | null; water_grams: number | null;
-  total_time_seconds: number | null;
+  is_incomplete_source: boolean; dose_grams: number | null; water_grams: number | null; total_time_seconds: number | null;
 }
 interface PrefRow { preferred_brew_methods: string[]; preferred_flavors: string[]; preferred_roast_level: string | null }
 interface GearRow { category: string; equipment_model_id: string | null }
@@ -47,19 +43,17 @@ export interface RecommendationData {
 export async function loadRecommendations(locale: string, method?: Method): Promise<RecommendationData> {
   const result: RecommendationData = { profile: emptyProfile(), coffees: [], recipes: [], signedIn: false, warnings: [], limited: false, loaded: { coffees: 0, recipes: 0 } };
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) { result.warnings.push("catalog"); return result; }
-  const supabase = await createClient(); // Request cookies + anon key. Never a service-role client.
+  const supabase = await createClient(); // Request cookies + anon key, never service role.
   const { data: { user }, error: authError } = await supabase.auth.getUser();
   if (authError && authError.name !== "AuthSessionMissingError") result.warnings.push("profile");
   result.signedIn = Boolean(user && !user.is_anonymous);
-
   const common = "id,slug,name_ar,name_en,requires_review,roast_level,last_verified_at,suitable_for_v60,suitable_for_espresso,suitable_for_xbloom,roaster:roasters(name_ar,name_en)";
   let productsQuery = supabase.from("roasted_products").select(`${common},legacy_bean_id,status,flavor_notes_on_bag`).eq("requires_review", false).in("status", ["available", "low_stock"]);
   let beansQuery = supabase.from("beans").select(`${common},is_published,flavors:bean_flavor_notes(flavor)`).eq("requires_review", false).eq("is_published", true);
   let recipesQuery = supabase.from("recipes").select("id,title,brew_method,visibility,bean_id,roasted_product_id,flavor_notes,difficulty,is_incomplete_source,dose_grams,water_grams,total_time_seconds").eq("visibility", "public");
   if (method && ["v60", "espresso", "xbloom"].includes(method)) {
     const column = `suitable_for_${method}`;
-    productsQuery = productsQuery.eq(column, true);
-    beansQuery = beansQuery.eq(column, true);
+    productsQuery = productsQuery.eq(column, true); beansQuery = beansQuery.eq(column, true);
   }
   if (method) recipesQuery = recipesQuery.eq("brew_method", method);
   const [products, beans, recipes] = await Promise.all([
@@ -70,25 +64,22 @@ export async function loadRecommendations(locale: string, method?: Method): Prom
   if (products.failed || beans.failed || recipes.failed) result.warnings.push("catalog");
   result.limited = [products.data, beans.data, recipes.data].some(data => data.length > CATALOG_LIMIT);
   const toCoffee = (row: CoffeeRow, kind: Coffee["kind"]): Coffee => {
-    const roaster = one(row.roaster);
-    const methods: Method[] = [];
-    if (row.suitable_for_v60) methods.push("v60");
-    if (row.suitable_for_espresso) methods.push("espresso");
-    if (row.suitable_for_xbloom) methods.push("xbloom");
+    const roaster = one(row.roaster); const methods: Method[] = [];
+    if (row.suitable_for_v60) methods.push("v60"); if (row.suitable_for_espresso) methods.push("espresso"); if (row.suitable_for_xbloom) methods.push("xbloom");
     return { id: row.id, slug: row.slug, kind, name: name(row, locale), roaster: roaster ? name(roaster, locale) : null, beanId: kind === "bean" ? row.id : row.legacy_bean_id ?? null, reviewed: row.requires_review === false, published: kind === "product" || row.is_published === true, methods, flavors: row.flavor_notes_on_bag ?? (row.flavors ?? []).map(f => f.flavor), roast: row.roast_level, status: row.status ?? null, verifiedAt: row.last_verified_at };
   };
   result.coffees = [...products.data.slice(0, CATALOG_LIMIT).map(row => toCoffee(row, "product")), ...beans.data.slice(0, CATALOG_LIMIT).map(row => toCoffee(row, "bean"))];
   const publicRecipes = recipes.data.slice(0, CATALOG_LIMIT).filter(row => row.visibility === "public");
   const recipeIds = publicRecipes.map(row => row.id);
-
   async function privateProfile(): Promise<void> {
-    if (!user || user.is_anonymous) return; // No persistent personal-data queries for guests.
+    if (!user || user.is_anonymous) return;
     const [preferences, experience, gear, inventory, ownAttempts] = await Promise.all([
       rows<PrefRow>(supabase.from("user_preferences").select("preferred_brew_methods,preferred_flavors,preferred_roast_level").eq("user_id", user.id).limit(1)),
       rows<{ experience_level: string | null }>(supabase.from("profiles").select("experience_level").eq("id", user.id).limit(1)),
       rows<GearRow>(supabase.from("user_equipment").select("category,equipment_model_id").eq("user_id", user.id).order("id").limit(201)),
       rows<InventoryRow>(supabase.from("user_bean_inventory").select("roasted_product_id,legacy_bean_id").eq("user_id", user.id).is("archived_at", null).or("remaining_weight_grams.is.null,remaining_weight_grams.gt.0").order("id").limit(201)),
-      rows<AttemptRow>(supabase.from("recipe_attempts").select("id,recipe_id,user_id,status,outcome,created_at").eq("user_id", user.id).in("status", ["tried", "brewed_as_written", "brewed_with_modifications"]).order("created_at", { ascending: false }).order("id").limit(201)),
+      // Private outcomes affect only the owner profile. Never require public consent here.
+      rows<AttemptRow>(supabase.from("recipe_attempts").select("id,recipe_id,user_id,status,outcome,created_at").eq("user_id", user.id).not("brew_log_id", "is", null).in("status", ["tried", "brewed_as_written", "brewed_with_modifications"]).order("created_at", { ascending: false }).order("id").limit(201)),
     ]);
     if ([preferences, experience, gear, inventory, ownAttempts].some(r => r.failed)) result.warnings.push("profile");
     if ([gear, inventory, ownAttempts].some(r => r.data.length > 200)) result.limited = true;
@@ -111,12 +102,12 @@ export async function loadRecommendations(locale: string, method?: Method): Prom
     if (!recipeIds.length) return;
     const [equipment, attempts, reviews] = await Promise.all([
       rows<EquipmentRow>(supabase.from("recipe_equipment").select("recipe_id,category,equipment_model_id").in("recipe_id", recipeIds).order("id").range(0, EVIDENCE_LIMIT)),
-      rows<AttemptRow>(supabase.from("recipe_attempts").select("id,recipe_id,user_id,status,outcome,created_at").in("recipe_id", recipeIds).in("status", ["tried", "brewed_as_written", "brewed_with_modifications"]).order("created_at", { ascending: false }).order("id").range(0, EVIDENCE_LIMIT)),
+      // Explicit consent filter also excludes the viewer's private attempts from community totals.
+      rows<AttemptRow>(supabase.from("recipe_attempts").select("id,recipe_id,user_id,status,outcome,created_at").eq("share_with_community", true).not("brew_log_id", "is", null).in("recipe_id", recipeIds).in("status", ["tried", "brewed_as_written", "brewed_with_modifications"]).order("created_at", { ascending: false }).order("id").range(0, EVIDENCE_LIMIT)),
       rows<ReviewRow>(supabase.from("recipe_reviews").select("recipe_id,user_id,attempt_id,overall_rating").in("recipe_id", recipeIds).order("created_at", { ascending: false }).order("id").range(0, EVIDENCE_LIMIT)),
     ]);
     if ([equipment, attempts, reviews].some(r => r.failed)) result.warnings.push("evidence");
     if ([equipment, attempts, reviews].some(r => r.data.length >= EVIDENCE_LIMIT)) result.limited = true;
-    // Never infer complete equipment requirements from a truncated/failed read.
     const equipmentComplete = !equipment.failed && equipment.data.length < EVIDENCE_LIMIT;
     result.recipes = publicRecipes.flatMap(row => {
       if (!isMethod(row.brew_method)) return [];
