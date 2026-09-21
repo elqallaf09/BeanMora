@@ -570,9 +570,9 @@
     "typeVerificationApproved": "تم توثيق وصفتك",
     "typeXbloomSyncStatus": "تحديث مزامنة xBloom",
     "typeSavedRecipeUpdated": "تم تحديث وصفة قمت بحفظها",
-    "typeProductPriceDrop": "انخفض سعر منتج تراقبه",
-    "typeProductBackInStock": "عاد منتج تراقبه إلى المخزون",
-    "typeProductSoldOut": "نفد منتج تراقبه من المخزون"
+    "typeProductPriceDrop": "انخفض سعر بن تراقبه",
+    "typeProductBackInStock": "عاد بن تراقبه إلى المخزون",
+    "typeProductSoldOut": "نفد بن تراقبه من المخزون"
   },
   "roasterProfile": {
     "notFoundTitle": "لم يتم العثور على هذا المحمّص",
@@ -871,5 +871,13 @@
     "soldOut": "نفاد المخزون",
     "remove": "إزالة من المراقبة",
     "updateError": "تعذر تحديث إعدادات المراقبة."
+  },
+  "watches": {
+    "title": "مراقبة البن",
+    "lede": "المنتجات التي تراقب أسعارها وتوفرها.",
+    "empty": "لا تراقب أي منتج بعد. افتح منتجًا واختر «راقب السعر والتوفر».",
+    "priceDrop": "انخفاض السعر",
+    "backStock": "عودة للمخزون",
+    "soldOut": "نفاد المخزون"
   }
 }
