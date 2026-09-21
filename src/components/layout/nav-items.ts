@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Home, Compass, Coffee, Users, User } from "lucide-react";
+import { Home, Compass, Coffee, Users, User, Sparkles } from "lucide-react";
 
 export interface NavItem {
   href: string;
@@ -11,6 +11,7 @@ export interface NavItem {
 export const primaryNavItems: NavItem[] = [
   { href: "/home", labelKey: "nav.home", icon: Home },
   { href: "/discover", labelKey: "nav.discover", icon: Compass },
+  { href: "/recommendations", labelKey: "recommendations.nav", icon: Sparkles },
   { href: "/brew", labelKey: "nav.brew", icon: Coffee },
   { href: "/community", labelKey: "nav.community", icon: Users },
   { href: "/profile", labelKey: "nav.profile", icon: User },
