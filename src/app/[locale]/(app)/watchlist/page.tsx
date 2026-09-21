@@ -1,14 +1,31 @@
 import { redirect } from "next/navigation";
-import { getLocale,getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { localizedField } from "@/lib/localized";
+import { singleRelation } from "@/lib/catalog-relations";
 import { Link } from "@/i18n/navigation";
 import { WatchPreferences } from "./watch-preferences";
-export const dynamic="force-dynamic";
-export default async function WatchlistPage(){
- const locale=await getLocale();const t=await getTranslations("watchlist");const supabase=await createClient();const {data:{user}}=await supabase.auth.getUser();if(!user)redirect(`/${locale}/login`);
- const {data:watches,error}=await supabase.from("product_watches").select("id,roasted_product_id,alert_price_drop,alert_back_in_stock,alert_sold_out,created_at").eq("user_id",user.id).order("created_at",{ascending:false});
- const ids=(watches??[]).map((w:any)=>w.roasted_product_id);const {data:products}=ids.length?await supabase.from("roasted_products").select("id,slug,name_ar,name_en,status,weight_grams,roaster:roasters(name_ar,name_en,country),prices:product_prices(price,currency,recorded_at)").in("id",ids):{data:[] as any[]};const map=new Map((products??[]).map((p:any)=>[p.id,p]));
- return <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6"><h1 className="text-3xl font-bold text-[var(--color-espresso)]">{t("title")}</h1><p className="mt-2 text-sm text-[var(--color-muted-text)]">{t("lede")}</p>
- {error?<p className="mt-6">{t("error")}</p>:!watches?.length?<div className="mt-8 rounded-3xl border p-8 text-center"><h2 className="font-semibold">{t("empty")}</h2><Link href="/products" className="mt-3 inline-block text-sm underline">{t("browse")}</Link></div>:<div className="mt-6 grid gap-4">{watches.map((w:any)=>{const p:any=map.get(w.roasted_product_id);const latest=[...(p?.prices??[])].sort((a:any,b:any)=>new Date(b.recorded_at).getTime()-new Date(a.recorded_at).getTime())[0];return <article key={w.id} className="rounded-3xl border bg-[var(--color-surface)] p-5"><div className="flex flex-wrap justify-between gap-3"><div><h2 className="font-bold">{p?<Link href={`/products/${p.slug}`}>{localizedField(p,"name",locale)}</Link>:w.roasted_product_id}</h2><p className="text-xs text-[var(--color-muted-text)]">{p?.roaster?localizedField(p.roaster,"name",locale):""}</p></div><div className="text-end">{latest?<strong>{Number(latest.price).toLocaleString(locale)} {latest.currency}</strong>:null}<p className="text-xs text-[var(--color-muted-text)]">{p?.status||""}</p></div></div><WatchPreferences watchId={w.id} initial={{price:w.alert_price_drop,stock:w.alert_back_in_stock,soldOut:w.alert_sold_out}} labels={{price:t("priceDrop"),stock:t("backInStock"),soldOut:t("soldOut"),remove:t("remove"),error:t("updateError")}} /></article>})}</div>}</div>;
+
+export const dynamic = "force-dynamic";
+export default async function WatchlistPage() {
+  const locale = await getLocale();
+  const t = await getTranslations("watchlist");
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect(`/${locale}/login`);
+  const { data: watches, error } = await supabase.from("product_watches").select("id,roasted_product_id,alert_price_drop,alert_back_in_stock,alert_sold_out,created_at").eq("user_id", user.id).order("created_at", { ascending: false });
+  const ids = (watches ?? []).map(w => w.roasted_product_id);
+  const productsResult = ids.length ? await supabase.from("roasted_products").select("id,slug,name_ar,name_en,status,weight_grams,roaster:roasters(name_ar,name_en,country),prices:product_prices(price,currency,recorded_at)").in("id", ids) : null;
+  const byId = new Map((productsResult?.data ?? []).map(p => [p.id, { ...p, roaster: singleRelation(p.roaster) }] as const));
+  return <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
+    <h1 className="text-3xl font-bold text-[var(--color-espresso)]">{t("title")}</h1><p className="mt-2 text-sm text-[var(--color-muted-text)]">{t("lede")}</p>
+    {error || productsResult?.error ? <p role="alert" className="mt-6">{t("error")}</p> : !watches?.length ? <div className="mt-8 rounded-3xl border p-8 text-center"><h2 className="font-semibold">{t("empty")}</h2><Link href="/products" className="mt-3 inline-block text-sm underline">{t("browse")}</Link></div> : <div className="mt-6 grid gap-4">{watches.map(w => {
+      const p = byId.get(w.roasted_product_id);
+      const latest = [...(p?.prices ?? [])].sort((a, b) => new Date(b.recorded_at).getTime() - new Date(a.recorded_at).getTime())[0];
+      return <article key={w.id} className="rounded-3xl border bg-[var(--color-surface)] p-5">
+        <div className="flex flex-wrap justify-between gap-3"><div><h2 className="font-bold">{p ? <Link href={`/products/${p.slug}`}>{localizedField(p, "name", locale)}</Link> : w.roasted_product_id}</h2><p className="text-xs text-[var(--color-muted-text)]">{p?.roaster ? localizedField(p.roaster, "name", locale) : ""}</p></div><div className="text-end">{latest ? <strong>{Number(latest.price).toLocaleString(locale)} {latest.currency}</strong> : null}<p className="text-xs text-[var(--color-muted-text)]">{p?.status || ""}</p></div></div>
+        <WatchPreferences watchId={w.id} initial={{ price: w.alert_price_drop, stock: w.alert_back_in_stock, soldOut: w.alert_sold_out }} labels={{ price: t("priceDrop"), stock: t("backInStock"), soldOut: t("soldOut"), remove: t("remove"), error: t("updateError") }} />
+      </article>;
+    })}</div>}
+  </div>;
 }
