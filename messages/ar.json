@@ -762,5 +762,23 @@
       "archived": "مؤرشف",
       "unknown": "غير معروف"
     }
+  },
+  "productDetail": {
+    "productPage": "زيارة صفحة المنتج",
+    "origin": "المنشأ والتفاصيل",
+    "country": "الدولة",
+    "region": "المنطقة",
+    "farm": "المزرعة",
+    "producer": "المنتج",
+    "varietal": "الصنف",
+    "process": "المعالجة",
+    "harvest": "الموسم",
+    "priceHistory": "سجل الأسعار",
+    "noPrices": "لا يوجد سجل أسعار بعد",
+    "availabilityHistory": "سجل التوفر",
+    "noAvailability": "لا يوجد سجل توفر بعد",
+    "confidence": "ثقة البيانات",
+    "verified": "آخر تحقق",
+    "source": "المصدر"
   }
 }

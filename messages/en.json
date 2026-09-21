@@ -762,5 +762,23 @@
       "archived": "Archived",
       "unknown": "Unknown"
     }
+  },
+  "productDetail": {
+    "productPage": "Visit product page",
+    "origin": "Origin & details",
+    "country": "Country",
+    "region": "Region",
+    "farm": "Farm",
+    "producer": "Producer",
+    "varietal": "Varietal",
+    "process": "Process",
+    "harvest": "Harvest",
+    "priceHistory": "Price history",
+    "noPrices": "No price history yet",
+    "availabilityHistory": "Availability history",
+    "noAvailability": "No availability history yet",
+    "confidence": "Data confidence",
+    "verified": "Last verified",
+    "source": "Source"
   }
 }
