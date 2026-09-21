@@ -20,15 +20,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Update npm resolver (npm 10 crashes on optional peer graph)
+        run: npm install --global npm@11 --ignore-scripts --loglevel=error
       - name: Resolve patched versions without lifecycle scripts
         run: |
+          npm --version
           node <<'JS'
           const fs=require('fs');const p=JSON.parse(fs.readFileSync('package.json','utf8'));
           Object.assign(p.dependencies,{'next':'15.5.25','react':'19.1.5','react-dom':'19.1.5','@supabase/ssr':'0.6.1','@supabase/supabase-js':'2.57.4'});
           Object.assign(p.devDependencies,{'eslint-config-next':'15.5.25','vitest':'4.1.11','@vitest/ui':'4.1.11','@playwright/test':'1.55.1'});
           fs.writeFileSync('package.json',JSON.stringify(p,null,2)+'\n');
-          // npm 10's incremental optional-peer graph crashed (edgesOut). Re-resolve
-          // from the declared ranges; review the generated lock diff before merge.
           fs.unlinkSync('package-lock.json');
           JS
           npm install --package-lock-only --ignore-scripts --loglevel=error
