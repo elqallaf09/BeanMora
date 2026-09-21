@@ -856,5 +856,17 @@
       "back_in_stock": "Back in stock",
       "sold_out": "Sold out"
     }
+  },
+  "watchlist": {
+    "title": "Coffee watchlist",
+    "lede": "Track products you care about and choose which changes matter to you.",
+    "error": "Could not load your watchlist.",
+    "empty": "You are not watching any products yet.",
+    "browse": "Browse coffee products",
+    "priceDrop": "Price drops",
+    "backInStock": "Back in stock",
+    "soldOut": "Sold out",
+    "remove": "Remove watch",
+    "updateError": "Could not update watch settings."
   }
 }
