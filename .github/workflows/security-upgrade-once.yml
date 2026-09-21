@@ -20,16 +20,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Audit baseline
+      - name: Resolve patched versions without lifecycle scripts
         run: |
-          npm audit --json > /tmp/before.json || true
-          node -e 'const a=require("/tmp/before.json"); if(a.error) throw Error(JSON.stringify(a.error)); console.log("BEFORE",JSON.stringify(a.metadata)); for(const [n,v] of Object.entries(a.vulnerabilities||{})) console.log(n,v.severity,JSON.stringify(v.fixAvailable),JSON.stringify(v.via.filter(x=>typeof x!=="string").map(x=>({title:x.title,url:x.url,range:x.range}))));'
-      - name: Install explicit patched versions into lockfile only
-        run: |
-          npm install --package-lock-only --ignore-scripts --save-exact next@15.5.24 react@19.1.5 react-dom@19.1.5
-          npm install --package-lock-only --ignore-scripts --save-dev --save-exact eslint-config-next@15.5.24 vitest@4.1.11 @vitest/ui@4.1.11
+          node <<'JS'
+          const fs=require('fs');const p=JSON.parse(fs.readFileSync('package.json','utf8'));
+          Object.assign(p.dependencies,{'next':'15.5.25','react':'19.1.5','react-dom':'19.1.5','@supabase/ssr':'0.6.1','@supabase/supabase-js':'2.57.4'});
+          Object.assign(p.devDependencies,{'eslint-config-next':'15.5.25','vitest':'4.1.11','@vitest/ui':'4.1.11','@playwright/test':'1.55.1'});
+          fs.writeFileSync('package.json',JSON.stringify(p,null,2)+'\n');
+          // npm 10's incremental optional-peer graph crashed (edgesOut). Re-resolve
+          // from the declared ranges; review the generated lock diff before merge.
+          fs.unlinkSync('package-lock.json');
+          JS
+          npm install --package-lock-only --ignore-scripts --loglevel=error
           npm audit --json > /tmp/after.json || true
-          node -e 'const a=require("/tmp/after.json"); if(a.error) throw Error(JSON.stringify(a.error)); console.log("AFTER",JSON.stringify(a.metadata)); for(const [n,v] of Object.entries(a.vulnerabilities||{})) console.log(n,v.severity,JSON.stringify(v.fixAvailable),JSON.stringify(v.via.filter(x=>typeof x!=="string").map(x=>({title:x.title,url:x.url,range:x.range}))));'
+          node -e 'const a=require("/tmp/after.json"); if(a.error) throw Error(JSON.stringify(a.error)); console.log("AFTER",JSON.stringify(a.metadata)); for(const [n,v] of Object.entries(a.vulnerabilities||{})) console.log(n,v.severity,JSON.stringify(v.fixAvailable),JSON.stringify(v.via));'
+          node -e 'const p=require("./package-lock.json"); for(const n of Object.keys({...p.packages[""].dependencies,...p.packages[""].devDependencies})) console.log("RESOLVED",n,p.packages["node_modules/"+n]?.version);'
       - name: Commit only manifests on the expected branch
         env:
           GH_TOKEN: ${{ github.token }}
@@ -38,6 +43,6 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add package.json package-lock.json
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'fix: patch Next React and Vitest security dependencies'
+          git commit -m 'fix: update patched dependencies and regenerate compatible lock'
           BASIC=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
           git -c http.https://github.com/.extraheader="AUTHORIZATION: basic $BASIC" push origin HEAD:refs/heads/fix/security-release-hardening
