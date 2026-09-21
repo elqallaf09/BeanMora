@@ -839,5 +839,19 @@
     "days": "Days since verification",
     "lastVerified": "Last verified",
     "error": "Could not load catalog freshness."
+  },
+  "catalogChanges": {
+    "title": "Catalog changes",
+    "lede": "Price and availability changes detected from append-only evidence. Events stay reviewable before they are used for user alerts.",
+    "error": "Could not load catalog changes.",
+    "evidence": "Open source evidence",
+    "types": {
+      "price_changed": "Price changed",
+      "price_dropped": "Price dropped",
+      "price_increased": "Price increased",
+      "availability_changed": "Availability changed",
+      "back_in_stock": "Back in stock",
+      "sold_out": "Sold out"
+    }
   }
 }
