@@ -771,7 +771,8 @@
       "Qatar": "Qatar",
       "Bahrain": "Bahrain",
       "Oman": "Oman"
-    }
+    },
+    "comparePrices": "Compare prices"
   },
   "productDetail": {
     "productPage": "Visit product page",
@@ -811,5 +812,18 @@
     "preview": "Data preview",
     "match": "Matched record",
     "approvalNote": "Approval and publishing remain a separate explicit step after row verification; there is no automatic publishing."
+  },
+  "priceCompare": {
+    "eyebrow": "Price intelligence",
+    "title": "Coffee price comparison",
+    "lede": "Compare coffee bags fairly using price per 100g while preserving the original source price and currency.",
+    "product": "Product",
+    "roaster": "Roaster",
+    "country": "Country",
+    "bag": "Bag size",
+    "price": "Price",
+    "per100": "Per 100g",
+    "verified": "Price date",
+    "currencyNote": "Value ordering is not compared across different currencies. FX conversion will only be added with an explicit rate source and timestamp."
   }
 }
