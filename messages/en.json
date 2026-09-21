@@ -825,5 +825,19 @@
     "per100": "Per 100g",
     "verified": "Price date",
     "currencyNote": "Value ordering is not compared across different currencies. FX conversion will only be added with an explicit rate source and timestamp."
+  },
+  "freshness": {
+    "title": "Catalog data freshness",
+    "lede": "Monitor product verification age. Fresh: 30 days or less, aging: 31–90 days, stale: over 90 days.",
+    "fresh": "Fresh",
+    "aging": "Aging",
+    "stale": "Stale",
+    "unverified": "Unverified",
+    "product": "Product",
+    "roaster": "Roaster",
+    "status": "Status",
+    "days": "Days since verification",
+    "lastVerified": "Last verified",
+    "error": "Could not load catalog freshness."
   }
 }
