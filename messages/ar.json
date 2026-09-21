@@ -211,7 +211,8 @@
     "emptyRecipesTitle": "لا توجد وصفات عامة بعد",
     "emptyRecipesHint": "كن أول من ينشر وصفة لهذه الطريقة.",
     "emptyEquipmentTitle": "لا توجد معدات مدرجة بعد",
-    "emptyEquipmentHint": "دليل المعدات في نمو مستمر — تحقق لاحقًا."
+    "emptyEquipmentHint": "دليل المعدات في نمو مستمر — تحقق لاحقًا.",
+    "categoryProducts": "منتجات المحمصات"
   },
   "v60": {
     "heroTitle": "حضّر V60",
