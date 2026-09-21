@@ -12,24 +12,45 @@ concurrency:
 jobs:
   application:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     env:
       NEXT_TELEMETRY_DISABLED: '1'
-      # Build-only placeholders. Never connect tests to the production database.
-      NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+      # Local-only test endpoint; public values are baked into the test build.
+      # No live account, catalog, production key or database is used here.
+      BEANMORA_SMOKE: '1'
+      NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54329
       NEXT_PUBLIC_SUPABASE_ANON_KEY: build-only-not-a-production-key
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '22'
           cache: npm
+      - name: Reproducible npm resolver
+        run: npm install --global npm@11.19.1 --ignore-scripts
       - run: npm ci
-      - name: Brew outcome tests
-        run: npm run test:brew-outcomes
-      - name: Existing unit and recommendation tests
+      - name: Dependency security audit (all severities)
+        run: npm audit --audit-level=low
+      - name: Dependency and CSS security regressions
+        run: node scripts/test-security.mjs
+      - name: Unit, recommendation and brew outcome tests
         run: npm test
       - name: Application typecheck
         run: npm run typecheck
       - name: Next.js production build
         run: npm run build
+      - name: Install browser engines
+        run: npx playwright install --with-deps chromium webkit
+      - name: Isolated bilingual release browser tests
+        run: npx playwright test --config=playwright.smoke.config.ts
+      - name: Preserve browser diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-smoke-${{ github.run_id }}
+          path: |
+            playwright-smoke-report/
+            test-results/
+          retention-days: 7
