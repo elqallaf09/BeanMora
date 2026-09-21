@@ -115,9 +115,9 @@ export async function loadRecommendations(locale: string, method?: Method): Prom
       rows<ReviewRow>(supabase.from("recipe_reviews").select("recipe_id,user_id,attempt_id,overall_rating").in("recipe_id", recipeIds).order("created_at", { ascending: false }).order("id").range(0, EVIDENCE_LIMIT)),
     ]);
     if ([equipment, attempts, reviews].some(r => r.failed)) result.warnings.push("evidence");
-    if ([equipment, attempts, reviews].some(r => r.data.length > EVIDENCE_LIMIT)) result.limited = true;
+    if ([equipment, attempts, reviews].some(r => r.data.length >= EVIDENCE_LIMIT)) result.limited = true;
     // Never infer complete equipment requirements from a truncated/failed read.
-    const equipmentComplete = !equipment.failed && equipment.data.length <= EVIDENCE_LIMIT;
+    const equipmentComplete = !equipment.failed && equipment.data.length < EVIDENCE_LIMIT;
     result.recipes = publicRecipes.flatMap(row => {
       if (!isMethod(row.brew_method)) return [];
       const actual: Attempt[] = attempts.data.slice(0, EVIDENCE_LIMIT).filter(a => a.recipe_id === row.id).map(a => ({ id: a.id, userId: a.user_id, status: a.status, outcome: a.outcome, createdAt: a.created_at }));
