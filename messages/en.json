@@ -790,5 +790,26 @@
     "confidence": "Data confidence",
     "verified": "Last verified",
     "source": "Source"
+  },
+  "adminImport": {
+    "title": "Data import review",
+    "lede": "Review every batch and row before any data reaches the public catalog.",
+    "loadError": "Could not load import jobs.",
+    "empty": "No import jobs",
+    "emptyHint": "CSV, Excel, and JSON batches will appear here for review.",
+    "total": "Total",
+    "new": "New",
+    "duplicates": "Duplicate",
+    "incomplete": "Incomplete",
+    "conflicts": "Conflicts",
+    "problems": "Problems",
+    "reviewTitle": "Batch review",
+    "reviewSafety": "This is a review-only surface. No row is published automatically.",
+    "row": "Row",
+    "status": "Status",
+    "issues": "Issues",
+    "preview": "Data preview",
+    "match": "Matched record",
+    "approvalNote": "Approval and publishing remain a separate explicit step after row verification; there is no automatic publishing."
   }
 }
