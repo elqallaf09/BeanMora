@@ -1,0 +1,53 @@
+-- Administrative test connection only. All fixture data and policies roll back.
+begin;
+set local statement_timeout='15s';
+select set_config('test.brew_owner',gen_random_uuid()::text,true),set_config('test.brew_other',gen_random_uuid()::text,true),set_config('test.brew_recipe',gen_random_uuid()::text,true),set_config('test.brew_private',gen_random_uuid()::text,true),set_config('test.brew_request',gen_random_uuid()::text,true);
+insert into auth.users(id,email,raw_user_meta_data) values(current_setting('test.brew_owner')::uuid,'brew-test-'||current_setting('test.brew_owner')||'@example.invalid','{}'),(current_setting('test.brew_other')::uuid,'brew-test-'||current_setting('test.brew_other')||'@example.invalid','{}');
+insert into public.recipes(id,user_id,title,brew_method,dose_grams,water_grams,visibility) values(current_setting('test.brew_recipe')::uuid,current_setting('test.brew_owner')::uuid,'Rollback-only test','v60',18,300,'public'),(current_setting('test.brew_private')::uuid,current_setting('test.brew_owner')::uuid,'Rollback-only private test','v60',18,300,'private');
+select set_config('test.brew_payload',jsonb_build_object('recipe_id',current_setting('test.brew_recipe'),'bean_id',null,'brew_method','v60','dose_grams',18,'water_grams',300,'actual_time_seconds',165,'outcome','good','status','brewed_as_written','share_with_community',false,'next_grind_adjustment','finer','taste_scores',jsonb_build_object('overall_rating',4),'brewed',true)::text,true);
+select set_config('request.jwt.claims',jsonb_build_object('sub',current_setting('test.brew_owner'),'role','authenticated','is_anonymous',false)::text,true);
+set local role authenticated;
+do $$ declare req uuid:=current_setting('test.brew_request')::uuid; p jsonb:=current_setting('test.brew_payload')::jsonb; n int; begin
+ if public.record_brew_outcome_v1(req,p)<>req then raise exception 'save failed'; end if;
+ perform public.record_brew_outcome_v1(req,p);
+ select count(*) into n from public.brew_logs where id=req; if n<>1 then raise exception 'duplicate log'; end if;
+ select count(*) into n from public.recipe_attempts where brew_log_id=req and not share_with_community and outcome='good'; if n<>1 then raise exception 'attempt not saved once'; end if;
+ select count(*) into n from public.brew_log_taste_scores where brew_log_id=req and overall_rating=4 and acidity is null; if n<>1 then raise exception 'optional ratings invented or lost'; end if;
+ begin perform public.record_brew_outcome_v1(req,p||'{"outcome":"poor"}'); raise exception 'conflicting retry accepted'; exception when sqlstate '22023' then if sqlerrm<>'BREW_REQUEST_CONFLICT' then raise; end if; end;
+ begin perform public.record_brew_outcome_v1(gen_random_uuid(),p||'{"dose_grams":0}'); raise exception 'invalid dose accepted'; exception when sqlstate '22023' then null; end;
+ begin perform public.record_brew_outcome_v1(gen_random_uuid(),p||'{"user_id":"forged"}'); raise exception 'forged identity accepted'; exception when sqlstate '22023' then null; end;
+ begin perform public.record_brew_outcome_v1(gen_random_uuid(),p||'{"brewed":false}'); raise exception 'non-brew accepted'; exception when sqlstate '22023' then null; end;
+ begin perform public.record_brew_outcome_v1(gen_random_uuid(),p||'{"brew_method":"espresso"}'); raise exception 'wrong recipe method accepted'; exception when sqlstate '22023' then null; end;
+ begin perform public.record_brew_outcome_v1(gen_random_uuid(),p||jsonb_build_object('recipe_id',current_setting('test.brew_private'),'share_with_community',true)); raise exception 'private recipe shared'; exception when sqlstate '22023' then null; end;
+ perform public.record_brew_outcome_v1(gen_random_uuid(),p||jsonb_build_object('recipe_id',current_setting('test.brew_private')));
+ perform public.record_brew_outcome_v1(gen_random_uuid(),p||'{"recipe_id":null,"actual_time_seconds":null,"taste_scores":{}}');
+ select count(*) into n from public.recipe_attempts where user_id=auth.uid(); if n<>2 then raise exception 'quick-start incorrectly attributed'; end if;
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',current_setting('test.brew_other'),'role','authenticated','is_anonymous',false)::text,true);
+ select count(*) into n from public.brew_logs where user_id=current_setting('test.brew_owner')::uuid; if n<>0 then raise exception 'private log leaked'; end if;
+ select count(*) into n from public.recipe_attempts where user_id=current_setting('test.brew_owner')::uuid; if n<>0 then raise exception 'private outcome leaked'; end if;
+ begin perform public.record_brew_outcome_v1(gen_random_uuid(),p||jsonb_build_object('recipe_id',current_setting('test.brew_private'))); raise exception 'private recipe accessible cross-user'; exception when sqlstate '22023' then null; end;
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',current_setting('test.brew_owner'),'role','authenticated','is_anonymous',true)::text,true);
+ begin perform public.record_brew_outcome_v1(gen_random_uuid(),p); raise exception 'guest save accepted'; exception when insufficient_privilege then null; end;
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',current_setting('test.brew_owner'),'role','authenticated','is_anonymous',false)::text,true);
+ update public.recipe_attempts set share_with_community=true where brew_log_id=req;
+end $$;
+reset role;
+set local role anon;
+select set_config('request.jwt.claims','{"role":"anon"}',true);
+do $$ declare n int; begin
+ select count(*) into n from public.recipe_attempts where user_id=current_setting('test.brew_owner')::uuid; if n<>1 then raise exception 'consent boundary incorrect'; end if;
+ select count(*) into n from public.brew_log_taste_scores where brew_log_id=current_setting('test.brew_request')::uuid; if n<>0 then raise exception 'detailed ratings leaked'; end if;
+ if has_function_privilege('anon','public.record_brew_outcome_v1(uuid,jsonb)','EXECUTE') then raise exception 'anon RPC privilege leaked'; end if;
+end $$;
+reset role;
+create policy "rollback test deny attempt insert" on public.recipe_attempts as restrictive for insert to authenticated with check(false);
+set local role authenticated;
+select set_config('request.jwt.claims',jsonb_build_object('sub',current_setting('test.brew_owner'),'role','authenticated','is_anonymous',false)::text,true);
+do $$ declare req uuid:=gen_random_uuid(); n int; begin
+ begin perform public.record_brew_outcome_v1(req,current_setting('test.brew_payload')::jsonb); raise exception 'downstream failure ignored'; exception when insufficient_privilege then null; end;
+ select count(*) into n from public.brew_logs where id=req; if n<>0 then raise exception 'partial log persisted'; end if;
+ select count(*) into n from public.brew_log_taste_scores where brew_log_id=req; if n<>0 then raise exception 'partial taste persisted'; end if;
+end $$;
+reset role;
+rollback;
+select 'PASS: atomic save, idempotency, consent, optional scores, guest/auth/RLS and forced downstream rollback' as result;

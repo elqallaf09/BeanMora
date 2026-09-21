@@ -7,11 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest run && npm run test:recommendations",
+    "test": "vitest run && npm run test:recommendations && npm run test:brew-outcomes",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "typecheck": "tsc --noEmit",
-    "test:recommendations": "tsc src/lib/recommendations/engine.ts --strict --noEmit --target es2022 --module esnext --moduleResolution node --skipLibCheck && node scripts/test-recommendations.mjs"
+    "test:recommendations": "tsc src/lib/recommendations/engine.ts --strict --noEmit --target es2022 --module esnext --moduleResolution node --skipLibCheck && node scripts/test-recommendations.mjs",
+    "test:brew-outcomes": "node scripts/test-brew-outcomes.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
