@@ -1,0 +1,35 @@
+name: Quality checks
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  application:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+      # Build-only placeholders. Never connect tests to the production database.
+      NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: build-only-not-a-production-key
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Brew outcome tests
+        run: npm run test:brew-outcomes
+      - name: Existing unit and recommendation tests
+        run: npm test
+      - name: Application typecheck
+        run: npm run typecheck
+      - name: Next.js production build
+        run: npm run build
