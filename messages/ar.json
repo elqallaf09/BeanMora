@@ -771,7 +771,8 @@
       "Qatar": "قطر",
       "Bahrain": "البحرين",
       "Oman": "عُمان"
-    }
+    },
+    "comparePrices": "مقارنة الأسعار"
   },
   "productDetail": {
     "productPage": "زيارة صفحة المنتج",
