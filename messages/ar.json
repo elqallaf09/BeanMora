@@ -569,7 +569,10 @@
     "typeNewRecipeFromFollowed": "نشر وصفة جديدة",
     "typeVerificationApproved": "تم توثيق وصفتك",
     "typeXbloomSyncStatus": "تحديث مزامنة xBloom",
-    "typeSavedRecipeUpdated": "تم تحديث وصفة قمت بحفظها"
+    "typeSavedRecipeUpdated": "تم تحديث وصفة قمت بحفظها",
+    "typeProductPriceDrop": "انخفض سعر منتج تراقبه",
+    "typeProductBackInStock": "عاد منتج تراقبه إلى المخزون",
+    "typeProductSoldOut": "نفد منتج تراقبه من المخزون"
   },
   "roasterProfile": {
     "notFoundTitle": "لم يتم العثور على هذا المحمّص",

@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { Bell, Heart, MessageCircle, Sparkles, UserPlus, Zap } from "lucide-react";
+import { Bell, Heart, MessageCircle, Sparkles, UserPlus, Zap, BadgeDollarSign, PackageCheck, PackageX } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "@/i18n/navigation";
@@ -22,6 +22,9 @@ const TYPE_ICON: Record<string, LucideIcon> = {
   verification_approved: Sparkles,
   xbloom_sync_status: Zap,
   saved_recipe_updated: Sparkles,
+  product_price_drop: BadgeDollarSign,
+  product_back_in_stock: PackageCheck,
+  product_sold_out: PackageX,
 };
 
 const TYPE_KEY: Record<string, string> = {
@@ -34,6 +37,9 @@ const TYPE_KEY: Record<string, string> = {
   verification_approved: "notificationsPage.typeVerificationApproved",
   xbloom_sync_status: "notificationsPage.typeXbloomSyncStatus",
   saved_recipe_updated: "notificationsPage.typeSavedRecipeUpdated",
+  product_price_drop: "notificationsPage.typeProductPriceDrop",
+  product_back_in_stock: "notificationsPage.typeProductBackInStock",
+  product_sold_out: "notificationsPage.typeProductSoldOut",
 };
 
 function targetHref(n: AnyRow): string {
@@ -42,6 +48,7 @@ function targetHref(n: AnyRow): string {
   if (n.entity_type === "profile" && n.actor?.username) return `/profile/${n.actor.username}`;
   if (n.type === "follow" && n.actor?.username) return `/profile/${n.actor.username}`;
   if (n.entity_type === "xbloom_sync_job") return "/xbloom";
+  if (n.entity_type === "roasted_product" && n.entity_id) return `/products/${n.entity_id}`;
   return "/community";
 }
 
