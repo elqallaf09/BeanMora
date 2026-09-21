@@ -3,6 +3,7 @@ import { Coffee, ExternalLink } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { localizedField } from "@/lib/localized";
 import { RichEmptyState } from "@/components/coffee/empty-states";
+import { Link } from "@/i18n/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -52,7 +53,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
       const name = localizedField(p, "name", locale);
       const roaster = p.roaster ? localizedField(p.roaster, "name", locale) : null;
       return <article key={p.id} className="rounded-3xl border border-[var(--color-border,#ece1d3)] bg-[var(--color-surface)] p-5 shadow-sm">
-        <div className="flex items-start justify-between gap-3"><div><p className="text-xs font-semibold text-[var(--color-copper)]">{roaster}</p><h2 className="mt-1 text-lg font-bold text-[var(--color-espresso)]">{name}</h2></div><span className="rounded-full bg-[var(--color-surface-muted,#f6f0e8)] px-2.5 py-1 text-xs">{t(`status.${p.status}`)}</span></div>
+        <div className="flex items-start justify-between gap-3"><div><p className="text-xs font-semibold text-[var(--color-copper)]">{roaster}</p><h2 className="mt-1 text-lg font-bold text-[var(--color-espresso)]"><Link href={`/products/${p.slug}`}>{name}</Link></h2></div><span className="rounded-full bg-[var(--color-surface-muted,#f6f0e8)] px-2.5 py-1 text-xs">{t(`status.${p.status}`)}</span></div>
         <p className="mt-3 text-sm text-[var(--color-muted-text)]">{[p.lot?.origin_country,p.lot?.origin_region,p.lot?.process].filter(Boolean).join(" · ") || t("originUnknown")}</p>
         {p.flavor_notes_on_bag?.length ? <p className="mt-2 text-sm">{p.flavor_notes_on_bag.slice(0,4).join(" · ")}</p> : null}
         <div className="mt-4 flex items-end justify-between gap-3"><div>{latestPrice ? <p className="text-lg font-bold">{Number(latestPrice.price).toLocaleString(locale)} {latestPrice.currency}</p> : <p className="text-xs text-[var(--color-muted-text)]">{t("priceUnknown")}</p>}<p className="text-xs text-[var(--color-muted-text)]">{p.weight_grams ? `${p.weight_grams} g` : ""}</p></div>
