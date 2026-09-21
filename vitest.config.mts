@@ -2,7 +2,9 @@ import { defineConfig } from 'vitest/config';
 import { fileURLToPath } from 'node:url';
 
 export default defineConfig({
-  esbuild: { jsx: 'automatic' },
+  // Next keeps JSX for SWC; tests must transform it before import analysis.
+  // Vite 8 uses Oxc, so the former esbuild-only override no longer applies.
+  oxc: { jsx: { runtime: 'automatic' } },
   test: {
     environment: 'jsdom',
     globals: true,
