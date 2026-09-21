@@ -24,10 +24,13 @@ async function guest(page: Page, locale: string) {
   await page.getByRole('button', {name: locale === 'ar' ? 'الدخول كضيف' : 'Continue as guest', exact: true}).click();
   await expect(page).toHaveURL(new RegExp(`/${locale}/home$`));
   await expect(page.locator('main')).toBeVisible();
-  // The next step deliberately performs a full document navigation. Drain the
-  // local fixture's RSC prefetch first: WebKit reports cancelled document fetches
-  // as access-control errors. Do not filter or suppress real page errors.
-  await page.waitForLoadState('networkidle');
+}
+async function followLink(page: Page, href: string) {
+  // Exercise the user's actual SPA link. A hard page.goto while home is still
+  // prefetching unloads its document and creates WebKit cancelled-fetch errors.
+  // Keep the pageerror assertion intact; no runtime errors are filtered out.
+  await page.locator(`a[href="${href}"]:visible`).first().click();
+  await expect(page).toHaveURL(`http://127.0.0.1:3000${href}`);
 }
 for (const locale of ['ar', 'en'] as const) {
   const m = locale === 'ar' ? ar : en;
@@ -57,7 +60,7 @@ for (const locale of ['ar', 'en'] as const) {
   });
   test(`${locale}: guest recommendations filters and mobile navigation`, async ({ page }) => {
     await guest(page,locale);
-    await page.goto(`/${locale}/recommendations`);
+    await followLink(page,`/${locale}/recommendations`);
     await expect(page.getByRole('heading',{name:rec.title,exact:true})).toBeVisible();
     await expect(page.getByText(rec.noCoffee,{exact:true})).toBeVisible();
     await page.waitForLoadState('networkidle');
@@ -76,7 +79,9 @@ for (const locale of ['ar', 'en'] as const) {
   });
   test(`${locale}: skipped timer has no invented duration or ratings and guest cannot save`, async ({ page }) => {
     await guest(page,locale);
-    await page.goto(`/${locale}/v60/brew`);
+    await followLink(page,`/${locale}/v60`);
+    await expect(page.getByRole('heading',{name:m.v60.heroTitle,exact:true})).toBeVisible();
+    await followLink(page,`/${locale}/v60/brew`);
     await page.getByRole('button',{name:m.v60.controlsSkip,exact:true}).click();
     await page.getByRole('button',{name:m.v60.feedbackTitle,exact:true}).click();
     await expect(page.getByText(brew.skippedTime,{exact:true})).toBeVisible();
