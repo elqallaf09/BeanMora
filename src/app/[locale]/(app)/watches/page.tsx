@@ -1,0 +1,13 @@
+import { getLocale, getTranslations } from "next-intl/server";
+import { redirect } from "@/i18n/navigation";
+import { createClient } from "@/lib/supabase/server";
+import { Link } from "@/i18n/navigation";
+import { isGuestUser } from "@/lib/guest";
+export const dynamic="force-dynamic";
+export default async function WatchesPage(){
+ const locale=await getLocale();const t=await getTranslations("watches");const supabase=await createClient();const {data:{user}}=await supabase.auth.getUser();if(!user||isGuestUser(user))redirect({href:"/login",locale});
+ const {data:watches}=await supabase.from("product_watches").select("id,roasted_product_id,alert_price_drop,alert_back_in_stock,alert_sold_out,created_at").eq("user_id",user!.id).order("created_at",{ascending:false});
+ const ids=(watches??[]).map((w:any)=>w.roasted_product_id);const {data:products}=ids.length?await supabase.from("roasted_products").select("id,slug,name_ar,name_en,status,weight_grams,roaster:roasters(name_ar,name_en),prices:product_prices(price,currency,recorded_at)").in("id",ids):{data:[] as any[]};const map=new Map((products??[]).map((p:any)=>[p.id,p]));
+ return <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6"><h1 className="text-2xl font-bold">{t("title")}</h1><p className="mt-2 text-sm text-[var(--color-muted-text)]">{t("lede")}</p>
+ <div className="mt-6 grid gap-3">{!watches?.length?<p className="rounded-2xl border p-5 text-sm">{t("empty")}</p>:watches.map((w:any)=>{const p:any=map.get(w.roasted_product_id);const latest=p?[...(p.prices??[])].sort((a:any,b:any)=>new Date(b.recorded_at).getTime()-new Date(a.recorded_at).getTime())[0]:null;return <article key={w.id} className="rounded-2xl border bg-[var(--color-surface)] p-5"><div className="flex flex-wrap justify-between gap-3"><div><h2 className="font-semibold">{p?<Link href={`/products/${p.slug}`}>{locale==="ar"?(p.name_ar||p.name_en):(p.name_en||p.name_ar)}</Link>:w.roasted_product_id}</h2><p className="mt-1 text-xs text-[var(--color-muted-text)]">{p?.status||"—"}{latest?` · ${Number(latest.price).toLocaleString(locale)} ${latest.currency}`:""}</p></div><div className="flex flex-wrap gap-1 text-xs">{w.alert_price_drop?<span className="rounded-full border px-2 py-1">{t("priceDrop")}</span>:null}{w.alert_back_in_stock?<span className="rounded-full border px-2 py-1">{t("backStock")}</span>:null}{w.alert_sold_out?<span className="rounded-full border px-2 py-1">{t("soldOut")}</span>:null}</div></div></article>})}</div></div>;
+}
