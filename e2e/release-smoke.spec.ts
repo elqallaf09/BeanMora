@@ -7,11 +7,10 @@ import recAr from '../messages/recommendations/ar.json';
 import recEn from '../messages/recommendations/en.json';
 
 const errors = new WeakMap<Page, string[]>();
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, context }) => {
   errors.set(page, []);
   page.on('pageerror', error => errors.get(page)!.push(error.message));
-  // A browser test must not accidentally hit production, analytics or a third party.
-  await page.route('**/*', route => {
+  await context.route('**/*', route => {
     const url = new URL(route.request().url());
     return url.hostname === '127.0.0.1' || ['data:', 'blob:'].includes(url.protocol) ? route.continue() : route.abort();
   });
@@ -24,6 +23,11 @@ async function guest(page: Page, locale: string) {
   await page.goto(`/${locale}/login`);
   await page.getByRole('button', {name: locale === 'ar' ? 'الدخول كضيف' : 'Continue as guest', exact: true}).click();
   await expect(page).toHaveURL(new RegExp(`/${locale}/home$`));
+  await expect(page.locator('main')).toBeVisible();
+  // The next step deliberately performs a full document navigation. Drain the
+  // local fixture's RSC prefetch first: WebKit reports cancelled document fetches
+  // as access-control errors. Do not filter or suppress real page errors.
+  await page.waitForLoadState('networkidle');
 }
 for (const locale of ['ar', 'en'] as const) {
   const m = locale === 'ar' ? ar : en;
@@ -56,14 +60,19 @@ for (const locale of ['ar', 'en'] as const) {
     await page.goto(`/${locale}/recommendations`);
     await expect(page.getByRole('heading',{name:rec.title,exact:true})).toBeVisible();
     await expect(page.getByText(rec.noCoffee,{exact:true})).toBeVisible();
+    await page.waitForLoadState('networkidle');
     await page.locator('select[name="method"]').selectOption('v60');
     await page.getByRole('button',{name:rec.apply,exact:true}).click();
     await expect(page).toHaveURL(/method=v60/);
     await expect(page.locator('select[name="method"]')).toHaveValue('v60');
     await noOverflow(page);
-    await page.goto(`/${locale}/admin/import`);
-    await expect(page.locator('body')).not.toContainText('Security test fixture');
-    await expect(page.getByRole('heading',{name:'Data import review',exact:true})).toHaveCount(0);
+    const denied = await page.context().newPage();
+    denied.on('pageerror', error => errors.get(page)!.push(error.message));
+    try {
+      await denied.goto(`/${locale}/admin/import`);
+      await expect(denied.getByRole('heading',{name:'404',exact:true})).toBeVisible();
+    } finally { await denied.close(); }
+    await page.waitForLoadState('networkidle');
   });
   test(`${locale}: skipped timer has no invented duration or ratings and guest cannot save`, async ({ page }) => {
     await guest(page,locale);
@@ -81,9 +90,11 @@ for (const locale of ['ar', 'en'] as const) {
     let rpcRequests = 0;
     page.on('request', request => { if(request.url().includes('/rest/v1/rpc/')) rpcRequests++; });
     await page.getByRole('button',{name:brew.save,exact:true}).click();
-    await expect(page.getByRole('alert')).toHaveText(brew.errors.auth);
+    // Next also has a route-announcer role=alert; assert the form's own alert.
+    await expect(page.locator('form').getByRole('alert')).toHaveText(brew.errors.auth);
     expect(rpcRequests).toBe(0);
     await expect(page.getByRole('heading',{name:brew.saved,exact:true})).toHaveCount(0);
     await noOverflow(page);
+    await page.waitForLoadState('networkidle');
   });
 }
