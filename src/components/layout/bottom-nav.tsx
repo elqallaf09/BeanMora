@@ -10,8 +10,6 @@ export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    // Floating pill nav rather than a full-width bordered bar — the bar
-    // reads as browser chrome; the pill reads as part of the product.
     <nav
       aria-label={t("nav.home")}
       className="fixed inset-x-0 bottom-0 z-40 px-3 pb-3 md:hidden"
@@ -25,16 +23,18 @@ export function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
+              aria-label={t(item.labelKey)}
+              title={t(item.labelKey)}
               aria-current={active ? "page" : undefined}
               className={cn(
-                "relative flex min-w-[58px] flex-1 flex-col items-center gap-1 rounded-[20px] py-2 text-[10px] font-bold transition-all duration-300",
+                "relative flex min-h-11 min-w-0 flex-1 flex-col items-center gap-1 rounded-[20px] py-2 text-[10px] font-bold transition-all duration-300",
                 active
                   ? "bg-[var(--color-caramel)] text-[var(--color-espresso)] shadow-warm-md"
                   : "text-white/60 hover:text-white",
               )}
             >
               <Icon className="h-[18px] w-[18px]" aria-hidden />
-              <span>{t(item.labelKey)}</span>
+              <span className="max-w-full truncate px-0.5">{t(item.labelKey)}</span>
             </Link>
           );
         })}

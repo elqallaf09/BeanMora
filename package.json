@@ -7,10 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest run",
+    "test": "vitest run && npm run test:recommendations",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:recommendations": "tsc src/lib/recommendations/engine.ts --strict --noEmit --target es2022 --module esnext --moduleResolution node --skipLibCheck && node scripts/test-recommendations.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
