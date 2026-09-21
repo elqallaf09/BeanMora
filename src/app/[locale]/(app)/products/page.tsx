@@ -42,7 +42,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
     <header className="mb-6">
       <p className="type-eyebrow text-[var(--color-copper)]">{t("eyebrow")}</p>
       <h1 className="type-headline mt-2 text-[var(--color-espresso)]">{t("title")}</h1>
-      <p className="mt-2 max-w-2xl text-sm text-[var(--color-muted-text)]">{t("lede")}</p>
+      <p className="mt-2 max-w-2xl text-sm text-[var(--color-muted-text)]">{t("lede")}</p><Link href="/products/compare" className="mt-3 inline-flex rounded-full border px-4 py-2 text-xs font-semibold">{t("comparePrices")}</Link>
     </header>
     <form className="mb-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-6">
       <input name="q" defaultValue={q} placeholder={t("search")} className="h-11 rounded-xl border bg-[var(--color-surface)] px-3 lg:col-span-2" />
