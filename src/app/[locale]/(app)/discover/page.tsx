@@ -55,6 +55,7 @@ export default async function DiscoverPage({
   const categories = [
     { key: "beans", label: t("discover.categoryBeans"), icon: Coffee },
     { key: "roasters", label: t("discover.categoryRoasters"), icon: Users },
+    { key: "products", label: t("discover.categoryProducts"), icon: Coffee },
     { key: "recipes", label: t("discover.categoryRecipes"), icon: Sparkles },
     { key: "equipment", label: t("discover.categoryEquipment"), icon: Wrench },
   ];
@@ -87,6 +88,10 @@ export default async function DiscoverPage({
     const { data, error } = await query;
     results = data ?? [];
     resultsError = error?.message ? t("errors.supabase") : null;
+  } else if (category === "products") {
+    // Rich Phase 2 catalog lives on its dedicated page to preserve product provenance and price history.
+    const { redirect } = await import("@/i18n/navigation");
+    redirect({ href: `/products${q ? `?q=${encodeURIComponent(q)}` : ""}`, locale });
   } else if (category === "recipes") {
     let query = supabase
       .from("recipes")
