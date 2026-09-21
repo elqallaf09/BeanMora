@@ -737,5 +737,29 @@
     "approved": "Approved — draft recipe created",
     "rejected": "Rejected",
     "legalNote": "Only brew parameters are stored. Source text, photography and video are never copied — every ingested recipe links back to and credits its original. Platforms whose terms prohibit automated collection are excluded by design."
+  },
+  "products": {
+    "eyebrow": "BeanMora catalog",
+    "title": "Roasted coffee products",
+    "lede": "Discover reviewed coffee bags from roasters with origin, price, availability, and data provenance.",
+    "search": "Search product name",
+    "allMethods": "All brew methods",
+    "espresso": "Espresso",
+    "apply": "Search",
+    "error": "Could not load the product catalog",
+    "empty": "No matching reviewed products",
+    "emptyHint": "Change your search or filters. Products pending review stay private.",
+    "originUnknown": "Origin not specified",
+    "priceUnknown": "Price unavailable",
+    "buy": "View product",
+    "confidence": "Data confidence",
+    "status": {
+      "available": "Available",
+      "low_stock": "Low stock",
+      "sold_out": "Sold out",
+      "seasonal": "Seasonal",
+      "archived": "Archived",
+      "unknown": "Unknown"
+    }
   }
 }
