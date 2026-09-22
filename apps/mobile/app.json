@@ -2,12 +2,13 @@
   "expo": {
     "name": "BeanMora",
     "slug": "beanmora-mobile",
+    "owner": "elqallaf09",
     "version": "0.1.0",
     "orientation": "default",
     "userInterfaceStyle": "light",
     "backgroundColor": "#F7F2E9",
     "ios": {"supportsTablet": true},
-    "android": {"predictiveBackGestureEnabled": false},
+    "android": {"package": "com.beanmora.mobile", "predictiveBackGestureEnabled": false},
     "web": {"bundler": "metro", "output": "single"}
   }
 }
