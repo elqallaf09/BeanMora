@@ -9,6 +9,7 @@
     "backgroundColor": "#F7F2E9",
     "ios": {"supportsTablet": true},
     "android": {"package": "com.beanmora.mobile", "predictiveBackGestureEnabled": false},
-    "web": {"bundler": "metro", "output": "single"}
+    "web": {"bundler": "metro", "output": "single"},
+    "extra": {"eas": {"projectId": "a3785113-b993-49fa-9986-e3dc96d63115"}}
   }
 }
