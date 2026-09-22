@@ -31,7 +31,7 @@ jobs:
           npm install --package-lock-only --ignore-scripts
           npm ci --ignore-scripts
           npm audit --audit-level=low
-          node -e "const x=require('xcode').project('tooling-smoke.pbxproj'); const id=x.generateUuid(); if(!/^[A-F0-9]{24}$/.test(id)) throw Error('xcode UUID compatibility failed'); console.log('xcode generateUuid compatible with patched uuid');"
+          node -e "const x=require('xcode').project('tooling-smoke.pbxproj'); x.hash={project:{objects:{}}}; const id=x.generateUuid(); if(!/^[A-F0-9]{24}$/.test(id)) throw Error('xcode UUID compatibility failed'); console.log('xcode generateUuid compatible with patched uuid');"
       - name: Commit only reviewed dependency manifests
         env:
           EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
