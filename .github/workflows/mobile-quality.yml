@@ -1,0 +1,42 @@
+name: Expo mobile checks
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: mobile-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  mobile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CI: '1'
+      EXPO_NO_TELEMETRY: '1'
+      EXPO_PUBLIC_SUPABASE_URL: https://mobilefixture.supabase.co
+      EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sb_publishable_isolated_test_fixture
+    defaults:
+      run:
+        working-directory: apps/mobile
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - run: npm install --global npm@11.19.1 --ignore-scripts
+      - run: npm ci
+      - run: npm audit --audit-level=high
+      - run: npm run typecheck
+      - run: npm test
+      - run: npx expo install --check
+      - run: npx expo-doctor@latest
+      - name: Bundle iOS, Android and web
+        run: npm run export
+      - name: Install isolated web-preview browser
+        run: npx playwright install --with-deps chromium
+      - name: Test React Native Web preview (not a physical-device test)
+        run: npx playwright test --config=playwright.config.ts

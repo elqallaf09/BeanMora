@@ -1,0 +1,36 @@
+{
+  "name": "beanmora-mobile",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.ts",
+  "scripts": {
+    "start": "expo start --go",
+    "android": "expo start --go --android",
+    "ios": "expo start --go --ios",
+    "web": "expo start --web",
+    "tunnel": "expo start --go --tunnel",
+    "setup": "node scripts/setup.mjs",
+    "sync:core": "node scripts/sync-core.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "node scripts/sync-core.mjs --check && node scripts/check-mobile.mjs",
+    "export": "expo export --platform all"
+  },
+  "dependencies": {
+    "expo": "~57.0.0",
+    "expo-crypto": "~57.0.1",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-native": "0.86.0",
+    "react-native-web": "0.21.0",
+    "react-native-safe-area-context": "~5.7.0",
+    "react-native-url-polyfill": "2.0.0",
+    "@supabase/supabase-js": "2.57.4"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "typescript": "5.9.3",
+    "@playwright/test": "1.55.1"
+  },
+  "engines": {"node": ">=22.16.0"},
+  "packageManager": "npm@11.19.1"
+}
