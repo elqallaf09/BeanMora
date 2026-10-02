@@ -26,7 +26,12 @@ test('Arabic search is diacritic insensitive', () => assert.equal(searchText('ق
 test('mobile never imports Next or web-only UI', () => {
   for (const p of ['App.tsx','src/data.ts','src/client.ts','src/OutcomeForm.tsx']) assert.doesNotMatch(get(p), /from ['"]next|service_role\s*[:=]|dangerouslySetInnerHTML/);
 });
-test('account session is not persisted in Expo Go', () => assert.match(get('src/client.ts'), /persistSession:\s*false/));
+test('installed mobile builds persist the authenticated session', () => {
+  const client = get('src/client.ts');
+  assert.match(client, /persistSession:\s*true/);
+  assert.match(client, /autoRefreshToken:\s*true/);
+  assert.match(client, /detectSessionInUrl:\s*false/);
+});
 test('public reads enforce publication, review and recipe visibility', () => {
   const code = get('src/data.ts');
   assert.match(code, /eq\('requires_review', false\)/); assert.match(code, /eq\('is_published', true\)/); assert.match(code, /eq\('visibility', 'public'\)/);
