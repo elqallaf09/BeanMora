@@ -25,6 +25,13 @@ interface OwnAttempt { recipe_id: string; outcome: string | null }
 interface Inventory { roasted_product_id: string | null; legacy_bean_id: string | null }
 const one = <T,>(v: T | T[] | null): T | null => Array.isArray(v) ? v[0] ?? null : v;
 const label = (v: Name | null, ar: boolean) => (ar ? v?.name_ar || v?.name_en : v?.name_en || v?.name_ar) ?? '';
+const inferredFlavors = (row: CoffeeRow): string[] => {
+  const direct = row.flavor_notes_on_bag ?? row.flavors?.map(f => f.flavor) ?? [];
+  if (direct.length) return direct;
+  const text = row.description_en ?? row.description_ar ?? row.short_description ?? '';
+  const m = text.match(/(?:tasting notes|flavor notes|notes)(?: per [^:]+)?:\s*([^.;]+)/i);
+  return m?.[1] ? m[1].split(/,| and /i).map(x => x.trim()).filter(Boolean).slice(0, 5) : [];
+};
 const amount = (v: number | string | null): number | null => v !== null && Number.isFinite(Number(v)) && Number(v) > 0 ? Number(v) : null;
 async function read<T>(query: PromiseLike<{ data: unknown; error: unknown }>): Promise<{ rows: T[]; failed: boolean; limited: boolean }> {
   try {
@@ -54,7 +61,7 @@ export async function loadData(db: SupabaseClient, locale: 'ar' | 'en', userId: 
     id: row.id, slug: row.slug, kind, name: label(row, ar), roaster: label(one(row.roaster), ar),
     beanId: kind === 'bean' ? row.id : row.legacy_bean_id ?? null, reviewed: row.requires_review === false,
     published: kind === 'product' || row.is_published === true, methods: (['v60','espresso','xbloom'] as const).filter(m => row[`suitable_for_${m}`]),
-    flavors: row.flavor_notes_on_bag ?? row.flavors?.map(f => f.flavor) ?? [], roast: row.roast_level, status: row.status ?? null, verifiedAt: row.last_verified_at,
+    flavors: inferredFlavors(row), roast: row.roast_level, status: row.status ?? null, verifiedAt: row.last_verified_at,
     description: (ar ? row.description_ar || row.description_en : row.description_en || row.description_ar) || row.short_description || '',
     origin: row.origin_country ?? '', sourceUrl: safeUrl(row.source_url), logoUrl: safeUrl(one(row.roaster)?.logo_url), imageUrl: safeUrl(row.image_url) ?? safeUrl(one(row.roaster)?.logo_url),
   });
