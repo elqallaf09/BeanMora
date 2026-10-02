@@ -1,7 +1,8 @@
 import { useContext, useEffect, useRef, useState, type ReactNode } from 'react';
-import { Animated, AppState, BackHandler, FlatList, ImageBackground, Image, KeyboardAvoidingView, Linking, Platform, Pressable, ScrollView, StatusBar, View, useWindowDimensions } from 'react-native';
+import { Animated, AppState, BackHandler, FlatList, ImageBackground, KeyboardAvoidingView, Linking, Platform, Pressable, ScrollView, StatusBar, View, useWindowDimensions } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import type { Session } from '@supabase/supabase-js';
+import { Image as ExpoImage } from 'expo-image';
 import { configured, supabase } from './src/client';
 import { loadData, type Bundle, type CoffeeItem, type RecipeItem } from './src/data';
 import { recommendCoffees, recommendRecipes, METHODS, type Method } from './src/core/engine';
@@ -92,7 +93,7 @@ function DetailView({ detail, record }: { detail: Detail; record: () => void }) 
     await openVerified(c.sourceUrl);
   }
   return <ScrollView contentContainerStyle={styles.content}>
-    <View style={styles.hero}>{(c?.imageUrl || r?.coverUrl) ? <Image source={{ uri: c?.imageUrl ?? r?.coverUrl ?? '' }} style={styles.detailImage} resizeMode="cover" onError={() => {}} /> : <View style={styles.imageFallback}><Txt style={{ fontSize: 38 }}>☕</Txt></View>}<Txt heading style={styles.title}>{c?.name ?? r?.title}</Txt>
+    <View style={styles.hero}>{(c?.imageUrl || r?.coverUrl) ? <ExpoImage source={{ uri: c?.imageUrl ?? r?.coverUrl ?? '' }} style={styles.detailImage} contentFit="cover" cachePolicy="memory-disk" transition={220} /> : <View style={styles.imageFallback}><Txt style={{ fontSize: 38 }}>☕</Txt></View>}<Txt heading style={styles.title}>{c?.name ?? r?.title}</Txt>
       <Txt style={styles.muted}>{c?.roaster ?? (r ? methods[locale][r.method] : '')}</Txt></View>
     {c ? <>
       <View style={styles.detailMetaRow}>
@@ -249,7 +250,7 @@ function Shell() {
         ListEmptyComponent={<Txt>{data?.warnings ? t.partial : t.empty}</Txt>}
         ListFooterComponent={<View style={{ gap: 8 }}>{coffees.length > visibleCount ? <Action title={locale === 'ar' ? `عرض المزيد (${coffees.length - visibleCount})` : `Load more (${coffees.length - visibleCount})`} onPress={() => setVisibleCount(n => n + 30)} selected /> : null}<Action title={t.refresh} onPress={refresh} /></View>}
         renderItem={({ item, index }) => <MotionItem index={index}><Pressable accessibilityRole="button" accessibilityLabel={item.name} onPress={() => setDetail({ type: 'coffee', item })} style={[styles.card, tablet && styles.gridCard]}>
-          {item.imageUrl ? <Image source={{ uri: item.imageUrl }} style={styles.cardImage} resizeMode="cover" /> : <View style={styles.cardImageFallback}><Txt style={{ fontSize: 28 }}>☕</Txt></View>}
+          {item.imageUrl ? <ExpoImage source={{ uri: item.imageUrl }} style={styles.cardImage} contentFit="cover" cachePolicy="memory-disk" transition={180} recyclingKey={item.id} /> : <View style={styles.cardImageFallback}><Txt style={{ fontSize: 28 }}>☕</Txt></View>}
           <View style={styles.beanCardBody}>
             <View style={{flex:1,gap:3}}><Txt heading style={styles.beanCardTitle}>{item.name}</Txt><Txt style={styles.muted}>{item.roaster}</Txt></View>
             <Txt style={styles.favoriteGlyph}>♡</Txt>
@@ -261,7 +262,7 @@ function Shell() {
         ListEmptyComponent={<Txt>{data?.warnings ? t.partial : t.empty}</Txt>}
         ListFooterComponent={<View style={{ gap: 8 }}>{recipes.length > visibleCount ? <Action title={locale === 'ar' ? `عرض المزيد (${recipes.length - visibleCount})` : `Load more (${recipes.length - visibleCount})`} onPress={() => setVisibleCount(n => n + 30)} selected /> : null}<Action title={t.refresh} onPress={refresh} /></View>}
         renderItem={({ item, index }) => <MotionItem index={index}><Pressable accessibilityRole="button" accessibilityLabel={item.title} onPress={() => setDetail({ type: 'recipe', item })} style={[styles.card, tablet && styles.gridCard]}>
-          {item.coverUrl ? <Image source={{ uri: item.coverUrl }} style={styles.cardImage} resizeMode="cover" /> : <View style={styles.cardImageFallback}><Txt style={{ fontSize: 28 }}>☕</Txt></View>}
+          {item.coverUrl ? <ExpoImage source={{ uri: item.coverUrl }} style={styles.cardImage} contentFit="cover" cachePolicy="memory-disk" transition={180} recyclingKey={item.id} /> : <View style={styles.cardImageFallback}><Txt style={{ fontSize: 28 }}>☕</Txt></View>}
           <Txt style={styles.muted}>{methods[locale][item.method]}</Txt><Txt heading style={styles.subtitle}>{item.title}</Txt><Txt>{t.dose}: {item.dose ?? t.unknown} · {t.water}: {item.water ?? t.unknown}</Txt>
         </Pressable></MotionItem>} />}
     </>}
