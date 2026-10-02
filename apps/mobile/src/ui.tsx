@@ -56,4 +56,9 @@ export const styles = StyleSheet.create({
   label: { fontSize: 13, fontWeight: '600', marginTop: 5 },
   warning: { color: '#70431D', fontSize: 13, backgroundColor: '#F6E8D3', padding: 12, borderRadius: 12 },
   error: { color: '#9B2929', padding: 12, fontSize: 14 },
+  loginHero: { alignItems: 'center', paddingVertical: 26, gap: 5 },
+  loginMark: { width: 74, height: 74, borderRadius: 37, backgroundColor: '#4A2F23', alignItems: 'center', justifyContent: 'center', marginBottom: 4 },
+  loginPanel: { backgroundColor: '#FFFCF7', padding: 22, borderRadius: 28, borderWidth: 1, borderColor: '#E4D8C7', gap: 14, shadowColor: '#000', shadowOpacity: 0.07, shadowRadius: 18, elevation: 4 },
+  socialRow: { flexDirection: 'row', gap: 10, justifyContent: 'center', marginTop: 4 },
+  socialButton: { width: 64, height: 48, borderRadius: 16, borderWidth: 1, borderColor: '#E0D4C4', alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF' },
 });
