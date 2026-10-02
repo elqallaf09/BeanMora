@@ -100,7 +100,7 @@ function Shell() {
   const [session, setSession] = useState<Session | null>(null); const userId = session && !session.user.is_anonymous ? session.user.id : null;
   const [tab, setTab] = useState<Tab>('beans'); const [method, setMethod] = useState<Method>(); const [search, setSearch] = useState('');
   const [detail, setDetail] = useState<Detail | null>(null); const [recording, setRecording] = useState(false);
-  const [bundle, setBundle] = useState<Loaded | null>(null); const [visibleCount, setVisibleCount] = useState(30); const [refreshing, setRefreshing] = useState(false); const [revision, setRevision] = useState(0);
+  const [bundle, setBundle] = useState<Loaded | null>(null); const [homeMode, setHomeMode] = useState<'all'|'new'|'xbloom'>('all'); const [visibleCount, setVisibleCount] = useState(30); const [refreshing, setRefreshing] = useState(false); const [revision, setRevision] = useState(0);
   useEffect(() => {
     if (!supabase) return;
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, value) => { setSession(value); });
@@ -132,7 +132,8 @@ function Shell() {
   const data = bundle?.owner === userId && bundle.locale === locale && bundle.method === method ? bundle : null;
   const filter = searchText(search);
   const coffees = data?.coffees.filter(c => c.reviewed && c.published && (!method || c.methods.includes(method)) && searchText(c.name + ' ' + c.roaster + ' ' + c.flavors.join(' ')).includes(filter)) ?? [];
-  const recipes = data?.recipes.filter(r => r.public && searchText(r.title + ' ' + r.flavors.join(' ')).includes(filter)) ?? [];
+  const recipesAll = data?.recipes.filter(r => r.public && searchText(r.title + ' ' + r.flavors.join(' ')).includes(filter)) ?? [];
+  const recipes = homeMode === 'xbloom' ? recipesAll.filter(r => r.method === 'xbloom') : homeMode === 'new' ? recipesAll.slice(0, 40) : recipesAll;
   const rankedCoffee = data ? recommendCoffees(data.coffees, data.profile, Date.now(), method) : [];
   const rankedRecipes = data ? recommendRecipes(data.recipes, data.profile, method) : [];
   function back() { if (recording) setRecording(false); else setDetail(null); }
@@ -158,6 +159,11 @@ function Shell() {
           <View style={styles.beanOrb}><Txt style={{ fontSize: tablet ? 42 : 30 }}>☕</Txt></View>
         </View>
         <Txt heading style={styles.subtitle}>{tab === 'forYou' ? t.forYou : t.tagline}</Txt>
+        {tab === 'recipes' ? <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.row}>
+          <Action title={locale === 'ar' ? 'الكل' : 'All'} selected={homeMode === 'all'} onPress={() => setHomeMode('all')} />
+          <Action title={locale === 'ar' ? 'الجديد' : 'New'} selected={homeMode === 'new'} onPress={() => setHomeMode('new')} />
+          <Action title="xBloom" selected={homeMode === 'xbloom'} onPress={() => { setHomeMode('xbloom'); setMethod('xbloom'); }} />
+        </ScrollView> : null}
         <Txt style={styles.muted}>{t.preview}</Txt>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={[styles.row, { paddingVertical: 7 }]}>
           <Action title={t.all} selected={!method} onPress={() => setMethod(undefined)} />
@@ -167,7 +173,10 @@ function Shell() {
         {data?.warnings || (!data && !refreshing) ? <Txt style={styles.warning}>{t.partial}</Txt> : null}
         {data?.limited ? <Txt style={styles.warning}>{t.limited}</Txt> : null}
       </View>
-      {refreshing && !data ? <View style={styles.content}><ActivityIndicator color="#865735" /><Txt>{t.loading}</Txt></View>
+      {refreshing && !data ? <View style={styles.content}>
+        {[0,1,2].map(i => <Animated.View key={i} style={[styles.skeletonCard, { opacity: entrance }]}><View style={styles.skeletonImage}/><View style={styles.skeletonLineWide}/><View style={styles.skeletonLine}/></Animated.View>)}
+        <Txt>{t.loading}</Txt>
+      </View>
       : tab === 'forYou' ? <ScrollView contentContainerStyle={styles.content}>
         <Action title={t.refresh} onPress={refresh} />
         <Txt heading style={styles.subtitle}>{t.beans}</Txt>
