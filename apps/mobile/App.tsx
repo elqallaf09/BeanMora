@@ -177,10 +177,14 @@ function Shell() {
           <View style={styles.statCard}><Txt heading style={styles.statValue}>{data?.recipes.filter(r => r.method === 'xbloom').length ?? '—'}</Txt><Txt style={styles.muted}>xBloom</Txt></View>
         </View>
         <View style={styles.visualHero}>
-          <View style={{ flex: 1, gap: 6 }}><Txt heading style={styles.title}>{locale === 'ar' ? 'قهوتك، أذكى.' : 'Coffee, made smarter.'}</Txt><Txt style={styles.muted}>{locale === 'ar' ? 'اكتشف البن والوصفات المناسبة لمعداتك وذوقك.' : 'Discover beans and recipes matched to your gear and taste.'}</Txt></View>
+          <View style={{ flex: 1, gap: 8 }}>
+            <Txt heading style={[styles.title,{fontSize: tablet ? 34 : 28}]}>{locale === 'ar' ? 'اكتشف عالم القهوة.' : 'Discover the world of coffee.'}</Txt>
+            <Txt style={styles.muted}>{locale === 'ar' ? 'من الحبوب إلى الكوب، تجربة أفضل كل يوم.' : 'From bean to cup, a better experience every day.'}</Txt>
+            <View style={{alignSelf: locale === 'ar' ? 'flex-end' : 'flex-start'}}><Action title={locale === 'ar' ? 'استكشف الآن' : 'Explore now'} onPress={() => switchTab('beans')} selected /></View>
+          </View>
           <View style={styles.beanOrb}><Txt style={{ fontSize: tablet ? 42 : 30 }}>☕</Txt></View>
         </View>
-        <Txt heading style={styles.subtitle}>{tab === 'forYou' ? t.forYou : t.tagline}</Txt>
+        <View style={{flexDirection: locale === 'ar' ? 'row-reverse':'row',justifyContent:'space-between',alignItems:'center'}}><Txt heading style={styles.subtitle}>{tab === 'forYou' ? t.forYou : tab === 'beans' ? (locale === 'ar' ? 'أحدث الحبوب' : 'Latest beans') : t.tagline}</Txt>{tab === 'beans' ? <Txt style={styles.muted}>{locale === 'ar' ? 'عرض الكل ←' : 'View all →'}</Txt> : null}</View>
         {tab === 'recipes' ? <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.row}>
           <Action title={locale === 'ar' ? 'الكل' : 'All'} selected={homeMode === 'all'} onPress={() => setHomeMode('all')} />
           <Action title={locale === 'ar' ? 'الجديد' : 'New'} selected={homeMode === 'new'} onPress={() => setHomeMode('new')} />
