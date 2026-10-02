@@ -164,7 +164,7 @@ function Shell() {
       <Txt style={{ fontSize: 23, fontWeight: '800' }}>BeanMora</Txt>
       <View style={styles.row}>{detail ? <Action title={t.back} onPress={back} /> : null}<Action title={locale === 'ar' ? 'English' : 'العربية'} onPress={resetLanguage} /></View>
     </View>
-    <Animated.View style={{ flex: 1, opacity: Animated.multiply(entrance, tabMotion), transform: [{ translateY: entrance.interpolate({ inputRange: [0, 1], outputRange: [14, 0] }) }, { translateX: tabMotion.interpolate({ inputRange: [0, 1], outputRange: [10, 0] }) }] }}><KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <Animated.View style={{ flex: 1, opacity: Animated.multiply(entrance, tabMotion), transform: [{ translateY: entrance.interpolate({ inputRange: [0, 1], outputRange: [14, 0] }) }, { translateX: tabMotion.interpolate({ inputRange: [0, 1], outputRange: [0, 0] }) }] }}><KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
     {!configured ? <View style={styles.content}><Txt heading style={styles.title}>{t.setup}</Txt><Txt>{t.setupNote}</Txt></View>
     : recording && detail?.type === 'recipe' && userId ? <OutcomeForm key={userId + detail.item.id} userId={userId} recipe={detail.item} done={() => { setRecording(false); setDetail(null); setTab('forYou'); refresh(); }} />
     : detail ? <DetailView key={detail.item.id + locale} detail={detail} record={startRecord} />
