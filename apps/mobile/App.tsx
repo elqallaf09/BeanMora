@@ -92,7 +92,7 @@ function DetailView({ detail, record }: { detail: Detail; record: () => void }) 
     await openVerified(c.sourceUrl);
   }
   return <ScrollView contentContainerStyle={styles.content}>
-    <View style={styles.hero}>{(c?.imageUrl || r?.coverUrl) ? <Image source={{ uri: c?.imageUrl ?? r?.coverUrl ?? '' }} style={styles.detailImage} resizeMode="cover" /> : <View style={styles.imageFallback}><Txt style={{ fontSize: 38 }}>☕</Txt></View>}<Txt heading style={styles.title}>{c?.name ?? r?.title}</Txt>
+    <View style={styles.hero}>{(c?.imageUrl || r?.coverUrl) ? <Image source={{ uri: c?.imageUrl ?? r?.coverUrl ?? '' }} style={styles.detailImage} resizeMode="cover" onError={() => {}} /> : <View style={styles.imageFallback}><Txt style={{ fontSize: 38 }}>☕</Txt></View>}<Txt heading style={styles.title}>{c?.name ?? r?.title}</Txt>
       <Txt style={styles.muted}>{c?.roaster ?? (r ? methods[locale][r.method] : '')}</Txt></View>
     {c ? <>
       <View style={styles.detailMetaRow}>
