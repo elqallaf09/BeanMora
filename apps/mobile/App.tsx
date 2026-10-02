@@ -39,17 +39,24 @@ function Account({ session, tablet = false }: { session: Session | null; tablet?
     } catch { setError(session ? t.logoutError : t.authError); }
     finally { inFlight.current = false; setBusy(false); }
   }
-  return <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.content, tablet && { maxWidth: 820, width: '100%', alignSelf: 'center' }]}>
-    <View style={styles.profileHero}><View style={styles.avatar}><Txt style={{ fontSize: 28, fontWeight: '800' }}>{(session?.user.email ?? 'B').slice(0,1).toUpperCase()}</Txt></View><View style={{ flex: 1 }}><Txt heading style={styles.title}>{t.account}</Txt><Txt style={styles.muted}>{session ? (t.profileNote) : t.existing}</Txt></View></View>
-    <Txt>{session?.user.email ?? t.guest}</Txt><Txt style={styles.muted}>{t.existing}</Txt>
-    {!session ? <>
-      <Field label={t.email} value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} autoComplete="email" editable={!busy} style={{ textAlign: 'left', writingDirection: 'ltr' }} />
-      <Field label={t.password} value={password} onChangeText={setPassword} secureTextEntry={!show} autoCapitalize="none" autoCorrect={false} autoComplete="current-password" editable={!busy} />
-      <Action title={show ? t.hide : t.show} onPress={() => setShow(v => !v)} />
-    </> : <Txt style={styles.muted}>{t.profileNote}</Txt>}
-    {error ? <Txt style={styles.error}>{error}</Txt> : null}
-    <Action title={session ? t.logout : t.login} onPress={() => void authenticate()} disabled={busy || (!session && (!email.trim() || !password))} selected />
-    <Txt style={styles.warning}>{t.authNote}</Txt>
+  return <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.content, tablet && { maxWidth: 760, width: '100%', alignSelf: 'center' }]}>
+    <View style={styles.loginHero}>
+      <View style={styles.loginMark}><Txt style={{fontSize:32}}>☕</Txt></View>
+      <Txt heading style={[styles.title,{textAlign:'center'}]}>BeanMora</Txt>
+      <Txt style={[styles.muted,{textAlign:'center'}]}>Good Coffee. Better Days.</Txt>
+      <Txt heading style={[styles.subtitle,{textAlign:'center',marginTop:8}]}>{session ? t.account : (useContext(Language)==='ar' ? 'مرحباً بك مجدداً' : 'Welcome back')}</Txt>
+    </View>
+    <View style={styles.loginPanel}>
+      <Txt style={styles.muted}>{session?.user.email ?? (useContext(Language)==='ar' ? 'سجل دخولك لمتابعة وصفاتك وحفظ حبوبك المفضلة.' : 'Sign in to follow recipes and save your favorite beans.')}</Txt>
+      {!session ? <>
+        <Field label={t.email} value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} autoComplete="email" editable={!busy} style={{ textAlign: 'left', writingDirection: 'ltr' }} />
+        <Field label={t.password} value={password} onChangeText={setPassword} secureTextEntry={!show} autoCapitalize="none" autoCorrect={false} autoComplete="current-password" editable={!busy} />
+        <Pressable onPress={() => setShow(v=>!v)}><Txt style={styles.muted}>{show ? t.hide : t.show}</Txt></Pressable>
+      </> : <Txt style={styles.muted}>{t.profileNote}</Txt>}
+      {error ? <Txt style={styles.error}>{error}</Txt> : null}
+      <Action title={session ? t.logout : t.login} onPress={() => void authenticate()} disabled={busy || (!session && (!email.trim() || !password))} selected />
+      {!session ? <View style={styles.socialRow}><View style={styles.socialButton}><Txt style={{fontWeight:'800'}}>G</Txt></View><View style={styles.socialButton}><Txt>✉</Txt></View></View> : null}
+    </View>
   </ScrollView>;
 }
 function MotionItem({ index, children }: { index: number; children: ReactNode }) {
