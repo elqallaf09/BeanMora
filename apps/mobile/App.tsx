@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, AppState, BackHandler, FlatList, KeyboardAvoidingView, Linking, Platform, Pressable, ScrollView, StatusBar, View } from 'react-native';
+import { ActivityIndicator, Animated, AppState, BackHandler, FlatList, Image, KeyboardAvoidingView, Linking, Platform, Pressable, ScrollView, StatusBar, View, useWindowDimensions } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import type { Session } from '@supabase/supabase-js';
 import { configured, supabase } from './src/client';
@@ -27,7 +27,13 @@ function Account({ session }: { session: Session | null }) {
         if (result.error) setError(t.logoutError);
       } else {
         const result = await supabase.auth.signInWithPassword({ email: email.trim(), password });
-        if (result.error || !result.data.session) setError(t.authError);
+        if (result.error || !result.data.session) {
+          const message = result.error?.message?.toLowerCase() ?? '';
+          setError(message.includes('invalid login') ? (t.invalidCredentials ?? t.authError)
+            : message.includes('email not confirmed') ? (t.emailNotConfirmed ?? t.authError)
+            : message.includes('network') || message.includes('fetch') ? (t.networkError ?? t.authError)
+            : result.error?.message || t.authError);
+        }
         else setPassword('');
       }
     } catch { setError(session ? t.logoutError : t.authError); }
@@ -72,6 +78,12 @@ function DetailView({ detail, record }: { detail: Detail; record: () => void }) 
   </ScrollView>;
 }
 function Shell() {
+  const { width } = useWindowDimensions();
+  const tablet = width >= 760;
+  const entrance = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.spring(entrance, { toValue: 1, useNativeDriver: true, damping: 18, stiffness: 120 }).start();
+  }, [entrance]);
   const [locale, setLocale] = useState<Locale>('ar'); const t = copy[locale];
   const [session, setSession] = useState<Session | null>(null); const userId = session && !session.user.is_anonymous ? session.user.id : null;
   const [tab, setTab] = useState<Tab>('beans'); const [method, setMethod] = useState<Method>(); const [search, setSearch] = useState('');
@@ -117,18 +129,22 @@ function Shell() {
   const refresh = () => setRevision(n => n + 1);
   return <Language.Provider value={locale}><SafeAreaView style={styles.fill}>
     <StatusBar barStyle="dark-content" />
-    <View style={[styles.row, { paddingHorizontal: 16, paddingVertical: 9, flexDirection: locale === 'ar' ? 'row-reverse' : 'row', justifyContent: 'space-between' }]}>
+    <View style={[styles.row, { paddingHorizontal: tablet ? 32 : 16, paddingVertical: 12, flexDirection: locale === 'ar' ? 'row-reverse' : 'row', justifyContent: 'space-between' }]}>
       <Txt style={{ fontSize: 23, fontWeight: '800' }}>BeanMora</Txt>
       <View style={styles.row}>{detail ? <Action title={t.back} onPress={back} /> : null}<Action title={locale === 'ar' ? 'English' : 'العربية'} onPress={resetLanguage} /></View>
     </View>
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <Animated.View style={{ flex: 1, opacity: entrance, transform: [{ translateY: entrance.interpolate({ inputRange: [0, 1], outputRange: [14, 0] }) }] }}><KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
     {!configured ? <View style={styles.content}><Txt heading style={styles.title}>{t.setup}</Txt><Txt>{t.setupNote}</Txt></View>
     : recording && detail?.type === 'recipe' && userId ? <OutcomeForm key={userId + detail.item.id} userId={userId} recipe={detail.item} done={() => { setRecording(false); setDetail(null); setTab('forYou'); refresh(); }} />
     : detail ? <DetailView key={detail.item.id + locale} detail={detail} record={startRecord} />
     : tab === 'account' ? <Account key={userId ?? 'public'} session={session} />
     : <>
-      <View style={{ paddingHorizontal: 18, gap: 8 }}>
-        <Txt heading style={styles.title}>{tab === 'forYou' ? t.forYou : t.tagline}</Txt>
+      <View style={{ paddingHorizontal: tablet ? 32 : 18, gap: 10, maxWidth: tablet ? 1180 : undefined, width: '100%', alignSelf: 'center' }}>
+        <View style={styles.visualHero}>
+          <View style={{ flex: 1, gap: 6 }}><Txt heading style={styles.title}>{locale === 'ar' ? 'قهوتك، أذكى.' : 'Coffee, made smarter.'}</Txt><Txt style={styles.muted}>{locale === 'ar' ? 'اكتشف البن والوصفات المناسبة لمعداتك وذوقك.' : 'Discover beans and recipes matched to your gear and taste.'}</Txt></View>
+          <View style={styles.beanOrb}><Txt style={{ fontSize: tablet ? 42 : 30 }}>☕</Txt></View>
+        </View>
+        <Txt heading style={styles.subtitle}>{tab === 'forYou' ? t.forYou : t.tagline}</Txt>
         <Txt style={styles.muted}>{t.preview}</Txt>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={[styles.row, { paddingVertical: 7 }]}>
           <Action title={t.all} selected={!method} onPress={() => setMethod(undefined)} />
@@ -167,7 +183,7 @@ function Shell() {
           <Txt style={styles.muted}>{methods[locale][item.method]}</Txt><Txt heading style={styles.subtitle}>{item.title}</Txt><Txt>{t.dose}: {item.dose ?? t.unknown} · {t.water}: {item.water ?? t.unknown}</Txt>
         </Pressable>} />}
     </>}
-    </KeyboardAvoidingView>
+    </KeyboardAvoidingView></Animated.View>
     {!detail && configured ? <View style={{ flexDirection: locale === 'ar' ? 'row-reverse' : 'row', padding: 9, gap: 5, borderTopWidth: 1, borderColor: '#DDD2C2' }}>
       {(['beans','recipes','forYou','account'] as const).map(key => <View key={key} style={{ flex: 1 }}><Action title={t[key]} selected={tab === key} onPress={() => { setTab(key); setSearch(''); }} /></View>)}
     </View> : null}
