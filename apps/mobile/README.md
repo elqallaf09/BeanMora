@@ -1,4 +1,4 @@
-# BeanMora for Expo Go
+# BeanMora mobile
 
 ## تشغيل على الهاتف
 
@@ -23,14 +23,26 @@ npm start
 
 ## Included
 
-- Native coffee and recipe catalogs, detail views and written recipe steps.
-- Arabic/English UI, searchable loaded records and server-side brew-method filters.
-- Existing BeanMora email/password login. Public browsing creates no anonymous account.
+- Reference-matched home, coffee detail and full-photo login screens, with bundled imagery, Arabic fonts, line icons and five-item navigation.
+- Responsive phone/tablet catalogs, a fully scrolling home page, coffee galleries and linked recipe quantities.
+- Arabic/English UI and search across loaded coffee names, roasters, origins and flavors.
+- Existing BeanMora email/password login, signup and password reset. Public browsing creates no anonymous account.
+- Native session persistence through AsyncStorage, private favorites using the existing owner-restricted bean_saves table, and account notifications.
 - Explainable recommendations from existing account preferences, equipment, inventory and latest own brew outcomes.
 - Recording a real brew through the existing atomic `record_brew_outcome_v1` RPC, without positive defaults; private by default, optional explicit community consent.
 - Loading/error/empty states, request cancellation guards, bounded queries and network timeouts.
 
-Session tokens stay in memory, not on disk. Closing/reloading requires signing in again. Native persistent authentication, signup/reset/Google OAuth, background push notifications, full watchlist/admin, guided timers and device integrations are not included. OAuth and custom native modules need a development build, not a promise that Expo Go can run them. No EAS account/project or paid service has been created.
+Native sessions persist using the Supabase storage adapter; web previews use browser storage. Social sign-in first checks the project's enabled providers. Google uses PKCE and an authentication browser; Apple displays an explicit unavailable message when its provider is disabled. A standalone build must register the beanmora scheme and allow beanmora://auth in Supabase's redirect URL list. Provider configuration and device sign-in have to be verified separately from isolated browser tests. Background push, admin, guided timers and direct device control are not included.
+
+Version 0.1.3 / Android versionCode 4 contains new native dependencies. Updating source or exporting Metro bundles does not update a previously installed APK. Build a new preview APK using the existing EAS project and its configured production environment:
+
+```sh
+npx eas-cli build --platform android --profile preview
+```
+
+This command requires access to the existing Expo account. No EAS build or store publication is implied by a successful Metro export.
+
+Approved product photography is read from bean_images / product_images and direct approved image_url fields. Missing or failed product images use bundled, explicitly labelled illustrative photos. Product origins come from the linked coffee lot. Brew amounts, temperatures and times are shown only from a recipe linked to the selected coffee and method; no mock ratings or quantities are substituted.
 
 This preview reads the real BeanMora Supabase project only after local public configuration is supplied. Save is a real write initiated by the signed-in user. Browser tests use isolated synthetic fixtures and must never use production credentials. Missing stock/community evidence stays unknown. Mobile does not fetch public user-level community attempts in this release.
 
@@ -46,6 +58,6 @@ npx expo-doctor
 npm run export
 ```
 
-Passing Metro iOS/Android exports verifies bundling, not physical-device operation. A web-preview browser test verifies rendered React Native Web UI, not native iOS/Android behavior. See the pull request for checks actually completed.
+Passing Metro iOS/Android exports verifies bundling, not physical-device operation. React Native Web regression tests exercise scrolling, card widths, detail-to-recipe navigation, auth and outcome retries at 320, 390, 768 and 1536 pixels. Those tests do not establish native iOS/Android behavior. See the pull request for checks actually completed.
 
 Reference docs (checked 2026-09-22): https://docs.expo.dev/get-started/start-developing/ , https://expo.dev/go , https://docs.expo.dev/guides/authentication/ , https://docs.expo.dev/guides/using-supabase/ .

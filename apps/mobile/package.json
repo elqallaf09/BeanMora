@@ -12,17 +12,21 @@
     "setup": "node scripts/setup.mjs",
     "sync:core": "node scripts/sync-core.mjs",
     "typecheck": "tsc --noEmit",
-    "test": "node scripts/sync-core.mjs --check && node scripts/check-mobile.mjs",
+    "test": "node scripts/sync-core.mjs --check && node scripts/check-mobile.mjs && node scripts/check-data.mjs",
     "export": "expo export --platform all"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "2.2.0",
     "@supabase/supabase-js": "2.57.4",
     "expo": "57.0.24",
     "expo-crypto": "57.0.3",
+    "expo-font": "57.0.4",
+    "expo-web-browser": "57.0.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-native": "0.86.3",
     "react-native-safe-area-context": "5.7.0",
+    "react-native-svg": "15.15.4",
     "react-native-url-polyfill": "2.0.0",
     "react-native-web": "0.21.2"
   },
