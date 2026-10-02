@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Animated, AppState, BackHandler, FlatList, Image, KeyboardAvoidingView, Linking, Platform, Pressable, ScrollView, StatusBar, View, useWindowDimensions } from 'react-native';
+import { Animated, AppState, BackHandler, FlatList, Image, KeyboardAvoidingView, Linking, Platform, Pressable, ScrollView, StatusBar, View, useWindowDimensions } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import type { Session } from '@supabase/supabase-js';
 import { configured, supabase } from './src/client';
