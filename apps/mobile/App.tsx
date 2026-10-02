@@ -95,10 +95,14 @@ function DetailView({ detail, record }: { detail: Detail; record: () => void }) 
     <View style={styles.hero}>{(c?.imageUrl || r?.coverUrl) ? <Image source={{ uri: c?.imageUrl ?? r?.coverUrl ?? '' }} style={styles.detailImage} resizeMode="cover" /> : <View style={styles.imageFallback}><Txt style={{ fontSize: 38 }}>☕</Txt></View>}<Txt heading style={styles.title}>{c?.name ?? r?.title}</Txt>
       <Txt style={styles.muted}>{c?.roaster ?? (r ? methods[locale][r.method] : '')}</Txt></View>
     {c ? <>
-      <Txt>{c.origin}</Txt><Txt>{c.description || t.noNotes}</Txt>
-      <Txt>{c.flavors.join(' · ')}</Txt><Txt style={styles.warning}>{t.stockUnknown}</Txt>
-      <Txt style={styles.muted}>{t.verified}: {c.verifiedAt && Number.isFinite(Date.parse(c.verifiedAt)) ? new Date(c.verifiedAt).toLocaleDateString(locale + '-u-nu-latn') : t.unknown}</Txt>
-      {c.sourceUrl ? <Action title={t.source} onPress={() => void source()} /> : null}
+      <View style={styles.detailMetaRow}>
+        {c.origin ? <View style={styles.metaPill}><Txt style={styles.metaText}>{c.origin}</Txt></View> : null}
+        {c.roast ? <View style={styles.metaPill}><Txt style={styles.metaText}>{c.roast}</Txt></View> : null}
+        {c.flavors.slice(0,4).map(f => <View key={f} style={styles.metaPill}><Txt style={styles.metaText}>{f}</Txt></View>)}
+      </View>
+      <View style={styles.detailSection}><Txt heading style={styles.subtitle}>{locale === 'ar' ? 'عن هذا البن' : 'About this coffee'}</Txt><Txt>{c.description || t.noNotes}</Txt></View>
+      <View style={styles.detailSection}><Txt heading style={styles.subtitle}>{locale === 'ar' ? 'طرق التحضير المناسبة' : 'Recommended brew methods'}</Txt><View style={styles.row}>{c.methods.map(m => <View key={m} style={styles.methodTile}><Txt style={{fontWeight:'700'}}>{methods[locale][m]}</Txt></View>)}</View></View>
+      <View style={styles.verificationCard}><Txt style={styles.muted}>{t.verified}: {c.verifiedAt && Number.isFinite(Date.parse(c.verifiedAt)) ? new Date(c.verifiedAt).toLocaleDateString(locale + '-u-nu-latn') : t.unknown}</Txt>{c.sourceUrl ? <Action title={t.source} onPress={() => void source()} /> : null}</View>
       {linkError ? <Txt style={styles.error}>{t.sourceError}</Txt> : null}
     </> : null}
     {r ? <>
