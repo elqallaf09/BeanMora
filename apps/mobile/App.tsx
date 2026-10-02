@@ -245,7 +245,12 @@ function Shell() {
         ListFooterComponent={<View style={{ gap: 8 }}>{coffees.length > visibleCount ? <Action title={locale === 'ar' ? `عرض المزيد (${coffees.length - visibleCount})` : `Load more (${coffees.length - visibleCount})`} onPress={() => setVisibleCount(n => n + 30)} selected /> : null}<Action title={t.refresh} onPress={refresh} /></View>}
         renderItem={({ item, index }) => <MotionItem index={index}><Pressable accessibilityRole="button" accessibilityLabel={item.name} onPress={() => setDetail({ type: 'coffee', item })} style={[styles.card, tablet && styles.gridCard]}>
           {item.imageUrl ? <Image source={{ uri: item.imageUrl }} style={styles.cardImage} resizeMode="cover" /> : <View style={styles.cardImageFallback}><Txt style={{ fontSize: 28 }}>☕</Txt></View>}
-          <Txt style={styles.muted}>{item.roaster}</Txt><Txt heading style={styles.subtitle}>{item.name}</Txt><Txt>{item.origin}</Txt><Txt style={styles.muted}>{item.flavors.join(' · ')}</Txt><Txt style={styles.muted}>{t.stockUnknown}</Txt>
+          <View style={styles.beanCardBody}>
+            <View style={{flex:1,gap:3}}><Txt heading style={styles.beanCardTitle}>{item.name}</Txt><Txt style={styles.muted}>{item.roaster}</Txt></View>
+            <Txt style={styles.favoriteGlyph}>♡</Txt>
+          </View>
+          <View style={styles.detailMetaRow}>{item.origin ? <View style={styles.metaPill}><Txt style={styles.metaText}>{item.origin}</Txt></View> : null}{item.roast ? <View style={styles.metaPill}><Txt style={styles.metaText}>{item.roast}</Txt></View> : null}</View>
+          {item.flavors.length ? <Txt style={styles.flavorLine}>{item.flavors.slice(0,4).join(' · ')}</Txt> : null}
         </Pressable></MotionItem>} />
       : <FlatList key={`recipes-${gridColumns}`} numColumns={gridColumns} columnWrapperStyle={gridColumns > 1 ? styles.gridRow : undefined} data={recipes.slice(0, visibleCount)} keyExtractor={r => r.id} refreshing={refreshing} onRefresh={refresh} contentContainerStyle={styles.content}
         ListEmptyComponent={<Txt>{data?.warnings ? t.partial : t.empty}</Txt>}
