@@ -8,11 +8,6 @@
     "userInterfaceStyle": "light",
     "backgroundColor": "#F7F2E9",
     "icon": "../../public/icons/icon-512.png",
-    "splash": {
-      "image": "../../public/icons/icon-512.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#F7F2E9"
-    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.beanmora.mobile",
