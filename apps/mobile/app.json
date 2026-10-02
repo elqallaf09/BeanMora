@@ -3,12 +3,30 @@
     "name": "BeanMora",
     "slug": "beanmora-mobile",
     "owner": "elqallaf09",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "orientation": "default",
     "userInterfaceStyle": "light",
     "backgroundColor": "#F7F2E9",
-    "ios": {"supportsTablet": true},
-    "android": {"package": "com.beanmora.mobile", "predictiveBackGestureEnabled": false},
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#F7F2E9"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.beanmora.mobile"
+    },
+    "android": {
+      "package": "com.beanmora.mobile",
+      "versionCode": 2,
+      "icon": "./assets/icon.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#F7F2E9"
+      },
+      "predictiveBackGestureEnabled": false
+    },
     "web": {"bundler": "metro", "output": "single"},
     "extra": {"eas": {"projectId": "a3785113-b993-49fa-9986-e3dc96d63115"}}
   }
