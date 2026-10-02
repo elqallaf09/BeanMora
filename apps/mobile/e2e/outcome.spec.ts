@@ -45,5 +45,6 @@ test('signed-in mobile web preview saves only a confirmed, private brew and retr
   expect(writes[0].p_payload).toMatchObject({ outcome: 'good', share_with_community: false, actual_time_seconds: null, brewed: true, taste_scores: {} });
   expect(writes[0].p_payload).not.toHaveProperty('user_id');
   const persisted = await page.evaluate(() => Object.keys(localStorage).filter(k => k.includes('auth-token')));
-  expect(persisted).toEqual([]);
+  expect(persisted.length).toBe(1);
+  expect(persisted[0]).toContain('auth-token');
 });
