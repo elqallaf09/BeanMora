@@ -94,6 +94,15 @@ function Shell() {
   const { width } = useWindowDimensions();
   const tablet = width >= 760;
   const entrance = useRef(new Animated.Value(0)).current;
+  const tabMotion = useRef(new Animated.Value(1)).current;
+  const switchTab = (next: Tab) => {
+    if (next === tab) return;
+    Animated.timing(tabMotion, { toValue: 0, duration: 90, useNativeDriver: true }).start(() => {
+      setTab(next); setSearch('');
+      tabMotion.setValue(0);
+      Animated.spring(tabMotion, { toValue: 1, useNativeDriver: true, damping: 20, stiffness: 180 }).start();
+    });
+  };
   useEffect(() => {
     Animated.spring(entrance, { toValue: 1, useNativeDriver: true, damping: 18, stiffness: 120 }).start();
   }, [entrance]);
@@ -148,7 +157,7 @@ function Shell() {
       <Txt style={{ fontSize: 23, fontWeight: '800' }}>BeanMora</Txt>
       <View style={styles.row}>{detail ? <Action title={t.back} onPress={back} /> : null}<Action title={locale === 'ar' ? 'English' : 'العربية'} onPress={resetLanguage} /></View>
     </View>
-    <Animated.View style={{ flex: 1, opacity: entrance, transform: [{ translateY: entrance.interpolate({ inputRange: [0, 1], outputRange: [14, 0] }) }] }}><KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <Animated.View style={{ flex: 1, opacity: Animated.multiply(entrance, tabMotion), transform: [{ translateY: entrance.interpolate({ inputRange: [0, 1], outputRange: [14, 0] }) }, { translateX: tabMotion.interpolate({ inputRange: [0, 1], outputRange: [10, 0] }) }] }}><KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
     {!configured ? <View style={styles.content}><Txt heading style={styles.title}>{t.setup}</Txt><Txt>{t.setupNote}</Txt></View>
     : recording && detail?.type === 'recipe' && userId ? <OutcomeForm key={userId + detail.item.id} userId={userId} recipe={detail.item} done={() => { setRecording(false); setDetail(null); setTab('forYou'); refresh(); }} />
     : detail ? <DetailView key={detail.item.id + locale} detail={detail} record={startRecord} />
@@ -215,7 +224,7 @@ function Shell() {
     </>}
     </KeyboardAvoidingView></Animated.View>
     {!detail && configured ? <View style={[styles.bottomNav, { flexDirection: locale === 'ar' ? 'row-reverse' : 'row', paddingHorizontal: tablet ? 28 : 9 }]}>
-      {(['beans','recipes','forYou','account'] as const).map(key => <View key={key} style={{ flex: 1 }}><Action title={t[key]} selected={tab === key} onPress={() => { setTab(key); setSearch(''); }} /></View>)}
+      {(['beans','recipes','forYou','account'] as const).map(key => <View key={key} style={{ flex: 1 }}><Action title={t[key]} selected={tab === key} onPress={() => switchTab(key)} /></View>)}
     </View> : null}
   </SafeAreaView></Language.Provider>;
 }
