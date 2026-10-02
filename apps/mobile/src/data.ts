@@ -1,10 +1,10 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { communityEvidence, emptyProfile, isMethod, ROASTS, validChoice, type Coffee, type Recipe, type Profile, type Method } from './core/engine';
 import { safeUrl } from './guards';
-export interface CoffeeItem extends Coffee { description: string; origin: string; sourceUrl: string | null }
-export interface RecipeItem extends Recipe { notes: string; steps: { number: number; title: string; description: string }[] }
+export interface CoffeeItem extends Coffee { description: string; origin: string; sourceUrl: string | null; logoUrl: string | null }
+export interface RecipeItem extends Recipe { notes: string; coverUrl: string | null; steps: { number: number; title: string; description: string }[] }
 export interface Bundle { coffees: CoffeeItem[]; recipes: RecipeItem[]; profile: Profile; warnings: boolean; limited: boolean }
-interface Name { name_ar?: string | null; name_en?: string | null }
+interface Name { name_ar?: string | null; name_en?: string | null; logo_url?: string | null }
 interface CoffeeRow extends Name {
   id: string; slug: string; requires_review: boolean; is_published?: boolean;
   legacy_bean_id?: string | null; roast_level: string | null; last_verified_at: string | null;
@@ -18,7 +18,7 @@ interface RecipeRow {
   bean_id: string | null; roasted_product_id: string | null; flavor_notes: string[];
   dose_grams: number | string | null; water_grams: number | string | null; total_time_seconds: number | null;
   difficulty: string | null; is_incomplete_source: boolean; notes: string | null; notes_ar: string | null;
-  steps: { step_number: number; title: string; description: string }[];
+  cover_image_url: string | null; steps: { step_number: number; title: string; description: string }[];
   equipment: { category: string; equipment_model_id: string | null }[];
 }
 interface OwnAttempt { recipe_id: string; outcome: string | null }
@@ -36,10 +36,10 @@ async function read<T>(query: PromiseLike<{ data: unknown; error: unknown }>): P
 export async function loadData(db: SupabaseClient, locale: 'ar' | 'en', userId: string | null, method?: Method): Promise<Bundle> {
   const ar = locale === 'ar';
   const result: Bundle = { coffees: [], recipes: [], profile: emptyProfile(), warnings: false, limited: false };
-  const fields = 'id,slug,name_ar,name_en,requires_review,roast_level,last_verified_at,suitable_for_v60,suitable_for_espresso,suitable_for_xbloom,source_url,roaster:roasters(name_ar,name_en)';
+  const fields = 'id,slug,name_ar,name_en,requires_review,roast_level,last_verified_at,suitable_for_v60,suitable_for_espresso,suitable_for_xbloom,source_url,roaster:roasters(name_ar,name_en,logo_url)';
   let beans = db.from('beans').select(`${fields},is_published,origin_country,description_ar,description_en,flavors:bean_flavor_notes(flavor)`).eq('requires_review', false).eq('is_published', true);
   let products = db.from('roasted_products').select(`${fields},legacy_bean_id,status,short_description,flavor_notes_on_bag`).eq('requires_review', false).in('status', ['available', 'low_stock']);
-  let recipes = db.from('recipes').select('id,title,title_ar,brew_method,visibility,bean_id,roasted_product_id,flavor_notes,difficulty,is_incomplete_source,dose_grams,water_grams,total_time_seconds,notes,notes_ar,steps:recipe_steps(step_number,title,description),equipment:recipe_equipment(category,equipment_model_id)').eq('visibility', 'public');
+  let recipes = db.from('recipes').select('id,title,title_ar,brew_method,visibility,bean_id,roasted_product_id,flavor_notes,difficulty,is_incomplete_source,dose_grams,water_grams,total_time_seconds,notes,notes_ar,cover_image_url,steps:recipe_steps(step_number,title,description),equipment:recipe_equipment(category,equipment_model_id)').eq('visibility', 'public');
   if (method && ['v60', 'espresso', 'xbloom'].includes(method)) { beans = beans.eq(`suitable_for_${method}`, true); products = products.eq(`suitable_for_${method}`, true); }
   if (method) recipes = recipes.eq('brew_method', method);
   const [b, p, r] = await Promise.all([
@@ -54,7 +54,7 @@ export async function loadData(db: SupabaseClient, locale: 'ar' | 'en', userId: 
     published: kind === 'product' || row.is_published === true, methods: (['v60','espresso','xbloom'] as const).filter(m => row[`suitable_for_${m}`]),
     flavors: row.flavor_notes_on_bag ?? row.flavors?.map(f => f.flavor) ?? [], roast: row.roast_level, status: row.status ?? null, verifiedAt: row.last_verified_at,
     description: (ar ? row.description_ar || row.description_en : row.description_en || row.description_ar) || row.short_description || '',
-    origin: row.origin_country ?? '', sourceUrl: safeUrl(row.source_url),
+    origin: row.origin_country ?? '', sourceUrl: safeUrl(row.source_url), logoUrl: safeUrl(one(row.roaster)?.logo_url),
   });
   result.coffees = [...p.rows.map(x => coffee(x, 'product')), ...b.rows.map(x => coffee(x, 'bean'))];
   result.recipes = r.rows.flatMap(row => isMethod(row.brew_method) ? [{
@@ -63,7 +63,7 @@ export async function loadData(db: SupabaseClient, locale: 'ar' | 'en', userId: 
     incomplete: row.is_incomplete_source, equipment: (row.equipment ?? []).map(e => ({ category: e.category, modelId: e.equipment_model_id })),
     dose: amount(row.dose_grams), water: amount(row.water_grams), seconds: amount(row.total_time_seconds),
     // This mobile preview does not fetch public user-level evidence. Never imply community validation.
-    evidence: communityEvidence([], []), notes: (ar ? row.notes_ar || row.notes : row.notes || row.notes_ar) ?? '',
+    evidence: communityEvidence([], []), coverUrl: safeUrl(row.cover_image_url), notes: (ar ? row.notes_ar || row.notes : row.notes || row.notes_ar) ?? '',
     steps: [...(row.steps ?? [])].sort((a, z) => a.step_number - z.step_number).map(s => ({ number: s.step_number, title: s.title, description: s.description })),
   }] : []);
   if (!userId) return result;
