@@ -31,6 +31,7 @@ export const styles = StyleSheet.create({
   cardImageFallback: { width: '100%', height: 110, borderRadius: 16, backgroundColor: '#F0E5D5', alignItems: 'center', justifyContent: 'center', marginBottom: 4 },
   detailImage: { width: '100%', height: 240, borderRadius: 18, backgroundColor: '#EAE0D0', marginBottom: 8 },
   imageFallback: { width: '100%', height: 180, borderRadius: 18, backgroundColor: '#E2D1B9', alignItems: 'center', justifyContent: 'center', marginBottom: 8 },
+  xbloomCard: { backgroundColor: '#1F1C1A', padding: 18, borderRadius: 22, gap: 8, marginVertical: 8 },
   row: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 8 },
   button: { borderRadius: 16, borderWidth: 1, borderColor: '#CBB89D', paddingHorizontal: 15, paddingVertical: 11, minHeight: 46, justifyContent: 'center', backgroundColor: '#FFFCF6' },
   selected: { backgroundColor: '#3E2C24', borderColor: '#3E2C24' },
