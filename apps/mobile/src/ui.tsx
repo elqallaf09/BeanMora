@@ -25,6 +25,8 @@ export const styles = StyleSheet.create({
   subtitle: { color: '#3E2C24', fontSize: 20, fontWeight: '700', lineHeight: 28 },
   card: { backgroundColor: '#FFFCF6', padding: 18, borderRadius: 22, borderWidth: 1, borderColor: '#DDD2C2', gap: 9, marginBottom: 12 },
   hero: { backgroundColor: '#EAE0D0', padding: 20, borderRadius: 24, gap: 8 },
+  visualHero: { backgroundColor: '#EFE4D3', padding: 22, borderRadius: 28, gap: 14, minHeight: 138, flexDirection: 'row', alignItems: 'center', overflow: 'hidden', borderWidth: 1, borderColor: '#E1D2BD' },
+  beanOrb: { width: 88, height: 88, borderRadius: 44, backgroundColor: '#D9C2A3', alignItems: 'center', justifyContent: 'center' },
   row: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 8 },
   button: { borderRadius: 16, borderWidth: 1, borderColor: '#CBB89D', paddingHorizontal: 15, paddingVertical: 11, minHeight: 46, justifyContent: 'center', backgroundColor: '#FFFCF6' },
   selected: { backgroundColor: '#3E2C24', borderColor: '#3E2C24' },
