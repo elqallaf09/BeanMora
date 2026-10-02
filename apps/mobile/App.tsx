@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Animated, AppState, BackHandler, FlatList, Image, KeyboardAvoidingView, Linking, Platform, Pressable, ScrollView, StatusBar, View, useWindowDimensions } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import type { Session } from '@supabase/supabase-js';
@@ -52,7 +52,7 @@ function Account({ session, tablet = false }: { session: Session | null; tablet?
     <Txt style={styles.warning}>{t.authNote}</Txt>
   </ScrollView>;
 }
-function MotionItem({ index, children }: { index: number; children: React.ReactNode }) {
+function MotionItem({ index, children }: { index: number; children: ReactNode }) {
   const value = useRef(new Animated.Value(0)).current;
   useEffect(() => {
     Animated.timing(value, { toValue: 1, duration: 260, delay: Math.min(index, 8) * 38, useNativeDriver: true }).start();
