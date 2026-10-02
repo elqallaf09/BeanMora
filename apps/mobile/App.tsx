@@ -60,7 +60,7 @@ function DetailView({ detail, record }: { detail: Detail; record: () => void }) 
     setLinkError(false); try { await Linking.openURL(c.sourceUrl); } catch { setLinkError(true); }
   }
   return <ScrollView contentContainerStyle={styles.content}>
-    <View style={styles.hero}><Txt heading style={styles.title}>{c?.name ?? r?.title}</Txt>
+    <View style={styles.hero}>{(c?.logoUrl || r?.coverUrl) ? <Image source={{ uri: c?.logoUrl ?? r?.coverUrl ?? '' }} style={styles.detailImage} resizeMode="cover" /> : <View style={styles.imageFallback}><Txt style={{ fontSize: 38 }}>☕</Txt></View>}<Txt heading style={styles.title}>{c?.name ?? r?.title}</Txt>
       <Txt style={styles.muted}>{c?.roaster ?? (r ? methods[locale][r.method] : '')}</Txt></View>
     {c ? <>
       <Txt>{c.origin}</Txt><Txt>{c.description || t.noNotes}</Txt>
@@ -174,12 +174,14 @@ function Shell() {
         ListEmptyComponent={<Txt>{data?.warnings ? t.partial : t.empty}</Txt>}
         ListFooterComponent={<Action title={t.refresh} onPress={refresh} />}
         renderItem={({ item }) => <Pressable accessibilityRole="button" accessibilityLabel={item.name} onPress={() => setDetail({ type: 'coffee', item })} style={styles.card}>
+          {item.logoUrl ? <Image source={{ uri: item.logoUrl }} style={styles.cardImage} resizeMode="cover" /> : <View style={styles.cardImageFallback}><Txt style={{ fontSize: 28 }}>☕</Txt></View>}
           <Txt style={styles.muted}>{item.roaster}</Txt><Txt heading style={styles.subtitle}>{item.name}</Txt><Txt>{item.origin}</Txt><Txt style={styles.muted}>{item.flavors.join(' · ')}</Txt><Txt style={styles.muted}>{t.stockUnknown}</Txt>
         </Pressable>} />
       : <FlatList data={recipes} keyExtractor={r => r.id} refreshing={refreshing} onRefresh={refresh} contentContainerStyle={styles.content}
         ListEmptyComponent={<Txt>{data?.warnings ? t.partial : t.empty}</Txt>}
         ListFooterComponent={<Action title={t.refresh} onPress={refresh} />}
         renderItem={({ item }) => <Pressable accessibilityRole="button" accessibilityLabel={item.title} onPress={() => setDetail({ type: 'recipe', item })} style={styles.card}>
+          {item.coverUrl ? <Image source={{ uri: item.coverUrl }} style={styles.cardImage} resizeMode="cover" /> : <View style={styles.cardImageFallback}><Txt style={{ fontSize: 28 }}>☕</Txt></View>}
           <Txt style={styles.muted}>{methods[locale][item.method]}</Txt><Txt heading style={styles.subtitle}>{item.title}</Txt><Txt>{t.dose}: {item.dose ?? t.unknown} · {t.water}: {item.water ?? t.unknown}</Txt>
         </Pressable>} />}
     </>}
