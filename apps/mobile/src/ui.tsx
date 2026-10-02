@@ -1,5 +1,5 @@
-import { createContext, useContext, type ReactNode } from 'react';
-import { Text, Pressable, TextInput, StyleSheet, type TextInputProps, type TextStyle } from 'react-native';
+import { createContext, useContext, useRef, type ReactNode } from 'react';
+import { Animated, Text, Pressable, TextInput, StyleSheet, type TextInputProps, type TextStyle } from 'react-native';
 import { copy, type Locale } from './copy';
 export const Language = createContext<Locale>('ar');
 export const useCopy = () => copy[useContext(Language)];
@@ -8,9 +8,12 @@ export function Txt({ children, style, heading = false }: { children: ReactNode;
   return <Text accessibilityRole={heading ? 'header' : undefined} style={[styles.text, { textAlign: rtl ? 'right' : 'left', writingDirection: rtl ? 'rtl' : 'ltr' }, style]}>{children}</Text>;
 }
 export function Action({ title, onPress, disabled = false, selected = false }: { title: string; onPress: () => void; disabled?: boolean; selected?: boolean }) {
-  return <Pressable accessibilityRole="button" accessibilityLabel={title} accessibilityState={{ disabled, selected }} onPress={onPress} disabled={disabled} style={({ pressed }) => [styles.button, selected && styles.selected, (pressed || disabled) && { opacity: 0.6 }]}>
+  const scale = useRef(new Animated.Value(1)).current;
+  const down = () => Animated.spring(scale, { toValue: 0.96, useNativeDriver: true, speed: 30, bounciness: 0 }).start();
+  const up = () => Animated.spring(scale, { toValue: 1, useNativeDriver: true, speed: 24, bounciness: 5 }).start();
+  return <Animated.View style={{ transform: [{ scale }] }}><Pressable onPressIn={down} onPressOut={up} accessibilityRole="button" accessibilityLabel={title} accessibilityState={{ disabled, selected }} onPress={onPress} disabled={disabled} style={({ pressed }) => [styles.button, selected && styles.selected, (pressed || disabled) && { opacity: 0.6 }]}>
     <Txt style={{ color: selected ? '#FFFFFF' : '#3E2C24', fontWeight: '600', textAlign: 'center' }}>{title}</Txt>
-  </Pressable>;
+  </Pressable></Animated.View>;
 }
 export function Field({ label, ...props }: TextInputProps & { label: string }) {
   const rtl = useContext(Language) === 'ar';
