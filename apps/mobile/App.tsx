@@ -14,7 +14,7 @@ type Tab = 'beans' | 'recipes' | 'forYou' | 'account';
 type Detail = { type: 'coffee'; item: CoffeeItem } | { type: 'recipe'; item: RecipeItem };
 type Loaded = Bundle & { owner: string | null; locale: Locale; method: Method | undefined };
 
-function Account({ session }: { session: Session | null }) {
+function Account({ session, tablet = false }: { session: Session | null; tablet?: boolean }) {
   const t = useCopy(); const [email, setEmail] = useState(''); const [password, setPassword] = useState('');
   const [show, setShow] = useState(false); const [busy, setBusy] = useState(false); const [error, setError] = useState('');
   const inFlight = useRef(false);
@@ -39,8 +39,8 @@ function Account({ session }: { session: Session | null }) {
     } catch { setError(session ? t.logoutError : t.authError); }
     finally { inFlight.current = false; setBusy(false); }
   }
-  return <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.content}>
-    <Txt heading style={styles.title}>{t.account}</Txt>
+  return <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.content, tablet && { maxWidth: 820, width: '100%', alignSelf: 'center' }]}>
+    <View style={styles.profileHero}><View style={styles.avatar}><Txt style={{ fontSize: 28, fontWeight: '800' }}>{(session?.user.email ?? 'B').slice(0,1).toUpperCase()}</Txt></View><View style={{ flex: 1 }}><Txt heading style={styles.title}>{t.account}</Txt><Txt style={styles.muted}>{session ? (t.profileNote) : t.existing}</Txt></View></View>
     <Txt>{session?.user.email ?? t.guest}</Txt><Txt style={styles.muted}>{t.existing}</Txt>
     {!session ? <>
       <Field label={t.email} value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} autoComplete="email" editable={!busy} style={{ textAlign: 'left', writingDirection: 'ltr' }} />
@@ -80,6 +80,7 @@ function DetailView({ detail, record }: { detail: Detail; record: () => void }) 
         <Txt>{locale === 'ar' ? 'ملف التحضير المتوافق' : 'Compatible brew profile'}: {r.xBloom?.deviceModel ?? t.unknown}</Txt>
         {r.xBloom?.grindSetting ? <Txt>{locale === 'ar' ? 'الطحنة' : 'Grind'}: {r.xBloom.grindSetting}</Txt> : null}
         {r.xBloom?.temp ? <Txt>{locale === 'ar' ? 'الحرارة' : 'Temperature'}: {r.xBloom.temp}°C</Txt> : null}
+        {Array.isArray(r.xBloom?.pours) && r.xBloom!.pours.length ? <View style={styles.timeline}>{r.xBloom!.pours.map((p: any, i: number) => <View key={i} style={styles.timelineRow}><View style={styles.timelineDot}/><View style={{ flex: 1 }}><Txt style={{ fontWeight: '700' }}>{locale === 'ar' ? `الصبة ${i + 1}` : `Pour ${i + 1}`}</Txt><Txt style={styles.muted}>{[p?.water_grams ?? p?.grams ?? p?.amount, p?.duration_seconds ?? p?.seconds].filter(v => v != null).join(' · ')}</Txt></View></View>)}</View> : null}
         {r.videoUrl ? <Action title={locale === 'ar' ? 'فتح رابط وصفة xBloom' : 'Open xBloom recipe link'} onPress={() => void openVerified(r.videoUrl)} selected /> : <Txt style={styles.muted}>{locale === 'ar' ? 'لا يوجد رابط موثّق لهذه الوصفة حالياً.' : 'No verified recipe link is stored yet.'}</Txt>}
       </View> : r.videoUrl ? <Action title={locale === 'ar' ? 'فتح رابط الوصفة' : 'Open recipe link'} onPress={() => void openVerified(r.videoUrl)} /> : null}
       {linkError ? <Txt style={styles.error}>{t.sourceError}</Txt> : null}
@@ -151,7 +152,7 @@ function Shell() {
     {!configured ? <View style={styles.content}><Txt heading style={styles.title}>{t.setup}</Txt><Txt>{t.setupNote}</Txt></View>
     : recording && detail?.type === 'recipe' && userId ? <OutcomeForm key={userId + detail.item.id} userId={userId} recipe={detail.item} done={() => { setRecording(false); setDetail(null); setTab('forYou'); refresh(); }} />
     : detail ? <DetailView key={detail.item.id + locale} detail={detail} record={startRecord} />
-    : tab === 'account' ? <Account key={userId ?? 'public'} session={session} />
+    : tab === 'account' ? <Account key={userId ?? 'public'} session={session} tablet={tablet} />
     : <>
       <View style={{ paddingHorizontal: tablet ? 32 : 18, gap: 10, maxWidth: tablet ? 1180 : undefined, width: '100%', alignSelf: 'center' }}>
         <View style={styles.statsRow}>
@@ -185,13 +186,13 @@ function Shell() {
       : tab === 'forYou' ? <ScrollView contentContainerStyle={styles.content}>
         <Action title={t.refresh} onPress={refresh} />
         <Txt heading style={styles.subtitle}>{t.beans}</Txt>
-        {rankedCoffee.length === 0 ? <Txt>{t.empty}</Txt> : rankedCoffee.map(row => <View key={row.item.kind + row.item.id} style={styles.card}>
+        {rankedCoffee.length === 0 ? <Txt>{t.empty}</Txt> : rankedCoffee.map((row, index) => <View key={row.item.kind + row.item.id} style={[styles.card, index === 0 && styles.featuredCard]}>
           <Action title={row.item.name} onPress={() => { const item = data?.coffees.find(c => c.id === row.item.id && c.kind === row.item.kind); if (item) setDetail({ type: 'coffee', item }); }} />
           <Txt>{t.matching}: {row.reasons.length ? row.reasons.map(r => reasons[locale][r]).join(' · ') : t.general}</Txt>
           {row.caveats.map(c => <Txt key={c} style={styles.muted}>{caveats[locale][c]}</Txt>)}
         </View>)}
         <Txt heading style={styles.subtitle}>{t.recipes}</Txt>
-        {rankedRecipes.length === 0 ? <Txt>{t.empty}</Txt> : rankedRecipes.map(row => <View key={row.item.id} style={styles.card}>
+        {rankedRecipes.length === 0 ? <Txt>{t.empty}</Txt> : rankedRecipes.map((row, index) => <View key={row.item.id} style={[styles.card, index === 0 && styles.featuredCard]}>
           <Action title={row.item.title} onPress={() => { const item = data?.recipes.find(r => r.id === row.item.id); if (item) setDetail({ type: 'recipe', item }); }} />
           <Txt>{t.matching}: {row.reasons.length ? row.reasons.map(r => reasons[locale][r]).join(' · ') : t.general}</Txt>
           {row.caveats.map(c => <Txt key={c} style={styles.muted}>{caveats[locale][c]}</Txt>)}
@@ -213,7 +214,7 @@ function Shell() {
         </Pressable>} />}
     </>}
     </KeyboardAvoidingView></Animated.View>
-    {!detail && configured ? <View style={{ flexDirection: locale === 'ar' ? 'row-reverse' : 'row', padding: 9, gap: 5, borderTopWidth: 1, borderColor: '#DDD2C2' }}>
+    {!detail && configured ? <View style={[styles.bottomNav, { flexDirection: locale === 'ar' ? 'row-reverse' : 'row', paddingHorizontal: tablet ? 28 : 9 }]}>
       {(['beans','recipes','forYou','account'] as const).map(key => <View key={key} style={{ flex: 1 }}><Action title={t[key]} selected={tab === key} onPress={() => { setTab(key); setSearch(''); }} /></View>)}
     </View> : null}
   </SafeAreaView></Language.Provider>;
