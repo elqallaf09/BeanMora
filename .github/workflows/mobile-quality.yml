@@ -28,6 +28,7 @@ jobs:
         with:
           node-version: '22'
       - run: npm install --global npm@11.19.1 --ignore-scripts
+      - run: npm install --package-lock-only --ignore-scripts
       - run: npm ci
       - name: Dependency audit (runtime report)
         run: npm audit --omit=dev --audit-level=high || true
