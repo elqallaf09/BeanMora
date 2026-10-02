@@ -52,6 +52,13 @@ function Account({ session, tablet = false }: { session: Session | null; tablet?
     <Txt style={styles.warning}>{t.authNote}</Txt>
   </ScrollView>;
 }
+function MotionItem({ index, children }: { index: number; children: React.ReactNode }) {
+  const value = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.timing(value, { toValue: 1, duration: 260, delay: Math.min(index, 8) * 38, useNativeDriver: true }).start();
+  }, [index, value]);
+  return <Animated.View style={{ opacity: value, transform: [{ translateY: value.interpolate({ inputRange: [0,1], outputRange: [12,0] }) }] }}>{children}</Animated.View>;
+}
 function DetailView({ detail, record }: { detail: Detail; record: () => void }) {
   const t = useCopy(); const locale = useContext(Language); const [linkError, setLinkError] = useState(false);
   const c = detail.type === 'coffee' ? detail.item : null; const r = detail.type === 'recipe' ? detail.item : null;
@@ -80,7 +87,7 @@ function DetailView({ detail, record }: { detail: Detail; record: () => void }) 
         <Txt>{locale === 'ar' ? 'ملف التحضير المتوافق' : 'Compatible brew profile'}: {r.xBloom?.deviceModel ?? t.unknown}</Txt>
         {r.xBloom?.grindSetting ? <Txt>{locale === 'ar' ? 'الطحنة' : 'Grind'}: {r.xBloom.grindSetting}</Txt> : null}
         {r.xBloom?.temp ? <Txt>{locale === 'ar' ? 'الحرارة' : 'Temperature'}: {r.xBloom.temp}°C</Txt> : null}
-        {Array.isArray(r.xBloom?.pours) && r.xBloom!.pours.length ? <View style={styles.timeline}>{r.xBloom!.pours.map((p: any, i: number) => <View key={i} style={styles.timelineRow}><View style={styles.timelineDot}/><View style={{ flex: 1 }}><Txt style={{ fontWeight: '700' }}>{locale === 'ar' ? `الصبة ${i + 1}` : `Pour ${i + 1}`}</Txt><Txt style={styles.muted}>{[p?.water_grams ?? p?.grams ?? p?.amount, p?.duration_seconds ?? p?.seconds].filter(v => v != null).join(' · ')}</Txt></View></View>)}</View> : null}
+        {Array.isArray(r.xBloom?.pours) && r.xBloom!.pours.length ? <View style={styles.timeline}>{r.xBloom!.pours.map((p: any, i: number) => <MotionItem key={i} index={i}><View style={styles.timelineRow}><View style={styles.timelineDot}/><View style={{ flex: 1 }}><Txt style={{ fontWeight: '700' }}>{locale === 'ar' ? `الصبة ${i + 1}` : `Pour ${i + 1}`}</Txt><Txt style={styles.muted}>{[p?.water_grams ?? p?.grams ?? p?.amount, p?.duration_seconds ?? p?.seconds].filter(v => v != null).join(' · ')}</Txt></View></View></MotionItem>)}</View> : null}
         {r.videoUrl ? <Action title={locale === 'ar' ? 'فتح رابط وصفة xBloom' : 'Open xBloom recipe link'} onPress={() => void openVerified(r.videoUrl)} selected /> : <Txt style={styles.muted}>{locale === 'ar' ? 'لا يوجد رابط موثّق لهذه الوصفة حالياً.' : 'No verified recipe link is stored yet.'}</Txt>}
       </View> : r.videoUrl ? <Action title={locale === 'ar' ? 'فتح رابط الوصفة' : 'Open recipe link'} onPress={() => void openVerified(r.videoUrl)} /> : null}
       {linkError ? <Txt style={styles.error}>{t.sourceError}</Txt> : null}
@@ -210,17 +217,17 @@ function Shell() {
       : tab === 'beans' ? <FlatList data={coffees.slice(0, visibleCount)} keyExtractor={c => c.kind + c.id} refreshing={refreshing} onRefresh={refresh} contentContainerStyle={styles.content}
         ListEmptyComponent={<Txt>{data?.warnings ? t.partial : t.empty}</Txt>}
         ListFooterComponent={<View style={{ gap: 8 }}>{coffees.length > visibleCount ? <Action title={locale === 'ar' ? `عرض المزيد (${coffees.length - visibleCount})` : `Load more (${coffees.length - visibleCount})`} onPress={() => setVisibleCount(n => n + 30)} selected /> : null}<Action title={t.refresh} onPress={refresh} /></View>}
-        renderItem={({ item }) => <Pressable accessibilityRole="button" accessibilityLabel={item.name} onPress={() => setDetail({ type: 'coffee', item })} style={styles.card}>
+        renderItem={({ item, index }) => <MotionItem index={index}><Pressable accessibilityRole="button" accessibilityLabel={item.name} onPress={() => setDetail({ type: 'coffee', item })} style={styles.card}>
           {item.logoUrl ? <Image source={{ uri: item.logoUrl }} style={styles.cardImage} resizeMode="cover" /> : <View style={styles.cardImageFallback}><Txt style={{ fontSize: 28 }}>☕</Txt></View>}
           <Txt style={styles.muted}>{item.roaster}</Txt><Txt heading style={styles.subtitle}>{item.name}</Txt><Txt>{item.origin}</Txt><Txt style={styles.muted}>{item.flavors.join(' · ')}</Txt><Txt style={styles.muted}>{t.stockUnknown}</Txt>
-        </Pressable>} />
+        </Pressable></MotionItem>} />
       : <FlatList data={recipes.slice(0, visibleCount)} keyExtractor={r => r.id} refreshing={refreshing} onRefresh={refresh} contentContainerStyle={styles.content}
         ListEmptyComponent={<Txt>{data?.warnings ? t.partial : t.empty}</Txt>}
         ListFooterComponent={<View style={{ gap: 8 }}>{recipes.length > visibleCount ? <Action title={locale === 'ar' ? `عرض المزيد (${recipes.length - visibleCount})` : `Load more (${recipes.length - visibleCount})`} onPress={() => setVisibleCount(n => n + 30)} selected /> : null}<Action title={t.refresh} onPress={refresh} /></View>}
-        renderItem={({ item }) => <Pressable accessibilityRole="button" accessibilityLabel={item.title} onPress={() => setDetail({ type: 'recipe', item })} style={styles.card}>
+        renderItem={({ item, index }) => <MotionItem index={index}><Pressable accessibilityRole="button" accessibilityLabel={item.title} onPress={() => setDetail({ type: 'recipe', item })} style={styles.card}>
           {item.coverUrl ? <Image source={{ uri: item.coverUrl }} style={styles.cardImage} resizeMode="cover" /> : <View style={styles.cardImageFallback}><Txt style={{ fontSize: 28 }}>☕</Txt></View>}
           <Txt style={styles.muted}>{methods[locale][item.method]}</Txt><Txt heading style={styles.subtitle}>{item.title}</Txt><Txt>{t.dose}: {item.dose ?? t.unknown} · {t.water}: {item.water ?? t.unknown}</Txt>
-        </Pressable>} />}
+        </Pressable></MotionItem>} />}
     </>}
     </KeyboardAvoidingView></Animated.View>
     {!detail && configured ? <View style={[styles.bottomNav, { flexDirection: locale === 'ar' ? 'row-reverse' : 'row', paddingHorizontal: tablet ? 28 : 9 }]}>
