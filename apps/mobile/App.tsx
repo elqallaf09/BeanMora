@@ -121,6 +121,7 @@ function DetailView({ detail, record }: { detail: Detail; record: () => void }) 
 function Shell() {
   const { width } = useWindowDimensions();
   const tablet = width >= 760;
+  const gridColumns = tablet ? 2 : 1;
   const entrance = useRef(new Animated.Value(0)).current;
   const tabMotion = useRef(new Animated.Value(1)).current;
   const switchTab = (next: Tab) => {
@@ -239,17 +240,17 @@ function Shell() {
           {row.caveats.map(c => <Txt key={c} style={styles.muted}>{caveats[locale][c]}</Txt>)}
         </View>)}
       </ScrollView>
-      : tab === 'beans' ? <FlatList data={coffees.slice(0, visibleCount)} keyExtractor={c => c.kind + c.id} refreshing={refreshing} onRefresh={refresh} contentContainerStyle={styles.content}
+      : tab === 'beans' ? <FlatList key={`beans-${gridColumns}`} numColumns={gridColumns} columnWrapperStyle={gridColumns > 1 ? styles.gridRow : undefined} data={coffees.slice(0, visibleCount)} keyExtractor={c => c.kind + c.id} refreshing={refreshing} onRefresh={refresh} contentContainerStyle={styles.content}
         ListEmptyComponent={<Txt>{data?.warnings ? t.partial : t.empty}</Txt>}
         ListFooterComponent={<View style={{ gap: 8 }}>{coffees.length > visibleCount ? <Action title={locale === 'ar' ? `عرض المزيد (${coffees.length - visibleCount})` : `Load more (${coffees.length - visibleCount})`} onPress={() => setVisibleCount(n => n + 30)} selected /> : null}<Action title={t.refresh} onPress={refresh} /></View>}
-        renderItem={({ item, index }) => <MotionItem index={index}><Pressable accessibilityRole="button" accessibilityLabel={item.name} onPress={() => setDetail({ type: 'coffee', item })} style={styles.card}>
+        renderItem={({ item, index }) => <MotionItem index={index}><Pressable accessibilityRole="button" accessibilityLabel={item.name} onPress={() => setDetail({ type: 'coffee', item })} style={[styles.card, tablet && styles.gridCard]}>
           {item.imageUrl ? <Image source={{ uri: item.imageUrl }} style={styles.cardImage} resizeMode="cover" /> : <View style={styles.cardImageFallback}><Txt style={{ fontSize: 28 }}>☕</Txt></View>}
           <Txt style={styles.muted}>{item.roaster}</Txt><Txt heading style={styles.subtitle}>{item.name}</Txt><Txt>{item.origin}</Txt><Txt style={styles.muted}>{item.flavors.join(' · ')}</Txt><Txt style={styles.muted}>{t.stockUnknown}</Txt>
         </Pressable></MotionItem>} />
-      : <FlatList data={recipes.slice(0, visibleCount)} keyExtractor={r => r.id} refreshing={refreshing} onRefresh={refresh} contentContainerStyle={styles.content}
+      : <FlatList key={`recipes-${gridColumns}`} numColumns={gridColumns} columnWrapperStyle={gridColumns > 1 ? styles.gridRow : undefined} data={recipes.slice(0, visibleCount)} keyExtractor={r => r.id} refreshing={refreshing} onRefresh={refresh} contentContainerStyle={styles.content}
         ListEmptyComponent={<Txt>{data?.warnings ? t.partial : t.empty}</Txt>}
         ListFooterComponent={<View style={{ gap: 8 }}>{recipes.length > visibleCount ? <Action title={locale === 'ar' ? `عرض المزيد (${recipes.length - visibleCount})` : `Load more (${recipes.length - visibleCount})`} onPress={() => setVisibleCount(n => n + 30)} selected /> : null}<Action title={t.refresh} onPress={refresh} /></View>}
-        renderItem={({ item, index }) => <MotionItem index={index}><Pressable accessibilityRole="button" accessibilityLabel={item.title} onPress={() => setDetail({ type: 'recipe', item })} style={styles.card}>
+        renderItem={({ item, index }) => <MotionItem index={index}><Pressable accessibilityRole="button" accessibilityLabel={item.title} onPress={() => setDetail({ type: 'recipe', item })} style={[styles.card, tablet && styles.gridCard]}>
           {item.coverUrl ? <Image source={{ uri: item.coverUrl }} style={styles.cardImage} resizeMode="cover" /> : <View style={styles.cardImageFallback}><Txt style={{ fontSize: 28 }}>☕</Txt></View>}
           <Txt style={styles.muted}>{methods[locale][item.method]}</Txt><Txt heading style={styles.subtitle}>{item.title}</Txt><Txt>{t.dose}: {item.dose ?? t.unknown} · {t.water}: {item.water ?? t.unknown}</Txt>
         </Pressable></MotionItem>} />}
