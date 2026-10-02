@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState, type ReactNode } from 'react';
-import { Animated, AppState, BackHandler, FlatList, Image, KeyboardAvoidingView, Linking, Platform, Pressable, ScrollView, StatusBar, View, useWindowDimensions } from 'react-native';
+import { Animated, AppState, BackHandler, FlatList, ImageBackground, Image, KeyboardAvoidingView, Linking, Platform, Pressable, ScrollView, StatusBar, View, useWindowDimensions } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import type { Session } from '@supabase/supabase-js';
 import { configured, supabase } from './src/client';
@@ -202,14 +202,15 @@ function Shell() {
           <View style={styles.statCard}><Txt heading style={styles.statValue}>{data?.recipes.length ?? '—'}</Txt><Txt style={styles.muted}>{locale === 'ar' ? 'وصفة' : 'Recipes'}</Txt></View>
           <View style={styles.statCard}><Txt heading style={styles.statValue}>{data?.recipes.filter(r => r.method === 'xbloom').length ?? '—'}</Txt><Txt style={styles.muted}>xBloom</Txt></View>
         </View>
-        <View style={styles.visualHero}>
-          <View style={{ flex: 1, gap: 8 }}>
+        <ImageBackground source={{ uri: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1600&q=80' }} style={styles.visualHero} imageStyle={styles.heroImage}>
+          <View style={styles.heroScrim}/>
+          <View style={{ flex: 1, gap: 8, zIndex: 1 }}>
             <Txt heading style={[styles.title,{fontSize: tablet ? 34 : 28}]}>{locale === 'ar' ? 'اكتشف عالم القهوة.' : 'Discover the world of coffee.'}</Txt>
             <Txt style={styles.muted}>{locale === 'ar' ? 'من الحبوب إلى الكوب، تجربة أفضل كل يوم.' : 'From bean to cup, a better experience every day.'}</Txt>
             <View style={{alignSelf: locale === 'ar' ? 'flex-end' : 'flex-start'}}><Action title={locale === 'ar' ? 'استكشف الآن' : 'Explore now'} onPress={() => switchTab('beans')} selected /></View>
           </View>
-          <View style={styles.beanOrb}><Txt style={{ fontSize: tablet ? 42 : 30 }}>☕</Txt></View>
-        </View>
+          <View style={[styles.beanOrb,{zIndex:1}]}><Txt style={{ fontSize: tablet ? 42 : 30 }}>☕</Txt></View>
+        </ImageBackground>
         <View style={{flexDirection: locale === 'ar' ? 'row-reverse':'row',justifyContent:'space-between',alignItems:'center'}}><Txt heading style={styles.subtitle}>{tab === 'forYou' ? t.forYou : tab === 'beans' ? (locale === 'ar' ? 'أحدث الحبوب' : 'Latest beans') : t.tagline}</Txt>{tab === 'beans' ? <Txt style={styles.muted}>{locale === 'ar' ? 'عرض الكل ←' : 'View all →'}</Txt> : null}</View>
         {tab === 'recipes' ? <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.row}>
           <Action title={locale === 'ar' ? 'الكل' : 'All'} selected={homeMode === 'all'} onPress={() => setHomeMode('all')} />
