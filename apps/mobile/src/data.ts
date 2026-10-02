@@ -30,7 +30,7 @@ async function read<T>(query: PromiseLike<{ data: unknown; error: unknown }>): P
   try {
     const { data, error } = await query;
     if (error || !Array.isArray(data)) return { rows: [], failed: true, limited: false };
-    return { rows: data.slice(0, 200) as T[], failed: false, limited: data.length > 200 };
+    return { rows: data.slice(0, 1000) as T[], failed: false, limited: data.length > 1000 };
   } catch { return { rows: [], failed: true, limited: false }; }
 }
 export async function loadData(db: SupabaseClient, locale: 'ar' | 'en', userId: string | null, method?: Method): Promise<Bundle> {
@@ -43,7 +43,7 @@ export async function loadData(db: SupabaseClient, locale: 'ar' | 'en', userId: 
   if (method && ['v60', 'espresso', 'xbloom'].includes(method)) { beans = beans.eq(`suitable_for_${method}`, true); products = products.eq(`suitable_for_${method}`, true); }
   if (method) recipes = recipes.eq('brew_method', method);
   const [b, p, r, xb] = await Promise.all([
-    read<CoffeeRow>(beans.order('updated_at', { ascending: false }).order('id').limit(201)),
+    read<CoffeeRow>(beans.order('updated_at', { ascending: false }).order('id').limit(1001)),
     read<CoffeeRow>(products.order('updated_at', { ascending: false }).order('id').limit(201)),
     read<RecipeRow>(recipes.order('updated_at', { ascending: false }).order('id').limit(201)),
     read<{ recipe_id: string; device_model: string; grind_setting: string | null; dose_grams: number | string | null; water_grams: number | string | null; water_temp_c: number | string | null; pours: unknown }>(db.from('xbloom_recipe_profiles').select('recipe_id,device_model,grind_setting,dose_grams,water_grams,water_temp_c,pours').eq('compatibility_status','compatible').limit(201)),
