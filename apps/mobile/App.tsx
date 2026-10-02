@@ -16,8 +16,18 @@ type Loaded = Bundle & { owner: string | null; locale: Locale; method: Method | 
 
 function Account({ session, tablet = false }: { session: Session | null; tablet?: boolean }) {
   const t = useCopy(); const [email, setEmail] = useState(''); const [password, setPassword] = useState('');
-  const [show, setShow] = useState(false); const [busy, setBusy] = useState(false); const [error, setError] = useState('');
+  const [show, setShow] = useState(false); const [resetSent, setResetSent] = useState(false); const [busy, setBusy] = useState(false); const [error, setError] = useState('');
   const inFlight = useRef(false);
+  async function resetPassword() {
+    if (!supabase || !email.trim() || inFlight.current) return;
+    inFlight.current = true; setBusy(true); setError(''); setResetSent(false);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email.trim());
+      if (error) setError(error.message);
+      else setResetSent(true);
+    } catch { setError(t.networkError ?? t.authError); }
+    finally { inFlight.current = false; setBusy(false); }
+  }
   async function authenticate() {
     if (!supabase || inFlight.current) return;
     inFlight.current = true; setBusy(true); setError('');
@@ -51,7 +61,11 @@ function Account({ session, tablet = false }: { session: Session | null; tablet?
       {!session ? <>
         <Field label={t.email} value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} autoComplete="email" editable={!busy} style={{ textAlign: 'left', writingDirection: 'ltr' }} />
         <Field label={t.password} value={password} onChangeText={setPassword} secureTextEntry={!show} autoCapitalize="none" autoCorrect={false} autoComplete="current-password" editable={!busy} />
-        <Pressable onPress={() => setShow(v=>!v)}><Txt style={styles.muted}>{show ? t.hide : t.show}</Txt></Pressable>
+        <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+          <Pressable onPress={() => setShow(v=>!v)}><Txt style={styles.muted}>{show ? t.hide : t.show}</Txt></Pressable>
+          <Pressable disabled={!email.trim() || busy} onPress={() => void resetPassword()}><Txt style={{fontWeight:'700'}}>{useContext(Language)==='ar' ? 'نسيت كلمة المرور؟' : 'Forgot password?'}</Txt></Pressable>
+        </View>
+        {resetSent ? <Txt style={styles.success}>{useContext(Language)==='ar' ? 'أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك.' : 'Password reset link sent to your email.'}</Txt> : null}
       </> : <Txt style={styles.muted}>{t.profileNote}</Txt>}
       {error ? <Txt style={styles.error}>{error}</Txt> : null}
       <Action title={session ? t.logout : t.login} onPress={() => void authenticate()} disabled={busy || (!session && (!email.trim() || !password))} selected />
