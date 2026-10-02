@@ -27,7 +27,7 @@ test('signed-in mobile web preview saves only a confirmed, private brew and retr
   await page.getByLabel('Password', { exact: true }).fill('isolated-fixture-password');
   await page.getByRole('button', { name: 'Sign in', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Sign out', exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Recipes', exact: true }).click();
+  await page.getByRole('button', { name: 'Brew', exact: true }).click();
   await page.getByRole('button', { name: recipe.title, exact: true }).click();
   await page.getByRole('button', { name: 'Record my brew', exact: true }).click();
   await page.getByRole('button', { name: 'Save result', exact: true }).click();

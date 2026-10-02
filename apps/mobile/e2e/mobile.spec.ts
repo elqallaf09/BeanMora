@@ -17,11 +17,13 @@ for (const locale of ['ar', 'en'] as const) {
     await page.getByRole('button', { name: coffeeName, exact: true }).click();
     await expect(page.getByRole('heading', { name: coffeeName })).toBeVisible();
     await page.getByRole('button', { name: locale === 'ar' ? 'رجوع' : 'Back', exact: true }).click();
-    await page.getByRole('button', { name: locale === 'ar' ? 'الوصفات' : 'Recipes', exact: true }).click();
+    await page.getByRole('button', { name: locale === 'ar' ? 'تحضير' : 'Brew', exact: true }).click();
     await page.getByRole('button', { name: locale === 'ar' ? recipe.title_ar : recipe.title, exact: true }).click();
     await expect(page.getByText('A written test instruction')).toBeVisible();
     await page.getByRole('button', { name: locale === 'ar' ? 'سجّل نتيجة تحضيري' : 'Record my brew', exact: true }).click();
     await expect(page.getByLabel(locale === 'ar' ? 'البريد الإلكتروني' : 'Email', { exact: true })).toBeVisible();
+    await page.getByRole('button', { name: locale === 'ar' ? 'رجوع' : 'Back', exact: true }).click();
+    await page.getByRole('button', { name: locale === 'ar' ? 'اكتشف' : 'Discover', exact: true }).click();
     await page.getByRole('button', { name: locale === 'ar' ? 'لك أنت' : 'For you', exact: true }).click();
     await expect(page.getByText(locale === 'ar' ? /مطابقة بقواعد واضحة/ : /Explainable matching/)).toBeVisible();
     await expect(page.getByRole('button', { name: coffeeName, exact: true })).toBeVisible();
