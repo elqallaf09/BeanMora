@@ -55,9 +55,13 @@ function Account({ session }: { session: Session | null }) {
 function DetailView({ detail, record }: { detail: Detail; record: () => void }) {
   const t = useCopy(); const locale = useContext(Language); const [linkError, setLinkError] = useState(false);
   const c = detail.type === 'coffee' ? detail.item : null; const r = detail.type === 'recipe' ? detail.item : null;
+  async function openVerified(url: string | null) {
+    if (!url) return;
+    setLinkError(false); try { await Linking.openURL(url); } catch { setLinkError(true); }
+  }
   async function source() {
     if (!c?.sourceUrl) return;
-    setLinkError(false); try { await Linking.openURL(c.sourceUrl); } catch { setLinkError(true); }
+    await openVerified(c.sourceUrl);
   }
   return <ScrollView contentContainerStyle={styles.content}>
     <View style={styles.hero}>{(c?.logoUrl || r?.coverUrl) ? <Image source={{ uri: c?.logoUrl ?? r?.coverUrl ?? '' }} style={styles.detailImage} resizeMode="cover" /> : <View style={styles.imageFallback}><Txt style={{ fontSize: 38 }}>☕</Txt></View>}<Txt heading style={styles.title}>{c?.name ?? r?.title}</Txt>
@@ -71,6 +75,14 @@ function DetailView({ detail, record }: { detail: Detail; record: () => void }) 
     </> : null}
     {r ? <>
       <View style={styles.card}><Txt>{t.dose}: {r.dose ?? t.unknown}</Txt><Txt>{t.water}: {r.water ?? t.unknown}</Txt></View>
+      {r.method === 'xbloom' ? <View style={styles.xbloomCard}>
+        <Txt heading style={styles.subtitle}>xBloom</Txt>
+        <Txt>{locale === 'ar' ? 'ملف التحضير المتوافق' : 'Compatible brew profile'}: {r.xBloom?.deviceModel ?? t.unknown}</Txt>
+        {r.xBloom?.grindSetting ? <Txt>{locale === 'ar' ? 'الطحنة' : 'Grind'}: {r.xBloom.grindSetting}</Txt> : null}
+        {r.xBloom?.temp ? <Txt>{locale === 'ar' ? 'الحرارة' : 'Temperature'}: {r.xBloom.temp}°C</Txt> : null}
+        {r.videoUrl ? <Action title={locale === 'ar' ? 'فتح رابط وصفة xBloom' : 'Open xBloom recipe link'} onPress={() => void openVerified(r.videoUrl)} selected /> : <Txt style={styles.muted}>{locale === 'ar' ? 'لا يوجد رابط موثّق لهذه الوصفة حالياً.' : 'No verified recipe link is stored yet.'}</Txt>}
+      </View> : r.videoUrl ? <Action title={locale === 'ar' ? 'فتح رابط الوصفة' : 'Open recipe link'} onPress={() => void openVerified(r.videoUrl)} /> : null}
+      {linkError ? <Txt style={styles.error}>{t.sourceError}</Txt> : null}
       <Txt>{r.notes || t.noNotes}</Txt><Txt heading style={styles.subtitle}>{t.instructions}</Txt>
       {r.steps.length ? r.steps.map(s => <View key={s.number} style={styles.card}><Txt style={styles.subtitle}>{s.number}. {s.title}</Txt><Txt>{s.description}</Txt></View>) : <Txt style={styles.warning}>{t.noSteps}</Txt>}
       <Action title={t.record} onPress={record} selected />
