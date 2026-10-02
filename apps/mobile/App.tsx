@@ -154,6 +154,11 @@ function Shell() {
     : tab === 'account' ? <Account key={userId ?? 'public'} session={session} />
     : <>
       <View style={{ paddingHorizontal: tablet ? 32 : 18, gap: 10, maxWidth: tablet ? 1180 : undefined, width: '100%', alignSelf: 'center' }}>
+        <View style={styles.statsRow}>
+          <View style={styles.statCard}><Txt heading style={styles.statValue}>{data?.coffees.length ?? '—'}</Txt><Txt style={styles.muted}>{locale === 'ar' ? 'بن' : 'Coffees'}</Txt></View>
+          <View style={styles.statCard}><Txt heading style={styles.statValue}>{data?.recipes.length ?? '—'}</Txt><Txt style={styles.muted}>{locale === 'ar' ? 'وصفة' : 'Recipes'}</Txt></View>
+          <View style={styles.statCard}><Txt heading style={styles.statValue}>{data?.recipes.filter(r => r.method === 'xbloom').length ?? '—'}</Txt><Txt style={styles.muted}>xBloom</Txt></View>
+        </View>
         <View style={styles.visualHero}>
           <View style={{ flex: 1, gap: 6 }}><Txt heading style={styles.title}>{locale === 'ar' ? 'قهوتك، أذكى.' : 'Coffee, made smarter.'}</Txt><Txt style={styles.muted}>{locale === 'ar' ? 'اكتشف البن والوصفات المناسبة لمعداتك وذوقك.' : 'Discover beans and recipes matched to your gear and taste.'}</Txt></View>
           <View style={styles.beanOrb}><Txt style={{ fontSize: tablet ? 42 : 30 }}>☕</Txt></View>
