@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
   card: { backgroundColor: '#FFFCF7', padding: 14, borderRadius: 22, borderWidth: 1, borderColor: '#E4D8C7', gap: 8, marginBottom: 12, overflow: 'hidden' },
   hero: { backgroundColor: '#EAE0D0', padding: 20, borderRadius: 24, gap: 8 },
   heroImage: { borderRadius: 28 },
-  heroScrim: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(32,20,14,0.46)', borderRadius: 28 },
+  heroScrim: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(32,20,14,0.46)', borderRadius: 28 },
   visualHero: { backgroundColor: '#EFE4D3', padding: 22, borderRadius: 28, gap: 14, minHeight: 138, flexDirection: 'row', alignItems: 'center', overflow: 'hidden', borderWidth: 1, borderColor: '#E1D2BD' },
   beanOrb: { width: 88, height: 88, borderRadius: 44, backgroundColor: '#D9C2A3', alignItems: 'center', justifyContent: 'center' },
   cardImage: { width: '100%', height: 190, borderRadius: 18, backgroundColor: '#EAE0D0', marginBottom: 6 },
