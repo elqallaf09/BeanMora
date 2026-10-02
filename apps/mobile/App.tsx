@@ -78,7 +78,7 @@ function DetailView({ detail, record }: { detail: Detail; record: () => void }) 
     await openVerified(c.sourceUrl);
   }
   return <ScrollView contentContainerStyle={styles.content}>
-    <View style={styles.hero}>{(c?.logoUrl || r?.coverUrl) ? <Image source={{ uri: c?.logoUrl ?? r?.coverUrl ?? '' }} style={styles.detailImage} resizeMode="cover" /> : <View style={styles.imageFallback}><Txt style={{ fontSize: 38 }}>☕</Txt></View>}<Txt heading style={styles.title}>{c?.name ?? r?.title}</Txt>
+    <View style={styles.hero}>{(c?.imageUrl || r?.coverUrl) ? <Image source={{ uri: c?.imageUrl ?? r?.coverUrl ?? '' }} style={styles.detailImage} resizeMode="cover" /> : <View style={styles.imageFallback}><Txt style={{ fontSize: 38 }}>☕</Txt></View>}<Txt heading style={styles.title}>{c?.name ?? r?.title}</Txt>
       <Txt style={styles.muted}>{c?.roaster ?? (r ? methods[locale][r.method] : '')}</Txt></View>
     {c ? <>
       <Txt>{c.origin}</Txt><Txt>{c.description || t.noNotes}</Txt>
@@ -229,7 +229,7 @@ function Shell() {
         ListEmptyComponent={<Txt>{data?.warnings ? t.partial : t.empty}</Txt>}
         ListFooterComponent={<View style={{ gap: 8 }}>{coffees.length > visibleCount ? <Action title={locale === 'ar' ? `عرض المزيد (${coffees.length - visibleCount})` : `Load more (${coffees.length - visibleCount})`} onPress={() => setVisibleCount(n => n + 30)} selected /> : null}<Action title={t.refresh} onPress={refresh} /></View>}
         renderItem={({ item, index }) => <MotionItem index={index}><Pressable accessibilityRole="button" accessibilityLabel={item.name} onPress={() => setDetail({ type: 'coffee', item })} style={styles.card}>
-          {item.logoUrl ? <Image source={{ uri: item.logoUrl }} style={styles.cardImage} resizeMode="cover" /> : <View style={styles.cardImageFallback}><Txt style={{ fontSize: 28 }}>☕</Txt></View>}
+          {item.imageUrl ? <Image source={{ uri: item.imageUrl }} style={styles.cardImage} resizeMode="cover" /> : <View style={styles.cardImageFallback}><Txt style={{ fontSize: 28 }}>☕</Txt></View>}
           <Txt style={styles.muted}>{item.roaster}</Txt><Txt heading style={styles.subtitle}>{item.name}</Txt><Txt>{item.origin}</Txt><Txt style={styles.muted}>{item.flavors.join(' · ')}</Txt><Txt style={styles.muted}>{t.stockUnknown}</Txt>
         </Pressable></MotionItem>} />
       : <FlatList data={recipes.slice(0, visibleCount)} keyExtractor={r => r.id} refreshing={refreshing} onRefresh={refresh} contentContainerStyle={styles.content}
