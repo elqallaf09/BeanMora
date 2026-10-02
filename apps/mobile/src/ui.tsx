@@ -26,6 +26,8 @@ export const styles = StyleSheet.create({
   muted: { color: '#756657', fontSize: 13, lineHeight: 20 },
   title: { color: '#3E2C24', fontSize: 28, fontWeight: '800', lineHeight: 37 },
   subtitle: { color: '#3E2C24', fontSize: 20, fontWeight: '700', lineHeight: 28 },
+  gridRow: { gap: 14, paddingHorizontal: 22 },
+  gridCard: { flex: 1, minWidth: 0 },
   card: { backgroundColor: '#FFFCF7', padding: 14, borderRadius: 22, borderWidth: 1, borderColor: '#E4D8C7', gap: 8, marginBottom: 12, overflow: 'hidden' },
   hero: { backgroundColor: '#EAE0D0', padding: 20, borderRadius: 24, gap: 8 },
   visualHero: { backgroundColor: '#EFE4D3', padding: 22, borderRadius: 28, gap: 14, minHeight: 138, flexDirection: 'row', alignItems: 'center', overflow: 'hidden', borderWidth: 1, borderColor: '#E1D2BD' },
