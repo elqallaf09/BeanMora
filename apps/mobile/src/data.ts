@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { communityEvidence, emptyProfile, isMethod, ROASTS, validChoice, type Coffee, type Recipe, type Profile, type Method } from './core/engine';
 import { safeUrl } from './guards';
-export interface CoffeeItem extends Coffee { description: string; origin: string; sourceUrl: string | null; logoUrl: string | null }
+export interface CoffeeItem extends Coffee { description: string; origin: string; sourceUrl: string | null; logoUrl: string | null; imageUrl: string | null }
 export interface RecipeItem extends Recipe { notes: string; coverUrl: string | null; videoUrl: string | null; xBloom: { deviceModel: string; grindSetting: string | null; dose: number | null; water: number | null; temp: number | null; pours: unknown } | null; steps: { number: number; title: string; description: string }[] }
 export interface Bundle { coffees: CoffeeItem[]; recipes: RecipeItem[]; profile: Profile; warnings: boolean; limited: boolean }
 interface Name { name_ar?: string | null; name_en?: string | null; logo_url?: string | null }
@@ -11,7 +11,7 @@ interface CoffeeRow extends Name {
   suitable_for_v60: boolean; suitable_for_espresso: boolean; suitable_for_xbloom: boolean;
   flavor_notes_on_bag?: string[]; flavors?: { flavor: string }[];
   roaster: Name | Name[] | null; status?: string; description_ar?: string | null; description_en?: string | null;
-  short_description?: string; origin_country?: string; source_url?: string;
+  short_description?: string; origin_country?: string; source_url?: string; image_url?: string | null;
 }
 interface RecipeRow {
   id: string; title: string; title_ar: string | null; brew_method: string; visibility: string;
@@ -36,7 +36,7 @@ async function read<T>(query: PromiseLike<{ data: unknown; error: unknown }>): P
 export async function loadData(db: SupabaseClient, locale: 'ar' | 'en', userId: string | null, method?: Method): Promise<Bundle> {
   const ar = locale === 'ar';
   const result: Bundle = { coffees: [], recipes: [], profile: emptyProfile(), warnings: false, limited: false };
-  const fields = 'id,slug,name_ar,name_en,requires_review,roast_level,last_verified_at,suitable_for_v60,suitable_for_espresso,suitable_for_xbloom,source_url,roaster:roasters(name_ar,name_en,logo_url)';
+  const fields = 'id,slug,name_ar,name_en,requires_review,roast_level,last_verified_at,suitable_for_v60,suitable_for_espresso,suitable_for_xbloom,source_url,image_url,roaster:roasters(name_ar,name_en,logo_url)';
   let beans = db.from('beans').select(`${fields},is_published,origin_country,description_ar,description_en,flavors:bean_flavor_notes(flavor)`).eq('requires_review', false).eq('is_published', true);
   let products = db.from('roasted_products').select(`${fields},legacy_bean_id,status,short_description,flavor_notes_on_bag`).eq('requires_review', false).in('status', ['available', 'low_stock']);
   let recipes = db.from('recipes').select('id,title,title_ar,brew_method,visibility,bean_id,roasted_product_id,flavor_notes,difficulty,is_incomplete_source,dose_grams,water_grams,total_time_seconds,notes,notes_ar,cover_image_url,video_url,steps:recipe_steps(step_number,title,description),equipment:recipe_equipment(category,equipment_model_id)').eq('visibility', 'public');
@@ -56,7 +56,7 @@ export async function loadData(db: SupabaseClient, locale: 'ar' | 'en', userId: 
     published: kind === 'product' || row.is_published === true, methods: (['v60','espresso','xbloom'] as const).filter(m => row[`suitable_for_${m}`]),
     flavors: row.flavor_notes_on_bag ?? row.flavors?.map(f => f.flavor) ?? [], roast: row.roast_level, status: row.status ?? null, verifiedAt: row.last_verified_at,
     description: (ar ? row.description_ar || row.description_en : row.description_en || row.description_ar) || row.short_description || '',
-    origin: row.origin_country ?? '', sourceUrl: safeUrl(row.source_url), logoUrl: safeUrl(one(row.roaster)?.logo_url),
+    origin: row.origin_country ?? '', sourceUrl: safeUrl(row.source_url), logoUrl: safeUrl(one(row.roaster)?.logo_url), imageUrl: safeUrl(row.image_url) ?? safeUrl(one(row.roaster)?.logo_url),
   });
   result.coffees = [...p.rows.map(x => coffee(x, 'product')), ...b.rows.map(x => coffee(x, 'bean'))];
   result.recipes = r.rows.flatMap(row => isMethod(row.brew_method) ? [{
