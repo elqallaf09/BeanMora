@@ -100,7 +100,7 @@ function Shell() {
   const [session, setSession] = useState<Session | null>(null); const userId = session && !session.user.is_anonymous ? session.user.id : null;
   const [tab, setTab] = useState<Tab>('beans'); const [method, setMethod] = useState<Method>(); const [search, setSearch] = useState('');
   const [detail, setDetail] = useState<Detail | null>(null); const [recording, setRecording] = useState(false);
-  const [bundle, setBundle] = useState<Loaded | null>(null); const [refreshing, setRefreshing] = useState(false); const [revision, setRevision] = useState(0);
+  const [bundle, setBundle] = useState<Loaded | null>(null); const [visibleCount, setVisibleCount] = useState(30); const [refreshing, setRefreshing] = useState(false); const [revision, setRevision] = useState(0);
   useEffect(() => {
     if (!supabase) return;
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, value) => { setSession(value); });
@@ -137,6 +137,7 @@ function Shell() {
   const rankedRecipes = data ? recommendRecipes(data.recipes, data.profile, method) : [];
   function back() { if (recording) setRecording(false); else setDetail(null); }
   function startRecord() { if (!userId) { setDetail(null); setTab('account'); } else setRecording(true); }
+  useEffect(() => { setVisibleCount(30); }, [tab, method, search]);
   function resetLanguage() { setLocale(l => l === 'ar' ? 'en' : 'ar'); setDetail(null); setRecording(false); }
   const refresh = () => setRevision(n => n + 1);
   return <Language.Provider value={locale}><SafeAreaView style={styles.fill}>
@@ -182,16 +183,16 @@ function Shell() {
           {row.caveats.map(c => <Txt key={c} style={styles.muted}>{caveats[locale][c]}</Txt>)}
         </View>)}
       </ScrollView>
-      : tab === 'beans' ? <FlatList data={coffees} keyExtractor={c => c.kind + c.id} refreshing={refreshing} onRefresh={refresh} contentContainerStyle={styles.content}
+      : tab === 'beans' ? <FlatList data={coffees.slice(0, visibleCount)} keyExtractor={c => c.kind + c.id} refreshing={refreshing} onRefresh={refresh} contentContainerStyle={styles.content}
         ListEmptyComponent={<Txt>{data?.warnings ? t.partial : t.empty}</Txt>}
-        ListFooterComponent={<Action title={t.refresh} onPress={refresh} />}
+        ListFooterComponent={<View style={{ gap: 8 }}>{coffees.length > visibleCount ? <Action title={locale === 'ar' ? `عرض المزيد (${coffees.length - visibleCount})` : `Load more (${coffees.length - visibleCount})`} onPress={() => setVisibleCount(n => n + 30)} selected /> : null}<Action title={t.refresh} onPress={refresh} /></View>}
         renderItem={({ item }) => <Pressable accessibilityRole="button" accessibilityLabel={item.name} onPress={() => setDetail({ type: 'coffee', item })} style={styles.card}>
           {item.logoUrl ? <Image source={{ uri: item.logoUrl }} style={styles.cardImage} resizeMode="cover" /> : <View style={styles.cardImageFallback}><Txt style={{ fontSize: 28 }}>☕</Txt></View>}
           <Txt style={styles.muted}>{item.roaster}</Txt><Txt heading style={styles.subtitle}>{item.name}</Txt><Txt>{item.origin}</Txt><Txt style={styles.muted}>{item.flavors.join(' · ')}</Txt><Txt style={styles.muted}>{t.stockUnknown}</Txt>
         </Pressable>} />
-      : <FlatList data={recipes} keyExtractor={r => r.id} refreshing={refreshing} onRefresh={refresh} contentContainerStyle={styles.content}
+      : <FlatList data={recipes.slice(0, visibleCount)} keyExtractor={r => r.id} refreshing={refreshing} onRefresh={refresh} contentContainerStyle={styles.content}
         ListEmptyComponent={<Txt>{data?.warnings ? t.partial : t.empty}</Txt>}
-        ListFooterComponent={<Action title={t.refresh} onPress={refresh} />}
+        ListFooterComponent={<View style={{ gap: 8 }}>{recipes.length > visibleCount ? <Action title={locale === 'ar' ? `عرض المزيد (${recipes.length - visibleCount})` : `Load more (${recipes.length - visibleCount})`} onPress={() => setVisibleCount(n => n + 30)} selected /> : null}<Action title={t.refresh} onPress={refresh} /></View>}
         renderItem={({ item }) => <Pressable accessibilityRole="button" accessibilityLabel={item.title} onPress={() => setDetail({ type: 'recipe', item })} style={styles.card}>
           {item.coverUrl ? <Image source={{ uri: item.coverUrl }} style={styles.cardImage} resizeMode="cover" /> : <View style={styles.cardImageFallback}><Txt style={{ fontSize: 28 }}>☕</Txt></View>}
           <Txt style={styles.muted}>{methods[locale][item.method]}</Txt><Txt heading style={styles.subtitle}>{item.title}</Txt><Txt>{t.dose}: {item.dose ?? t.unknown} · {t.water}: {item.water ?? t.unknown}</Txt>
