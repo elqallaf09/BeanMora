@@ -1,9 +1,9 @@
 import { createContext, useContext, useRef, type ReactNode } from 'react';
-import { Animated, Text, Pressable, TextInput, StyleSheet, type TextInputProps, type TextStyle } from 'react-native';
+import { Animated, Text, Pressable, TextInput, StyleSheet, type StyleProp, type TextInputProps, type TextStyle } from 'react-native';
 import { copy, type Locale } from './copy';
 export const Language = createContext<Locale>('ar');
 export const useCopy = () => copy[useContext(Language)];
-export function Txt({ children, style, heading = false }: { children: ReactNode; style?: TextStyle; heading?: boolean }) {
+export function Txt({ children, style, heading = false }: { children: ReactNode; style?: StyleProp<TextStyle>; heading?: boolean }) {
   const rtl = useContext(Language) === 'ar';
   return <Text accessibilityRole={heading ? 'header' : undefined} style={[styles.text, { textAlign: rtl ? 'right' : 'left', writingDirection: rtl ? 'rtl' : 'ltr' }, style]}>{children}</Text>;
 }
