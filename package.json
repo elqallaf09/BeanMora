@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "3.3.7",
+    "@next/eslint-plugin-next": "14.2.35",
     "@playwright/test": "1.55.1",
     "@tailwindcss/postcss": "4.3.3",
     "@testing-library/dom": "10.4.2",
@@ -68,6 +69,12 @@
   "overrides": {
     "next": {
       "postcss": "8.5.23"
+    },
+    "eslint-config-next": {
+      "@next/eslint-plugin-next": "$@next/eslint-plugin-next"
+    },
+    "@next/eslint-plugin-next": {
+      "glob": "10.5.0"
     }
   },
   "packageManager": "npm@11.19.1",
