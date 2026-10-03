@@ -1,0 +1,1037 @@
+[
+  {
+    "kind": "beans",
+    "name": "Finca El Diviso",
+    "source_url": "https://greydoha.qa/product/el-diviso",
+    "resolved_url": "https://greydoha.qa/product/el-diviso",
+    "source_title": "Finca El Diviso",
+    "image_url": "https://i.imgur.com/cdazliw.jpeg",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Colombia Decaf",
+    "source_url": "https://greydoha.qa/product/decaf",
+    "resolved_url": "https://greydoha.qa/product/decaf",
+    "source_title": "Colombia Decaf",
+    "image_url": "https://i.imgur.com/lJdRa7e.jpeg",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Mogiana",
+    "source_url": "https://greydoha.qa/product/mogiana",
+    "resolved_url": "https://greydoha.qa/product/mogiana",
+    "source_title": "Mogiana",
+    "image_url": "https://i.imgur.com/FKl8Fru.jpeg",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Colombia La Cristalina",
+    "source_url": "https://goldboxroastery.com/collections/team-favourites/products/colombia-la-cristalina",
+    "resolved_url": "https://goldboxroastery.com/collections/team-favourites/products/colombia-la-cristalina",
+    "source_title": "Colombia La Cristalina",
+    "image_url": "https://goldboxroastery.com/cdn/shop/files/Webp_-_Drip_Bag_a867c2ed-a583-4072-ad88-920381d6e79f_1200x1200.webp?v=1740382267",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Kenya Anaerobic",
+    "source_url": "https://goldboxroastery.com/collections/team-favourites/products/kenya-anaerobic",
+    "resolved_url": "https://goldboxroastery.com/collections/team-favourites/products/kenya-anaerobic",
+    "source_title": "Kenya Anaerobic",
+    "image_url": "https://goldboxroastery.com/cdn/shop/files/webp-KenyaAnaerobic_1200x1200.webp?v=1767685942",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Brazil Rancho Grande Estate",
+    "source_url": "https://goldboxroastery.com/collections/subscription-coffee/products/rancho-grande-estate",
+    "resolved_url": "https://goldboxroastery.com/collections/subscription-coffee/products/rancho-grande-estate",
+    "source_title": "Brazil Rancho Grande Estate",
+    "image_url": "https://goldboxroastery.com/cdn/shop/products/2022-224g-bag-Brazil-Rancho-G-est_6be1b55ec1b3275728796a96d6ddc5b0_1200x1200.jpg?v=1688630673",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Colombia Santa Ana",
+    "source_url": "https://goldboxroastery.com/collections/subscription-coffee/products/colombia-santa-ana",
+    "resolved_url": "https://goldboxroastery.com/collections/subscription-coffee/products/colombia-santa-ana",
+    "source_title": "Colombia Santa Ana",
+    "image_url": "https://goldboxroastery.com/cdn/shop/files/Webp_-_Drip_Bag_b0c8d06e-9bf9-4df5-8910-ba428015f74b_1200x1200.webp?v=1740381769",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Ethiopia Hambela Halaka",
+    "source_url": "https://goldboxroastery.com/collections/subscription-coffee/products/ethiopia-hambela-halaka",
+    "resolved_url": "https://goldboxroastery.com/collections/subscription-coffee/products/ethiopia-hambela-halaka",
+    "source_title": "Ethiopia Hambela Halaka",
+    "image_url": "https://goldboxroastery.com/cdn/shop/files/Webp_-_Drip_Bag_a19353fa-0316-4a8e-a996-a033824c2909_1200x1200.webp?v=1740381707",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Brazil Santa Lucia",
+    "source_url": "https://goldboxroastery.com/collections/subscription-coffee/products/brazil-santa-lucia",
+    "resolved_url": "https://goldboxroastery.com/collections/subscription-coffee/products/brazil-santa-lucia",
+    "source_title": "Brazil Santa Lucia",
+    "image_url": "https://goldboxroastery.com/cdn/shop/files/SantaLuciawebp_1200x1200.webp?v=1713012090",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "360° Profile Blend",
+    "source_url": "https://bahrainroastery.com/products/360-profile-blend",
+    "resolved_url": "https://bahrainroastery.com/products/360-profile-blend",
+    "source_title": "1 KG 360° Profile Blend",
+    "image_url": "https://bahrainroastery.com/cdn/shop/files/rn-image_picker_lib_temp_fffeb4e3-7e01-4412-9198-96d6a35bbb05.jpg?v=1766715590",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Sunda Wanoja",
+    "source_url": "https://greydoha.qa/product/sunda-wanoja",
+    "resolved_url": "https://greydoha.qa/product/sunda-wanoja",
+    "source_title": "Sunda Wanoja",
+    "image_url": "https://i.imgur.com/BYnKrVu.png",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "AppleWood Reserve (Wood-Fired Coffee)",
+    "source_url": "https://bahrainroastery.com/products/1-kg-applewood-reserve-wood-fired-coffee",
+    "resolved_url": "https://bahrainroastery.com/products/1-kg-applewood-reserve-wood-fired-coffee",
+    "source_title": "1 KG AppleWood Reserve (Wood-Fired Coffee)",
+    "image_url": "https://bahrainroastery.com/cdn/shop/files/rn-image_picker_lib_temp_99292d2b-f5a4-4a97-9e8b-c04cfb70db3b.png?v=1785213956",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Barista Elite Supremo Espresso",
+    "source_url": "https://bahrainroastery.com/products/1-kg-barista-elite-supremo-espresso",
+    "resolved_url": "https://bahrainroastery.com/products/1-kg-barista-elite-supremo-espresso",
+    "source_title": "1 KG Barista Elite Supremo Espresso",
+    "image_url": "https://bahrainroastery.com/cdn/shop/files/rn-image_picker_lib_temp_bc771943-b80f-4450-a9bb-ac97c3308082.png?v=1768513857",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Rivense La Guaca",
+    "source_url": "https://greydoha.qa/product/rivense-la-guaca",
+    "resolved_url": "https://greydoha.qa/product/rivense-la-guaca",
+    "source_title": "Rivense La Guaca",
+    "image_url": "https://i.imgur.com/nmI5pPW.jpeg",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Finca El Bosque",
+    "source_url": "https://greydoha.qa/product/finca-el-bosque",
+    "resolved_url": "https://greydoha.qa/product/finca-el-bosque",
+    "source_title": "Finca El Bosque",
+    "image_url": "https://i.imgur.com/32bcATN.jpeg",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Colombia Passion Fruit",
+    "source_url": "https://oruroasters.com/products/colombia-passion-fruit",
+    "resolved_url": "https://oruroasters.com/products/colombia-passion-fruit",
+    "source_title": "Colombia Passion Fruit",
+    "image_url": "https://oruroasters.com/cdn/shop/files/websitenewbeansaugusttt-32.png?v=1785589241&width=2048",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Uganda Mukhoto",
+    "source_url": "https://oruroasters.com/products/uganda-mukhoto",
+    "resolved_url": "https://oruroasters.com/products/uganda-mukhoto",
+    "source_title": "Uganda Mukhoto",
+    "image_url": "https://oruroasters.com/cdn/shop/files/websitenewbeansaugusttt-31.png?v=1785586645&width=2048",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Ethiopia Korma (Natural)",
+    "source_url": "https://kw.earthroastery.com/products/ethiopia-korma-natural",
+    "resolved_url": "https://kw.earthroastery.com/products/ethiopia-korma-natural",
+    "source_title": "Korma",
+    "image_url": "https://kw.earthroastery.com/cdn/shop/files/ETHN25GH21_4067281f-1f9b-4835-872b-e6e6fb867a47.png?v=1779023866&width=2048",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Brazil Alta Mogiana",
+    "source_url": "https://oruroasters.com/products/alta-mogiana-brazil",
+    "resolved_url": "https://oruroasters.com/products/alta-mogiana-brazil",
+    "source_title": "Brazil Alta Mogiana",
+    "image_url": "https://oruroasters.com/cdn/shop/files/2526-25.png?v=1784032058&width=2048",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Bossa Nova | Brazil",
+    "source_url": "https://48e.co/products/santa-lucia-brazil",
+    "resolved_url": "https://48e.co/products/santa-lucia-brazil",
+    "source_title": "Bossa Nova | Brazil",
+    "image_url": "https://48e.co/cdn/shop/files/8.jpg?v=1760460774",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Buenos Dias",
+    "source_url": "https://48e.co/products/buenos-dias",
+    "resolved_url": "https://48e.co/products/buenos-dias",
+    "source_title": "Buenos Dias",
+    "image_url": "https://48e.co/cdn/shop/files/16.jpg?v=1760461121",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "ORU Blend",
+    "source_url": "https://oruroasters.com/products/oru-blend",
+    "resolved_url": "https://oruroasters.com/products/oru-blend",
+    "source_title": "Oru Blend",
+    "image_url": "https://oruroasters.com/cdn/shop/files/orublend20-20.png?v=1784032241&width=2048",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Ethiopia Guji G1 Masina",
+    "source_url": "https://oruroasters.com/products/ethiopia-muji-masina",
+    "resolved_url": "https://oruroasters.com/products/ethiopia-muji-masina",
+    "source_title": "Ethiopia Guji G1 Masina",
+    "image_url": "https://oruroasters.com/cdn/shop/files/21to24-22.png?v=1784029697&width=2048",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Mexico Altura High Grown",
+    "source_url": "https://oruroasters.com/products/altura-high-grown-mexico",
+    "resolved_url": "https://oruroasters.com/products/altura-high-grown-mexico",
+    "source_title": "Mexico Altura High Grown",
+    "image_url": "https://oruroasters.com/cdn/shop/files/21to24-21.png?v=1784029880&width=2048",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Ethiopia Yirgacheffe Beans",
+    "source_url": "https://www.doharoastery.com/products/746227b1-287d-41f2-95a2-d74aa2b2b8e3",
+    "resolved_url": "https://www.doharoastery.com/products/746227b1-287d-41f2-95a2-d74aa2b2b8e3",
+    "source_title": "حبوب قهوة إثيوبيا يرغاشيف — ١٠٠ غ | دوحة روستري",
+    "image_url": "https://lcjkjukqjjfaljndhgji.supabase.co/storage/v1/object/public/product-images/products/1785942869368-ez39rir36tt.png",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Elixir - Brazil",
+    "source_url": "https://80pluscoffeebh.com/products/elixir-brazil",
+    "resolved_url": "https://80pluscoffeebh.com/products/elixir-brazil",
+    "source_title": "Elixir - Brazil",
+    "image_url": "https://80pluscoffeebh.com/cdn/shop/files/Brazil_Mogiana_Origins_Sticker.png?v=1749225967",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "HABMELA - Ethiopia (HAMBELA)",
+    "source_url": "https://80pluscoffeebh.com/products/hambela-ethiopia-1",
+    "resolved_url": "https://80pluscoffeebh.com/products/hambela-ethiopia-1",
+    "source_title": "HABMELA - Ethiopia (HAMBELA)",
+    "image_url": "https://80pluscoffeebh.com/cdn/shop/files/BerryPopSticker.png?v=1769772951",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Black Forest Blend",
+    "source_url": "https://rootsroastery.net/en/product/black-forest-blend/",
+    "resolved_url": "https://rootsroastery.net/en/product/black-forest-blend/",
+    "source_title": "Black Forest Coffee Blend | Roots Roastery Kuwait",
+    "image_url": "https://rootsroastery.net/wp-content/uploads/2023/10/black-forest-blend.png",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Colombia Geisha Marcela",
+    "source_url": "https://rootsroastery.net/en/product/colombia-geisha-marcelia/",
+    "resolved_url": "https://rootsroastery.net/en/product/colombia-geisha-marcelia/",
+    "source_title": "Colombia Geisha Marcela 250g | Roots Roastery Kuwait",
+    "image_url": "https://rootsroastery.net/wp-content/uploads/2024/04/colombia-geisha.png",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Ethiopia Hambella",
+    "source_url": "https://rootsroastery.net/en/product/ethiopia-hambella/",
+    "resolved_url": "https://rootsroastery.net/en/product/ethiopia-hambella/",
+    "source_title": "Ethiopia Hambella Coffee Beans | Roots Roastery Kuwait",
+    "image_url": "https://rootsroastery.net/wp-content/uploads/2024/10/ethiopia-hambella_.png",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Yemen Rare Single Origin Coffee Beans",
+    "source_url": "https://www.doharoastery.com/products/00271bf7-19bd-4336-9bf4-994196edf44f",
+    "resolved_url": "https://www.doharoastery.com/products/00271bf7-19bd-4336-9bf4-994196edf44f",
+    "source_title": "حبوب قهوة اليمن النادرة أحادية المصدر — ٢٥٠ غ | دوحة روستري",
+    "image_url": "https://lcjkjukqjjfaljndhgji.supabase.co/storage/v1/object/public/product-images/products/1785942697755-7p4hfsh5c4b.png",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "India Single Origin Coffee Beans",
+    "source_url": "https://www.doharoastery.com/products/22bc2a53-af25-41ce-bd2b-f31a649c4f05",
+    "resolved_url": "https://www.doharoastery.com/products/22bc2a53-af25-41ce-bd2b-f31a649c4f05",
+    "source_title": "حبوب قهوة الهند أحادية المصدر — ٢٥٠ غ | دوحة روستري",
+    "image_url": "https://lcjkjukqjjfaljndhgji.supabase.co/storage/v1/object/public/product-images/products/1779179786292-q76rwjz7xei.png",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Ethiopia Guji Coffee Beans",
+    "source_url": "https://www.doharoastery.com/products/344303c6-5a05-435b-9822-365e13bbe851",
+    "resolved_url": "https://www.doharoastery.com/products/344303c6-5a05-435b-9822-365e13bbe851",
+    "source_title": "حبوب قهوة إثيوبيا غوجي — ١٠٠ غ | دوحة روستري",
+    "image_url": "https://lcjkjukqjjfaljndhgji.supabase.co/storage/v1/object/public/product-images/products/1784968674824-2s3y99sbin7.png",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Colombia Las Palmas",
+    "source_url": "https://camelstep.com/products/%D9%83%D9%88%D9%84%D9%88%D9%85%D8%A8%D9%8A%D8%A7-%D9%84%D8%A7%D8%B3-%D8%A8%D8%A7%D9%84%D9%85%D8%A7%D8%B3",
+    "resolved_url": "https://camelstep.com/ar-us/products/%D9%83%D9%88%D9%84%D9%88%D9%85%D8%A8%D9%8A%D8%A7-%D9%84%D8%A7%D8%B3-%D8%A8%D8%A7%D9%84%D9%85%D8%A7%D8%B3",
+    "source_title": "كولومبيا لاس بالماس",
+    "image_url": "https://media.zid.store/cdn-cgi/image/w=1200,h=630,q=90,fit=pad,background=white/https://media.zid.store/4d81b434-c24e-4364-a896-a2c5d766130c/17cfee59-c2e2-4a25-8150-859709676598.png",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Costa Rica Barátila",
+    "source_url": "https://camelstep.com/products/%D9%83%D9%88%D8%B3%D8%AA%D8%A7%D8%B1%D9%8A%D9%83%D8%A7-%D8%A8%D8%A7%D8%B1%D8%A7%D8%AA%D9%8A%D9%84%D8%A7",
+    "resolved_url": "https://camelstep.com/ar-us/products/%D9%83%D9%88%D8%B3%D8%AA%D8%A7%D8%B1%D9%8A%D9%83%D8%A7-%D8%A8%D8%A7%D8%B1%D8%A7%D8%AA%D9%8A%D9%84%D8%A7",
+    "source_title": "قهوة كوستاريكا بارتيلا المختصة | إيحاءات الفراولة والتوت والمكسرات",
+    "image_url": "https://media.zid.store/cdn-cgi/image/w=1200,h=630,q=90,fit=pad,background=white/https://media.zid.store/4d81b434-c24e-4364-a896-a2c5d766130c/d6615671-1e66-47d6-aaba-13ccfd4e2e6a.png",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Bani Ismail | Yemen",
+    "source_url": "https://48e.co/products/bani-ismail-yemen",
+    "resolved_url": "https://48e.co/products/bani-ismail-yemen",
+    "source_title": "Bani Ismail | Yemen",
+    "image_url": "https://48e.co/cdn/shop/files/2-5_173554a9-7c28-4297-a6b2-e75416711242.png?v=1788079542",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Freddy Mellado | Peru",
+    "source_url": "https://48e.co/products/freddy-mellado-peru",
+    "resolved_url": "https://48e.co/products/freddy-mellado-peru",
+    "source_title": "Freddy Mellado | Peru",
+    "image_url": "https://48e.co/cdn/shop/files/1-3_9fd93b1a-8b9b-42f9-a6dd-4e30a37577ec.png?v=1782893449",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Thageini Indigo | Kenya",
+    "source_url": "https://48e.co/products/thageini-indigo-kenya",
+    "resolved_url": "https://48e.co/products/thageini-indigo-kenya",
+    "source_title": "Thageini Indigo| Kenya",
+    "image_url": "https://48e.co/cdn/shop/files/3-5.png?v=1788080468",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Masar (Yemen)",
+    "source_url": "https://b-k.coffee/products/masar-yemen-slow-dried-coffee-250g",
+    "resolved_url": "https://b-k.coffee/products/masar-yemen-slow-dried-coffee-250g",
+    "source_title": "قهوة مسار اليمنية 250 جرام | تجفيف مطول - بلاك نايت",
+    "image_url": "https://media.zid.store/cdn-cgi/image/w=1200,h=630,q=90,fit=pad,background=white/https://media.zid.store/f6a65a4f-3e16-4120-a6ce-737855e6e7fc/36579fe8-685c-4fcc-8c5f-2d27dd71419c.png",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Mameria Native Community | Peru",
+    "source_url": "https://48e.co/products/mameria-native-community-peru",
+    "resolved_url": "https://48e.co/products/mameria-native-community-peru",
+    "source_title": "Mameria Native Community | Peru",
+    "image_url": "https://48e.co/cdn/shop/files/1_727b1d39-d3c9-44da-9721-2a7bccf734f8.png?v=1786265739",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Tropical Canopy | Ethiopia",
+    "source_url": "https://48e.co/products/tropical-canopy-ethiopia",
+    "resolved_url": "https://48e.co/products/tropical-canopy-ethiopia",
+    "source_title": "Tropical Canopy | Ethiopia",
+    "image_url": "https://48e.co/cdn/shop/files/3_5bdfdec2-0ff9-4868-aef3-72a7f47bcb49.png?v=1786265679",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Ethiopia Chelchele",
+    "source_url": "https://hautecoffeeroasters.com/products/ethiopia-chelchele-coffee",
+    "resolved_url": "https://hautecoffeeroasters.com/products/ethiopia-chelchele-coffee",
+    "source_title": "Ethiopian Yirgacheffe Coffee Beans – Chelchele | UAE",
+    "image_url": "https://hautecoffeeroasters.com/cdn/shop/files/IMG-20240506_171914_820.png?v=1715002272",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Colombian Coffee Supremo",
+    "source_url": "https://hautecoffeeroasters.com/products/colombia-coffee-supremo",
+    "resolved_url": "https://hautecoffeeroasters.com/products/colombia-coffee-supremo",
+    "source_title": "Colombian Coffee Supremo Beans | Abu Dhabi & UAE",
+    "image_url": "https://hautecoffeeroasters.com/cdn/shop/files/4new.png?v=1688693980",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Brazilian Coffee Beans",
+    "source_url": "https://hautecoffeeroasters.com/products/brazilian-coffee-beans",
+    "resolved_url": "https://hautecoffeeroasters.com/products/brazilian-coffee-beans",
+    "source_title": "Brazilian Coffee Beans – Minas Gerais | Roasted in Abu Dhabi",
+    "image_url": "https://hautecoffeeroasters.com/cdn/shop/files/IMG_20230705_050008_508.png?v=1688519229",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Ethiopia Rumudamo Anaerobic",
+    "source_url": "https://archerscoffee.com/products/ethiopia-rumudamo-anaerobic-mini-archers-lot-0102-26",
+    "resolved_url": "https://archerscoffee.com/products/ethiopia-rumudamo-anaerobic-mini-archers-lot-0102-26",
+    "source_title": "Ethiopia - Rumudamo Anaerobic Mini Archers lot 0102-26",
+    "image_url": "https://archerscoffee.com/cdn/shop/files/daye_bensa_commu_product_2.jpg?v=1790350874",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Ethiopia Daye Bensa Hamasho Natural",
+    "source_url": "https://archerscoffee.com/products/ethiopia-daye-bensa-hamasho-natural-archers-lot-0126",
+    "resolved_url": "https://archerscoffee.com/products/ethiopia-daye-bensa-hamasho-natural-archers-lot-0126",
+    "source_title": "Ethiopia - Daye Bensa Hamasho Natural Archers Lot 0126",
+    "image_url": "https://archerscoffee.com/cdn/shop/files/daye_bensa_commu_product_2.jpg?v=1790350874",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Panama Janson Family Hacienda",
+    "source_url": "https://archerscoffee.com/products/panama-janson-family-hacienda-lot-26-127",
+    "resolved_url": "https://archerscoffee.com/products/panama-janson-family-hacienda-lot-26-127",
+    "source_title": "Panama - Janson Family Hacienda Lot 26 - 127",
+    "image_url": "https://archerscoffee.com/cdn/shop/files/Janson_Coffee_Release-06.jpg?v=1789384493",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Colombia Catiope Bourbon",
+    "source_url": "https://oruroasters.com/products/colombia-catiope-bourbon",
+    "resolved_url": "https://oruroasters.com/products/colombia-catiope-bourbon",
+    "source_title": "Colombia Catiope Bourbon",
+    "image_url": "https://oruroasters.com/cdn/shop/files/newapricotpic-31-36.png?v=1788871224&width=2048",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Colombia Supremo",
+    "source_url": "https://oruroasters.com/products/colombia-supremo",
+    "resolved_url": "https://oruroasters.com/products/colombia-supremo",
+    "source_title": "Colombia Supremo",
+    "image_url": "https://oruroasters.com/cdn/shop/files/21to24-24.png?v=1784029758&width=2048",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Atlas Coffee",
+    "source_url": "https://thebarn.de/products/atlas-coffee",
+    "resolved_url": "https://thebarn.de/products/atlas-coffee",
+    "source_title": "Guatemala Filter Coffee Beans: Atlas — Nougat, Plum & Honey | THE BARN",
+    "image_url": "https://thebarn.de/cdn/shop/files/bag_atlas_b2c.png?v=1784803222",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Elemental Coffee",
+    "source_url": "https://thebarn.de/products/elemental-coffee",
+    "resolved_url": "https://thebarn.de/products/elemental-coffee",
+    "source_title": "Brazil Espresso Coffee Beans: Elemental — Chocolate, Almond & Dried Fruit",
+    "image_url": "https://thebarn.de/cdn/shop/files/bag_elemental_sito_das_cabras_b2c.png?v=1784033291",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Genesis Coffee",
+    "source_url": "https://thebarn.de/products/genesis-coffee",
+    "resolved_url": "https://thebarn.de/products/genesis-coffee",
+    "source_title": "Ethiopia Filter Coffee Beans: Genesis — Peach, Chocolate & Jasmine",
+    "image_url": "https://thebarn.de/cdn/shop/files/bag_genesis.png?v=1771412695",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Brazil — Classic",
+    "source_url": "https://roastado.qa/products/brazil-classic",
+    "resolved_url": "https://roastado.qa/products/brazil-classic",
+    "source_title": "Brazil — Classic",
+    "image_url": "https://roastado.qa/cdn/shop/files/69B8900A-3428-4F63-9362-39D7E60C78BA.png?v=1770926012",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Ethiopia Guji — Filter",
+    "source_url": "https://roastado.qa/products/ethiopia-guji-filter",
+    "resolved_url": "https://roastado.qa/products/ethiopia-guji-filter",
+    "source_title": "Ethiopia Guji — Filter",
+    "image_url": "https://roastado.qa/cdn/shop/files/Ethiopia_Guji_Filter_v3.png?v=1770943562",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Colombia — Decaf",
+    "source_url": "https://roastado.qa/products/colombia-decaf",
+    "resolved_url": "https://roastado.qa/products/colombia-decaf",
+    "source_title": "Colombia — Decaf",
+    "image_url": "https://roastado.qa/cdn/shop/files/rn-image_picker_lib_temp_56a94223-b4d7-4d05-817c-74a2e22f94d2.png?v=1785148958",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Costa Rica — Los Robles — Natural Reposado",
+    "source_url": "https://www.vulcanroastery.com/collections/all-coffee/products/costa-rica-los-robles-natural-reposado-1",
+    "resolved_url": "https://www.vulcanroastery.com/collections/all-coffee/products/costa-rica-los-robles-natural-reposado-1",
+    "source_title": "COSTA RICA - LOS ROBLES - NATURAL REPOSADO",
+    "image_url": "https://www.vulcanroastery.com/cdn/shop/files/Costarica_Los_Robles-04_1200x1200.jpg?v=1780148148",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Ethiopia — Bench Maji — Natural",
+    "source_url": "https://www.vulcanroastery.com/collections/all-coffee/products/ethiopia-bench-maji-natural",
+    "resolved_url": "https://www.vulcanroastery.com/collections/all-coffee/products/ethiopia-bench-maji-natural",
+    "source_title": "ETHIOPIA - BENCH MAJI - NATURAL",
+    "image_url": "https://www.vulcanroastery.com/cdn/shop/files/Benchmaji_Gesha_-_RESERVE_COLLECTION-04_1200x1200.jpg?v=1785591488",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Colombia — Cerro Azul — Honey Geisha (Competition Series)",
+    "source_url": "https://www.vulcanroastery.com/collections/all-coffee/products/colombia-cerro-azul-geisha-honey",
+    "resolved_url": "https://www.vulcanroastery.com/collections/all-coffee/products/colombia-cerro-azul-geisha-honey",
+    "source_title": "COLOMBIA -  CERRO AZUL -  HONEY GESHA (Competition Series)",
+    "image_url": "https://www.vulcanroastery.com/cdn/shop/files/POST03_5d49fc9a-5cbf-47f5-aa2b-333ee0b91b9b_1200x1200.jpg?v=1776170011",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Ethiopia Bona Zuria Fermented",
+    "source_url": "https://42coffeeroasters.com/product/ethiopia-bona-zuria/",
+    "resolved_url": "https://42coffeeroasters.com/product/ethiopia-bona-zuria/",
+    "source_title": "Roasting Specialty Coffee - Ethiopia Bona Zuria Fermented - 42 Coffee Roasters UAE",
+    "image_url": "https://42coffeeroasters.com/wp-content/uploads/2025/03/Ethiopia-Bona-Zuria.jpg",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Ethiopia Goro Bedesa Fermented",
+    "source_url": "https://42coffeeroasters.com/product/ethiopia-goro-bedesa-fermented/",
+    "resolved_url": "https://42coffeeroasters.com/product/ethiopia-goro-bedesa-fermented/",
+    "source_title": "Roasting Specialty Coffee - Ethiopia Goro Bedesa Fermented - 42 Coffee Roasters UAE",
+    "image_url": "https://42coffeeroasters.com/wp-content/uploads/2023/03/Ethiopia-Goro-Bedesa.jpg",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Colombia Sanchez Finca Monteblanco",
+    "source_url": "https://42coffeeroasters.com/product/colombia-sanchez-finca-monteblanco/",
+    "resolved_url": "https://42coffeeroasters.com/product/colombia-sanchez-finca-monteblanco/",
+    "source_title": "Roasting Specialty Coffee - Colombia Sanchez Finca Monteblanco - 42 Coffee Roasters UAE",
+    "image_url": "https://42coffeeroasters.com/wp-content/uploads/2026/06/Sanchez-Finca-Montebalnco-42-Coffee-Roasters.jpg",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Rocko Mountain",
+    "source_url": "https://goldboxroastery.com/collections/coffee/products/rocko-mountain",
+    "resolved_url": "https://goldboxroastery.com/collections/coffee/products/rocko-mountain",
+    "source_title": "Rocko Mountain",
+    "image_url": "https://goldboxroastery.com/cdn/shop/files/Webp_-_Drip_Bag_1200x1200.webp?v=1740379251",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Dark Sugars",
+    "source_url": "https://goldboxroastery.com/collections/coffee/products/dark-sugars",
+    "resolved_url": "https://goldboxroastery.com/collections/coffee/products/dark-sugars",
+    "source_title": "Dark Sugars",
+    "image_url": "https://goldboxroastery.com/cdn/shop/files/DS_1200x1200.jpg?v=1690291921",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Bond Street Espresso Blend",
+    "source_url": "https://goldboxroastery.com/collections/coffee/products/bond-street-espresso-blend",
+    "resolved_url": "https://goldboxroastery.com/collections/coffee/products/bond-street-espresso-blend",
+    "source_title": "Bond Street Espresso Blend",
+    "image_url": "https://goldboxroastery.com/cdn/shop/products/2022-224g-bag-Bond-St_6be1b55ec1b3275728796a96d6ddc5b0_1200x1200.jpg?v=1688630863",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Funky Weekend Blend",
+    "source_url": "https://goldboxroastery.com/collections/coffee/products/funky-weekend-blend",
+    "resolved_url": "https://goldboxroastery.com/collections/coffee/products/funky-weekend-blend",
+    "source_title": "Funky Weekend Blend",
+    "image_url": "https://goldboxroastery.com/cdn/shop/files/Webp_-_Drip_Bag_9fa03a91-236e-4c4a-8e5d-7e43c54cd8b2_1200x1200.webp?v=1740381625",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Arabic Gahwa",
+    "source_url": "https://goldboxroastery.com/collections/coffee/products/arabic-gahwa",
+    "resolved_url": "https://goldboxroastery.com/collections/coffee/products/arabic-gahwa",
+    "source_title": "Arabic Gahwa",
+    "image_url": "https://goldboxroastery.com/cdn/shop/files/ArabicGahwa--webp_1200x1200.webp?v=1744278469",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "El Salvador — Finca Colombia — Natural Gesha",
+    "source_url": "https://www.vulcanroastery.com/collections/vulcan-treasury-series/products/finca-colombia-gesha-el-salvador",
+    "resolved_url": "https://www.vulcanroastery.com/collections/vulcan-treasury-series/products/finca-colombia-gesha-el-salvador",
+    "source_title": "EL SALVADOR - FINCA COLOMBIA - NATURAL GESHA",
+    "image_url": "https://www.vulcanroastery.com/cdn/shop/products/3_8b11b866-563c-4cdf-be3f-ed24df95b36d_1200x1200.jpg?v=1646807710",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Colombia — Buesaco — Natural",
+    "source_url": "https://www.vulcanroastery.com/collections/new-arrival/products/colombia-buesaco-natural",
+    "resolved_url": "https://www.vulcanroastery.com/collections/new-arrival/products/colombia-buesaco-natural",
+    "source_title": "COLOMBIA - BUESACO - NATURAL",
+    "image_url": "https://www.vulcanroastery.com/cdn/shop/files/ColombiaBuesaco-03-shopify_1200x1200.jpg?v=1780149840",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Bombe — Ethiopia — Natural",
+    "source_url": "https://jeedroastery.com/products/Bombe_Ethiopia_Natural",
+    "resolved_url": "https://jeedroastery.com/products/Bombe_Ethiopia_Natural",
+    "source_title": "بومبي  - أثيوبي مجفف - محمصة جيد",
+    "image_url": "https://media.zid.store/cdn-cgi/image/w=1200,h=630,q=90,fit=pad,background=white/https://media.zid.store/c338f653-3fac-4574-9643-bb0e646ef8f8/37492db8-6d0f-447c-8d61-235a9ef5539d.png",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Benti Nenqa — Ethiopia — Washed",
+    "source_url": "https://jeedroastery.com/products/Benti_Nenqa_Ethiopia_Washed",
+    "resolved_url": "https://jeedroastery.com/products/Benti_Nenqa_Ethiopia_Washed",
+    "source_title": "بينتي نينكا - أثيوبي مغسول",
+    "image_url": "https://media.zid.store/cdn-cgi/image/w=1200,h=630,q=90,fit=pad,background=white/https://media.zid.store/c338f653-3fac-4574-9643-bb0e646ef8f8/2e758812-b21a-43d0-b523-3a6d18e68297.png",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Aquiares — Costa Rica — Natural",
+    "source_url": "https://jeedroastery.com/products/Aquiares_Natural_Costa_Rica",
+    "resolved_url": "https://jeedroastery.com/products/Aquiares_Natural_Costa_Rica",
+    "source_title": "أكيارس - كوستاريكي مجفف - قهوة جيد",
+    "image_url": "https://media.zid.store/cdn-cgi/image/w=1200,h=630,q=90,fit=pad,background=white/https://media.zid.store/c338f653-3fac-4574-9643-bb0e646ef8f8/4aa95b03-8c17-4093-9611-dbf39dbba6f5.png",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "AmberWood Reserve (Wood-Fired Coffee)",
+    "source_url": "https://bahrainroastery.com/products/1-kg-amberwood-reserve-wood-fired-coffee",
+    "resolved_url": "https://bahrainroastery.com/products/1-kg-amberwood-reserve-wood-fired-coffee",
+    "source_title": "1 KG Amberwood Reserve (Wood-Fired Coffee)",
+    "image_url": "https://bahrainroastery.com/cdn/shop/files/rn-image_picker_lib_temp_a9a669e1-63af-48ee-82a1-4ba729d02ebb.png?v=1790070089",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Ethiopian Enaria",
+    "source_url": "https://rawcoffeecompany.com/products/ethiopian-enaria-coffee",
+    "resolved_url": "https://rawcoffeecompany.com/products/ethiopian-enaria-coffee",
+    "source_title": "ETHIOPIAN ENARIA GUJI COFFEE",
+    "image_url": "https://rawcoffeecompany.com/cdn/shop/files/RAW-Coffee-Company_Ethiopian-Enaria-Coffee-250gm.jpg?v=1778660719",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Uganda Elgon Anaerobic Natural",
+    "source_url": "https://rawcoffeecompany.com/products/uganda-elgon-anaerobic-natural-coffee",
+    "resolved_url": "https://rawcoffeecompany.com/products/uganda-elgon-anaerobic-natural-coffee",
+    "source_title": "UGANDAN ELGON ANAEROBIC NATURAL COFFEE",
+    "image_url": "https://rawcoffeecompany.com/cdn/shop/files/RAW-Coffee-Company_Ugandan-Elgon-Anaerobic-Natural-Coffee-250gm.jpg?v=1776764585",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Hambela Supernatural",
+    "source_url": "https://methods.coffee/collections/coffee/products/hambela-supernatural",
+    "resolved_url": "https://methods.coffee/collections/coffee/products/hambela-supernatural",
+    "source_title": "Hambela Supernatural",
+    "image_url": "https://methods.coffee/cdn/shop/files/Package-sticker-N-Hambela-Supernatural.png?v=1787233049",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Yirgacheffe Washed Halo Bariti",
+    "source_url": "https://methods.coffee/collections/coffee/products/yirgacheffe-washed-halo-bariti",
+    "resolved_url": "https://methods.coffee/collections/coffee/products/yirgacheffe-washed-halo-bariti",
+    "source_title": "Yirgacheffe Washed Halo Bariti",
+    "image_url": "https://methods.coffee/cdn/shop/files/Package-sticker-N-Yirgacheffe-Washed-Halo-Bariti.png?v=1775035284",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Papayo Hydro Natural",
+    "source_url": "https://methods.coffee/collections/coffee/products/papayo-hydro-natural",
+    "resolved_url": "https://methods.coffee/collections/coffee/products/papayo-hydro-natural",
+    "source_title": "Papayo Hydro Natural",
+    "image_url": "https://methods.coffee/cdn/shop/files/Package-sticker-N-Papayo-Hydro-NaturalPapayo-Hydro-Natural.png?v=1775034925",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Ethiopia Bisrat Melaku Washed",
+    "source_url": "https://friedhats.com/products/ethiopia-bisrat-melaku-washed",
+    "resolved_url": "https://friedhats.com/products/ethiopia-bisrat-melaku-washed",
+    "source_title": "Ethiopia Bisrat Melaku Washed",
+    "image_url": "https://cdn.shopify.com/s/files/1/0015/3265/7724/files/Ethiopia-label-2-V2-bottle_1200x1200.png?v=1748954449",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Kenya Gicherori Washed",
+    "source_url": "https://friedhats.com/products/kenya-gicherori-washed",
+    "resolved_url": "https://friedhats.com/products/kenya-gicherori-washed",
+    "source_title": "Kenya Gicherori Washed",
+    "image_url": "https://cdn.shopify.com/s/files/1/0015/3265/7724/files/Kenya-label-2-V2-bottle_1200x1200.png?v=1740059879",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Costa Rica Adelina Fallas Honey",
+    "source_url": "https://friedhats.com/products/costa-rica-ramiro-honey",
+    "resolved_url": "https://friedhats.com/products/costa-rica-ramiro-honey",
+    "source_title": "Costa Rica Adelina Fallas Honey",
+    "image_url": "https://cdn.shopify.com/s/files/1/0015/3265/7724/files/CostaRica-Label-Bottle-2_1200x1200.png?v=1783066770",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Costa Rica Granitos - Ortiz 1800, Catuai, Yellow Honey",
+    "source_url": "https://ozonecoffee.co.uk/products/costa-rica-granitos-ortiz-1800",
+    "resolved_url": "https://ozonecoffee.co.uk/products/costa-rica-granitos-ortiz-1800",
+    "source_title": "Costa Rica: Granitos de Altura del Ortiz, Catuai, Honey",
+    "image_url": "https://ozonecoffee.co.uk/cdn/shop/files/Ozone_Coffee_Square_2026_CRI_Granitos_Ortiz.png?v=1790247110",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Bolivia Gregorio Palli, Anoxic Washed",
+    "source_url": "https://ozonecoffee.co.uk/products/bolivia-gregorio-palli-anoxic-washed",
+    "resolved_url": "https://ozonecoffee.co.uk/products/bolivia-gregorio-palli-anoxic-washed",
+    "source_title": "Bolivia: Gregorio Palli, Anoxic Washed, Caturra & Catuai",
+    "image_url": "https://ozonecoffee.co.uk/cdn/shop/files/Ozone_Coffee_Square_2025_BOL_Gregorio_Palli_Anoxic_f177082d-8b21-4866-a205-f979b08e07cd.png?v=1790694993",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "El Salvador Finca Argentina, Yellow Pacamara, Natural",
+    "source_url": "https://ozonecoffee.co.uk/products/el-salvador-finca-argentina-yellow-pacamara-natural",
+    "resolved_url": "https://ozonecoffee.co.uk/products/el-salvador-finca-argentina-yellow-pacamara-natural",
+    "source_title": "El Salvador: Finca Argentina, Yellow Pacamara, Natural",
+    "image_url": "https://ozonecoffee.co.uk/cdn/shop/files/Ozone_Coffee_Square_2025_SLV_Argentina_Y_Pacamara.png?v=1787748129",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Nanopresso",
+    "source_url": "https://www.wacaco.com/products/nanopresso",
+    "resolved_url": "https://www.wacaco.com/products/nanopresso",
+    "source_title": "Wacaco | Nanopresso | Versatile Portable Espresso Maker",
+    "image_url": "https://www.wacaco.com/cdn/shop/products/Nanopresso_Grey-PNG--002-LD_b82dc871-a76d-4850-a66e-42d541261d2b.png?v=1698119888",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Comandante C40 MK4",
+    "source_url": "https://comandantegrinder.com/products/c40-mk4-nitro-blade-black",
+    "resolved_url": "https://comandantegrinder.com/products/c40-mk4-nitro-blade-black",
+    "source_title": "C40 Nitro Blade BLACK",
+    "image_url": "https://comandantegrinder.com/cdn/shop/files/c40-nitro-blade-mk4-black.jpg?v=1741195167&width=2048",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Niche Zero",
+    "source_url": "https://www.nichecoffee.co.uk/products/niche-zero",
+    "resolved_url": "https://www.nichecoffee.co.uk/products/niche-zero",
+    "source_title": "The Best Conical Burr Coffee Grinder - The Niche Zero",
+    "image_url": "https://www.nichecoffee.co.uk/cdn/shop/files/White-63C-dark-grey-bkg-1000px.jpg?crop=center&height=1200&v=1727943139&width=1200",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Fellow Opus 2 Conical Burr Grinder",
+    "source_url": "https://fellowproducts.com/products/opus-2-conical-burr-grinder",
+    "resolved_url": "https://fellowproducts.com/products/opus-2-conical-burr-grinder",
+    "source_title": "Opus 2 Conical Burr Grinder",
+    "image_url": "https://fellowproducts.com/cdn/shop/files/PDP_Opus2_Black_Black.png?v=1771549610",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Acaia Pearl Model S",
+    "source_url": "https://acaia.co/products/pearl-model-s",
+    "resolved_url": "https://acaia.co/products/pearl-model-s",
+    "source_title": "Pearl Model S",
+    "image_url": "https://acaia.co/cdn/shop/files/PearlS_white_3.jpg?v=1768987825",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Breville Barista Express (BES870)",
+    "source_url": "https://www.breville.com/us/en/products/espresso/bes870.html",
+    "resolved_url": "https://www.breville.com/en-us/product/bes870",
+    "source_title": "Barista Express - All In One Espresso Machine | Breville | Breville (US)",
+    "image_url": "https://assets.breville.com/cdn-cgi/image/width=1300,format=auto/Dynamic_Bundle/US/BES870XL_Transparent_1300x1300.png?pdp",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "EG-1",
+    "source_url": "https://weberworkshops.com/products/eg-1",
+    "resolved_url": "https://weberworkshops.com/products/eg-1",
+    "source_title": "The EG-1",
+    "image_url": "https://weberworkshops.com/cdn/shop/files/EG1_MK3_Front.png?v=1739191092",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Stagg EKG Electric Kettle",
+    "source_url": "https://fellowproducts.com/products/stagg-ekg-electric-pour-over-kettle",
+    "resolved_url": "https://fellowproducts.com/products/stagg-ekg-electric-pour-over-kettle",
+    "source_title": "Stagg ‎EKG Electric Kettle | Stagg Pro & Pro Studio",
+    "image_url": "https://fellowproducts.com/cdn/shop/files/Web_PDP_StaggEKGElectricKettle-Pro_Woodland_Walnut_1.png?v=1773351258",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Feld47 Manual Coffee Grinder",
+    "source_url": "https://madebyknock.com/products/feld47-manual-coffee-grinder",
+    "resolved_url": "https://madebyknock.com/products/feld47-manual-coffee-grinder",
+    "source_title": "2023 Feld47 Manual Coffee Grinder",
+    "image_url": "https://madebyknock.com/cdn/shop/products/knock_feld47_2022_11_1200x1200.jpg?v=1739185431",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Bonavita 1.0L Variable Temperature Kettle",
+    "source_url": "https://bonavita.co/products/1-0l-variable-temperature-kettle",
+    "resolved_url": "https://bonavita.co/products/1-0l-variable-temperature-kettle",
+    "source_title": "1.0L Variable Temperature Kettle for Tea and Pour Over Coffee",
+    "image_url": "https://bonavita.co/cdn/shop/products/DSC9935_1200x1200_v-1660785011.jpg",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Baratza Virtuoso+",
+    "source_url": "https://www.baratza.com/en-us/product/virtuoso-zcg587",
+    "resolved_url": "https://www.baratza.com/en-us/product/virtuoso-zcg587",
+    "source_title": "Virtuoso™+ | Baratza (US)",
+    "image_url": "https://assets.breville.com/cdn-cgi/image/width=1300,format=auto/ZCG520/ZCG520BLK2IAN1A.png?pdp",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Kinu M47 Classic",
+    "source_url": "https://kinugrinders.com/products/m47-classic",
+    "resolved_url": "https://kinugrinders.com/products/m47-classic",
+    "source_title": "Kinu M47 Classic",
+    "image_url": "https://kinugrinders.com/cdn/shop/files/KINU-M47-Classic-front-web-cu-crop.jpg?v=1736770368&width=2048",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Hiroia Jimmy",
+    "source_url": "https://www.hiroia.com/products/jimmy",
+    "resolved_url": "https://www.hiroia.com/products/jimmy",
+    "source_title": "Jimmy Smart Coffee Scale with App & Bluetooth | Hiroia",
+    "image_url": "https://www.hiroia.com/cdn/shop/files/2a05826aabd7dbdc8ac3d64cfb7c89d273c2a50c.png?v=1752188684",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Gaggia Classic Pro (E24)",
+    "source_url": "https://www.gaggia-na.com/products/gaggia-classic-pro",
+    "resolved_url": "https://www.gaggia-na.com/products/gaggia-classic-pro",
+    "source_title": "Gaggia Classic Pro E24",
+    "image_url": "https://www.gaggia-na.com/cdn/shop/products/Blue_IMG_9703_02_grande.jpg?v=1604354451",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Baratza Encore ESP",
+    "source_url": "https://www.baratza.com/en-us/product/encoretm-esp-zcg495",
+    "resolved_url": "https://www.baratza.com/en-us/product/encoretm-esp-zcg495",
+    "source_title": "Encore™ ESP | Baratza (US)",
+    "image_url": "https://assets.breville.com/cdn-cgi/image/width=1300,format=auto/ZCG495/ZCG495WHT1AUC1A.png?pdp",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Baratza Sette 270",
+    "source_url": "https://www.baratza.com/en-us/product/sette-270-zcg1270",
+    "resolved_url": "https://www.baratza.com/en-us/product/sette-270-zcg1270",
+    "source_title": "Sette™ 270 | Baratza (US)",
+    "image_url": "https://assets.breville.com/cdn-cgi/image/width=1300,format=auto/ZCG1270/ZCG1270BLK1BUC1A.png?pdp",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Kruve Sifter Plus",
+    "source_url": "https://www.kruveinc.com/products/sifter-plus",
+    "resolved_url": "https://www.kruveinc.com/products/sifter-plus",
+    "source_title": "SIFTER PLUS",
+    "image_url": "https://www.kruveinc.com/cdn/shop/products/Sifter_Kitchen_467c4391-0cd6-4061-90d4-9b0f7d82debd_1024x1024.jpg?v=1621359376",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Bialetti Moka Express",
+    "source_url": "https://www.bialetti.com/it_en/moka-express.html",
+    "resolved_url": "https://www.bialetti.com/it_en/moka-express.html",
+    "source_title": "Moka Express",
+    "image_url": "https://www.bialetti.com/media/catalog/product/m/o/moka_express.png?format=jpeg",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "xBloom Studio",
+    "source_url": "https://xbloom.com/products/xbloom-studio",
+    "resolved_url": "https://xbloom.com/products/xbloom-studio",
+    "source_title": "xBloom Studio Automatic Pour Over Coffee Maker | xBloom",
+    "image_url": "https://xbloom.com/cdn/shop/files/xbloom_Studio_Midnight_Black_05.webp?v=1777343272",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "xBloom Original",
+    "source_url": "https://xbloom.com/products/xbloom-original",
+    "resolved_url": "https://xbloom.com/products/xbloom-original",
+    "source_title": "xBloom Original: Your Gateway to Specialty Coffee Excellence",
+    "image_url": "https://xbloom.com/cdn/shop/files/Frame_34597462.png?v=1745744412",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Nardos (Ethiopia)",
+    "source_url": "https://b-k.coffee/products/ناردوس-اثيوبيا-لاهوائي-250g",
+    "resolved_url": "https://b-k.coffee/products/%D9%86%D8%A7%D8%B1%D8%AF%D9%88%D8%B3-%D8%A7%D8%AB%D9%8A%D9%88%D8%A8%D9%8A%D8%A7-%D9%84%D8%A7%D9%87%D9%88%D8%A7%D8%A6%D9%8A-250g",
+    "source_title": "ناردوس - إثيوبيا / لاهوائي / 250 جرام",
+    "image_url": "https://media.zid.store/cdn-cgi/image/w=1200,h=630,q=90,fit=pad,background=white/https://media.zid.store/f6a65a4f-3e16-4120-a6ce-737855e6e7fc/89f4c8ec-ea8a-4e4e-9dc5-c512d9a7eddc.png",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Excelso (Colombia)",
+    "source_url": "https://b-k.coffee/products/كولومبيا-اكسيلسو-مغسول-250g",
+    "resolved_url": "https://b-k.coffee/products/%D9%83%D9%88%D9%84%D9%88%D9%85%D8%A8%D9%8A%D8%A7-%D8%A7%D9%83%D8%B3%D9%8A%D9%84%D8%B3%D9%88-%D9%85%D8%BA%D8%B3%D9%88%D9%84-250g",
+    "source_title": "إكسيلسو - كولومبيا / مغسول / 250 جرام",
+    "image_url": "https://media.zid.store/cdn-cgi/image/w=1200,h=630,q=90,fit=pad,background=white/https://media.zid.store/f6a65a4f-3e16-4120-a6ce-737855e6e7fc/f114ca6a-0d8d-48dc-b734-c38a2646a92c.png",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Meloraa (Costa Rica)",
+    "source_url": "https://b-k.coffee/products/ميلورا-كوستاريكا-عسلي-250-جرام",
+    "resolved_url": "https://b-k.coffee/products/%D9%85%D9%8A%D9%84%D9%88%D8%B1%D8%A7-%D9%83%D9%88%D8%B3%D8%AA%D8%A7%D8%B1%D9%8A%D9%83%D8%A7-%D8%B9%D8%B3%D9%84%D9%8A-250-%D8%AC%D8%B1%D8%A7%D9%85",
+    "source_title": "قهوة ميلورا كوستاريكا عسلي 250 جرام | بلاك نايت",
+    "image_url": "https://media.zid.store/cdn-cgi/image/w=1200,h=630,q=90,fit=pad,background=white/https://media.zid.store/f6a65a4f-3e16-4120-a6ce-737855e6e7fc/85df33a0-af45-4fb1-bc33-91a11c9b9220.png",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "beans",
+    "name": "Lollit (Ethiopia)",
+    "source_url": "https://b-k.coffee/products/لوليت-اثيوبيا-مجفف-g250",
+    "resolved_url": "https://b-k.coffee/products/%D9%84%D9%88%D9%84%D9%8A%D8%AA-%D8%A7%D8%AB%D9%8A%D9%88%D8%A8%D9%8A%D8%A7-%D9%85%D8%AC%D9%81%D9%81-g250",
+    "source_title": "لوليت - إثيوبيا / مجفف / 250 جرام",
+    "image_url": "https://media.zid.store/cdn-cgi/image/w=1200,h=630,q=90,fit=pad,background=white/https://media.zid.store/f6a65a4f-3e16-4120-a6ce-737855e6e7fc/6cec92bb-739c-47ed-ad65-cda659c935a6.png",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "V60 Ceramic Dripper 02",
+    "source_url": "https://globalhario.com/products/hario-v60-coffee-dripper-ceramic",
+    "resolved_url": "https://globalhario.com/products/hario-v60-coffee-dripper-ceramic",
+    "source_title": "V60 Coffee Dripper Ceramic",
+    "image_url": "https://globalhario.com/cdn/shop/files/03_TARU5936.jpg?v=1755236389",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "AeroPress Original",
+    "source_url": "https://aeropress.com/products/aeropress-coffee-maker",
+    "resolved_url": "https://aeropress.com/products/aeropress-coffee-maker",
+    "source_title": "AeroPress Coffee Maker - Original",
+    "image_url": "https://aeropress.com/cdn/shop/files/AP_OG_PDP_ATF_3_1200x1200.png?v=1757095176",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Baratza Encore",
+    "source_url": "https://www.baratza.com/en-us/product/encoretm-zcg485",
+    "resolved_url": "https://www.baratza.com/en-us/product/encoretm-zcg485",
+    "source_title": "Encore™ | Baratza (US)",
+    "image_url": "https://assets.breville.com/cdn-cgi/image/width=600,format=auto/ZCG410/ZCG410_Hero_DE.png?pdp",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Fellow Ode Gen 2",
+    "source_url": "https://fellowproducts.com/products/ode-brew-grinder-gen-2",
+    "resolved_url": "https://fellowproducts.com/products/ode-brew-grinder-gen-2",
+    "source_title": "Ode ‎Brew Grinder Gen 2 | Free Shipping | Fellow® Official Store",
+    "image_url": "https://fellowproducts.com/cdn/shop/files/Web_PDP_OdeBrewGrinderGen2_Black_1.png?v=1773359064",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "1Zpresso J-Max",
+    "source_url": "https://1zpresso.coffee/jmax/",
+    "resolved_url": "https://1zpresso.coffee/product/jmax-spareparts/",
+    "source_title": "J-Max Grinder Spare Parts - 1Zpresso Manual Coffee Grinder",
+    "image_url": "https://1zpresso.coffee/wp-content/uploads/2021/07/J-Max-grinder-w-closeup.jpg",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Acaia Pearl",
+    "source_url": "https://acaia.co/products/pearl",
+    "resolved_url": "https://acaia.co/products/pearl",
+    "source_title": "Pearl",
+    "image_url": "https://acaia.co/cdn/shop/files/Pearl_PitchBlack_withLED.jpg?v=1740983808",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Chemex Classic 6-Cup",
+    "source_url": "https://chemexcoffeemaker.com/products/six-cup-classic-chemex",
+    "resolved_url": "https://chemexcoffeemaker.com/products/six-cup-classic-chemex",
+    "source_title": "Six Cup Classic CHEMEX®",
+    "image_url": "https://chemexcoffeemaker.com/cdn/shop/files/cm-6a.jpg?v=1724186506",
+    "association": "source_product_page"
+  },
+  {
+    "kind": "equipment",
+    "name": "Origami Dripper",
+    "source_url": "https://origami-kai.com/en/products/origami_dripper_m",
+    "resolved_url": "https://origami-kai.com/en/products/origami_dripper_m",
+    "source_title": "ORIGAMI Dripper M",
+    "image_url": "https://origami-kai.com/cdn/shop/products/78764985_a_1.jpg?v=1636421802",
+    "association": "source_product_page"
+  }
+]

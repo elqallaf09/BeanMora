@@ -146,6 +146,10 @@ test('Arabic and English translation keys stay in parity, including every engine
   for (const [, reason] of reasonUnion.matchAll(/"([^"]+)"/g)) assert.equal(typeof en.reasons[reason], 'string');
   const caveatUnion = source.match(/export type Caveat = ([^;]+);/)[1];
   for (const [, caveat] of caveatUnion.matchAll(/"([^"]+)"/g)) assert.equal(typeof ar.caveats[caveat], 'string');
+  for (const method of METHODS) {
+    assert.equal(typeof ar.methods[method], 'string');
+    assert.equal(typeof en.methods[method], 'string');
+  }
 });
 test('personalization is request-scoped, read-only, and not wired to privileged keys', () => {
   const loader = readFileSync(new URL('../src/lib/recommendations/load.ts', import.meta.url), 'utf8');

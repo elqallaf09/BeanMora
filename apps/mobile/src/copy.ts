@@ -58,8 +58,8 @@ const ar: Record<keyof typeof en, string> = {
 };
 export const copy = { en, ar };
 export const methods: Record<Locale, Record<Method, string>> = {
-  en: { v60: 'V60', espresso: 'Espresso', xbloom: 'xBloom', aeropress: 'AeroPress', chemex: 'Chemex', french_press: 'French press', cold_brew: 'Cold brew', moka_pot: 'Moka pot' },
-  ar: { v60: 'V60', espresso: 'إسبريسو', xbloom: 'xBloom', aeropress: 'إيروبرس', chemex: 'كيمكس', french_press: 'فرنش برس', cold_brew: 'كولد برو', moka_pot: 'موكا بوت' },
+  en: { v60: 'V60', espresso: 'Espresso', xbloom: 'xBloom', aeropress: 'AeroPress', chemex: 'Chemex', french_press: 'French press', cold_brew: 'Cold brew', moka_pot: 'Moka pot', origami: 'Origami', kalita_wave: 'Kalita Wave' },
+  ar: { v60: 'V60', espresso: 'إسبريسو', xbloom: 'xBloom', aeropress: 'إيروبرس', chemex: 'كيمكس', french_press: 'فرنش برس', cold_brew: 'كولد برو', moka_pot: 'موكا بوت', origami: 'أوريغامي', kalita_wave: 'كاليتا ويف' },
 };
 export const reasons: Record<Locale, Record<Reason, string>> = {
   en: { method: 'Preferred brew method', gearMethod: 'Fits your brewing gear', flavor: 'Matches your flavor preferences', roast: 'Preferred roast family', inventory: 'Coffee in your inventory', exactEquipment: 'Recorded equipment matches', beginner: 'Beginner-friendly label', ownSuccess: 'You last enjoyed this recipe', community: 'Positive community evidence' },

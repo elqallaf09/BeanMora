@@ -42,7 +42,7 @@ export function Home({ data, coffees, method, setMethod, openCoffee, browse, bre
   const available = Math.min(width, 1120) - 36; const cols = available >= 600 ? 4 : 2; const cardWidth = (available - (cols - 1) * 12) / cols;
   const stats: { icon: IconName; value: number | string; title: string; note: string }[] = [
     { icon: 'bean', value: data ? new Set(data.coffees.map(c => c.beanId ?? c.kind + c.id)).size : '—', title: ar ? 'نوع بن' : 'Coffees', note: ar ? 'من مختلف أنحاء العالم' : 'From around the world' },
-    { icon: 'espresso', value: data?.recipes.length ?? '—', title: ar ? 'وصفة' : 'Recipes', note: ar ? 'وصفات متنوعة بعناية' : 'Explore your next cup' },
+    { icon: 'espresso', value: data?.recipeTotal ?? '—', title: ar ? 'وصفة' : 'Recipes', note: ar ? 'وصفات متنوعة بعناية' : 'Explore your next cup' },
     { icon: 'xbloom', value: METHODS.length, title: ar ? 'طريقة تحضير' : 'Brew methods', note: ar ? 'من إسبريسو إلى كولد برو' : 'From espresso to cold brew' },
     { icon: 'globe', value: data ? new Set(data.coffees.map(c=>c.origin).filter(Boolean)).size : '—', title: ar ? 'دولة' : 'Origins', note: ar ? 'حبوب من مختلف المزارع' : 'Discover coffee origins' },
   ];
@@ -71,7 +71,7 @@ export function CoffeeDetail({ item, recipes, openRecipe }: { item: CoffeeItem; 
   const temperature=recipe?.temperature ?? recipe?.xBloom?.temp;
   const numbers = [
     { icon:'bean' as const,value:recipe?.dose ? recipe.dose+' g' : '—',label:ar ? 'كمية البن' : 'Coffee' },
-    { icon:'drop' as const,value:recipe?.water ? recipe.water+' g' : '—',label:ar ? 'كمية الماء' : 'Water' },
+    { icon:'drop' as const,value:recipe?.water ? recipe.water+' '+recipe.waterUnit : '—',label:ar ? 'كمية الماء' : 'Water' },
     { icon:'temp' as const,value:temperature ? temperature+'°C' : '—',label:ar ? 'درجة الحرارة' : 'Temperature' },
     { icon:'clock' as const,value:recipe?.seconds ? Math.floor(recipe.seconds/60)+':'+String(recipe.seconds%60).padStart(2,'0') : '—',label:ar ? 'الوقت' : 'Time' },
   ];

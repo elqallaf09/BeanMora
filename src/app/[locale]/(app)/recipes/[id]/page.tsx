@@ -168,10 +168,12 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
             <span className="inline-flex w-fit items-center rounded-full bg-[var(--color-teal)] px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white shadow-lg">
               {t(brewMethodLabelKey(recipe.brew_method))}
             </span>
-            {recipe.recipe_type === "official_roaster" || recipe.recipe_type === "verified_barista" || recipe.recipe_type === "beanmora_suggested" ? (
+            {recipe.recipe_type === "official_manufacturer" || recipe.recipe_type === "official_roaster" || recipe.recipe_type === "verified_barista" || recipe.recipe_type === "beanmora_suggested" ? (
               <span className="inline-flex w-fit items-center rounded-full bg-white/15 px-3.5 py-1.5 text-[11px] font-semibold text-white backdrop-blur-md">
                 {t(
-                  recipe.recipe_type === "official_roaster"
+                  recipe.recipe_type === "official_manufacturer"
+                    ? "recipe.typeOfficialManufacturer"
+                    : recipe.recipe_type === "official_roaster"
                     ? "recipe.typeOfficialRoaster"
                     : recipe.recipe_type === "verified_barista"
                       ? "recipe.typeVerifiedBarista"

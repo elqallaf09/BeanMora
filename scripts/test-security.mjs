@@ -33,6 +33,24 @@ test('Next resolves the narrowly overridden patched PostCSS version', () => {
   assert.equal(nextRequire('postcss/package.json').version, '8.5.23');
   assert.equal(pkg.overrides.next.postcss, '8.5.23');
 });
+test('the official lint plugin retains all Next rules without the unpatched braces dependency', () => {
+  const configRequire = createRequire(require.resolve('eslint-config-next/package.json'));
+  const plugin = configRequire('@next/eslint-plugin-next');
+  assert.equal(configRequire('@next/eslint-plugin-next/package.json').version, '14.2.35');
+  assert.equal(require('@next/eslint-plugin-next'), plugin);
+  const pluginRequire = createRequire(configRequire.resolve('@next/eslint-plugin-next/package.json'));
+  assert.equal(pluginRequire('glob/package.json').version, '10.5.0');
+  assert.equal(require('next/package.json').version, pkg.dependencies.next);
+  assert.deepEqual(Object.keys(plugin.rules).sort(), [
+    'google-font-display', 'google-font-preconnect', 'inline-script-id', 'next-script-for-ga',
+    'no-assign-module-variable', 'no-async-client-component', 'no-before-interactive-script-outside-document',
+    'no-css-tags', 'no-document-import-in-page', 'no-duplicate-head', 'no-head-element',
+    'no-head-import-in-document', 'no-html-link-for-pages', 'no-img-element', 'no-page-custom-font',
+    'no-script-component-in-head', 'no-styled-jsx-in-document', 'no-sync-scripts',
+    'no-title-in-document-head', 'no-typos', 'no-unwanted-polyfillio',
+  ]);
+  assert.ok(!Object.keys(lock.packages).some(path => path.endsWith('/braces')));
+});
 test('PostCSS does not read an arbitrary source map without an explicit input file', () => {
   const dir = mkdtempSync(join(tmpdir(), 'beanmora-css-security-'));
   try {

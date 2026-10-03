@@ -19,6 +19,12 @@ Next and eslint-config-next moved to 15.5.25, React/React DOM to 19.1.5, Vitest/
 
 Next's PostCSS dependency is narrowly overridden to 8.5.23 (same major) for the source-map disclosure fixes. Reassess/remove this override when upgrading Next to a version carrying an equivalent or newer fix. Do not run a blind major `npm audit fix --force`.
 
+### Lint dependency compatibility — 2026-10-03
+
+The newly published [braces recursion advisory](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) affects the `fast-glob` chain in the Next 15 lint plugin, and braces has no patched release. The runtime and ESLint configuration remain on Next 15.5.25. Only the official `@next/eslint-plugin-next` package is pinned to 14.2.35, whose 21 rule names match the Next 15 plugin; its glob dependency is narrowly overridden to 10.5.0, which includes the [glob CLI command-injection fix](https://github.com/advisories/GHSA-5j98-mcp5-4vw2). A direct devDependency and an override keep root and configuration plugin resolution identical.
+
+The dependency regression test checks plugin resolution, all 21 available rules, the glob version, the unchanged Next runtime version and the absence of braces from the lockfile. The full all-severity audit, application lint and production build must pass. Remove this temporary compatibility pin once the corresponding Next lint plugin uses a patched dependency chain; do not weaken the audit gate.
+
 The initial dependency audit reported 16 findings including 3 critical. PR #17's first quality run verified zero known dependency vulnerabilities after the updates. The final quality gate runs `npm audit --audit-level=low` again, including development dependencies. A zero npm report is not a full code or infrastructure security audit.
 
 Baseline headers: no X-Powered-By, nosniff, deny framing, strict-origin referrer policy and CSP base-uri/object-src/frame-ancestors. This deliberately does not pretend to be a complete nonce-based script CSP, and does not break device/camera or OAuth flows by adding untested blanket permissions restrictions.

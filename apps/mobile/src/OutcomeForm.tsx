@@ -10,7 +10,7 @@ import { Action, Field, Language, Txt, styles, useCopy } from './ui';
 export function OutcomeForm({ recipe, userId, done }: { recipe: RecipeItem; userId: string; done: () => void }) {
   const locale = useContext(Language); const t = useCopy();
   const [dose, setDose] = useState(recipe.dose === null ? '' : String(recipe.dose));
-  const [water, setWater] = useState(recipe.water === null ? '' : String(recipe.water));
+  const [water, setWater] = useState(recipe.water === null || recipe.waterUnit === 'ml' ? '' : String(recipe.water));
   const [seconds, setSeconds] = useState(''); const [outcome, setOutcome] = useState<Outcome | null>(null);
   const [brewed, setBrewed] = useState(false); const [modified, setModified] = useState(false); const [share, setShare] = useState(false);
   const [busy, setBusy] = useState(false); const [saved, setSaved] = useState(false); const [error, setError] = useState('');
@@ -39,7 +39,7 @@ export function OutcomeForm({ recipe, userId, done }: { recipe: RecipeItem; user
   }
   if (saved) return <View style={styles.content}><Txt heading style={styles.title}>{t.saved}</Txt><Action title={t.next} onPress={done} selected /></View>;
   return <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.content}>
-    <Txt heading style={styles.subtitle}>{t.record}</Txt><Txt>{recipe.title}</Txt><Txt style={styles.muted}>{t.amountNote}</Txt>
+    <Txt heading style={styles.subtitle}>{t.record}</Txt><Txt>{recipe.title}</Txt><Txt style={styles.muted}>{t.amountNote}</Txt>{recipe.waterUnit === 'ml' ? <Txt style={styles.muted}>{locale === 'ar' ? 'ماء المصدر بالملليلتر؛ أدخل وزن الماء الفعلي من الميزان بالجرام.' : 'Source water is in milliliters; enter the actual water weight from your scale in grams.'}</Txt> : null}
     <Field label={t.dose} value={dose} onChangeText={setDose} keyboardType="decimal-pad" editable={!locked} />
     <Field label={t.water} value={water} onChangeText={setWater} keyboardType="decimal-pad" editable={!locked} />
     <Field label={t.seconds} value={seconds} onChangeText={setSeconds} keyboardType="number-pad" editable={!locked} />

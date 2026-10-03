@@ -1,0 +1,2330 @@
+[
+  {
+    "url": "https://share-h5.xbloom.com/?id=EuloqNmbiIoOXlm0FvabOw%3D%3D",
+    "directory_url": "https://redeemer.coffee/pages/xbloom-studio-recipes-for-australian-roasters",
+    "title": "png baroida grisha washed18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 288.0,
+    "ratio": 16.0,
+    "grind_size": 80.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 70.0,
+        "temperature": 65.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 120.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 98.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:34:30Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=eNgoiwcRf%2FtOhsZolsj0pg%3D%3D",
+    "directory_url": "https://redeemer.coffee/pages/xbloom-studio-recipes-for-australian-roasters",
+    "title": "col pink bourbon lychee 18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 324.0,
+    "ratio": 18.0,
+    "grind_size": 80.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 78.0,
+        "temperature": 65.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 110.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 25,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 136.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:34:30Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=Hjpgplggn6jqTOpqrs3Hcw%3D%3D",
+    "directory_url": "https://redeemer.coffee/pages/xbloom-studio-recipes-for-australian-roasters",
+    "title": "uganda -18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 288.0,
+    "ratio": 16.0,
+    "grind_size": 80.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 70.0,
+        "temperature": 67.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 104.0,
+        "temperature": 94.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 114.0,
+        "temperature": 94.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:34:30Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=TEHA4zb6a%2Fa1F1mIB2SLfA%3D%3D",
+    "directory_url": "https://redeemer.coffee/pages/xbloom-studio-recipes-for-australian-roasters",
+    "title": "Vinka Natural Sidra",
+    "author": null,
+    "dose": 15.0,
+    "water": 210.0,
+    "ratio": 14.0,
+    "grind_size": 50.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 42.0,
+        "temperature": 85.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 42.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 42.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 42.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 42.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 3,
+        "vibration_before": 1,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:34:39Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=xscmwhtRrIbVm2LzyTwenw%3D%3D",
+    "directory_url": "https://redeemer.coffee/pages/xbloom-studio-recipes-for-australian-roasters",
+    "title": "vinka sidra nat anae 2024 -18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 288.0,
+    "ratio": 16.0,
+    "grind_size": 65.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 70.0,
+        "temperature": 65.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 120.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 98.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:34:39Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=IIKTXpncakfdACPoMlcORw%3D%3D",
+    "directory_url": "https://redeemer.coffee/pages/xbloom-studio-recipes-for-australian-roasters",
+    "title": "la Leona geisha natural -18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 324.0,
+    "ratio": 18.0,
+    "grind_size": 74.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 70.0,
+        "temperature": 65.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 123.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 131.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:34:39Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=sqPiqy%2BzIyIv12FWhIxDsA%3D%3D",
+    "directory_url": "https://redeemer.coffee/pages/xbloom-studio-recipes-for-australian-roasters",
+    "title": "col la divisa geisha washed18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 288.0,
+    "ratio": 16.0,
+    "grind_size": 50.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 70.0,
+        "temperature": 65.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 104.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 114.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:34:46Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=x1gvZb55oy9ceNppua8zQg%3D%3D",
+    "directory_url": "https://redeemer.coffee/pages/xbloom-studio-recipes-for-australian-roasters",
+    "title": "bolivia coco natural18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 288.0,
+    "ratio": 16.0,
+    "grind_size": 57.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 71.0,
+        "temperature": 65.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 124.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 33,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 93.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:34:46Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=85d%2FARENcVbyVAGjIDUPjw%3D%3D",
+    "directory_url": null,
+    "title": "bella ana washed geisa18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 288.0,
+    "ratio": 16.0,
+    "grind_size": 60.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 70.0,
+        "temperature": 60.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 113.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 105.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:34:46Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=XR5m5kHCPCL4nNHBvqSjhA%3D%3D",
+    "directory_url": "https://redeemer.coffee/pages/xbloom-studio-recipes-for-australian-roasters",
+    "title": "la esp tres dragones Nat -18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 288.0,
+    "ratio": 16.0,
+    "grind_size": 65.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 70.0,
+        "temperature": 65.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 116.0,
+        "temperature": 94.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 102.0,
+        "temperature": 94.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:34:51Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=pIrFC1deIgsHgYmT%2F2TaWg%3D%3D",
+    "directory_url": null,
+    "title": "Kalita Wave 500",
+    "author": "Quarter Horse Coffee",
+    "dose": 25.0,
+    "water": 500.0,
+    "ratio": 20.0,
+    "grind_size": 40.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 99.44,
+        "flow_rate": 3.5,
+        "pause_seconds": 18,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 50.0,
+        "temperature": 99.44,
+        "flow_rate": 3.5,
+        "pause_seconds": 18,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 100.0,
+        "temperature": 99.44,
+        "flow_rate": 3.5,
+        "pause_seconds": 12,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 100.0,
+        "temperature": 99.44,
+        "flow_rate": 3.5,
+        "pause_seconds": 12,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 100.0,
+        "temperature": 99.44,
+        "flow_rate": 3.5,
+        "pause_seconds": 12,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 100.0,
+        "temperature": 99.44,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:34:51Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=wBa8hRePVWbUPSM%2FwhIT5g%3D%3D",
+    "directory_url": null,
+    "title": "llano red col washed geisa18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 279.0,
+    "ratio": 15.5,
+    "grind_size": 54.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 70.0,
+        "temperature": 60.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 104.0,
+        "temperature": 95.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 105.0,
+        "temperature": 94.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:34:51Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=HEx4aHNinCspMY1MJWpC1Q%3D%3D",
+    "directory_url": "https://redeemer.coffee/pages/xbloom-studio-recipes-for-australian-roasters",
+    "title": "brazil sertao anaerobicnat-18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 324.0,
+    "ratio": 18.0,
+    "grind_size": 80.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 70.0,
+        "temperature": 65.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 130.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 124.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:34:59Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=rdKMzCe2%2Blek7mbqaJAjiw%3D%3D",
+    "directory_url": "https://redeemer.coffee/pages/xbloom-studio-recipes-for-australian-roasters",
+    "title": "red geisha natural -18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 279.0,
+    "ratio": 15.5,
+    "grind_size": 80.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 62.0,
+        "temperature": 65.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 106.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 111.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:34:59Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=F3eU3s0DCVd1lez6nPEWWw%3D%3D",
+    "directory_url": null,
+    "title": "insomnia coffee ethiopia",
+    "author": null,
+    "dose": 15.0,
+    "water": 225.0,
+    "ratio": 15.0,
+    "grind_size": 60.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "XPOD",
+    "pours": [
+      {
+        "volume": 60.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 85.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:34:59Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=alJYtDy6PQ4ZjsyeieG5lQ%3D%3D",
+    "directory_url": null,
+    "title": "4 pour flat bottom",
+    "author": "Quarter Horse Coffee",
+    "dose": 20.0,
+    "water": 300.0,
+    "ratio": 15.0,
+    "grind_size": 30.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 87.77,
+        "flow_rate": 3.5,
+        "pause_seconds": 18,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 50.0,
+        "temperature": 87.77,
+        "flow_rate": 3.5,
+        "pause_seconds": 16,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 100.0,
+        "temperature": 87.77,
+        "flow_rate": 3.5,
+        "pause_seconds": 16,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 100.0,
+        "temperature": 87.77,
+        "flow_rate": 3.5,
+        "pause_seconds": 16,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:06Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=JJVZc3kwCku6eKDXAqGeEA%3D%3D",
+    "directory_url": "https://redeemer.coffee/pages/xbloom-studio-recipes-for-australian-roasters",
+    "title": "bourbon aruzi -18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 324.0,
+    "ratio": 18.0,
+    "grind_size": 80.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 70.0,
+        "temperature": 65.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 130.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 124.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:06Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=EimCWPaax0AlCsgbxk04TQ%3D%3D",
+    "directory_url": null,
+    "title": "hac ecuador sidra18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 288.0,
+    "ratio": 16.0,
+    "grind_size": 55.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 70.0,
+        "temperature": 65.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 120.0,
+        "temperature": 95.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 98.0,
+        "temperature": 94.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:06Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=6mHw4CZVF0yF7DOYrvpSbg%3D%3D",
+    "directory_url": "https://redeemer.coffee/pages/xbloom-studio-recipes-for-australian-roasters",
+    "title": "eth guji marina cm washed",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 288.0,
+    "ratio": 16.0,
+    "grind_size": 60.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 65.0,
+        "temperature": 65.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 120.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 25,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 103.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:11Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=Vbu2FcR3ot73ocOTR79h%2Bw%3D%3D",
+    "directory_url": null,
+    "title": "Quarter Horse Coffee Pod",
+    "author": "Quarter Horse Coffee",
+    "dose": 15.0,
+    "water": 255.0,
+    "ratio": 17.0,
+    "grind_size": 40.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "XPOD",
+    "pours": [
+      {
+        "volume": 42.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 42.0,
+        "temperature": 93.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 42.0,
+        "temperature": 93.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 25,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 42.0,
+        "temperature": 93.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 25,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 42.0,
+        "temperature": 93.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 25,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 45.0,
+        "temperature": 93.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:11Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=SSIfVVmi0W%2FYJeFwCiPwZg%3D%3D",
+    "directory_url": null,
+    "title": "peru laqtapata wash geisa18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 288.0,
+    "ratio": 16.0,
+    "grind_size": 55.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 70.0,
+        "temperature": 65.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 113.0,
+        "temperature": 94.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 105.0,
+        "temperature": 94.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:11Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=y86znWyxaZ3ymhmjYSfWFQ%3D%3D",
+    "directory_url": "https://redeemer.coffee/pages/xbloom-studio-recipes-for-australian-roasters",
+    "title": "kenya maguta natural",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 288.0,
+    "ratio": 16.0,
+    "grind_size": 65.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 65.0,
+        "temperature": 65.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 114.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 25,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 109.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:20Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=Y5jPmnUolWatl5ccHKHACQ%3D%3D",
+    "directory_url": "https://redeemer.coffee/pages/xbloom-studio-recipes-for-australian-roasters",
+    "title": "pina Colada 18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 306.0,
+    "ratio": 17.0,
+    "grind_size": 80.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 60.0,
+        "temperature": 65.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 110.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 25,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 136.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:20Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=jnq1U5Iw%2BBOAyxzYXLaaLQ%3D%3D",
+    "directory_url": "https://redeemer.coffee/pages/xbloom-studio-recipes-for-australian-roasters",
+    "title": "la virgin decaf Swiss 18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 288.0,
+    "ratio": 16.0,
+    "grind_size": 78.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 60.0,
+        "temperature": 65.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 110.0,
+        "temperature": 94.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 118.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:20Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=rLobZE8ISyVyhK0p4%2B3gLQ%3D%3D",
+    "directory_url": null,
+    "title": "wilder lazo 300hr col geisa18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 279.0,
+    "ratio": 15.5,
+    "grind_size": 54.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 70.0,
+        "temperature": 60.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 104.0,
+        "temperature": 95.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 105.0,
+        "temperature": 94.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:28Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=uYpqpjyIirKJHceFSDDsDw%3D%3D",
+    "directory_url": "https://redeemer.coffee/pages/xbloom-studio-recipes-for-australian-roasters",
+    "title": "col chiroso -18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 288.0,
+    "ratio": 16.0,
+    "grind_size": 56.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 70.0,
+        "temperature": 65.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 116.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 102.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:28Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=E8Vn5qDHcMudojfSCDlD1A%3D%3D",
+    "directory_url": null,
+    "title": "Everyday Filter",
+    "author": "Quarter Horse Coffee",
+    "dose": 18.0,
+    "water": 270.0,
+    "ratio": 15.0,
+    "grind_size": 40.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 70.0,
+        "temperature": 93.33,
+        "flow_rate": 3.0,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 100.0,
+        "temperature": 93.33,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 100.0,
+        "temperature": 93.33,
+        "flow_rate": 3.0,
+        "pause_seconds": 5,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:28Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=HLlBhAxYMSiKBafvDSQPAw%3D%3D",
+    "directory_url": "https://redeemer.coffee/pages/xbloom-studio-recipes-for-australian-roasters",
+    "title": "pan Janson Geisha Nat -18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 333.0,
+    "ratio": 18.5,
+    "grind_size": 80.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 70.0,
+        "temperature": 65.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 116.0,
+        "temperature": 94.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 147.0,
+        "temperature": 94.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:37Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=DmmxrmbAzuxPuAJODlFUGg%3D%3D",
+    "directory_url": null,
+    "title": "milky cake18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 288.0,
+    "ratio": 16.0,
+    "grind_size": 80.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 60.0,
+        "temperature": 65.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 110.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 25,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 118.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:36Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=dv8ssBqJ6eVroQnVi4%2FsMA%3D%3D",
+    "directory_url": null,
+    "title": "Wilder Lazo Bella Alex 15g",
+    "author": "rhys",
+    "dose": 15.0,
+    "water": 240.0,
+    "ratio": 16.0,
+    "grind_size": 50.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 70.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 25,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 90.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 22,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 100.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:36Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=ROxRzKmDgjApEhMgJKvXkA%3D%3D",
+    "directory_url": null,
+    "title": "la esp col washed pbourb18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": 279.0,
+    "ratio": 15.5,
+    "grind_size": 54.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 70.0,
+        "temperature": 60.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 104.0,
+        "temperature": 95.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 105.0,
+        "temperature": 94.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:45Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=DlqEwymYXoduFTAheeO5hg%3D%3D",
+    "directory_url": "https://rootsroastery.net/en/product/black-forest-blend/",
+    "title": "ICE BLACK FOREST",
+    "author": "Roots Roastery",
+    "dose": 23.0,
+    "water": 149.0,
+    "ratio": 6.5,
+    "grind_size": 65.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 50.0,
+        "temperature": 86.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 16,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 49.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 2,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:45Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=emhtQ1drD2%2B4Zr%2F2975EAQ%3D%3D",
+    "directory_url": "https://rootsroastery.net/en/product/black-forest-blend/",
+    "title": "HOT BLACK FOREST",
+    "author": "Roots Roastery",
+    "dose": 15.0,
+    "water": 225.0,
+    "ratio": 15.0,
+    "grind_size": 60.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 70.0,
+        "temperature": 87.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 87.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 30.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:45Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=RFX0hHH2HVMDmRpMDZZziw%3D%3D",
+    "directory_url": "https://rootsroastery.net/en/product/ethiopia-hambella/",
+    "title": "ICE ETHIOPIA HAMBELLA",
+    "author": "Roots Roastery",
+    "dose": 24.0,
+    "water": null,
+    "ratio": 6.5,
+    "grind_size": 60.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [],
+    "checked_at": "2026-10-03T08:35:55Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=xXAtPIz98c5dNAf%2BEeu7wg%3D%3D",
+    "directory_url": "https://rootsroastery.net/en/product/ethiopia-hambella/",
+    "title": "HOT ETHIOPIA HAMBELLA 2.0",
+    "author": "Roots Roastery",
+    "dose": 15.0,
+    "water": 225.0,
+    "ratio": 15.0,
+    "grind_size": 61.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 45.0,
+        "temperature": 88.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 13,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 70.0,
+        "temperature": 86.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 70.0,
+        "temperature": 87.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 40.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 2,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:55Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=cm37XrHTaGEraoqVLRymsg%3D%3D",
+    "directory_url": "https://b-k.coffee/products/masar-yemen-slow-dried-coffee-250g",
+    "title": "MASSAR |  مسار",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water": 270.0,
+    "ratio": 15.0,
+    "grind_size": 60.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 45.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 12,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 55.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 17,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 100.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 14,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 70.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 0,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:35:55Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=7lc%2FWFHp8VgzPxolo2byag%3D%3D",
+    "directory_url": "https://b-k.coffee/products/masar-yemen-slow-dried-coffee-250g",
+    "title": "ICE",
+    "author": "Black Knight",
+    "dose": 20.0,
+    "water": 150.0,
+    "ratio": 7.5,
+    "grind_size": 56.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 12,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 50.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 17,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 50.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:36:03Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=oIE31ezrNAArth3SOgbStg%3D%3D",
+    "directory_url": "https://jeedroastery.com/products/Bombe_Ethiopia_Natural",
+    "title": "Jeed. Bombe Natural",
+    "author": "Jeed roastery",
+    "dose": 18.0,
+    "water": 279.0,
+    "ratio": 15.5,
+    "grind_size": 45.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 95.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 25,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 99.0,
+        "temperature": 95.0,
+        "flow_rate": 3.1,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 57.0,
+        "temperature": 95.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 10,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 55.0,
+        "temperature": 92.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 7,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 28.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 5,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-03T08:36:03Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=V3itFMKF36cpIXRQdFFKaw%3D%3D",
+    "directory_url": "https://jeedroastery.com/products/Bombe_Ethiopia_Natural",
+    "title": "ice BOMBE Natural  Jeed",
+    "author": "Jeed roastery",
+    "dose": 18.0,
+    "water": 180.0,
+    "ratio": 10.0,
+    "grind_size": 39.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 38.0,
+        "temperature": 95.0,
+        "flow_rate": 3.3,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 80.0,
+        "temperature": 95.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 62.0,
+        "temperature": 93.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 8,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-03T08:36:03Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=rKeE3dLbQmdFrbmToyopkA%3D%3D",
+    "directory_url": "https://jeedroastery.com/products/Benti_Nenqa_Ethiopia_Washed",
+    "title": "Jeed. Benti Nenca Washed",
+    "author": "Jeed roastery",
+    "dose": 18.0,
+    "water": 279.0,
+    "ratio": 15.5,
+    "grind_size": 42.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 99.0,
+        "temperature": 93.0,
+        "flow_rate": 3.1,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 57.0,
+        "temperature": 93.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 55.0,
+        "temperature": 90.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 4,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 28.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 3,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-03T08:36:13Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=To46YymhPbp3SbhlMr5%2BpA%3D%3D",
+    "directory_url": "https://jeedroastery.com/products/Benti_Nenqa_Ethiopia_Washed",
+    "title": "ice Benti Nenca Washed  Jeed",
+    "author": "Jeed roastery",
+    "dose": 18.0,
+    "water": 180.0,
+    "ratio": 10.0,
+    "grind_size": 37.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 38.0,
+        "temperature": 93.0,
+        "flow_rate": 3.3,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 80.0,
+        "temperature": 93.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 62.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 8,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-03T08:36:13Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=1wixpRrnlQItMsVC%2FOxW1w%3D%3D",
+    "directory_url": "https://jeedroastery.com/products/Aquiares_Natural_Costa_Rica",
+    "title": "Jeed. Aquiares Natural ",
+    "author": "Jeed roastery",
+    "dose": 16.0,
+    "water": 256.0,
+    "ratio": 16.0,
+    "grind_size": 42.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 93.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 76.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 65.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 8,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 65.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 1,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-03T08:36:13Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=ZQdNpf%2B2AGd%2FfPQAHkSz3w%3D%3D",
+    "directory_url": "https://jeedroastery.com/products/Aquiares_Natural_Costa_Rica",
+    "title": "ice Aquiares Natural  Jeed",
+    "author": "Jeed roastery",
+    "dose": 18.0,
+    "water": 180.0,
+    "ratio": 10.0,
+    "grind_size": 38.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 38.0,
+        "temperature": 93.0,
+        "flow_rate": 3.3,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 80.0,
+        "temperature": 93.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 62.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 8,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-03T08:36:20Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=%2BoYXtscfnX9plJvQhVdRDw%3D%3D",
+    "directory_url": "https://methods.coffee/collections/coffee/products/hambela-supernatural",
+    "title": "Gotiti Supernatural",
+    "author": "Methods Roastery",
+    "dose": 18.0,
+    "water": 270.0,
+    "ratio": 15.0,
+    "grind_size": 45.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 45.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 60.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 55.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 50.0,
+        "temperature": 84.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 60.0,
+        "temperature": 83.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-03T08:36:20Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=a%2Fp10hgPPbQJbAc5SCxJYQ%3D%3D",
+    "directory_url": "https://methods.coffee/collections/coffee/products/hambela-supernatural",
+    "title": "Iced Supernatural Gotiti",
+    "author": "Methods Roastery",
+    "dose": 18.0,
+    "water": 144.0,
+    "ratio": 8.0,
+    "grind_size": 50.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 30.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 40.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 44.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 30.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-03T08:36:20Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=Ff44nLtx1qSrqQUBgYFcuA%3D%3D",
+    "directory_url": "https://methods.coffee/collections/coffee/products/yirgacheffe-washed-halo-bariti",
+    "title": "Halo Bariti Washed Yirga",
+    "author": "Methods Roastery",
+    "dose": 18.0,
+    "water": 270.0,
+    "ratio": 15.0,
+    "grind_size": 50.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 30.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 12,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 45.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 50.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 60.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 85.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:36:29Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=2G7obQZZ%2FRgM0m9KTgkWZA%3D%3D",
+    "directory_url": "https://methods.coffee/collections/coffee/products/yirgacheffe-washed-halo-bariti",
+    "title": "iced yirga halo bariti 100ice",
+    "author": "Methods Roastery",
+    "dose": 18.0,
+    "water": 135.0,
+    "ratio": 7.5,
+    "grind_size": 40.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 30.0,
+        "temperature": 94.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 30.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 40.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 35.0,
+        "temperature": 75.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 3,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-03T08:36:29Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=XaeVOXfFr2mhTvWWGw9GCw%3D%3D",
+    "directory_url": "https://methods.coffee/collections/coffee/products/papayo-hydro-natural",
+    "title": "Papayo Hydro Natural",
+    "author": "Methods Roastery",
+    "dose": 17.0,
+    "water": 255.0,
+    "ratio": 15.0,
+    "grind_size": 70.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 19,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 45.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 50.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 60.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 60.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 0,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-03T08:36:29Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=VM7e7iaxH2TAi0SK4BWHCg%3D%3D",
+    "directory_url": "https://methods.coffee/collections/coffee/products/papayo-hydro-natural",
+    "title": "Iced 120g Hydro Natural",
+    "author": "Methods Roastery",
+    "dose": 18.0,
+    "water": 144.0,
+    "ratio": 8.0,
+    "grind_size": 40.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 25.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 18,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 29.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 50.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 40.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 3,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-03T08:36:37Z"
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=O09TOES6jwFiJZ5u%2BxT%2BDw%3D%3D",
+    "directory_url": "https://redeemer.coffee/pages/xbloom-studio-recipes-for-australian-roasters",
+    "title": "panama Geisha nat hacie-18g",
+    "author": "rhys",
+    "dose": 18.0,
+    "water": null,
+    "ratio": 16.0,
+    "grind_size": 55.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [],
+    "checked_at": "2026-10-03T08:36:37Z"
+  }
+]
