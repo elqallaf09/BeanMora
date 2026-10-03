@@ -1,7 +1,8 @@
 import { createContext, useContext, type ReactNode } from 'react';
-import { Text, Pressable, TextInput, StyleSheet, View, type StyleProp, type TextInputProps, type TextStyle } from 'react-native';
+import { Animated, Text, Pressable, TextInput, StyleSheet, View, type StyleProp, type TextInputProps, type TextStyle } from 'react-native';
 import Svg, { Path, Circle, Rect, Ellipse } from 'react-native-svg';
 import { copy, type Locale } from './copy';
+import { usePressMotion } from './Motion';
 
 export const colors = { cream: '#F5F1E7', paper: '#FCFAF5', ink: '#201A15', brown: '#3B2417', muted: '#81776B', line: '#E8E2D7', chip: '#EFE9DE' };
 export const Language = createContext<Locale>('ar');
@@ -12,13 +13,14 @@ export function Txt({ children, style, heading = false, numberOfLines }: { child
   return <Text accessibilityRole={heading ? 'header' : undefined} numberOfLines={numberOfLines} style={[styles.text, rtl && { fontFamily: weight && Number(weight) >= 600 ? 'Tajawal-Bold' : 'Tajawal-Regular' }, { textAlign: rtl ? 'right' : 'left', writingDirection: rtl ? 'rtl' : 'ltr' }, style]}>{children}</Text>;
 }
 export function Action({ title, onPress, disabled = false, selected = false }: { title: string; onPress: () => void; disabled?: boolean; selected?: boolean }) {
-  return <Pressable accessibilityRole="button" accessibilityLabel={title} accessibilityState={{ disabled, selected }} onPress={onPress} disabled={disabled} style={({ pressed }) => [styles.button, selected && styles.selected, (pressed || disabled) && { opacity: 0.55 }]}><Txt style={{ color: selected ? '#FFFFFF' : colors.brown, fontWeight: '700', textAlign: 'center' }}>{title}</Txt></Pressable>;
+  const motion = usePressMotion();
+  return <Animated.View style={motion.style}><Pressable accessibilityRole="button" accessibilityLabel={title} accessibilityState={{ disabled, selected }} onPress={onPress} onPressIn={motion.pressIn} onPressOut={motion.pressOut} disabled={disabled} style={({ pressed }) => [styles.button, selected && styles.selected, (pressed || disabled) && { opacity: 0.55 }]}><Txt style={{ color: selected ? '#FFFFFF' : colors.brown, fontWeight: '700', textAlign: 'center' }}>{title}</Txt></Pressable></Animated.View>;
 }
 export function Field({ label, ...props }: TextInputProps & { label: string }) {
   const rtl = useContext(Language) === 'ar';
   return <View style={{ gap: 6 }}><Txt style={styles.label}>{label}</Txt><TextInput {...props} accessibilityLabel={label} placeholderTextColor={colors.muted} style={[styles.input, { textAlign: rtl ? 'right' : 'left', fontFamily: rtl ? 'Tajawal-Regular' : undefined }, props.style]} /></View>;
 }
-export type IconName = 'home' | 'search' | 'plus' | 'heart' | 'user' | 'bell' | 'back' | 'arrow' | 'share' | 'bean' | 'espresso' | 'v60' | 'xbloom' | 'aeropress' | 'chemex' | 'french_press' | 'cold_brew' | 'moka_pot' | 'globe' | 'drop' | 'temp' | 'clock' | 'play' | 'more' | 'lock' | 'mail' | 'eye' | 'star' | 'gear' | 'apple' | 'google';
+export type IconName = 'home' | 'search' | 'plus' | 'heart' | 'user' | 'bell' | 'back' | 'arrow' | 'share' | 'bean' | 'espresso' | 'v60' | 'xbloom' | 'aeropress' | 'chemex' | 'french_press' | 'cold_brew' | 'moka_pot' | 'origami' | 'kalita_wave' | 'globe' | 'drop' | 'temp' | 'clock' | 'play' | 'more' | 'lock' | 'mail' | 'eye' | 'star' | 'gear' | 'apple' | 'google';
 export function Icon({ name, size = 24, color = colors.ink, filled = false }: { name: IconName; size?: number; color?: string; filled?: boolean }) {
   const body: Record<IconName, ReactNode> = {
     home: <Path d="m3 10 9-7 9 7v11h-6v-7H9v7H3Z" fill={filled ? color : 'none'} />,
@@ -32,6 +34,8 @@ export function Icon({ name, size = 24, color = colors.ink, filled = false }: { 
     bean: <><Ellipse cx="12" cy="12" rx="7" ry="10" transform="rotate(18 12 12)"/><Path d="M11 2c-3 6 6 11 2 20"/></>,
     espresso: <Path d="M4 7h13v7a6 6 0 0 1-12 0ZM17 8h2a3 3 0 0 1 0 6h-2M3 21h17M8 3v1m5-1v1"/>,
     v60: <><Ellipse cx="12" cy="5" rx="8" ry="2.3"/><Path d="m4 5 7 12v4m9-16-7 12v4M8 22h8M8 9l3 7m5-7-3 7"/></>,
+    origami: <><Ellipse cx="12" cy="5" rx="9" ry="2.5"/><Path d="m3 5 8 14h2l8-14M7 6l4 12M17 6l-4 12M3 21h18"/></>,
+    kalita_wave: <><Ellipse cx="12" cy="5" rx="8" ry="2.4"/><Path d="m4 5 3 13h10l3-13M7 9h10M8 13h8M4 21h16"/></>,
     xbloom: <><Rect x="6" y="2" width="12" height="20" rx="1.5"/><Circle cx="12" cy="7" r="2"/><Path d="M9 12h6v6H9ZM8 20h8"/></>,
     aeropress: <Path d="M7 3h10M8 3v17h8V3M10 7h4m-4 3h4m-4 3h4M5 21h14M5 1h14"/>,
     chemex: <Path d="M5 2h14l-5 9v2l5 9H5l5-9v-2ZM10 11h4m-4 2h4"/>,
@@ -55,7 +59,8 @@ export function Icon({ name, size = 24, color = colors.ink, filled = false }: { 
   return <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round" aria-hidden>{body[name]}</Svg>;
 }
 export function IconButton({ name, label, onPress, selected = false, color, size = 23 }: { name: IconName; label: string; onPress: () => void; selected?: boolean; color?: string; size?: number }) {
-  return <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ selected }} hitSlop={6} style={({ pressed })=>[styles.iconButton, pressed && { opacity: 0.5 }]}><Icon name={name} size={size} color={color} filled={selected}/></Pressable>;
+  const motion = usePressMotion();
+  return <Animated.View style={motion.style}><Pressable onPress={onPress} onPressIn={motion.pressIn} onPressOut={motion.pressOut} accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ selected }} hitSlop={6} style={({ pressed })=>[styles.iconButton, pressed && { opacity: 0.5 }]}><Icon name={name} size={size} color={color} filled={selected}/></Pressable></Animated.View>;
 }
 export function Leaf({ size = 38, color = colors.brown }: { size?: number; color?: string }) {
   return <Svg width={size} height={size} viewBox="0 0 64 60"><Path d="M32 1C20 12 23 24 32 34c9-10 12-22 0-33ZM5 16c0 19 12 26 25 26C28 25 17 17 5 16Zm54 0c-12 1-23 9-25 26 13 0 25-7 25-26Z" fill={color}/><Path d="M32 22v35M14 26l18 18 18-18" fill="none" stroke={color} strokeWidth="2.5"/><Path d="M32 10v23M12 22l15 16M52 22 37 38" stroke={colors.cream} strokeWidth="1.2" fill="none"/></Svg>;

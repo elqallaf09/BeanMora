@@ -14,7 +14,7 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
     const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
     await page.route('https://mobilefixture.supabase.co/**',route=>{
       const path=new URL(route.request().url()).pathname;
-      return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(path.endsWith('/beans')?beans:path.endsWith('/recipes')?[recipe]:path.endsWith('/equipment_models')?[{name:'Isolated scale model',source_url:null}]:[])});
+      return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(path.endsWith('/beans')?beans:path.endsWith('/recipes')?[recipe]:path.endsWith('/equipment_models')?[{id:'44444444-4444-4444-8444-444444444444',name:'Isolated scale model',category:'scale',requires_review:false,source_url:null}]:[])});
     });
     // Prove a broken official image produces a bundled image, rather than an empty card.
     await page.route('https://photo-fixture.test/**',route=>route.abort());
@@ -30,8 +30,8 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
     await expect(page.getByRole('button',{name:'ميزان القهوة',exact:true})).toBeVisible();
     await page.getByRole('button',{name:'ميزان القهوة',exact:true}).click();
     await expect(page.getByText('Isolated scale model',{exact:true})).toBeVisible();
-    await page.getByRole('button',{name:'إغلاق',exact:true}).click();
-    await home.evaluate(el=>{el.scrollTop=0;});
+    await page.getByRole('button',{name:'الرئيسية',exact:true}).click();
+    await page.getByTestId('home-scroll').evaluate(el=>{el.scrollTop=0;});
     await page.getByRole('button',{name:beans[0].name_ar,exact:true}).click();
     await expect(page.getByRole('heading',{name:beans[0].name_ar})).toBeVisible();
     await expect(page.getByText('18 g',{exact:true})).toBeVisible();

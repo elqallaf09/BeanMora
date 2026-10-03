@@ -6,6 +6,7 @@
 # testing
 /coverage
 /playwright-report
+/playwright-smoke-report
 /test-results
 
 # next.js

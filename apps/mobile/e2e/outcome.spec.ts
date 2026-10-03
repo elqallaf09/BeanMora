@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test';
 
 // Browser-only isolated fixtures. No real identity, token or database is involved.
-test('signed-in mobile web preview saves only a confirmed, private brew and retries identically', async ({ page }) => {
+for (const unit of ['g', 'ml'] as const) test(`signed-in brew with source water in ${unit} requires measured grams and retries identically`, async ({ page }) => {
   const user = { id: '33333333-3333-4333-8333-333333333333', aud: 'authenticated', role: 'authenticated', email: 'fixture@example.test', app_metadata: { provider: 'email', providers: ['email'] }, user_metadata: {}, created_at: '2026-09-01T00:00:00Z', identities: [], is_anonymous: false };
   const encode = (v: object) => Buffer.from(JSON.stringify(v)).toString('base64url');
   const accessToken = `${encode({ alg: 'HS256', typ: 'JWT' })}.${encode({ sub: user.id, role: 'authenticated', exp: Math.floor(Date.now() / 1000) + 3600 })}.isolated_test_signature`;
-  const recipe = { id: '11111111-1111-4111-8111-111111111111', title: 'Isolated outcome recipe', title_ar: 'وصفة اختبار الحفظ', brew_method: 'v60', visibility: 'public', bean_id: null, roasted_product_id: null, flavor_notes: [], difficulty: 'beginner', is_incomplete_source: false, dose_grams: 18, water_grams: 300, total_time_seconds: 180, steps: [], equipment: [] };
+  const recipe = { id: '11111111-1111-4111-8111-111111111111', title: 'Isolated outcome recipe', title_ar: 'وصفة اختبار الحفظ', brew_method: 'v60', visibility: 'public', bean_id: null, roasted_product_id: null, flavor_notes: [], difficulty: 'beginner', is_incomplete_source: false, dose_grams: 18, water_grams: unit === 'g' ? 300 : null, source_brew_parameters: unit === 'ml' ? { water_ml: 300 } : {}, total_time_seconds: 180, steps: [], equipment: [] };
   const writes: { p_request_id: string; p_payload: Record<string, unknown> }[] = [];
   await page.route('https://mobilefixture.supabase.co/**', async route => {
     const path = new URL(route.request().url()).pathname;
@@ -21,7 +21,7 @@ test('signed-in mobile web preview saves only a confirmed, private brew and retr
     await route.fulfill({ status, contentType: 'application/json', body: JSON.stringify(data) });
   });
   await page.goto('/');
-  await page.getByRole('button', { name: 'English', exact: true }).click();
+  await page.getByRole('button', { name: 'تغيير اللغة، العربية', exact: true }).click(); await page.getByRole('button', { name: 'English', exact: true }).click();
   await page.getByRole('button', { name: 'Account', exact: true }).click();
   await page.getByLabel('Email', { exact: true }).fill(user.email);
   await page.getByLabel('Password', { exact: true }).fill('isolated-fixture-password');
@@ -33,6 +33,10 @@ test('signed-in mobile web preview saves only a confirmed, private brew and retr
   await page.getByRole('button', { name: 'Save result', exact: true }).click();
   await expect(page.getByText('Check quantities, time, result and actual-brew confirmation.', { exact: true })).toBeVisible();
   expect(writes).toHaveLength(0);
+  if (unit === 'ml') {
+    await expect(page.getByLabel('Water / output (g)', { exact: true })).toHaveValue('');
+    await page.getByLabel('Water / output (g)', { exact: true }).fill('300');
+  }
   await page.getByRole('button', { name: 'Good', exact: true }).click();
   await page.getByRole('switch', { name: 'I actually brewed this cup', exact: true }).click();
   await page.getByRole('button', { name: 'Save result', exact: true }).click();

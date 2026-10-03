@@ -12,7 +12,7 @@ for (const locale of ['ar', 'en'] as const) {
       await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(data) });
     });
     await page.goto('/');
-    if (locale === 'en') await page.getByRole('button', { name: 'English', exact: true }).click();
+    if (locale === 'en') { await page.getByRole('button', { name: 'تغيير اللغة، العربية', exact: true }).click(); await page.getByRole('button', { name: 'English', exact: true }).click(); }
     const coffeeName = locale === 'ar' ? bean.name_ar : bean.name_en;
     await page.getByRole('button', { name: coffeeName, exact: true }).click();
     await expect(page.getByRole('heading', { name: coffeeName })).toBeVisible();

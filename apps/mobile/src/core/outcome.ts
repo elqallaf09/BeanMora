@@ -1,5 +1,5 @@
 /** Self-reported brew evidence; never infer an outcome from a timer or a save. */
-export const METHODS = ['v60', 'espresso', 'xbloom', 'aeropress', 'chemex', 'french_press', 'cold_brew', 'moka_pot'] as const;
+export const METHODS = ['v60', 'espresso', 'xbloom', 'aeropress', 'chemex', 'french_press', 'cold_brew', 'moka_pot', 'origami', 'kalita_wave'] as const;
 export const OUTCOMES = ['excellent', 'good', 'needs_adjustment', 'poor'] as const;
 export const STATUSES = ['brewed_as_written', 'brewed_with_modifications'] as const;
 export const TASTES = ['acidity', 'bitterness', 'sweetness', 'balance', 'overall_rating'] as const;

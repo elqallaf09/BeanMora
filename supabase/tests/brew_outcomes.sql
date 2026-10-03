@@ -22,6 +22,8 @@ do $$ declare req uuid:=current_setting('test.brew_request')::uuid; p jsonb:=cur
  perform public.record_brew_outcome_v1(gen_random_uuid(),p||jsonb_build_object('recipe_id',current_setting('test.brew_private')));
  perform public.record_brew_outcome_v1(gen_random_uuid(),p||'{"recipe_id":null,"actual_time_seconds":null,"taste_scores":{}}');
  select count(*) into n from public.recipe_attempts where user_id=auth.uid(); if n<>2 then raise exception 'quick-start incorrectly attributed'; end if;
+ perform public.record_brew_outcome_v1(gen_random_uuid(),p||'{"recipe_id":null,"brew_method":"origami","taste_scores":{}}');
+ perform public.record_brew_outcome_v1(gen_random_uuid(),p||'{"recipe_id":null,"brew_method":"kalita_wave","taste_scores":{}}');
  perform set_config('request.jwt.claims',jsonb_build_object('sub',current_setting('test.brew_other'),'role','authenticated','is_anonymous',false)::text,true);
  select count(*) into n from public.brew_logs where user_id=current_setting('test.brew_owner')::uuid; if n<>0 then raise exception 'private log leaked'; end if;
  select count(*) into n from public.recipe_attempts where user_id=current_setting('test.brew_owner')::uuid; if n<>0 then raise exception 'private outcome leaked'; end if;

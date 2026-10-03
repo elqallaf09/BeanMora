@@ -6,14 +6,14 @@ import { pathToFileURL } from 'node:url';
 import ts from 'typescript';
 const root = new URL('../', import.meta.url);
 const temp = mkdtempSync(tmpdir() + '/beanmora-data-'); mkdirSync(temp + '/core');
-for (const file of ['data.ts','guards.ts','core/engine.ts']) {
+for (const file of ['data.ts','guards.ts','sourceBrew.ts','core/engine.ts']) {
   const source = readFileSync(new URL('src/' + file, root), 'utf8');
   const code = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.mjs'");
   writeFileSync(temp + '/' + file.replace('.ts','.mjs'), code);
 }
 const { loadData } = await import(pathToFileURL(temp + '/data.mjs').href);
 function database(tables) {
-  return { from(name) { const q = { select(){return q;},eq(){return q;},in(){return q;},order(){return q;},limit(){return q;},then(done){return Promise.resolve({data:tables[name]??[],error:null}).then(done);} }; return q; } };
+  return { from(name) { const q = { select(){return q;},eq(){return q;},in(){return q;},or(){return q;},order(){return q;},limit(){return q;},then(done){return Promise.resolve({data:tables[name]??[],error:null}).then(done);} }; return q; } };
 }
 const base={id:'bean',slug:'bean',name_en:'Real coffee',requires_review:false,is_published:true,roaster:{name_en:'Roaster',logo_url:'https://example.test/logo.png'},suitable_for_v60:true};
 test('approved gallery photos are ordered and never replaced by roaster logos or unapproved assets',async()=>{
