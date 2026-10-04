@@ -44,7 +44,7 @@ export function BestSetup({userId,recipes,coffees,login,openRecipe,openCoffee}:{
     if(!latest)return null;
     if(latest.nextGrind)return {kind:latest.nextGrind,text:latest.nextGrind==='finer'?(ar?'جرّب طحن أنعم في المحاولة الياية.':'Try a finer grind next time.'):latest.nextGrind==='coarser'?(ar?'جرّب طحن أخشن في المحاولة الياية.':'Try a coarser grind next time.'):(ar?'ثبّت درجة الطحن في المحاولة الياية.':'Keep the same grind next time.'),why:ar?'هذا التعديل أنت حفظته بعد آخر كوب.':'You saved this adjustment after your last cup.'};
     if(latest.outcome==='excellent')return {kind:'same',text:ar?'كرر نفس الإعداد؛ هذي أفضل نقطة بداية لك.':'Repeat the same setup; this is a strong baseline.',why:ar?'آخر نتيجة سجّلتها كانت ممتازة.':'Your last recorded result was excellent.'};
-    const recipe=latestRecipe;const target=recipe?.time??null;
+    const recipe=latestRecipe;const target=recipe?.seconds??null;
     if(target&&latest.actual_time_seconds){
       const delta=latest.actual_time_seconds-target;
       if(delta<-15)return {kind:'finer',text:ar?'اقتراح مبدئي: جرّب طحن أنعم شوي.':'Starting suggestion: try slightly finer.',why:ar?'وقت التحضير كان أسرع من وقت الوصفة بأكثر من 15 ثانية.':'Your brew ran more than 15 seconds faster than the recipe target.'};
