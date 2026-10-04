@@ -1,0 +1,398 @@
+{
+  "project_id": "ubvzdglrwkkuaigmkjap",
+  "status": "applied_verified",
+  "read_only": true,
+  "no_additional_http_downloads": true,
+  "http_note": "Imported images had prior official-source/HTTP/visual review; exact persisted URL/provenance matches were verified here. No mismatch required a new download.",
+  "canonical_dataset": "../global-roasters/catalog.json",
+  "canonical_selection": "coffees where action = create",
+  "expected_data": "evidence/final-catalog-expected.json",
+  "query": "sql/verify-final-catalog.sql",
+  "result": {
+    "verified_at": "2026-10-04T16:24:19.371181+00:00",
+    "scoped_counts": {
+      "beans": 214,
+      "packaging": 167,
+      "with_image": 204,
+      "origin_photo": 11,
+      "missing_image": 10,
+      "product_artwork": 26,
+      "missing_image_source": 0,
+      "public_reviewed_beans": 214,
+      "unexpected_usage_status": 0,
+      "sourced_sensory_profiles": 16
+    },
+    "missing_images": [
+      {
+        "id": "b3fb9a14-395b-4008-a1e0-ad2b017336fb",
+        "slug": "crossbridge-guatemala-roast",
+        "name_en": "Guatemala Roast"
+      },
+      {
+        "id": "d9f43409-6346-416d-a155-54c9fb730845",
+        "slug": "earth-indonesia-pantan-musara-washed",
+        "name_en": "Indonesia Pantan Musara (Washed)"
+      },
+      {
+        "id": "722d69fd-e014-4f60-8886-13d205a2a60e",
+        "slug": "windrose-ethiopia-aricha",
+        "name_en": "Ethiopia Aricha - Natural"
+      },
+      {
+        "id": "645eac25-cff1-4331-a129-2b5dc6a4aa40",
+        "slug": "windrose-midnight-crafted-blend",
+        "name_en": "Midnight - Crafted Blend"
+      },
+      {
+        "id": "7ff8346e-067d-4bf7-ae5f-fd98986696d3",
+        "slug": "windrose-yemen-shaian-hiwar",
+        "name_en": "Yemen Shai'an Hiwar - Natural"
+      },
+      {
+        "id": "d033447d-b45b-4a43-ab46-1e98cd074dfe",
+        "slug": "wings-coffee-doha-brazil",
+        "name_en": "Brazil"
+      },
+      {
+        "id": "fb682f41-734a-4bd5-9a87-e16c0cbdb4a0",
+        "slug": "wings-coffee-doha-colombia-decaf",
+        "name_en": "Colombia Decaf Coffee"
+      },
+      {
+        "id": "1ff611a4-e1a4-48f6-9f5f-889355fa150b",
+        "slug": "wings-coffee-doha-el-salvador-gourmet",
+        "name_en": "El Salvador -- Gourmet"
+      },
+      {
+        "id": "30868992-2873-4042-9bf0-451c616aea76",
+        "slug": "wings-coffee-doha-el-salvador-natural",
+        "name_en": "El Salvador -- Natural"
+      },
+      {
+        "id": "725f39a1-2709-434d-b5ff-5ab12ad1f7b2",
+        "slug": "wings-coffee-doha-ethiopia-guji",
+        "name_en": "Ethiopia -- Guji"
+      }
+    ],
+    "new_mismatches": [],
+    "new_resolved_ids": [
+      {
+        "id": "7ac10351-ad1b-4d55-88a3-ef627ec2fd78",
+        "slug": "49th-parallel-coffee-roasters-blue-sky-espresso-0c26e7d7"
+      },
+      {
+        "id": "e61e7a42-a262-4747-8f7d-e34af616ee5a",
+        "slug": "49th-parallel-coffee-roasters-epic-espresso-b345e49f"
+      },
+      {
+        "id": "91261847-9eea-4357-9779-d00ded9f2e86",
+        "slug": "49th-parallel-coffee-roasters-old-school-espresso-ea466f21"
+      },
+      {
+        "id": "818426cb-1914-47ac-905c-0e053fd44d8d",
+        "slug": "april-coffee-roasters-kamavindi-washed-sl28-sl34-aa-bdbe0a87"
+      },
+      {
+        "id": "ad71b376-7dd7-47e8-89fe-6c9ca5e4ae98",
+        "slug": "april-coffee-roasters-kayon-mountain-natural-heirloom-4213ddcd"
+      },
+      {
+        "id": "14edf04f-ebbc-4ddf-83aa-6fd220652100",
+        "slug": "april-coffee-roasters-tadesse-washed-krume-ce01d4c5"
+      },
+      {
+        "id": "0ccdedd0-eed4-417b-88b4-debcf5933226",
+        "slug": "april-coffee-roasters-volcan-azul-washed-sl28-192a2e6a"
+      },
+      {
+        "id": "89f0b9ca-395f-4e80-9f81-c974c50756bb",
+        "slug": "archers-coffee-bittersweet-0c0f29ff"
+      },
+      {
+        "id": "55fd8215-8003-4faa-b2db-207ccc6fb322",
+        "slug": "archers-coffee-black-diamond-9dd1ba10"
+      },
+      {
+        "id": "6e7b4a15-fa7d-4024-af89-bca45178917a",
+        "slug": "cat-cloud-the-answer-99a8c6a5"
+      },
+      {
+        "id": "34aadf13-27f4-4922-9eb1-6bc29ae2d95f",
+        "slug": "cat-cloud-the-best-friends-blend-3c2105eb"
+      },
+      {
+        "id": "e2b5aa3c-797d-4e46-9f5c-1ff9bdee767a",
+        "slug": "code-black-coffee-3056-espresso-blend-5f5f0031"
+      },
+      {
+        "id": "81e28b1c-86d4-4434-a88b-2a73e66ca0c0",
+        "slug": "code-black-coffee-ex-wife-espresso-blend-e71d401e"
+      },
+      {
+        "id": "a18911a7-32c5-43be-a885-71cd2e503378",
+        "slug": "code-black-coffee-seasonal-espresso-blend-2bf56ad6"
+      },
+      {
+        "id": "182ef429-0991-4916-aadb-741adc78178f",
+        "slug": "coffee-supreme-au-south-blend-5edb4464"
+      },
+      {
+        "id": "ef405312-ccd7-4529-9e67-9867cab84537",
+        "slug": "counter-culture-coffee-big-trouble-1eededa7"
+      },
+      {
+        "id": "8f90c0ed-8128-4889-9903-acbfea71c0de",
+        "slug": "dak-coffee-roasters-berry-blues-dba46c71"
+      },
+      {
+        "id": "65cfb93d-2390-4f56-bd0a-b8a113d14c44",
+        "slug": "dak-coffee-roasters-caramello-9923d268"
+      },
+      {
+        "id": "0c5f94aa-021f-4719-ad53-c12ebb0ab6ae",
+        "slug": "dak-coffee-roasters-cream-donut-7b70cfa2"
+      },
+      {
+        "id": "6e96e154-2162-47a8-90ff-8c69be6bccb3",
+        "slug": "dak-coffee-roasters-golden-waffle-4c96be11"
+      },
+      {
+        "id": "02f2f40a-77aa-41bf-b302-428e3cac2327",
+        "slug": "dak-coffee-roasters-juice-box-89ef551a"
+      },
+      {
+        "id": "9cd9d9c5-7d5f-447d-bf3d-e995993dfe94",
+        "slug": "dak-coffee-roasters-milky-cake-385347b2"
+      },
+      {
+        "id": "e759ac97-2511-4751-babd-9ee06c560ff6",
+        "slug": "dak-coffee-roasters-silky-way-211e8d39"
+      },
+      {
+        "id": "3f56d723-1c21-446d-937b-b915332c3721",
+        "slug": "dak-coffee-roasters-the-alchemist-5737b772"
+      },
+      {
+        "id": "1bb6ab9d-c59c-4d6d-961b-fd1d74f73481",
+        "slug": "five-senses-coffee-ardi-be105bb3"
+      },
+      {
+        "id": "b407fc50-0bb0-49c1-b0b1-c648347e80c1",
+        "slug": "five-senses-coffee-sweater-weather-blend-89c39ff6"
+      },
+      {
+        "id": "1c7b896b-35f0-4c03-8c7e-8695f32080a6",
+        "slug": "five-senses-coffee-umoja-washed-bffa1c95"
+      },
+      {
+        "id": "88099947-007a-4de3-b43f-3cd904379c40",
+        "slug": "gardelli-specialty-coffees-cumbres-decaffeinated-239f3dad"
+      },
+      {
+        "id": "ff4baed2-531f-4b88-9fb9-47ff55005d16",
+        "slug": "gardelli-specialty-coffees-la-torre-mejia-geisha-f770e9cf"
+      },
+      {
+        "id": "b5fd77a0-2bdc-4d6a-9a77-8c80ff057b62",
+        "slug": "gardelli-specialty-coffees-lalesa-ephtah-2daf911d"
+      },
+      {
+        "id": "26fe725d-36ba-4305-bf8c-67366f869b07",
+        "slug": "intelligentsia-coffee-black-cat-classic-espresso-3f2ad58c"
+      },
+      {
+        "id": "e6d21976-903b-41ff-b669-91a0fe8ee731",
+        "slug": "nomad-coffee-churupallana-2026-b0829c7c"
+      },
+      {
+        "id": "a5c82aeb-d960-475e-9377-d08d83dc1472",
+        "slug": "nomad-coffee-jhenrry-chavez-84262797"
+      },
+      {
+        "id": "95a7a121-3052-401b-81c6-9e9adfe7e7d9",
+        "slug": "nomad-coffee-kafipamba-7ba53891"
+      },
+      {
+        "id": "9ab363ae-6cf9-4294-86b2-6394b0c374ae",
+        "slug": "nomad-coffee-pacas-2026-608ea4f9"
+      },
+      {
+        "id": "13e7e4ab-6eaf-4b79-9999-88e6274c2437",
+        "slug": "nomad-coffee-parainema-2026-2f9dd5c4"
+      },
+      {
+        "id": "16fa5168-f62e-4cd1-a85f-74a0088b32d2",
+        "slug": "olympia-coffee-big-truck-e50fa5e5"
+      },
+      {
+        "id": "1f735375-73e8-42af-a60f-dd54b9fba417",
+        "slug": "ona-coffee-aspen-1f083986"
+      },
+      {
+        "id": "730821bf-ca6f-4379-84e2-6659016af382",
+        "slug": "ona-coffee-el-angel-4ebc6b15"
+      },
+      {
+        "id": "9b6ed51c-7a48-4946-83ab-b39a15e4c825",
+        "slug": "ona-coffee-elida-estate-torre-259f96a9"
+      },
+      {
+        "id": "60b94781-170d-4ff7-a000-af6cf4353a64",
+        "slug": "ona-coffee-gargari-gutity-g1-red-1b85b58e"
+      },
+      {
+        "id": "2e1adc92-6d89-4fd3-b522-c8c42493fb0d",
+        "slug": "ona-coffee-kaliluni-aa-41b0d4a4"
+      },
+      {
+        "id": "6a3921cb-473d-4414-ad59-cf17df6c8393",
+        "slug": "ona-coffee-kiambu-regional-c-382d0996"
+      },
+      {
+        "id": "9662ec49-1ce8-4f9f-97dc-4e630f78626a",
+        "slug": "ona-coffee-maguta-estate-lot-432-b65d6bc2"
+      },
+      {
+        "id": "b94a01a1-97e6-48c5-a0c2-8d83233f6f50",
+        "slug": "ona-coffee-maple-75872426"
+      },
+      {
+        "id": "807a5a4e-b255-427c-9e1f-152560d34ab4",
+        "slug": "ona-coffee-miramundo-79767fed"
+      },
+      {
+        "id": "f7cfb262-12c8-4196-9a5d-b2c3457cdd38",
+        "slug": "ona-coffee-raspberry-candy-272270ae"
+      },
+      {
+        "id": "60119445-9afe-402a-82d3-66b5220d7cc1",
+        "slug": "ona-coffee-raspberry-candy-filter-8d45ff9b"
+      },
+      {
+        "id": "e23f078d-cee5-4687-9ae7-d4d68815ac28",
+        "slug": "ona-coffee-rungeto-c-af76f20f"
+      },
+      {
+        "id": "a2ba594d-8083-4af2-bb93-7eccc93bed2c",
+        "slug": "ona-coffee-yula-regional-lot-efd7120b"
+      },
+      {
+        "id": "76b2555d-9ff8-4a68-9c4a-4c2a0acf0b05",
+        "slug": "onyx-coffee-lab-costa-rica-las-lajas-natural-96b565e4"
+      },
+      {
+        "id": "438f3878-874a-4151-8b1f-fc994492872d",
+        "slug": "onyx-coffee-lab-ethiopia-agaro-yukro-g1-1f8e6029"
+      },
+      {
+        "id": "eaa5ca3d-91b4-41b1-a987-c6db49798149",
+        "slug": "onyx-coffee-lab-geometry-6d682a31"
+      },
+      {
+        "id": "5e75f821-1c4c-4022-be86-d6118238730c",
+        "slug": "onyx-coffee-lab-honduras-fredy-perez-5062f916"
+      },
+      {
+        "id": "c5078ed1-f9b4-4265-9767-5028aaef7dbd",
+        "slug": "onyx-coffee-lab-kenya-kamunyaka-aa-a675b4fc"
+      },
+      {
+        "id": "97f1c922-0f62-4c14-b320-7793122d4da0",
+        "slug": "onyx-coffee-lab-mexico-oaxaca-yogondoy-gesha-1588e522"
+      },
+      {
+        "id": "594bc62d-5733-4de2-b192-2314d2c5a8c8",
+        "slug": "onyx-coffee-lab-monarch-f54f3910"
+      },
+      {
+        "id": "deb0cb1d-09c3-41fe-8c4c-30bfca44ace4",
+        "slug": "onyx-coffee-lab-peru-la-margarita-gesha-cffd80bd"
+      },
+      {
+        "id": "4261f94c-e771-4fa0-8dd3-9eba1b97141f",
+        "slug": "onyx-coffee-lab-power-nap-cbada7ff"
+      },
+      {
+        "id": "52e14e46-ab01-4510-9ad3-2e856d464e9b",
+        "slug": "onyx-coffee-lab-southern-weather-75e9d657"
+      },
+      {
+        "id": "92ec981b-2b35-4647-9f4a-2c0256c9930e",
+        "slug": "onyx-coffee-lab-tropical-weather-eb14f08f"
+      },
+      {
+        "id": "5e8339f8-d9d7-408f-9972-762ea0333977",
+        "slug": "toby-s-estate-black-swan-48b18a55"
+      },
+      {
+        "id": "b907e24c-7fdb-4d0b-8f15-9b833aff50ff",
+        "slug": "toby-s-estate-broadway-95ad45e7"
+      },
+      {
+        "id": "25de1337-2dd8-45b3-8b88-2df20dc647d2",
+        "slug": "toby-s-estate-brunswick-13d58070"
+      },
+      {
+        "id": "a9a38a01-083c-44d6-9fda-12c42c44d337",
+        "slug": "toby-s-estate-decaf-3ce1f280"
+      },
+      {
+        "id": "8c1ad673-2bf4-47a1-be37-b7d6e4ab480f",
+        "slug": "toby-s-estate-organic-blend-b66f36a7"
+      },
+      {
+        "id": "3921803c-b271-48d6-87fa-44f5f16283a1",
+        "slug": "toby-s-estate-rico-beba7bc3"
+      },
+      {
+        "id": "143de3d3-0598-4822-9413-076551901696",
+        "slug": "toby-s-estate-woolloomooloo-986aaab9"
+      },
+      {
+        "id": "6205b2bf-35c2-4d2c-9e7b-15d01086331a",
+        "slug": "verve-coffee-roasters-buena-vista-dark-roast-9250ca4c"
+      },
+      {
+        "id": "7dd6f770-3049-4217-affb-3aaf5fbfc976",
+        "slug": "verve-coffee-roasters-seabright-house-blend-5c42f144"
+      },
+      {
+        "id": "350842f3-d45d-4c81-9f5e-f5fb13e5d3c3",
+        "slug": "verve-coffee-roasters-sermon-bb3b473d"
+      },
+      {
+        "id": "84676144-7f18-4159-8aff-200a27d380a1",
+        "slug": "verve-coffee-roasters-streetlevel-6b7d7404"
+      },
+      {
+        "id": "6a81364a-eef6-4ad0-9f83-082d1c11704e",
+        "slug": "workshop-coffee-chakra-3f772aa0"
+      },
+      {
+        "id": "7f58042f-11b6-4e4b-a507-1dfee585dfb2",
+        "slug": "workshop-coffee-la-plata-decaf-b63c5251"
+      },
+      {
+        "id": "9e27b2c9-8ffb-465e-8884-d5e71346e282",
+        "slug": "workshop-coffee-maidy-bocanegra-pink-bourbon-8f6296fc"
+      },
+      {
+        "id": "0fd3e515-b22b-4b32-a215-4b6fc991b10a",
+        "slug": "workshop-coffee-pillar-53c30f62"
+      },
+      {
+        "id": "6df4299f-a17c-4c47-b90a-c3e17320ce70",
+        "slug": "workshop-coffee-reset-half-caff-a6c1a15e"
+      }
+    ],
+    "new_present_count": 77,
+    "new_expected_count": 77,
+    "original137_present": 137,
+    "new_exact_match_count": 77,
+    "active_roasted_products": 0,
+    "all_public_reviewed_beans": 214,
+    "public_reviewed_outside_scope": 0
+  },
+  "canonical_dataset_sha256": "c3741fd6f4e9e06bdd39a8db509ebbe708fa61650d62ef32798018005c11dc53",
+  "query_sha256": "60ba57cc5f57655af6259eff91ffca9670a772b2406c3846a853957e553f0d88"
+}

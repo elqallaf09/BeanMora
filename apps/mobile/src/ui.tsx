@@ -1,10 +1,10 @@
 import { createContext, useContext, type ReactNode } from 'react';
-import { Animated, Text, Pressable, TextInput, StyleSheet, View, type StyleProp, type TextInputProps, type TextStyle } from 'react-native';
+import { Animated, Image, Text, Pressable, TextInput, StyleSheet, View, type StyleProp, type TextInputProps, type TextStyle } from 'react-native';
 import Svg, { Path, Circle, Rect, Ellipse } from 'react-native-svg';
 import { copy, type Locale } from './copy';
 import { usePressMotion } from './Motion';
 
-export const colors = { cream: '#F5F1E7', paper: '#FCFAF5', ink: '#201A15', brown: '#3B2417', muted: '#81776B', line: '#E8E2D7', chip: '#EFE9DE' };
+export const colors = { cream: '#F7F2E9', paper: '#FFFCF6', ink: '#2B1D14', brown: '#3B2417', muted: '#796958', line: '#E7DCCF', chip: '#EFE6D9', copper: '#B76C35', teal: '#167B7F' };
 export const Language = createContext<Locale>('ar');
 export const useCopy = () => copy[useContext(Language)];
 export function Txt({ children, style, heading = false, numberOfLines }: { children: ReactNode; style?: StyleProp<TextStyle>; heading?: boolean; numberOfLines?: number }) {
@@ -20,7 +20,7 @@ export function Field({ label, ...props }: TextInputProps & { label: string }) {
   const rtl = useContext(Language) === 'ar';
   return <View style={{ gap: 6 }}><Txt style={styles.label}>{label}</Txt><TextInput {...props} accessibilityLabel={label} placeholderTextColor={colors.muted} style={[styles.input, { textAlign: rtl ? 'right' : 'left', fontFamily: rtl ? 'Tajawal-Regular' : undefined }, props.style]} /></View>;
 }
-export type IconName = 'home' | 'search' | 'plus' | 'heart' | 'user' | 'bell' | 'back' | 'arrow' | 'share' | 'bean' | 'espresso' | 'v60' | 'xbloom' | 'aeropress' | 'chemex' | 'french_press' | 'cold_brew' | 'moka_pot' | 'origami' | 'kalita_wave' | 'globe' | 'drop' | 'temp' | 'clock' | 'play' | 'more' | 'lock' | 'mail' | 'eye' | 'star' | 'gear' | 'apple' | 'google';
+export type IconName = 'home' | 'search' | 'plus' | 'heart' | 'user' | 'bell' | 'back' | 'arrow' | 'share' | 'bean' | 'espresso' | 'v60' | 'xbloom' | 'aeropress' | 'chemex' | 'french_press' | 'cold_brew' | 'moka_pot' | 'origami' | 'kalita_wave' | 'april' | 'orea' | 'switch' | 'pour_over' | 'auto_drip' | 'globe' | 'drop' | 'temp' | 'clock' | 'play' | 'more' | 'lock' | 'mail' | 'eye' | 'star' | 'gear' | 'apple' | 'google';
 export function Icon({ name, size = 24, color = colors.ink, filled = false }: { name: IconName; size?: number; color?: string; filled?: boolean }) {
   const body: Record<IconName, ReactNode> = {
     home: <Path d="m3 10 9-7 9 7v11h-6v-7H9v7H3Z" fill={filled ? color : 'none'} />,
@@ -31,11 +31,16 @@ export function Icon({ name, size = 24, color = colors.ink, filled = false }: { 
     bell: <Path d="M5 16c2-2 1-4 1-6a6 6 0 0 1 12 0c0 2-1 4 1 6l1 2H4ZM10 21h4M12 2v2"/>,
     back: <Path d="m15 4-8 8 8 8"/>, arrow: <Path d="M3 12h18m-6-6 6 6-6 6"/>,
     share: <Path d="M5 13v8h14v-8M12 16V3m-4 4 4-4 4 4"/>,
-    bean: <><Ellipse cx="12" cy="12" rx="7" ry="10" transform="rotate(18 12 12)"/><Path d="M11 2c-3 6 6 11 2 20"/></>,
+    bean: <><Ellipse cx="12" cy="12" rx="7" ry="10" transform="rotate(18 12 12)" fill={filled ? color : 'none'}/><Path d="M11 2c-3 6 6 11 2 20" stroke={filled ? colors.paper : color}/></>,
     espresso: <Path d="M4 7h13v7a6 6 0 0 1-12 0ZM17 8h2a3 3 0 0 1 0 6h-2M3 21h17M8 3v1m5-1v1"/>,
     v60: <><Ellipse cx="12" cy="5" rx="8" ry="2.3"/><Path d="m4 5 7 12v4m9-16-7 12v4M8 22h8M8 9l3 7m5-7-3 7"/></>,
     origami: <><Ellipse cx="12" cy="5" rx="9" ry="2.5"/><Path d="m3 5 8 14h2l8-14M7 6l4 12M17 6l-4 12M3 21h18"/></>,
     kalita_wave: <><Ellipse cx="12" cy="5" rx="8" ry="2.4"/><Path d="m4 5 3 13h10l3-13M7 9h10M8 13h8M4 21h16"/></>,
+    april: <><Ellipse cx="12" cy="5" rx="8" ry="2.4"/><Path d="m4 5 3 12h10l3-12M7 17v4m10-4v4M5 21h14M9 10h6"/></>,
+    orea: <><Ellipse cx="12" cy="5" rx="8" ry="2.4"/><Path d="m4 5 3 12h10l3-12M7 17h10M5 21h14m-7-4v4"/></>,
+    switch: <><Ellipse cx="12" cy="5" rx="8" ry="2.4"/><Path d="m4 5 6 11h4l6-11M9 17v4h6v-4m0 1 5-3M6 22h12"/></>,
+    pour_over: <><Path d="M3 4h18l-7 12h-4ZM5 21h14M12 16v5M7 7l4 7"/><Path d="M4 1h4m8 0h4"/></>,
+    auto_drip: <><Rect x="5" y="2" width="14" height="20" rx="2"/><Path d="M7 7h10M9 11h6v7H9ZM15 12h2v4h-2M8 20h8"/><Circle cx="15" cy="5" r="0.6" fill={color}/></>,
     xbloom: <><Rect x="6" y="2" width="12" height="20" rx="1.5"/><Circle cx="12" cy="7" r="2"/><Path d="M9 12h6v6H9ZM8 20h8"/></>,
     aeropress: <Path d="M7 3h10M8 3v17h8V3M10 7h4m-4 3h4m-4 3h4M5 21h14M5 1h14"/>,
     chemex: <Path d="M5 2h14l-5 9v2l5 9H5l5-9v-2ZM10 11h4m-4 2h4"/>,
@@ -67,7 +72,8 @@ export function Leaf({ size = 38, color = colors.brown }: { size?: number; color
 }
 export function Brand({ light = false, large = false }: { light?: boolean; large?: boolean }) {
   const ink = light ? '#FFFDF7' : '#140E0B';
-  return <View style={{ alignItems: 'center', gap: 0 }}><Leaf size={large ? 56 : 35} color={ink}/><Txt style={{ fontFamily: undefined, color: ink, fontSize: large ? 34 : 25, fontWeight: '800', lineHeight: large ? 42 : 29, letterSpacing: -0.8 }}>BeanMora</Txt><Txt style={{ fontFamily: undefined, color: ink, fontSize: large ? 12 : 8, lineHeight: large ? 18 : 11 }}>Good Coffee. Better Days.</Txt></View>;
+  const height = large ? 90 : 46;
+  return <View testID="beanmora-brand" style={{ alignItems: 'center', flexDirection: 'row', direction: 'ltr', gap: large ? 9 : 4, flexShrink: 1 }}><Image source={require('../assets/brand/mark.png')} resizeMode="contain" accessibilityLabel="BeanMora logo" style={{ height, width: height * 695 / 1188 }}/><View style={{ alignItems: 'center', gap: large ? 3 : 0 }}><Text style={{ fontFamily: 'Quicksand', color: ink, fontSize: large ? 39 : 22, fontWeight: '500', lineHeight: large ? 49 : 28, letterSpacing: -0.6, writingDirection: 'ltr' }}>BeanMora</Text><Text style={{ fontFamily: 'Quicksand', color: light ? '#72C4C4' : colors.teal, fontSize: large ? 12 : 7.2, lineHeight: large ? 18 : 12, writingDirection: 'ltr' }}>Coffee Recipes &amp; More</Text></View></View>;
 }
 export const styles = StyleSheet.create({
   fill: { flex: 1, backgroundColor: colors.cream },
@@ -79,7 +85,7 @@ export const styles = StyleSheet.create({
   card: { backgroundColor: colors.paper, padding: 16, borderRadius: 18, borderWidth: 1, borderColor: colors.line, gap: 10, marginBottom: 8 },
   row: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 8 },
   button: { borderRadius: 15, borderWidth: 1, borderColor: colors.line, paddingHorizontal: 16, paddingVertical: 12, minHeight: 48, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.paper },
-  selected: { backgroundColor: colors.brown, borderColor: colors.brown },
+  selected: { backgroundColor: colors.teal, borderColor: colors.teal },
   input: { borderWidth: 1, borderColor: colors.line, borderRadius: 14, minHeight: 50, paddingHorizontal: 14, paddingVertical: 10, backgroundColor: '#F9F6F0', fontSize: 16, color: colors.ink },
   label: { fontSize: 13, fontWeight: '600' },
   warning: { color: '#70431D', fontSize: 13, backgroundColor: '#F6E8D3', padding: 12, borderRadius: 12 },

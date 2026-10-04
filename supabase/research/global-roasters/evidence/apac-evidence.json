@@ -1,0 +1,1173 @@
+{
+  "verified_at": "2026-10-04",
+  "scope": "Curated APAC official-source batch. No database or repository content was modified by the research.",
+  "counting_rules": [
+    "A guide reused across product pages is not multiplied into separate recipes.",
+    "Identical Broadway and Brunswick parameters are stored once; two Kurasu two-coffee comparison guides are each stored once.",
+    "Specific V60 instructions take precedence over broad method tags.",
+    "Espresso yield is beverage output and never input water.",
+    "Ranges and explicit age-based targets are retained; missing numerical values remain null.",
+    "creator_country records the sourced operating country, not personal nationality.",
+    "recipe_country stays null except the explicitly Japanese Kurasu flash-brew method.",
+    "No sensory scores were generated or inferred."
+  ],
+  "roaster_country_sources": [
+    {
+      "name": "ONA Coffee",
+      "name_ar": "أونا كوفي",
+      "country": "Australia",
+      "source_url": "https://onacoffee.com.au/pages/about",
+      "website": "https://onacoffee.com.au",
+      "country_basis": "Official about page identifies its roastery in Canberra, Australia."
+    },
+    {
+      "name": "Code Black Coffee",
+      "name_ar": "كود بلاك كوفي",
+      "country": "Australia",
+      "source_url": "https://codeblackcoffee.com.au/products/3056-espresso-blend-coffee",
+      "website": "https://codeblackcoffee.com.au",
+      "country_basis": "Official product page identifies Brunswick, Melbourne and its Victorian roastery address."
+    },
+    {
+      "name": "Toby's Estate",
+      "name_ar": "توبيز إستيت",
+      "country": "Australia",
+      "source_url": "https://www.tobysestate.com.au/organic-blend/",
+      "website": "https://www.tobysestate.com.au",
+      "country_basis": "Official Australian product page describes its Australian specialty coffee and roasters."
+    },
+    {
+      "name": "Five Senses Coffee",
+      "name_ar": "فايف سينسز كوفي",
+      "country": "Australia",
+      "source_url": "https://fivesenses.com.au/pages/contact",
+      "website": "https://fivesenses.com.au",
+      "country_basis": "Official contact page lists Perth roastery/head office and Australian premises."
+    },
+    {
+      "name": "Kurasu",
+      "name_ar": "كوراسو",
+      "country": "Japan",
+      "source_url": "https://kurasu.kyoto/pages/about-kurasu",
+      "website": "https://kurasu.kyoto",
+      "country_basis": "Official about page explicitly locates the coffee business and Nishijin roasting operation in Kyoto, Japan."
+    },
+    {
+      "name": "Coffee Supreme AU",
+      "name_ar": "كوفي سوبريم أستراليا",
+      "country": "Australia",
+      "source_url": "https://shopau.coffeesupreme.com/pages/about",
+      "website": "https://shopau.coffeesupreme.com",
+      "country_basis": "This source is the Australian operation; its official page says orders ship from its Melbourne roastery. This is not an assertion of the nationality of its founders."
+    }
+  ],
+  "recipe_evidence": [
+    {
+      "slug": "ona-raspberry-candy-espresso",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/raspberry-candy",
+      "source_title": "Raspberry Candy - ONA Coffee House Blend",
+      "source_cache_key": "b4658258cc29fca9",
+      "coffee_name": "Raspberry Candy",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": null,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": null,
+        "water_temp_c": 93.5,
+        "total_time_seconds": null
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "dose_min_grams": 20.5,
+          "dose_max_grams": 21,
+          "yield_min_grams": 38,
+          "yield_max_grams": 41,
+          "time_min_seconds": 25,
+          "time_max_seconds": 30,
+          "milk_grams": 120,
+          "milk_weight_scope": "Source does not identify whether this 120 g is per shot.",
+          "best_roast_age_min_days": 16,
+          "best_roast_age_max_days": 30,
+          "yield_scope": "two espresso shots combined",
+          "roast_label_original": "Milk-based",
+          "coffee_component_source_url": "https://onacoffee.com.au/products/raspberry-candy",
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "Espresso output is the combined yield of two shots. Published ranges are preserved; null scalar fields mean the source supplies a range, not a single target. Component origins come from the current product description."
+    },
+    {
+      "slug": "ona-maple-espresso",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/maple",
+      "source_title": "Maple - ONA Coffee House Blend",
+      "source_cache_key": "2a44a89c2f832fd2",
+      "coffee_name": "Maple",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": 20.7,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": null,
+        "water_temp_c": 93.5,
+        "total_time_seconds": null
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "dose_min_grams": 20.5,
+          "dose_max_grams": 21,
+          "dose_preferred_grams": 20.7,
+          "yield_min_grams": 36,
+          "yield_max_grams": 38,
+          "time_min_seconds": 24,
+          "time_max_seconds": 28,
+          "milk_min_grams": 115,
+          "milk_max_grams": 120,
+          "best_roast_age_min_days": 14,
+          "best_roast_age_max_days": 30,
+          "yield_scope": "two espresso shots combined",
+          "roast_label_original": "Milk-based",
+          "coffee_component_source_url": "https://onacoffee.com.au/products/maple",
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "Espresso output is the combined yield of two shots. Published ranges are preserved; null scalar fields mean the source supplies a range, not a single target. Component origins come from the current product description."
+    },
+    {
+      "slug": "ona-aspen-espresso",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/aspen",
+      "source_title": "Aspen - ONA Coffee House Blend",
+      "source_cache_key": "baf529aebf96dfc7",
+      "coffee_name": "Aspen",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": 20.7,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": 39,
+        "water_temp_c": 93.5,
+        "total_time_seconds": 26
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "dose_min_grams": 20.7,
+          "dose_max_grams": 21.3,
+          "yield_min_grams": 35,
+          "yield_max_grams": 40,
+          "time_min_seconds": 24,
+          "time_max_seconds": 29,
+          "explicit_starting_recipe": {
+            "dose_grams": 20.7,
+            "yield_grams": 39,
+            "time_seconds": 26
+          },
+          "milk_grams_per_single_shot": 120,
+          "best_roast_age_min_days": 14,
+          "best_roast_age_max_days": 30,
+          "yield_scope": "two espresso shots combined",
+          "roast_label_original": "Milk-based",
+          "coffee_component_source_url": "https://onacoffee.com.au/products/aspen",
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "Espresso output is the combined yield of two shots. Published ranges are preserved; null scalar fields mean the source supplies a range, not a single target. Component origins come from the current product description. The scalar targets use ONA’s explicitly recommended starting recipe."
+    },
+    {
+      "slug": "ona-raspberry-candy-filter-v60",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/raspberry-candy-filter",
+      "source_title": "Raspberry Candy Filter",
+      "source_cache_key": "b1b8d21b5f87a635",
+      "coffee_name": "Raspberry Candy Filter",
+      "method": "v60",
+      "measurement_facts": {
+        "dose_grams": 20,
+        "water_grams": 300,
+        "water_ml": null,
+        "yield_grams": null,
+        "water_temp_c": 91,
+        "total_time_seconds": 165
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Filter",
+          "brewer": "Hario V60",
+          "pours_are_incremental": true,
+          "bloom_seconds": 35,
+          "pour_trigger_after_bloom": "Wait for the preceding water to drain before the next pour.",
+          "best_roast_age_min_days": 7,
+          "best_roast_age_max_days": 20,
+          "source_procedure_status": "published_procedure"
+        }
+      },
+      "video_url": null,
+      "decision_note": "Five 60 g pours. Later pours are triggered by drainage, not by an invented fixed schedule. Source method tags are not additional recipes."
+    },
+    {
+      "slug": "ona-gargari-gutity-g1-red-ethiopia-natural-espresso",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/gargari-gutity-g1-red-ethiopia-natural",
+      "source_title": "Gargari Gutity G1 Red, Ethiopia, Natural",
+      "source_cache_key": "95ef7be841eeb233",
+      "coffee_name": "Gargari Gutity G1 Red",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": 20.7,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": 38,
+        "water_temp_c": 93.5,
+        "total_time_seconds": 26
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Milk-based",
+          "milk_grams_per_single_shot": 115,
+          "best_roast_age_min_days": 18,
+          "best_roast_age_max_days": 30,
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "Source also recommends 115 g milk per single espresso. The espresso output remains separate from milk."
+    },
+    {
+      "slug": "ona-kiambu-regional-c-kenya-washed-v60",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/kiambu-regional-c-kenya-washed",
+      "source_title": "Kiambu Regional C, Kenya, Washed",
+      "source_cache_key": "95198a17ddd77d20",
+      "coffee_name": "Kiambu Regional C",
+      "method": "v60",
+      "measurement_facts": {
+        "dose_grams": 20,
+        "water_grams": 300,
+        "water_ml": null,
+        "yield_grams": null,
+        "water_temp_c": 90,
+        "total_time_seconds": 165
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Filter",
+          "brewer": "Hario V60",
+          "pours_are_incremental": true,
+          "bloom_seconds": 35,
+          "pour_trigger_after_bloom": "Wait for the preceding water to drain before the next pour.",
+          "best_roast_age_min_days": 7,
+          "best_roast_age_max_days": 20,
+          "source_procedure_status": "published_procedure"
+        }
+      },
+      "video_url": null,
+      "decision_note": "Five 60 g pours. Later pours are triggered by drainage, not by an invented fixed schedule. Source method tags are not additional recipes."
+    },
+    {
+      "slug": "ona-miramundo-guatemala-natural-espresso",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/miramundo-guatemala-natural",
+      "source_title": "Miramundo, Guatemala, Natural",
+      "source_cache_key": "908b386e0ba08eb3",
+      "coffee_name": "Miramundo",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": 20.3,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": 42,
+        "water_temp_c": 93.5,
+        "total_time_seconds": 24
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Espresso",
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "Published beverage yield is espresso output, not brewing-water input."
+    },
+    {
+      "slug": "ona-el-angel-el-salvador-natural-v60",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/el-angel-el-salvador-natural",
+      "source_title": "El Ángel, El Salvador, Natural",
+      "source_cache_key": "f406e73eacaab121",
+      "coffee_name": "El Ángel",
+      "method": "v60",
+      "measurement_facts": {
+        "dose_grams": 20,
+        "water_grams": 300,
+        "water_ml": null,
+        "yield_grams": null,
+        "water_temp_c": 88,
+        "total_time_seconds": 165
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Filter",
+          "brewer": "Hario V60",
+          "pours_are_incremental": true,
+          "bloom_seconds": 35,
+          "pour_trigger_after_bloom": "Wait for the preceding water to drain before the next pour.",
+          "best_roast_age_min_days": 7,
+          "best_roast_age_max_days": 20,
+          "source_procedure_status": "published_procedure"
+        }
+      },
+      "video_url": null,
+      "decision_note": "Five 60 g pours. Later pours are triggered by drainage, not by an invented fixed schedule. Source method tags are not additional recipes."
+    },
+    {
+      "slug": "ona-kaliluni-aa-kenya-washed-espresso",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/kaliluni-aa-kenya-washed",
+      "source_title": "Kaliluni AA, Kenya, Washed",
+      "source_cache_key": "76632c4c88e59f83",
+      "coffee_name": "Kaliluni AA",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": 20,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": 44,
+        "water_temp_c": 93.5,
+        "total_time_seconds": 25
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Espresso",
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "Published beverage yield is espresso output, not brewing-water input."
+    },
+    {
+      "slug": "ona-yula-regional-lot-guatemala-washed-v60",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/yula-regional-lot-guatemala-washed",
+      "source_title": "Yula Regional Lot, Guatemala, Washed",
+      "source_cache_key": "4da5b4a32a0cf231",
+      "coffee_name": "Yula Regional Lot",
+      "method": "v60",
+      "measurement_facts": {
+        "dose_grams": 20,
+        "water_grams": 300,
+        "water_ml": null,
+        "yield_grams": null,
+        "water_temp_c": 89,
+        "total_time_seconds": 165
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Filter",
+          "brewer": "Hario V60",
+          "pours_are_incremental": true,
+          "bloom_seconds": 35,
+          "pour_trigger_after_bloom": "Wait for the preceding water to drain before the next pour.",
+          "best_roast_age_min_days": 7,
+          "best_roast_age_max_days": 20,
+          "source_procedure_status": "published_procedure"
+        }
+      },
+      "video_url": null,
+      "decision_note": "Five 60 g pours. Later pours are triggered by drainage, not by an invented fixed schedule. Source method tags are not additional recipes."
+    },
+    {
+      "slug": "ona-maguta-estate-lot-432-kenya-nitrogen-natural-indigo-v60",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/maguta-estate-lot-432-kenya-nitrogen-natural-indigo",
+      "source_title": "Maguta Estate Lot 432, Kenya, Nitrogen Natural Indigo",
+      "source_cache_key": "aa76a4f517f27feb",
+      "coffee_name": "Maguta Estate Lot 432",
+      "method": "v60",
+      "measurement_facts": {
+        "dose_grams": 20,
+        "water_grams": 300,
+        "water_ml": null,
+        "yield_grams": null,
+        "water_temp_c": 90,
+        "total_time_seconds": 150
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Filter",
+          "brewer": "Hario V60",
+          "pours_are_incremental": true,
+          "bloom_seconds": 30,
+          "pour_trigger_after_bloom": "Wait for the preceding water to drain before the next pour.",
+          "best_roast_age_min_days": 7,
+          "best_roast_age_max_days": 20,
+          "source_procedure_status": "published_procedure"
+        }
+      },
+      "video_url": null,
+      "decision_note": "Five 60 g pours. Later pours are triggered by drainage, not by an invented fixed schedule. Source method tags are not additional recipes."
+    },
+    {
+      "slug": "ona-elida-estate-torre-panama-drd-washed-v60",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/elida-estate-torre-panama-drd-washed",
+      "source_title": "Elida Estate Torre, Panama, DRD Washed",
+      "source_cache_key": "c066caf9f999ee4e",
+      "coffee_name": "Elida Estate Torre",
+      "method": "v60",
+      "measurement_facts": {
+        "dose_grams": 20,
+        "water_grams": 300,
+        "water_ml": null,
+        "yield_grams": null,
+        "water_temp_c": 90,
+        "total_time_seconds": 210
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Filter",
+          "brewer": "Hario V60",
+          "pours_are_incremental": true,
+          "bloom_seconds": 35,
+          "pour_trigger_after_bloom": "Wait for the preceding water to drain before the next pour.",
+          "best_roast_age_min_days": 7,
+          "best_roast_age_max_days": 20,
+          "source_procedure_status": "published_procedure"
+        }
+      },
+      "video_url": null,
+      "decision_note": "Five 60 g pours. Later pours are triggered by drainage, not by an invented fixed schedule. Source method tags are not additional recipes."
+    },
+    {
+      "slug": "ona-rungeto-c-kenya-washed-espresso",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/rungeto-c-kenya-washed",
+      "source_title": "Rungeto C, Kenya, Washed",
+      "source_cache_key": "24dd66a681c18d4c",
+      "coffee_name": "Rungeto C",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": 20.3,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": 42,
+        "water_temp_c": 93.5,
+        "total_time_seconds": 21
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Espresso",
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "Published beverage yield is espresso output, not brewing-water input."
+    },
+    {
+      "slug": "code-black-3056-espresso-blend-coffee",
+      "source_url": "https://codeblackcoffee.com.au/products/3056-espresso-blend-coffee",
+      "source_title": "3056 Espresso Blend Coffee",
+      "source_cache_key": "0070e89647db8354",
+      "coffee_name": "3056 Espresso Blend",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": 20,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": 40,
+        "water_temp_c": 93,
+        "total_time_seconds": null
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "time_min_seconds": 26,
+          "time_max_seconds": 32,
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "Use the published espresso yield. A time range is retained where the source provides one; no midpoint has been substituted."
+    },
+    {
+      "slug": "code-black-seasonal-espresso-blend",
+      "source_url": "https://codeblackcoffee.com.au/products/seasonal-espresso-blend",
+      "source_title": "Seasonal Espresso Blend – Specialty Coffee | Code Black",
+      "source_cache_key": "c1b328247b3ebdc5",
+      "coffee_name": "Seasonal Espresso Blend",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": 20,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": 50,
+        "water_temp_c": 93,
+        "total_time_seconds": 25
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "components": [
+            {
+              "name": "Ethiopia Arsosola Natural",
+              "percent": 45
+            },
+            {
+              "name": "Ethiopia Halo Bereti Washed",
+              "percent": 45
+            },
+            {
+              "name": "Colombia El Diviso Washed",
+              "percent": 10
+            }
+          ],
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "Use the published espresso yield. A time range is retained where the source provides one; no midpoint has been substituted."
+    },
+    {
+      "slug": "code-black-ex-wife-espresso-blend-coffee",
+      "source_url": "https://codeblackcoffee.com.au/products/ex-wife-espresso-blend-coffee",
+      "source_title": "Ex-Wife Espresso Blend Coffee",
+      "source_cache_key": "f2a8deaa9b84aba8",
+      "coffee_name": "Ex-Wife Espresso Blend",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": 20,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": 35,
+        "water_temp_c": 93,
+        "total_time_seconds": null
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "time_min_seconds": 29,
+          "time_max_seconds": 35,
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "Use the published espresso yield. A time range is retained where the source provides one; no midpoint has been substituted."
+    },
+    {
+      "slug": "tobys-estate-woolloomooloo-espresso",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "source_title": null,
+      "source_cache_key": "b2141854ba7e8b11",
+      "coffee_name": "Woolloomooloo",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": 24,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": 40,
+        "water_temp_c": null,
+        "total_time_seconds": 29
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "recipe_card_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-woolly-1753942959810.jpg?t=1753942960",
+          "recipe_card_local_path": "/workspace/scratch/a118d5f62443/research/apac-cache/images/toby-card-0.jpg",
+          "yield_by_roast_age": [
+            {
+              "roast_age_min_days": 3,
+              "roast_age_max_days": 5,
+              "yield_grams": 50,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 6,
+              "roast_age_max_days": 10,
+              "yield_grams": 44,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 11,
+              "roast_age_max_days": 15,
+              "yield_grams": 40,
+              "is_peak": true
+            },
+            {
+              "roast_age_min_days": 16,
+              "roast_age_max_days": null,
+              "yield_grams": 38,
+              "is_peak": false
+            }
+          ],
+          "scalar_yield_basis": "Explicit PEAK age window on official card",
+          "peak_age_min_days": 11,
+          "peak_age_max_days": 15,
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "Target yield uses the source’s PEAK window, 11–15 days after roast. All published age-dependent yields are preserved in metadata. Water temperature is not published."
+    },
+    {
+      "slug": "tobys-estate-broadway-espresso",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "source_title": null,
+      "source_cache_key": "b2141854ba7e8b11",
+      "coffee_name": "Broadway",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": 24,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": 40,
+        "water_temp_c": null,
+        "total_time_seconds": 26
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "recipe_card_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-broadway-1753943068854.jpg?t=1753943069",
+          "recipe_card_local_path": "/workspace/scratch/a118d5f62443/research/apac-cache/images/toby-card-1.jpg",
+          "yield_by_roast_age": [
+            {
+              "roast_age_min_days": 3,
+              "roast_age_max_days": 5,
+              "yield_grams": 48,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 6,
+              "roast_age_max_days": 10,
+              "yield_grams": 44,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 11,
+              "roast_age_max_days": 15,
+              "yield_grams": 40,
+              "is_peak": true
+            },
+            {
+              "roast_age_min_days": 16,
+              "roast_age_max_days": null,
+              "yield_grams": 36,
+              "is_peak": false
+            }
+          ],
+          "scalar_yield_basis": "Explicit PEAK age window on official card",
+          "peak_age_min_days": 11,
+          "peak_age_max_days": 15,
+          "also_applies_to_coffees": [
+            "Brunswick"
+          ],
+          "same_recipe_card_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-brunswick-1753943388670.jpg?t=1753943389",
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "Target yield uses the source’s PEAK window, 11–15 days after roast. All published age-dependent yields are preserved in metadata. Water temperature is not published."
+    },
+    {
+      "slug": "tobys-estate-rico-espresso",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "source_title": null,
+      "source_cache_key": "b2141854ba7e8b11",
+      "coffee_name": "Rico",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": 22,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": 44,
+        "water_temp_c": null,
+        "total_time_seconds": 24
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "recipe_card_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-rico-feb2023.jpg?t=1753943176",
+          "recipe_card_local_path": "/workspace/scratch/a118d5f62443/research/apac-cache/images/toby-card-2.jpg",
+          "yield_by_roast_age": [
+            {
+              "roast_age_min_days": 3,
+              "roast_age_max_days": 5,
+              "yield_grams": 50,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 6,
+              "roast_age_max_days": 10,
+              "yield_grams": 44,
+              "is_peak": true
+            },
+            {
+              "roast_age_min_days": 11,
+              "roast_age_max_days": 15,
+              "yield_grams": 40,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 16,
+              "roast_age_max_days": null,
+              "yield_grams": 38,
+              "is_peak": false
+            }
+          ],
+          "scalar_yield_basis": "Explicit PEAK age window on official card",
+          "peak_age_min_days": 6,
+          "peak_age_max_days": 10,
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "Target yield uses the source’s PEAK window, 6–10 days after roast. All published age-dependent yields are preserved in metadata. Water temperature is not published."
+    },
+    {
+      "slug": "tobys-estate-black-swan-espresso",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "source_title": null,
+      "source_cache_key": "b2141854ba7e8b11",
+      "coffee_name": "Black Swan",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": 22,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": 39,
+        "water_temp_c": null,
+        "total_time_seconds": 24
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "recipe_card_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-blackswan.jpg?t=1753430663",
+          "recipe_card_local_path": "/workspace/scratch/a118d5f62443/research/apac-cache/images/toby-card-4.jpg",
+          "yield_by_roast_age": [
+            {
+              "roast_age_min_days": 3,
+              "roast_age_max_days": 5,
+              "yield_grams": 45,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 6,
+              "roast_age_max_days": 10,
+              "yield_grams": 42,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 11,
+              "roast_age_max_days": 15,
+              "yield_grams": 39,
+              "is_peak": true
+            },
+            {
+              "roast_age_min_days": 16,
+              "roast_age_max_days": null,
+              "yield_grams": 37,
+              "is_peak": false
+            }
+          ],
+          "scalar_yield_basis": "Explicit PEAK age window on official card",
+          "peak_age_min_days": 11,
+          "peak_age_max_days": 15,
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "Target yield uses the source’s PEAK window, 11–15 days after roast. All published age-dependent yields are preserved in metadata. Water temperature is not published."
+    },
+    {
+      "slug": "tobys-estate-organic-blend-espresso",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "source_title": null,
+      "source_cache_key": "b2141854ba7e8b11",
+      "coffee_name": "Organic Blend",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": 23,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": 41,
+        "water_temp_c": null,
+        "total_time_seconds": 26
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "recipe_card_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-organic-1753943427249.jpg?t=1753943427",
+          "recipe_card_local_path": "/workspace/scratch/a118d5f62443/research/apac-cache/images/toby-card-5.jpg",
+          "yield_by_roast_age": [
+            {
+              "roast_age_min_days": 3,
+              "roast_age_max_days": 5,
+              "yield_grams": 46,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 6,
+              "roast_age_max_days": 10,
+              "yield_grams": 43,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 11,
+              "roast_age_max_days": 15,
+              "yield_grams": 41,
+              "is_peak": true
+            },
+            {
+              "roast_age_min_days": 16,
+              "roast_age_max_days": null,
+              "yield_grams": 37,
+              "is_peak": false
+            }
+          ],
+          "scalar_yield_basis": "Explicit PEAK age window on official card",
+          "peak_age_min_days": 11,
+          "peak_age_max_days": 15,
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "Target yield uses the source’s PEAK window, 11–15 days after roast. All published age-dependent yields are preserved in metadata. Water temperature is not published."
+    },
+    {
+      "slug": "tobys-estate-decaf-espresso",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "source_title": null,
+      "source_cache_key": "b2141854ba7e8b11",
+      "coffee_name": "Decaf",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": 24,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": 44,
+        "water_temp_c": null,
+        "total_time_seconds": 22
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "recipe_card_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-decaf-1753943465754.jpg?t=1753943466",
+          "recipe_card_local_path": "/workspace/scratch/a118d5f62443/research/apac-cache/images/toby-card-6.jpg",
+          "yield_by_roast_age": [
+            {
+              "roast_age_min_days": 1,
+              "roast_age_max_days": 5,
+              "yield_grams": 46,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 6,
+              "roast_age_max_days": 10,
+              "yield_grams": 44,
+              "is_peak": true
+            },
+            {
+              "roast_age_min_days": 11,
+              "roast_age_max_days": null,
+              "yield_grams": 42,
+              "is_peak": false
+            }
+          ],
+          "scalar_yield_basis": "Explicit PEAK age window on official card",
+          "peak_age_min_days": 6,
+          "peak_age_max_days": 10,
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "Target yield uses the source’s PEAK window, 6–10 days after roast. All published age-dependent yields are preserved in metadata. Water temperature is not published."
+    },
+    {
+      "slug": "five-senses-ardi-ethiopia-espresso",
+      "source_url": "https://fivesenses.com.au/products/ardi-ethiopia",
+      "source_title": null,
+      "source_cache_key": "5acd7c4234e86724",
+      "coffee_name": "Ardi",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": 22,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": 39,
+        "water_temp_c": 95,
+        "total_time_seconds": 29
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "Suggested recipe on the named product. Grind-option menus do not create additional brew-method recipes."
+    },
+    {
+      "slug": "five-senses-umoja-washed-tanzania-espresso",
+      "source_url": "https://fivesenses.com.au/products/umoja-washed-tanzania",
+      "source_title": null,
+      "source_cache_key": "5295354f8f1a37e9",
+      "coffee_name": "Umoja Washed",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": 22,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": 46,
+        "water_temp_c": 94.5,
+        "total_time_seconds": 30
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "Suggested recipe on the named product. Grind-option menus do not create additional brew-method recipes."
+    },
+    {
+      "slug": "five-senses-sweater-weather-blend-espresso",
+      "source_url": "https://fivesenses.com.au/products/sweater-weather-blend",
+      "source_title": null,
+      "source_cache_key": "efb69a53e7b5e755",
+      "coffee_name": "Sweater Weather Blend",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": 21.5,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": 45,
+        "water_temp_c": 94.5,
+        "total_time_seconds": 29
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "components": [
+            "Samambaia Natural",
+            "Veer Attikan Washed",
+            "Umoja Washed"
+          ],
+          "additional_origin_source_url": "https://fivesenses.com.au/products/samambaia-topazio-brazil",
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "Suggested recipe on the named product. Grind-option menus do not create additional brew-method recipes."
+    },
+    {
+      "slug": "kurasu-may-2026-comparison-v60",
+      "source_url": "https://kurasu.kyoto/blogs/kurasu-journal/may-kurasu-subscription-brazil-inacio-urban-ethiopia-jigesa",
+      "source_title": "May Kurasu Subscription | Brazil Inacio Urban & Ethiopia Jigesa",
+      "source_cache_key": "80be5f1a00f89df9",
+      "coffee_name": "Brazil Inacio Urban",
+      "method": "v60",
+      "measurement_facts": {
+        "dose_grams": 12,
+        "water_grams": 200,
+        "water_ml": null,
+        "yield_grams": null,
+        "water_temp_c": 90,
+        "total_time_seconds": 140
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "brewer": "HARIO V60 Ceramic",
+          "filter": "HARIO paper filter",
+          "also_applies_to_coffees": [
+            "Ethiopia Jigesa"
+          ],
+          "source_publication_date": "2026-05-26",
+          "approximate_total_time": true,
+          "pours_are_incremental": true,
+          "pour_start_times_published": false,
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": "https://www.youtube.com/watch?v=m8eWX4U8G98",
+      "decision_note": "One recipe is explicitly shared by Brazil Inacio Urban and Ethiopia Jigesa. Total time is approximately 2:20. No individual pour timestamps or bloom duration are published."
+    },
+    {
+      "slug": "kurasu-august-2026-comparison-flash-brew",
+      "source_url": "https://kurasu.kyoto/blogs/kurasu-journal/flash-brew-iced-coffee-kenya-kangocho-aa-brazil-joao-hamilton",
+      "source_title": "Flash-Brew Iced Coffee: Kenya Kangocho AA & Brazil João Hamilton | August Subscription",
+      "source_cache_key": "1d9f6c5750b346b7",
+      "coffee_name": "Kenya Kangocho AA",
+      "method": "pour_over",
+      "measurement_facts": {
+        "dose_grams": 15,
+        "water_grams": 150,
+        "water_ml": null,
+        "yield_grams": null,
+        "water_temp_c": null,
+        "total_time_seconds": null
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "also_applies_to_coffees": [
+            "Brazil João Hamilton"
+          ],
+          "source_publication_date": "2026-09-23",
+          "subscription_month": "2026-08",
+          "ice_min_grams": 65,
+          "ice_max_grams": 70,
+          "time_min_seconds": 100,
+          "time_max_seconds": 105,
+          "time_is_approximate": true,
+          "brewer_model_not_published": true,
+          "pours_are_incremental": true,
+          "source_calls_method": "Japanese flash-brew iced coffee",
+          "source_procedure_status": "published_procedure"
+        }
+      },
+      "video_url": "https://www.youtube.com/watch?v=4TD_XvDIyqk",
+      "decision_note": "The 150 g is hot brewing water; 65–70 g ice is separate. Source provides no water temperature or dripper model. Same recipe is shared with Brazil João Hamilton. Finish at approximately 1:40–1:45, then melt all ice before serving."
+    },
+    {
+      "slug": "coffee-supreme-au-south-blend-espresso",
+      "source_url": "https://shopau.coffeesupreme.com/products/south-blend",
+      "source_title": "South Blend",
+      "source_cache_key": "44cb78e7cb5b33e6",
+      "coffee_name": "South Blend",
+      "method": "espresso",
+      "measurement_facts": {
+        "dose_grams": 20,
+        "water_grams": null,
+        "water_ml": null,
+        "yield_grams": 40,
+        "water_temp_c": 94,
+        "total_time_seconds": null
+      },
+      "source_brew_parameters": {
+        "manual": {
+          "yield_tolerance_grams": 2,
+          "yield_min_grams": 38,
+          "yield_max_grams": 42,
+          "time_min_seconds": 28,
+          "time_max_seconds": 32,
+          "source_yield_expression": "40 g ± 2 g",
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "video_url": null,
+      "decision_note": "40 g is the explicit nominal output with ±2 g tolerance. Brewing time remains 28–32 seconds. Plunger and stovetop suitability labels do not supply additional recipes."
+    }
+  ],
+  "excluded": [
+    {
+      "url": "https://onacoffee.com.au/blogs/brewguides/el-lino-nicaragua-washed",
+      "reason": "The captured official guide publishes 212 seconds for 20.3 g → 44 g espresso at 93.5°C. This suspicious value is excluded; it has not been silently changed to 21 or 22 seconds."
+    },
+    {
+      "url": "https://fivesenses.com.au/pages/espresso-recipes",
+      "reason": "Same-name Risaralda Washed rows disagree (21.5 g → 48 g / 30 s versus 21.5 g → 44 g / 28 s); the Veer Attikan row lists 9.5°C. These rows are excluded without correction."
+    },
+    {
+      "url": "https://fivesenses.com.au/products/crompton-road-blend",
+      "reason": "General espresso table gives 29 s; product recipe gives 30 s at the same 22 g → 44 g / 94.5°C.",
+      "related_urls": [
+        "https://fivesenses.com.au/pages/espresso-recipes"
+      ]
+    },
+    {
+      "url": "https://fivesenses.com.au/products/dark-horse-blend",
+      "reason": "General table gives 22 g → 44 g / 29 s / 95°C; product gives 22 g → 44 g / 30 s / 94.5°C.",
+      "related_urls": [
+        "https://fivesenses.com.au/pages/espresso-recipes"
+      ]
+    },
+    {
+      "url": "https://fivesenses.com.au/products/hi-fidelity-blend",
+      "reason": "General table gives 21.5 g → 48 g / 29 s; product gives 22 g → 44 g / 30 s, both at 94.5°C.",
+      "related_urls": [
+        "https://fivesenses.com.au/pages/espresso-recipes"
+      ]
+    },
+    {
+      "url": "https://fivesenses.com.au/products/umoja-tanzania",
+      "reason": "Umoja Natural table gives 21 g → 42 g / 26 s / 95°C; captured natural-product recipe gives 21.5 g → 42 g / 28 s / 94.5°C. This is distinct from the included Umoja Washed.",
+      "related_urls": [
+        "https://fivesenses.com.au/pages/espresso-recipes"
+      ]
+    },
+    {
+      "url": "https://codeblackcoffee.com.au/collections/espresso/products/colombia-sugarcane-decaf-espresso-single-origin-coffee",
+      "reason": "Recipe heading has no usable dose, output, time or temperature in the captured page; metadata image filename also refers to a filter version. No parameters were invented."
+    },
+    {
+      "url": "https://codeblackcoffee.com.au/collections/espresso/products/kenya-kainamui-aa-washed-espresso-single-origin",
+      "reason": "Only an espresso ratio of 1:2.5 was captured; no coffee dose, time or temperature. Not included as a complete actionable recipe."
+    },
+    {
+      "url": "https://www.tobysestate.com.au/brew-guides/",
+      "reason": "Brunswick card has exactly the same 24 g / 26 s and roast-age yields as Broadway. Both named coffees are retained, with a single canonical Broadway/Brunswick recipe.",
+      "related_urls": [
+        "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-broadway-1753943068854.jpg?t=1753943069",
+        "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-brunswick-1753943388670.jpg?t=1753943389"
+      ]
+    },
+    {
+      "url": "https://www.fritz.co.kr/about_blend.html?cate_no=45",
+      "reason": "Fritz current basket-area formulas and flow-dependent times differ from older named-blend basket tables. For example Old Dog older 18 g basket advice uses 16–17 g → 40–44 g, while the current formulas yield 34–38 g at those doses. No silent choice of guide version was made.",
+      "related_urls": [
+        "https://fritz.co.kr/product/detail.html?product_no=75&cate_no=45&display_group=1",
+        "https://fritz.co.kr/product/detail.html?product_no=226&cate_no=45&display_group=1",
+        "https://fritz.co.kr/product/detail.html?product_no=227&cate_no=45&display_group=1"
+      ]
+    },
+    {
+      "url": "https://kurasu.kyoto/blogs/kurasu-journal/september-2026-subscription-costa-rica-indonesia-v60",
+      "reason": "Article names two coffees and gives 200 g in 40+60+50+50 g pours, but omits coffee dose, water temperature and final time. Missing values were not borrowed from the May recipe."
+    },
+    {
+      "url": "https://kurasu.kyoto/products/ethiopia-sidamo-decaf-medium-roast-2025",
+      "reason": "Method guide blocks are reused on multiple product pages; not counted as additional uniquely coffee-specific recipes in this curated batch."
+    },
+    {
+      "url": "https://shop.glitchcoffee.com/en/pages/brew-guide",
+      "reason": "Located locale-specific generic ORIGAMI instructions differ (English 14.5 g / 260 g / four pours versus Japanese 15 g / 240 g / three pours); this research did not establish a single matching coffee-specific variant.",
+      "related_urls": [
+        "https://shop.glitchcoffee.com/pages/brew-guide"
+      ]
+    },
+    {
+      "url": "https://marketlane.com.au/",
+      "reason": "Official-source search found general method guides, without a verified additional coffee-specific recipe for this batch. This is not a claim that none exist."
+    },
+    {
+      "url": "https://sevenseeds.com.au/",
+      "reason": "Official-source search found general guides; no additional named-coffee recipe was sufficiently verified for this batch."
+    }
+  ],
+  "validation": {
+    "counts": {
+      "roasters": 6,
+      "coffees": 31,
+      "recipes": 28,
+      "recipes_by_roaster": {
+        "ONA Coffee": 13,
+        "Code Black Coffee": 3,
+        "Toby's Estate": 6,
+        "Five Senses Coffee": 3,
+        "Kurasu": 2,
+        "Coffee Supreme AU": 1
+      },
+      "recipes_by_method": {
+        "espresso": 20,
+        "v60": 7,
+        "pour_over": 1
+      },
+      "coffees_with_image": 27
+    },
+    "unique_recipe_slugs": true,
+    "all_coffee_references_resolve": true,
+    "espresso_input_water_is_null": true,
+    "all_pour_totals_match": true,
+    "all_recipe_steps_bilingual": true,
+    "unknown_temperature_not_filled": true
+  }
+}

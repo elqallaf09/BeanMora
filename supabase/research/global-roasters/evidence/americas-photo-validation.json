@@ -1,0 +1,235 @@
+{
+  "verified_at": "2026-10-04",
+  "images": [
+    {
+      "coffee": "Monarch",
+      "roaster": "Onyx Coffee Lab",
+      "url": "https://cdn.shopify.com/s/files/1/1707/3261/files/monarch-8-10-26.webp?v=1786377610",
+      "final_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/monarch-8-10-26.webp?v=1786377610",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "179598",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Southern Weather",
+      "roaster": "Onyx Coffee Lab",
+      "url": "https://cdn.shopify.com/s/files/1/1707/3261/files/southernweather.webp?v=1736189959",
+      "final_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/southernweather.webp?v=1736189959",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "1376641",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Tropical Weather",
+      "roaster": "Onyx Coffee Lab",
+      "url": "https://cdn.shopify.com/s/files/1/1707/3261/files/tropical-weather-10oz-v2.webp?v=1785945822",
+      "final_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/tropical-weather-10oz-v2.webp?v=1785945822",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "817429",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Geometry",
+      "roaster": "Onyx Coffee Lab",
+      "url": "https://cdn.shopify.com/s/files/1/1707/3261/files/geometry-10oz-v2.webp?v=1785978501",
+      "final_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/geometry-10oz-v2.webp?v=1785978501",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "731004",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Power Nap",
+      "roaster": "Onyx Coffee Lab",
+      "url": "https://cdn.shopify.com/s/files/1/1707/3261/files/power-nap_69f9a89a-a9b9-4556-878b-bdccb0438b72.webp?v=1749497384",
+      "final_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/power-nap_69f9a89a-a9b9-4556-878b-bdccb0438b72.webp?v=1749497384",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "999109",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Kenya Kamunyaka AA",
+      "roaster": "Onyx Coffee Lab",
+      "url": "https://cdn.shopify.com/s/files/1/1707/3261/files/kenya_86738ee2-426d-4fbb-b3f0-a939ec9fa107.webp?v=1788529946",
+      "final_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/kenya_86738ee2-426d-4fbb-b3f0-a939ec9fa107.webp?v=1788529946",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "1475566",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Honduras Fredy Perez",
+      "roaster": "Onyx Coffee Lab",
+      "url": "https://cdn.shopify.com/s/files/1/1707/3261/files/honduras_d3978eef-da4c-498f-a263-e4f844bec94a.webp?v=1788452911",
+      "final_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/honduras_d3978eef-da4c-498f-a263-e4f844bec94a.webp?v=1788452911",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "703988",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Ethiopia Agaro Yukro G1",
+      "roaster": "Onyx Coffee Lab",
+      "url": "https://cdn.shopify.com/s/files/1/1707/3261/files/ethiopia_8249300a-ae15-495c-8e3a-022f08728bc0.webp?v=1785347461",
+      "final_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/ethiopia_8249300a-ae15-495c-8e3a-022f08728bc0.webp?v=1785347461",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "1991818",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Costa Rica Las Lajas Natural",
+      "roaster": "Onyx Coffee Lab",
+      "url": "https://cdn.shopify.com/s/files/1/1707/3261/files/costa-rica_1f9309cc-3aa6-44c2-88f2-b8768a4f5e8b.webp?v=1787082836",
+      "final_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/costa-rica_1f9309cc-3aa6-44c2-88f2-b8768a4f5e8b.webp?v=1787082836",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "448775",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Mexico Oaxaca Yogondoy Gesha",
+      "roaster": "Onyx Coffee Lab",
+      "url": "https://cdn.shopify.com/s/files/1/1707/3261/files/mexico_984eacc2-ab53-4ac3-ace1-589bf631f0b2.webp?v=1787166122",
+      "final_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/mexico_984eacc2-ab53-4ac3-ace1-589bf631f0b2.webp?v=1787166122",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "1878962",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Peru La Margarita Gesha",
+      "roaster": "Onyx Coffee Lab",
+      "url": "https://cdn.shopify.com/s/files/1/1707/3261/files/peru_cb75e089-b53c-410d-b243-c6a12aca82ae.webp?v=1777583152",
+      "final_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/peru_cb75e089-b53c-410d-b243-c6a12aca82ae.webp?v=1777583152",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "1117431",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Buena Vista Dark Roast",
+      "roaster": "Verve Coffee Roasters",
+      "url": "https://www.vervecoffee.com/cdn/shop/files/Buena-Vista-12oz-Silo_1024x1024.png?v=1737401998",
+      "final_url": "https://www.vervecoffee.com/cdn/shop/files/Buena-Vista-12oz-Silo_1024x1024.png?v=1737401998",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "503570",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Sermon",
+      "roaster": "Verve Coffee Roasters",
+      "url": "https://www.vervecoffee.com/cdn/shop/files/Sermon-12oz-Silo_1024x1024.png?v=1737402021",
+      "final_url": "https://www.vervecoffee.com/cdn/shop/files/Sermon-12oz-Silo_1024x1024.png?v=1737402021",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "481349",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Streetlevel",
+      "roaster": "Verve Coffee Roasters",
+      "url": "https://www.vervecoffee.com/cdn/shop/files/Streetlevel-12oz-Silo_1024x1024.png?v=1748900359",
+      "final_url": "https://www.vervecoffee.com/cdn/shop/files/Streetlevel-12oz-Silo_1024x1024.png?v=1748900359",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "492514",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Seabright House Blend",
+      "roaster": "Verve Coffee Roasters",
+      "url": "https://www.vervecoffee.com/cdn/shop/files/Seabright-12oz-Silo_1024x1024.png?v=1737402258",
+      "final_url": "https://www.vervecoffee.com/cdn/shop/files/Seabright-12oz-Silo_1024x1024.png?v=1737402258",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "486040",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Epic Espresso",
+      "roaster": "49th Parallel Coffee Roasters",
+      "url": "https://49thcoffee.com/cdn/shop/files/PLP_Epic_12oz_withtag_1908x1908_Award_2026_1024x1024.png?v=1790100928",
+      "final_url": "https://49thcoffee.com/cdn/shop/files/PLP_Epic_12oz_withtag_1908x1908_Award_2026_1024x1024.png?v=1790100928",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "416462",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Old School Espresso",
+      "roaster": "49th Parallel Coffee Roasters",
+      "url": "https://49thcoffee.com/cdn/shop/files/49th_OSE_SquareLabelBestseller_1024x1024.png?v=1781813326",
+      "final_url": "https://49thcoffee.com/cdn/shop/files/49th_OSE_SquareLabelBestseller_1024x1024.png?v=1781813326",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "512627",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Blue Sky Espresso",
+      "roaster": "49th Parallel Coffee Roasters",
+      "url": "https://49thcoffee.com/cdn/shop/files/PDP_BlueSky_12oz_2026_1024x1024.png?v=1790100464",
+      "final_url": "https://49thcoffee.com/cdn/shop/files/PDP_BlueSky_12oz_2026_1024x1024.png?v=1790100464",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "502532",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Big Trouble",
+      "roaster": "Counter Culture Coffee",
+      "url": "https://counterculturecoffee.com/cdn/shop/files/BigTrouble_Main_2741x.jpg?v=1749045429",
+      "final_url": "https://counterculturecoffee.com/cdn/shop/files/BigTrouble_Main_2741x.jpg?v=1749045429",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "content_length": "945214",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "The Answer",
+      "roaster": "Cat & Cloud",
+      "url": "https://catandcloud.com/cdn/shop/files/TheAnswer-white.png?v=1726698448",
+      "final_url": "https://catandcloud.com/cdn/shop/files/TheAnswer-white.png?v=1726698448",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "4648761",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "The Best Friends Blend",
+      "roaster": "Cat & Cloud",
+      "url": "https://catandcloud.com/cdn/shop/files/BFB-WHITER.png?v=1726779641",
+      "final_url": "https://catandcloud.com/cdn/shop/files/BFB-WHITER.png?v=1726779641",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "5080474",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Big Truck",
+      "roaster": "Olympia Coffee",
+      "url": "https://www.olympiacoffee.com/cdn/shop/files/Big_Truck_2582x.png?v=1776922931",
+      "final_url": "https://www.olympiacoffee.com/cdn/shop/files/Big_Truck_2582x.png?v=1776922931",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "3764471",
+      "valid_image_signature": true
+    },
+    {
+      "coffee": "Black Cat Classic Espresso",
+      "roaster": "Intelligentsia Coffee",
+      "url": "https://www.intelligentsia.com/cdn/shop/files/12oz_BC_Classic_1024x1024.png?v=1762379623",
+      "final_url": "https://www.intelligentsia.com/cdn/shop/files/12oz_BC_Classic_1024x1024.png?v=1762379623",
+      "status": 200,
+      "content_type": "image/png",
+      "content_length": "617183",
+      "valid_image_signature": true
+    }
+  ]
+}

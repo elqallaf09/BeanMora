@@ -1,0 +1,2623 @@
+{
+  "import_id": "global-roasters-2026-10-04",
+  "project_id": "ubvzdglrwkkuaigmkjap",
+  "verified_at": "2026-10-04",
+  "counts": {
+    "roasters": 23,
+    "roaster_actions": {
+      "create": 20,
+      "reuse_exact": 3
+    },
+    "coffees": 84,
+    "coffee_actions": {
+      "create": 77,
+      "skip_no_verified_image": 7
+    },
+    "recipes": 87,
+    "recipes_by_region": {
+      "americas": 30,
+      "emea": 29,
+      "apac": 28
+    },
+    "recipes_by_method": {
+      "kalita_wave": 3,
+      "origami": 9,
+      "espresso": 49,
+      "french_press": 3,
+      "aeropress": 2,
+      "pour_over": 9,
+      "v60": 11,
+      "orea": 1
+    },
+    "recipes_by_serving": {
+      "hot": 84,
+      "cold": 1,
+      "iced": 2
+    },
+    "recipes_with_bean": 78,
+    "incomplete_recipes": 57,
+    "corrections": 3,
+    "exclusions": 44,
+    "new_recipes": 86,
+    "updated_recipes": 1
+  },
+  "identity_policy": "Roasters: exact normalized name plus documented domain. Beans: exact resolved roaster, full name including crop, and product source URL. No fuzzy, token, URL-only, or cross-crop matching. Runtime repeats ownership and identity guards.",
+  "roasters": [
+    {
+      "key": "roaster-64609ee5e9cac312",
+      "name": "Onyx Coffee Lab",
+      "website": "https://onyxcoffeelab.com",
+      "existing_id": null,
+      "slug": "onyx-coffee-lab",
+      "action": "create"
+    },
+    {
+      "key": "roaster-66a14cf1b4a0917e",
+      "name": "Verve Coffee Roasters",
+      "website": "https://www.vervecoffee.com",
+      "existing_id": null,
+      "slug": "verve-coffee-roasters",
+      "action": "create"
+    },
+    {
+      "key": "roaster-862a938bcfb69832",
+      "name": "49th Parallel Coffee Roasters",
+      "website": "https://49thcoffee.com",
+      "existing_id": null,
+      "slug": "49th-parallel-coffee-roasters",
+      "action": "create"
+    },
+    {
+      "key": "roaster-f32559d41c708775",
+      "name": "Counter Culture Coffee",
+      "website": "https://counterculturecoffee.com",
+      "existing_id": null,
+      "slug": "counter-culture-coffee",
+      "action": "create"
+    },
+    {
+      "key": "roaster-5bf7d2a84ebb6399",
+      "name": "Cat & Cloud",
+      "website": "https://catandcloud.com",
+      "existing_id": null,
+      "slug": "cat-cloud",
+      "action": "create"
+    },
+    {
+      "key": "roaster-2706c243ab684b2d",
+      "name": "Olympia Coffee",
+      "website": "https://www.olympiacoffee.com",
+      "existing_id": null,
+      "slug": "olympia-coffee",
+      "action": "create"
+    },
+    {
+      "key": "roaster-1b73305866d463a8",
+      "name": "Intelligentsia Coffee",
+      "website": "https://www.intelligentsia.com",
+      "existing_id": null,
+      "slug": "intelligentsia-coffee",
+      "action": "create"
+    },
+    {
+      "key": "roaster-edec7b6297ea5827",
+      "name": "April Coffee Roasters",
+      "website": "https://www.aprilcoffeeroasters.com",
+      "existing_id": null,
+      "slug": "april-coffee-roasters",
+      "action": "create"
+    },
+    {
+      "key": "roaster-32afe2c2254973c4",
+      "name": "Workshop Coffee",
+      "website": "https://workshopcoffee.com",
+      "existing_id": null,
+      "slug": "workshop-coffee",
+      "action": "create"
+    },
+    {
+      "key": "roaster-0ec680f27f879f04",
+      "name": "Gardelli Specialty Coffees",
+      "website": "https://shop.gardellicoffee.com",
+      "existing_id": null,
+      "slug": "gardelli-specialty-coffees",
+      "action": "create"
+    },
+    {
+      "key": "roaster-b8b92ed7743f8b35",
+      "name": "Square Mile Coffee Roasters",
+      "website": "https://shop.squaremilecoffee.com",
+      "existing_id": null,
+      "slug": "square-mile-coffee-roasters",
+      "action": "create"
+    },
+    {
+      "key": "roaster-f96c9c72f9729659",
+      "name": "NOMAD Coffee",
+      "website": "https://nomadcoffee.es",
+      "existing_id": "a009d523-d512-47cf-83e3-15eac3d740cb",
+      "slug": "nomad-coffee",
+      "action": "reuse_exact"
+    },
+    {
+      "key": "roaster-ba710d0050fd2211",
+      "name": "DAK Coffee Roasters",
+      "website": "https://www.dakcoffeeroasters.com",
+      "existing_id": null,
+      "slug": "dak-coffee-roasters",
+      "action": "create"
+    },
+    {
+      "key": "roaster-d49b89894915e6e5",
+      "name": "La Cabra",
+      "website": "https://lacabra.com",
+      "existing_id": null,
+      "slug": "la-cabra",
+      "action": "create"
+    },
+    {
+      "key": "roaster-79cc392042f20108",
+      "name": "Five Elephant",
+      "website": "https://www.fiveelephant.com",
+      "existing_id": null,
+      "slug": "five-elephant",
+      "action": "create"
+    },
+    {
+      "key": "roaster-aa37b4eadd7106af",
+      "name": "Friedhats Coffee Roasters",
+      "website": "https://friedhats.com",
+      "existing_id": "def9ece4-ad7c-4aeb-a6e9-b704a30eab05",
+      "slug": "friedhats-coffee-roasters",
+      "action": "reuse_exact"
+    },
+    {
+      "key": "roaster-9e36a2b09e8e1368",
+      "name": "Archers Coffee",
+      "website": "https://archerscoffee.com",
+      "existing_id": "f49eb5b4-c2bc-4b0f-bd56-1405834e135a",
+      "slug": "archers-coffee",
+      "action": "reuse_exact"
+    },
+    {
+      "key": "roaster-4dfb03aad495e997",
+      "name": "ONA Coffee",
+      "website": "https://onacoffee.com.au",
+      "existing_id": null,
+      "slug": "ona-coffee",
+      "action": "create"
+    },
+    {
+      "key": "roaster-79c158f470da0490",
+      "name": "Code Black Coffee",
+      "website": "https://codeblackcoffee.com.au",
+      "existing_id": null,
+      "slug": "code-black-coffee",
+      "action": "create"
+    },
+    {
+      "key": "roaster-96df737a18e77d8b",
+      "name": "Toby's Estate",
+      "website": "https://www.tobysestate.com.au",
+      "existing_id": null,
+      "slug": "toby-s-estate",
+      "action": "create"
+    },
+    {
+      "key": "roaster-2665ca71f0e80352",
+      "name": "Five Senses Coffee",
+      "website": "https://fivesenses.com.au",
+      "existing_id": null,
+      "slug": "five-senses-coffee",
+      "action": "create"
+    },
+    {
+      "key": "roaster-ae3df9881d34ce5a",
+      "name": "Kurasu",
+      "website": "https://kurasu.kyoto",
+      "existing_id": null,
+      "slug": "kurasu",
+      "action": "create"
+    },
+    {
+      "key": "roaster-12cf366a84e61647",
+      "name": "Coffee Supreme AU",
+      "website": "https://shopau.coffeesupreme.com",
+      "existing_id": null,
+      "slug": "coffee-supreme-au",
+      "action": "create"
+    }
+  ],
+  "coffees": [
+    {
+      "key": "coffee-f54f39101a700071",
+      "roaster": "Onyx Coffee Lab",
+      "name": "Monarch",
+      "source_url": "https://onyxcoffeelab.com/products/monarch",
+      "existing_id": null,
+      "slug": "onyx-coffee-lab-monarch-f54f3910",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-75e9d65710c3aef4",
+      "roaster": "Onyx Coffee Lab",
+      "name": "Southern Weather",
+      "source_url": "https://onyxcoffeelab.com/products/southern-weather",
+      "existing_id": null,
+      "slug": "onyx-coffee-lab-southern-weather-75e9d657",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-eb14f08f13ae9350",
+      "roaster": "Onyx Coffee Lab",
+      "name": "Tropical Weather",
+      "source_url": "https://onyxcoffeelab.com/products/tropical-weather",
+      "existing_id": null,
+      "slug": "onyx-coffee-lab-tropical-weather-eb14f08f",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-6d682a3108ea6a3c",
+      "roaster": "Onyx Coffee Lab",
+      "name": "Geometry",
+      "source_url": "https://onyxcoffeelab.com/products/geometry",
+      "existing_id": null,
+      "slug": "onyx-coffee-lab-geometry-6d682a31",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-cbada7fffc78ce20",
+      "roaster": "Onyx Coffee Lab",
+      "name": "Power Nap",
+      "source_url": "https://onyxcoffeelab.com/products/power-nap",
+      "existing_id": null,
+      "slug": "onyx-coffee-lab-power-nap-cbada7ff",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-a675b4fc7b8ffe03",
+      "roaster": "Onyx Coffee Lab",
+      "name": "Kenya Kamunyaka AA",
+      "source_url": "https://onyxcoffeelab.com/products/kenya-kamunyaka-aa",
+      "existing_id": null,
+      "slug": "onyx-coffee-lab-kenya-kamunyaka-aa-a675b4fc",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-5062f9168b8d4d99",
+      "roaster": "Onyx Coffee Lab",
+      "name": "Honduras Fredy Perez",
+      "source_url": "https://onyxcoffeelab.com/products/honduras-fredy-perez",
+      "existing_id": null,
+      "slug": "onyx-coffee-lab-honduras-fredy-perez-5062f916",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-1f8e6029f0dfcb64",
+      "roaster": "Onyx Coffee Lab",
+      "name": "Ethiopia Agaro Yukro G1",
+      "source_url": "https://onyxcoffeelab.com/products/ethiopia-agaro-yukro-g1",
+      "existing_id": null,
+      "slug": "onyx-coffee-lab-ethiopia-agaro-yukro-g1-1f8e6029",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-96b565e44da64556",
+      "roaster": "Onyx Coffee Lab",
+      "name": "Costa Rica Las Lajas Natural",
+      "source_url": "https://onyxcoffeelab.com/products/costa-rica-las-lajas-natural-26",
+      "existing_id": null,
+      "slug": "onyx-coffee-lab-costa-rica-las-lajas-natural-96b565e4",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-1588e5228cf46737",
+      "roaster": "Onyx Coffee Lab",
+      "name": "Mexico Oaxaca Yogondoy Gesha",
+      "source_url": "https://onyxcoffeelab.com/products/mexico-oaxaca-yogondoy-gesha",
+      "existing_id": null,
+      "slug": "onyx-coffee-lab-mexico-oaxaca-yogondoy-gesha-1588e522",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-cffd80bd9521b305",
+      "roaster": "Onyx Coffee Lab",
+      "name": "Peru La Margarita Gesha",
+      "source_url": "https://onyxcoffeelab.com/products/peru-la-margarita-gesha-26",
+      "existing_id": null,
+      "slug": "onyx-coffee-lab-peru-la-margarita-gesha-cffd80bd",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-9250ca4c7ad9d9f6",
+      "roaster": "Verve Coffee Roasters",
+      "name": "Buena Vista Dark Roast",
+      "source_url": "https://www.vervecoffee.com/products/buena-vista-dark-roast",
+      "existing_id": null,
+      "slug": "verve-coffee-roasters-buena-vista-dark-roast-9250ca4c",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-bb3b473dd3229449",
+      "roaster": "Verve Coffee Roasters",
+      "name": "Sermon",
+      "source_url": "https://www.vervecoffee.com/products/sermon",
+      "existing_id": null,
+      "slug": "verve-coffee-roasters-sermon-bb3b473d",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-6b7d740426628be7",
+      "roaster": "Verve Coffee Roasters",
+      "name": "Streetlevel",
+      "source_url": "https://www.vervecoffee.com/products/streetlevel",
+      "existing_id": null,
+      "slug": "verve-coffee-roasters-streetlevel-6b7d7404",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-5c42f144e33f274d",
+      "roaster": "Verve Coffee Roasters",
+      "name": "Seabright House Blend",
+      "source_url": "https://www.vervecoffee.com/products/seabright-house-blend",
+      "existing_id": null,
+      "slug": "verve-coffee-roasters-seabright-house-blend-5c42f144",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-b345e49fc797136c",
+      "roaster": "49th Parallel Coffee Roasters",
+      "name": "Epic Espresso",
+      "source_url": "https://49thcoffee.com/products/epic-espresso",
+      "existing_id": null,
+      "slug": "49th-parallel-coffee-roasters-epic-espresso-b345e49f",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-ea466f210743c0be",
+      "roaster": "49th Parallel Coffee Roasters",
+      "name": "Old School Espresso",
+      "source_url": "https://49thcoffee.com/products/old-school-espresso",
+      "existing_id": null,
+      "slug": "49th-parallel-coffee-roasters-old-school-espresso-ea466f21",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-0c26e7d74f6799ec",
+      "roaster": "49th Parallel Coffee Roasters",
+      "name": "Blue Sky Espresso",
+      "source_url": "https://49thcoffee.com/products/blue-sky-espresso",
+      "existing_id": null,
+      "slug": "49th-parallel-coffee-roasters-blue-sky-espresso-0c26e7d7",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-1eededa7da58b3e0",
+      "roaster": "Counter Culture Coffee",
+      "name": "Big Trouble",
+      "source_url": "https://counterculturecoffee.com/products/big-trouble",
+      "existing_id": null,
+      "slug": "counter-culture-coffee-big-trouble-1eededa7",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-99a8c6a567a034ad",
+      "roaster": "Cat & Cloud",
+      "name": "The Answer",
+      "source_url": "https://catandcloud.com/products/answer",
+      "existing_id": null,
+      "slug": "cat-cloud-the-answer-99a8c6a5",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-3c2105ebccf91db0",
+      "roaster": "Cat & Cloud",
+      "name": "The Best Friends Blend",
+      "source_url": "https://catandcloud.com/products/the-best-friends-blend",
+      "existing_id": null,
+      "slug": "cat-cloud-the-best-friends-blend-3c2105eb",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-e50fa5e58c676986",
+      "roaster": "Olympia Coffee",
+      "name": "Big Truck",
+      "source_url": "https://www.olympiacoffee.com/products/big-truck",
+      "existing_id": null,
+      "slug": "olympia-coffee-big-truck-e50fa5e5",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-3f2ad58c101c3ec5",
+      "roaster": "Intelligentsia Coffee",
+      "name": "Black Cat Classic Espresso",
+      "source_url": "https://www.intelligentsia.com/products/black-cat-classic-espresso",
+      "existing_id": null,
+      "slug": "intelligentsia-coffee-black-cat-classic-espresso-3f2ad58c",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+      }
+    },
+    {
+      "key": "coffee-4213ddcd5044c835",
+      "roaster": "April Coffee Roasters",
+      "name": "Kayon Mountain Natural Heirloom",
+      "source_url": "https://www.aprilcoffeeroasters.com/product/ethiopia-kayon-mountain-natural-heirloom-organic",
+      "existing_id": null,
+      "slug": "april-coffee-roasters-kayon-mountain-natural-heirloom-4213ddcd",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page packaging image; some April items use shared unlabeled packaging photographs."
+      }
+    },
+    {
+      "key": "coffee-bdbe0a87ce24d308",
+      "roaster": "April Coffee Roasters",
+      "name": "Kamavindi Washed SL28 & SL34 AA",
+      "source_url": "https://www.aprilcoffeeroasters.com/product/kamavindi-kenya-washed-mixed-varietals-aa",
+      "existing_id": null,
+      "slug": "april-coffee-roasters-kamavindi-washed-sl28-sl34-aa-bdbe0a87",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "product_artwork",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page packaging image; some April items use shared unlabeled packaging photographs."
+      }
+    },
+    {
+      "key": "coffee-ce01d4c59daf9389",
+      "roaster": "April Coffee Roasters",
+      "name": "Tadesse Washed Krume",
+      "source_url": "https://www.aprilcoffeeroasters.com/product/tadesse-ethiopia-washed-krume-74158",
+      "existing_id": null,
+      "slug": "april-coffee-roasters-tadesse-washed-krume-ce01d4c5",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "product_artwork",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page packaging image; some April items use shared unlabeled packaging photographs."
+      }
+    },
+    {
+      "key": "coffee-192a2e6af95bb690",
+      "roaster": "April Coffee Roasters",
+      "name": "Volcan Azul Washed SL28",
+      "source_url": "https://www.aprilcoffeeroasters.com/product/volcan-azul-costa-rica-washed-sl28",
+      "existing_id": null,
+      "slug": "april-coffee-roasters-volcan-azul-washed-sl28-192a2e6a",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "product_artwork",
+        "checked_at": "2026-10-04",
+        "note": "Official product-page packaging image; some April items use shared unlabeled packaging photographs."
+      }
+    },
+    {
+      "key": "coffee-a6c1a15e41821e6c",
+      "roaster": "Workshop Coffee",
+      "name": "Reset Half Caff",
+      "source_url": "https://workshopcoffee.com/products/reset",
+      "existing_id": null,
+      "slug": "workshop-coffee-reset-half-caff-a6c1a15e",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-3f772aa0eb18e2df",
+      "roaster": "Workshop Coffee",
+      "name": "Chakra",
+      "source_url": "https://workshopcoffee.com/products/chakra",
+      "existing_id": null,
+      "slug": "workshop-coffee-chakra-3f772aa0",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-b63c52518f4b0f73",
+      "roaster": "Workshop Coffee",
+      "name": "La Plata Decaf",
+      "source_url": "https://workshopcoffee.com/products/la-plata-decaf",
+      "existing_id": null,
+      "slug": "workshop-coffee-la-plata-decaf-b63c5251",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-53c30f622cc0c724",
+      "roaster": "Workshop Coffee",
+      "name": "Pillar",
+      "source_url": "https://workshopcoffee.com/products/pillar",
+      "existing_id": null,
+      "slug": "workshop-coffee-pillar-53c30f62",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-8f6296fc8a732230",
+      "roaster": "Workshop Coffee",
+      "name": "Maidy Bocanegra Pink Bourbon",
+      "source_url": "https://workshopcoffee.com/products/maidy-bocanegra-pink-bourbon",
+      "existing_id": null,
+      "slug": "workshop-coffee-maidy-bocanegra-pink-bourbon-8f6296fc",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-f770e9cfdfbe5aba",
+      "roaster": "Gardelli Specialty Coffees",
+      "name": "La Torre Mejia Geisha",
+      "source_url": "https://shop.gardellicoffee.com/coffees/813-la-torre-mejia-geisha-peru",
+      "existing_id": null,
+      "slug": "gardelli-specialty-coffees-la-torre-mejia-geisha-f770e9cf",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-2daf911d4c713374",
+      "roaster": "Gardelli Specialty Coffees",
+      "name": "Lalesa Ephtah",
+      "source_url": "https://shop.gardellicoffee.com/coffees/834-441-lalesa-ephtah-ethiopia",
+      "existing_id": null,
+      "slug": "gardelli-specialty-coffees-lalesa-ephtah-2daf911d",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-239f3dad5fbac692",
+      "roaster": "Gardelli Specialty Coffees",
+      "name": "Cumbres Decaffeinated",
+      "source_url": "https://shop.gardellicoffee.com/coffees/821-425-cumbres-decaffeinated-colombia",
+      "existing_id": null,
+      "slug": "gardelli-specialty-coffees-cumbres-decaffeinated-239f3dad",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-b958c772f10c2b13",
+      "roaster": "Square Mile Coffee Roasters",
+      "name": "Red Brick",
+      "source_url": "https://shop.squaremilecoffee.com/products/red-brick",
+      "existing_id": null,
+      "slug": "square-mile-coffee-roasters-red-brick-b958c772",
+      "action": "skip_no_verified_image",
+      "photo": {
+        "verified": false,
+        "reason": "HTTP Error 403: Forbidden"
+      }
+    },
+    {
+      "key": "coffee-b0829c7cd635903e",
+      "roaster": "NOMAD Coffee",
+      "name": "Churupallana 2026",
+      "source_url": "https://nomadcoffee.es/products/churupallana",
+      "existing_id": null,
+      "slug": "nomad-coffee-churupallana-2026-b0829c7c",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-2f9dd5c420ca4b8a",
+      "roaster": "NOMAD Coffee",
+      "name": "Parainema 2026",
+      "source_url": "https://nomadcoffee.es/products/parainema",
+      "existing_id": null,
+      "slug": "nomad-coffee-parainema-2026-2f9dd5c4",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-608ea4f904d11bf6",
+      "roaster": "NOMAD Coffee",
+      "name": "Pacas 2026",
+      "source_url": "https://nomadcoffee.es/products/pacas",
+      "existing_id": null,
+      "slug": "nomad-coffee-pacas-2026-608ea4f9",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-7ba538916c79f411",
+      "roaster": "NOMAD Coffee",
+      "name": "Kafipamba",
+      "source_url": "https://nomadcoffee.es/products/kafipamba",
+      "existing_id": null,
+      "slug": "nomad-coffee-kafipamba-7ba53891",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-842627979f68886b",
+      "roaster": "NOMAD Coffee",
+      "name": "Jhenrry Chávez",
+      "source_url": "https://nomadcoffee.es/products/jhenrry-chavez",
+      "existing_id": null,
+      "slug": "nomad-coffee-jhenrry-chavez-84262797",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-211e8d39c3b3dd9d",
+      "roaster": "DAK Coffee Roasters",
+      "name": "Silky Way",
+      "source_url": "https://www.dakcoffeeroasters.com/product/silky-way/",
+      "existing_id": null,
+      "slug": "dak-coffee-roasters-silky-way-211e8d39",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-5737b772f8e6d42c",
+      "roaster": "DAK Coffee Roasters",
+      "name": "The Alchemist",
+      "source_url": "https://www.dakcoffeeroasters.com/product/the-alchemist/",
+      "existing_id": null,
+      "slug": "dak-coffee-roasters-the-alchemist-5737b772",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-4c96be1165f736dc",
+      "roaster": "DAK Coffee Roasters",
+      "name": "Golden Waffle",
+      "source_url": "https://www.dakcoffeeroasters.com/product/golden-waffle/",
+      "existing_id": null,
+      "slug": "dak-coffee-roasters-golden-waffle-4c96be11",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-89ef551a29a9d9bf",
+      "roaster": "DAK Coffee Roasters",
+      "name": "Juice Box",
+      "source_url": "https://www.dakcoffeeroasters.com/product/juice-box/",
+      "existing_id": null,
+      "slug": "dak-coffee-roasters-juice-box-89ef551a",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-9923d268c6f98662",
+      "roaster": "DAK Coffee Roasters",
+      "name": "Caramello",
+      "source_url": "https://www.dakcoffeeroasters.com/product/caramello/",
+      "existing_id": null,
+      "slug": "dak-coffee-roasters-caramello-9923d268",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-7b70cfa2c09d0218",
+      "roaster": "DAK Coffee Roasters",
+      "name": "Cream Donut",
+      "source_url": "https://www.dakcoffeeroasters.com/product/cream-donut/",
+      "existing_id": null,
+      "slug": "dak-coffee-roasters-cream-donut-7b70cfa2",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-385347b29df58083",
+      "roaster": "DAK Coffee Roasters",
+      "name": "Milky Cake",
+      "source_url": "https://www.dakcoffeeroasters.com/product/milky-cake/",
+      "existing_id": null,
+      "slug": "dak-coffee-roasters-milky-cake-385347b2",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-dba46c71abaa1cda",
+      "roaster": "DAK Coffee Roasters",
+      "name": "Berry Blues",
+      "source_url": "https://www.dakcoffeeroasters.com/product/berry-blues/",
+      "existing_id": null,
+      "slug": "dak-coffee-roasters-berry-blues-dba46c71",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-3ebe1f6a7ffbe7a5",
+      "roaster": "La Cabra",
+      "name": "Sagastume Typica 2023",
+      "source_url": "https://lacabra.com/pages/sagastume-typica",
+      "existing_id": null,
+      "slug": "la-cabra-sagastume-typica-2023-3ebe1f6a",
+      "action": "skip_no_verified_image",
+      "photo": {
+        "verified": false,
+        "reason": "The source does not provide a usable product image."
+      }
+    },
+    {
+      "key": "coffee-5ba3fd5f8a80efcf",
+      "roaster": "Five Elephant",
+      "name": "PNG Keto Tapasi (2022 competition coffee)",
+      "source_url": "https://www.fiveelephant.com/blogs/stories/recap-of-german-aeropress-championship-2022",
+      "existing_id": null,
+      "slug": "five-elephant-png-keto-tapasi-2022-competition-coffee-5ba3fd5f",
+      "action": "skip_no_verified_image",
+      "photo": {
+        "verified": false,
+        "reason": "The source does not provide a usable product image."
+      }
+    },
+    {
+      "key": "coffee-9dd1ba10159cc931",
+      "roaster": "Archers Coffee",
+      "name": "Black Diamond",
+      "source_url": "https://archerscoffee.com/products/black-diamond",
+      "existing_id": null,
+      "slug": "archers-coffee-black-diamond-9dd1ba10",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-0c0f29ffb48d0c97",
+      "roaster": "Archers Coffee",
+      "name": "Bittersweet",
+      "source_url": "https://archerscoffee.com/products/bittersweet",
+      "existing_id": null,
+      "slug": "archers-coffee-bittersweet-0c0f29ff",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": null
+      }
+    },
+    {
+      "key": "coffee-272270ae2943f6ff",
+      "roaster": "ONA Coffee",
+      "name": "Raspberry Candy",
+      "source_url": "https://onacoffee.com.au/products/raspberry-candy",
+      "existing_id": null,
+      "slug": "ona-coffee-raspberry-candy-272270ae",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-758724262a6806b4",
+      "roaster": "ONA Coffee",
+      "name": "Maple",
+      "source_url": "https://onacoffee.com.au/products/maple",
+      "existing_id": null,
+      "slug": "ona-coffee-maple-75872426",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-1f083986bb05bc63",
+      "roaster": "ONA Coffee",
+      "name": "Aspen",
+      "source_url": "https://onacoffee.com.au/products/aspen",
+      "existing_id": null,
+      "slug": "ona-coffee-aspen-1f083986",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-8d45ff9bee608ec9",
+      "roaster": "ONA Coffee",
+      "name": "Raspberry Candy Filter",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/raspberry-candy-filter",
+      "existing_id": null,
+      "slug": "ona-coffee-raspberry-candy-filter-8d45ff9b",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-1b85b58eed6f181b",
+      "roaster": "ONA Coffee",
+      "name": "Gargari Gutity G1 Red",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/gargari-gutity-g1-red-ethiopia-natural",
+      "existing_id": null,
+      "slug": "ona-coffee-gargari-gutity-g1-red-1b85b58e",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-382d0996272d035e",
+      "roaster": "ONA Coffee",
+      "name": "Kiambu Regional C",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/kiambu-regional-c-kenya-washed",
+      "existing_id": null,
+      "slug": "ona-coffee-kiambu-regional-c-382d0996",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-79767fedf8ea0b57",
+      "roaster": "ONA Coffee",
+      "name": "Miramundo",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/miramundo-guatemala-natural",
+      "existing_id": null,
+      "slug": "ona-coffee-miramundo-79767fed",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-4ebc6b154c1c729f",
+      "roaster": "ONA Coffee",
+      "name": "El Ángel",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/el-angel-el-salvador-natural",
+      "existing_id": null,
+      "slug": "ona-coffee-el-angel-4ebc6b15",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-41b0d4a40526a35c",
+      "roaster": "ONA Coffee",
+      "name": "Kaliluni AA",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/kaliluni-aa-kenya-washed",
+      "existing_id": null,
+      "slug": "ona-coffee-kaliluni-aa-41b0d4a4",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-efd7120b53a68a7a",
+      "roaster": "ONA Coffee",
+      "name": "Yula Regional Lot",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/yula-regional-lot-guatemala-washed",
+      "existing_id": null,
+      "slug": "ona-coffee-yula-regional-lot-efd7120b",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-b65d6bc2dc750fbc",
+      "roaster": "ONA Coffee",
+      "name": "Maguta Estate Lot 432",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/maguta-estate-lot-432-kenya-nitrogen-natural-indigo",
+      "existing_id": null,
+      "slug": "ona-coffee-maguta-estate-lot-432-b65d6bc2",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-259f96a93a0ac041",
+      "roaster": "ONA Coffee",
+      "name": "Elida Estate Torre",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/elida-estate-torre-panama-drd-washed",
+      "existing_id": null,
+      "slug": "ona-coffee-elida-estate-torre-259f96a9",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-af76f20f0353b590",
+      "roaster": "ONA Coffee",
+      "name": "Rungeto C",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/rungeto-c-kenya-washed",
+      "existing_id": null,
+      "slug": "ona-coffee-rungeto-c-af76f20f",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-5f5f0031f4a2fdfe",
+      "roaster": "Code Black Coffee",
+      "name": "3056 Espresso Blend",
+      "source_url": "https://codeblackcoffee.com.au/products/3056-espresso-blend-coffee",
+      "existing_id": null,
+      "slug": "code-black-coffee-3056-espresso-blend-5f5f0031",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-2bf56ad6e4941015",
+      "roaster": "Code Black Coffee",
+      "name": "Seasonal Espresso Blend",
+      "source_url": "https://codeblackcoffee.com.au/products/seasonal-espresso-blend",
+      "existing_id": null,
+      "slug": "code-black-coffee-seasonal-espresso-blend-2bf56ad6",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-e71d401e929b6ac2",
+      "roaster": "Code Black Coffee",
+      "name": "Ex-Wife Espresso Blend",
+      "source_url": "https://codeblackcoffee.com.au/products/ex-wife-espresso-blend-coffee",
+      "existing_id": null,
+      "slug": "code-black-coffee-ex-wife-espresso-blend-e71d401e",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-986aaab9907dda5d",
+      "roaster": "Toby's Estate",
+      "name": "Woolloomooloo",
+      "source_url": "https://www.tobysestate.com.au/woolloomooloo/",
+      "existing_id": null,
+      "slug": "toby-s-estate-woolloomooloo-986aaab9",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-95ad45e7800ff1a5",
+      "roaster": "Toby's Estate",
+      "name": "Broadway",
+      "source_url": "https://www.tobysestate.com.au/broadway/",
+      "existing_id": null,
+      "slug": "toby-s-estate-broadway-95ad45e7",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-beba7bc31af39e54",
+      "roaster": "Toby's Estate",
+      "name": "Rico",
+      "source_url": "https://www.tobysestate.com.au/rico/",
+      "existing_id": null,
+      "slug": "toby-s-estate-rico-beba7bc3",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-48b18a5581ecdd39",
+      "roaster": "Toby's Estate",
+      "name": "Black Swan",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "existing_id": null,
+      "slug": "toby-s-estate-black-swan-48b18a55",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-b66f36a756bedd6d",
+      "roaster": "Toby's Estate",
+      "name": "Organic Blend",
+      "source_url": "https://www.tobysestate.com.au/organic-blend/",
+      "existing_id": null,
+      "slug": "toby-s-estate-organic-blend-b66f36a7",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-3ce1f28089087b03",
+      "roaster": "Toby's Estate",
+      "name": "Decaf",
+      "source_url": "https://www.tobysestate.com.au/decaf/",
+      "existing_id": null,
+      "slug": "toby-s-estate-decaf-3ce1f280",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-13d580709eda2f9a",
+      "roaster": "Toby's Estate",
+      "name": "Brunswick",
+      "source_url": "https://www.tobysestate.com.au/brunswick/",
+      "existing_id": null,
+      "slug": "toby-s-estate-brunswick-13d58070",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-be105bb37a39db12",
+      "roaster": "Five Senses Coffee",
+      "name": "Ardi",
+      "source_url": "https://fivesenses.com.au/products/ardi-ethiopia",
+      "existing_id": null,
+      "slug": "five-senses-coffee-ardi-be105bb3",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-bffa1c957945525f",
+      "roaster": "Five Senses Coffee",
+      "name": "Umoja Washed",
+      "source_url": "https://fivesenses.com.au/products/umoja-washed-tanzania",
+      "existing_id": null,
+      "slug": "five-senses-coffee-umoja-washed-bffa1c95",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-89c39ff6f00b4bc9",
+      "roaster": "Five Senses Coffee",
+      "name": "Sweater Weather Blend",
+      "source_url": "https://fivesenses.com.au/products/sweater-weather-blend",
+      "existing_id": null,
+      "slug": "five-senses-coffee-sweater-weather-blend-89c39ff6",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    },
+    {
+      "key": "coffee-ad0f05187ac7cfc7",
+      "roaster": "Kurasu",
+      "name": "Brazil Inacio Urban",
+      "source_url": "https://kurasu.kyoto/blogs/kurasu-journal/may-kurasu-subscription-brazil-inacio-urban-ethiopia-jigesa",
+      "existing_id": null,
+      "slug": "kurasu-brazil-inacio-urban-ad0f0518",
+      "action": "skip_no_verified_image",
+      "photo": {
+        "verified": false,
+        "reason": "The source does not provide a usable product image."
+      }
+    },
+    {
+      "key": "coffee-3d4a8413d05f45f5",
+      "roaster": "Kurasu",
+      "name": "Ethiopia Jigesa",
+      "source_url": "https://kurasu.kyoto/blogs/kurasu-journal/may-kurasu-subscription-brazil-inacio-urban-ethiopia-jigesa",
+      "existing_id": null,
+      "slug": "kurasu-ethiopia-jigesa-3d4a8413",
+      "action": "skip_no_verified_image",
+      "photo": {
+        "verified": false,
+        "reason": "The source does not provide a usable product image."
+      }
+    },
+    {
+      "key": "coffee-66a4c226a8520df6",
+      "roaster": "Kurasu",
+      "name": "Kenya Kangocho AA",
+      "source_url": "https://kurasu.kyoto/blogs/kurasu-journal/flash-brew-iced-coffee-kenya-kangocho-aa-brazil-joao-hamilton",
+      "existing_id": null,
+      "slug": "kurasu-kenya-kangocho-aa-66a4c226",
+      "action": "skip_no_verified_image",
+      "photo": {
+        "verified": false,
+        "reason": "The source does not provide a usable product image."
+      }
+    },
+    {
+      "key": "coffee-7ee41a32c3f9a8b6",
+      "roaster": "Kurasu",
+      "name": "Brazil João Hamilton",
+      "source_url": "https://kurasu.kyoto/blogs/kurasu-journal/flash-brew-iced-coffee-kenya-kangocho-aa-brazil-joao-hamilton",
+      "existing_id": null,
+      "slug": "kurasu-brazil-joao-hamilton-7ee41a32",
+      "action": "skip_no_verified_image",
+      "photo": {
+        "verified": false,
+        "reason": "The source does not provide a usable product image."
+      }
+    },
+    {
+      "key": "coffee-5edb4464256032bd",
+      "roaster": "Coffee Supreme AU",
+      "name": "South Blend",
+      "source_url": "https://shopau.coffeesupreme.com/products/south-blend",
+      "existing_id": null,
+      "slug": "coffee-supreme-au-south-blend-5edb4464",
+      "action": "create",
+      "photo": {
+        "verified": true,
+        "image_kind": "packaging",
+        "checked_at": "2026-10-04",
+        "note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product."
+      }
+    }
+  ],
+  "recipes": [
+    {
+      "slug": "onyx-monarch-kalita-wave",
+      "existing_recipe_id": "b93e7d45-b98b-40e2-972b-3b3960672d28",
+      "approved_previous_source_urls": [
+        "https://onyxcoffeelab.com/pages/help-me-brew"
+      ],
+      "coffee_key": "coffee-f54f39101a700071",
+      "bean_action": "create",
+      "brew_method": "kalita_wave",
+      "source_url": "https://onyxcoffeelab.com/products/monarch",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "onyx-southern-weather-kalita-wave",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-75e9d65710c3aef4",
+      "bean_action": "create",
+      "brew_method": "kalita_wave",
+      "source_url": "https://onyxcoffeelab.com/products/southern-weather",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "onyx-tropical-weather-origami",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-eb14f08f13ae9350",
+      "bean_action": "create",
+      "brew_method": "origami",
+      "source_url": "https://onyxcoffeelab.com/products/tropical-weather",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "onyx-geometry-origami",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-6d682a3108ea6a3c",
+      "bean_action": "create",
+      "brew_method": "origami",
+      "source_url": "https://onyxcoffeelab.com/products/geometry",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "onyx-power-nap-kalita-wave",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-cbada7fffc78ce20",
+      "bean_action": "create",
+      "brew_method": "kalita_wave",
+      "source_url": "https://onyxcoffeelab.com/products/power-nap",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "onyx-kenya-kamunyaka-aa-origami",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-a675b4fc7b8ffe03",
+      "bean_action": "create",
+      "brew_method": "origami",
+      "source_url": "https://onyxcoffeelab.com/products/kenya-kamunyaka-aa",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "onyx-honduras-fredy-perez-origami",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-5062f9168b8d4d99",
+      "bean_action": "create",
+      "brew_method": "origami",
+      "source_url": "https://onyxcoffeelab.com/products/honduras-fredy-perez",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "onyx-ethiopia-agaro-yukro-g1-origami",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-1f8e6029f0dfcb64",
+      "bean_action": "create",
+      "brew_method": "origami",
+      "source_url": "https://onyxcoffeelab.com/products/ethiopia-agaro-yukro-g1",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "onyx-costa-rica-las-lajas-natural-26-origami",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-96b565e44da64556",
+      "bean_action": "create",
+      "brew_method": "origami",
+      "source_url": "https://onyxcoffeelab.com/products/costa-rica-las-lajas-natural-26",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "onyx-mexico-oaxaca-yogondoy-gesha-origami",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-1588e5228cf46737",
+      "bean_action": "create",
+      "brew_method": "origami",
+      "source_url": "https://onyxcoffeelab.com/products/mexico-oaxaca-yogondoy-gesha",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "onyx-peru-la-margarita-gesha-26-origami",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-cffd80bd9521b305",
+      "bean_action": "create",
+      "brew_method": "origami",
+      "source_url": "https://onyxcoffeelab.com/products/peru-la-margarita-gesha-26",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "onyx-monarch-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-f54f39101a700071",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://onyxcoffeelab.com/products/monarch",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "onyx-southern-weather-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-75e9d65710c3aef4",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://onyxcoffeelab.com/products/southern-weather",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "onyx-tropical-weather-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-eb14f08f13ae9350",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://onyxcoffeelab.com/products/tropical-weather",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "onyx-geometry-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-6d682a3108ea6a3c",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://onyxcoffeelab.com/products/geometry",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "onyx-power-nap-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-cbada7fffc78ce20",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://onyxcoffeelab.com/products/power-nap",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "verve-buena-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-9250ca4c7ad9d9f6",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://www.vervecoffee.com/products/buena-vista-dark-roast",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "verve-sermon-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-bb3b473dd3229449",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://www.vervecoffee.com/products/sermon",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "verve-streetlevel-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-6b7d740426628be7",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://www.vervecoffee.com/products/streetlevel",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "verve-buena-french-press",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-9250ca4c7ad9d9f6",
+      "bean_action": "create",
+      "brew_method": "french_press",
+      "source_url": "https://www.vervecoffee.com/products/buena-vista-dark-roast",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "verve-sermon-french-press",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-bb3b473dd3229449",
+      "bean_action": "create",
+      "brew_method": "french_press",
+      "source_url": "https://www.vervecoffee.com/products/sermon",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "verve-streetlevel-french-press",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-6b7d740426628be7",
+      "bean_action": "create",
+      "brew_method": "french_press",
+      "source_url": "https://www.vervecoffee.com/products/streetlevel",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "verve-seabright-aeropress",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-5c42f144e33f274d",
+      "bean_action": "create",
+      "brew_method": "aeropress",
+      "source_url": "https://www.vervecoffee.com/products/seabright-house-blend",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "49th-parallel-epic-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-b345e49fc797136c",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://49thcoffee.com/products/epic-espresso",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "counter-culture-big-trouble-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-1eededa7da58b3e0",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://counterculturecoffee.com/products/big-trouble",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "cat-cloud-answer-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-99a8c6a567a034ad",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://catandcloud.com/products/answer",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "cat-cloud-the-best-friends-blend-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-3c2105ebccf91db0",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://catandcloud.com/products/the-best-friends-blend",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "olympia-big-truck-reyna-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-e50fa5e58c676986",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://www.olympiacoffee.com/blogs/brewing-methods/espresso-week-an-illustrated-guide-to-better-espresso",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "intelligentsia-black-cat-classic-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-3f2ad58c101c3ec5",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://www.intelligentsia.com/products/black-cat-classic-espresso",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "olympia-big-truck-chilled-concentrate",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-e50fa5e58c676986",
+      "bean_action": "create",
+      "brew_method": "pour_over",
+      "source_url": "https://www.olympiacoffee.com/blogs/recipes/coffee-cocktail-hour-flash-brew-negronis",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "april-kayon-mountain-filter-2026",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-4213ddcd5044c835",
+      "bean_action": "create",
+      "brew_method": "pour_over",
+      "source_url": "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/kayon-mountain",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "april-kayon-mountain-espresso-2026",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-4213ddcd5044c835",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/kayon-mountain",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "april-kamavindi-espresso-2026",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-bdbe0a87ce24d308",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/kamavindi",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "april-tadesse-station-espresso-2026",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-ce01d4c59daf9389",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/tadesse-station",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "april-volcan-azul-washed-sl28-espresso-2026",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-192a2e6af95bb690",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/volcan-azul",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "workshop-reset-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-a6c1a15e41821e6c",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://workshopcoffee.com/products/reset",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "workshop-reset-pourover",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-a6c1a15e41821e6c",
+      "bean_action": "create",
+      "brew_method": "pour_over",
+      "source_url": "https://workshopcoffee.com/products/reset",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "workshop-chakra-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-3f772aa0eb18e2df",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://workshopcoffee.com/products/chakra",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "workshop-chakra-pourover",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-3f772aa0eb18e2df",
+      "bean_action": "create",
+      "brew_method": "pour_over",
+      "source_url": "https://workshopcoffee.com/products/chakra",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "workshop-la-plata-decaf-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-b63c52518f4b0f73",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://workshopcoffee.com/products/la-plata-decaf",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "workshop-la-plata-decaf-pourover",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-b63c52518f4b0f73",
+      "bean_action": "create",
+      "brew_method": "pour_over",
+      "source_url": "https://workshopcoffee.com/products/la-plata-decaf",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "workshop-pillar-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-53c30f622cc0c724",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://workshopcoffee.com/products/pillar",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "workshop-pillar-pourover",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-53c30f622cc0c724",
+      "bean_action": "create",
+      "brew_method": "pour_over",
+      "source_url": "https://workshopcoffee.com/products/pillar",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "workshop-maidy-bocanegra-pink-bourbon-pourover",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-8f6296fc8a732230",
+      "bean_action": "create",
+      "brew_method": "pour_over",
+      "source_url": "https://workshopcoffee.com/products/maidy-bocanegra-pink-bourbon",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "gardelli-813-v60",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-f770e9cfdfbe5aba",
+      "bean_action": "create",
+      "brew_method": "v60",
+      "source_url": "https://shop.gardellicoffee.com/coffees/813-la-torre-mejia-geisha-peru",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "gardelli-834-v60",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-2daf911d4c713374",
+      "bean_action": "create",
+      "brew_method": "v60",
+      "source_url": "https://shop.gardellicoffee.com/coffees/834-441-lalesa-ephtah-ethiopia",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "gardelli-821-v60",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-239f3dad5fbac692",
+      "bean_action": "create",
+      "brew_method": "v60",
+      "source_url": "https://shop.gardellicoffee.com/coffees/821-425-cumbres-decaffeinated-colombia",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "square-mile-red-brick-current",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-b958c772f10c2b13",
+      "bean_action": "skip_no_verified_image",
+      "brew_method": "espresso",
+      "source_url": "https://shop.squaremilecoffee.com/products/red-brick",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "nomad-churupallana-espresso-2026",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-b0829c7cd635903e",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://nomadcoffee.es/en/pages/historico-recetas",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "nomad-parainema-espresso-2026",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-2f9dd5c420ca4b8a",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://nomadcoffee.es/en/pages/historico-recetas",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "nomad-pacas-espresso-2026",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-608ea4f904d11bf6",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://nomadcoffee.es/en/pages/historico-recetas",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "nomad-kafipamba-espresso-archive",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-7ba538916c79f411",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://nomadcoffee.es/en/pages/historico-recetas",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "nomad-jhenrry-chavez-orea",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-842627979f68886b",
+      "bean_action": "create",
+      "brew_method": "orea",
+      "source_url": "https://nomadcoffee.es/en/pages/historico-recetas",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "dak-general-filter-16-5g-250g",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": null,
+      "bean_action": "not_applicable",
+      "brew_method": "pour_over",
+      "source_url": "https://www.dakcoffeeroasters.com/product/milky-cake/",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "la-cabra-sagastume-typica-espresso-2023",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-3ebe1f6a7ffbe7a5",
+      "bean_action": "skip_no_verified_image",
+      "brew_method": "espresso",
+      "source_url": "https://lacabra.com/pages/sagastume-typica",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "la-cabra-iced-v60-18g",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": null,
+      "bean_action": "not_applicable",
+      "brew_method": "v60",
+      "source_url": "https://lacabra.com/pages/icedcoffee-brew-guide",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "five-elephant-peter-budenz-aeropress-2022",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-5ba3fd5f8a80efcf",
+      "bean_action": "skip_no_verified_image",
+      "brew_method": "aeropress",
+      "source_url": "https://www.fiveelephant.com/blogs/stories/recap-of-german-aeropress-championship-2022",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "friedhats-lex-wenneker-cool-bloom-origami",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": null,
+      "bean_action": "not_applicable",
+      "brew_method": "origami",
+      "source_url": "https://friedhats.com/blogs/news/the-definitive-friedhats-brew-recipe",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "archers-milk-espresso-150-180ml",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": null,
+      "bean_action": "not_applicable",
+      "brew_method": "espresso",
+      "source_url": "https://archerscoffee.com/products/black-diamond",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "ona-raspberry-candy-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-272270ae2943f6ff",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/raspberry-candy",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "ona-maple-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-758724262a6806b4",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/maple",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "ona-aspen-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-1f083986bb05bc63",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/aspen",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "ona-raspberry-candy-filter-v60",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-8d45ff9bee608ec9",
+      "bean_action": "create",
+      "brew_method": "v60",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/raspberry-candy-filter",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "ona-gargari-gutity-g1-red-ethiopia-natural-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-1b85b58eed6f181b",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/gargari-gutity-g1-red-ethiopia-natural",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "ona-kiambu-regional-c-kenya-washed-v60",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-382d0996272d035e",
+      "bean_action": "create",
+      "brew_method": "v60",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/kiambu-regional-c-kenya-washed",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "ona-miramundo-guatemala-natural-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-79767fedf8ea0b57",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/miramundo-guatemala-natural",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "ona-el-angel-el-salvador-natural-v60",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-4ebc6b154c1c729f",
+      "bean_action": "create",
+      "brew_method": "v60",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/el-angel-el-salvador-natural",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "ona-kaliluni-aa-kenya-washed-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-41b0d4a40526a35c",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/kaliluni-aa-kenya-washed",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "ona-yula-regional-lot-guatemala-washed-v60",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-efd7120b53a68a7a",
+      "bean_action": "create",
+      "brew_method": "v60",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/yula-regional-lot-guatemala-washed",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "ona-maguta-estate-lot-432-kenya-nitrogen-natural-indigo-v60",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-b65d6bc2dc750fbc",
+      "bean_action": "create",
+      "brew_method": "v60",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/maguta-estate-lot-432-kenya-nitrogen-natural-indigo",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "ona-elida-estate-torre-panama-drd-washed-v60",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-259f96a93a0ac041",
+      "bean_action": "create",
+      "brew_method": "v60",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/elida-estate-torre-panama-drd-washed",
+      "is_incomplete_source": false
+    },
+    {
+      "slug": "ona-rungeto-c-kenya-washed-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-af76f20f0353b590",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/rungeto-c-kenya-washed",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "code-black-3056-espresso-blend-coffee",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-5f5f0031f4a2fdfe",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://codeblackcoffee.com.au/products/3056-espresso-blend-coffee",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "code-black-seasonal-espresso-blend",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-2bf56ad6e4941015",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://codeblackcoffee.com.au/products/seasonal-espresso-blend",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "code-black-ex-wife-espresso-blend-coffee",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-e71d401e929b6ac2",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://codeblackcoffee.com.au/products/ex-wife-espresso-blend-coffee",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "tobys-estate-woolloomooloo-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-986aaab9907dda5d",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "tobys-estate-broadway-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-95ad45e7800ff1a5",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "tobys-estate-rico-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-beba7bc31af39e54",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "tobys-estate-black-swan-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-48b18a5581ecdd39",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "tobys-estate-organic-blend-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-b66f36a756bedd6d",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "tobys-estate-decaf-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-3ce1f28089087b03",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "five-senses-ardi-ethiopia-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-be105bb37a39db12",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://fivesenses.com.au/products/ardi-ethiopia",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "five-senses-umoja-washed-tanzania-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-bffa1c957945525f",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://fivesenses.com.au/products/umoja-washed-tanzania",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "five-senses-sweater-weather-blend-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-89c39ff6f00b4bc9",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://fivesenses.com.au/products/sweater-weather-blend",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "kurasu-may-2026-comparison-v60",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-ad0f05187ac7cfc7",
+      "bean_action": "skip_no_verified_image",
+      "brew_method": "v60",
+      "source_url": "https://kurasu.kyoto/blogs/kurasu-journal/may-kurasu-subscription-brazil-inacio-urban-ethiopia-jigesa",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "kurasu-august-2026-comparison-flash-brew",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-66a4c226a8520df6",
+      "bean_action": "skip_no_verified_image",
+      "brew_method": "pour_over",
+      "source_url": "https://kurasu.kyoto/blogs/kurasu-journal/flash-brew-iced-coffee-kenya-kangocho-aa-brazil-joao-hamilton",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "coffee-supreme-au-south-blend-espresso",
+      "existing_recipe_id": null,
+      "approved_previous_source_urls": [],
+      "coffee_key": "coffee-5edb4464256032bd",
+      "bean_action": "create",
+      "brew_method": "espresso",
+      "source_url": "https://shopau.coffeesupreme.com/products/south-blend",
+      "is_incomplete_source": true
+    }
+  ],
+  "corrections": [
+    {
+      "slug": "crema-coffee-espresso",
+      "expected_id": "55069f5b-8b97-4307-b548-33c8c4624f92",
+      "source_url": "https://crema-coffee.com/pages/espresso-brewing-guide"
+    },
+    {
+      "slug": "equator-espresso",
+      "expected_id": "ca9424e8-189e-414b-8c53-769126e4e4ae",
+      "source_url": "https://www.equatorcoffees.com/blogs/guides/espresso"
+    },
+    {
+      "slug": "flair-58-starter-espresso",
+      "expected_id": "37bc1f6a-d552-4250-ac6c-f4ca2ab3947a",
+      "source_url": "https://flairespresso.com/blogs/news/dialing-in-flair-58-plus-manual-espresso-maker"
+    }
+  ],
+  "exclusions": [
+    {
+      "region": "americas",
+      "url": "https://onyxcoffeelab.com/pages/discovery-box-guide",
+      "reason": "Generic V60 schedule repeats 240 g at 1:30 then labels the drain 300 g; missing 60 g pouring action is not repaired by assumption. Generic Origami summary says 280 g while its schedule ends at 285 g. Repeated generic method blocks across all six coffees are not multiplied into distinct coffee-specific recipes."
+    },
+    {
+      "region": "americas",
+      "url": "https://onyxcoffeelab.com/products/monarch",
+      "reason": "Coffee process omitted because summary says Washed but narrative discusses a natural coffee in the blend. Filter/espresso parameters themselves are internally usable."
+    },
+    {
+      "region": "americas",
+      "url": "https://onyxcoffeelab.com/products/kenya-kamunyaka-aa",
+      "reason": "Coffee process omitted because summary and process section say Dry Washed while abstract calls it a natural lot. No caffeine numbers imported from zero-valued template sections."
+    },
+    {
+      "region": "americas",
+      "url": "https://counterculturecoffee.com/products/big-trouble",
+      "reason": "French Press omitted: header gives 50 g dose but numbered instructions give 45 g. Espresso is separately included."
+    },
+    {
+      "region": "americas",
+      "url": "https://www.vervecoffee.com/products/seabright-house-blend",
+      "reason": "Coffee Maker omitted: 30 g coffee / 900 g water conflicts with displayed 1:15 ratio. Dwell recipes are not relabeled as a supported V60 method."
+    },
+    {
+      "region": "americas",
+      "url": "https://www.blackwhiteroasters.com/pages/brew-guides",
+      "reason": "Official page explicitly says it does not post definitive brew guides for specific coffees. General 1:2 / ~24 s guidance not duplicated as bean-specific records."
+    },
+    {
+      "region": "americas",
+      "url": "https://roguewavecoffee.ca/blogs/brew-guide/recipe-ice-brew",
+      "reason": "Public URL now returns HTTP 404; not imported from stale third-party copies."
+    },
+    {
+      "region": "americas",
+      "url": "https://roguewavecoffee.ca/blogs/brew-guide/how-to-make-cold-brew",
+      "reason": "Public URL now returns HTTP 404."
+    },
+    {
+      "region": "americas",
+      "url": "https://www.proudmaryacademy.com/en/articles/9689704-brew-guide-los-bellotos-2024-bernardina-anaerobic-honey-sunset",
+      "reason": "Public fetch returned HTTP 403; no access-control bypass or invented complete recipe."
+    },
+    {
+      "region": "americas",
+      "url": "https://catandcloud.com/products/after-party",
+      "reason": "Only generic 1:16 / 3–4 min brewing guidance, repeated across coffees. Not counted as a distinct detailed bean-specific recipe."
+    },
+    {
+      "region": "americas",
+      "url": "https://catandcloud.com/products/night-shift",
+      "reason": "Only generic 1:16 / 3–4 min brewing guidance, repeated across coffees. Not counted as a distinct detailed bean-specific recipe."
+    },
+    {
+      "region": "americas",
+      "url": "https://onyxcoffeelab.com/products/cold-brew",
+      "reason": "Toddy guide provides 283 g / 1750 g at 80°F and 1050 µm but no steep duration in retrieved instructions. Held out of executable recipes rather than inventing overnight time."
+    },
+    {
+      "region": "americas",
+      "url": "https://www.olympiacoffee.com/blogs/recipes/coffee-cocktail-hour-flash-brew-negronis",
+      "reason": "Coffee-only chilled concentrate is now included once as pour_over. Cocktail ingredients and alcoholic or zero-proof mixed-drink recipes are not imported."
+    },
+    {
+      "region": "emea",
+      "url": "https://www.aprilcoffeeroasters.com/pages/kayon-mountain-natural-heirloom-infos",
+      "reason": "404; replaced with live /coffee-inf-recipes/kayon-mountain and product page."
+    },
+    {
+      "region": "emea",
+      "url": "https://www.aprilcoffeeroasters.com/pages/arsosala-infos",
+      "reason": "404; historical search text is not imported as a current recipe."
+    },
+    {
+      "region": "emea",
+      "url": "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/volcan-azul",
+      "reason": "SP Costa Rica association excluded: product says washed; farm recipe data says yellow honey. Other explicit Volcan SL28 espresso is retained."
+    },
+    {
+      "region": "emea",
+      "url": "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/tadesse-station",
+      "reason": "Filter recipe timing conflict: prose second pour 35 seconds, table 30 seconds. Only espresso imported. Variety retained as Krume because numeric identifier differs between product and farm data."
+    },
+    {
+      "region": "emea",
+      "url": "https://www.fiveelephant.com/products/png-keto-tapasi-filter",
+      "reason": "404; historical recipe retained with image_url null; no logo substituted."
+    },
+    {
+      "region": "emea",
+      "url": "https://www.fiveelephant.com/blogs/stories/the-2023-german-aeropress-championship-at-five-elephant-roastery",
+      "reason": "Usable general competition recipe but exact coffee identity is not established in article text; deferred in favor of coffee-specific 2022 source."
+    },
+    {
+      "region": "emea",
+      "url": "https://archerscoffee.com/products/ethiopia-gatta-natural-anaerobic",
+      "reason": "404; excluded."
+    },
+    {
+      "region": "emea",
+      "url": "https://archerscoffee.com/products/colombia-aroma-nativo-geisha-honey",
+      "reason": "404; excluded."
+    },
+    {
+      "region": "emea",
+      "url": "https://nomadcoffee.es/en/pages/historico-recetas",
+      "reason": "Churupallana Mugen Switch entry deferred: volume-unit schedule and valve-state wording need source clarification; no invented g conversions."
+    },
+    {
+      "region": "apac",
+      "url": "https://onacoffee.com.au/blogs/brewguides/el-lino-nicaragua-washed",
+      "reason": "The captured official guide publishes 212 seconds for 20.3 g → 44 g espresso at 93.5°C. This suspicious value is excluded; it has not been silently changed to 21 or 22 seconds."
+    },
+    {
+      "region": "apac",
+      "url": "https://fivesenses.com.au/pages/espresso-recipes",
+      "reason": "Same-name Risaralda Washed rows disagree (21.5 g → 48 g / 30 s versus 21.5 g → 44 g / 28 s); the Veer Attikan row lists 9.5°C. These rows are excluded without correction."
+    },
+    {
+      "region": "apac",
+      "url": "https://fivesenses.com.au/products/crompton-road-blend",
+      "reason": "General espresso table gives 29 s; product recipe gives 30 s at the same 22 g → 44 g / 94.5°C.",
+      "related_urls": [
+        "https://fivesenses.com.au/pages/espresso-recipes"
+      ]
+    },
+    {
+      "region": "apac",
+      "url": "https://fivesenses.com.au/products/dark-horse-blend",
+      "reason": "General table gives 22 g → 44 g / 29 s / 95°C; product gives 22 g → 44 g / 30 s / 94.5°C.",
+      "related_urls": [
+        "https://fivesenses.com.au/pages/espresso-recipes"
+      ]
+    },
+    {
+      "region": "apac",
+      "url": "https://fivesenses.com.au/products/hi-fidelity-blend",
+      "reason": "General table gives 21.5 g → 48 g / 29 s; product gives 22 g → 44 g / 30 s, both at 94.5°C.",
+      "related_urls": [
+        "https://fivesenses.com.au/pages/espresso-recipes"
+      ]
+    },
+    {
+      "region": "apac",
+      "url": "https://fivesenses.com.au/products/umoja-tanzania",
+      "reason": "Umoja Natural table gives 21 g → 42 g / 26 s / 95°C; captured natural-product recipe gives 21.5 g → 42 g / 28 s / 94.5°C. This is distinct from the included Umoja Washed.",
+      "related_urls": [
+        "https://fivesenses.com.au/pages/espresso-recipes"
+      ]
+    },
+    {
+      "region": "apac",
+      "url": "https://codeblackcoffee.com.au/collections/espresso/products/colombia-sugarcane-decaf-espresso-single-origin-coffee",
+      "reason": "Recipe heading has no usable dose, output, time or temperature in the captured page; metadata image filename also refers to a filter version. No parameters were invented."
+    },
+    {
+      "region": "apac",
+      "url": "https://codeblackcoffee.com.au/collections/espresso/products/kenya-kainamui-aa-washed-espresso-single-origin",
+      "reason": "Only an espresso ratio of 1:2.5 was captured; no coffee dose, time or temperature. Not included as a complete actionable recipe."
+    },
+    {
+      "region": "apac",
+      "url": "https://www.tobysestate.com.au/brew-guides/",
+      "reason": "Brunswick card has exactly the same 24 g / 26 s and roast-age yields as Broadway. Both named coffees are retained, with a single canonical Broadway/Brunswick recipe.",
+      "related_urls": [
+        "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-broadway-1753943068854.jpg?t=1753943069",
+        "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-brunswick-1753943388670.jpg?t=1753943389"
+      ]
+    },
+    {
+      "region": "apac",
+      "url": "https://www.fritz.co.kr/about_blend.html?cate_no=45",
+      "reason": "Fritz current basket-area formulas and flow-dependent times differ from older named-blend basket tables. For example Old Dog older 18 g basket advice uses 16–17 g → 40–44 g, while the current formulas yield 34–38 g at those doses. No silent choice of guide version was made.",
+      "related_urls": [
+        "https://fritz.co.kr/product/detail.html?product_no=75&cate_no=45&display_group=1",
+        "https://fritz.co.kr/product/detail.html?product_no=226&cate_no=45&display_group=1",
+        "https://fritz.co.kr/product/detail.html?product_no=227&cate_no=45&display_group=1"
+      ]
+    },
+    {
+      "region": "apac",
+      "url": "https://kurasu.kyoto/blogs/kurasu-journal/september-2026-subscription-costa-rica-indonesia-v60",
+      "reason": "Article names two coffees and gives 200 g in 40+60+50+50 g pours, but omits coffee dose, water temperature and final time. Missing values were not borrowed from the May recipe."
+    },
+    {
+      "region": "apac",
+      "url": "https://kurasu.kyoto/products/ethiopia-sidamo-decaf-medium-roast-2025",
+      "reason": "Method guide blocks are reused on multiple product pages; not counted as additional uniquely coffee-specific recipes in this curated batch."
+    },
+    {
+      "region": "apac",
+      "url": "https://shop.glitchcoffee.com/en/pages/brew-guide",
+      "reason": "Located locale-specific generic ORIGAMI instructions differ (English 14.5 g / 260 g / four pours versus Japanese 15 g / 240 g / three pours); this research did not establish a single matching coffee-specific variant.",
+      "related_urls": [
+        "https://shop.glitchcoffee.com/pages/brew-guide"
+      ]
+    },
+    {
+      "region": "apac",
+      "url": "https://marketlane.com.au/",
+      "reason": "Official-source search found general method guides, without a verified additional coffee-specific recipe for this batch. This is not a claim that none exist."
+    },
+    {
+      "region": "apac",
+      "url": "https://sevenseeds.com.au/",
+      "reason": "Official-source search found general guides; no additional named-coffee recipe was sufficiently verified for this batch."
+    },
+    {
+      "region": "emea",
+      "url": "https://shop.squaremilecoffee.com/products/red-brick",
+      "coffee": "Red Brick",
+      "reason": "No new public bean record: HTTP Error 403: Forbidden Recipe source metadata is retained."
+    },
+    {
+      "region": "emea",
+      "url": "https://lacabra.com/pages/sagastume-typica",
+      "coffee": "Sagastume Typica 2023",
+      "reason": "No new public bean record: The source does not provide a usable product image. Recipe source metadata is retained."
+    },
+    {
+      "region": "emea",
+      "url": "https://www.fiveelephant.com/blogs/stories/recap-of-german-aeropress-championship-2022",
+      "coffee": "PNG Keto Tapasi (2022 competition coffee)",
+      "reason": "No new public bean record: The source does not provide a usable product image. Recipe source metadata is retained."
+    },
+    {
+      "region": "apac",
+      "url": "https://kurasu.kyoto/blogs/kurasu-journal/may-kurasu-subscription-brazil-inacio-urban-ethiopia-jigesa",
+      "coffee": "Brazil Inacio Urban",
+      "reason": "No new public bean record: The source does not provide a usable product image. Recipe source metadata is retained."
+    },
+    {
+      "region": "apac",
+      "url": "https://kurasu.kyoto/blogs/kurasu-journal/may-kurasu-subscription-brazil-inacio-urban-ethiopia-jigesa",
+      "coffee": "Ethiopia Jigesa",
+      "reason": "No new public bean record: The source does not provide a usable product image. Recipe source metadata is retained."
+    },
+    {
+      "region": "apac",
+      "url": "https://kurasu.kyoto/blogs/kurasu-journal/flash-brew-iced-coffee-kenya-kangocho-aa-brazil-joao-hamilton",
+      "coffee": "Kenya Kangocho AA",
+      "reason": "No new public bean record: The source does not provide a usable product image. Recipe source metadata is retained."
+    },
+    {
+      "region": "apac",
+      "url": "https://kurasu.kyoto/blogs/kurasu-journal/flash-brew-iced-coffee-kenya-kangocho-aa-brazil-joao-hamilton",
+      "coffee": "Brazil João Hamilton",
+      "reason": "No new public bean record: The source does not provide a usable product image. Recipe source metadata is retained."
+    }
+  ]
+}

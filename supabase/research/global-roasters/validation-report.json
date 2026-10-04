@@ -1,0 +1,146 @@
+{
+  "verified_at": "2026-10-04",
+  "target_project_id": "ubvzdglrwkkuaigmkjap",
+  "node_version": "v24.19.0",
+  "local_sql_runtime": {
+    "package": "@electric-sql/pglite",
+    "version": "0.5.8",
+    "postgres_version": "18.3",
+    "mode": "in_memory_only"
+  },
+  "production_postgres_major_version": 17,
+  "command": "node --test scripts/test-roaster-recipes.mjs",
+  "tests_passed": 5,
+  "tests_failed": 0,
+  "checks": [
+    "Published quantities retain units; espresso water fields null",
+    "Ranges do not create midpoint scalars",
+    "Derived output is explicitly marked and explained",
+    "Shared coffee names verify exact roaster/name associations",
+    "No new bean without decoded and visually classified exact image",
+    "Exact full coffee name and product URL prevent cross-crop matching",
+    "Curator ownership, public visibility, source identity and existing bean links guarded",
+    "Known Monarch source upgrade preserves its exact original UUID, existing source and retained step IDs",
+    "Full transaction applied twice and ordered small transactions replayed",
+    "Original137 bean media and sensory metadata remain unchanged",
+    "Original37 roaster rows remain unchanged",
+    "Recipe/step/pour/source IDs and five outcome references preserved",
+    "Source-linked recipe covers populated; existing nonempty cover preserved",
+    "Canonical roaster UUID assigned inside each recipe discovery payload",
+    "Three narrow espresso corrections accept only expected or exact already-corrected values",
+    "Deliberate wrong owner/private visibility/method/bean link/old values abort transactions",
+    "Actual UTF-8 SQL byte bounds, coverage of every input row, empty-section omission and explicit oversized-single-record rejection",
+    "Every generated import is additive-only: no DELETE statement in full or byte-bounded SQL",
+    "Existing extra step/pour numbers raise for explicit review and retain the rows after rollback",
+    "All six existing Monarch step IDs and all six existing pour IDs retained; two missing steps added"
+  ],
+  "counts": {
+    "roasters": 23,
+    "roaster_actions": {
+      "create": 20,
+      "reuse_exact": 3
+    },
+    "coffees": 84,
+    "coffee_actions": {
+      "create": 77,
+      "skip_no_verified_image": 7
+    },
+    "recipes": 87,
+    "recipes_by_region": {
+      "americas": 30,
+      "emea": 29,
+      "apac": 28
+    },
+    "recipes_by_method": {
+      "kalita_wave": 3,
+      "origami": 9,
+      "espresso": 49,
+      "french_press": 3,
+      "aeropress": 2,
+      "pour_over": 9,
+      "v60": 11,
+      "orea": 1
+    },
+    "recipes_by_serving": {
+      "hot": 84,
+      "cold": 1,
+      "iced": 2
+    },
+    "recipes_with_bean": 78,
+    "incomplete_recipes": 57,
+    "corrections": 3,
+    "exclusions": 44,
+    "new_recipes": 86,
+    "updated_recipes": 1
+  },
+  "source_review_limitations": [
+    "23-roaster curated expansion, not exhaustive world coverage",
+    "57 records have incomplete source instructions, including49espresso parameter specifications",
+    "7 named coffees remain without verified imagery; their source recipe metadata stays searchable",
+    "Local PostgreSQL18.3 tests differ from production PostgreSQL17; independent read-only production verification is saved separately"
+  ],
+  "transport_validation": {
+    "max_bytes": 20000,
+    "parts": 71,
+    "maximum_actual_bytes": 19893,
+    "phases": {
+      "roasters": 1,
+      "beans": 8,
+      "recipes": 61,
+      "corrections": 1
+    },
+    "recipe_group_sizes": {
+      "one_recipe": 35,
+      "two_recipes": 26
+    },
+    "initial_execution": "Ordered small parts against original137beans/37roasters plus existing Monarch and corrections; then full and partial replays.",
+    "database_writes_performed_by_this_agent": false,
+    "recovery_note": "Root completed the original roaster-only transaction and eight matching bean parts, then recipe parts 09 through 69 and correction part 70 from the final additive-only index. All 87 expected recipe records and 77 new beans now pass the saved read-only production checks. The earlier Monarch inspection remains evidence of the pre-import 6 steps and 6 pours; the reviewed import has 8 steps and the same 6 pours.",
+    "generated_sql_contains_delete_statements": false,
+    "recovery_status": "complete"
+  },
+  "database_writes_performed_by_validation_agent": false,
+  "status": "applied_and_verified",
+  "live_application": {
+    "status": "applied_and_verified",
+    "applied_on": "2026-10-04",
+    "verified_at_utc": "2026-10-04 16:33:46 UTC",
+    "project_id": "ubvzdglrwkkuaigmkjap",
+    "applied_by": "release_executor",
+    "successful_transactions": 71,
+    "read_only_verification_queries": 5,
+    "all_checks_passed": true,
+    "evidence": "evidence/application-verification.json",
+    "recipe_counts": {
+      "expected_recipes": 87,
+      "present_recipes": 87,
+      "public_curator_recipes": 87,
+      "recipes_linked_to_coffee": 78,
+      "incomplete_sources": 57,
+      "espresso_specs": 49,
+      "invalid_espresso_input_water": 0,
+      "official_primary_source_links": 87,
+      "resolved_roaster_ids": 87,
+      "shared_name_arrays": 87,
+      "recipes_with_covers": 78,
+      "covers_matching_verified_selection": 78
+    },
+    "coffee_counts": {
+      "expected_added_coffees": 77,
+      "present_coffees": 77,
+      "reviewed_public_coffees": 77,
+      "exact_source_linked_photos": 77,
+      "packaging": 74,
+      "product_artwork": 3,
+      "sourced_sensory_profiles": 2
+    },
+    "espresso_corrections_verified": 3,
+    "monarch": {
+      "preserved_monarch_id": true,
+      "still_public": true,
+      "coffee_link_added": true,
+      "retained_previous_source": true,
+      "added_product_source": true
+    }
+  }
+}

@@ -1,8 +1,13 @@
-import { useContext, useEffect, useState, type ReactNode } from "react";
+import { useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import {
   ActivityIndicator,
   FlatList,
+  Keyboard,
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
   Pressable,
+  ScrollView,
   View,
   useWindowDimensions,
 } from "react-native";
@@ -16,11 +21,21 @@ import {
 import { MethodPicker, coffeeStyles } from "./CoffeeScreens";
 import { RecipeVisual } from './RecipeVisual';
 import { MethodGuide } from './MethodGuide';
-import { doseLabel, recipeTitle, timeLabel } from './manualBrew';
-import { Action, Field, Language, Txt, colors, styles } from "./ui";
+import { doseLabel, recipeTitle, timeLabel, waterLabel } from './manualBrew';
+import { Action, Field, Icon, Language, Txt, colors, styles } from "./ui";
+import { FlavorIcon, FlavorNotes } from './SensoryProfile';
+import {
+  emptyRecipeFilters, readRecipeDiscovery, recipeFilterCount, recipePageQuery,
+  RECIPE_DISCOVERY_FIELDS, RECIPE_PAGE_SIZE,
+  type RecipeDiscovery, type RecipeDiscoveryFilters, type RecipeDiscoveryRow, type RecipeSourceFilter,
+} from './recipeDiscovery';
 import { methods } from "./copy";
-import type { Method } from "./core/engine";
-const PAGE = 30;
+import { FLAVORS, type Method } from "./core/engine";
+type DiscoveredRecipe = RecipeItem & { discovery: RecipeDiscovery };
+const flavorLabels = {
+  chocolate: ['شوكولاتة', 'Chocolate'], nutty: ['مكسرات', 'Nutty'], fruity: ['فواكه', 'Fruity'],
+  citrus: ['حمضيات', 'Citrus'], floral: ['زهور', 'Floral'], caramel: ['كراميل', 'Caramel'], spice: ['توابل', 'Spice'],
+} as const;
 export function RecipeCatalog({
   open,
   method: initialMethod,
@@ -39,68 +54,78 @@ export function RecipeCatalog({
   const [search, setSearch] = useState("");
   const [debounced, setDebounced] = useState("");
   const [page, setPage] = useState(0);
-  const [rows, setRows] = useState<RecipeItem[]>([]);
+  const [rows, setRows] = useState<DiscoveredRecipe[]>([]);
   const [busy, setBusy] = useState(true);
   const [error, setError] = useState(false);
   const [total, setTotal] = useState<number | null>(null);
   const [more, setMore] = useState(false);
   const [revision, setRevision] = useState(0);
-  const [source, setSource] = useState("all");
+  const [source, setSource] = useState<RecipeSourceFilter>("all");
   const [model, setModel] = useState("all");
+  const [filters, setFilters] = useState(emptyRecipeFilters);
+  const [draftFilters, setDraftFilters] = useState(emptyRecipeFilters);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const requestGeneration = useRef(0);
+  const filterCount = recipeFilterCount(filters);
+  const hasSearch = Boolean(search.trim() || filterCount || source !== 'all' || (!locked && method) || (method === 'xbloom' && model !== 'all'));
+  const invalidate = () => {
+    requestGeneration.current += 1;
+    setPage(0);
+    setMore(false);
+    setRevision(value => value + 1);
+  };
+  const resetSearch = () => {
+    invalidate();
+    setSearch('');
+    setDebounced('');
+    setFilters(emptyRecipeFilters());
+    setDraftFilters(emptyRecipeFilters());
+    setSource('all');
+    setModel('all');
+    if (!locked) setMethod(undefined);
+  };
   useEffect(() => {
     if (search === debounced) return;
     const t = setTimeout(() => {
       setDebounced(search);
       setPage(0);
-    }, 280);
+    }, 320);
     return () => clearTimeout(t);
   }, [search, debounced]);
   useEffect(() => {
     let active = true;
+    const generation = ++requestGeneration.current;
+    const controller = new AbortController();
+    const current = () => active && generation === requestGeneration.current;
+    const cancel = () => { active = false; controller.abort(); };
     setBusy(true);
     setError(false);
     if (page === 0) {
       setRows([]);
       setTotal(null);
+      setMore(false);
     }
-    if (!supabase) return;
-    let query = supabase
-      .from("recipes")
-      .select(RECIPE_FIELDS, { count: "exact" })
-      .eq("visibility", "public");
-    if (method) query = query.eq("brew_method", method);
-    // Strip PostgREST expression delimiters; user text never becomes filter syntax.
-    const q = debounced
-      .replace(/[^\p{L}\p{N}\s-]/gu, "")
-      .trim()
-      .slice(0, 100);
-    if (q)
-      query = query.or(
-        `title.ilike.%${q}%,title_ar.ilike.%${q}%,source_author_name.ilike.%${q}%,source_coffee_name.ilike.%${q}%`,
-      );
-    if (source === "official")
-      query = query.in("recipe_type", [
-        "official_manufacturer",
-        "official_roaster",
-        "verified_barista",
-      ]);
-    if (source === "community") query = query.eq("recipe_type", "community");
-    if (method === "xbloom" && model !== "all")
-      query = query.eq("source_brew_parameters->>model", model);
+    // Editing invalidates an old request immediately; only settled search text
+    // starts another request. The optional filter panel applies one draft at once.
+    if (search !== debounced) return cancel;
+    if (!supabase) {
+      setError(true);
+      setBusy(false);
+      return cancel;
+    }
+    const query = recipePageQuery(supabase, { query: debounced, method, source, model, filters }, page,
+      `${RECIPE_FIELDS},${RECIPE_DISCOVERY_FIELDS}`, controller.signal);
     void (async () => {
       try {
-        const result = await query
-          .order("updated_at", { ascending: false })
-          .order("id")
-          .range(page * PAGE, page * PAGE + PAGE - 1);
-        if (!active) return;
+        const result = await query;
+        if (!current()) return;
         if (result.error) {
           setError(true);
           return;
         }
-        const mapped = ((result.data ?? []) as RecipeRow[]).flatMap((r) => {
+        const mapped = ((result.data ?? []) as unknown as (RecipeRow & RecipeDiscoveryRow)[]).flatMap((r) => {
           const item = mapRecipe(r, locale);
-          return item ? [item] : [];
+          return item ? [{ ...item, discovery: readRecipeDiscovery(r, locale) }] : [];
         });
         setRows((previous) =>
           page === 0
@@ -114,22 +139,20 @@ export function RecipeCatalog({
         setTotal(result.count);
         setMore(
           result.count != null
-            ? (page + 1) * PAGE < result.count
-            : mapped.length === PAGE,
+            ? (page + 1) * RECIPE_PAGE_SIZE < result.count
+            : mapped.length === RECIPE_PAGE_SIZE,
         );
       } catch {
-        if (active) setError(true);
+        if (current()) setError(true);
       } finally {
-        if (active) setBusy(false);
+        if (current()) setBusy(false);
       }
     })();
-    return () => {
-      active = false;
-    };
-  }, [locale, method, debounced, source, model, page, revision]);
+    return cancel;
+  }, [locale, method, search, debounced, source, model, filters, page, revision]);
   const columns = width >= 850 ? 4 : width >= 600 ? 3 : 2;
   const cardWidth = (Math.min(width, 1120) - 36 - (columns - 1) * 12) / columns;
-  return (
+  return (<>
     <FlatList
       testID={initialMethod === "xbloom" ? "xbloom-scroll" : "recipe-catalog"}
       key={columns}
@@ -138,6 +161,7 @@ export function RecipeCatalog({
       keyExtractor={(r) => r.id}
       columnWrapperStyle={{ gap: 12 }}
       contentContainerStyle={[coffeeStyles.page, { gap: 12 }]}
+      keyboardShouldPersistTaps="handled"
       refreshing={busy && page === 0}
       onRefresh={() => {
         setPage(0);
@@ -165,8 +189,8 @@ export function RecipeCatalog({
             <MethodPicker
               value={method}
               onChange={(v) => {
+                invalidate();
                 setMethod(v);
-                setPage(0);
               }}
             />
           ) : null}
@@ -174,13 +198,28 @@ export function RecipeCatalog({
           <Field
             label={ar ? "ابحث عن وصفة" : "Find a recipe"}
             value={search}
-            onChangeText={setSearch}
+            maxLength={160}
+            onChangeText={(value) => { invalidate(); setSearch(value); }}
             placeholder={
               ar
-                ? "اسم الوصفة، البن، أو الناشر…"
-                : "Recipe, coffee or publisher…"
+                ? "وصفة، نكهة، صانع، بلد أو محمصة…"
+                : "Recipe, flavor, creator, country or roaster…"
             }
           />
+          <View style={{ flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={ar ? `تصفية الوصفات${filterCount ? `، ${filterCount} مفعلة` : ''}` : `Filter recipes${filterCount ? `, ${filterCount} active` : ''}`}
+              onPress={() => { setDraftFilters({ ...filters }); setFiltersOpen(true); }}
+              style={[styles.button, { flexDirection: ar ? 'row-reverse' : 'row', gap: 8, paddingVertical: 8, borderColor: filterCount ? colors.brown : colors.line }]}
+            >
+              <Icon name="gear" size={18}/>
+              <Txt style={{ fontWeight: '700', fontSize: 14 }}>{ar ? 'تصفية' : 'Filters'}</Txt>
+              {filterCount > 0 ? <View style={{ backgroundColor: colors.brown, borderRadius: 20, minWidth: 23, paddingHorizontal: 6 }}><Txt style={{ color: '#FFF', textAlign: 'center', fontSize: 12 }}>{filterCount}</Txt></View> : null}
+            </Pressable>
+            {hasSearch ? <Pressable accessibilityRole="button" accessibilityLabel={ar ? 'مسح البحث والتصفية' : 'Clear search and filters'} onPress={resetSearch} style={{ minHeight: 44, justifyContent: 'center', paddingHorizontal: 4 }}><Txt style={{ color: colors.brown, fontSize: 13, textDecorationLine: 'underline' }}>{ar ? 'مسح الكل' : 'Clear all'}</Txt></Pressable> : null}
+            {filterCount > 0 ? <Txt style={[styles.muted, { flex: 1, minWidth: 100 }]}>{ar ? 'تُطبق الشروط معًا على المكتبة كاملة.' : 'Filters combine across the full library.'}</Txt> : null}
+          </View>
           <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
             {[
               ["all", ar ? "كل المصادر" : "All sources"],
@@ -192,8 +231,8 @@ export function RecipeCatalog({
                 title={title}
                 selected={source === id}
                 onPress={() => {
-                  setSource(id);
-                  setPage(0);
+                  invalidate();
+                  setSource(id as RecipeSourceFilter);
                 }}
               />
             ))}
@@ -208,8 +247,8 @@ export function RecipeCatalog({
                   }
                   selected={model === id}
                   onPress={() => {
+                    invalidate();
                     setModel(id);
-                    setPage(0);
                   }}
                 />
               ))}
@@ -232,9 +271,11 @@ export function RecipeCatalog({
         busy ? (
           <ActivityIndicator color={colors.brown} />
         ) : !error ? (
-          <Txt style={styles.muted}>
-            {ar ? "لا توجد نتائج مطابقة." : "No matching recipes."}
-          </Txt>
+          <View style={[styles.card, { padding: 22, gap: 12 }]}>
+            <Txt heading style={{ fontWeight: '700' }}>{ar ? 'لا توجد نتائج مطابقة.' : 'No matching recipes.'}</Txt>
+            <Txt style={styles.muted}>{ar ? 'جرّب كلمة أخرى أو قلّل شروط البحث. المعلومات غير المذكورة في المصدر لا تدخل ضمن النتائج المصفّاة.' : 'Try another term or fewer filters. Recipes without the requested source information do not match that filter.'}</Txt>
+            {hasSearch ? <Action title={ar ? 'مسح البحث والتصفية' : 'Clear search and filters'} onPress={resetSearch}/> : null}
+          </View>
         ) : null
       }
       ListFooterComponent={
@@ -285,6 +326,7 @@ export function RecipeCatalog({
         >
           <View style={{ height: 145 }}>
             <RecipeVisual recipe={item}/>
+            {item.discovery.servingStyle ? <View style={{ position: 'absolute', top: 10, left: ar ? 10 : undefined, right: ar ? undefined : 10, backgroundColor: colors.paper, borderRadius: 99, paddingHorizontal: 10, paddingVertical: 2 }}><Txt style={{ fontSize: 11 }}>{item.discovery.servingStyle === 'hot' ? ar ? 'ساخن' : 'Hot' : item.discovery.servingStyle === 'iced' ? ar ? 'مثلّج' : 'Iced' : ar ? 'بارد' : 'Cold'}</Txt></View> : null}
           </View>
           <View style={{ padding: 12, gap: 5 }}>
             <Txt style={[styles.muted, { fontSize: 11 }]}>
@@ -297,15 +339,67 @@ export function RecipeCatalog({
               {recipeTitle(item.title, ar)}
             </Txt>
             <Txt style={{ fontSize: 12 }}>
-              {recipeTitle(`${doseLabel(item)} · ${item.water ? `${item.water} ${item.waterUnit}` : ar && item.method === 'moka_pot' ? 'أدنى صمام الأمان' : item.method === 'moka_pot' ? 'Below safety valve' : '—'}`, ar)}
+              {recipeTitle(`${doseLabel(item)} · ${item.method === 'espresso' ? (ar ? 'ناتج ' : 'Yield ') : ''}${waterLabel(item, ar) !== '—' ? waterLabel(item, ar) : ar && item.method === 'moka_pot' ? 'أدنى صمام الأمان' : item.method === 'moka_pot' ? 'Below safety valve' : '—'}`, ar)}
             </Txt>
             <Txt style={[styles.muted, { writingDirection: /^\d/.test(timeLabel(item, ar)) ? 'ltr' : ar ? 'rtl' : 'ltr' }]}>{timeLabel(item, ar) !== '—' ? timeLabel(item, ar) : ar && item.method === 'moka_pot' ? 'حسب التدفق' : item.method === 'moka_pot' ? 'Follow flow' : '—'}</Txt>
             <Txt numberOfLines={1} style={[styles.muted, { fontSize: 11 }]}>
-              {item.author || item.sources[0]?.name || ""}
+              {item.discovery.creatorName || item.author || item.sources[0]?.name || ""}
             </Txt>
+            <FlavorNotes notes={item.discovery.flavorNotes} compact max={2}/>
           </View>
         </Pressable>
       )}
     />
-  );
+    <Modal visible={filtersOpen} transparent animationType="slide" onRequestClose={() => setFiltersOpen(false)}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1, backgroundColor: '#201A1570', alignItems: 'center', justifyContent: width >= 700 ? 'center' : 'flex-end', paddingTop: 30, paddingHorizontal: width >= 700 ? 24 : 0 }}>
+        <Pressable accessibilityRole="button" accessibilityLabel={ar ? 'إغلاق التصفية' : 'Close filters'} onPress={() => setFiltersOpen(false)} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}/>
+        <View testID="recipe-discovery-filters" accessibilityViewIsModal style={{ width: '100%', maxWidth: 760, maxHeight: '92%', backgroundColor: colors.paper, borderTopLeftRadius: 26, borderTopRightRadius: 26, borderBottomLeftRadius: width >= 700 ? 26 : 0, borderBottomRightRadius: width >= 700 ? 26 : 0, overflow: 'hidden' }}>
+          <View style={{ paddingHorizontal: 20, paddingTop: 20, paddingBottom: 14, borderBottomWidth: 1, borderBottomColor: colors.line, gap: 6 }}>
+            <View style={{ flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+              <Txt heading style={styles.subtitle}>{ar ? 'ابحث على ذوقك' : 'Find your kind of coffee'}</Txt>
+              <Action title={ar ? 'إغلاق' : 'Close'} onPress={() => setFiltersOpen(false)}/>
+            </View>
+            <Txt style={styles.muted}>{ar ? 'اختر ما يهمك. يمكنك الجمع بين أكثر من شرط.' : 'Choose what matters to you. Combine any of these filters.'}</Txt>
+          </View>
+          <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ padding: 20, gap: 22 }}>
+            <View style={{ gap: 10 }}>
+              <Txt heading style={{ fontSize: 17, fontWeight: '700' }}>{ar ? 'النكهة والتقديم' : 'Taste & serving'}</Txt>
+              <View style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8 }}>
+                {FLAVORS.map(family => <Pressable key={family} accessibilityRole="button" accessibilityLabel={flavorLabels[family][ar ? 0 : 1]} accessibilityState={{ selected: draftFilters.flavorFamily === family }} onPress={() => setDraftFilters(value => ({ ...value, flavorFamily: value.flavorFamily === family ? '' : family }))} style={{ flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 6, borderWidth: 1, borderColor: draftFilters.flavorFamily === family ? colors.brown : colors.line, borderRadius: 16, backgroundColor: draftFilters.flavorFamily === family ? colors.chip : colors.paper, paddingHorizontal: 11, paddingVertical: 8, minHeight: 44 }}><FlavorIcon note={family} size={22}/><Txt style={{ fontSize: 13, fontWeight: draftFilters.flavorFamily === family ? '700' : '400' }}>{flavorLabels[family][ar ? 0 : 1]}</Txt></Pressable>)}
+              </View>
+              <Field label={ar ? 'إيحاء محدد' : 'Specific tasting note'} placeholder={ar ? 'مثل: ياسمين، خوخ، شوكولاتة' : 'For example: jasmine, peach, chocolate'} value={draftFilters.flavorNote} maxLength={160} onChangeText={flavorNote => setDraftFilters(value => ({ ...value, flavorNote }))}/>
+              <View style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8 }}>
+                {([['', ar ? 'كل الأنواع' : 'Any serving'], ['hot', ar ? 'ساخن' : 'Hot'], ['iced', ar ? 'مثلّج' : 'Iced'], ['cold', ar ? 'بارد' : 'Cold']] as const).map(([id, title]) => <Action key={id} title={title} selected={draftFilters.servingStyle === id} onPress={() => setDraftFilters(value => ({ ...value, servingStyle: id }))}/>)}
+              </View>
+            </View>
+            {[
+              { title: ar ? 'الوصفة وصانعها' : 'Recipe & creator', fields: [
+                ['recipeName', ar ? 'اسم الوصفة' : 'Recipe name'],
+                ['creatorName', ar ? 'اسم صانع الوصفة' : 'Recipe creator'],
+                ['creatorCountry', ar ? 'بلد عمل صانع الوصفة' : 'Creator’s operating country'],
+                ['recipeCountry', ar ? 'المنشأ الجغرافي للوصفة' : 'Recipe’s geographic origin'],
+                ['sourceName', ar ? 'الموقع أو المصدر' : 'Website or source'],
+              ] },
+              { title: ar ? 'البن والمحمصة' : 'Coffee & roaster', fields: [
+                ['coffeeName', ar ? 'اسم البن' : 'Coffee name'],
+                ['coffeeType', ar ? 'نوع البن أو سلالته' : 'Coffee type or variety'],
+                ['coffeeOrigin', ar ? 'بلد زراعة البن' : 'Coffee growing origin'],
+                ['roasterName', ar ? 'الشركة أو المحمصة' : 'Company or roaster'],
+              ] },
+            ].map(section => <View key={section.title} style={{ gap: 12 }}>
+              <Txt heading style={{ fontSize: 17, fontWeight: '700' }}>{section.title}</Txt>
+              <View style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 12 }}>
+                {section.fields.map(([id, label]) => <View key={id} style={{ width: width >= 700 ? '48%' : '100%' }}><Field label={label} value={draftFilters[id as keyof RecipeDiscoveryFilters]} maxLength={160} onChangeText={value => setDraftFilters(previous => ({ ...previous, [id]: value }))}/></View>)}
+              </View>
+            </View>)}
+            <Txt style={styles.muted}>{ar ? 'بلد الصانع ومصدر الوصفة وبلد زراعة البن معلومات مستقلة؛ تُعرض فقط عندما يذكرها المصدر.' : 'Creator country, recipe provenance and coffee growing origin are separate facts, used only when stated by a source.'}</Txt>
+          </ScrollView>
+          <View style={{ padding: 20, paddingBottom: Platform.OS === 'ios' ? 32 : 20, borderTopWidth: 1, borderTopColor: colors.line, flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: 12 }}>
+            <Action title={ar ? 'تطبيق التصفية' : 'Apply filters'} selected onPress={() => { Keyboard.dismiss(); invalidate(); setFilters({ ...draftFilters }); setFiltersOpen(false); }}/>
+            <Action title={ar ? 'إعادة ضبط' : 'Reset filters'} onPress={() => setDraftFilters(emptyRecipeFilters())}/>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+    </Modal>
+  </>);
 }

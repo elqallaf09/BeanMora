@@ -3,21 +3,24 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { communityEvidence, emptyProfile, isMethod, ROASTS, validChoice, type Coffee, type Recipe, type Profile, type Method } from './core/engine';
 import { safeUrl } from './guards';
 import type { ManualPour } from './manualBrew';
-export interface CoffeeItem extends Coffee { roasterId: string | null; description: string; origin: string; process: string; sourceUrl: string | null; logoUrl: string | null; imageUrl: string | null; images: string[] }
+import { readSensory, type CoffeeSensoryData } from './sensory';
+import { readRecipeDiscovery, type RecipeDiscovery } from './recipeDiscovery';
+export type CoffeeImageKind = 'packaging' | 'product_artwork' | 'origin_photo' | 'unclassified';
+export interface CoffeeItem extends Coffee { roasterId: string | null; description: string; origin: string; process: string; variety?: string; roasterCountry?: string; sensory?: CoffeeSensoryData; sourceUrl: string | null; logoUrl: string | null; imageUrl: string | null; imageSourceUrl?: string | null; imageKind?: CoffeeImageKind; images: string[] }
 export interface RecipeSource { url: string; name: string; confidence: string; verifiedAt: string | null }
 export type { SourceBrew } from './sourceBrew';
-export interface RecipeItem extends Recipe { pours: ManualPour[]; waterUnit: 'g' | 'ml'; sourceBrew: SourceBrew; grindSetting: string | null; author: string | null; temperatureMin: number | null; temperatureMax: number | null; sources: RecipeSource[]; recipeType: string; notes: string; temperature: number | null; coverUrl: string | null; videoUrl: string | null; xBloom: { deviceModel: string; grindSetting: string | null; dose: number | null; water: number | null; temp: number | null; pours: unknown } | null; steps: { number: number; title: string; description: string }[] }
+export interface RecipeItem extends Recipe { pours: ManualPour[]; waterUnit: 'g' | 'ml'; sourceBrew: SourceBrew; discovery?: RecipeDiscovery; grindSetting: string | null; author: string | null; temperatureMin: number | null; temperatureMax: number | null; sources: RecipeSource[]; recipeType: string; notes: string; temperature: number | null; coverUrl: string | null; coverKind?: CoffeeImageKind; videoUrl: string | null; xBloom: { deviceModel: string; grindSetting: string | null; dose: number | null; water: number | null; temp: number | null; pours: unknown } | null; steps: { number: number; title: string; description: string }[] }
 export interface Bundle { coffees: CoffeeItem[]; recipes: RecipeItem[]; savedBeanIds: string[]; profile: Profile; recipeTotal: number; warnings: boolean; limited: boolean }
-interface Name { name_ar?: string | null; name_en?: string | null; logo_url?: string | null }
+interface Name { name_ar?: string | null; name_en?: string | null; logo_url?: string | null; country?: string | null }
 interface CoffeeRow extends Name {
   id: string; slug: string; roaster_id?: string | null; requires_review: boolean; is_published?: boolean;
   legacy_bean_id?: string | null; roast_level: string | null; last_verified_at: string | null;
   suitable_for_v60: boolean; suitable_for_espresso: boolean; suitable_for_xbloom: boolean;
   flavor_notes_on_bag?: string[]; flavors?: { flavor: string }[];
   roaster: Name | Name[] | null; status?: string; description_ar?: string | null; description_en?: string | null;
-  short_description?: string; origin_country?: string; source_url?: string; image_url?: string | null; image_usage_status?: string | null; process?: string;
+  short_description?: string; origin_country?: string; source_url?: string; image_url?: string | null; image_source_url?: string | null; image_usage_status?: string | null; image_kind?: string; process?: string; varietal?: string | null; sensory_profile?: unknown;
   images?: { url?: string; image_source_url?: string; image_usage_status: string; position: number }[];
-  lot?: { origin_country?: string; process?: string } | { origin_country?: string; process?: string }[] | null;
+  lot?: { origin_country?: string; process?: string; varietal?: string } | { origin_country?: string; process?: string; varietal?: string }[] | null;
 }
 export interface RecipeRow {
   id: string; title: string; title_ar: string | null; brew_method: string; visibility: string;
@@ -59,14 +62,17 @@ async function read<T>(query: PromiseLike<{ data: unknown; error: unknown; count
 export function mapRecipe(row: RecipeRow, locale: 'ar' | 'en', profile: RecipeItem['xBloom'] = null): RecipeItem | null {
   if (!isMethod(row.brew_method)) return null;
   const ar = locale === 'ar'; const source = sourceBrew(row.source_brew_parameters);
+  const rawMedia = (row.source_brew_parameters as unknown as Record<string, unknown> | undefined)?.global_roasters_import;
+  const media = rawMedia && typeof rawMedia === 'object' && !Array.isArray(rawMedia) ? rawMedia as Record<string, unknown> : {};
+  const coverUrl = safeUrl(row.cover_image_url);
   return {
     id: row.id, title: (ar ? row.title_ar || row.title : row.title || row.title_ar) ?? '', public: row.visibility === 'public',
     method: row.brew_method, beanId: row.bean_id, productId: row.roasted_product_id, flavors: row.flavor_notes ?? [], difficulty: row.difficulty,
     incomplete: row.is_incomplete_source, equipment: (row.equipment ?? []).map(e => ({ category: e.category, modelId: e.equipment_model_id })),
     recipeType: row.recipe_type ?? 'personal', sources: (row.sources ?? []).flatMap(s => { const url = safeUrl(s.source_url); return url ? [{ url, name: s.source_name || new URL(url).hostname, confidence: s.data_confidence, verifiedAt: s.last_verified_at }] : []; }),
-    dose: amount(row.dose_grams), water: amount(row.water_grams) ?? amount(source.water_ml ?? null), waterUnit: amount(row.water_grams) ? 'g' : source.water_ml ? 'ml' : 'g', sourceBrew: source, grindSetting: row.grinder_setting ?? null, author: row.source_author_name ?? null, temperatureMin: amount(row.water_temp_c_min ?? null), temperatureMax: amount(row.water_temp_c_max ?? null), seconds: amount(row.total_time_seconds), temperature: amount(row.water_temp_c),
+    dose: amount(row.dose_grams), water: amount(row.water_grams) ?? amount(source.water_ml ?? null), waterUnit: amount(row.water_grams) ? 'g' : source.water_ml ? 'ml' : 'g', sourceBrew: source, discovery: readRecipeDiscovery(row, locale), grindSetting: row.grinder_setting ?? null, author: row.source_author_name ?? null, temperatureMin: amount(row.water_temp_c_min ?? null), temperatureMax: amount(row.water_temp_c_max ?? null), seconds: amount(row.total_time_seconds), temperature: amount(row.water_temp_c),
     // This mobile preview does not fetch public user-level evidence. Never imply community validation.
-    evidence: communityEvidence([], []), coverUrl: safeUrl(row.cover_image_url), videoUrl: safeUrl(row.video_url), xBloom: profile, notes: (ar ? row.notes_ar || row.notes : row.notes || row.notes_ar) ?? '',
+    evidence: communityEvidence([], []), coverUrl, coverKind: coverUrl && coverUrl === safeUrl(media.photo_url) ? validChoice(media.photo_kind, ['packaging', 'product_artwork', 'origin_photo', 'unclassified'] as const) ?? undefined : undefined, videoUrl: safeUrl(row.video_url), xBloom: profile, notes: (ar ? row.notes_ar || row.notes : row.notes || row.notes_ar) ?? '',
     pours: [...(row.pours ?? [])].sort((a, b) => a.pour_number - b.pour_number).flatMap(p => {
       const grams = amount(p.water_grams); if (!grams || !Number.isInteger(p.pour_number) || p.pour_number < 1) return [];
       const at = typeof p.start_at_seconds === 'number' && Number.isFinite(p.start_at_seconds) && p.start_at_seconds >= 0 ? p.start_at_seconds : null;
@@ -78,9 +84,9 @@ export function mapRecipe(row: RecipeRow, locale: 'ar' | 'en', profile: RecipeIt
 export async function loadData(db: SupabaseClient, locale: 'ar' | 'en', userId: string | null, method?: Method): Promise<Bundle> {
   const ar = locale === 'ar';
   const result: Bundle = { coffees: [], recipes: [], savedBeanIds: [], profile: emptyProfile(), recipeTotal: 0, warnings: false, limited: false };
-  const fields = 'id,slug,roaster_id,name_ar,name_en,requires_review,roast_level,last_verified_at,suitable_for_v60,suitable_for_espresso,suitable_for_xbloom,source_url,image_url,image_usage_status,roaster:roasters(name_ar,name_en,logo_url)';
-  let beans = db.from('beans').select(`${fields},is_published,origin_country,process,description_ar,description_en,flavors:bean_flavor_notes(flavor),images:bean_images(url,position,image_usage_status)`).eq('requires_review', false).eq('is_published', true);
-  let products = db.from('roasted_products').select(`${fields},legacy_bean_id,status,short_description,flavor_notes_on_bag,lot:coffee_lots(origin_country,process),images:product_images(image_source_url,position,image_usage_status)`).eq('requires_review', false).in('status', ['available', 'low_stock']);
+  const fields = 'id,slug,roaster_id,name_ar,name_en,requires_review,roast_level,last_verified_at,suitable_for_v60,suitable_for_espresso,suitable_for_xbloom,source_url,image_url,image_source_url,image_usage_status,image_kind,sensory_profile,roaster:roasters(name_ar,name_en,logo_url,country)';
+  let beans = db.from('beans').select(`${fields},is_published,origin_country,process,varietal,description_ar,description_en,flavors:bean_flavor_notes(flavor),images:bean_images(url,position,image_usage_status)`).eq('requires_review', false).eq('is_published', true);
+  let products = db.from('roasted_products').select(`${fields},legacy_bean_id,status,short_description,flavor_notes_on_bag,lot:coffee_lots(origin_country,process,varietal),images:product_images(image_source_url,position,image_usage_status)`).eq('requires_review', false).in('status', ['available', 'low_stock']);
   let recipes = db.from('recipes').select(RECIPE_FIELDS, { count: 'exact' }).eq('visibility', 'public');
   if (method && ['v60', 'espresso', 'xbloom'].includes(method)) { beans = beans.eq(`suitable_for_${method}`, true); products = products.eq(`suitable_for_${method}`, true); }
   if (method) recipes = recipes.eq('brew_method', method);
@@ -93,7 +99,7 @@ export async function loadData(db: SupabaseClient, locale: 'ar' | 'en', userId: 
   result.warnings = [b, p, r, xb].some(x => x.failed); result.limited = [b, p, r, xb].some(x => x.limited);
   const xbByRecipe = new Map(xb.rows.map(x => [x.recipe_id, x]));
   const coffee = (row: CoffeeRow, kind: Coffee['kind']): CoffeeItem => {
-    const images = (row.images ?? []).filter(i => i.image_usage_status === 'rights_confirmed').sort((a, b) => a.position - b.position).flatMap(i => { const url = safeUrl(i.url ?? i.image_source_url); return url ? [url] : []; });
+    const images = [...new Set((row.images ?? []).filter(i => i.image_usage_status === 'rights_confirmed' || i.image_usage_status === 'source_linked' && safeUrl(row.source_url)).sort((a, b) => a.position - b.position).flatMap(i => { const url = safeUrl(i.url ?? i.image_source_url); return url ? [url] : []; }))];
     const direct = row.image_usage_status === 'rights_confirmed' || row.image_usage_status === 'source_linked' && safeUrl(row.source_url) ? safeUrl(row.image_url) : null;
     if (direct && !images.includes(direct)) images.unshift(direct);
     return {
@@ -102,7 +108,7 @@ export async function loadData(db: SupabaseClient, locale: 'ar' | 'en', userId: 
     published: kind === 'product' || row.is_published === true, methods: (['v60','espresso','xbloom'] as const).filter(m => row[`suitable_for_${m}`]),
     flavors: inferredFlavors(row), roast: row.roast_level, status: row.status ?? null, verifiedAt: row.last_verified_at,
     description: catalogDescription(row, ar),
-    origin: row.origin_country ?? one(row.lot ?? null)?.origin_country ?? '', process: row.process ?? one(row.lot ?? null)?.process ?? '', sourceUrl: safeUrl(row.source_url), logoUrl: safeUrl(one(row.roaster)?.logo_url), imageUrl: images[0] ?? null, images,
+    origin: row.origin_country ?? one(row.lot ?? null)?.origin_country ?? '', process: row.process ?? one(row.lot ?? null)?.process ?? '', variety: row.varietal ?? one(row.lot ?? null)?.varietal ?? '', roasterCountry: one(row.roaster)?.country ?? '', sensory: readSensory(row.sensory_profile), sourceUrl: safeUrl(row.source_url), logoUrl: safeUrl(one(row.roaster)?.logo_url), imageUrl: images[0] ?? null, imageSourceUrl: safeUrl(row.image_source_url), imageKind: validChoice(row.image_kind, ['packaging', 'product_artwork', 'origin_photo', 'unclassified'] as const) ?? 'unclassified', images,
   }; };
   result.coffees = [...p.rows.map(x => coffee(x, 'product')), ...b.rows.map(x => coffee(x, 'bean'))];
   result.recipeTotal = r.total ?? r.rows.length;
@@ -115,6 +121,14 @@ export async function loadData(db: SupabaseClient, locale: 'ar' | 'en', userId: 
     const mapped = mapRecipe(row, locale, x ? { deviceModel: x.device_model, grindSetting: x.grind_setting, dose: amount(x.dose_grams), water: amount(x.water_grams), temp: amount(x.water_temp_c), pours: x.pours } : null);
     return mapped ? [mapped] : [];
   });
+  // The legacy suitability columns cover three methods. Exact public recipe
+  // links also expose a coffee's documented April, Orea and other brew methods.
+  for (const coffee of result.coffees) {
+    const linkedMethods = result.recipes.filter(recipe => recipe.public && (coffee.kind === 'product'
+      ? recipe.productId === coffee.id || Boolean(coffee.beanId && recipe.beanId === coffee.beanId)
+      : recipe.beanId === coffee.id)).map(recipe => recipe.method);
+    coffee.methods = [...new Set([...coffee.methods, ...linkedMethods])];
+  }
   if (!userId) return result;
   const [prefs, gear, inventory, attempts, saves] = await Promise.all([
     read<{ preferred_brew_methods: string[]; preferred_flavors: string[]; preferred_roast_level: string | null }>(db.from('user_preferences').select('preferred_brew_methods,preferred_flavors,preferred_roast_level').eq('user_id', userId).limit(1)),

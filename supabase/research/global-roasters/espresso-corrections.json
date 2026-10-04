@@ -1,0 +1,52 @@
+{
+  "verified_at": "2026-10-04",
+  "source_review": "Root independently re-opened all three primary sources; read-only live snapshot confirms curator, IDs and expected old values. These updates change only water/output semantics and published time ranges, preserving all steps and relationships.",
+  "corrections": [
+    {
+      "slug": "crema-coffee-espresso",
+      "expected_id": "55069f5b-8b97-4307-b548-33c8c4624f92",
+      "expected_dose_grams": 18,
+      "expected_water_grams": 42,
+      "expected_total_time_seconds": 28,
+      "total_time_seconds": null,
+      "source_url": "https://crema-coffee.com/pages/espresso-brewing-guide",
+      "manual": {
+        "yield_grams": 42,
+        "yield_min_grams": 40,
+        "yield_max_grams": 42,
+        "time_min_seconds": 21,
+        "time_max_seconds": 28,
+        "yield_note": "42 g is the published headline target; the guide also specifies a 40–42 g output window."
+      }
+    },
+    {
+      "slug": "equator-espresso",
+      "expected_id": "ca9424e8-189e-414b-8c53-769126e4e4ae",
+      "expected_dose_grams": 18,
+      "expected_water_grams": 36,
+      "expected_total_time_seconds": 30,
+      "total_time_seconds": null,
+      "source_url": "https://www.equatorcoffees.com/blogs/guides/espresso",
+      "manual": {
+        "yield_grams": 36,
+        "yield_derived_from_ratio": true,
+        "yield_calculation": "18 g × published 1:2 target = 36 g",
+        "source_ratio_text": "1:2",
+        "time_min_seconds": 25,
+        "time_max_seconds": 30
+      }
+    },
+    {
+      "slug": "flair-58-starter-espresso",
+      "expected_id": "37bc1f6a-d552-4250-ac6c-f4ca2ab3947a",
+      "expected_dose_grams": 18,
+      "expected_water_grams": 40,
+      "expected_total_time_seconds": 30,
+      "total_time_seconds": 30,
+      "source_url": "https://flairespresso.com/blogs/news/dialing-in-flair-58-plus-manual-espresso-maker",
+      "manual": {
+        "yield_grams": 40
+      }
+    }
+  ]
+}

@@ -1,9 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
-import { Image, ImageBackground, Linking, Pressable, RefreshControl, ScrollView, StyleSheet, View, useWindowDimensions, type ImageSourcePropType } from 'react-native';
+import { Image, ImageBackground, Pressable, RefreshControl, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { Language, Txt, Icon, IconButton, Action, colors, styles, type IconName } from './ui';
 import { methods } from './copy';
 import { METHODS, type Method } from './core/engine';
-import type { Bundle, CoffeeItem, RecipeItem } from './data';
+import type { Bundle, CoffeeItem, RecipeItem, CoffeeImageKind } from './data';
+import { CoffeeSensory, FlavorNotes, RoastLevel } from './SensoryProfile';
+import { doseLabel, timeLabel, waterLabel, temperatureLabel } from './manualBrew';
+import { useCoffeeRecipes } from './useCoffeeRecipes';
+import { SourceLink } from './SourceLink';
 
 export const artwork = {
   hero: require('../assets/images/home-banner.jpg'), login: require('../assets/images/login-background.jpg'),
@@ -12,13 +16,14 @@ export const artwork = {
 };
 const flags: Record<string, string> = { Bolivia: '🇧🇴', Ethiopia: '🇪🇹', Colombia: '🇨🇴', Guatemala: '🇬🇹', Brazil: '🇧🇷', Kenya: '🇰🇪', Panama: '🇵🇦', 'Costa Rica': '🇨🇷', 'El Salvador': '🇸🇻', Yemen: '🇾🇪', Rwanda: '🇷🇼', Indonesia: '🇮🇩', Peru: '🇵🇪', Honduras: '🇭🇳', Ecuador: '🇪🇨', India: '🇮🇳', Uganda: '🇺🇬', Mexico: '🇲🇽' };
 export const originLabel = (origin: string) => [flags[origin], origin].filter(Boolean).join(' ');
-export function CoffeePhoto({ uri, seed = '', detail = false }: { uri?: string | null; seed?: string; detail?: boolean }) {
-  const ar = useContext(Language) === 'ar'; const [failed, setFailed] = useState(false);
-  useEffect(() => setFailed(false), [uri]);
-  const illustrative = !uri || failed;
-  const hash = Array.from(seed).reduce((n, c) => n + c.charCodeAt(0), 0);
-  const source: ImageSourcePropType = illustrative ? detail ? artwork.bag : [artwork.cherries, artwork.beans, artwork.bag][hash % 3] : { uri: uri! };
-  return <View style={s.photo}><Image source={source} resizeMode="cover" style={[StyleSheet.absoluteFill,{width:'100%',height:'100%'}]} onError={() => setFailed(true)} />{illustrative ? <View style={s.photoNote}><Txt style={{ fontSize: 9, lineHeight: 14, color: '#FFF' }}>{ar ? 'صورة توضيحية' : 'Illustrative photo'}</Txt></View> : null}</View>;
+export function CoffeePhoto({ uri, uris = [], detail = false, kind = 'unclassified' }: { uri?: string | null; uris?: string[]; seed?: string; detail?: boolean; kind?: CoffeeImageKind }) {
+  const ar = useContext(Language) === 'ar'; const [attempt, setAttempt] = useState(0);
+  const candidates = [...new Set([uri, ...uris].filter((value): value is string => Boolean(value)))];
+  const identity = candidates.join('|');
+  useEffect(() => setAttempt(0), [identity]);
+  const current = candidates[attempt];
+  const label = kind === 'origin_photo' ? ar ? 'صورة منشأ البن' : 'Coffee origin photo' : kind === 'product_artwork' ? ar ? 'صورة المنتج من المحمصة' : 'Roaster product artwork' : ar ? 'صورة عبوة البن' : 'Coffee product photo';
+  return <View style={s.photo}>{current ? <><Image key={current} testID="coffee-product-photo" accessibilityLabel={label} source={{ uri: current }} resizeMode="contain" style={[StyleSheet.absoluteFill,{width:'100%',height:'100%'}]} onError={() => setAttempt(n => n + 1)}/>{kind === 'product_artwork' || kind === 'origin_photo' ? <View style={s.photoNote}><Txt style={{fontSize:9,lineHeight:14,color:'#FFF'}}>{label}</Txt></View> : null}</> : <View testID="coffee-photo-unavailable" style={s.photoPlaceholder}><Icon name="bean" size={detail ? 52 : 32} color={colors.copper}/><Txt style={{ fontSize: detail ? 13 : 10, lineHeight: 18, color: colors.muted, textAlign: 'center' }}>{ar ? 'صورة البن غير متوفرة' : 'Product photo unavailable'}</Txt></View>}</View>;
 }
 export function SectionTitle({ title, onPress, action }: { title: string; onPress?: () => void; action?: string }) {
   const ar = useContext(Language) === 'ar';
@@ -33,7 +38,7 @@ export function MethodPicker({ value, onChange, allowed = METHODS, all = true }:
 }
 export function CoffeeCard({ item, width, saved, open, save }: { item: CoffeeItem; width: number; saved: boolean; open: () => void; save: () => void }) {
   const ar = useContext(Language) === 'ar';
-  return <View style={[s.coffeeCard, { width }]}><Pressable accessibilityRole="button" accessibilityLabel={item.name} onPress={open} style={{ flex: 1 }}><View style={{ height: Math.max(94, Math.min(155, width * 0.57)), overflow: 'hidden', borderRadius: 13 }}><CoffeePhoto uri={item.imageUrl} seed={item.id}/></View><View style={s.coffeeCopy}><Txt numberOfLines={2} style={s.coffeeName}>{item.name}</Txt><Txt numberOfLines={1} style={s.coffeeFlavors}>{item.flavors.length ? item.flavors.slice(0, 3).join(' · ') : item.roaster}</Txt></View></Pressable><View style={s.coffeeFooter}><Txt numberOfLines={1} style={{ fontSize: 11, lineHeight: 18, flex: 1, fontFamily: undefined, writingDirection: 'ltr', textAlign: 'left' }}>{originLabel(item.origin) || item.roaster}</Txt><IconButton name="heart" label={(saved ? ar ? 'إزالة من المفضلة: ' : 'Unsave: ' : ar ? 'حفظ في المفضلة: ' : 'Save: ') + item.name} onPress={save} selected={saved} size={20}/></View></View>;
+  return <View style={[s.coffeeCard, { width }]}><Pressable accessibilityRole="button" accessibilityLabel={item.name} onPress={open} style={{ flex: 1 }}><View style={{ height: Math.max(120, Math.min(185, width * 0.8)), overflow: 'hidden', borderRadius: 13 }}><CoffeePhoto uri={item.imageUrl} uris={item.images} kind={item.imageKind}/></View><View style={s.coffeeCopy}><Txt numberOfLines={1} style={s.coffeeFlavors}>{item.roaster}</Txt><Txt numberOfLines={2} style={s.coffeeName}>{item.name}</Txt><FlavorNotes notes={item.flavors} compact max={2}/></View></Pressable><View style={s.coffeeFooter}><Txt numberOfLines={1} style={{ fontSize: 11, lineHeight: 18, flex: 1, fontFamily: undefined, writingDirection: 'ltr', textAlign: 'left' }}>{originLabel(item.origin) || item.roaster}</Txt><IconButton name="heart" label={(saved ? ar ? 'إزالة من المفضلة: ' : 'Unsave: ' : ar ? 'حفظ في المفضلة: ' : 'Save: ') + item.name} onPress={save} selected={saved} size={20}/></View></View>;
 }
 export function Home({ data, coffees, method, setMethod, openCoffee, browse, brew, tools, saved, save, refresh, refreshing }: {
   data: Bundle | null; coffees: CoffeeItem[]; method?: Method; setMethod: (method?: Method) => void; openCoffee: (item: CoffeeItem) => void; browse: () => void; brew: () => void; tools: (category:'all'|'xbloom'|'grinder'|'scale') => void; saved: string[]; save: (item: CoffeeItem) => void; refresh: () => void; refreshing: boolean;
@@ -47,8 +52,8 @@ export function Home({ data, coffees, method, setMethod, openCoffee, browse, bre
     { icon: 'globe', value: data ? new Set(data.coffees.map(c=>c.origin).filter(Boolean)).size : '—', title: ar ? 'دولة' : 'Origins', note: ar ? 'حبوب من مختلف المزارع' : 'Discover coffee origins' },
   ];
   return <ScrollView testID="home-scroll" showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={colors.brown}/>} contentContainerStyle={s.page}>
-    <ImageBackground source={artwork.hero} style={[s.hero, { height: Math.max(180, Math.min(280, available / 3.1)) }]} imageStyle={{ borderRadius: 18, width:'100%',height:'100%' }}>
-      <View style={s.heroShade}/><View style={[s.heroCopy, { width: width < 500 ? '66%' : '55%' }]}><Txt heading style={[s.heroTitle, { fontSize: width < 500 ? 24 : 34, lineHeight: width < 500 ? 34 : 45 }]}>{ar ? 'اكتشف عالم القهوة.' : 'Discover the world of coffee.'}</Txt><Txt style={s.heroDescription}>{ar ? 'من الحبوب إلى الكوب، تجربة أفضل كل يوم.' : 'From bean to cup, a better experience every day.'}</Txt><Pressable accessibilityRole="button" accessibilityLabel={ar ? 'استكشف الآن' : 'Explore now'} onPress={browse} style={s.heroButton}><Txt style={{ color: '#FFF', fontSize: 14, fontWeight: '700' }}>{ar ? 'استكشف الآن' : 'Explore now'}</Txt><Icon name="arrow" color="#FFF" size={17}/></Pressable></View>{width >= 650 ? <Txt style={s.heroSignature}>More{'\n'}Than{'\n'}Coffee</Txt> : null}
+    <ImageBackground testID="home-hero" source={artwork.hero} style={[s.hero, { minHeight: Math.max(180, Math.min(280, available / 3.1)), paddingVertical: width < 500 ? 22 : 18 }]} imageStyle={{ borderRadius: 18, width:'100%',height:'100%' }}>
+      <View style={s.heroShade}/><View style={[s.heroCopy, { width: width < 500 ? '72%' : '55%', paddingHorizontal: width < 500 ? 16 : 25 }]}><Txt heading style={[s.heroTitle, { fontSize: width < 500 ? 24 : 34, lineHeight: width < 500 ? 34 : 45 }]}>{ar ? 'اكتشف عالم القهوة.' : 'Discover the world of coffee.'}</Txt><Txt style={s.heroDescription}>{ar ? 'من الحبوب إلى الكوب، تجربة أفضل كل يوم.' : 'From bean to cup, a better experience every day.'}</Txt><Pressable accessibilityRole="button" accessibilityLabel={ar ? 'استكشف الآن' : 'Explore now'} onPress={browse} style={s.heroButton}><Txt style={{ color: '#FFF', fontSize: 14, fontWeight: '700', flexShrink: 1, textAlign: 'center' }}>{ar ? 'استكشف الآن' : 'Explore now'}</Txt><Icon name="arrow" color="#FFF" size={17}/></Pressable></View>{width >= 650 ? <Txt style={s.heroSignature}>More{'\n'}Than{'\n'}Coffee</Txt> : null}
     </ImageBackground>
     <View style={s.stats}>{stats.map(stat=><View key={stat.icon} style={[s.stat, width < 500 && { paddingHorizontal: 6 }]}>{width >= 600 ? <View style={s.statIcon}><Icon name={stat.icon} size={23}/></View> : null}<View style={{ flex: 1 }}><Txt style={s.statNumber}>{stat.value}</Txt><Txt numberOfLines={1} style={s.statTitle}>{stat.title}</Txt>{width >= 600 ? <Txt numberOfLines={1} style={s.statNote}>{stat.note}</Txt> : null}</View></View>)}</View>
     <View style={s.section}><SectionTitle title={ar ? 'اختر طريقة التحضير' : 'Choose your brew method'} onPress={brew}/><MethodPicker value={method} onChange={setMethod}/></View>
@@ -63,28 +68,39 @@ export function Home({ data, coffees, method, setMethod, openCoffee, browse, bre
 }
 export function CoffeeDetail({ item, recipes, openRecipe }: { item: CoffeeItem; recipes: RecipeItem[]; openRecipe: (r: RecipeItem) => void }) {
   const locale = useContext(Language); const ar = locale === 'ar'; const { width } = useWindowDimensions();
-  const related = recipes.filter(r=>item.kind === 'product' ? r.productId === item.id || !!item.beanId && r.beanId === item.beanId : r.beanId === item.id);
+  const linked = useCoffeeRecipes(item, recipes, locale);
+  const related = linked.recipes;
   const allowed = METHODS.filter(m=>item.methods.includes(m) || related.some(r=>r.method===m));
   const [method,setMethod]=useState<Method>(allowed.includes('xbloom') ? 'xbloom' : allowed[0] ?? 'v60');
   const [photo,setPhoto]=useState(0); const recipe=related.find(r=>r.method===method);
+  const methodKey = allowed.join('|');
+  useEffect(() => setPhoto(0), [item.kind, item.id]);
+  useEffect(() => {
+    const available = methodKey.split('|').filter(Boolean) as Method[];
+    if (available.length && !available.includes(method)) setMethod(available.includes('xbloom') ? 'xbloom' : available[0]);
+  }, [methodKey, method]);
   const process: Record<string,string> = { natural: ar ? 'معالجة طبيعية' : 'Natural', washed: ar ? 'مغسول' : 'Washed', honey: ar ? 'عسلي' : 'Honey', anaerobic: ar ? 'لاهوائي' : 'Anaerobic' };
-  const temperature=recipe?.temperature ?? recipe?.xBloom?.temp;
   const numbers = [
-    { icon:'bean' as const,value:recipe?.dose ? recipe.dose+' g' : '—',label:ar ? 'كمية البن' : 'Coffee' },
-    { icon:'drop' as const,value:recipe?.water ? recipe.water+' '+recipe.waterUnit : '—',label:ar ? 'كمية الماء' : 'Water' },
-    { icon:'temp' as const,value:temperature ? temperature+'°C' : '—',label:ar ? 'درجة الحرارة' : 'Temperature' },
-    { icon:'clock' as const,value:recipe?.seconds ? Math.floor(recipe.seconds/60)+':'+String(recipe.seconds%60).padStart(2,'0') : '—',label:ar ? 'الوقت' : 'Time' },
+    { icon:'bean' as const,value:recipe ? doseLabel(recipe) : '—',label:ar ? 'كمية البن' : 'Coffee' },
+    { icon:'drop' as const,value:recipe ? waterLabel(recipe, ar) : '—',label:recipe?.method === 'espresso' ? ar ? 'الناتج' : 'Yield' : ar ? 'ماء التحضير' : 'Brew water' },
+    { icon:'temp' as const,value:recipe ? temperatureLabel(recipe,ar) : '—',label:ar ? 'درجة الحرارة' : 'Temperature' },
+    { icon:'clock' as const,value:recipe ? timeLabel(recipe, ar) : '—',label:ar ? 'الوقت' : 'Time' },
   ];
   return <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[s.page, { maxWidth: 780, gap: 18 }]}>
-    <View style={[s.detailPhoto,{ height: Math.min(360, (Math.min(width,780)-36)*0.59) }]}><CoffeePhoto uri={item.images[photo]} seed={item.id} detail/>{item.images.length>1 ? <View style={s.galleryDots}>{item.images.map((_,i)=><Pressable key={i} accessibilityRole="button" accessibilityLabel={(ar?'صورة ':'Photo ')+(i+1)} onPress={()=>setPhoto(i)} style={[s.dot,{backgroundColor:i===photo?'#FFF':'#FFFFFF66'}]}/>)}</View> : null}{item.images.length ? <Txt style={s.photoCount}>{photo+1}/{item.images.length}</Txt> : null}</View>
+    <View style={[s.detailPhoto,{ height: Math.min(360, (Math.min(width,780)-36)*0.83) }]}><CoffeePhoto uri={item.images[photo]} uris={item.images} kind={item.imageKind} detail/>{item.images.length>1 ? <View style={s.galleryDots}>{item.images.map((_,i)=><Pressable key={i} accessibilityRole="button" accessibilityLabel={(ar?'صورة ':'Photo ')+(i+1)} onPress={()=>setPhoto(i)} style={[s.dot,{backgroundColor:i===photo?colors.teal:'#C8BBB0'}]}/>)}</View> : null}{item.images.length ? <Txt style={s.photoCount}>{photo+1}/{item.images.length}</Txt> : null}</View>
     <View style={s.detailTitleRow}><View style={{flex:1}}><Txt heading style={styles.title}>{item.name}</Txt><Txt style={styles.muted}>{[item.roaster,process[item.process]??item.process].filter(Boolean).join(' – ')}</Txt></View>{item.origin ? <Txt style={[styles.muted,{fontFamily:undefined,writingDirection:'ltr'}]}>{originLabel(item.origin)}</Txt> : null}</View>
-    <View style={styles.detailMetaRow}>{item.flavors.map(f=><View key={f} style={styles.metaPill}><Txt style={styles.metaText}>{f}</Txt></View>)}</View>
+    <RoastLevel roast={item.roast} score={item.sensory?.roast}/>
     {item.description ? <Txt style={{ fontSize: 14, lineHeight: 27 }}>{item.description}</Txt> : null}
-    <View style={s.infoSection}><Txt heading style={s.infoHeading}>{ar?'معلومات البن':'Coffee information'}</Txt><View style={s.brewStats}>{numbers.map(n=><View key={n.icon} style={s.brewStat}><View style={{flexDirection:'row',gap:7,alignItems:'center'}}><Icon name={n.icon} size={21}/><Txt style={{fontFamily:undefined,fontWeight:'700',fontSize:14}}>{n.value}</Txt></View><Txt numberOfLines={1} style={{fontSize:11,color:colors.muted}}>{n.label}</Txt></View>)}</View>{!recipe ? <Txt style={[styles.muted,{fontSize:11,paddingHorizontal:12,paddingBottom:8}]}>{ar?'تظهر مقادير التحضير عند اختيار وصفة مرتبطة بهذا البن.':'Brew measurements appear when a linked recipe is available.'}</Txt> : null}</View>
-    <View style={s.section}><SectionTitle title={ar?'اختر طريقة التحضير':'Choose your brew method'}/><MethodPicker value={method} onChange={m=>m&&setMethod(m)} allowed={allowed} all={false}/></View>
+    {item.variety ? <View style={styles.metaPill}><Txt style={styles.metaText}>{ar ? 'السلالة: ' : 'Variety: '}{item.variety}</Txt></View> : null}
+    <CoffeeSensory notes={item.flavors} sensory={item.sensory}/>
+    <View style={s.infoSection}><Txt heading style={s.infoHeading}>{ar?'مقادير الوصفة المختارة':'Selected recipe'}</Txt><View style={s.brewStats}>{numbers.map(n=><View key={n.icon} style={s.brewStat}><View style={{flexDirection:'row',gap:7,alignItems:'flex-start',width:'100%'}}><Icon name={n.icon} size={21}/><Txt style={{fontFamily:undefined,fontWeight:'700',fontSize:14,lineHeight:21,flex:1}}>{n.value}</Txt></View><Txt style={{fontSize:11,color:colors.muted}}>{n.label}</Txt></View>)}</View>{!recipe ? <Txt style={[styles.muted,{fontSize:11,paddingHorizontal:12,paddingBottom:8}]}>{ar?'تظهر مقادير التحضير عند اختيار وصفة مرتبطة بهذا البن.':'Brew measurements appear when a linked recipe is available.'}</Txt> : null}</View>
+    <View style={s.section}><SectionTitle title={ar?'اختر طريقة التحضير':'Choose your brew method'}/><MethodPicker value={method} onChange={m=>m&&setMethod(m)} allowed={allowed} all={false}/>{linked.busy ? <View accessibilityLiveRegion="polite"><Txt style={styles.muted}>{ar ? 'جاري تحميل وصفات هذا البن…' : 'Loading recipes for this coffee…'}</Txt></View> : null}</View>
     <Pressable accessibilityRole="button" accessibilityState={{disabled:!recipe}} disabled={!recipe} onPress={()=>recipe&&openRecipe(recipe)} style={[s.brewButton,!recipe&&{opacity:0.55}]}><Icon name="play" color="#FFF" size={18}/><Txt style={{color:'#FFF',fontWeight:'700',fontSize:16}}>{recipe?(ar?'ابدأ التحضير مع ':'Start brewing with ')+methods[locale][method]:ar?'لا توجد وصفة مرتبطة بهذه الطريقة':'No linked recipe for this method'}</Txt></Pressable>
     {recipe ? <Pressable accessibilityRole="button" accessibilityLabel={recipe.title} onPress={()=>openRecipe(recipe)} style={s.recommended}><View style={s.statIcon}><Icon name={method}/></View><View style={{flex:1}}><Txt style={{fontWeight:'700'}}>{ar?'وصفة '+methods[locale][method]+' الموصى بها':methods[locale][method]+' recipe'}</Txt><Txt numberOfLines={2} style={styles.muted}>{recipe.title}</Txt></View><Icon name="arrow" size={20}/></Pressable> : null}
-    {item.sourceUrl ? <Action title={ar?'فتح مصدر البيانات':'Open data source'} onPress={()=>void Linking.openURL(item.sourceUrl!)}/> : null}
+    {related.filter(r=>r.method===method && r.id!==recipe?.id).map(r=><Pressable key={r.id} accessibilityRole="button" accessibilityLabel={r.title} onPress={()=>openRecipe(r)} style={s.recommended}><Icon name={r.method} color={colors.teal}/><View style={{flex:1}}><Txt style={{fontWeight:'700'}}>{r.title}</Txt><Txt style={styles.muted}>{r.author ?? item.roaster}</Txt></View><Icon name="arrow" size={18}/></Pressable>)}
+    {linked.error ? <View testID="coffee-recipes-error" style={styles.card}><Txt style={styles.warning}>{ar ? 'تعذّر تحميل بقية وصفات هذا البن.' : 'Could not load the remaining recipes for this coffee.'}</Txt><Action title={ar ? 'إعادة المحاولة' : 'Try again'} onPress={linked.retry} disabled={linked.busy}/></View> : linked.more ? <Action title={ar ? 'عرض المزيد من وصفات هذا البن' : 'More recipes for this coffee'} onPress={linked.loadMore} disabled={linked.busy}/> : null}
+    {item.sourceUrl ? <SourceLink title={ar?'فتح مصدر البيانات':'Open data source'} url={item.sourceUrl}/> : null}
+    {item.imageSourceUrl && item.imageSourceUrl !== item.sourceUrl ? <SourceLink title={ar ? 'مصدر صورة البن' : 'Coffee photo source'} url={item.imageSourceUrl}/> : null}
   </ScrollView>;
 }
 const s=StyleSheet.create({
@@ -94,7 +110,7 @@ const s=StyleSheet.create({
   heroCopy:{paddingHorizontal:25,gap:7,alignItems:'center',zIndex:1},
   heroTitle:{color:'#FFF',fontWeight:'700',textAlign:'center'},
   heroDescription:{color:'#FFFDF7',fontSize:13,lineHeight:21,textAlign:'center'},
-  heroButton:{flexDirection:'row',gap:10,borderWidth:1,borderColor:'#FFF6E8',borderRadius:999,paddingHorizontal:22,minHeight:43,alignItems:'center',justifyContent:'center',marginTop:5,backgroundColor:'#48301F88'},
+  heroButton:{flexDirection:'row',gap:10,borderWidth:1,borderColor:'#FFF6E8',borderRadius:999,paddingHorizontal:14,maxWidth:'100%',minHeight:43,alignItems:'center',justifyContent:'center',marginTop:5,backgroundColor:'#48301F88'},
   heroSignature:{position:'absolute',right:24,bottom:25,color:'#FFF',fontSize:22,lineHeight:30,fontStyle:'italic',fontFamily:'cursive',textAlign:'center',writingDirection:'ltr'},
   stats:{flexDirection:'row',gap:10},
   stat:{flex:1,minWidth:0,backgroundColor:colors.paper,borderWidth:1,borderColor:colors.line,borderRadius:16,minHeight:84,padding:12,flexDirection:'row',gap:12,alignItems:'center'},
@@ -110,7 +126,8 @@ const s=StyleSheet.create({
   methodActive:{backgroundColor:colors.brown,borderColor:colors.brown},
   grid:{flexDirection:'row',flexWrap:'wrap',gap:12,alignItems:'stretch'},
   coffeeCard:{borderRadius:15,backgroundColor:colors.paper,borderWidth:1,borderColor:colors.line,overflow:'hidden',minWidth:0},
-  photo:{flex:1,width:'100%',height:'100%',backgroundColor:'#E5D8C6'},
+  photo:{flex:1,width:'100%',height:'100%',backgroundColor:'#F9F5EC'},
+  photoPlaceholder:{flex:1,alignItems:'center',justifyContent:'center',gap:10,padding:12},
   photoNote:{position:'absolute',top:6,left:7,borderRadius:10,backgroundColor:'#21170D99',paddingHorizontal:6,paddingVertical:2},
   coffeeCopy:{paddingHorizontal:9,paddingTop:8,gap:4},
   coffeeName:{fontSize:14,lineHeight:20,fontWeight:'700',textAlign:'left',writingDirection:'auto',minHeight:40},
@@ -130,9 +147,9 @@ const s=StyleSheet.create({
   detailTitleRow:{flexDirection:'row',alignItems:'center',gap:12},
   infoSection:{gap:0},
   infoHeading:{alignSelf:'flex-start',fontSize:20,fontWeight:'700',backgroundColor:colors.paper,paddingHorizontal:15,paddingTop:10,borderTopLeftRadius:18,borderTopRightRadius:18},
-  brewStats:{flexDirection:'row',borderWidth:1,borderColor:colors.line,borderRadius:18,paddingVertical:16,backgroundColor:colors.paper},
-  brewStat:{flex:1,minWidth:0,alignItems:'center',gap:4,borderRightWidth:1,borderColor:colors.line},
-  brewButton:{backgroundColor:colors.brown,borderRadius:15,minHeight:52,flexDirection:'row',alignItems:'center',justifyContent:'center',gap:10,padding:12},
+  brewStats:{flexDirection:'row',flexWrap:'wrap',borderWidth:1,borderColor:colors.line,borderRadius:18,paddingVertical:4,backgroundColor:colors.paper},
+  brewStat:{width:'50%',minWidth:0,padding:12,alignItems:'flex-start',gap:5},
+  brewButton:{backgroundColor:colors.teal,borderRadius:15,minHeight:52,flexDirection:'row',alignItems:'center',justifyContent:'center',gap:10,padding:12},
   recommended:{backgroundColor:colors.paper,borderRadius:16,padding:14,flexDirection:'row',gap:14,alignItems:'center',borderWidth:1,borderColor:colors.line},
 });
 export const coffeeStyles=s;

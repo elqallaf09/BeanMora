@@ -1,0 +1,859 @@
+{
+  "verified_at": "2026-10-04",
+  "source_method": "Public official product pages and roaster-owned guides. No third-party or generated recipes imported.",
+  "creator_country_note": "Organization operating/base country, not nationality. Recipe country remains null without explicit provenance.",
+  "flavor_note_note": "Published tasting descriptors translated for search; flavor families are editorial classification, not sensory measurements.",
+  "recipes": [
+    {
+      "slug": "onyx-monarch-kalita-wave",
+      "source_url": "https://onyxcoffeelab.com/products/monarch",
+      "source_file": "americas/onyx-monarch.html",
+      "verified_at": "2026-10-04",
+      "facts": {
+        "equipment": "Kalita Wave & 185",
+        "dose_g": 25.0,
+        "water_g": 400.0,
+        "temperature_F": 200.0,
+        "grind_um": 600.0,
+        "drain_time": "3:30",
+        "schedule_cumulative": [
+          [
+            "0:00",
+            "Bloom",
+            "50"
+          ],
+          [
+            "0:30",
+            "Heavy Spiral Pour",
+            "160"
+          ],
+          [
+            "0:45",
+            "Spiral Pour",
+            "220"
+          ],
+          [
+            "1:05",
+            "Spiral Pour",
+            "280"
+          ],
+          [
+            "1:30",
+            "Spiral Pour",
+            "340"
+          ],
+          [
+            "2:00",
+            "Spiral Pour",
+            "400"
+          ]
+        ]
+      }
+    },
+    {
+      "slug": "onyx-southern-weather-kalita-wave",
+      "source_url": "https://onyxcoffeelab.com/products/southern-weather",
+      "source_file": "americas/onyx-southern-weather.html",
+      "verified_at": "2026-10-04",
+      "facts": {
+        "equipment": "Kalita Wave & 185",
+        "dose_g": 25.0,
+        "water_g": 300.0,
+        "temperature_F": 200.0,
+        "grind_um": 650.0,
+        "drain_time": "2:30",
+        "schedule_cumulative": [
+          [
+            "0:00",
+            "Bloom",
+            "40"
+          ],
+          [
+            "0:30",
+            "Center Pour",
+            "120"
+          ],
+          [
+            "0:50",
+            "Spiral pour",
+            "180"
+          ],
+          [
+            "1:10",
+            "Spiral pour",
+            "240"
+          ],
+          [
+            "1:30",
+            "Spiral pour",
+            "300"
+          ]
+        ]
+      }
+    },
+    {
+      "slug": "onyx-tropical-weather-origami",
+      "source_url": "https://onyxcoffeelab.com/products/tropical-weather",
+      "source_file": "americas/onyx-tropical-weather.html",
+      "verified_at": "2026-10-04",
+      "facts": {
+        "equipment": "Origami & Cone",
+        "dose_g": 15.0,
+        "water_g": 250.0,
+        "temperature_F": 200.0,
+        "grind_um": 530.0,
+        "drain_time": "3:00",
+        "schedule_cumulative": [
+          [
+            "0:00",
+            "Bloom",
+            "50"
+          ],
+          [
+            "0:30",
+            "Center Pour",
+            "150"
+          ],
+          [
+            "1:30",
+            "Spiral pour",
+            "250"
+          ]
+        ]
+      }
+    },
+    {
+      "slug": "onyx-geometry-origami",
+      "source_url": "https://onyxcoffeelab.com/products/geometry",
+      "source_file": "americas/onyx-geometry.html",
+      "verified_at": "2026-10-04",
+      "facts": {
+        "equipment": "Origami & Hario Cone",
+        "dose_g": 25.0,
+        "water_g": 400.0,
+        "temperature_F": 205.0,
+        "grind_um": 725.0,
+        "drain_time": "3:35",
+        "schedule_cumulative": [
+          [
+            "0:00",
+            "Bloom",
+            "50"
+          ],
+          [
+            "0:30",
+            "Spiral Pour",
+            "160"
+          ],
+          [
+            "0:45",
+            "Spiral Pour",
+            "220"
+          ],
+          [
+            "1:05",
+            "Spiral Pour",
+            "280"
+          ],
+          [
+            "1:30",
+            "Spiral Pour",
+            "340"
+          ],
+          [
+            "2:00",
+            "Spiral Pour",
+            "400"
+          ]
+        ]
+      }
+    },
+    {
+      "slug": "onyx-power-nap-kalita-wave",
+      "source_url": "https://onyxcoffeelab.com/products/power-nap",
+      "source_file": "americas/onyx-power-nap.html",
+      "verified_at": "2026-10-04",
+      "facts": {
+        "equipment": "Kalita Wave & Kalita Wave 185",
+        "dose_g": 25.0,
+        "water_g": 400.0,
+        "temperature_F": 205.0,
+        "grind_um": 750.0,
+        "drain_time": "4:30",
+        "schedule_cumulative": [
+          [
+            "0:00",
+            "Bloom",
+            "50"
+          ],
+          [
+            "0:30",
+            "Heavy Spiral Pour",
+            "160"
+          ],
+          [
+            "0:45",
+            "Spiral Pour",
+            "220"
+          ],
+          [
+            "1:20",
+            "Spiral Pour",
+            "280"
+          ],
+          [
+            "1:47",
+            "Spiral Pour",
+            "340"
+          ],
+          [
+            "2:20",
+            "Spiral Pour",
+            "400"
+          ]
+        ]
+      }
+    },
+    {
+      "slug": "onyx-kenya-kamunyaka-aa-origami",
+      "source_url": "https://onyxcoffeelab.com/products/kenya-kamunyaka-aa",
+      "source_file": "americas/onyx-kenya-kamunyaka-aa.html",
+      "verified_at": "2026-10-04",
+      "facts": {
+        "equipment": "Origami & Hario Cone",
+        "dose_g": 20.0,
+        "water_g": 320.0,
+        "temperature_F": 190.0,
+        "grind_um": 654.0,
+        "drain_time": "3:40",
+        "schedule_cumulative": [
+          [
+            "0:00",
+            "Bloom",
+            "40"
+          ],
+          [
+            "0:30",
+            "Heavy Spiral Pour",
+            "140"
+          ],
+          [
+            "0:50",
+            "Spiral Pour",
+            "200"
+          ],
+          [
+            "1:20",
+            "Spiral Pour",
+            "260"
+          ],
+          [
+            "1:40",
+            "Spiral Pour",
+            "320"
+          ]
+        ]
+      }
+    },
+    {
+      "slug": "onyx-honduras-fredy-perez-origami",
+      "source_url": "https://onyxcoffeelab.com/products/honduras-fredy-perez",
+      "source_file": "americas/onyx-honduras-fredy-perez.html",
+      "verified_at": "2026-10-04",
+      "facts": {
+        "equipment": "Origami & Origami Cone",
+        "dose_g": 18.0,
+        "water_g": 270.0,
+        "temperature_F": 205.0,
+        "grind_um": 672.0,
+        "drain_time": "3:35",
+        "schedule_cumulative": [
+          [
+            "0:00",
+            "Bloom",
+            "36"
+          ],
+          [
+            "0:30",
+            "Heavy Spiral Pour",
+            "120"
+          ],
+          [
+            "0:50",
+            "Spiral Pour",
+            "180"
+          ],
+          [
+            "1:20",
+            "Spiral Pour",
+            "220"
+          ],
+          [
+            "1:45",
+            "Spiral Pour",
+            "270"
+          ]
+        ]
+      }
+    },
+    {
+      "slug": "onyx-ethiopia-agaro-yukro-g1-origami",
+      "source_url": "https://onyxcoffeelab.com/products/ethiopia-agaro-yukro-g1",
+      "source_file": "americas/onyx-ethiopia-agaro-yukro-g1.html",
+      "verified_at": "2026-10-04",
+      "facts": {
+        "equipment": "Origami & Origami Cone",
+        "dose_g": 18.0,
+        "water_g": 280.0,
+        "temperature_F": 205.0,
+        "grind_um": 648.0,
+        "drain_time": "3:25",
+        "schedule_cumulative": [
+          [
+            "0:00",
+            "Bloom",
+            "40"
+          ],
+          [
+            "0:45",
+            "Heavy Spiral Pour",
+            "140"
+          ],
+          [
+            "1:05",
+            "Spiral to Center",
+            "220"
+          ],
+          [
+            "1:20",
+            "Spiral Pour",
+            "280"
+          ]
+        ]
+      }
+    },
+    {
+      "slug": "onyx-costa-rica-las-lajas-natural-26-origami",
+      "source_url": "https://onyxcoffeelab.com/products/costa-rica-las-lajas-natural-26",
+      "source_file": "americas/onyx-costa-rica-las-lajas-natural-26.html",
+      "verified_at": "2026-10-04",
+      "facts": {
+        "equipment": "Origami & Kalita Wave 185",
+        "dose_g": 25.0,
+        "water_g": 400.0,
+        "temperature_F": 200.0,
+        "grind_um": 560.0,
+        "drain_time": "3:45",
+        "schedule_cumulative": [
+          [
+            "0:00",
+            "Bloom",
+            "50"
+          ],
+          [
+            "0:30",
+            "Heavy Spiral Pour",
+            "150"
+          ],
+          [
+            "1:00",
+            "Spiral Pour",
+            "300"
+          ],
+          [
+            "1:45",
+            "Spiral Pour",
+            "400"
+          ]
+        ]
+      }
+    },
+    {
+      "slug": "onyx-mexico-oaxaca-yogondoy-gesha-origami",
+      "source_url": "https://onyxcoffeelab.com/products/mexico-oaxaca-yogondoy-gesha",
+      "source_file": "americas/onyx-mexico-oaxaca-yogondoy-gesha.html",
+      "verified_at": "2026-10-04",
+      "facts": {
+        "equipment": "Origami & Cafec Cone",
+        "dose_g": 18.0,
+        "water_g": 275.0,
+        "temperature_F": 203.0,
+        "grind_um": 710.0,
+        "drain_time": "2:45",
+        "schedule_cumulative": [
+          [
+            "0:00",
+            "Bloom",
+            "50"
+          ],
+          [
+            "0:30",
+            "Spiral Pour",
+            "125"
+          ],
+          [
+            "0:50",
+            "Spiral Pour",
+            "200"
+          ],
+          [
+            "1:20",
+            "Spiral Pour",
+            "275"
+          ]
+        ]
+      }
+    },
+    {
+      "slug": "onyx-peru-la-margarita-gesha-26-origami",
+      "source_url": "https://onyxcoffeelab.com/products/peru-la-margarita-gesha-26",
+      "source_file": "americas/onyx-peru-la-margarita-gesha-26.html",
+      "verified_at": "2026-10-04",
+      "facts": {
+        "equipment": "Origami & Kalita Wave 185",
+        "dose_g": 15.0,
+        "water_g": 240.0,
+        "temperature_F": 205.0,
+        "grind_um": 590.0,
+        "drain_time": "3:30",
+        "schedule_cumulative": [
+          [
+            "0:00",
+            "Bloom",
+            "30"
+          ],
+          [
+            "0:30",
+            "Heavy Spiral Pour",
+            "100"
+          ],
+          [
+            "0:50",
+            "Spiral Pour",
+            "170"
+          ],
+          [
+            "1:15",
+            "Spiral Pour",
+            "240"
+          ]
+        ]
+      }
+    },
+    {
+      "slug": "onyx-monarch-espresso",
+      "source_url": "https://onyxcoffeelab.com/products/monarch",
+      "supporting_url": "https://onyxcoffeelab.com/pages/discovery-box-guide",
+      "source_file": "americas/onyx-monarch.html",
+      "facts": {
+        "dose_g": 19,
+        "beverage_yield_g": 47,
+        "discovery_time_s": 23,
+        "product_pressure_bar": 9,
+        "line_pressure_phase": "0–3.5 s; bar value intentionally not imported"
+      }
+    },
+    {
+      "slug": "onyx-southern-weather-espresso",
+      "source_url": "https://onyxcoffeelab.com/products/southern-weather",
+      "supporting_url": "https://onyxcoffeelab.com/pages/discovery-box-guide",
+      "source_file": "americas/onyx-southern-weather.html",
+      "facts": {
+        "dose_g": 20,
+        "beverage_yield_g": 45,
+        "discovery_time_s": 25,
+        "product_pressure_bar": 9,
+        "line_pressure_phase": "0–3.5 s; bar value intentionally not imported"
+      }
+    },
+    {
+      "slug": "onyx-tropical-weather-espresso",
+      "source_url": "https://onyxcoffeelab.com/products/tropical-weather",
+      "supporting_url": "https://onyxcoffeelab.com/pages/discovery-box-guide",
+      "source_file": "americas/onyx-tropical-weather.html",
+      "facts": {
+        "dose_g": 19,
+        "beverage_yield_g": 45,
+        "discovery_time_s": 25,
+        "product_pressure_bar": 9,
+        "line_pressure_phase": "0–3.5 s; bar value intentionally not imported"
+      }
+    },
+    {
+      "slug": "onyx-geometry-espresso",
+      "source_url": "https://onyxcoffeelab.com/products/geometry",
+      "supporting_url": "https://onyxcoffeelab.com/pages/discovery-box-guide",
+      "source_file": "americas/onyx-geometry.html",
+      "facts": {
+        "dose_g": 20,
+        "beverage_yield_g": 47,
+        "discovery_time_s": 26,
+        "product_pressure_bar": 9,
+        "line_pressure_phase": "0–3.5 s; bar value intentionally not imported"
+      }
+    },
+    {
+      "slug": "onyx-power-nap-espresso",
+      "source_url": "https://onyxcoffeelab.com/products/power-nap",
+      "supporting_url": "https://onyxcoffeelab.com/pages/discovery-box-guide",
+      "source_file": "americas/onyx-power-nap.html",
+      "facts": {
+        "dose_g": 19,
+        "beverage_yield_g": 45,
+        "discovery_time_s": 25,
+        "product_pressure_bar": 9,
+        "line_pressure_phase": "0–3.5 s; bar value intentionally not imported"
+      }
+    },
+    {
+      "slug": "verve-buena-espresso",
+      "source_url": "https://www.vervecoffee.com/products/buena-vista-dark-roast",
+      "source_file": "americas/verve-buena.html",
+      "facts": {
+        "section": "Brewing Suggestions / Espresso",
+        "dose_range_g": [
+          18.7,
+          19
+        ],
+        "yield_range_g": [
+          33,
+          36
+        ],
+        "time_range_s": [
+          23,
+          27
+        ],
+        "grind": "Fine"
+      }
+    },
+    {
+      "slug": "verve-sermon-espresso",
+      "source_url": "https://www.vervecoffee.com/products/sermon",
+      "source_file": "americas/verve-sermon.html",
+      "facts": {
+        "section": "Brewing Suggestions / Espresso",
+        "dose_range_g": [
+          19.7,
+          20
+        ],
+        "yield_range_g": [
+          28,
+          32
+        ],
+        "time_range_s": [
+          23,
+          26
+        ],
+        "grind": "Fine"
+      }
+    },
+    {
+      "slug": "verve-streetlevel-espresso",
+      "source_url": "https://www.vervecoffee.com/products/streetlevel",
+      "source_file": "americas/verve-streetlevel.html",
+      "facts": {
+        "section": "Brewing Suggestions / Espresso",
+        "dose_range_g": [
+          19.5,
+          20.1
+        ],
+        "yield_range_g": [
+          27,
+          32
+        ],
+        "time_range_s": [
+          23,
+          26
+        ],
+        "grind": "Fine"
+      }
+    },
+    {
+      "slug": "verve-buena-french-press",
+      "source_url": "https://www.vervecoffee.com/products/buena-vista-dark-roast",
+      "source_file": "americas/verve-buena.html",
+      "facts": {
+        "section": "Brewing Suggestions / French Press",
+        "dose_g": 35,
+        "water_g": 525,
+        "time_s": 270,
+        "grind": "Medium",
+        "temperature": null,
+        "intermediate_steps": null
+      }
+    },
+    {
+      "slug": "verve-sermon-french-press",
+      "source_url": "https://www.vervecoffee.com/products/sermon",
+      "source_file": "americas/verve-sermon.html",
+      "facts": {
+        "section": "Brewing Suggestions / French Press",
+        "dose_g": 35,
+        "water_g": 500,
+        "time_s": 300,
+        "grind": "Coarse",
+        "temperature": null,
+        "intermediate_steps": null
+      }
+    },
+    {
+      "slug": "verve-streetlevel-french-press",
+      "source_url": "https://www.vervecoffee.com/products/streetlevel",
+      "source_file": "americas/verve-streetlevel.html",
+      "facts": {
+        "section": "Brewing Suggestions / French Press",
+        "dose_g": 35,
+        "water_g": 500,
+        "time_s": 300,
+        "grind": "Medium",
+        "temperature": null,
+        "intermediate_steps": null
+      }
+    },
+    {
+      "slug": "verve-seabright-aeropress",
+      "source_url": "https://www.vervecoffee.com/products/seabright-house-blend",
+      "source_file": "americas/verve-seabright-house-blend.html",
+      "facts": {
+        "section": "Brewing Suggestions / Aeropress",
+        "dose_g": 17,
+        "water_g": 255,
+        "time_s": 134,
+        "grind": "Med/Fine"
+      }
+    },
+    {
+      "slug": "49th-parallel-epic-espresso",
+      "source_url": "https://49thcoffee.com/products/epic-espresso",
+      "source_file": "americas/49-epic-espresso.html",
+      "facts": {
+        "dose_g": 18,
+        "yield_range_g": [
+          37,
+          39
+        ],
+        "time_range_s": [
+          28,
+          32
+        ],
+        "temperature_F": [
+          200,
+          201
+        ],
+        "pressure_bar": 9,
+        "same_specification_on": [
+          "Old School Espresso",
+          "Blue Sky Espresso"
+        ]
+      }
+    },
+    {
+      "slug": "counter-culture-big-trouble-espresso",
+      "source_url": "https://counterculturecoffee.com/products/big-trouble",
+      "source_file": "americas/counter-big-trouble.html",
+      "facts": {
+        "section": "Brewing Information / Espresso",
+        "dose_g": 18,
+        "ratio": "1:2",
+        "yield_g": {
+          "calculated": 36
+        },
+        "time_adjustment_boundaries_s": [
+          25,
+          35
+        ],
+        "grind": "extra-fine"
+      }
+    },
+    {
+      "slug": "cat-cloud-answer-espresso",
+      "source_url": "https://catandcloud.com/products/answer",
+      "source_file": "americas/cat-answer.html",
+      "facts": {
+        "dose_range_g": [
+          18.5,
+          19
+        ],
+        "beverage_yield_range_g": [
+          32,
+          34
+        ],
+        "time_range_s": [
+          25,
+          30
+        ]
+      }
+    },
+    {
+      "slug": "cat-cloud-the-best-friends-blend-espresso",
+      "source_url": "https://catandcloud.com/products/the-best-friends-blend",
+      "source_file": "americas/cat-the-truth.html",
+      "facts": {
+        "dose_range_g": [
+          18.8,
+          19.1
+        ],
+        "beverage_yield_range_g": [
+          40,
+          45
+        ],
+        "time_range_s": [
+          27,
+          30
+        ]
+      }
+    },
+    {
+      "slug": "olympia-big-truck-reyna-espresso",
+      "source_url": "https://www.olympiacoffee.com/blogs/brewing-methods/espresso-week-an-illustrated-guide-to-better-espresso",
+      "source_file": "americas/olympia-espresso-guide.html",
+      "facts": {
+        "author": "Reyna Callejo",
+        "specific_coffees_named": [
+          "Big Truck",
+          "Sweetheart"
+        ],
+        "dose_g": 18,
+        "ratio_range": [
+          "1:2",
+          "1:2.3"
+        ],
+        "time": null,
+        "temperature": null
+      }
+    },
+    {
+      "slug": "intelligentsia-black-cat-classic-espresso",
+      "source_url": "https://www.intelligentsia.com/products/black-cat-classic-espresso",
+      "source_file": "americas/intel-black-cat.html",
+      "facts": {
+        "dose_g": 18,
+        "beverage_yield_g": 45,
+        "ratio": "1:2.5",
+        "grind": "Fine; source grind-to-order setting 1",
+        "time_s": null,
+        "temperature": null
+      }
+    },
+    {
+      "slug": "olympia-big-truck-chilled-concentrate",
+      "source_url": "https://www.olympiacoffee.com/blogs/recipes/coffee-cocktail-hour-flash-brew-negronis",
+      "verified_at": "2026-10-04",
+      "facts": {
+        "dose_grams": 20,
+        "water_grams": 200,
+        "temperature_f": 200,
+        "ratio": "1:10",
+        "method": "Any preferred pour-over method; model unspecified",
+        "chilling": "ice bath or refrigerator overnight",
+        "author_attribution": "Article explicitly credits Sam Schroeder and Reyna Callejo for these recipes"
+      },
+      "interpretation": "Coffee-only component. Cold serving tag represents a chilled hot extraction; no cold-brew extraction and no claim that ice is added to the drink."
+    }
+  ],
+  "exclusions": [
+    {
+      "url": "https://onyxcoffeelab.com/pages/discovery-box-guide",
+      "reason": "Generic V60 schedule repeats 240 g at 1:30 then labels the drain 300 g; missing 60 g pouring action is not repaired by assumption. Generic Origami summary says 280 g while its schedule ends at 285 g. Repeated generic method blocks across all six coffees are not multiplied into distinct coffee-specific recipes."
+    },
+    {
+      "url": "https://onyxcoffeelab.com/products/monarch",
+      "reason": "Coffee process omitted because summary says Washed but narrative discusses a natural coffee in the blend. Filter/espresso parameters themselves are internally usable."
+    },
+    {
+      "url": "https://onyxcoffeelab.com/products/kenya-kamunyaka-aa",
+      "reason": "Coffee process omitted because summary and process section say Dry Washed while abstract calls it a natural lot. No caffeine numbers imported from zero-valued template sections."
+    },
+    {
+      "url": "https://counterculturecoffee.com/products/big-trouble",
+      "reason": "French Press omitted: header gives 50 g dose but numbered instructions give 45 g. Espresso is separately included."
+    },
+    {
+      "url": "https://www.vervecoffee.com/products/seabright-house-blend",
+      "reason": "Coffee Maker omitted: 30 g coffee / 900 g water conflicts with displayed 1:15 ratio. Dwell recipes are not relabeled as a supported V60 method."
+    },
+    {
+      "url": "https://www.blackwhiteroasters.com/pages/brew-guides",
+      "reason": "Official page explicitly says it does not post definitive brew guides for specific coffees. General 1:2 / ~24 s guidance not duplicated as bean-specific records."
+    },
+    {
+      "url": "https://roguewavecoffee.ca/blogs/brew-guide/recipe-ice-brew",
+      "reason": "Public URL now returns HTTP 404; not imported from stale third-party copies."
+    },
+    {
+      "url": "https://roguewavecoffee.ca/blogs/brew-guide/how-to-make-cold-brew",
+      "reason": "Public URL now returns HTTP 404."
+    },
+    {
+      "url": "https://www.proudmaryacademy.com/en/articles/9689704-brew-guide-los-bellotos-2024-bernardina-anaerobic-honey-sunset",
+      "reason": "Public fetch returned HTTP 403; no access-control bypass or invented complete recipe."
+    },
+    {
+      "url": "https://catandcloud.com/products/after-party",
+      "reason": "Only generic 1:16 / 3–4 min brewing guidance, repeated across coffees. Not counted as a distinct detailed bean-specific recipe."
+    },
+    {
+      "url": "https://catandcloud.com/products/night-shift",
+      "reason": "Only generic 1:16 / 3–4 min brewing guidance, repeated across coffees. Not counted as a distinct detailed bean-specific recipe."
+    },
+    {
+      "url": "https://onyxcoffeelab.com/products/cold-brew",
+      "reason": "Toddy guide provides 283 g / 1750 g at 80°F and 1050 µm but no steep duration in retrieved instructions. Held out of executable recipes rather than inventing overnight time."
+    },
+    {
+      "url": "https://www.olympiacoffee.com/blogs/recipes/coffee-cocktail-hour-flash-brew-negronis",
+      "reason": "Coffee-only Big Truck concentrate is real: 20 g / 200 g at 200°F, then chill in ice bath or refrigerator. Specific dripper and brew duration unreported; generic pour-over method is not supported by current app enum, so held as an extra candidate, not falsely labeled V60 or cold brew."
+    }
+  ],
+  "roaster_base_evidence": [
+    {
+      "roaster": "Onyx Coffee Lab",
+      "country": "United States",
+      "source_url": "https://onyxcoffeelab.com/pages/our-story",
+      "excerpt": "Onyx began as a small specialty roastery in Northwest Arkansas",
+      "country_mapping_note": "Country identifies the documented operating location; does not state creator nationality."
+    },
+    {
+      "roaster": "Verve Coffee Roasters",
+      "country": "United States",
+      "source_url": "https://www.vervecoffee.com/pages/story",
+      "excerpt": "Our roots are planted in Santa Cruz",
+      "country_mapping_note": "Country identifies the documented operating location; does not state creator nationality."
+    },
+    {
+      "roaster": "49th Parallel Coffee Roasters",
+      "country": "Canada",
+      "source_url": "https://49thcoffee.com/pages/our-story",
+      "excerpt": "Based in Vancouver, British Columbia",
+      "country_mapping_note": "Country identifies the documented operating location; does not state creator nationality."
+    },
+    {
+      "roaster": "Counter Culture Coffee",
+      "country": "United States",
+      "source_url": "https://counterculturecoffee.com/pages/history",
+      "excerpt": "We moved our Headquarters to a new facility near downtown Durham, NC.",
+      "country_mapping_note": "Country identifies the documented operating location; does not state creator nationality."
+    },
+    {
+      "roaster": "Cat & Cloud",
+      "country": "United States",
+      "source_url": "https://catandcloud.com/pages/about-us",
+      "excerpt": "Just blocks from the beach in East Side Santa Cruz",
+      "country_mapping_note": "Country identifies the documented operating location; does not state creator nationality."
+    },
+    {
+      "roaster": "Olympia Coffee",
+      "country": "United States",
+      "source_url": "https://www.olympiacoffee.com/pages/our-story",
+      "excerpt": "Every coffee we roast is made to order, daily, in our downtown Olympia roastery.",
+      "country_mapping_note": "Country identifies the documented operating location; does not state creator nationality."
+    },
+    {
+      "roaster": "Intelligentsia Coffee",
+      "country": "United States",
+      "source_url": "https://www.intelligentsia.com/pages/our-story",
+      "excerpt": "rising from humble Chicago roots",
+      "country_mapping_note": "Country identifies the documented operating location; does not state creator nationality."
+    }
+  ]
+}

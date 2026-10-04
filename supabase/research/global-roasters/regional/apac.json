@@ -1,0 +1,4114 @@
+{
+  "verified_at": "2026-10-04",
+  "roasters": [
+    {
+      "name": "ONA Coffee",
+      "name_ar": "أونا كوفي",
+      "country": "Australia",
+      "source_url": "https://onacoffee.com.au/pages/about",
+      "website": "https://onacoffee.com.au",
+      "country_basis": "Official about page identifies its roastery in Canberra, Australia.",
+      "country_ar": "أستراليا"
+    },
+    {
+      "name": "Code Black Coffee",
+      "name_ar": "كود بلاك كوفي",
+      "country": "Australia",
+      "source_url": "https://codeblackcoffee.com.au/products/3056-espresso-blend-coffee",
+      "website": "https://codeblackcoffee.com.au",
+      "country_basis": "Official product page identifies Brunswick, Melbourne and its Victorian roastery address.",
+      "country_ar": "أستراليا"
+    },
+    {
+      "name": "Toby's Estate",
+      "name_ar": "توبيز إستيت",
+      "country": "Australia",
+      "source_url": "https://www.tobysestate.com.au/organic-blend/",
+      "website": "https://www.tobysestate.com.au",
+      "country_basis": "Official Australian product page describes its Australian specialty coffee and roasters.",
+      "country_ar": "أستراليا"
+    },
+    {
+      "name": "Five Senses Coffee",
+      "name_ar": "فايف سينسز كوفي",
+      "country": "Australia",
+      "source_url": "https://fivesenses.com.au/pages/contact",
+      "website": "https://fivesenses.com.au",
+      "country_basis": "Official contact page lists Perth roastery/head office and Australian premises.",
+      "country_ar": "أستراليا"
+    },
+    {
+      "name": "Kurasu",
+      "name_ar": "كوراسو",
+      "country": "Japan",
+      "source_url": "https://kurasu.kyoto/pages/about-kurasu",
+      "website": "https://kurasu.kyoto",
+      "country_basis": "Official about page explicitly locates the coffee business and Nishijin roasting operation in Kyoto, Japan.",
+      "country_ar": "اليابان"
+    },
+    {
+      "name": "Coffee Supreme AU",
+      "name_ar": "كوفي سوبريم أستراليا",
+      "country": "Australia",
+      "source_url": "https://shopau.coffeesupreme.com/pages/about",
+      "website": "https://shopau.coffeesupreme.com",
+      "country_basis": "This source is the Australian operation; its official page says orders ship from its Melbourne roastery. This is not an assertion of the nationality of its founders.",
+      "country_ar": "أستراليا"
+    }
+  ],
+  "coffees": [
+    {
+      "name": "Raspberry Candy",
+      "name_ar": "رازبيري كاندي",
+      "roaster": "ONA Coffee",
+      "source_url": "https://onacoffee.com.au/products/raspberry-candy",
+      "image_url": "https://onacoffee.com.au/cdn/shop/files/Raspberry-Candy_fe2a7355-15f3-474c-b3a2-43956e9a48dc.png?v=1730240374&width=1200",
+      "origin": "Ethiopia",
+      "origin_ar": "إثيوبيا",
+      "process": "Natural, washed, supernatural, carbonic maceration natural",
+      "variety": null,
+      "coffee_type": "Blend",
+      "coffee_type_ar": "خلطة",
+      "roast": "Milk-based",
+      "flavor_notes": [
+        "Sweet berries",
+        "Creamy white chocolate"
+      ],
+      "flavor_notes_ar": [
+        "توت حلو",
+        "شوكولاتة بيضاء كريمية"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate"
+      ],
+      "description_ar": "خلطة أونا المخصصة للمشروبات بالحليب؛ المكونات والإيحاءات من وصف المحمصة.",
+      "description_en": "ONA milk-focused blend. Its published components and tasting notes are recorded here.",
+      "image_source_url": "https://onacoffee.com.au/products/raspberry-candy",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "ONA Coffee",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Maple",
+      "name_ar": "ميبل",
+      "roaster": "ONA Coffee",
+      "source_url": "https://onacoffee.com.au/products/maple",
+      "image_url": "https://onacoffee.com.au/cdn/shop/files/Maple_168a30eb-8c29-4484-99f8-4d0a81fae4f9.png?v=1730240405&width=1200",
+      "origin": "Ethiopia",
+      "origin_ar": "إثيوبيا",
+      "process": "Natural, washed",
+      "variety": null,
+      "coffee_type": "Blend",
+      "coffee_type_ar": "خلطة",
+      "roast": "Milk-based",
+      "flavor_notes": [
+        "Caramel",
+        "Biscuits",
+        "Nuts",
+        "Spices"
+      ],
+      "flavor_notes_ar": [
+        "كراميل",
+        "بسكويت",
+        "مكسرات",
+        "بهارات"
+      ],
+      "flavor_families": [
+        "caramel",
+        "nutty",
+        "spice"
+      ],
+      "description_ar": "خلطة أونا المخصصة للمشروبات بالحليب؛ المكونات والإيحاءات من وصف المحمصة.",
+      "description_en": "ONA milk-focused blend. Its published components and tasting notes are recorded here.",
+      "image_source_url": "https://onacoffee.com.au/products/maple",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "ONA Coffee",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Aspen",
+      "name_ar": "أسبن",
+      "roaster": "ONA Coffee",
+      "source_url": "https://onacoffee.com.au/products/aspen",
+      "image_url": "https://onacoffee.com.au/cdn/shop/files/Aspen_5026993b-83ac-470f-971d-6865d25f7888.png?v=1730240629&width=1200",
+      "origin": "Brazil, Papua New Guinea, Ethiopia",
+      "origin_ar": "البرازيل, بابوا غينيا الجديدة, إثيوبيا",
+      "process": "Natural, washed",
+      "variety": null,
+      "coffee_type": "Blend",
+      "coffee_type_ar": "خلطة",
+      "roast": "Milk-based",
+      "flavor_notes": [
+        "Chocolate",
+        "Hazelnut",
+        "Malt"
+      ],
+      "flavor_notes_ar": [
+        "شوكولاتة",
+        "بندق",
+        "مالت"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "nutty"
+      ],
+      "description_ar": "خلطة أونا المخصصة للمشروبات بالحليب؛ المكونات والإيحاءات من وصف المحمصة.",
+      "description_en": "ONA milk-focused blend. Its published components and tasting notes are recorded here.",
+      "image_source_url": "https://onacoffee.com.au/products/aspen",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "ONA Coffee",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Raspberry Candy Filter",
+      "name_ar": "رازبيري كاندي فلتر",
+      "roaster": "ONA Coffee",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/raspberry-candy-filter",
+      "image_url": "https://onacoffee.com.au/cdn/shop/articles/coffee_hero_sr_f5d66487-660f-47dd-b87d-a5ca558b749f.png?v=1757392428&width=1200",
+      "origin": null,
+      "origin_ar": null,
+      "process": null,
+      "variety": null,
+      "coffee_type": null,
+      "coffee_type_ar": null,
+      "roast": "Filter",
+      "flavor_notes": [
+        "Raspberry candy",
+        "Chocolate",
+        "Hibiscus"
+      ],
+      "flavor_notes_ar": [
+        "حلوى التوت",
+        "شوكولاتة",
+        "كركديه"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate",
+        "floral"
+      ],
+      "description_ar": "بن مسمّى في دليل أونا الرسمي؛ المعالجة وتصنيف التحميص والإيحاءات كما تذكرها المحمصة.",
+      "description_en": "Named coffee in ONA’s official brew guide, with the source’s process, roast label and tasting notes.",
+      "image_source_url": "https://onacoffee.com.au/blogs/brewguides/raspberry-candy-filter",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "ONA Coffee",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Gargari Gutity G1 Red",
+      "name_ar": "غارغاري غوتيتي جي 1 ريد",
+      "roaster": "ONA Coffee",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/gargari-gutity-g1-red-ethiopia-natural",
+      "image_url": "https://onacoffee.com.au/cdn/shop/articles/coffee_hero_som_bf8dc334-930d-4c47-a3d2-09845cb3ad62.png?v=1790926497&width=1200",
+      "origin": "Ethiopia",
+      "origin_ar": "إثيوبيا",
+      "process": "Natural",
+      "variety": null,
+      "coffee_type": "Single origin",
+      "coffee_type_ar": "أحادي المنشأ",
+      "roast": "Milk-based",
+      "flavor_notes": [
+        "Berries",
+        "Caramel",
+        "Milk chocolate"
+      ],
+      "flavor_notes_ar": [
+        "توت",
+        "كراميل",
+        "شوكولاتة بالحليب"
+      ],
+      "flavor_families": [
+        "fruity",
+        "caramel",
+        "chocolate"
+      ],
+      "description_ar": "بن مسمّى في دليل أونا الرسمي؛ المعالجة وتصنيف التحميص والإيحاءات كما تذكرها المحمصة.",
+      "description_en": "Named coffee in ONA’s official brew guide, with the source’s process, roast label and tasting notes.",
+      "image_source_url": "https://onacoffee.com.au/blogs/brewguides/gargari-gutity-g1-red-ethiopia-natural",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "ONA Coffee",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Kiambu Regional C",
+      "name_ar": "كيامبو ريجيونال سي",
+      "roaster": "ONA Coffee",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/kiambu-regional-c-kenya-washed",
+      "image_url": "https://onacoffee.com.au/cdn/shop/articles/coffee_hero_sof_9474726c-32d9-4437-8410-80a00c12b554.png?v=1790926205&width=1200",
+      "origin": "Kenya",
+      "origin_ar": "كينيا",
+      "process": "Washed",
+      "variety": null,
+      "coffee_type": "Single origin",
+      "coffee_type_ar": "أحادي المنشأ",
+      "roast": "Filter",
+      "flavor_notes": [
+        "Apricot",
+        "Green apple",
+        "Brown sugar"
+      ],
+      "flavor_notes_ar": [
+        "مشمش",
+        "تفاح أخضر",
+        "سكر بني"
+      ],
+      "flavor_families": [
+        "fruity",
+        "caramel"
+      ],
+      "description_ar": "بن مسمّى في دليل أونا الرسمي؛ المعالجة وتصنيف التحميص والإيحاءات كما تذكرها المحمصة.",
+      "description_en": "Named coffee in ONA’s official brew guide, with the source’s process, roast label and tasting notes.",
+      "image_source_url": "https://onacoffee.com.au/blogs/brewguides/kiambu-regional-c-kenya-washed",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "ONA Coffee",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Miramundo",
+      "name_ar": "ميراموندو",
+      "roaster": "ONA Coffee",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/miramundo-guatemala-natural",
+      "image_url": "https://onacoffee.com.au/cdn/shop/articles/coffee_hero_soe_8b3d5a9b-b902-4d4e-ae31-bb9e13a78eb8.png?v=1790926014&width=1200",
+      "origin": "Guatemala",
+      "origin_ar": "غواتيمالا",
+      "process": "Natural",
+      "variety": null,
+      "coffee_type": "Single origin",
+      "coffee_type_ar": "أحادي المنشأ",
+      "roast": "Espresso",
+      "flavor_notes": [
+        "Red berries",
+        "Plum",
+        "Dark chocolate"
+      ],
+      "flavor_notes_ar": [
+        "توت أحمر",
+        "برقوق",
+        "شوكولاتة داكنة"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate"
+      ],
+      "description_ar": "بن مسمّى في دليل أونا الرسمي؛ المعالجة وتصنيف التحميص والإيحاءات كما تذكرها المحمصة.",
+      "description_en": "Named coffee in ONA’s official brew guide, with the source’s process, roast label and tasting notes.",
+      "image_source_url": "https://onacoffee.com.au/blogs/brewguides/miramundo-guatemala-natural",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "ONA Coffee",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "El Ángel",
+      "name_ar": "إل أنخل",
+      "roaster": "ONA Coffee",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/el-angel-el-salvador-natural",
+      "image_url": "https://onacoffee.com.au/cdn/shop/articles/coffee_hero_sof_7260bec4-5a53-4be8-92f2-ea084a25f267.png?v=1790925710&width=1200",
+      "origin": "El Salvador",
+      "origin_ar": "السلفادور",
+      "process": "Natural",
+      "variety": null,
+      "coffee_type": "Single origin",
+      "coffee_type_ar": "أحادي المنشأ",
+      "roast": "Filter",
+      "flavor_notes": [
+        "Red berries",
+        "Citrus",
+        "Botanical"
+      ],
+      "flavor_notes_ar": [
+        "توت أحمر",
+        "حمضيات",
+        "إيحاءات نباتية"
+      ],
+      "flavor_families": [
+        "fruity",
+        "citrus"
+      ],
+      "description_ar": "بن مسمّى في دليل أونا الرسمي؛ المعالجة وتصنيف التحميص والإيحاءات كما تذكرها المحمصة.",
+      "description_en": "Named coffee in ONA’s official brew guide, with the source’s process, roast label and tasting notes.",
+      "image_source_url": "https://onacoffee.com.au/blogs/brewguides/el-angel-el-salvador-natural",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "ONA Coffee",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Kaliluni AA",
+      "name_ar": "كاليلوني إيه إيه",
+      "roaster": "ONA Coffee",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/kaliluni-aa-kenya-washed",
+      "image_url": "https://onacoffee.com.au/cdn/shop/articles/coffee_hero_soe_rare_1f2c4c6a-c846-4769-b16f-91ba52b53092.png?v=1790639692&width=1200",
+      "origin": "Kenya",
+      "origin_ar": "كينيا",
+      "process": "Washed",
+      "variety": null,
+      "coffee_type": "Single origin",
+      "coffee_type_ar": "أحادي المنشأ",
+      "roast": "Espresso",
+      "flavor_notes": [
+        "Redcurrant",
+        "Pomegranate",
+        "Brown sugar"
+      ],
+      "flavor_notes_ar": [
+        "كشمش أحمر",
+        "رمان",
+        "سكر بني"
+      ],
+      "flavor_families": [
+        "fruity",
+        "caramel"
+      ],
+      "description_ar": "بن مسمّى في دليل أونا الرسمي؛ المعالجة وتصنيف التحميص والإيحاءات كما تذكرها المحمصة.",
+      "description_en": "Named coffee in ONA’s official brew guide, with the source’s process, roast label and tasting notes.",
+      "image_source_url": "https://onacoffee.com.au/blogs/brewguides/kaliluni-aa-kenya-washed",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "ONA Coffee",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Yula Regional Lot",
+      "name_ar": "يولا ريجيونال لوت",
+      "roaster": "ONA Coffee",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/yula-regional-lot-guatemala-washed",
+      "image_url": "https://onacoffee.com.au/cdn/shop/articles/coffee_hero_sof_bd550316-f712-4371-bb07-272ab6da5a75.png?v=1790295265&width=1200",
+      "origin": "Guatemala",
+      "origin_ar": "غواتيمالا",
+      "process": "Washed",
+      "variety": null,
+      "coffee_type": "Single origin",
+      "coffee_type_ar": "أحادي المنشأ",
+      "roast": "Filter",
+      "flavor_notes": [
+        "Chocolate",
+        "Raisin",
+        "Red apple"
+      ],
+      "flavor_notes_ar": [
+        "شوكولاتة",
+        "زبيب",
+        "تفاح أحمر"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "fruity"
+      ],
+      "description_ar": "بن مسمّى في دليل أونا الرسمي؛ المعالجة وتصنيف التحميص والإيحاءات كما تذكرها المحمصة.",
+      "description_en": "Named coffee in ONA’s official brew guide, with the source’s process, roast label and tasting notes.",
+      "image_source_url": "https://onacoffee.com.au/blogs/brewguides/yula-regional-lot-guatemala-washed",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "ONA Coffee",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Maguta Estate Lot 432",
+      "name_ar": "ماغوتا إستيت لوت 432",
+      "roaster": "ONA Coffee",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/maguta-estate-lot-432-kenya-nitrogen-natural-indigo",
+      "image_url": "https://onacoffee.com.au/cdn/shop/articles/coffee_hero_sof_rare_d62ea37a-853e-4dc8-95fe-dc4878c3a332.png?v=1789020458&width=1200",
+      "origin": "Kenya",
+      "origin_ar": "كينيا",
+      "process": "Nitrogen Natural Indigo",
+      "variety": null,
+      "coffee_type": "Single origin",
+      "coffee_type_ar": "أحادي المنشأ",
+      "roast": "Filter",
+      "flavor_notes": [
+        "Pink grapefruit",
+        "Cherry",
+        "Blackcurrant"
+      ],
+      "flavor_notes_ar": [
+        "جريب فروت وردي",
+        "كرز",
+        "كشمش أسود"
+      ],
+      "flavor_families": [
+        "citrus",
+        "fruity"
+      ],
+      "description_ar": "بن مسمّى في دليل أونا الرسمي؛ المعالجة وتصنيف التحميص والإيحاءات كما تذكرها المحمصة.",
+      "description_en": "Named coffee in ONA’s official brew guide, with the source’s process, roast label and tasting notes.",
+      "image_source_url": "https://onacoffee.com.au/blogs/brewguides/maguta-estate-lot-432-kenya-nitrogen-natural-indigo",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "ONA Coffee",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Elida Estate Torre",
+      "name_ar": "إليدا إستيت توري",
+      "roaster": "ONA Coffee",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/elida-estate-torre-panama-drd-washed",
+      "image_url": "https://onacoffee.com.au/cdn/shop/articles/coffee_hero_sorc_NEW_f64f9c7a-448f-48bb-a7c3-c8ba12849796.png?v=1789020145&width=1200",
+      "origin": "Panama",
+      "origin_ar": "بنما",
+      "process": "DRD Washed",
+      "variety": null,
+      "coffee_type": "Single origin",
+      "coffee_type_ar": "أحادي المنشأ",
+      "roast": "Filter",
+      "flavor_notes": [
+        "Jasmine",
+        "Brown sugar",
+        "Orange"
+      ],
+      "flavor_notes_ar": [
+        "ياسمين",
+        "سكر بني",
+        "برتقال"
+      ],
+      "flavor_families": [
+        "floral",
+        "caramel",
+        "citrus"
+      ],
+      "description_ar": "بن مسمّى في دليل أونا الرسمي؛ المعالجة وتصنيف التحميص والإيحاءات كما تذكرها المحمصة.",
+      "description_en": "Named coffee in ONA’s official brew guide, with the source’s process, roast label and tasting notes.",
+      "image_source_url": "https://onacoffee.com.au/blogs/brewguides/elida-estate-torre-panama-drd-washed",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "ONA Coffee",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Rungeto C",
+      "name_ar": "رونغيتو سي",
+      "roaster": "ONA Coffee",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/rungeto-c-kenya-washed",
+      "image_url": "https://onacoffee.com.au/cdn/shop/articles/coffee_hero_soe_9dbf415b-b65e-4c63-924e-e4672e61db2f.png?v=1789013026&width=1200",
+      "origin": "Kenya",
+      "origin_ar": "كينيا",
+      "process": "Washed",
+      "variety": null,
+      "coffee_type": "Single origin",
+      "coffee_type_ar": "أحادي المنشأ",
+      "roast": "Espresso",
+      "flavor_notes": [
+        "Lime",
+        "Stone fruit",
+        "Brown sugar"
+      ],
+      "flavor_notes_ar": [
+        "ليمون أخضر",
+        "فاكهة ذات نواة",
+        "سكر بني"
+      ],
+      "flavor_families": [
+        "citrus",
+        "fruity",
+        "caramel"
+      ],
+      "description_ar": "بن مسمّى في دليل أونا الرسمي؛ المعالجة وتصنيف التحميص والإيحاءات كما تذكرها المحمصة.",
+      "description_en": "Named coffee in ONA’s official brew guide, with the source’s process, roast label and tasting notes.",
+      "image_source_url": "https://onacoffee.com.au/blogs/brewguides/rungeto-c-kenya-washed",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "ONA Coffee",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "3056 Espresso Blend",
+      "name_ar": "خلطة إسبريسو 3056",
+      "roaster": "Code Black Coffee",
+      "source_url": "https://codeblackcoffee.com.au/products/3056-espresso-blend-coffee",
+      "image_url": "https://codeblackcoffee.com.au/cdn/shop/files/3056.png?v=1740350888",
+      "origin": "Ethiopia, Guatemala, Brazil",
+      "origin_ar": "إثيوبيا, غواتيمالا, البرازيل",
+      "process": "Natural, washed",
+      "variety": null,
+      "coffee_type": "Blend",
+      "coffee_type_ar": "خلطة",
+      "roast": "Medium",
+      "flavor_notes": [
+        "Plum",
+        "Citrus",
+        "Peanut butter",
+        "Vanilla malt",
+        "Milk chocolate"
+      ],
+      "flavor_notes_ar": [
+        "برقوق",
+        "حمضيات",
+        "زبدة فول سوداني",
+        "مالت بالفانيلا",
+        "شوكولاتة بالحليب"
+      ],
+      "flavor_families": [
+        "fruity",
+        "citrus",
+        "nutty",
+        "chocolate"
+      ],
+      "description_ar": "خلطة إسبريسو لها وصفة محددة منشورة في صفحة المنتج الرسمية.",
+      "description_en": "Espresso blend with a coffee-specific recipe published on its official product page.",
+      "image_source_url": "https://codeblackcoffee.com.au/products/3056-espresso-blend-coffee",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "Code Black Coffee",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Seasonal Espresso Blend",
+      "name_ar": "خلطة الإسبريسو الموسمية",
+      "roaster": "Code Black Coffee",
+      "source_url": "https://codeblackcoffee.com.au/products/seasonal-espresso-blend",
+      "image_url": "https://codeblackcoffee.com.au/cdn/shop/files/Ethiopia-Colombia_Seasonal-Blend_Espresso_39b34b45-54c4-4cf1-8ae2-141626b1923a.png?v=1783868152",
+      "origin": "Ethiopia, Colombia",
+      "origin_ar": "إثيوبيا, كولومبيا",
+      "process": "Natural, washed",
+      "variety": "Heirloom, Caturra, Colombia",
+      "coffee_type": "Blend",
+      "coffee_type_ar": "خلطة",
+      "roast": "Espresso",
+      "flavor_notes": [
+        "Raspberry",
+        "Grapefruit",
+        "Sugarcane",
+        "Lemongrass"
+      ],
+      "flavor_notes_ar": [
+        "توت العليق",
+        "جريب فروت",
+        "قصب سكر",
+        "عشبة الليمون"
+      ],
+      "flavor_families": [
+        "fruity",
+        "citrus"
+      ],
+      "description_ar": "خلطة إسبريسو لها وصفة محددة منشورة في صفحة المنتج الرسمية.",
+      "description_en": "Espresso blend with a coffee-specific recipe published on its official product page.",
+      "image_source_url": "https://codeblackcoffee.com.au/products/seasonal-espresso-blend",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "Code Black Coffee",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Ex-Wife Espresso Blend",
+      "name_ar": "خلطة إسبريسو إكس وايف",
+      "roaster": "Code Black Coffee",
+      "source_url": "https://codeblackcoffee.com.au/products/ex-wife-espresso-blend-coffee",
+      "image_url": "https://codeblackcoffee.com.au/cdn/shop/files/Ex_Wife_Amended_3a714be1-80e8-4356-9e33-7201501fc1df.png?v=1741831364",
+      "origin": "Ethiopia, Brazil, Guatemala",
+      "origin_ar": "إثيوبيا, البرازيل, غواتيمالا",
+      "process": "Natural, washed",
+      "variety": null,
+      "coffee_type": "Blend",
+      "coffee_type_ar": "خلطة",
+      "roast": "Espresso",
+      "flavor_notes": [
+        "Roasted macadamia",
+        "Dark chocolate",
+        "Amaretto",
+        "Caramel",
+        "Cocoa"
+      ],
+      "flavor_notes_ar": [
+        "مكاديميا محمصة",
+        "شوكولاتة داكنة",
+        "إيحاء أماريتو",
+        "كراميل",
+        "كاكاو"
+      ],
+      "flavor_families": [
+        "nutty",
+        "chocolate",
+        "caramel"
+      ],
+      "description_ar": "خلطة إسبريسو لها وصفة محددة منشورة في صفحة المنتج الرسمية.",
+      "description_en": "Espresso blend with a coffee-specific recipe published on its official product page.",
+      "image_source_url": "https://codeblackcoffee.com.au/products/ex-wife-espresso-blend-coffee",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "Code Black Coffee",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Woolloomooloo",
+      "name_ar": "وولومولو",
+      "roaster": "Toby's Estate",
+      "source_url": "https://www.tobysestate.com.au/woolloomooloo/",
+      "image_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/products/307/images/1099/Woolly_WEB_IMAGE_200G__71153.1790216149.386.513.png?c=1",
+      "origin": null,
+      "origin_ar": null,
+      "process": null,
+      "variety": null,
+      "coffee_type": "Blend",
+      "coffee_type_ar": "خلطة",
+      "roast": "Espresso",
+      "flavor_notes": [
+        "Butterscotch",
+        "Heavy chocolate",
+        "Dried fruits"
+      ],
+      "flavor_notes_ar": [
+        "باترسكوتش",
+        "شوكولاتة كثيفة",
+        "فواكه مجففة"
+      ],
+      "flavor_families": [
+        "caramel",
+        "chocolate",
+        "fruity"
+      ],
+      "description_ar": "قهوة إسبريسو من توبيز أستراليا؛ البطاقة الرسمية تربط وزن الناتج بعدد الأيام منذ التحميص.",
+      "description_en": "Toby’s Australian espresso coffee; the linked official card adjusts beverage yield to the number of days after roasting.",
+      "image_source_url": "https://www.tobysestate.com.au/woolloomooloo/",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "Toby's Estate",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Broadway",
+      "name_ar": "برودواي",
+      "roaster": "Toby's Estate",
+      "source_url": "https://www.tobysestate.com.au/broadway/",
+      "image_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/products/308/images/1097/Broadway_WEB_IMAGE_200G_New__80474.1790216195.386.513.png?c=1",
+      "origin": null,
+      "origin_ar": null,
+      "process": null,
+      "variety": null,
+      "coffee_type": "Blend",
+      "coffee_type_ar": "خلطة",
+      "roast": "Espresso",
+      "flavor_notes": [
+        "Spice",
+        "Toffee",
+        "Dark chocolate"
+      ],
+      "flavor_notes_ar": [
+        "بهارات",
+        "توفي",
+        "شوكولاتة داكنة"
+      ],
+      "flavor_families": [
+        "spice",
+        "caramel",
+        "chocolate"
+      ],
+      "description_ar": "قهوة إسبريسو من توبيز أستراليا؛ البطاقة الرسمية تربط وزن الناتج بعدد الأيام منذ التحميص.",
+      "description_en": "Toby’s Australian espresso coffee; the linked official card adjusts beverage yield to the number of days after roasting.",
+      "image_source_url": "https://www.tobysestate.com.au/broadway/",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "Toby's Estate",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Rico",
+      "name_ar": "ريكو",
+      "roaster": "Toby's Estate",
+      "source_url": "https://www.tobysestate.com.au/rico/",
+      "image_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/products/306/images/1101/Rico_WEB_IMAGE_200G__01306.1774586487.386.513.png?c=1",
+      "origin": null,
+      "origin_ar": null,
+      "process": null,
+      "variety": null,
+      "coffee_type": "Blend",
+      "coffee_type_ar": "خلطة",
+      "roast": "Espresso",
+      "flavor_notes": [
+        "Honey",
+        "Milk chocolate",
+        "Fruits"
+      ],
+      "flavor_notes_ar": [
+        "عسل",
+        "شوكولاتة بالحليب",
+        "فاكهة"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "fruity"
+      ],
+      "description_ar": "قهوة إسبريسو من توبيز أستراليا؛ البطاقة الرسمية تربط وزن الناتج بعدد الأيام منذ التحميص.",
+      "description_en": "Toby’s Australian espresso coffee; the linked official card adjusts beverage yield to the number of days after roasting.",
+      "image_source_url": "https://www.tobysestate.com.au/rico/",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "Toby's Estate",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Black Swan",
+      "name_ar": "بلاك سوان",
+      "roaster": "Toby's Estate",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "image_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blackswan-1800x1200.png?t=1751968458",
+      "origin": null,
+      "origin_ar": null,
+      "process": null,
+      "variety": null,
+      "coffee_type": "Blend",
+      "coffee_type_ar": "خلطة",
+      "roast": "Espresso",
+      "flavor_notes": [
+        "Stone fruits",
+        "Honey",
+        "Milk chocolate"
+      ],
+      "flavor_notes_ar": [
+        "فاكهة ذات نواة",
+        "عسل",
+        "شوكولاتة بالحليب"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate"
+      ],
+      "description_ar": "قهوة إسبريسو من توبيز أستراليا؛ البطاقة الرسمية تربط وزن الناتج بعدد الأيام منذ التحميص.",
+      "description_en": "Toby’s Australian espresso coffee; the linked official card adjusts beverage yield to the number of days after roasting.",
+      "image_source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "Toby's Estate",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Organic Blend",
+      "name_ar": "الخلطة العضوية",
+      "roaster": "Toby's Estate",
+      "source_url": "https://www.tobysestate.com.au/organic-blend/",
+      "image_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/products/309/images/1095/Organic_WEB_IMAGE_200G_New__56631.1774586090.386.513.png?c=1",
+      "origin": null,
+      "origin_ar": null,
+      "process": null,
+      "variety": null,
+      "coffee_type": "Blend",
+      "coffee_type_ar": "خلطة",
+      "roast": "Espresso",
+      "flavor_notes": [
+        "Caramel",
+        "Cocoa",
+        "Fruits"
+      ],
+      "flavor_notes_ar": [
+        "كراميل",
+        "كاكاو",
+        "فاكهة"
+      ],
+      "flavor_families": [
+        "caramel",
+        "chocolate",
+        "fruity"
+      ],
+      "description_ar": "قهوة إسبريسو من توبيز أستراليا؛ البطاقة الرسمية تربط وزن الناتج بعدد الأيام منذ التحميص.",
+      "description_en": "Toby’s Australian espresso coffee; the linked official card adjusts beverage yield to the number of days after roasting.",
+      "image_source_url": "https://www.tobysestate.com.au/organic-blend/",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "Toby's Estate",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Decaf",
+      "name_ar": "ديكاف",
+      "roaster": "Toby's Estate",
+      "source_url": "https://www.tobysestate.com.au/decaf/",
+      "image_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/products/311/images/575/decaf_new_apr23_web_200g__17074.1767519753.386.513.png?c=1",
+      "origin": null,
+      "origin_ar": null,
+      "process": null,
+      "variety": null,
+      "coffee_type": "Decaf",
+      "coffee_type_ar": "منزوع الكافيين",
+      "roast": "Espresso",
+      "flavor_notes": [
+        "Berries",
+        "Chocolate",
+        "Malt"
+      ],
+      "flavor_notes_ar": [
+        "توت",
+        "شوكولاتة",
+        "مالت"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate"
+      ],
+      "description_ar": "قهوة إسبريسو من توبيز أستراليا؛ البطاقة الرسمية تربط وزن الناتج بعدد الأيام منذ التحميص.",
+      "description_en": "Toby’s Australian espresso coffee; the linked official card adjusts beverage yield to the number of days after roasting.",
+      "image_source_url": "https://www.tobysestate.com.au/decaf/",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "Toby's Estate",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Brunswick",
+      "name_ar": "برونزويك",
+      "roaster": "Toby's Estate",
+      "source_url": "https://www.tobysestate.com.au/brunswick/",
+      "image_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/products/310/images/1093/Brunswick_WEB_IMAGE_200G_New__06205.1774585975.386.513.png?c=1",
+      "origin": null,
+      "origin_ar": null,
+      "process": null,
+      "variety": null,
+      "coffee_type": "Blend",
+      "coffee_type_ar": "خلطة",
+      "roast": "Espresso",
+      "flavor_notes": [
+        "Spice",
+        "Toffee",
+        "Dark chocolate"
+      ],
+      "flavor_notes_ar": [
+        "بهارات",
+        "توفي",
+        "شوكولاتة داكنة"
+      ],
+      "flavor_families": [
+        "spice",
+        "caramel",
+        "chocolate"
+      ],
+      "description_ar": "بن مستقل من المحمصة، لكن أرقام بطاقته مطابقة لبرودواي؛ لذا يشارك وصفته دون تكرار سجل الوصفة.",
+      "description_en": "A separate official coffee whose brew-card parameters are identical to Broadway; it shares that canonical recipe in this batch.",
+      "image_source_url": "https://www.tobysestate.com.au/brunswick/",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "Toby's Estate",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true,
+      "shared_recipe_slug": "tobys-estate-broadway-espresso"
+    },
+    {
+      "name": "Ardi",
+      "name_ar": "أردي",
+      "roaster": "Five Senses Coffee",
+      "source_url": "https://fivesenses.com.au/products/ardi-ethiopia",
+      "image_url": "https://cdn.shopify.com/s/files/1/0624/5430/0844/products/SO-Ardi-Ethiopia.png?v=1655347881",
+      "origin": "Ethiopia",
+      "origin_ar": "إثيوبيا",
+      "process": "Natural",
+      "variety": "Heirloom",
+      "coffee_type": "Single origin",
+      "coffee_type_ar": "أحادي المنشأ",
+      "roast": "Espresso Roast",
+      "flavor_notes": [
+        "Mixed berries",
+        "Ripe orange",
+        "Dark chocolate"
+      ],
+      "flavor_notes_ar": [
+        "توت متنوع",
+        "برتقال ناضج",
+        "شوكولاتة داكنة"
+      ],
+      "flavor_families": [
+        "fruity",
+        "citrus",
+        "chocolate"
+      ],
+      "description_ar": "البن ومعايير الإسبريسو من صفحة فايف سينسز الرسمية. لا يفترض السجل توفره للبيع حالياً.",
+      "description_en": "Coffee and espresso parameters from Five Senses’ official product page. Availability is not asserted.",
+      "image_source_url": "https://fivesenses.com.au/products/ardi-ethiopia",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "Five Senses Coffee",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Umoja Washed",
+      "name_ar": "أوموجا مغسول",
+      "roaster": "Five Senses Coffee",
+      "source_url": "https://fivesenses.com.au/products/umoja-washed-tanzania",
+      "image_url": "https://cdn.shopify.com/s/files/1/0624/5430/0844/files/Umoja-Washed-250g.png?v=1685672074",
+      "origin": "Tanzania",
+      "origin_ar": "تنزانيا",
+      "process": "Washed",
+      "variety": "Bourbon, Kent",
+      "coffee_type": "Single origin",
+      "coffee_type_ar": "أحادي المنشأ",
+      "roast": "Espresso Roast",
+      "flavor_notes": [
+        "Sweet blood orange",
+        "Red apple",
+        "Milk chocolate"
+      ],
+      "flavor_notes_ar": [
+        "برتقال دموي حلو",
+        "تفاح أحمر",
+        "شوكولاتة بالحليب"
+      ],
+      "flavor_families": [
+        "citrus",
+        "fruity",
+        "chocolate"
+      ],
+      "description_ar": "البن ومعايير الإسبريسو من صفحة فايف سينسز الرسمية. لا يفترض السجل توفره للبيع حالياً.",
+      "description_en": "Coffee and espresso parameters from Five Senses’ official product page. Availability is not asserted.",
+      "image_source_url": "https://fivesenses.com.au/products/umoja-washed-tanzania",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "Five Senses Coffee",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Sweater Weather Blend",
+      "name_ar": "خلطة سويتر ويذر",
+      "roaster": "Five Senses Coffee",
+      "source_url": "https://fivesenses.com.au/products/sweater-weather-blend",
+      "image_url": "https://cdn.shopify.com/s/files/1/0624/5430/0844/products/sweaterweather.png?v=1655351008",
+      "origin": "Brazil, India, Tanzania",
+      "origin_ar": "البرازيل, الهند, تنزانيا",
+      "process": "Natural, washed",
+      "variety": null,
+      "coffee_type": "Blend",
+      "coffee_type_ar": "خلطة",
+      "roast": "Espresso Roast",
+      "flavor_notes": [
+        "Chocolate",
+        "Mulled wine",
+        "Apricot",
+        "Orange"
+      ],
+      "flavor_notes_ar": [
+        "شوكولاتة",
+        "إيحاء نبيذ متبّل",
+        "مشمش",
+        "برتقال"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "fruity",
+        "citrus",
+        "spice"
+      ],
+      "description_ar": "البن ومعايير الإسبريسو من صفحة فايف سينسز الرسمية. لا يفترض السجل توفره للبيع حالياً.",
+      "description_en": "Coffee and espresso parameters from Five Senses’ official product page. Availability is not asserted.",
+      "image_source_url": "https://fivesenses.com.au/products/sweater-weather-blend",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "Five Senses Coffee",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    },
+    {
+      "name": "Brazil Inacio Urban",
+      "name_ar": "البرازيل إناسيو أوربان",
+      "roaster": "Kurasu",
+      "source_url": "https://kurasu.kyoto/blogs/kurasu-journal/may-kurasu-subscription-brazil-inacio-urban-ethiopia-jigesa",
+      "origin": "Brazil",
+      "origin_ar": "البرازيل",
+      "process": "Natural",
+      "variety": "Catuai 144, Catuai 99, Catucai 20/15",
+      "coffee_type": "Single origin",
+      "coffee_type_ar": "أحادي المنشأ",
+      "roast": null,
+      "flavor_notes": [
+        "Citrus",
+        "Raspberry",
+        "Hojicha",
+        "Hazelnut",
+        "Creamy"
+      ],
+      "flavor_notes_ar": [
+        "حمضيات",
+        "توت العليق",
+        "هوجيتشا",
+        "بندق",
+        "قوام كريمي"
+      ],
+      "flavor_families": [
+        "citrus",
+        "fruity",
+        "nutty"
+      ],
+      "description_ar": "دفعة طبيعية من فازيندا ريو بريليانتي في كورومانديل، سيرادو مينيرو. وصفة V60 واحدة للمقارنة بينها وبين إثيوبيا جيغيسا.",
+      "description_en": "Natural lot from Fazenda Rio Brilhante, Coromandel, Cerrado Mineiro. One shared V60 recipe compares this coffee with Ethiopia Jigesa.",
+      "image_url": null,
+      "image_note": "No verified official bag photo for this named lot found in this research pass."
+    },
+    {
+      "name": "Ethiopia Jigesa",
+      "name_ar": "إثيوبيا جيغيسا",
+      "roaster": "Kurasu",
+      "source_url": "https://kurasu.kyoto/blogs/kurasu-journal/may-kurasu-subscription-brazil-inacio-urban-ethiopia-jigesa",
+      "origin": "Ethiopia",
+      "origin_ar": "إثيوبيا",
+      "process": "Natural",
+      "variety": "Heirloom",
+      "coffee_type": "Single origin",
+      "coffee_type_ar": "أحادي المنشأ",
+      "roast": null,
+      "flavor_notes": [
+        "Floral",
+        "Strawberry",
+        "Apricot",
+        "Orange wine",
+        "Chocolate"
+      ],
+      "flavor_notes_ar": [
+        "زهور",
+        "فراولة",
+        "مشمش",
+        "إيحاء نبيذ أورانج",
+        "شوكولاتة"
+      ],
+      "flavor_families": [
+        "floral",
+        "fruity",
+        "chocolate"
+      ],
+      "description_ar": "بن هيرلوم طبيعي من دنبي أودو/شاكيسو، غوجي؛ يشارك وصفة المقارنة لشهر مايو مع البرازيل إناسيو أوربان.",
+      "description_en": "Natural Heirloom coffee from Denbi Uddo/Shakiso, Guji; shares the May comparison recipe with Brazil Inacio Urban.",
+      "shared_recipe_slug": "kurasu-may-2026-comparison-v60",
+      "image_url": null,
+      "image_note": "No verified official bag photo for this named lot found in this research pass."
+    },
+    {
+      "name": "Kenya Kangocho AA",
+      "name_ar": "كينيا كانغوتشو إيه إيه",
+      "roaster": "Kurasu",
+      "source_url": "https://kurasu.kyoto/blogs/kurasu-journal/flash-brew-iced-coffee-kenya-kangocho-aa-brazil-joao-hamilton",
+      "origin": "Kenya",
+      "origin_ar": "كينيا",
+      "process": "Washed",
+      "variety": null,
+      "coffee_type": "Single origin",
+      "coffee_type_ar": "أحادي المنشأ",
+      "roast": "Light Roast",
+      "flavor_notes": [
+        "Floral",
+        "Blackcurrant",
+        "Grape",
+        "Mint"
+      ],
+      "flavor_notes_ar": [
+        "زهور",
+        "كشمش أسود",
+        "عنب",
+        "نعناع"
+      ],
+      "flavor_families": [
+        "floral",
+        "fruity"
+      ],
+      "description_ar": "بن كيني مغسول بدرجة AA من محطة كانغوتشو، ضمن مقارنة اشتراك كوراسو لشهر أغسطس 2026.",
+      "description_en": "Washed AA coffee from Kangocho Washing Station, featured in Kurasu’s August 2026 subscription comparison.",
+      "image_url": null,
+      "image_note": "No verified official bag photo for this named lot found in this research pass."
+    },
+    {
+      "name": "Brazil João Hamilton",
+      "name_ar": "البرازيل جواو هاميلتون",
+      "roaster": "Kurasu",
+      "source_url": "https://kurasu.kyoto/blogs/kurasu-journal/flash-brew-iced-coffee-kenya-kangocho-aa-brazil-joao-hamilton",
+      "origin": "Brazil",
+      "origin_ar": "البرازيل",
+      "process": "36-hour Anaerobic Natural",
+      "variety": "Sumatra",
+      "coffee_type": "Single origin",
+      "coffee_type_ar": "أحادي المنشأ",
+      "roast": "Light Roast",
+      "flavor_notes": [
+        "Hazelnut",
+        "Syrup",
+        "Green tea",
+        "Sencha"
+      ],
+      "flavor_notes_ar": [
+        "بندق",
+        "حلاوة شرابية",
+        "شاي أخضر",
+        "سنشا"
+      ],
+      "flavor_families": [
+        "nutty"
+      ],
+      "description_ar": "بن برازيلي من صنف سومطرة بمعالجة طبيعية لاهوائية 36 ساعة؛ يشارك وصفة المقارنة المثلجة المنشورة.",
+      "description_en": "Sumatra-variety Brazilian coffee with a 36-hour anaerobic natural process; shares the published iced comparison recipe.",
+      "shared_recipe_slug": "kurasu-august-2026-comparison-flash-brew",
+      "image_url": null,
+      "image_note": "No verified official bag photo for this named lot found in this research pass."
+    },
+    {
+      "name": "South Blend",
+      "name_ar": "خلطة ساوث",
+      "roaster": "Coffee Supreme AU",
+      "source_url": "https://shopau.coffeesupreme.com/products/south-blend",
+      "image_url": "https://shopau.coffeesupreme.com/cdn/shop/files/AU-Coffee-Supreme_South-Blend_1kg_79c66a86-02b4-40e0-9f7d-10789f9d092b_1024x1024.png?v=1747018493",
+      "origin": null,
+      "origin_ar": null,
+      "process": null,
+      "variety": null,
+      "coffee_type": "Blend",
+      "coffee_type_ar": "خلطة",
+      "roast": null,
+      "flavor_notes": [
+        "Maltesers",
+        "Caramel",
+        "Praline"
+      ],
+      "flavor_notes_ar": [
+        "مالتيزرز",
+        "كراميل",
+        "برالين"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "caramel",
+        "nutty"
+      ],
+      "description_ar": "خلطة كوفي سوبريم الأسترالية لها أرقام إسبريسو منشورة، ويصفها المصدر للتقديم بالحليب أو سادة.",
+      "description_en": "Australian Coffee Supreme blend with published espresso targets; described for both milk and black coffee.",
+      "image_source_url": "https://shopau.coffeesupreme.com/products/south-blend",
+      "image_rights_status": "source_linked",
+      "image_kind": "packaging",
+      "image_attribution": "Coffee Supreme AU",
+      "image_source_verified_at": "2026-10-04",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official named-coffee packaging image linked by the roaster and visually inspected against the named product.",
+      "image_display_verified": true
+    }
+  ],
+  "recipes": [
+    {
+      "slug": "ona-raspberry-candy-espresso",
+      "title": "ONA Coffee — Raspberry Candy espresso",
+      "title_ar": "أونا كوفي — رازبيري كاندي: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Raspberry Candy",
+      "coffee_name_ar": "رازبيري كاندي",
+      "roaster_name": "ONA Coffee",
+      "roaster_name_ar": "أونا كوفي",
+      "source_author_name": "ONA Coffee",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Ethiopia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Sweet berries",
+        "Creamy white chocolate"
+      ],
+      "flavor_notes_ar": [
+        "توت حلو",
+        "شوكولاتة بيضاء كريمية"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate"
+      ],
+      "dose_grams": null,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": null,
+      "water_temp_c": 93.5,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": null,
+      "notes": "Espresso output is the combined yield of two shots. Published ranges are preserved; null scalar fields mean the source supplies a range, not a single target. Component origins come from the current product description.",
+      "notes_ar": "الناتج هو مجموع شوتَي إسبريسو. النطاقات المنشورة محفوظة؛ الحقل العددي الفارغ يعني أن المصدر يحدد نطاقاً لا رقماً واحداً. مناشئ المكونات من صفحة المنتج الحالية.",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/raspberry-candy",
+      "source_author_url": "https://onacoffee.com.au",
+      "source_country_url": "https://onacoffee.com.au/pages/about",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 20.5–21 g of this coffee for espresso. Set the water temperature to 93.5°C.",
+          "description_ar": "زِن 20.5–21 g من هذا البن للإسبريسو. اضبط حرارة الماء على 93.5°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 38–41 g beverage output in 25–30 seconds.",
+          "description_ar": "استخلص 38–41 g من المشروب خلال 25–30 ثانية.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "dose_min_grams": 20.5,
+          "dose_max_grams": 21,
+          "yield_min_grams": 38,
+          "yield_max_grams": 41,
+          "time_min_seconds": 25,
+          "time_max_seconds": 30,
+          "milk_grams": 120,
+          "milk_weight_scope": "Source does not identify whether this 120 g is per shot.",
+          "best_roast_age_min_days": 16,
+          "best_roast_age_max_days": 30,
+          "yield_scope": "two espresso shots combined",
+          "roast_label_original": "Milk-based",
+          "coffee_component_source_url": "https://onacoffee.com.au/products/raspberry-candy",
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "ona-maple-espresso",
+      "title": "ONA Coffee — Maple espresso",
+      "title_ar": "أونا كوفي — ميبل: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Maple",
+      "coffee_name_ar": "ميبل",
+      "roaster_name": "ONA Coffee",
+      "roaster_name_ar": "أونا كوفي",
+      "source_author_name": "ONA Coffee",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Ethiopia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Caramel",
+        "Biscuits",
+        "Nuts",
+        "Spices"
+      ],
+      "flavor_notes_ar": [
+        "كراميل",
+        "بسكويت",
+        "مكسرات",
+        "بهارات"
+      ],
+      "flavor_families": [
+        "caramel",
+        "nutty",
+        "spice"
+      ],
+      "dose_grams": 20.7,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": null,
+      "water_temp_c": 93.5,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": null,
+      "notes": "Espresso output is the combined yield of two shots. Published ranges are preserved; null scalar fields mean the source supplies a range, not a single target. Component origins come from the current product description.",
+      "notes_ar": "الناتج هو مجموع شوتَي إسبريسو. النطاقات المنشورة محفوظة؛ الحقل العددي الفارغ يعني أن المصدر يحدد نطاقاً لا رقماً واحداً. مناشئ المكونات من صفحة المنتج الحالية.",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/maple",
+      "source_author_url": "https://onacoffee.com.au",
+      "source_country_url": "https://onacoffee.com.au/pages/about",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 20.7 g of this coffee for espresso. Set the water temperature to 93.5°C.",
+          "description_ar": "زِن 20.7 g من هذا البن للإسبريسو. اضبط حرارة الماء على 93.5°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 36–38 g beverage output in 24–28 seconds.",
+          "description_ar": "استخلص 36–38 g من المشروب خلال 24–28 ثانية.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "dose_min_grams": 20.5,
+          "dose_max_grams": 21,
+          "dose_preferred_grams": 20.7,
+          "yield_min_grams": 36,
+          "yield_max_grams": 38,
+          "time_min_seconds": 24,
+          "time_max_seconds": 28,
+          "milk_min_grams": 115,
+          "milk_max_grams": 120,
+          "best_roast_age_min_days": 14,
+          "best_roast_age_max_days": 30,
+          "yield_scope": "two espresso shots combined",
+          "roast_label_original": "Milk-based",
+          "coffee_component_source_url": "https://onacoffee.com.au/products/maple",
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "ona-aspen-espresso",
+      "title": "ONA Coffee — Aspen espresso",
+      "title_ar": "أونا كوفي — أسبن: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Aspen",
+      "coffee_name_ar": "أسبن",
+      "roaster_name": "ONA Coffee",
+      "roaster_name_ar": "أونا كوفي",
+      "source_author_name": "ONA Coffee",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Brazil, Papua New Guinea, Ethiopia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Chocolate",
+        "Hazelnut",
+        "Malt"
+      ],
+      "flavor_notes_ar": [
+        "شوكولاتة",
+        "بندق",
+        "مالت"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "nutty"
+      ],
+      "dose_grams": 20.7,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": 39,
+      "water_temp_c": 93.5,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 26,
+      "grinder_setting": null,
+      "notes": "Espresso output is the combined yield of two shots. Published ranges are preserved; null scalar fields mean the source supplies a range, not a single target. Component origins come from the current product description. The scalar targets use ONA’s explicitly recommended starting recipe.",
+      "notes_ar": "الناتج هو مجموع شوتَي إسبريسو. النطاقات المنشورة محفوظة؛ الحقل العددي الفارغ يعني أن المصدر يحدد نطاقاً لا رقماً واحداً. مناشئ المكونات من صفحة المنتج الحالية. الأرقام المفردة هي وصفة البداية التي توصي بها أونا صراحةً.",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/aspen",
+      "source_author_url": "https://onacoffee.com.au",
+      "source_country_url": "https://onacoffee.com.au/pages/about",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 20.7 g of this coffee for espresso. Set the water temperature to 93.5°C.",
+          "description_ar": "زِن 20.7 g من هذا البن للإسبريسو. اضبط حرارة الماء على 93.5°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 39 g beverage output in 26 seconds.",
+          "description_ar": "استخلص 39 g من المشروب خلال 26 ثانية.",
+          "duration_seconds": 26
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "dose_min_grams": 20.7,
+          "dose_max_grams": 21.3,
+          "yield_min_grams": 35,
+          "yield_max_grams": 40,
+          "time_min_seconds": 24,
+          "time_max_seconds": 29,
+          "explicit_starting_recipe": {
+            "dose_grams": 20.7,
+            "yield_grams": 39,
+            "time_seconds": 26
+          },
+          "milk_grams_per_single_shot": 120,
+          "best_roast_age_min_days": 14,
+          "best_roast_age_max_days": 30,
+          "yield_scope": "two espresso shots combined",
+          "roast_label_original": "Milk-based",
+          "coffee_component_source_url": "https://onacoffee.com.au/products/aspen",
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "ona-raspberry-candy-filter-v60",
+      "title": "ONA Coffee — Raspberry Candy Filter V60",
+      "title_ar": "أونا كوفي — رازبيري كاندي فلتر: V60",
+      "brew_method": "v60",
+      "coffee_name": "Raspberry Candy Filter",
+      "coffee_name_ar": "رازبيري كاندي فلتر",
+      "roaster_name": "ONA Coffee",
+      "roaster_name_ar": "أونا كوفي",
+      "source_author_name": "ONA Coffee",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": null,
+      "coffee_type": null,
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Raspberry candy",
+        "Chocolate",
+        "Hibiscus"
+      ],
+      "flavor_notes_ar": [
+        "حلوى التوت",
+        "شوكولاتة",
+        "كركديه"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate",
+        "floral"
+      ],
+      "dose_grams": 20,
+      "water_grams": 300,
+      "water_ml": null,
+      "yield_grams": null,
+      "water_temp_c": 91,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 165,
+      "grinder_setting": null,
+      "notes": "Five 60 g pours. Later pours are triggered by drainage, not by an invented fixed schedule. Source method tags are not additional recipes.",
+      "notes_ar": "خمس صبات، كل منها 60 g. الصبات اللاحقة بعد تصريف الماء؛ لا يحدد المصدر مواعيد ثابتة لها. وسوم الأدوات العامة ليست وصفات إضافية.",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/raspberry-candy-filter",
+      "source_author_url": "https://onacoffee.com.au",
+      "source_country_url": "https://onacoffee.com.au/pages/about",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 20 g coffee in a V60 and prepare 300 g water at 91°C.",
+          "description_ar": "استخدم 20 g بن في V60 وجهز 300 g ماء عند 91°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Add 60 g water and bloom for 35 seconds.",
+          "description_ar": "أضف 60 g ماء وانتظر 35 ثانية للتزهير.",
+          "duration_seconds": 35,
+          "start_at_seconds": 0
+        },
+        {
+          "title": "Four further pours",
+          "title_ar": "أربع صبات إضافية",
+          "description": "Add 60 g four more times, allowing each pour to drain before adding the next. Total water is 300 g.",
+          "description_ar": "أضف 60 g أربع مرات أخرى مع انتظار تصريف كل صبة قبل التالية. مجموع الماء 300 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Finish",
+          "title_ar": "إنهاء التحضير",
+          "description": "Aim to finish the brew at 2:45.",
+          "description_ar": "استهدف انتهاء التحضير عند 2:45.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [
+        {
+          "water_grams": 60,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": 35,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": null,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": null,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": null,
+          "is_bloom": false
+        }
+      ],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Filter",
+          "brewer": "Hario V60",
+          "pours_are_incremental": true,
+          "bloom_seconds": 35,
+          "pour_trigger_after_bloom": "Wait for the preceding water to drain before the next pour.",
+          "best_roast_age_min_days": 7,
+          "best_roast_age_max_days": 20,
+          "source_procedure_status": "published_procedure"
+        }
+      },
+      "is_incomplete_source": false,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "ona-gargari-gutity-g1-red-ethiopia-natural-espresso",
+      "title": "ONA Coffee — Gargari Gutity G1 Red espresso",
+      "title_ar": "أونا كوفي — غارغاري غوتيتي جي 1 ريد: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Gargari Gutity G1 Red",
+      "coffee_name_ar": "غارغاري غوتيتي جي 1 ريد",
+      "roaster_name": "ONA Coffee",
+      "roaster_name_ar": "أونا كوفي",
+      "source_author_name": "ONA Coffee",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Ethiopia",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Berries",
+        "Caramel",
+        "Milk chocolate"
+      ],
+      "flavor_notes_ar": [
+        "توت",
+        "كراميل",
+        "شوكولاتة بالحليب"
+      ],
+      "flavor_families": [
+        "fruity",
+        "caramel",
+        "chocolate"
+      ],
+      "dose_grams": 20.7,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": 38,
+      "water_temp_c": 93.5,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 26,
+      "grinder_setting": null,
+      "notes": "Source also recommends 115 g milk per single espresso. The espresso output remains separate from milk.",
+      "notes_ar": "يوصي المصدر أيضاً بـ115 g حليب لكل شوت إسبريسو منفرد. ناتج الإسبريسو مستقل عن كمية الحليب.",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/gargari-gutity-g1-red-ethiopia-natural",
+      "source_author_url": "https://onacoffee.com.au",
+      "source_country_url": "https://onacoffee.com.au/pages/about",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 20.7 g of this coffee for espresso. Set the water temperature to 93.5°C.",
+          "description_ar": "زِن 20.7 g من هذا البن للإسبريسو. اضبط حرارة الماء على 93.5°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 38 g beverage output in 26 seconds.",
+          "description_ar": "استخلص 38 g من المشروب خلال 26 ثانية.",
+          "duration_seconds": 26
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Milk-based",
+          "milk_grams_per_single_shot": 115,
+          "best_roast_age_min_days": 18,
+          "best_roast_age_max_days": 30,
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "ona-kiambu-regional-c-kenya-washed-v60",
+      "title": "ONA Coffee — Kiambu Regional C V60",
+      "title_ar": "أونا كوفي — كيامبو ريجيونال سي: V60",
+      "brew_method": "v60",
+      "coffee_name": "Kiambu Regional C",
+      "coffee_name_ar": "كيامبو ريجيونال سي",
+      "roaster_name": "ONA Coffee",
+      "roaster_name_ar": "أونا كوفي",
+      "source_author_name": "ONA Coffee",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Kenya",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Apricot",
+        "Green apple",
+        "Brown sugar"
+      ],
+      "flavor_notes_ar": [
+        "مشمش",
+        "تفاح أخضر",
+        "سكر بني"
+      ],
+      "flavor_families": [
+        "fruity",
+        "caramel"
+      ],
+      "dose_grams": 20,
+      "water_grams": 300,
+      "water_ml": null,
+      "yield_grams": null,
+      "water_temp_c": 90,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 165,
+      "grinder_setting": null,
+      "notes": "Five 60 g pours. Later pours are triggered by drainage, not by an invented fixed schedule. Source method tags are not additional recipes.",
+      "notes_ar": "خمس صبات، كل منها 60 g. الصبات اللاحقة بعد تصريف الماء؛ لا يحدد المصدر مواعيد ثابتة لها. وسوم الأدوات العامة ليست وصفات إضافية.",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/kiambu-regional-c-kenya-washed",
+      "source_author_url": "https://onacoffee.com.au",
+      "source_country_url": "https://onacoffee.com.au/pages/about",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 20 g coffee in a V60 and prepare 300 g water at 90°C.",
+          "description_ar": "استخدم 20 g بن في V60 وجهز 300 g ماء عند 90°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Add 60 g water and bloom for 35 seconds.",
+          "description_ar": "أضف 60 g ماء وانتظر 35 ثانية للتزهير.",
+          "duration_seconds": 35,
+          "start_at_seconds": 0
+        },
+        {
+          "title": "Four further pours",
+          "title_ar": "أربع صبات إضافية",
+          "description": "Add 60 g four more times, allowing each pour to drain before adding the next. Total water is 300 g.",
+          "description_ar": "أضف 60 g أربع مرات أخرى مع انتظار تصريف كل صبة قبل التالية. مجموع الماء 300 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Finish",
+          "title_ar": "إنهاء التحضير",
+          "description": "Aim to finish the brew at 2:45.",
+          "description_ar": "استهدف انتهاء التحضير عند 2:45.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [
+        {
+          "water_grams": 60,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": 35,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": null,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": null,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": null,
+          "is_bloom": false
+        }
+      ],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Filter",
+          "brewer": "Hario V60",
+          "pours_are_incremental": true,
+          "bloom_seconds": 35,
+          "pour_trigger_after_bloom": "Wait for the preceding water to drain before the next pour.",
+          "best_roast_age_min_days": 7,
+          "best_roast_age_max_days": 20,
+          "source_procedure_status": "published_procedure"
+        }
+      },
+      "is_incomplete_source": false,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "ona-miramundo-guatemala-natural-espresso",
+      "title": "ONA Coffee — Miramundo espresso",
+      "title_ar": "أونا كوفي — ميراموندو: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Miramundo",
+      "coffee_name_ar": "ميراموندو",
+      "roaster_name": "ONA Coffee",
+      "roaster_name_ar": "أونا كوفي",
+      "source_author_name": "ONA Coffee",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Guatemala",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Red berries",
+        "Plum",
+        "Dark chocolate"
+      ],
+      "flavor_notes_ar": [
+        "توت أحمر",
+        "برقوق",
+        "شوكولاتة داكنة"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate"
+      ],
+      "dose_grams": 20.3,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": 42,
+      "water_temp_c": 93.5,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 24,
+      "grinder_setting": null,
+      "notes": "Published beverage yield is espresso output, not brewing-water input.",
+      "notes_ar": "الناتج المنشور وزن الإسبريسو المستخلص، وليس كمية ماء الإدخال.",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/miramundo-guatemala-natural",
+      "source_author_url": "https://onacoffee.com.au",
+      "source_country_url": "https://onacoffee.com.au/pages/about",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 20.3 g of this coffee for espresso. Set the water temperature to 93.5°C.",
+          "description_ar": "زِن 20.3 g من هذا البن للإسبريسو. اضبط حرارة الماء على 93.5°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 42 g beverage output in 24 seconds.",
+          "description_ar": "استخلص 42 g من المشروب خلال 24 ثانية.",
+          "duration_seconds": 24
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Espresso",
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "ona-el-angel-el-salvador-natural-v60",
+      "title": "ONA Coffee — El Ángel V60",
+      "title_ar": "أونا كوفي — إل أنخل: V60",
+      "brew_method": "v60",
+      "coffee_name": "El Ángel",
+      "coffee_name_ar": "إل أنخل",
+      "roaster_name": "ONA Coffee",
+      "roaster_name_ar": "أونا كوفي",
+      "source_author_name": "ONA Coffee",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "El Salvador",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Red berries",
+        "Citrus",
+        "Botanical"
+      ],
+      "flavor_notes_ar": [
+        "توت أحمر",
+        "حمضيات",
+        "إيحاءات نباتية"
+      ],
+      "flavor_families": [
+        "fruity",
+        "citrus"
+      ],
+      "dose_grams": 20,
+      "water_grams": 300,
+      "water_ml": null,
+      "yield_grams": null,
+      "water_temp_c": 88,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 165,
+      "grinder_setting": null,
+      "notes": "Five 60 g pours. Later pours are triggered by drainage, not by an invented fixed schedule. Source method tags are not additional recipes.",
+      "notes_ar": "خمس صبات، كل منها 60 g. الصبات اللاحقة بعد تصريف الماء؛ لا يحدد المصدر مواعيد ثابتة لها. وسوم الأدوات العامة ليست وصفات إضافية.",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/el-angel-el-salvador-natural",
+      "source_author_url": "https://onacoffee.com.au",
+      "source_country_url": "https://onacoffee.com.au/pages/about",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 20 g coffee in a V60 and prepare 300 g water at 88°C.",
+          "description_ar": "استخدم 20 g بن في V60 وجهز 300 g ماء عند 88°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Add 60 g water and bloom for 35 seconds.",
+          "description_ar": "أضف 60 g ماء وانتظر 35 ثانية للتزهير.",
+          "duration_seconds": 35,
+          "start_at_seconds": 0
+        },
+        {
+          "title": "Four further pours",
+          "title_ar": "أربع صبات إضافية",
+          "description": "Add 60 g four more times, allowing each pour to drain before adding the next. Total water is 300 g.",
+          "description_ar": "أضف 60 g أربع مرات أخرى مع انتظار تصريف كل صبة قبل التالية. مجموع الماء 300 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Finish",
+          "title_ar": "إنهاء التحضير",
+          "description": "Aim to finish the brew at 2:45.",
+          "description_ar": "استهدف انتهاء التحضير عند 2:45.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [
+        {
+          "water_grams": 60,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": 35,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": null,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": null,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": null,
+          "is_bloom": false
+        }
+      ],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Filter",
+          "brewer": "Hario V60",
+          "pours_are_incremental": true,
+          "bloom_seconds": 35,
+          "pour_trigger_after_bloom": "Wait for the preceding water to drain before the next pour.",
+          "best_roast_age_min_days": 7,
+          "best_roast_age_max_days": 20,
+          "source_procedure_status": "published_procedure"
+        }
+      },
+      "is_incomplete_source": false,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "ona-kaliluni-aa-kenya-washed-espresso",
+      "title": "ONA Coffee — Kaliluni AA espresso",
+      "title_ar": "أونا كوفي — كاليلوني إيه إيه: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Kaliluni AA",
+      "coffee_name_ar": "كاليلوني إيه إيه",
+      "roaster_name": "ONA Coffee",
+      "roaster_name_ar": "أونا كوفي",
+      "source_author_name": "ONA Coffee",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Kenya",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Redcurrant",
+        "Pomegranate",
+        "Brown sugar"
+      ],
+      "flavor_notes_ar": [
+        "كشمش أحمر",
+        "رمان",
+        "سكر بني"
+      ],
+      "flavor_families": [
+        "fruity",
+        "caramel"
+      ],
+      "dose_grams": 20,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": 44,
+      "water_temp_c": 93.5,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 25,
+      "grinder_setting": null,
+      "notes": "Published beverage yield is espresso output, not brewing-water input.",
+      "notes_ar": "الناتج المنشور وزن الإسبريسو المستخلص، وليس كمية ماء الإدخال.",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/kaliluni-aa-kenya-washed",
+      "source_author_url": "https://onacoffee.com.au",
+      "source_country_url": "https://onacoffee.com.au/pages/about",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 20 g of this coffee for espresso. Set the water temperature to 93.5°C.",
+          "description_ar": "زِن 20 g من هذا البن للإسبريسو. اضبط حرارة الماء على 93.5°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 44 g beverage output in 25 seconds.",
+          "description_ar": "استخلص 44 g من المشروب خلال 25 ثانية.",
+          "duration_seconds": 25
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Espresso",
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "ona-yula-regional-lot-guatemala-washed-v60",
+      "title": "ONA Coffee — Yula Regional Lot V60",
+      "title_ar": "أونا كوفي — يولا ريجيونال لوت: V60",
+      "brew_method": "v60",
+      "coffee_name": "Yula Regional Lot",
+      "coffee_name_ar": "يولا ريجيونال لوت",
+      "roaster_name": "ONA Coffee",
+      "roaster_name_ar": "أونا كوفي",
+      "source_author_name": "ONA Coffee",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Guatemala",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Chocolate",
+        "Raisin",
+        "Red apple"
+      ],
+      "flavor_notes_ar": [
+        "شوكولاتة",
+        "زبيب",
+        "تفاح أحمر"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "fruity"
+      ],
+      "dose_grams": 20,
+      "water_grams": 300,
+      "water_ml": null,
+      "yield_grams": null,
+      "water_temp_c": 89,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 165,
+      "grinder_setting": null,
+      "notes": "Five 60 g pours. Later pours are triggered by drainage, not by an invented fixed schedule. Source method tags are not additional recipes.",
+      "notes_ar": "خمس صبات، كل منها 60 g. الصبات اللاحقة بعد تصريف الماء؛ لا يحدد المصدر مواعيد ثابتة لها. وسوم الأدوات العامة ليست وصفات إضافية.",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/yula-regional-lot-guatemala-washed",
+      "source_author_url": "https://onacoffee.com.au",
+      "source_country_url": "https://onacoffee.com.au/pages/about",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 20 g coffee in a V60 and prepare 300 g water at 89°C.",
+          "description_ar": "استخدم 20 g بن في V60 وجهز 300 g ماء عند 89°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Add 60 g water and bloom for 35 seconds.",
+          "description_ar": "أضف 60 g ماء وانتظر 35 ثانية للتزهير.",
+          "duration_seconds": 35,
+          "start_at_seconds": 0
+        },
+        {
+          "title": "Four further pours",
+          "title_ar": "أربع صبات إضافية",
+          "description": "Add 60 g four more times, allowing each pour to drain before adding the next. Total water is 300 g.",
+          "description_ar": "أضف 60 g أربع مرات أخرى مع انتظار تصريف كل صبة قبل التالية. مجموع الماء 300 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Finish",
+          "title_ar": "إنهاء التحضير",
+          "description": "Aim to finish the brew at 2:45.",
+          "description_ar": "استهدف انتهاء التحضير عند 2:45.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [
+        {
+          "water_grams": 60,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": 35,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": null,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": null,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": null,
+          "is_bloom": false
+        }
+      ],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Filter",
+          "brewer": "Hario V60",
+          "pours_are_incremental": true,
+          "bloom_seconds": 35,
+          "pour_trigger_after_bloom": "Wait for the preceding water to drain before the next pour.",
+          "best_roast_age_min_days": 7,
+          "best_roast_age_max_days": 20,
+          "source_procedure_status": "published_procedure"
+        }
+      },
+      "is_incomplete_source": false,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "ona-maguta-estate-lot-432-kenya-nitrogen-natural-indigo-v60",
+      "title": "ONA Coffee — Maguta Estate Lot 432 V60",
+      "title_ar": "أونا كوفي — ماغوتا إستيت لوت 432: V60",
+      "brew_method": "v60",
+      "coffee_name": "Maguta Estate Lot 432",
+      "coffee_name_ar": "ماغوتا إستيت لوت 432",
+      "roaster_name": "ONA Coffee",
+      "roaster_name_ar": "أونا كوفي",
+      "source_author_name": "ONA Coffee",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Kenya",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Pink grapefruit",
+        "Cherry",
+        "Blackcurrant"
+      ],
+      "flavor_notes_ar": [
+        "جريب فروت وردي",
+        "كرز",
+        "كشمش أسود"
+      ],
+      "flavor_families": [
+        "citrus",
+        "fruity"
+      ],
+      "dose_grams": 20,
+      "water_grams": 300,
+      "water_ml": null,
+      "yield_grams": null,
+      "water_temp_c": 90,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 150,
+      "grinder_setting": null,
+      "notes": "Five 60 g pours. Later pours are triggered by drainage, not by an invented fixed schedule. Source method tags are not additional recipes.",
+      "notes_ar": "خمس صبات، كل منها 60 g. الصبات اللاحقة بعد تصريف الماء؛ لا يحدد المصدر مواعيد ثابتة لها. وسوم الأدوات العامة ليست وصفات إضافية.",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/maguta-estate-lot-432-kenya-nitrogen-natural-indigo",
+      "source_author_url": "https://onacoffee.com.au",
+      "source_country_url": "https://onacoffee.com.au/pages/about",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 20 g coffee in a V60 and prepare 300 g water at 90°C.",
+          "description_ar": "استخدم 20 g بن في V60 وجهز 300 g ماء عند 90°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Add 60 g water and bloom for 30 seconds.",
+          "description_ar": "أضف 60 g ماء وانتظر 30 ثانية للتزهير.",
+          "duration_seconds": 30,
+          "start_at_seconds": 0
+        },
+        {
+          "title": "Four further pours",
+          "title_ar": "أربع صبات إضافية",
+          "description": "Add 60 g four more times, allowing each pour to drain before adding the next. Total water is 300 g.",
+          "description_ar": "أضف 60 g أربع مرات أخرى مع انتظار تصريف كل صبة قبل التالية. مجموع الماء 300 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Finish",
+          "title_ar": "إنهاء التحضير",
+          "description": "Aim to finish the brew at 2:30.",
+          "description_ar": "استهدف انتهاء التحضير عند 2:30.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [
+        {
+          "water_grams": 60,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": null,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": null,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": null,
+          "is_bloom": false
+        }
+      ],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Filter",
+          "brewer": "Hario V60",
+          "pours_are_incremental": true,
+          "bloom_seconds": 30,
+          "pour_trigger_after_bloom": "Wait for the preceding water to drain before the next pour.",
+          "best_roast_age_min_days": 7,
+          "best_roast_age_max_days": 20,
+          "source_procedure_status": "published_procedure"
+        }
+      },
+      "is_incomplete_source": false,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "ona-elida-estate-torre-panama-drd-washed-v60",
+      "title": "ONA Coffee — Elida Estate Torre V60",
+      "title_ar": "أونا كوفي — إليدا إستيت توري: V60",
+      "brew_method": "v60",
+      "coffee_name": "Elida Estate Torre",
+      "coffee_name_ar": "إليدا إستيت توري",
+      "roaster_name": "ONA Coffee",
+      "roaster_name_ar": "أونا كوفي",
+      "source_author_name": "ONA Coffee",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Panama",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Jasmine",
+        "Brown sugar",
+        "Orange"
+      ],
+      "flavor_notes_ar": [
+        "ياسمين",
+        "سكر بني",
+        "برتقال"
+      ],
+      "flavor_families": [
+        "floral",
+        "caramel",
+        "citrus"
+      ],
+      "dose_grams": 20,
+      "water_grams": 300,
+      "water_ml": null,
+      "yield_grams": null,
+      "water_temp_c": 90,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 210,
+      "grinder_setting": null,
+      "notes": "Five 60 g pours. Later pours are triggered by drainage, not by an invented fixed schedule. Source method tags are not additional recipes.",
+      "notes_ar": "خمس صبات، كل منها 60 g. الصبات اللاحقة بعد تصريف الماء؛ لا يحدد المصدر مواعيد ثابتة لها. وسوم الأدوات العامة ليست وصفات إضافية.",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/elida-estate-torre-panama-drd-washed",
+      "source_author_url": "https://onacoffee.com.au",
+      "source_country_url": "https://onacoffee.com.au/pages/about",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 20 g coffee in a V60 and prepare 300 g water at 90°C.",
+          "description_ar": "استخدم 20 g بن في V60 وجهز 300 g ماء عند 90°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Add 60 g water and bloom for 35 seconds.",
+          "description_ar": "أضف 60 g ماء وانتظر 35 ثانية للتزهير.",
+          "duration_seconds": 35,
+          "start_at_seconds": 0
+        },
+        {
+          "title": "Four further pours",
+          "title_ar": "أربع صبات إضافية",
+          "description": "Add 60 g four more times, allowing each pour to drain before adding the next. Total water is 300 g.",
+          "description_ar": "أضف 60 g أربع مرات أخرى مع انتظار تصريف كل صبة قبل التالية. مجموع الماء 300 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Finish",
+          "title_ar": "إنهاء التحضير",
+          "description": "Aim to finish the brew at 3:30.",
+          "description_ar": "استهدف انتهاء التحضير عند 3:30.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [
+        {
+          "water_grams": 60,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": 35,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": null,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": null,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": null,
+          "is_bloom": false
+        }
+      ],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Filter",
+          "brewer": "Hario V60",
+          "pours_are_incremental": true,
+          "bloom_seconds": 35,
+          "pour_trigger_after_bloom": "Wait for the preceding water to drain before the next pour.",
+          "best_roast_age_min_days": 7,
+          "best_roast_age_max_days": 20,
+          "source_procedure_status": "published_procedure"
+        }
+      },
+      "is_incomplete_source": false,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "ona-rungeto-c-kenya-washed-espresso",
+      "title": "ONA Coffee — Rungeto C espresso",
+      "title_ar": "أونا كوفي — رونغيتو سي: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Rungeto C",
+      "coffee_name_ar": "رونغيتو سي",
+      "roaster_name": "ONA Coffee",
+      "roaster_name_ar": "أونا كوفي",
+      "source_author_name": "ONA Coffee",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Kenya",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Lime",
+        "Stone fruit",
+        "Brown sugar"
+      ],
+      "flavor_notes_ar": [
+        "ليمون أخضر",
+        "فاكهة ذات نواة",
+        "سكر بني"
+      ],
+      "flavor_families": [
+        "citrus",
+        "fruity",
+        "caramel"
+      ],
+      "dose_grams": 20.3,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": 42,
+      "water_temp_c": 93.5,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 21,
+      "grinder_setting": null,
+      "notes": "Published beverage yield is espresso output, not brewing-water input.",
+      "notes_ar": "الناتج المنشور وزن الإسبريسو المستخلص، وليس كمية ماء الإدخال.",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/rungeto-c-kenya-washed",
+      "source_author_url": "https://onacoffee.com.au",
+      "source_country_url": "https://onacoffee.com.au/pages/about",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 20.3 g of this coffee for espresso. Set the water temperature to 93.5°C.",
+          "description_ar": "زِن 20.3 g من هذا البن للإسبريسو. اضبط حرارة الماء على 93.5°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 42 g beverage output in 21 seconds.",
+          "description_ar": "استخلص 42 g من المشروب خلال 21 ثانية.",
+          "duration_seconds": 21
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "roast_label_original": "Espresso",
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "code-black-3056-espresso-blend-coffee",
+      "title": "Code Black Coffee — 3056 Espresso Blend espresso",
+      "title_ar": "كود بلاك كوفي — خلطة إسبريسو 3056: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "3056 Espresso Blend",
+      "coffee_name_ar": "خلطة إسبريسو 3056",
+      "roaster_name": "Code Black Coffee",
+      "roaster_name_ar": "كود بلاك كوفي",
+      "source_author_name": "Code Black Coffee",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Ethiopia, Guatemala, Brazil",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Plum",
+        "Citrus",
+        "Peanut butter",
+        "Vanilla malt",
+        "Milk chocolate"
+      ],
+      "flavor_notes_ar": [
+        "برقوق",
+        "حمضيات",
+        "زبدة فول سوداني",
+        "مالت بالفانيلا",
+        "شوكولاتة بالحليب"
+      ],
+      "flavor_families": [
+        "fruity",
+        "citrus",
+        "nutty",
+        "chocolate"
+      ],
+      "dose_grams": 20,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": 40,
+      "water_temp_c": 93,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": null,
+      "notes": "Use the published espresso yield. A time range is retained where the source provides one; no midpoint has been substituted.",
+      "notes_ar": "استخدم وزن ناتج الإسبريسو المنشور. نطاق الزمن محفوظ حين يورده المصدر؛ لم يُستبدل بمتوسط مفترض.",
+      "source_url": "https://codeblackcoffee.com.au/products/3056-espresso-blend-coffee",
+      "source_author_url": "https://codeblackcoffee.com.au",
+      "source_country_url": "https://codeblackcoffee.com.au/products/3056-espresso-blend-coffee",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 20 g of this coffee for espresso. Set the water temperature to 93°C.",
+          "description_ar": "زِن 20 g من هذا البن للإسبريسو. اضبط حرارة الماء على 93°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 40 g beverage output in 26–32 seconds.",
+          "description_ar": "استخلص 40 g من المشروب خلال 26–32 ثانية.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "time_min_seconds": 26,
+          "time_max_seconds": 32,
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "code-black-seasonal-espresso-blend",
+      "title": "Code Black Coffee — Seasonal Espresso Blend espresso",
+      "title_ar": "كود بلاك كوفي — خلطة الإسبريسو الموسمية: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Seasonal Espresso Blend",
+      "coffee_name_ar": "خلطة الإسبريسو الموسمية",
+      "roaster_name": "Code Black Coffee",
+      "roaster_name_ar": "كود بلاك كوفي",
+      "source_author_name": "Code Black Coffee",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Ethiopia, Colombia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Raspberry",
+        "Grapefruit",
+        "Sugarcane",
+        "Lemongrass"
+      ],
+      "flavor_notes_ar": [
+        "توت العليق",
+        "جريب فروت",
+        "قصب سكر",
+        "عشبة الليمون"
+      ],
+      "flavor_families": [
+        "fruity",
+        "citrus"
+      ],
+      "dose_grams": 20,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": 50,
+      "water_temp_c": 93,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 25,
+      "grinder_setting": null,
+      "notes": "Use the published espresso yield. A time range is retained where the source provides one; no midpoint has been substituted.",
+      "notes_ar": "استخدم وزن ناتج الإسبريسو المنشور. نطاق الزمن محفوظ حين يورده المصدر؛ لم يُستبدل بمتوسط مفترض.",
+      "source_url": "https://codeblackcoffee.com.au/products/seasonal-espresso-blend",
+      "source_author_url": "https://codeblackcoffee.com.au",
+      "source_country_url": "https://codeblackcoffee.com.au/products/3056-espresso-blend-coffee",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 20 g of this coffee for espresso. Set the water temperature to 93°C.",
+          "description_ar": "زِن 20 g من هذا البن للإسبريسو. اضبط حرارة الماء على 93°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 50 g beverage output in 25 seconds.",
+          "description_ar": "استخلص 50 g من المشروب خلال 25 ثانية.",
+          "duration_seconds": 25
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "components": [
+            {
+              "name": "Ethiopia Arsosola Natural",
+              "percent": 45
+            },
+            {
+              "name": "Ethiopia Halo Bereti Washed",
+              "percent": 45
+            },
+            {
+              "name": "Colombia El Diviso Washed",
+              "percent": 10
+            }
+          ],
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "code-black-ex-wife-espresso-blend-coffee",
+      "title": "Code Black Coffee — Ex-Wife Espresso Blend espresso",
+      "title_ar": "كود بلاك كوفي — خلطة إسبريسو إكس وايف: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Ex-Wife Espresso Blend",
+      "coffee_name_ar": "خلطة إسبريسو إكس وايف",
+      "roaster_name": "Code Black Coffee",
+      "roaster_name_ar": "كود بلاك كوفي",
+      "source_author_name": "Code Black Coffee",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Ethiopia, Brazil, Guatemala",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Roasted macadamia",
+        "Dark chocolate",
+        "Amaretto",
+        "Caramel",
+        "Cocoa"
+      ],
+      "flavor_notes_ar": [
+        "مكاديميا محمصة",
+        "شوكولاتة داكنة",
+        "إيحاء أماريتو",
+        "كراميل",
+        "كاكاو"
+      ],
+      "flavor_families": [
+        "nutty",
+        "chocolate",
+        "caramel"
+      ],
+      "dose_grams": 20,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": 35,
+      "water_temp_c": 93,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": null,
+      "notes": "Use the published espresso yield. A time range is retained where the source provides one; no midpoint has been substituted.",
+      "notes_ar": "استخدم وزن ناتج الإسبريسو المنشور. نطاق الزمن محفوظ حين يورده المصدر؛ لم يُستبدل بمتوسط مفترض.",
+      "source_url": "https://codeblackcoffee.com.au/products/ex-wife-espresso-blend-coffee",
+      "source_author_url": "https://codeblackcoffee.com.au",
+      "source_country_url": "https://codeblackcoffee.com.au/products/3056-espresso-blend-coffee",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 20 g of this coffee for espresso. Set the water temperature to 93°C.",
+          "description_ar": "زِن 20 g من هذا البن للإسبريسو. اضبط حرارة الماء على 93°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 35 g beverage output in 29–35 seconds.",
+          "description_ar": "استخلص 35 g من المشروب خلال 29–35 ثانية.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "time_min_seconds": 29,
+          "time_max_seconds": 35,
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "tobys-estate-woolloomooloo-espresso",
+      "title": "Toby's Estate — Woolloomooloo espresso",
+      "title_ar": "توبيز إستيت — وولومولو: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Woolloomooloo",
+      "coffee_name_ar": "وولومولو",
+      "roaster_name": "Toby's Estate",
+      "roaster_name_ar": "توبيز إستيت",
+      "source_author_name": "Toby's Estate",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": null,
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Butterscotch",
+        "Heavy chocolate",
+        "Dried fruits"
+      ],
+      "flavor_notes_ar": [
+        "باترسكوتش",
+        "شوكولاتة كثيفة",
+        "فواكه مجففة"
+      ],
+      "flavor_families": [
+        "caramel",
+        "chocolate",
+        "fruity"
+      ],
+      "dose_grams": 24,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": 40,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 29,
+      "grinder_setting": null,
+      "notes": "Target yield uses the source’s PEAK window, 11–15 days after roast. All published age-dependent yields are preserved in metadata. Water temperature is not published.",
+      "notes_ar": "الناتج المحدد يخص نافذة PEAK المنشورة، من اليوم 11 إلى 15 بعد التحميص. جميع أوزان الناتج المرتبطة بعمر التحميص محفوظة. حرارة الماء غير منشورة.",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "source_author_url": "https://www.tobysestate.com.au",
+      "source_country_url": "https://www.tobysestate.com.au/organic-blend/",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 24 g of this coffee for espresso.",
+          "description_ar": "زِن 24 g من هذا البن للإسبريسو.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 40 g beverage output in 29 seconds.",
+          "description_ar": "استخلص 40 g من المشروب خلال 29 ثانية.",
+          "duration_seconds": 29
+        },
+        {
+          "title": "Adjust for roast age",
+          "title_ar": "الضبط حسب عمر التحميص",
+          "description": "3–5 days: 50 g; 6–10 days: 44 g; 11–15 days: 40 g; 16+ days: 38 g.",
+          "description_ar": "الأيام 3–5: 50 g؛ الأيام 6–10: 44 g؛ الأيام 11–15: 40 g؛ من اليوم 16: 38 g.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "recipe_card_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-woolly-1753942959810.jpg?t=1753942960",
+          "recipe_card_local_path": "/workspace/scratch/a118d5f62443/research/apac-cache/images/toby-card-0.jpg",
+          "yield_by_roast_age": [
+            {
+              "roast_age_min_days": 3,
+              "roast_age_max_days": 5,
+              "yield_grams": 50,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 6,
+              "roast_age_max_days": 10,
+              "yield_grams": 44,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 11,
+              "roast_age_max_days": 15,
+              "yield_grams": 40,
+              "is_peak": true
+            },
+            {
+              "roast_age_min_days": 16,
+              "roast_age_max_days": null,
+              "yield_grams": 38,
+              "is_peak": false
+            }
+          ],
+          "scalar_yield_basis": "Explicit PEAK age window on official card",
+          "peak_age_min_days": 11,
+          "peak_age_max_days": 15,
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "tobys-estate-broadway-espresso",
+      "title": "Toby's Estate — Broadway espresso",
+      "title_ar": "توبيز إستيت — برودواي: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Broadway",
+      "coffee_name_ar": "برودواي",
+      "roaster_name": "Toby's Estate",
+      "roaster_name_ar": "توبيز إستيت",
+      "source_author_name": "Toby's Estate",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": null,
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Spice",
+        "Toffee",
+        "Dark chocolate"
+      ],
+      "flavor_notes_ar": [
+        "بهارات",
+        "توفي",
+        "شوكولاتة داكنة"
+      ],
+      "flavor_families": [
+        "spice",
+        "caramel",
+        "chocolate"
+      ],
+      "dose_grams": 24,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": 40,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 26,
+      "grinder_setting": null,
+      "notes": "Target yield uses the source’s PEAK window, 11–15 days after roast. All published age-dependent yields are preserved in metadata. Water temperature is not published.",
+      "notes_ar": "الناتج المحدد يخص نافذة PEAK المنشورة، من اليوم 11 إلى 15 بعد التحميص. جميع أوزان الناتج المرتبطة بعمر التحميص محفوظة. حرارة الماء غير منشورة.",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "source_author_url": "https://www.tobysestate.com.au",
+      "source_country_url": "https://www.tobysestate.com.au/organic-blend/",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 24 g of this coffee for espresso.",
+          "description_ar": "زِن 24 g من هذا البن للإسبريسو.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 40 g beverage output in 26 seconds.",
+          "description_ar": "استخلص 40 g من المشروب خلال 26 ثانية.",
+          "duration_seconds": 26
+        },
+        {
+          "title": "Adjust for roast age",
+          "title_ar": "الضبط حسب عمر التحميص",
+          "description": "3–5 days: 48 g; 6–10 days: 44 g; 11–15 days: 40 g; 16+ days: 36 g.",
+          "description_ar": "الأيام 3–5: 48 g؛ الأيام 6–10: 44 g؛ الأيام 11–15: 40 g؛ من اليوم 16: 36 g.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "recipe_card_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-broadway-1753943068854.jpg?t=1753943069",
+          "recipe_card_local_path": "/workspace/scratch/a118d5f62443/research/apac-cache/images/toby-card-1.jpg",
+          "yield_by_roast_age": [
+            {
+              "roast_age_min_days": 3,
+              "roast_age_max_days": 5,
+              "yield_grams": 48,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 6,
+              "roast_age_max_days": 10,
+              "yield_grams": 44,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 11,
+              "roast_age_max_days": 15,
+              "yield_grams": 40,
+              "is_peak": true
+            },
+            {
+              "roast_age_min_days": 16,
+              "roast_age_max_days": null,
+              "yield_grams": 36,
+              "is_peak": false
+            }
+          ],
+          "scalar_yield_basis": "Explicit PEAK age window on official card",
+          "peak_age_min_days": 11,
+          "peak_age_max_days": 15,
+          "also_applies_to_coffees": [
+            "Brunswick"
+          ],
+          "same_recipe_card_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-brunswick-1753943388670.jpg?t=1753943389",
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "tobys-estate-rico-espresso",
+      "title": "Toby's Estate — Rico espresso",
+      "title_ar": "توبيز إستيت — ريكو: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Rico",
+      "coffee_name_ar": "ريكو",
+      "roaster_name": "Toby's Estate",
+      "roaster_name_ar": "توبيز إستيت",
+      "source_author_name": "Toby's Estate",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": null,
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Honey",
+        "Milk chocolate",
+        "Fruits"
+      ],
+      "flavor_notes_ar": [
+        "عسل",
+        "شوكولاتة بالحليب",
+        "فاكهة"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "fruity"
+      ],
+      "dose_grams": 22,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": 44,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 24,
+      "grinder_setting": null,
+      "notes": "Target yield uses the source’s PEAK window, 6–10 days after roast. All published age-dependent yields are preserved in metadata. Water temperature is not published.",
+      "notes_ar": "الناتج المحدد يخص نافذة PEAK المنشورة، من اليوم 6 إلى 10 بعد التحميص. جميع أوزان الناتج المرتبطة بعمر التحميص محفوظة. حرارة الماء غير منشورة.",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "source_author_url": "https://www.tobysestate.com.au",
+      "source_country_url": "https://www.tobysestate.com.au/organic-blend/",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 22 g of this coffee for espresso.",
+          "description_ar": "زِن 22 g من هذا البن للإسبريسو.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 44 g beverage output in 24 seconds.",
+          "description_ar": "استخلص 44 g من المشروب خلال 24 ثانية.",
+          "duration_seconds": 24
+        },
+        {
+          "title": "Adjust for roast age",
+          "title_ar": "الضبط حسب عمر التحميص",
+          "description": "3–5 days: 50 g; 6–10 days: 44 g; 11–15 days: 40 g; 16+ days: 38 g.",
+          "description_ar": "الأيام 3–5: 50 g؛ الأيام 6–10: 44 g؛ الأيام 11–15: 40 g؛ من اليوم 16: 38 g.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "recipe_card_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-rico-feb2023.jpg?t=1753943176",
+          "recipe_card_local_path": "/workspace/scratch/a118d5f62443/research/apac-cache/images/toby-card-2.jpg",
+          "yield_by_roast_age": [
+            {
+              "roast_age_min_days": 3,
+              "roast_age_max_days": 5,
+              "yield_grams": 50,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 6,
+              "roast_age_max_days": 10,
+              "yield_grams": 44,
+              "is_peak": true
+            },
+            {
+              "roast_age_min_days": 11,
+              "roast_age_max_days": 15,
+              "yield_grams": 40,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 16,
+              "roast_age_max_days": null,
+              "yield_grams": 38,
+              "is_peak": false
+            }
+          ],
+          "scalar_yield_basis": "Explicit PEAK age window on official card",
+          "peak_age_min_days": 6,
+          "peak_age_max_days": 10,
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "tobys-estate-black-swan-espresso",
+      "title": "Toby's Estate — Black Swan espresso",
+      "title_ar": "توبيز إستيت — بلاك سوان: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Black Swan",
+      "coffee_name_ar": "بلاك سوان",
+      "roaster_name": "Toby's Estate",
+      "roaster_name_ar": "توبيز إستيت",
+      "source_author_name": "Toby's Estate",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": null,
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Stone fruits",
+        "Honey",
+        "Milk chocolate"
+      ],
+      "flavor_notes_ar": [
+        "فاكهة ذات نواة",
+        "عسل",
+        "شوكولاتة بالحليب"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate"
+      ],
+      "dose_grams": 22,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": 39,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 24,
+      "grinder_setting": null,
+      "notes": "Target yield uses the source’s PEAK window, 11–15 days after roast. All published age-dependent yields are preserved in metadata. Water temperature is not published.",
+      "notes_ar": "الناتج المحدد يخص نافذة PEAK المنشورة، من اليوم 11 إلى 15 بعد التحميص. جميع أوزان الناتج المرتبطة بعمر التحميص محفوظة. حرارة الماء غير منشورة.",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "source_author_url": "https://www.tobysestate.com.au",
+      "source_country_url": "https://www.tobysestate.com.au/organic-blend/",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 22 g of this coffee for espresso.",
+          "description_ar": "زِن 22 g من هذا البن للإسبريسو.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 39 g beverage output in 24 seconds.",
+          "description_ar": "استخلص 39 g من المشروب خلال 24 ثانية.",
+          "duration_seconds": 24
+        },
+        {
+          "title": "Adjust for roast age",
+          "title_ar": "الضبط حسب عمر التحميص",
+          "description": "3–5 days: 45 g; 6–10 days: 42 g; 11–15 days: 39 g; 16+ days: 37 g.",
+          "description_ar": "الأيام 3–5: 45 g؛ الأيام 6–10: 42 g؛ الأيام 11–15: 39 g؛ من اليوم 16: 37 g.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "recipe_card_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-blackswan.jpg?t=1753430663",
+          "recipe_card_local_path": "/workspace/scratch/a118d5f62443/research/apac-cache/images/toby-card-4.jpg",
+          "yield_by_roast_age": [
+            {
+              "roast_age_min_days": 3,
+              "roast_age_max_days": 5,
+              "yield_grams": 45,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 6,
+              "roast_age_max_days": 10,
+              "yield_grams": 42,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 11,
+              "roast_age_max_days": 15,
+              "yield_grams": 39,
+              "is_peak": true
+            },
+            {
+              "roast_age_min_days": 16,
+              "roast_age_max_days": null,
+              "yield_grams": 37,
+              "is_peak": false
+            }
+          ],
+          "scalar_yield_basis": "Explicit PEAK age window on official card",
+          "peak_age_min_days": 11,
+          "peak_age_max_days": 15,
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "tobys-estate-organic-blend-espresso",
+      "title": "Toby's Estate — Organic Blend espresso",
+      "title_ar": "توبيز إستيت — الخلطة العضوية: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Organic Blend",
+      "coffee_name_ar": "الخلطة العضوية",
+      "roaster_name": "Toby's Estate",
+      "roaster_name_ar": "توبيز إستيت",
+      "source_author_name": "Toby's Estate",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": null,
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Caramel",
+        "Cocoa",
+        "Fruits"
+      ],
+      "flavor_notes_ar": [
+        "كراميل",
+        "كاكاو",
+        "فاكهة"
+      ],
+      "flavor_families": [
+        "caramel",
+        "chocolate",
+        "fruity"
+      ],
+      "dose_grams": 23,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": 41,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 26,
+      "grinder_setting": null,
+      "notes": "Target yield uses the source’s PEAK window, 11–15 days after roast. All published age-dependent yields are preserved in metadata. Water temperature is not published.",
+      "notes_ar": "الناتج المحدد يخص نافذة PEAK المنشورة، من اليوم 11 إلى 15 بعد التحميص. جميع أوزان الناتج المرتبطة بعمر التحميص محفوظة. حرارة الماء غير منشورة.",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "source_author_url": "https://www.tobysestate.com.au",
+      "source_country_url": "https://www.tobysestate.com.au/organic-blend/",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 23 g of this coffee for espresso.",
+          "description_ar": "زِن 23 g من هذا البن للإسبريسو.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 41 g beverage output in 26 seconds.",
+          "description_ar": "استخلص 41 g من المشروب خلال 26 ثانية.",
+          "duration_seconds": 26
+        },
+        {
+          "title": "Adjust for roast age",
+          "title_ar": "الضبط حسب عمر التحميص",
+          "description": "3–5 days: 46 g; 6–10 days: 43 g; 11–15 days: 41 g; 16+ days: 37 g.",
+          "description_ar": "الأيام 3–5: 46 g؛ الأيام 6–10: 43 g؛ الأيام 11–15: 41 g؛ من اليوم 16: 37 g.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "recipe_card_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-organic-1753943427249.jpg?t=1753943427",
+          "recipe_card_local_path": "/workspace/scratch/a118d5f62443/research/apac-cache/images/toby-card-5.jpg",
+          "yield_by_roast_age": [
+            {
+              "roast_age_min_days": 3,
+              "roast_age_max_days": 5,
+              "yield_grams": 46,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 6,
+              "roast_age_max_days": 10,
+              "yield_grams": 43,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 11,
+              "roast_age_max_days": 15,
+              "yield_grams": 41,
+              "is_peak": true
+            },
+            {
+              "roast_age_min_days": 16,
+              "roast_age_max_days": null,
+              "yield_grams": 37,
+              "is_peak": false
+            }
+          ],
+          "scalar_yield_basis": "Explicit PEAK age window on official card",
+          "peak_age_min_days": 11,
+          "peak_age_max_days": 15,
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "tobys-estate-decaf-espresso",
+      "title": "Toby's Estate — Decaf espresso",
+      "title_ar": "توبيز إستيت — ديكاف: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Decaf",
+      "coffee_name_ar": "ديكاف",
+      "roaster_name": "Toby's Estate",
+      "roaster_name_ar": "توبيز إستيت",
+      "source_author_name": "Toby's Estate",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": null,
+      "coffee_type": "Decaf",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Berries",
+        "Chocolate",
+        "Malt"
+      ],
+      "flavor_notes_ar": [
+        "توت",
+        "شوكولاتة",
+        "مالت"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate"
+      ],
+      "dose_grams": 24,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": 44,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 22,
+      "grinder_setting": null,
+      "notes": "Target yield uses the source’s PEAK window, 6–10 days after roast. All published age-dependent yields are preserved in metadata. Water temperature is not published.",
+      "notes_ar": "الناتج المحدد يخص نافذة PEAK المنشورة، من اليوم 6 إلى 10 بعد التحميص. جميع أوزان الناتج المرتبطة بعمر التحميص محفوظة. حرارة الماء غير منشورة.",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/",
+      "source_author_url": "https://www.tobysestate.com.au",
+      "source_country_url": "https://www.tobysestate.com.au/organic-blend/",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 24 g of this coffee for espresso.",
+          "description_ar": "زِن 24 g من هذا البن للإسبريسو.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 44 g beverage output in 22 seconds.",
+          "description_ar": "استخلص 44 g من المشروب خلال 22 ثانية.",
+          "duration_seconds": 22
+        },
+        {
+          "title": "Adjust for roast age",
+          "title_ar": "الضبط حسب عمر التحميص",
+          "description": "1–5 days: 46 g; 6–10 days: 44 g; 11+ days: 42 g.",
+          "description_ar": "الأيام 1–5: 46 g؛ الأيام 6–10: 44 g؛ من اليوم 11: 42 g.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "recipe_card_url": "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-decaf-1753943465754.jpg?t=1753943466",
+          "recipe_card_local_path": "/workspace/scratch/a118d5f62443/research/apac-cache/images/toby-card-6.jpg",
+          "yield_by_roast_age": [
+            {
+              "roast_age_min_days": 1,
+              "roast_age_max_days": 5,
+              "yield_grams": 46,
+              "is_peak": false
+            },
+            {
+              "roast_age_min_days": 6,
+              "roast_age_max_days": 10,
+              "yield_grams": 44,
+              "is_peak": true
+            },
+            {
+              "roast_age_min_days": 11,
+              "roast_age_max_days": null,
+              "yield_grams": 42,
+              "is_peak": false
+            }
+          ],
+          "scalar_yield_basis": "Explicit PEAK age window on official card",
+          "peak_age_min_days": 6,
+          "peak_age_max_days": 10,
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "five-senses-ardi-ethiopia-espresso",
+      "title": "Five Senses Coffee — Ardi espresso",
+      "title_ar": "فايف سينسز كوفي — أردي: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Ardi",
+      "coffee_name_ar": "أردي",
+      "roaster_name": "Five Senses Coffee",
+      "roaster_name_ar": "فايف سينسز كوفي",
+      "source_author_name": "Five Senses Coffee",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Ethiopia",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Mixed berries",
+        "Ripe orange",
+        "Dark chocolate"
+      ],
+      "flavor_notes_ar": [
+        "توت متنوع",
+        "برتقال ناضج",
+        "شوكولاتة داكنة"
+      ],
+      "flavor_families": [
+        "fruity",
+        "citrus",
+        "chocolate"
+      ],
+      "dose_grams": 22,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": 39,
+      "water_temp_c": 95,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 29,
+      "grinder_setting": null,
+      "notes": "Suggested recipe on the named product. Grind-option menus do not create additional brew-method recipes.",
+      "notes_ar": "وصفة التحضير المقترحة للبن المسمّى. خيارات الطحن في قائمة البيع لا تنشئ وصفات لأدوات إضافية.",
+      "source_url": "https://fivesenses.com.au/products/ardi-ethiopia",
+      "source_author_url": "https://fivesenses.com.au",
+      "source_country_url": "https://fivesenses.com.au/pages/contact",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 22 g of this coffee for espresso. Set the water temperature to 95°C.",
+          "description_ar": "زِن 22 g من هذا البن للإسبريسو. اضبط حرارة الماء على 95°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 39 g beverage output in 29 seconds.",
+          "description_ar": "استخلص 39 g من المشروب خلال 29 ثانية.",
+          "duration_seconds": 29
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "five-senses-umoja-washed-tanzania-espresso",
+      "title": "Five Senses Coffee — Umoja Washed espresso",
+      "title_ar": "فايف سينسز كوفي — أوموجا مغسول: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Umoja Washed",
+      "coffee_name_ar": "أوموجا مغسول",
+      "roaster_name": "Five Senses Coffee",
+      "roaster_name_ar": "فايف سينسز كوفي",
+      "source_author_name": "Five Senses Coffee",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Tanzania",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Sweet blood orange",
+        "Red apple",
+        "Milk chocolate"
+      ],
+      "flavor_notes_ar": [
+        "برتقال دموي حلو",
+        "تفاح أحمر",
+        "شوكولاتة بالحليب"
+      ],
+      "flavor_families": [
+        "citrus",
+        "fruity",
+        "chocolate"
+      ],
+      "dose_grams": 22,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": 46,
+      "water_temp_c": 94.5,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 30,
+      "grinder_setting": null,
+      "notes": "Suggested recipe on the named product. Grind-option menus do not create additional brew-method recipes.",
+      "notes_ar": "وصفة التحضير المقترحة للبن المسمّى. خيارات الطحن في قائمة البيع لا تنشئ وصفات لأدوات إضافية.",
+      "source_url": "https://fivesenses.com.au/products/umoja-washed-tanzania",
+      "source_author_url": "https://fivesenses.com.au",
+      "source_country_url": "https://fivesenses.com.au/pages/contact",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 22 g of this coffee for espresso. Set the water temperature to 94.5°C.",
+          "description_ar": "زِن 22 g من هذا البن للإسبريسو. اضبط حرارة الماء على 94.5°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 46 g beverage output in 30 seconds.",
+          "description_ar": "استخلص 46 g من المشروب خلال 30 ثانية.",
+          "duration_seconds": 30
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "five-senses-sweater-weather-blend-espresso",
+      "title": "Five Senses Coffee — Sweater Weather Blend espresso",
+      "title_ar": "فايف سينسز كوفي — خلطة سويتر ويذر: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Sweater Weather Blend",
+      "coffee_name_ar": "خلطة سويتر ويذر",
+      "roaster_name": "Five Senses Coffee",
+      "roaster_name_ar": "فايف سينسز كوفي",
+      "source_author_name": "Five Senses Coffee",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Brazil, India, Tanzania",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Chocolate",
+        "Mulled wine",
+        "Apricot",
+        "Orange"
+      ],
+      "flavor_notes_ar": [
+        "شوكولاتة",
+        "إيحاء نبيذ متبّل",
+        "مشمش",
+        "برتقال"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "fruity",
+        "citrus",
+        "spice"
+      ],
+      "dose_grams": 21.5,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": 45,
+      "water_temp_c": 94.5,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 29,
+      "grinder_setting": null,
+      "notes": "Suggested recipe on the named product. Grind-option menus do not create additional brew-method recipes.",
+      "notes_ar": "وصفة التحضير المقترحة للبن المسمّى. خيارات الطحن في قائمة البيع لا تنشئ وصفات لأدوات إضافية.",
+      "source_url": "https://fivesenses.com.au/products/sweater-weather-blend",
+      "source_author_url": "https://fivesenses.com.au",
+      "source_country_url": "https://fivesenses.com.au/pages/contact",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 21.5 g of this coffee for espresso. Set the water temperature to 94.5°C.",
+          "description_ar": "زِن 21.5 g من هذا البن للإسبريسو. اضبط حرارة الماء على 94.5°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 45 g beverage output in 29 seconds.",
+          "description_ar": "استخلص 45 g من المشروب خلال 29 ثانية.",
+          "duration_seconds": 29
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "components": [
+            "Samambaia Natural",
+            "Veer Attikan Washed",
+            "Umoja Washed"
+          ],
+          "additional_origin_source_url": "https://fivesenses.com.au/products/samambaia-topazio-brazil",
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    },
+    {
+      "slug": "kurasu-may-2026-comparison-v60",
+      "title": "Kurasu — Brazil Inacio Urban May 2026 comparison V60",
+      "title_ar": "كوراسو — البرازيل إناسيو أوربان: وصفة المقارنة لشهر مايو 2026",
+      "brew_method": "v60",
+      "coffee_name": "Brazil Inacio Urban",
+      "coffee_name_ar": "البرازيل إناسيو أوربان",
+      "roaster_name": "Kurasu",
+      "roaster_name_ar": "كوراسو",
+      "source_author_name": "Kurasu",
+      "creator_country": "Japan",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Brazil",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Citrus",
+        "Raspberry",
+        "Hojicha",
+        "Hazelnut",
+        "Creamy"
+      ],
+      "flavor_notes_ar": [
+        "حمضيات",
+        "توت العليق",
+        "هوجيتشا",
+        "بندق",
+        "قوام كريمي"
+      ],
+      "flavor_families": [
+        "citrus",
+        "fruity",
+        "nutty"
+      ],
+      "dose_grams": 12,
+      "water_grams": 200,
+      "water_ml": null,
+      "yield_grams": null,
+      "water_temp_c": 90,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 140,
+      "grinder_setting": "Coarse",
+      "notes": "One recipe is explicitly shared by Brazil Inacio Urban and Ethiopia Jigesa. Total time is approximately 2:20. No individual pour timestamps or bloom duration are published.",
+      "notes_ar": "وصفة واحدة مشتركة صراحةً بين البرازيل إناسيو أوربان وإثيوبيا جيغيسا. الزمن الكلي نحو 2:20. مواعيد الصبات ومدة التزهير غير منشورة.",
+      "source_url": "https://kurasu.kyoto/blogs/kurasu-journal/may-kurasu-subscription-brazil-inacio-urban-ethiopia-jigesa",
+      "source_author_url": "https://kurasu.kyoto",
+      "source_country_url": "https://kurasu.kyoto/pages/about-kurasu",
+      "video_url": "https://www.youtube.com/watch?v=m8eWX4U8G98",
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 12 g coarsely ground coffee, a ceramic HARIO V60 and HARIO paper. Prepare 200 g water at 90°C.",
+          "description_ar": "استخدم 12 g بن بطحن خشن مع V60 سيراميك وورق هاريو. جهز 200 g ماء عند 90°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Pour 1",
+          "title_ar": "الصبة 1",
+          "description": "Add 40 g water; cumulative total 40 g.",
+          "description_ar": "أضف 40 g ماء؛ يصبح المجموع 40 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Pour 2",
+          "title_ar": "الصبة 2",
+          "description": "Add 60 g water; cumulative total 100 g.",
+          "description_ar": "أضف 60 g ماء؛ يصبح المجموع 100 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Pour 3",
+          "title_ar": "الصبة 3",
+          "description": "Add 50 g water; cumulative total 150 g.",
+          "description_ar": "أضف 50 g ماء؛ يصبح المجموع 150 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Pour 4",
+          "title_ar": "الصبة 4",
+          "description": "Add 50 g water; cumulative total 200 g.",
+          "description_ar": "أضف 50 g ماء؛ يصبح المجموع 200 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Finish",
+          "title_ar": "إنهاء التحضير",
+          "description": "Finish in approximately 2 minutes 20 seconds.",
+          "description_ar": "استهدف الانتهاء خلال نحو دقيقتين و20 ثانية.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [
+        {
+          "water_grams": 40,
+          "start_at_seconds": null,
+          "is_bloom": null
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": null,
+          "is_bloom": null
+        },
+        {
+          "water_grams": 50,
+          "start_at_seconds": null,
+          "is_bloom": null
+        },
+        {
+          "water_grams": 50,
+          "start_at_seconds": null,
+          "is_bloom": null
+        }
+      ],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "brewer": "HARIO V60 Ceramic",
+          "filter": "HARIO paper filter",
+          "also_applies_to_coffees": [
+            "Ethiopia Jigesa"
+          ],
+          "source_publication_date": "2026-05-26",
+          "approximate_total_time": true,
+          "pours_are_incremental": true,
+          "pour_start_times_published": false,
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "اليابان"
+    },
+    {
+      "slug": "kurasu-august-2026-comparison-flash-brew",
+      "title": "Kurasu — Kenya Kangocho AA Japanese flash-brew comparison",
+      "title_ar": "كوراسو — كينيا كانغوتشو إيه إيه: وصفة مقارنة يابانية مثلجة",
+      "brew_method": "pour_over",
+      "coffee_name": "Kenya Kangocho AA",
+      "coffee_name_ar": "كينيا كانغوتشو إيه إيه",
+      "roaster_name": "Kurasu",
+      "roaster_name_ar": "كوراسو",
+      "source_author_name": "Kurasu",
+      "creator_country": "Japan",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": "Japan",
+      "coffee_origin": "Kenya",
+      "coffee_type": "Single origin",
+      "serving_style": "iced",
+      "flavor_notes": [
+        "Floral",
+        "Blackcurrant",
+        "Grape",
+        "Mint"
+      ],
+      "flavor_notes_ar": [
+        "زهور",
+        "كشمش أسود",
+        "عنب",
+        "نعناع"
+      ],
+      "flavor_families": [
+        "floral",
+        "fruity"
+      ],
+      "dose_grams": 15,
+      "water_grams": 150,
+      "water_ml": null,
+      "yield_grams": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": "Finer than a standard hot pour-over",
+      "notes": "The 150 g is hot brewing water; 65–70 g ice is separate. Source provides no water temperature or dripper model. Same recipe is shared with Brazil João Hamilton. Finish at approximately 1:40–1:45, then melt all ice before serving.",
+      "notes_ar": "150 g كمية ماء التحضير الساخن؛ الثلج 65–70 g منفصل. لا يذكر المصدر حرارة الماء أو طراز القمع. الوصفة مشتركة مع البرازيل جواو هاميلتون. تنتهي تقريباً عند 1:40–1:45، ثم يُذاب كل الثلج قبل التقديم.",
+      "source_url": "https://kurasu.kyoto/blogs/kurasu-journal/flash-brew-iced-coffee-kenya-kangocho-aa-brazil-joao-hamilton",
+      "source_author_url": "https://kurasu.kyoto",
+      "source_country_url": "https://kurasu.kyoto/pages/about-kurasu",
+      "video_url": "https://www.youtube.com/watch?v=4TD_XvDIyqk",
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Rinse the paper and warm the dripper. Put 65–70 g ice in the server and 15 g ground coffee in the dripper.",
+          "description_ar": "اشطف الورق وسخن القمع. ضع 65–70 g ثلج في الإبريق و15 g بن مطحون في القمع.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "At 0:00, add 40 g hot water.",
+          "description_ar": "عند 0:00 أضف 40 g ماء ساخن.",
+          "duration_seconds": 40,
+          "start_at_seconds": 0
+        },
+        {
+          "title": "Second pour",
+          "title_ar": "الصبة الثانية",
+          "description": "At 0:40, add 60 g to reach 100 g total water.",
+          "description_ar": "عند 0:40 أضف 60 g ليصبح مجموع الماء 100 g.",
+          "duration_seconds": null,
+          "start_at_seconds": 40
+        },
+        {
+          "title": "Final pour",
+          "title_ar": "الصبة الأخيرة",
+          "description": "At 1:10, gently add 50 g to reach 150 g total; avoid excessive agitation.",
+          "description_ar": "عند 1:10 أضف 50 g بهدوء ليصبح مجموع الماء 150 g، مع تجنب التحريك الزائد.",
+          "duration_seconds": null,
+          "start_at_seconds": 70
+        },
+        {
+          "title": "Finish and mix",
+          "title_ar": "الإنهاء والمزج",
+          "description": "Finish around 1:40–1:45, remove the dripper and stir until all ice melts.",
+          "description_ar": "أنه التحضير قرب 1:40–1:45، وارفع القمع وحرك المشروب حتى يذوب كل الثلج.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [
+        {
+          "water_grams": 40,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": 40,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 50,
+          "start_at_seconds": 70,
+          "is_bloom": false
+        }
+      ],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "also_applies_to_coffees": [
+            "Brazil João Hamilton"
+          ],
+          "source_publication_date": "2026-09-23",
+          "subscription_month": "2026-08",
+          "ice_min_grams": 65,
+          "ice_max_grams": 70,
+          "time_min_seconds": 100,
+          "time_max_seconds": 105,
+          "time_is_approximate": true,
+          "brewer_model_not_published": true,
+          "pours_are_incremental": true,
+          "source_calls_method": "Japanese flash-brew iced coffee",
+          "source_procedure_status": "published_procedure"
+        }
+      },
+      "is_incomplete_source": false,
+      "creator_country_ar": "اليابان",
+      "recipe_country_ar": "اليابان"
+    },
+    {
+      "slug": "coffee-supreme-au-south-blend-espresso",
+      "title": "Coffee Supreme AU — South Blend espresso",
+      "title_ar": "كوفي سوبريم أستراليا — خلطة ساوث: إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "South Blend",
+      "coffee_name_ar": "خلطة ساوث",
+      "roaster_name": "Coffee Supreme AU",
+      "roaster_name_ar": "كوفي سوبريم أستراليا",
+      "source_author_name": "Coffee Supreme AU",
+      "creator_country": "Australia",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": null,
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Maltesers",
+        "Caramel",
+        "Praline"
+      ],
+      "flavor_notes_ar": [
+        "مالتيزرز",
+        "كراميل",
+        "برالين"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "caramel",
+        "nutty"
+      ],
+      "dose_grams": 20,
+      "water_grams": null,
+      "water_ml": null,
+      "yield_grams": 40,
+      "water_temp_c": 94,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": null,
+      "notes": "40 g is the explicit nominal output with ±2 g tolerance. Brewing time remains 28–32 seconds. Plunger and stovetop suitability labels do not supply additional recipes.",
+      "notes_ar": "40 g هو الناتج الاسمي المنشور بهامش ±2 g. الزمن يبقى 28–32 ثانية. وسوم الملاءمة للفرنش برس والموكا لا تتضمن وصفات إضافية.",
+      "source_url": "https://shopau.coffeesupreme.com/products/south-blend",
+      "source_author_url": "https://shopau.coffeesupreme.com",
+      "source_country_url": "https://shopau.coffeesupreme.com/pages/about",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 20 g of this coffee for espresso. Set the water temperature to 94°C.",
+          "description_ar": "زِن 20 g من هذا البن للإسبريسو. اضبط حرارة الماء على 94°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Extract to 40 g beverage output in 28–32 seconds.",
+          "description_ar": "استخلص 40 g من المشروب خلال 28–32 ثانية.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "yield_tolerance_grams": 2,
+          "yield_min_grams": 38,
+          "yield_max_grams": 42,
+          "time_min_seconds": 28,
+          "time_max_seconds": 32,
+          "source_yield_expression": "40 g ± 2 g",
+          "source_procedure_status": "parameter_specification_only",
+          "editorial_step_basis": "Bilingual steps restate published measurements; no detailed preparation sequence or missing timings were supplied by the source."
+        }
+      },
+      "is_incomplete_source": true,
+      "creator_country_ar": "أستراليا"
+    }
+  ],
+  "excluded": [
+    {
+      "url": "https://onacoffee.com.au/blogs/brewguides/el-lino-nicaragua-washed",
+      "reason": "The captured official guide publishes 212 seconds for 20.3 g → 44 g espresso at 93.5°C. This suspicious value is excluded; it has not been silently changed to 21 or 22 seconds."
+    },
+    {
+      "url": "https://fivesenses.com.au/pages/espresso-recipes",
+      "reason": "Same-name Risaralda Washed rows disagree (21.5 g → 48 g / 30 s versus 21.5 g → 44 g / 28 s); the Veer Attikan row lists 9.5°C. These rows are excluded without correction."
+    },
+    {
+      "url": "https://fivesenses.com.au/products/crompton-road-blend",
+      "reason": "General espresso table gives 29 s; product recipe gives 30 s at the same 22 g → 44 g / 94.5°C.",
+      "related_urls": [
+        "https://fivesenses.com.au/pages/espresso-recipes"
+      ]
+    },
+    {
+      "url": "https://fivesenses.com.au/products/dark-horse-blend",
+      "reason": "General table gives 22 g → 44 g / 29 s / 95°C; product gives 22 g → 44 g / 30 s / 94.5°C.",
+      "related_urls": [
+        "https://fivesenses.com.au/pages/espresso-recipes"
+      ]
+    },
+    {
+      "url": "https://fivesenses.com.au/products/hi-fidelity-blend",
+      "reason": "General table gives 21.5 g → 48 g / 29 s; product gives 22 g → 44 g / 30 s, both at 94.5°C.",
+      "related_urls": [
+        "https://fivesenses.com.au/pages/espresso-recipes"
+      ]
+    },
+    {
+      "url": "https://fivesenses.com.au/products/umoja-tanzania",
+      "reason": "Umoja Natural table gives 21 g → 42 g / 26 s / 95°C; captured natural-product recipe gives 21.5 g → 42 g / 28 s / 94.5°C. This is distinct from the included Umoja Washed.",
+      "related_urls": [
+        "https://fivesenses.com.au/pages/espresso-recipes"
+      ]
+    },
+    {
+      "url": "https://codeblackcoffee.com.au/collections/espresso/products/colombia-sugarcane-decaf-espresso-single-origin-coffee",
+      "reason": "Recipe heading has no usable dose, output, time or temperature in the captured page; metadata image filename also refers to a filter version. No parameters were invented."
+    },
+    {
+      "url": "https://codeblackcoffee.com.au/collections/espresso/products/kenya-kainamui-aa-washed-espresso-single-origin",
+      "reason": "Only an espresso ratio of 1:2.5 was captured; no coffee dose, time or temperature. Not included as a complete actionable recipe."
+    },
+    {
+      "url": "https://www.tobysestate.com.au/brew-guides/",
+      "reason": "Brunswick card has exactly the same 24 g / 26 s and roast-age yields as Broadway. Both named coffees are retained, with a single canonical Broadway/Brunswick recipe.",
+      "related_urls": [
+        "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-broadway-1753943068854.jpg?t=1753943069",
+        "https://cdn11.bigcommerce.com/s-m2isrqnxtu/images/stencil/original/image-manager/blend-recipe-card-web-brunswick-1753943388670.jpg?t=1753943389"
+      ]
+    },
+    {
+      "url": "https://www.fritz.co.kr/about_blend.html?cate_no=45",
+      "reason": "Fritz current basket-area formulas and flow-dependent times differ from older named-blend basket tables. For example Old Dog older 18 g basket advice uses 16–17 g → 40–44 g, while the current formulas yield 34–38 g at those doses. No silent choice of guide version was made.",
+      "related_urls": [
+        "https://fritz.co.kr/product/detail.html?product_no=75&cate_no=45&display_group=1",
+        "https://fritz.co.kr/product/detail.html?product_no=226&cate_no=45&display_group=1",
+        "https://fritz.co.kr/product/detail.html?product_no=227&cate_no=45&display_group=1"
+      ]
+    },
+    {
+      "url": "https://kurasu.kyoto/blogs/kurasu-journal/september-2026-subscription-costa-rica-indonesia-v60",
+      "reason": "Article names two coffees and gives 200 g in 40+60+50+50 g pours, but omits coffee dose, water temperature and final time. Missing values were not borrowed from the May recipe."
+    },
+    {
+      "url": "https://kurasu.kyoto/products/ethiopia-sidamo-decaf-medium-roast-2025",
+      "reason": "Method guide blocks are reused on multiple product pages; not counted as additional uniquely coffee-specific recipes in this curated batch."
+    },
+    {
+      "url": "https://shop.glitchcoffee.com/en/pages/brew-guide",
+      "reason": "Located locale-specific generic ORIGAMI instructions differ (English 14.5 g / 260 g / four pours versus Japanese 15 g / 240 g / three pours); this research did not establish a single matching coffee-specific variant.",
+      "related_urls": [
+        "https://shop.glitchcoffee.com/pages/brew-guide"
+      ]
+    },
+    {
+      "url": "https://marketlane.com.au/",
+      "reason": "Official-source search found general method guides, without a verified additional coffee-specific recipe for this batch. This is not a claim that none exist."
+    },
+    {
+      "url": "https://sevenseeds.com.au/",
+      "reason": "Official-source search found general guides; no additional named-coffee recipe was sufficiently verified for this batch."
+    }
+  ],
+  "counts": {
+    "roasters": 6,
+    "coffees": 31,
+    "recipes": 28,
+    "recipes_by_roaster": {
+      "ONA Coffee": 13,
+      "Code Black Coffee": 3,
+      "Toby's Estate": 6,
+      "Five Senses Coffee": 3,
+      "Kurasu": 2,
+      "Coffee Supreme AU": 1
+    },
+    "recipes_by_method": {
+      "espresso": 20,
+      "v60": 7,
+      "pour_over": 1
+    },
+    "coffees_with_image": 27
+  }
+}

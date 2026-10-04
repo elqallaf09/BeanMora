@@ -16,6 +16,12 @@ Next.js 15 (App Router) · TypeScript · Tailwind CSS v4 · shadcn/ui-style
 components (Radix primitives) · Supabase (Postgres, Auth, Storage, RLS) ·
 next-intl (ar/en) · Vitest (unit) · Playwright (E2E) · PWA manifest.
 
+## Android app
+
+The React Native app is in `apps/mobile`. Version **0.3.0 / Android versionCode 8**
+is configured for a manually built preview APK in the existing Expo project.
+See the [manual APK build and installation guide](apps/mobile/README.md#manual-android-apk-release).
+
 ## Getting started
 
 ```bash

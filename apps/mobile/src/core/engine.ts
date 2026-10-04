@@ -1,5 +1,5 @@
 /** Explainable rules, not a trained model or a probability of liking coffee. */
-export const METHODS = ["v60", "espresso", "xbloom", "aeropress", "chemex", "french_press", "cold_brew", "moka_pot", "origami", "kalita_wave"] as const;
+export const METHODS = ["v60", "espresso", "xbloom", "aeropress", "chemex", "french_press", "cold_brew", "moka_pot", "origami", "kalita_wave", "april", "orea", "switch", "pour_over", "auto_drip"] as const;
 export type Method = (typeof METHODS)[number];
 export const FLAVORS = ["chocolate", "nutty", "fruity", "citrus", "floral", "caramel", "spice"] as const;
 export type Flavor = (typeof FLAVORS)[number];

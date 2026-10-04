@@ -1,0 +1,359 @@
+[
+  {
+    "name": "Kayon Mountain Natural Heirloom",
+    "roaster": "April Coffee Roasters",
+    "url": "https://cdn.shopify.com/s/files/1/1510/0358/files/KayonMountain250g.jpg?width=700",
+    "http_status": 200,
+    "mime_type": "image/jpeg",
+    "dimensions": [
+      700,
+      700
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/01.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Kamavindi Washed SL28 & SL34 AA",
+    "roaster": "April Coffee Roasters",
+    "url": "https://cdn.shopify.com/s/files/1/1510/0358/files/filter250g.jpg?width=700",
+    "http_status": 200,
+    "mime_type": "image/jpeg",
+    "dimensions": [
+      700,
+      700
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/02.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Tadesse Washed Krume",
+    "roaster": "April Coffee Roasters",
+    "url": "https://cdn.shopify.com/s/files/1/1510/0358/files/filter250g.jpg?width=700",
+    "http_status": 200,
+    "mime_type": "image/jpeg",
+    "dimensions": [
+      700,
+      700
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/03.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Volcan Azul Washed SL28",
+    "roaster": "April Coffee Roasters",
+    "url": "https://cdn.shopify.com/s/files/1/1510/0358/files/filter250g.jpg?width=700",
+    "http_status": 200,
+    "mime_type": "image/jpeg",
+    "dimensions": [
+      700,
+      700
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/04.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Reset Half Caff",
+    "roaster": "Workshop Coffee",
+    "url": "https://workshopcoffee.com/cdn/shop/files/250g_Reset.png?v=1765380913",
+    "http_status": 200,
+    "mime_type": "image/png",
+    "dimensions": [
+      3600,
+      2400
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/05.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Chakra",
+    "roaster": "Workshop Coffee",
+    "url": "https://workshopcoffee.com/cdn/shop/files/250gChakra.png?v=1775055674",
+    "http_status": 200,
+    "mime_type": "image/png",
+    "dimensions": [
+      3600,
+      2400
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/06.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "La Plata Decaf",
+    "roaster": "Workshop Coffee",
+    "url": "https://workshopcoffee.com/cdn/shop/files/250g_La_Plata.png?v=1765373525",
+    "http_status": 200,
+    "mime_type": "image/png",
+    "dimensions": [
+      3600,
+      2400
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/07.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Pillar",
+    "roaster": "Workshop Coffee",
+    "url": "https://workshopcoffee.com/cdn/shop/files/250g_Pillar.png?v=1765373524",
+    "http_status": 200,
+    "mime_type": "image/png",
+    "dimensions": [
+      3600,
+      2400
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/08.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Maidy Bocanegra Pink Bourbon",
+    "roaster": "Workshop Coffee",
+    "url": "https://workshopcoffee.com/cdn/shop/files/250gMaidyBocanegra.png?v=1789119013",
+    "http_status": 200,
+    "mime_type": "image/png",
+    "dimensions": [
+      3600,
+      2400
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/09.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "La Torre Mejia Geisha",
+    "roaster": "Gardelli Specialty Coffees",
+    "url": "https://gardellicoffee.b-cdn.net/7437-large_default/la-torre-mejia-geisha-peru.jpg",
+    "http_status": 200,
+    "mime_type": "image/jpeg",
+    "dimensions": [
+      1000,
+      1400
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/10.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Lalesa Ephtah",
+    "roaster": "Gardelli Specialty Coffees",
+    "url": "https://gardellicoffee.b-cdn.net/7652-large_default/lalesa-ephtah-ethiopia.jpg",
+    "http_status": 200,
+    "mime_type": "image/jpeg",
+    "dimensions": [
+      1000,
+      1400
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/11.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Cumbres Decaffeinated",
+    "roaster": "Gardelli Specialty Coffees",
+    "url": "https://gardellicoffee.b-cdn.net/7391-large_default/cumbres-decaffeinated-colombia.jpg",
+    "http_status": 200,
+    "mime_type": "image/jpeg",
+    "dimensions": [
+      1000,
+      1400
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/12.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Red Brick",
+    "url": "https://shop.squaremilecoffee.com/cdn/shop/files/REDBRICK-92.jpg?v=1790672242",
+    "error": "HTTP Error 403: Forbidden",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Churupallana 2026",
+    "roaster": "NOMAD Coffee",
+    "url": "https://nomadcoffee.es/cdn/shop/files/E.PE.CHU_1.png?v=1782734878",
+    "http_status": 200,
+    "mime_type": "image/png",
+    "dimensions": [
+      1982,
+      2780
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/14.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Parainema 2026",
+    "roaster": "NOMAD Coffee",
+    "url": "https://nomadcoffee.es/cdn/shop/files/E.SA.PARA_1_6a77b08e-b709-42c9-b918-64c442718ec8.png?v=1777455238",
+    "http_status": 200,
+    "mime_type": "image/png",
+    "dimensions": [
+      1982,
+      2780
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/15.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Pacas 2026",
+    "roaster": "NOMAD Coffee",
+    "url": "https://nomadcoffee.es/cdn/shop/files/E.SA.PACA_1.png?v=1778676920",
+    "http_status": 200,
+    "mime_type": "image/png",
+    "dimensions": [
+      1982,
+      2780
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/16.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Kafipamba",
+    "roaster": "NOMAD Coffee",
+    "url": "https://nomadcoffee.es/cdn/shop/files/E.EC.KAFI_1_69dcf032-9077-483e-941e-fbe3aa4039a3.png?v=1782734931",
+    "http_status": 200,
+    "mime_type": "image/png",
+    "dimensions": [
+      1982,
+      2780
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/17.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Jhenrry Chávez",
+    "roaster": "NOMAD Coffee",
+    "url": "https://nomadcoffee.es/cdn/shop/files/f.cr.can_1_db7cdf59-17a6-4397-af61-602d90cb998b.jpg?v=1790347220",
+    "http_status": 200,
+    "mime_type": "image/jpeg",
+    "dimensions": [
+      3964,
+      5560
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/18.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Silky Way",
+    "roaster": "DAK Coffee Roasters",
+    "url": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Silky-Way_Render_Front_89x89-1024x717.png",
+    "http_status": 200,
+    "mime_type": "image/png",
+    "dimensions": [
+      1024,
+      717
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/19.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "The Alchemist",
+    "roaster": "DAK Coffee Roasters",
+    "url": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/08/The-Alchemist2025_Render_Front_89x89-1024x717.png",
+    "http_status": 200,
+    "mime_type": "image/png",
+    "dimensions": [
+      1024,
+      717
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/20.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Golden Waffle",
+    "roaster": "DAK Coffee Roasters",
+    "url": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Golden-Waffle_Render_Front_89x89-1024x717.png",
+    "http_status": 200,
+    "mime_type": "image/png",
+    "dimensions": [
+      1024,
+      717
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/21.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Juice Box",
+    "roaster": "DAK Coffee Roasters",
+    "url": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Juice-Box_Render_Front_89x89-1024x717.png",
+    "http_status": 200,
+    "mime_type": "image/png",
+    "dimensions": [
+      1024,
+      717
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/22.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Caramello",
+    "roaster": "DAK Coffee Roasters",
+    "url": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Caramello_Render_Front_89x89-1024x717.png",
+    "http_status": 200,
+    "mime_type": "image/png",
+    "dimensions": [
+      1024,
+      717
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/23.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Cream Donut",
+    "roaster": "DAK Coffee Roasters",
+    "url": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Cream-Donut_Render_Front_89x89-1024x717.png",
+    "http_status": 200,
+    "mime_type": "image/png",
+    "dimensions": [
+      1024,
+      717
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/24.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Milky Cake",
+    "roaster": "DAK Coffee Roasters",
+    "url": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Milky-Cake_Render_Front_89x89-1024x717.png",
+    "http_status": 200,
+    "mime_type": "image/png",
+    "dimensions": [
+      1024,
+      717
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/25.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Berry Blues",
+    "roaster": "DAK Coffee Roasters",
+    "url": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Berry-Blues_Render_Front_89x89-1024x717.png",
+    "http_status": 200,
+    "mime_type": "image/png",
+    "dimensions": [
+      1024,
+      717
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/26.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Black Diamond",
+    "roaster": "Archers Coffee",
+    "url": "https://archerscoffee.com/cdn/shop/files/BlackDiamond.png?v=1683704979",
+    "http_status": 200,
+    "mime_type": "image/png",
+    "dimensions": [
+      2957,
+      3695
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/27.png",
+    "checked_at": "2026-10-04"
+  },
+  {
+    "name": "Bittersweet",
+    "roaster": "Archers Coffee",
+    "url": "https://archerscoffee.com/cdn/shop/files/Bittersweet.png?v=1683704863",
+    "http_status": 200,
+    "mime_type": "image/png",
+    "dimensions": [
+      2957,
+      3695
+    ],
+    "local_path": "/workspace/scratch/a118d5f62443/research/emea-evidence/images/28.png",
+    "checked_at": "2026-10-04"
+  }
+]

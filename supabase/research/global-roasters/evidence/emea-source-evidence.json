@@ -1,0 +1,841 @@
+{
+  "checked_at": "2026-10-04",
+  "scope": "Reviewed official Europe and Middle East roaster pages; not an exhaustive census. Live pages override stale search snippets.",
+  "sources": [
+    {
+      "url": "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/kayon-mountain",
+      "checked_at": "2026-10-04",
+      "facts": [
+        {
+          "coffee": "Natural Processed Heirloom Varietals",
+          "recipe_filter_parameters": "Dose: 13g\nWater: 200g at 94°C\nGrind size: 9\nBrew time: 2 to 3 min\nTarget TDS: 1.25 - 1.35",
+          "recipe_espresso_parameters": "Dose (in): 18g\nDose (out): 48g\nGrind Setting: 4,2\nBrew Time: 23-25s\nTarget TDS: 6.5 - 8"
+        }
+      ],
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/kayon-mountain-structured.json"
+      ],
+      "limitations": "Filter example and prose disagree on second-pour start (30 vs 35 s) on several pages; only Kayon filter is imported. SP Costa Rica process conflicts between product and farm pages; excluded. Tadesse Krume number conflicts: 74158 vs 75158."
+    },
+    {
+      "url": "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/kamavindi",
+      "checked_at": "2026-10-04",
+      "facts": [
+        {
+          "coffee": "Washed processed SL28 & SL34 (AA)",
+          "recipe_filter_parameters": "Dose: 12g\nWater: 200g at 92°C\nGrind size: 14\nBrew time: 3:00\nTarget TDS: 1.25 - 1.35",
+          "recipe_espresso_parameters": "Dose (in): 20g\nDose (out): 58-60g\nGrind Setting: 0.4\nBrew Time: 22s\nTarget TDS: 6.5 - 8"
+        },
+        {
+          "coffee": "Washed Processed SL34 (AB)",
+          "recipe_filter_parameters": "Dose: 12g\nWater: 200g at 92°C\nGrind size: 14\nBrew time: 3:00\nTarget TDS: 1.25 - 1.35",
+          "recipe_espresso_parameters": "Dose (in): 20g\nDose (out): 58-60g\nGrind Setting: 0.4\nBrew Time: 22s\nTarget TDS: 6.5 - 8"
+        },
+        {
+          "coffee": "Washed Processed SL28 (AA)",
+          "recipe_filter_parameters": "Dose: 12g\nWater: 200g at 92°C\nGrind size: 14\nBrew time: 3:00\nTarget TDS: 1.25 - 1.35",
+          "recipe_espresso_parameters": "Dose (in): 20g\nDose (out): 58-60g\nGrind Setting: 0.4\nBrew Time: 22s\nTarget TDS: 6.5 - 8"
+        }
+      ],
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/kamavindi-structured.json"
+      ],
+      "limitations": "Filter example and prose disagree on second-pour start (30 vs 35 s) on several pages; only Kayon filter is imported. SP Costa Rica process conflicts between product and farm pages; excluded. Tadesse Krume number conflicts: 74158 vs 75158."
+    },
+    {
+      "url": "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/tadesse-station",
+      "checked_at": "2026-10-04",
+      "facts": [
+        {
+          "coffee": "Washed Processed Krume",
+          "recipe_filter_parameters": "Dose: 12g\nWater: 200g at 92°C\nGrind size: 13\nBrew time: 2:50 - 3:00\nTarget TDS: 1.25 - 1.35",
+          "recipe_espresso_parameters": "Dose (in): 19g\nDose (out): 56-60g \nGrind Setting: 1.5\nBrew Time: 21s\nTarget TDS: 6.5 - 8"
+        },
+        {
+          "coffee": "Natural Processed Krume",
+          "recipe_filter_parameters": "Dose: 12g\nWater: 200g at 92°C\nGrind size: 13\nBrew time: 2:50 - 3:00\nTarget TDS: 1.25 - 1.35",
+          "recipe_espresso_parameters": "Dose (in): 19g\nDose (out): 56-60g \nGrind Setting: 1.5\nBrew Time: 21s\nTarget TDS: 6.5 - 8"
+        }
+      ],
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/tadesse-station-structured.json"
+      ],
+      "limitations": "Filter example and prose disagree on second-pour start (30 vs 35 s) on several pages; only Kayon filter is imported. SP Costa Rica process conflicts between product and farm pages; excluded. Tadesse Krume number conflicts: 74158 vs 75158."
+    },
+    {
+      "url": "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/volcan-azul",
+      "checked_at": "2026-10-04",
+      "facts": [
+        {
+          "coffee": "Washed processed SL28",
+          "recipe_filter_parameters": "Base recipe with April Brewer\nDose: 13g\nWater: 200g at 94°C\nGrind size: 9\nBrew time: 2 to 3 min\nTarget TDS: 1.25 - 1.35",
+          "recipe_espresso_parameters": "Dose (in): 19g\nDose (out): 60g (1:3.2) \nPressure: 6 bar\nGrind Setting: 4\nBrew Time: 20-25s\nTarget TDS: 6.5 - 8"
+        },
+        {
+          "coffee": "Natural processed SL28",
+          "recipe_filter_parameters": "Base recipe with April Brewer\nDose: 13g\nWater: 200g at 94°C\nWater Mineral Drops: 1 (applied in the cup or server)\nGrind size: 700\nBrew time: 2.30 to 3:00\nTarget TDS: 1.25 - 1.35",
+          "recipe_espresso_parameters": "Base recipe for Espresso\nDose (in): 18g\nDose (out): 48g\nPressure: 6 bar \nGrind Setting: 4,2\nBrew Time: 23-25s\nTarget TDS: 6.5 - 8"
+        },
+        {
+          "coffee": "SP Costa Rica",
+          "recipe_filter_parameters": "Dose: 13g\nWater: 200g at 94°C\nGrind size: 700 micron \nBrew time: 2 to 3 min\nTarget TDS: 1.25 - 1.35",
+          "recipe_espresso_parameters": "Base recipe for Espresso\nDose (in): 18g\nDose (out): 48g\nBar Pressure: 6\nGrind Setting: 4,2\nBrew Time: 23-25s\nTarget TDS: 6.5 - 8"
+        }
+      ],
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/volcan-azul-structured.json"
+      ],
+      "limitations": "Filter example and prose disagree on second-pour start (30 vs 35 s) on several pages; only Kayon filter is imported. SP Costa Rica process conflicts between product and farm pages; excluded. Tadesse Krume number conflicts: 74158 vs 75158."
+    },
+    {
+      "url": "https://workshopcoffee.com/products/reset",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "coffee": "Reset Half Caff",
+        "origin": "Colombia",
+        "espresso": {
+          "dose_g": 18,
+          "yield_g": 38,
+          "temperature_c": 93.5,
+          "pressure_bar": 9,
+          "time_range_s": [
+            30,
+            32
+          ]
+        },
+        "pourover": {
+          "dose_g": 21,
+          "water_g": 300,
+          "temp_c": 95,
+          "bloom_g": 50,
+          "bloom_s": 30,
+          "increments_g": 50,
+          "increment_interval_s": 30,
+          "finish_s": 210
+        },
+        "photo": "https://workshopcoffee.com/cdn/shop/files/250g_Reset.png?v=1765380913"
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/reset.txt"
+      ],
+      "limitations": null
+    },
+    {
+      "url": "https://workshopcoffee.com/products/chakra",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "coffee": "Chakra",
+        "origin": "Peru",
+        "espresso": {
+          "dose_g": 18,
+          "yield_g": 38,
+          "temperature_c": 93.5,
+          "pressure_bar": 9,
+          "time_range_s": [
+            30,
+            32
+          ]
+        },
+        "pourover": {
+          "dose_g": 21,
+          "water_g": 300,
+          "temp_c": 95,
+          "bloom_g": 50,
+          "bloom_s": 30,
+          "increments_g": 50,
+          "increment_interval_s": 30,
+          "finish_s": 210
+        },
+        "photo": "https://workshopcoffee.com/cdn/shop/files/250gChakra.png?v=1775055674"
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/chakra.txt"
+      ],
+      "limitations": null
+    },
+    {
+      "url": "https://workshopcoffee.com/products/la-plata-decaf",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "coffee": "La Plata Decaf",
+        "origin": "Colombia",
+        "espresso": {
+          "dose_g": 18,
+          "yield_g": 38,
+          "temperature_c": 93.5,
+          "pressure_bar": 9,
+          "time_range_s": [
+            30,
+            32
+          ]
+        },
+        "pourover": {
+          "dose_g": 21,
+          "water_g": 300,
+          "temp_c": 95,
+          "bloom_g": 50,
+          "bloom_s": 30,
+          "increments_g": 50,
+          "increment_interval_s": 30,
+          "finish_s": 210
+        },
+        "photo": "https://workshopcoffee.com/cdn/shop/files/250g_La_Plata.png?v=1765373525"
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/la-plata-decaf.txt"
+      ],
+      "limitations": null
+    },
+    {
+      "url": "https://workshopcoffee.com/products/pillar",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "coffee": "Pillar",
+        "origin": "Brazil; Ethiopia",
+        "espresso": {
+          "dose_g": 18,
+          "yield_g": 36,
+          "temperature_c": 93.5,
+          "pressure_bar": 9,
+          "time_range_s": [
+            28,
+            30
+          ]
+        },
+        "pourover": {
+          "dose_g": 24,
+          "water_g": 300,
+          "temp_c": 90,
+          "bloom_g": 50,
+          "bloom_s": 30,
+          "increments_g": 50,
+          "increment_interval_s": 30,
+          "finish_s": 210
+        },
+        "photo": "https://workshopcoffee.com/cdn/shop/files/250g_Pillar.png?v=1765373524"
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/pillar.txt"
+      ],
+      "limitations": null
+    },
+    {
+      "url": "https://workshopcoffee.com/products/maidy-bocanegra-pink-bourbon",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "coffee": "Maidy Bocanegra Pink Bourbon",
+        "origin": "Colombia",
+        "espresso": null,
+        "pourover": {
+          "dose_g": 18,
+          "water_g": 300,
+          "temp_c": 100,
+          "bloom_g": 50,
+          "bloom_s": 30,
+          "increments_g": 50,
+          "increment_interval_s": 30,
+          "finish_s": 210
+        },
+        "photo": "https://workshopcoffee.com/cdn/shop/files/250gMaidyBocanegra.png?v=1789119013"
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/maidy-bocanegra-pink-bourbon.txt"
+      ],
+      "limitations": null
+    },
+    {
+      "url": "https://shop.gardellicoffee.com/coffees/813-la-torre-mejia-geisha-peru",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "coffee": "La Torre Mejia Geisha",
+        "dose_g": 17,
+        "water_g": 250,
+        "water_tds_ppm": 40,
+        "temperature_c": 94,
+        "comandante_clicks": 16,
+        "time_s": 160,
+        "filter": "Cafec Abaca+",
+        "photo": "https://gardellicoffee.b-cdn.net/7437-large_default/la-torre-mejia-geisha-peru.jpg"
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/813-la-torre-mejia-geisha-peru.txt"
+      ],
+      "limitations": "Cumbres regional text conflicts (Antioquia vs Nariño); only country is retained."
+    },
+    {
+      "url": "https://shop.gardellicoffee.com/coffees/834-441-lalesa-ephtah-ethiopia",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "coffee": "Lalesa Ephtah",
+        "dose_g": 17,
+        "water_g": 250,
+        "water_tds_ppm": 40,
+        "temperature_c": 92,
+        "comandante_clicks": 18,
+        "time_s": 165,
+        "filter": "Cafec Abaca+",
+        "photo": "https://gardellicoffee.b-cdn.net/7652-large_default/lalesa-ephtah-ethiopia.jpg"
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/834-441-lalesa-ephtah-ethiopia.txt"
+      ],
+      "limitations": "Cumbres regional text conflicts (Antioquia vs Nariño); only country is retained."
+    },
+    {
+      "url": "https://shop.gardellicoffee.com/coffees/821-425-cumbres-decaffeinated-colombia",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "coffee": "Cumbres Decaffeinated",
+        "dose_g": 17,
+        "water_g": 250,
+        "water_tds_ppm": 40,
+        "temperature_c": 95,
+        "comandante_clicks": 23,
+        "time_s": 160,
+        "filter": "Cafec Abaca+",
+        "photo": "https://gardellicoffee.b-cdn.net/7391-large_default/cumbres-decaffeinated-colombia.jpg"
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/821-425-cumbres-decaffeinated-colombia.txt"
+      ],
+      "limitations": "Cumbres regional text conflicts (Antioquia vs Nariño); only country is retained."
+    },
+    {
+      "url": "https://shop.squaremilecoffee.com/products/red-brick",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "dose_g": 19,
+        "brew_ratio": "1:2",
+        "yield_g_derived": 38,
+        "temp_range_c": [
+          94,
+          94.5
+        ],
+        "time_range_s": [
+          28,
+          32
+        ],
+        "composition": "70% Altamira de Chirripó, Costa Rica; 30% Lalesa, Ethiopia",
+        "photo": "https://shop.squaremilecoffee.com/cdn/shop/files/REDBRICK-92.jpg?v=1790672242"
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/red-brick.txt"
+      ],
+      "limitations": "Direct About page request returned 403; country verified in available official page/footer and official web retrieval, no bypass attempted."
+    },
+    {
+      "url": "https://nomadcoffee.es/en/pages/historico-recetas",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "entries": [
+          {
+            "name": "Churupallana 2026",
+            "dose_g": 17.5,
+            "yield_g": 41,
+            "time_s": 26,
+            "grinder_machine": "Sage Barista Pro; grind 18; grind time 14 s"
+          },
+          {
+            "name": "Parainema 2026",
+            "dose_g": 19,
+            "yield_g": 40.5,
+            "time_s": 26,
+            "grinder_machine": "La Marzocco Micra; grind 18III (grinder not named in entry)"
+          },
+          {
+            "name": "Pacas 2026",
+            "dose_g": 18.5,
+            "yield_g": 40,
+            "time_s": 29,
+            "grinder_machine": "La Marzocco Mini; La Marzocco Pico 18.25"
+          },
+          {
+            "name": "Kafipamba",
+            "dose_g": 16.5,
+            "yield_g": 39,
+            "time_s": 25,
+            "grinder_machine": "Sage Barista Pro; grind 13; grind time 12 s"
+          },
+          {
+            "name": "Jhenrry Chavez",
+            "method": "OREA V4 Classic",
+            "dose_g": 18.5,
+            "water_g": 260,
+            "temp_c": 93,
+            "time_s": 130,
+            "pours_incremental_g": [
+              60,
+              100,
+              100
+            ],
+            "starts_s": [
+              0,
+              30,
+              75
+            ]
+          }
+        ]
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/historico-recetas.txt"
+      ],
+      "limitations": "Historic archive. No author nationality inferred. No harvested year inferred from recipe label. Churupallana Mugen Switch recipe excluded because source mixes volumetric cumulative pours and contradictory valve states."
+    },
+    {
+      "url": "https://www.dakcoffeeroasters.com/product/silky-way/",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "coffee": "Silky Way",
+        "origin": "Colombia",
+        "process": "Anaerobic Washed",
+        "variety": "Pink Bourbon",
+        "tasting_notes": [
+          "Green Apple",
+          "Lemongrass",
+          "White Florals"
+        ],
+        "photo": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Silky-Way_Render_Front_89x89-1024x717.png"
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/silky-way.txt"
+      ],
+      "limitations": null
+    },
+    {
+      "url": "https://www.dakcoffeeroasters.com/product/the-alchemist/",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "coffee": "The Alchemist",
+        "origin": "Rwanda",
+        "process": "Anaerobic Natural",
+        "variety": "Red Bourbon",
+        "tasting_notes": [
+          "Cacao",
+          "Ripe Fruits",
+          "Tropical Fruits"
+        ],
+        "photo": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/08/The-Alchemist2025_Render_Front_89x89-1024x717.png"
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/the-alchemist.txt"
+      ],
+      "limitations": null
+    },
+    {
+      "url": "https://www.dakcoffeeroasters.com/product/golden-waffle/",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "coffee": "Golden Waffle",
+        "origin": "Ecuador",
+        "process": "Honey",
+        "variety": "Typica",
+        "tasting_notes": [
+          "Waffle",
+          "Cookies",
+          "Maple Syrup"
+        ],
+        "photo": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Golden-Waffle_Render_Front_89x89-1024x717.png"
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/golden-waffle.txt"
+      ],
+      "limitations": null
+    },
+    {
+      "url": "https://www.dakcoffeeroasters.com/product/juice-box/",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "coffee": "Juice Box",
+        "origin": "Colombia",
+        "process": "Washed",
+        "variety": "Chiroso Field Blend",
+        "tasting_notes": [
+          "Blood Orange",
+          "Honey",
+          "Rhubarb"
+        ],
+        "photo": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Juice-Box_Render_Front_89x89-1024x717.png"
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/juice-box.txt"
+      ],
+      "limitations": null
+    },
+    {
+      "url": "https://www.dakcoffeeroasters.com/product/caramello/",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "coffee": "Caramello",
+        "origin": "Brazil",
+        "process": "Natural",
+        "variety": "Yellow Catuai",
+        "tasting_notes": [
+          "Caramel",
+          "Hazelnut",
+          "Milk Chocolate"
+        ],
+        "photo": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Caramello_Render_Front_89x89-1024x717.png"
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/caramello.txt"
+      ],
+      "limitations": null
+    },
+    {
+      "url": "https://www.dakcoffeeroasters.com/product/cream-donut/",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "coffee": "Cream Donut",
+        "origin": "Colombia",
+        "process": "Yeast Inoculated Natural",
+        "variety": "Caturra Chiroso",
+        "tasting_notes": [
+          "Cherry Filled Doughnut",
+          "Chocolate Milk",
+          "Vanilla"
+        ],
+        "photo": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Cream-Donut_Render_Front_89x89-1024x717.png"
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/cream-donut.txt"
+      ],
+      "limitations": null
+    },
+    {
+      "url": "https://www.dakcoffeeroasters.com/product/milky-cake/",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "coffee": "Milky Cake",
+        "origin": "Colombia",
+        "process": "Advanced Fermentation",
+        "variety": "Castillo",
+        "tasting_notes": [
+          "Cardamom",
+          "Pistachio",
+          "Vanilla Cake"
+        ],
+        "photo": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Milky-Cake_Render_Front_89x89-1024x717.png"
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/milky-cake.txt"
+      ],
+      "limitations": null
+    },
+    {
+      "url": "https://www.dakcoffeeroasters.com/product/berry-blues/",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "coffee": "Berry Blues",
+        "origin": "Ethiopia",
+        "process": "Anaerobic Natural",
+        "variety": "Heirloom",
+        "tasting_notes": [
+          "Cashew Butter",
+          "Grape Soda",
+          "Myrtle Liquor"
+        ],
+        "photo": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Berry-Blues_Render_Front_89x89-1024x717.png"
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/berry-blues.txt"
+      ],
+      "limitations": null
+    },
+    {
+      "url": "https://www.dakcoffeeroasters.com/product/milky-cake/",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "common_filter_guide": {
+          "dose_g": 16.5,
+          "water_g": 250,
+          "temp_c": 92,
+          "time_range_s": [
+            120,
+            150
+          ],
+          "cumulative_pours_g": [
+            50,
+            120,
+            190,
+            250
+          ],
+          "start_s": [
+            0,
+            30,
+            60,
+            90
+          ]
+        }
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/milky-cake.txt"
+      ],
+      "limitations": "Shared generic guide deduplicated; no bean-specific attribution."
+    },
+    {
+      "url": "https://lacabra.com/pages/sagastume-typica",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "coffee": "Sagastume Typica; harvested May 2023",
+        "espresso_dose_g": 17,
+        "espresso_yield_g": 43,
+        "temperature_c": 94,
+        "water_tds_ppm": 50,
+        "time_s": 23
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/sagastume-typica.txt"
+      ],
+      "limitations": "No actual bag photo on the source page; a logo is not substituted as a product photograph."
+    },
+    {
+      "url": "https://lacabra.com/pages/icedcoffee-brew-guide",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "dose_g": 18,
+        "hot_water_g": 180,
+        "ice_g": 60,
+        "temperature_c": 96,
+        "time_s": 150,
+        "pours_g": [
+          60,
+          60,
+          60
+        ],
+        "starts_s": [
+          0,
+          45,
+          90
+        ]
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/icedcoffee-brew-guide.txt"
+      ],
+      "limitations": null
+    },
+    {
+      "url": "https://www.fiveelephant.com/blogs/stories/recap-of-german-aeropress-championship-2022",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "author": "Peter Budenz",
+        "event_country": "Germany",
+        "coffee": "PNG Keto Tapasi",
+        "dose_g": 18,
+        "brew_water_g": 150,
+        "prebrew_bypass_g": 36,
+        "temp_c": 90,
+        "grind": "54 clicks Comandante MK3 Red Clix",
+        "press_s": [
+          110,
+          150
+        ],
+        "serve_end_s": 165
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/recap-of-german-aeropress-championship-2022.txt"
+      ],
+      "limitations": null
+    },
+    {
+      "url": "https://friedhats.com/blogs/news/the-definitive-friedhats-brew-recipe",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "recipe_creator": "Lex Wenneker",
+        "article_author": "Dylan Sedgwick",
+        "dose_g": 20,
+        "water_g": 300,
+        "bloom_g": 50,
+        "bloom_temp_c": 62,
+        "main_temp_c": 90,
+        "pours_g": [
+          50,
+          150,
+          100
+        ],
+        "start_s": [
+          0,
+          30,
+          70
+        ],
+        "time_s": 150
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/the-definitive-friedhats-brew-recipe.txt"
+      ],
+      "limitations": null
+    },
+    {
+      "url": "https://archerscoffee.com/products/black-diamond",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "coffee": "Black Diamond",
+        "sensory_scale_max": 5,
+        "sensory": {
+          "acidity": 1,
+          "sweetness": 3,
+          "fermentation": 2,
+          "roast": 4
+        },
+        "photo": "https://archerscoffee.com/cdn/shop/files/BlackDiamond.png?v=1683704979",
+        "milk_drink_recipe": {
+          "cup_ml_range": [
+            150,
+            180
+          ],
+          "coffee_dose_g_range": [
+            18,
+            20
+          ],
+          "espresso_yield_ml_range": [
+            22,
+            28
+          ],
+          "temperature_c_range": [
+            90,
+            93
+          ]
+        }
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/black-diamond.txt"
+      ],
+      "limitations": null
+    },
+    {
+      "url": "https://archerscoffee.com/products/bittersweet",
+      "checked_at": "2026-10-04",
+      "facts": {
+        "coffee": "Bittersweet",
+        "sensory_scale_max": 5,
+        "sensory": {
+          "acidity": 1,
+          "sweetness": 2,
+          "fermentation": 2,
+          "roast": 5
+        },
+        "photo": "https://archerscoffee.com/cdn/shop/files/Bittersweet.png?v=1683704863",
+        "milk_drink_recipe": {
+          "cup_ml_range": [
+            150,
+            180
+          ],
+          "coffee_dose_g_range": [
+            18,
+            20
+          ],
+          "espresso_yield_ml_range": [
+            22,
+            28
+          ],
+          "temperature_c_range": [
+            90,
+            93
+          ]
+        }
+      },
+      "local_evidence": [
+        "/workspace/scratch/a118d5f62443/research/emea-evidence/bittersweet.txt"
+      ],
+      "limitations": null
+    }
+  ],
+  "coverage_notes": [
+    "29 reviewed recipe records across 10 roasters; 25 coffee-linked records and 4 genuinely generic/base guides expected after validation.",
+    "Espresso output is distinct from brewing-water input. Unknown temperature, country, time or grinder model remains null or explicitly unspecified.",
+    "Source-linked imagery is not a redistribution license; all images remain source_linked, not rights_confirmed.",
+    "Archers 1–5 sensory scales are published by the roaster. Other numeric ratings were not synthesized.",
+    "Flavor-family labels are editorial classification of published notes, not measured sensory ratings.",
+    "Product stock, crops, recipe archive years and author base are distinct. Recipe country is null except explicitly event-provenanced Germany.",
+    "This is a bounded verified batch, not every roaster in Europe, the Middle East or Africa. The batch has no African operating-base roaster.",
+    "No account login, bot-wall bypass, external message or database mutation was performed.",
+    "28 source-linked image URLs were found for 30 coffees. Red Brick image GET returns HTTP 403 and is not display-verified; the two historical coffees have no valid actual product image. Shared official April packaging is identified as such."
+  ],
+  "country_evidence": [
+    {
+      "roaster": "April Coffee Roasters",
+      "source_url": "https://www.aprilcoffeeroasters.com/pages/wholesale",
+      "country": "Denmark",
+      "evidence": "Official indexed Wholesale page explicitly describes the company as a specialty coffee roastery based in Denmark.",
+      "retrieval_note": "Official primary content available through web search, crawled approximately three weeks before check; current website has migrated routes. Country evidence is documentary, not a current address verification.",
+      "web_reference": "turn59search2",
+      "checked_at": "2026-10-04"
+    },
+    {
+      "roaster": "Workshop Coffee",
+      "source_url": "https://workshopcoffee.com/pages/terms-of-use",
+      "country": "United Kingdom",
+      "evidence": "Official terms identify a UK registered company and London head office.",
+      "checked_at": "2026-10-04"
+    },
+    {
+      "roaster": "Gardelli Specialty Coffees",
+      "source_url": "https://shop.gardellicoffee.com/contact-us",
+      "country": "Italy",
+      "evidence": "Official contact page lists Forli, Italy.",
+      "checked_at": "2026-10-04"
+    },
+    {
+      "roaster": "Square Mile Coffee Roasters",
+      "source_url": "https://shop.squaremilecoffee.com/pages/about-us",
+      "country": "United Kingdom",
+      "evidence": "Official About page describes the London-based company.",
+      "retrieval_note": "Primary web retrieval available; separate direct request returned 403 and was not bypassed.",
+      "checked_at": "2026-10-04"
+    },
+    {
+      "roaster": "NOMAD Coffee",
+      "source_url": "https://nomadcoffee.es/en/pages/contact",
+      "country": "Spain",
+      "evidence": "Official contact page gives headquarters in Barcelona, Spain.",
+      "checked_at": "2026-10-04"
+    },
+    {
+      "roaster": "DAK Coffee Roasters",
+      "source_url": "https://www.dakcoffeeroasters.com/about/",
+      "country": "Netherlands",
+      "evidence": "Official About page states Amsterdam, Netherlands.",
+      "checked_at": "2026-10-04"
+    },
+    {
+      "roaster": "La Cabra",
+      "source_url": "https://lacabra.com/pages/about-la-cabra",
+      "country": "Denmark",
+      "evidence": "Official About page describes founding in Aarhus, Denmark, and the roastery in Copenhagen.",
+      "checked_at": "2026-10-04"
+    },
+    {
+      "roaster": "Five Elephant",
+      "source_url": "https://www.fiveelephant.com/pages/contact",
+      "country": "Germany",
+      "evidence": "Official contact lists the roastery in Berlin. This is company provenance, not Peter Budenz nationality or personal base.",
+      "checked_at": "2026-10-04"
+    },
+    {
+      "roaster": "Friedhats Coffee Roasters",
+      "source_url": "https://friedhats.com/about",
+      "country": "Netherlands",
+      "evidence": "Official About page describes the micro roastery in Amsterdam, Netherlands.",
+      "checked_at": "2026-10-04"
+    },
+    {
+      "roaster": "Archers Coffee",
+      "source_url": "https://archerscoffee.com/pages/terms-and-conditions",
+      "country": "United Arab Emirates",
+      "evidence": "Official terms identify company ownership in Sharjah, United Arab Emirates.",
+      "checked_at": "2026-10-04"
+    }
+  ],
+  "image_checks_file": "/workspace/scratch/a118d5f62443/research/emea-image-checks.json",
+  "validation": {
+    "recipe_slugs_unique": true,
+    "all_recipe_sources_https": true,
+    "all_steps_have_arabic_and_english": true,
+    "published_pour_totals_match_water_input": true,
+    "espresso_water_fields_never_contain_output_yield": true,
+    "existing_manual_recipes_compared": 21,
+    "duplicate_existing_manual_source_urls": 0,
+    "source_images_http200_and_decode": 27,
+    "source_images_http403": 1,
+    "image_contact_sheet": "/workspace/scratch/a118d5f62443/research/emea-image-contact-sheet.png"
+  }
+}

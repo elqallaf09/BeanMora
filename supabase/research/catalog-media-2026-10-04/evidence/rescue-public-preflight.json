@@ -1,0 +1,66 @@
+{
+  "checked_at": "2026-10-04",
+  "scope": "Public published reviewed Crossbridge beans only",
+  "records": [
+    {
+      "id": "6cb87075-99cd-4ed8-aff8-0bb4992e5942",
+      "slug": "crossbridge-brazil-roast",
+      "name_en": "Brazil Roast",
+      "description_en": "Single-origin Brazilian roast. No process/varietal/altitude/notes published on the fetched page.",
+      "origin_country": "Brazil",
+      "process": null,
+      "image_url": null,
+      "image_source_url": null,
+      "image_kind": "unclassified",
+      "image_usage_status": null
+    },
+    {
+      "id": "61bac2e2-5005-412d-a524-8d03ea072d9e",
+      "slug": "crossbridge-chelelektu",
+      "name_en": "Chelelektu",
+      "description_en": "Single-origin Ethiopian roast; roaster-stated tasting notes of berries, lavender and black tea. No process/varietal/altitude/bag size published.",
+      "origin_country": "Ethiopia",
+      "process": null,
+      "image_url": null,
+      "image_source_url": null,
+      "image_kind": "unclassified",
+      "image_usage_status": null
+    },
+    {
+      "id": "7a095545-5136-4962-b17e-3cd4d872470c",
+      "slug": "crossbridge-chire",
+      "name_en": "Chire",
+      "description_en": "Single-origin Ethiopian roast. No further process/varietal/altitude/notes published on the fetched page.",
+      "origin_country": "Ethiopia",
+      "process": null,
+      "image_url": null,
+      "image_source_url": null,
+      "image_kind": "unclassified",
+      "image_usage_status": null
+    },
+    {
+      "id": "08f9dfeb-375b-4578-bb24-8ca1639836c5",
+      "slug": "crossbridge-oasis-blend",
+      "name_en": "Oasis Blend",
+      "description_en": "Signature house blend, stated as featuring beans from Uganda, Brazil and Colombia. No process/varietal/roast/bag size published.",
+      "origin_country": null,
+      "process": null,
+      "image_url": null,
+      "image_source_url": null,
+      "image_kind": "unclassified",
+      "image_usage_status": null
+    },
+    {
+      "id": "5c81bc4d-7a34-4ff4-8d23-2e8edda1db05",
+      "slug": "crossbridge-yemen-abu-wudiyyan",
+      "name_en": "Yemen Abu Wudiyyan",
+      "description_en": "Single-origin Yemeni beans named \"Abu Wudiyyan\" on the roaster's own homepage. No process/varietal/altitude/notes published.",
+      "origin_country": "Yemen",
+      "process": null,
+      "image_url": null,
+      "image_source_url": null,
+      "image_kind": "unclassified",
+      "image_usage_status": null
+    }
+  ]
+}

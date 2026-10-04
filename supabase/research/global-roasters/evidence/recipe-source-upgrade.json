@@ -1,0 +1,34 @@
+{
+  "checked_at": "2026-10-04",
+  "recipe_slug": "onyx-monarch-kalita-wave",
+  "existing_recipe_id": "b93e7d45-b98b-40e2-972b-3b3960672d28",
+  "expected_public_curator": true,
+  "existing_bean_id": null,
+  "previous_source_url": "https://onyxcoffeelab.com/pages/help-me-brew",
+  "new_source_url": "https://onyxcoffeelab.com/products/monarch",
+  "shared_published_parameters": {
+    "dose_grams": 25,
+    "water_grams": 400,
+    "temperature_f": 200,
+    "grind_microns": 600,
+    "total_time_seconds": 210,
+    "cumulative_pour_grams": [
+      50,
+      160,
+      220,
+      280,
+      340,
+      400
+    ],
+    "pour_start_seconds": [
+      0,
+      30,
+      45,
+      65,
+      90,
+      120
+    ]
+  },
+  "decision": "The public curator record already holds the same named Monarch filter guide. Both official pages were re-opened on 2026-10-04: Kalita Wave, 25 g coffee, 400 g water at 200°F, 600 µm, cumulative 50/160/220/280/340/400 g and 3:30. Retain the existing recipe ID and old source link, add the product-specific source and verified coffee/discovery linkage.",
+  "source_conflict_note": "This verification concerns the specific Monarch Filter Brew Guide section. Repeated generic Kalita/V60/Origami sections elsewhere on the helper page are not treated as duplicate coffee-specific recipes."
+}

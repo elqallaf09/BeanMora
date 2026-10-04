@@ -1,0 +1,73 @@
+{
+  "checked_at": "2026-10-04",
+  "read_only": true,
+  "project_id": "ubvzdglrwkkuaigmkjap",
+  "recipe_id": "b93e7d45-b98b-40e2-972b-3b3960672d28",
+  "slug": "onyx-monarch-kalita-wave",
+  "visibility": "public",
+  "is_curator": true,
+  "existing": {
+    "steps": 6,
+    "step_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "pours": 6,
+    "pour_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "pour_water_grams": [
+      50,
+      110,
+      60,
+      60,
+      60,
+      60
+    ]
+  },
+  "incoming": {
+    "steps": 8,
+    "step_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "pours": 6,
+    "pour_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "pour_water_grams": [
+      50,
+      110,
+      60,
+      60,
+      60,
+      60
+    ]
+  },
+  "shared_recipe_parameters": {
+    "dose_grams": 25,
+    "water_grams": 400,
+    "total_time_seconds": 210
+  },
+  "decision": "Keep every existing row and ID, update reviewed positions, add the two absent step positions. Any extra step/pour numbers beyond the incoming maximum cause an explicit review error instead of removal."
+}
