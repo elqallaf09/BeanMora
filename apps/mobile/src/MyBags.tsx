@@ -17,7 +17,7 @@ type BrewRow={id:string;recipe_id:string|null;bean_id:string|null;dose_grams:num
 const outcome=(value:unknown)=>value&&typeof value==='object'&&!Array.isArray(value)&&typeof (value as Record<string,unknown>).outcome==='string'?String((value as Record<string,unknown>).outcome):null;
 const sec=(v:number|null)=>!v?'—':v>=60?Math.floor(v/60)+':'+String(v%60).padStart(2,'0'):v+'s';
 
-export function MyBags({ userId, coffees, recipes, openCoffee, login }: { userId:string|null; coffees: CoffeeItem[]; recipes:RecipeItem[]; openCoffee: (item: CoffeeItem) => void; login:()=>void }) {
+export function MyBags({ userId, coffees, savedIds, recipes, openCoffee, login }: { userId:string|null; coffees: CoffeeItem[]; savedIds:string[]; recipes:RecipeItem[]; openCoffee: (item: CoffeeItem) => void; login:()=>void }) {
   const locale=useContext(Language); const ar=locale==='ar';
   const [inventory,setInventory]=useState<InventoryRow[]>([]); const [brews,setBrews]=useState<BrewRow[]>([]);
   const [filter,setFilter]=useState<Filter>('all'); const [busy,setBusy]=useState(false); const [error,setError]=useState('');
@@ -47,7 +47,7 @@ export function MyBags({ userId, coffees, recipes, openCoffee, login }: { userId
   })[0]??null;
 
   const rows=useMemo(()=>inventory.filter(row=>filter==='all'||stateFor(row)===filter),[inventory,filter]);
-  const untracked=useMemo(()=>coffees.filter(item=>!inventory.some(row=>row.roasted_product_id?item.kind==='product'&&row.roasted_product_id===item.id:(item.beanId??item.id)===row.legacy_bean_id)),[coffees,inventory]);
+  const untracked=useMemo(()=>coffees.filter(item=>savedIds.includes(item.beanId??item.id)&&!inventory.some(row=>row.roasted_product_id?item.kind==='product'&&row.roasted_product_id===item.id:(item.beanId??item.id)===row.legacy_bean_id)),[coffees,savedIds,inventory]);
 
   const addBag=async(item:CoffeeItem)=>{if(!userId||!supabase){login();return;}setSaving(true);setError('');
     const payload=item.kind==='product'?{user_id:userId,roasted_product_id:item.id,legacy_bean_id:null}:{user_id:userId,roasted_product_id:null,legacy_bean_id:item.beanId??item.id};
