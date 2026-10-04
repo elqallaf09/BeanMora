@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, AppState, BackHandler, FlatList, KeyboardAvoidingView, Linking, Modal, Platform, Pressable, ScrollView, Share, StatusBar, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
@@ -7,40 +7,24 @@ import type { Session } from '@supabase/supabase-js';
 import { configured, supabase } from './src/client';
 import { loadData, type Bundle, type CoffeeItem, type RecipeItem } from './src/data';
 import { recommendCoffees, recommendRecipes, type Method } from './src/core/engine';
-import { copy, caveats, methods, reasons, type Locale } from './src/copy';
+import { copy, caveats, reasons, type Locale } from './src/copy';
 import { searchText } from './src/guards';
 import type { EquipmentItem, RoasterItem } from './src/catalog';
-import { EquipmentDirectory, EquipmentDetail, RoasterDirectory, RoasterDetail, XBLOOMHub, SourceLink } from './src/ExploreScreens';
+import { EquipmentDirectory, EquipmentDetail, RoasterDirectory, RoasterDetail, XBLOOMHub } from './src/ExploreScreens';
 import { LanguageSwitcher } from './src/LanguageSwitcher';
 import { MotionProvider, ScreenTransition } from './src/Motion';
-import { SourceBrewDetails } from './src/SourceBrewDetails';
+import { RecipeDetail } from './src/RecipeDetail';
+import { MethodGuide } from './src/MethodGuide';
 import { RecipeCatalog } from './src/RecipeCatalog';
 import { OutcomeForm } from './src/OutcomeForm';
 import { AccountScreen, finishOAuth } from './src/AccountScreen';
-import { CoffeeCard, CoffeeDetail, CoffeePhoto, Home, MethodPicker, SectionTitle, coffeeStyles } from './src/CoffeeScreens';
+import { CoffeeCard, CoffeeDetail, Home, MethodPicker, SectionTitle, coffeeStyles } from './src/CoffeeScreens';
 import { Action, Brand, Field, Icon, IconButton, Language, Txt, colors, styles, type IconName } from './src/ui';
 
 type Tab = 'home' | 'beans' | 'recipes' | 'forYou' | 'favorites' | 'account' | 'equipment' | 'roasters' | 'xbloom';
 type Detail = { type: 'coffee'; item: CoffeeItem } | { type: 'recipe'; item: RecipeItem } | { type: 'equipment'; item: EquipmentItem } | { type: 'roaster'; item: RoasterItem };
 type Loaded = Bundle & { owner: string | null; locale: Locale };
-function RecipeDetail({ recipe, record }: { recipe: RecipeItem; record: () => void }) {
-  const locale=useContext(Language); const t=copy[locale]; const ar=locale==='ar'; const [linkError,setLinkError]=useState(false);
-  async function openSource() { if(!recipe.videoUrl)return;try{await Linking.openURL(recipe.videoUrl);}catch{setLinkError(true);} }
-  return <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[coffeeStyles.page,{maxWidth:780}]}>
-    <View style={{height:230,borderRadius:18,overflow:'hidden'}}><CoffeePhoto uri={recipe.coverUrl} seed={recipe.id} detail/></View>
-    <Txt style={styles.muted}>{methods[locale][recipe.method]}</Txt><Txt heading style={styles.title}>{recipe.title}</Txt>
-    <View style={styles.card}><View style={styles.row}>{[{icon:'bean' as const,value:recipe.dose,label:t.dose},{icon:'drop' as const,value:recipe.water,label:t.water},{icon:'temp' as const,value:recipe.temperature,label:ar?'درجة الحرارة':'Temperature'}].map(n=><View key={n.icon} style={{flex:1,alignItems:'center',gap:5}}><Icon name={n.icon}/><Txt style={{fontFamily:undefined,fontWeight:'700'}}>{n.value??'—'}{n.value?(n.icon==='temp'?'°C':n.icon==='drop'?' '+recipe.waterUnit:' g'):''}</Txt><Txt style={[styles.muted,{fontSize:11,textAlign:'center'}]}>{n.label}</Txt></View>)}</View></View>
-    {recipe.incomplete?<Txt style={styles.warning}>{ar?'تفاصيل المصدر غير مكتملة؛ راجع رابط الوصفة قبل التحضير.':'Source details are incomplete; check the recipe link before brewing.'}</Txt>:null}
-    {recipe.notes?<Txt>{recipe.notes}</Txt>:null}
-    {recipe.method==='xbloom'&&recipe.xBloom?<View style={styles.card}><Txt heading style={styles.subtitle}>xBloom</Txt><Txt>{ar?'ملف التحضير المتوافق':'Compatible brew profile'}: {recipe.xBloom.deviceModel}</Txt>{recipe.xBloom.grindSetting?<Txt>{ar?'الطحنة':'Grind'}: {recipe.xBloom.grindSetting}</Txt>:null}{Array.isArray(recipe.xBloom.pours)?recipe.xBloom.pours.map((p:any,i:number)=><View key={i} style={{flexDirection:'row',alignItems:'center',gap:12,paddingVertical:6}}><View style={{width:8,height:8,borderRadius:4,backgroundColor:colors.brown}}/><Txt>{ar?'الصبة ':'Pour '}{i+1}: {[p?.water_grams??p?.grams??p?.amount,p?.duration_seconds??p?.seconds].filter(v=>v!=null).join(' · ')}</Txt></View>):null}</View>:null}
-    <SourceBrewDetails recipe={recipe}/>
-    {recipe.grindSetting&&!recipe.sourceBrew.grind_size?<Txt>{ar?'إعداد الطحنة: ':'Grind setting: '}{recipe.grindSetting}</Txt>:null}
-    <Txt heading style={styles.subtitle}>{t.instructions}</Txt>{recipe.steps.length?recipe.steps.map(step=><View key={step.number} style={styles.card}><Txt style={{fontWeight:'700'}}>{step.number}. {step.title}</Txt><Txt>{step.description}</Txt></View>):<Txt style={styles.warning}>{t.noSteps}</Txt>}
-    {recipe.videoUrl?<Action title={ar?'فتح رابط الوصفة':'Open recipe link'} onPress={()=>void openSource()}/>:null}{linkError?<Txt style={styles.error}>{t.sourceError}</Txt>:null}
-    {recipe.sources.length?<View style={{gap:10}}><Txt heading style={styles.subtitle}>{ar?'مصادر الوصفة':'Recipe sources'}</Txt>{recipe.sources.map(source=><View key={source.url} style={styles.card}><SourceLink title={source.url.includes('share-h5.xbloom.com')?(ar?'فتح الوصفة في xBloom':'Open recipe in xBloom'):source.name} url={source.url}/>{source.verifiedAt?<Txt style={{fontSize:12,color:colors.muted}}>{ar?'آخر تحقق: ':'Last checked: '}{new Date(source.verifiedAt).toLocaleDateString(locale)}</Txt>:null}</View>)}</View>:null}
-    <Action title={t.record} onPress={record} selected/>
-  </ScrollView>;
-}
+
 function Shell() {
   const {width}=useWindowDimensions(); const [locale,setLocale]=useState<Locale>('ar'); const t=copy[locale]; const ar=locale==='ar';
   const languageChanged=useRef(false);
@@ -49,6 +33,7 @@ function Shell() {
   const [session,setSession]=useState<Session|null>(null); const userId=session&&!session.user.is_anonymous?session.user.id:null;
   const [tab,setTab]=useState<Tab>('home'); const [method,setMethod]=useState<Method>(); const [search,setSearch]=useState('');
   const [detail,setDetail]=useState<Detail|null>(null); const [parents,setParents]=useState<Detail[]>([]); const [equipmentCategory,setEquipmentCategory]=useState('all'); const [recording,setRecording]=useState(false);
+  const [measuredSeconds,setMeasuredSeconds]=useState<number>();
   const [bundle,setBundle]=useState<Loaded|null>(null); const [refreshing,setRefreshing]=useState(false); const [revision,setRevision]=useState(0);
   const [visibleCount,setVisibleCount]=useState(30); const [saved,setSaved]=useState<{owner:string;ids:string[]}|null>(null);
   const savePending=useRef(new Set<string>()); const identity=useRef(userId); identity.current=userId;
@@ -73,7 +58,7 @@ function Shell() {
   const data=bundle?.owner === userId && bundle.locale===locale?bundle:null;
   useEffect(()=>{if(data&&userId)setSaved({owner:userId,ids:data.savedBeanIds});else setSaved(null);},[data,userId]);
   const savedIds=saved?.owner===userId?saved.ids:[];
-  function navigate(next:Tab){setDetail(null);setParents([]);setRecording(false);setTab(next);setSearch('');}
+  function navigate(next:Tab){setDetail(null);setParents([]);setRecording(false);setMeasuredSeconds(undefined);setTab(next);setSearch('');}
   function back(){if(recording)setRecording(false);else if(parents.length){setDetail(parents[parents.length-1]);setParents(p=>p.slice(0,-1));}else if(detail)setDetail(null);else navigate('home');}
   useEffect(()=>{
     const listener=BackHandler.addEventListener('hardwareBackPress',()=>{if(recording||detail||tab!=='home'){back();return true;}return false;});
@@ -90,7 +75,7 @@ function Shell() {
   const openDetail=(next:Detail)=>{if(detail)setParents(p=>[...p,detail]);else setParents([]);setDetail(next);};
   const openCoffee=(item:CoffeeItem)=>openDetail({type:'coffee',item});
   const openRecipe=(item:RecipeItem)=>openDetail({type:'recipe',item});
-  function startRecord(){if(!userId){navigate('account');}else setRecording(true);}
+  function startRecord(seconds?:number){setMeasuredSeconds(seconds);if(!userId){navigate('account');}else setRecording(true);}
   async function saveCoffee(item:CoffeeItem){
     if(!userId||!supabase){navigate('account');return;}
     const beanId=item.beanId;if(!beanId){setMessage(ar?'حفظ هذا المنتج غير متاح بعد.':'Saving this product is not available yet.');return;}
@@ -126,7 +111,7 @@ function Shell() {
     {!login&&!detail&&configured?<View style={s.libraryNav}>{[{id:'equipment' as const,label:ar?'أدوات القهوة':'Equipment',icon:'gear' as const},{id:'roasters' as const,label:ar?'المحامص':'Roasteries',icon:'bean' as const},{id:'xbloom' as const,label:'xBloom',icon:'xbloom' as const}].map(item=><Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.label} accessibilityState={{selected:tab===item.id}} onPress={()=>{if(item.id==='equipment')setEquipmentCategory('all');navigate(item.id);}} style={[s.libraryButton,tab===item.id&&{backgroundColor:colors.brown}]}><Icon name={item.icon} size={18} color={tab===item.id?'#FFF':colors.brown}/><Txt style={{fontSize:13,fontWeight:'700',color:tab===item.id?'#FFF':colors.brown}}>{item.label}</Txt></Pressable>)}</View>:null}
     <ScreenTransition key={recording?'record':detail?detail.type+detail.item.id:tab}><KeyboardAvoidingView style={{flex:1}} behavior={Platform.OS==='ios'?'padding':undefined}>
     {!configured?<View style={styles.content}><Txt heading style={styles.title}>{t.setup}</Txt><Txt>{t.setupNote}</Txt></View>
-    :recording&&detail?.type==='recipe'&&userId?<OutcomeForm key={userId+detail.item.id} userId={userId} recipe={detail.item} done={()=>{navigate('forYou');refresh();}}/>
+    :recording&&detail?.type==='recipe'&&userId?<OutcomeForm key={userId+detail.item.id} userId={userId} recipe={detail.item} measuredSeconds={measuredSeconds} done={()=>{navigate('forYou');refresh();}}/>
     :detail?.type==='coffee'?<CoffeeDetail key={detail.item.id+locale} item={detail.item} recipes={data?.recipes??[]} openRecipe={openRecipe}/>
     :detail?.type==='recipe'?<RecipeDetail recipe={detail.item} record={startRecord}/>
     :detail?.type==='equipment'?<EquipmentDetail key={detail.item.id+locale+(userId??'guest')} item={detail.item} recipes={data?.recipes??[]} userId={userId} login={()=>navigate('account')} openRecipe={openRecipe}/>
@@ -138,7 +123,7 @@ function Shell() {
     :tab==='account'?<AccountScreen key={userId??'public'} session={userId?session:null} back={()=>navigate('home')}/>
     :tab==='home'?<Home data={data} coffees={coffees} method={method} setMethod={setMethod} openCoffee={openCoffee} browse={()=>navigate('beans')} brew={()=>navigate('recipes')} tools={category=>void showTools(category)} saved={savedIds} save={item=>void saveCoffee(item)} refresh={refresh} refreshing={refreshing}/>
     :tab==='forYou'?<ScrollView contentContainerStyle={coffeeStyles.page}><View style={s.catalogTabs}><Action title={t.beans} onPress={()=>navigate('beans')}/><Action title={t.recipes} onPress={()=>navigate('recipes')}/><Action title={t.forYou} onPress={()=>{}} selected/></View><Txt heading style={styles.title}>{t.forYou}</Txt><Txt style={styles.muted}>{t.ruleNote}</Txt>{data?.limited?<Txt style={styles.muted}>{ar?'التوصيات تستخدم مجموعة محدودة من الوصفات. ابحث في مكتبة الوصفات لاستكشاف الكتالوغ الكامل.':'Recommendations use a bounded recipe sample. Search the recipe library for the full catalog.'}</Txt>:null}<SectionTitle title={t.beans}/>{rankedCoffee.length?rankedCoffee.map(row=><View key={row.item.kind+row.item.id} style={styles.card}><Action title={row.item.name} onPress={()=>{const item=data?.coffees.find(c=>c.id===row.item.id&&c.kind===row.item.kind);if(item)openCoffee(item);}}/><Txt>{t.matching}: {row.reasons.length?row.reasons.map(r=>reasons[locale][r]).join(' · '):t.general}</Txt>{row.caveats.map(c=><Txt key={c} style={styles.muted}>{caveats[locale][c]}</Txt>)}</View>):<Txt>{t.empty}</Txt>}<SectionTitle title={t.recipes}/>{rankedRecipes.map(row=><View key={row.item.id} style={styles.card}><Action title={row.item.title} onPress={()=>{const item=data?.recipes.find(r=>r.id===row.item.id);if(item)setDetail({type:'recipe',item});}}/><Txt>{t.matching}: {row.reasons.length?row.reasons.map(r=>reasons[locale][r]).join(' · '):t.general}</Txt></View>)}</ScrollView>
-    :<FlatList key={tab+columns} numColumns={columns} data={displayCoffee.slice(0,visibleCount)} keyExtractor={item=>item.kind+item.id} columnWrapperStyle={{gap:12}} contentContainerStyle={[coffeeStyles.page,{gap:12}]} refreshing={refreshing} onRefresh={refresh} ListHeaderComponent={<View style={{gap:16,marginBottom:4}}>{tab!=='favorites'?<View style={s.catalogTabs}><Action title={t.beans} onPress={()=>navigate('beans')} selected/><Action title={t.recipes} onPress={()=>navigate('recipes')}/><Action title={t.forYou} onPress={()=>navigate('forYou')}/></View>:null}<Txt heading style={styles.title}>{tab==='favorites'?(ar?'المفضلة':'Favorites'):t.beans}</Txt><MethodPicker value={method} onChange={setMethod}/><Field label={t.search} value={search} onChangeText={setSearch} placeholder={ar?'ابحث عن البن أو المحمصة أو البلد…':'Search coffee, roaster or origin…'}/>{data?.warnings||!data&&!refreshing?<Txt style={styles.warning}>{t.partial}</Txt>:null}</View>} ListEmptyComponent={<Txt style={styles.muted}>{refreshing?t.loading:tab==='favorites'&&!userId?t.loginFirst:tab==='favorites'?(ar?'احفظ حبوبك المفضلة بالضغط على القلب.':'Save your favorite coffees with the heart button.'):t.empty}</Txt>} ListFooterComponent={<View style={{gap:10,marginTop:10}}>{displayCoffee.length>visibleCount?<Action title={ar?'عرض المزيد':'Load more'} onPress={()=>setVisibleCount(n=>n+30)} selected/>:null}<Action title={t.refresh} onPress={refresh}/></View>} renderItem={({item})=><CoffeeCard item={item} width={cardWidth} saved={savedIds.includes(item.beanId??item.id)} open={()=>openCoffee(item)} save={()=>void saveCoffee(item)}/>}/>}
+    :<FlatList key={tab+columns} numColumns={columns} data={displayCoffee.slice(0,visibleCount)} keyExtractor={item=>item.kind+item.id} columnWrapperStyle={{gap:12}} contentContainerStyle={[coffeeStyles.page,{gap:12}]} refreshing={refreshing} onRefresh={refresh} ListHeaderComponent={<View style={{gap:16,marginBottom:4}}>{tab!=='favorites'?<View style={s.catalogTabs}><Action title={t.beans} onPress={()=>navigate('beans')} selected/><Action title={t.recipes} onPress={()=>navigate('recipes')}/><Action title={t.forYou} onPress={()=>navigate('forYou')}/></View>:null}<Txt heading style={styles.title}>{tab==='favorites'?(ar?'المفضلة':'Favorites'):t.beans}</Txt><MethodPicker value={method} onChange={setMethod}/><MethodGuide key={method??'all'} method={method} recipes={()=>navigate('recipes')}/><Field label={t.search} value={search} onChangeText={setSearch} placeholder={ar?'ابحث عن البن أو المحمصة أو البلد…':'Search coffee, roaster or origin…'}/>{data?.warnings||!data&&!refreshing?<Txt style={styles.warning}>{t.partial}</Txt>:null}</View>} ListEmptyComponent={<Txt style={styles.muted}>{refreshing?t.loading:tab==='favorites'&&!userId?t.loginFirst:tab==='favorites'?(ar?'احفظ حبوبك المفضلة بالضغط على القلب.':'Save your favorite coffees with the heart button.'):t.empty}</Txt>} ListFooterComponent={<View style={{gap:10,marginTop:10}}>{displayCoffee.length>visibleCount?<Action title={ar?'عرض المزيد':'Load more'} onPress={()=>setVisibleCount(n=>n+30)} selected/>:null}<Action title={t.refresh} onPress={refresh}/></View>} renderItem={({item})=><CoffeeCard item={item} width={cardWidth} saved={savedIds.includes(item.beanId??item.id)} open={()=>openCoffee(item)} save={()=>void saveCoffee(item)}/>}/>}
     </KeyboardAvoidingView></ScreenTransition>
     {!detail&&!login&&configured?<View style={s.nav}><View style={s.navInner}>{nav.map(item=><Pressable key={item.tab} accessibilityRole="button" accessibilityLabel={item.label} accessibilityState={{selected:tab===item.tab}} onPress={()=>navigate(item.tab)} style={s.navItem}><Icon name={item.icon} filled={tab===item.tab} color={tab===item.tab?colors.brown:colors.muted} size={23}/><Txt style={{fontSize:11,lineHeight:20,fontWeight:tab===item.tab?'700':'400',color:tab===item.tab?colors.brown:colors.muted,textAlign:'center'}}>{item.label}</Txt></Pressable>)}</View></View>:null}
     <Modal visible={!!message||notifications!==null} transparent animationType="fade" onRequestClose={()=>{setMessage('');setNotifications(null);}}><View style={s.modalShade}><View style={s.modal}><Txt heading style={styles.subtitle}>{notifications!==null?(ar?'التنبيهات':'Notifications'):'BeanMora'}</Txt><ScrollView style={{maxHeight:350}}>{message?<Txt>{message}</Txt>:notifications?.length?notifications.map((n,i)=><Txt key={i} style={{paddingVertical:10}}>{n}</Txt>):<Txt style={styles.muted}>{ar?'لا توجد تنبيهات حالياً.':'No notifications right now.'}</Txt>}</ScrollView><Action title={ar?'إغلاق':'Close'} onPress={()=>{setMessage('');setNotifications(null);}} selected/></View></View></Modal>

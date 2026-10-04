@@ -27,6 +27,9 @@ npm start
 - Responsive phone/tablet catalogs, a fully scrolling home page, coffee galleries and linked recipe quantities.
 - Independent equipment and roastery directories, model guides, roaster coffees and linked recipes. Members can write, edit, delete and report real equipment opinions; guests can browse.
 - A paginated recipe library and xBloom hub with search, official/community and Studio/Original filters, sharing links, source measurements and individual pours. Existing Origami and Kalita recipes are included.
+- Reviewed AeroPress, Chemex, French press, Origami, Kalita Wave and size-specific moka recipes/guides, with 109 bilingual steps across 21 curated entries, dose/time ranges, grind, temperature and source links. Infusion-only times and unknown numerical quantities remain explicit.
+- Six original generated brewing illustrations and six verified YouTube tutorials with publisher attribution. Method tutorials are labelled as general guidance; exact recipe videos are linked separately when published with that recipe.
+- Equipment guides, measured brew stopwatch with pause/resume/reset, cumulative pour targets, smaller-batch Chemex calculation and sharing. Saving an outcome remains an explicit action; the timer carries measured time into the signed-in review form.
 - Persisted Arabic/English language selection and short screen/press animations respecting reduced-motion preferences.
 - Arabic/English UI and search across loaded coffee names, roasters, origins and flavors.
 - Existing BeanMora email/password login, signup and password reset. Public browsing creates no anonymous account.
@@ -35,9 +38,9 @@ npm start
 - Recording a real brew through the existing atomic `record_brew_outcome_v1` RPC, without positive defaults; private by default, optional explicit community consent.
 - Loading/error/empty states, request cancellation guards, bounded queries and network timeouts.
 
-Native sessions persist using the Supabase storage adapter; web previews use browser storage. Social sign-in first checks the project's enabled providers. Google uses PKCE and an authentication browser; Apple displays an explicit unavailable message when its provider is disabled. A standalone build must register the beanmora scheme and allow beanmora://auth in Supabase's redirect URL list. Provider configuration and device sign-in have to be verified separately from isolated browser tests. Background push, admin, guided timers and direct device control are not included.
+Native sessions persist using the Supabase storage adapter; web previews use browser storage. Social sign-in first checks the project's enabled providers. Google uses PKCE and an authentication browser; Apple displays an explicit unavailable message when its provider is disabled. A standalone build must register the beanmora scheme and allow beanmora://auth in Supabase's redirect URL list. Provider configuration and device sign-in have to be verified separately from isolated browser tests. Background push, admin and direct device control are not included. The stopwatch catches up when the app resumes; it does not provide background alarms or control heat.
 
-Version 0.2.0 / Android versionCode 5 adds the coffee experience screens. Updating source or exporting Metro bundles does not update a previously installed APK. Build a new preview APK using the existing EAS project and its configured production environment:
+Version 0.2.1 / Android versionCode 6 adds manual brewing guides and timers. Updating source or exporting Metro bundles does not update a previously installed APK. Build a new preview APK using the existing EAS project and its configured production environment:
 
 ```sh
 npx eas-cli build --platform android --profile preview

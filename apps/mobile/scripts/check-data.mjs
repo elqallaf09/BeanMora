@@ -6,12 +6,12 @@ import { pathToFileURL } from 'node:url';
 import ts from 'typescript';
 const root = new URL('../', import.meta.url);
 const temp = mkdtempSync(tmpdir() + '/beanmora-data-'); mkdirSync(temp + '/core');
-for (const file of ['data.ts','guards.ts','sourceBrew.ts','core/engine.ts']) {
+for (const file of ['data.ts','guards.ts','sourceBrew.ts','manualBrew.ts','core/engine.ts']) {
   const source = readFileSync(new URL('src/' + file, root), 'utf8');
   const code = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.mjs'");
   writeFileSync(temp + '/' + file.replace('.ts','.mjs'), code);
 }
-const { loadData } = await import(pathToFileURL(temp + '/data.mjs').href);
+const { loadData, mapRecipe } = await import(pathToFileURL(temp + '/data.mjs').href);
 function database(tables) {
   return { from(name) { const q = { select(){return q;},eq(){return q;},in(){return q;},or(){return q;},order(){return q;},limit(){return q;},then(done){return Promise.resolve({data:tables[name]??[],error:null}).then(done);} }; return q; } };
 }
@@ -37,4 +37,11 @@ test('bounded recipe reads disclose truncation at 200 records',async()=>{
 test('coffee descriptions keep tasting information without catalog import implementation notes',async()=>{
   const data=await loadData(database({beans:[{...base,description_en:'Tasting notes: jasmine, honey. Altitude stated at 1600-1750 MASL (altitude_meters left null). Roast not mapped to roast_level. Pour over (V60) recommended.'}]}),'en',null);
   assert.equal(data.coffees[0].description,'Tasting notes: jasmine, honey. Pour over (V60) recommended.');
+});
+test('recipe steps use the chosen language and manual gram pours retain their units and times', () => {
+  const row = { id: 'recipe', title: 'Recipe', brew_method: 'chemex', visibility: 'public', dose_grams: 25, water_grams: 400, steps: [{ step_number: 1, title: 'Bloom', title_ar: 'التزهير', description: 'Wet coffee', description_ar: 'بلّل البن' }], pours: [{ pour_number: 2, water_grams: '350', start_at_seconds: 30, is_bloom: false }, { pour_number: 1, water_grams: 50, start_at_seconds: 0, is_bloom: true }], source_brew_parameters: { manual: { scalable: true } } };
+  assert.equal(mapRecipe(row, 'ar').steps[0].description, 'بلّل البن');
+  assert.equal(mapRecipe(row, 'en').steps[0].description, 'Wet coffee');
+  assert.deepEqual(mapRecipe(row, 'en').pours[0], { number: 1, grams: 50, at: 0, bloom: true });
+  assert.equal(mapRecipe(row, 'ar').sourceBrew.manual.scalable, true);
 });

@@ -1,7 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
-  Linking,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -33,6 +32,8 @@ import {
 import { methods } from "./copy";
 import { RecipeCatalog } from "./RecipeCatalog";
 import { CatalogPhoto } from "./CatalogPhoto";
+import { MethodGuide } from "./MethodGuide";
+import { SourceLink } from "./SourceLink";
 import { categoryGuide } from "./equipmentGuides";
 import { isMethod } from "./core/engine";
 import {
@@ -46,28 +47,7 @@ import {
   type IconName,
 } from "./ui";
 
-export function SourceLink({ title, url }: { title: string; url: string }) {
-  const ar = useContext(Language) === "ar";
-  const [failed, setFailed] = useState(false);
-  return (
-    <View style={{ gap: 4 }}>
-      <Action
-        title={title}
-        onPress={() => {
-          setFailed(false);
-          void Linking.openURL(url).catch(() => setFailed(true));
-        }}
-      />
-      {failed ? (
-        <Txt style={styles.error}>
-          {ar
-            ? "تعذّر فتح الرابط. حاول مرة ثانية."
-            : "Could not open the link. Try again."}
-        </Txt>
-      ) : null}
-    </View>
-  );
-}
+export { SourceLink };
 function Chips({
   items,
   value,
@@ -543,6 +523,7 @@ export function EquipmentDetail({
           {new Date(item.verifiedAt).toLocaleDateString(locale + "-u-nu-latn")}
         </Txt>
       ) : null}
+      {item.methods.filter(isMethod).map(method => <MethodGuide key={method} method={method}/>)}
       <SectionTitle
         title={
           ar ? "وصفات مناسبة لطريقة الأداة" : "Recipes for this brew method"

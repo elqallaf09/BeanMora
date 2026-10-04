@@ -9,6 +9,13 @@ import { fileURLToPath } from 'node:url';
 const require = createRequire(import.meta.url);
 const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
 const lock = JSON.parse(readFileSync(new URL('../package-lock.json', import.meta.url), 'utf8'));
+test('ESLint 9 executes the retained Next rules and rejects duplicate document heads', async () => {
+  const { ESLint } = require('eslint');
+  const eslint = new ESLint();
+  const results = await eslint.lintText('import Document, { Head } from "next/document"; export default class TestDocument extends Document { render() { return <><Head /><Head /></>; } }', { filePath: 'src/pages/_document.tsx' });
+  assert.ok(results[0].messages.some(m => m.ruleId === '@next/next/no-duplicate-head' && m.severity === 2));
+  assert.ok(!results[0].messages.some(m => m.fatal));
+});
 test('every direct dependency is pinned and agrees with the committed lock', () => {
   for (const group of ['dependencies', 'devDependencies']) {
     for (const [name, version] of Object.entries(pkg[group])) {

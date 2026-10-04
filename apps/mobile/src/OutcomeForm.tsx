@@ -7,11 +7,11 @@ import { supabase } from './client';
 import { errors, outcomes } from './copy';
 import { numberInput } from './guards';
 import { Action, Field, Language, Txt, styles, useCopy } from './ui';
-export function OutcomeForm({ recipe, userId, done }: { recipe: RecipeItem; userId: string; done: () => void }) {
+export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe: RecipeItem; userId: string; done: () => void; measuredSeconds?: number }) {
   const locale = useContext(Language); const t = useCopy();
   const [dose, setDose] = useState(recipe.dose === null ? '' : String(recipe.dose));
   const [water, setWater] = useState(recipe.water === null || recipe.waterUnit === 'ml' ? '' : String(recipe.water));
-  const [seconds, setSeconds] = useState(''); const [outcome, setOutcome] = useState<Outcome | null>(null);
+  const [seconds, setSeconds] = useState(measuredSeconds && Number.isInteger(measuredSeconds) && measuredSeconds > 0 ? String(measuredSeconds) : ''); const [outcome, setOutcome] = useState<Outcome | null>(null);
   const [brewed, setBrewed] = useState(false); const [modified, setModified] = useState(false); const [share, setShare] = useState(false);
   const [busy, setBusy] = useState(false); const [saved, setSaved] = useState(false); const [error, setError] = useState('');
   const inFlight = useRef(false); const pending = useRef<{ id: string; payload: BrewOutcome } | null>(null);

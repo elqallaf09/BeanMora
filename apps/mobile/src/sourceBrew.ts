@@ -1,4 +1,6 @@
+import { manualBrew, type ManualBrew } from './manualBrew';
 export interface SourceBrew {
+  manual?: ManualBrew;
   water_ml?: number;
   dose?: number;
   ratio?: number;
@@ -28,6 +30,7 @@ export function sourceBrew(value: unknown): SourceBrew {
   if (!value || typeof value !== "object" || Array.isArray(value)) return {};
   const row = value as Record<string, unknown>;
   const result: SourceBrew = {};
+  result.manual = manualBrew(row.manual);
   for (const field of [
     "water_ml",
     "dose",

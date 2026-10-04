@@ -2,10 +2,11 @@ import { sourceBrew, type SourceBrew } from './sourceBrew';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { communityEvidence, emptyProfile, isMethod, ROASTS, validChoice, type Coffee, type Recipe, type Profile, type Method } from './core/engine';
 import { safeUrl } from './guards';
+import type { ManualPour } from './manualBrew';
 export interface CoffeeItem extends Coffee { roasterId: string | null; description: string; origin: string; process: string; sourceUrl: string | null; logoUrl: string | null; imageUrl: string | null; images: string[] }
 export interface RecipeSource { url: string; name: string; confidence: string; verifiedAt: string | null }
 export type { SourceBrew } from './sourceBrew';
-export interface RecipeItem extends Recipe { waterUnit: 'g' | 'ml'; sourceBrew: SourceBrew; grindSetting: string | null; author: string | null; temperatureMin: number | null; temperatureMax: number | null; sources: RecipeSource[]; recipeType: string; notes: string; temperature: number | null; coverUrl: string | null; videoUrl: string | null; xBloom: { deviceModel: string; grindSetting: string | null; dose: number | null; water: number | null; temp: number | null; pours: unknown } | null; steps: { number: number; title: string; description: string }[] }
+export interface RecipeItem extends Recipe { pours: ManualPour[]; waterUnit: 'g' | 'ml'; sourceBrew: SourceBrew; grindSetting: string | null; author: string | null; temperatureMin: number | null; temperatureMax: number | null; sources: RecipeSource[]; recipeType: string; notes: string; temperature: number | null; coverUrl: string | null; videoUrl: string | null; xBloom: { deviceModel: string; grindSetting: string | null; dose: number | null; water: number | null; temp: number | null; pours: unknown } | null; steps: { number: number; title: string; description: string }[] }
 export interface Bundle { coffees: CoffeeItem[]; recipes: RecipeItem[]; savedBeanIds: string[]; profile: Profile; recipeTotal: number; warnings: boolean; limited: boolean }
 interface Name { name_ar?: string | null; name_en?: string | null; logo_url?: string | null }
 interface CoffeeRow extends Name {
@@ -23,12 +24,13 @@ export interface RecipeRow {
   bean_id: string | null; roasted_product_id: string | null; flavor_notes: string[];
   dose_grams: number | string | null; water_grams: number | string | null; water_temp_c: number | string | null; total_time_seconds: number | null;
   difficulty: string | null; is_incomplete_source: boolean; notes: string | null; notes_ar: string | null;
-  cover_image_url: string | null; video_url: string | null; steps: { step_number: number; title: string; description: string }[];
+  cover_image_url: string | null; video_url: string | null; steps: { step_number: number; title: string; description: string; title_ar?: string | null; description_ar?: string | null }[];
+  pours?: { pour_number: number; water_grams: number | string; start_at_seconds: number | null; is_bloom: boolean }[];
   equipment: { category: string; equipment_model_id: string | null }[];
   recipe_type?: string; sources?: { source_url: string | null; source_name: string | null; data_confidence: string; last_verified_at: string | null }[];
   source_brew_parameters?: SourceBrew; grinder_setting?: string | null; source_author_name?: string | null; water_temp_c_min?: number | null; water_temp_c_max?: number | null;
 }
-export const RECIPE_FIELDS = 'id,title,title_ar,brew_method,visibility,bean_id,roasted_product_id,flavor_notes,difficulty,is_incomplete_source,dose_grams,water_grams,water_temp_c,water_temp_c_min,water_temp_c_max,grinder_setting,source_author_name,source_brew_parameters,total_time_seconds,notes,notes_ar,cover_image_url,video_url,recipe_type,sources:recipe_sources(source_url,source_name,data_confidence,last_verified_at),steps:recipe_steps(step_number,title,description),equipment:recipe_equipment(category,equipment_model_id)';
+export const RECIPE_FIELDS = 'id,title,title_ar,brew_method,visibility,bean_id,roasted_product_id,flavor_notes,difficulty,is_incomplete_source,dose_grams,water_grams,water_temp_c,water_temp_c_min,water_temp_c_max,grinder_setting,source_author_name,source_brew_parameters,total_time_seconds,notes,notes_ar,cover_image_url,video_url,recipe_type,sources:recipe_sources(source_url,source_name,data_confidence,last_verified_at),steps:recipe_steps(step_number,title,description,title_ar,description_ar),pours:recipe_pours(pour_number,water_grams,start_at_seconds,is_bloom),equipment:recipe_equipment(category,equipment_model_id)';
 interface OwnAttempt { recipe_id: string; outcome: string | null }
 interface Inventory { roasted_product_id: string | null; legacy_bean_id: string | null }
 const one = <T,>(v: T | T[] | null): T | null => Array.isArray(v) ? v[0] ?? null : v;
@@ -65,7 +67,12 @@ export function mapRecipe(row: RecipeRow, locale: 'ar' | 'en', profile: RecipeIt
     dose: amount(row.dose_grams), water: amount(row.water_grams) ?? amount(source.water_ml ?? null), waterUnit: amount(row.water_grams) ? 'g' : source.water_ml ? 'ml' : 'g', sourceBrew: source, grindSetting: row.grinder_setting ?? null, author: row.source_author_name ?? null, temperatureMin: amount(row.water_temp_c_min ?? null), temperatureMax: amount(row.water_temp_c_max ?? null), seconds: amount(row.total_time_seconds), temperature: amount(row.water_temp_c),
     // This mobile preview does not fetch public user-level evidence. Never imply community validation.
     evidence: communityEvidence([], []), coverUrl: safeUrl(row.cover_image_url), videoUrl: safeUrl(row.video_url), xBloom: profile, notes: (ar ? row.notes_ar || row.notes : row.notes || row.notes_ar) ?? '',
-    steps: [...(row.steps ?? [])].sort((a, z) => a.step_number - z.step_number).map(s => ({ number: s.step_number, title: s.title, description: s.description })),
+    pours: [...(row.pours ?? [])].sort((a, b) => a.pour_number - b.pour_number).flatMap(p => {
+      const grams = amount(p.water_grams); if (!grams || !Number.isInteger(p.pour_number) || p.pour_number < 1) return [];
+      const at = typeof p.start_at_seconds === 'number' && Number.isFinite(p.start_at_seconds) && p.start_at_seconds >= 0 ? p.start_at_seconds : null;
+      return [{ number: p.pour_number, grams, at, bloom: p.is_bloom === true }];
+    }),
+    steps: [...(row.steps ?? [])].sort((a, z) => a.step_number - z.step_number).map(s => ({ number: s.step_number, title: (ar ? s.title_ar || s.title : s.title || s.title_ar) ?? '', description: (ar ? s.description_ar || s.description : s.description || s.description_ar) ?? '' })),
   };
 }
 export async function loadData(db: SupabaseClient, locale: 'ar' | 'en', userId: string | null, method?: Method): Promise<Bundle> {

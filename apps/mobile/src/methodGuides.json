@@ -1,0 +1,170 @@
+{
+  "chemex": {
+    "title_ar": "دليل الكيمكس",
+    "title": "Chemex guide",
+    "intro_ar": "ترشيح ورقي وطحن متوسط خشن؛ اتبع الوزن التراكمي للصبات.",
+    "intro": "Paper filtration, medium-coarse grind; follow cumulative pour targets.",
+    "equipment_ar": "كيمكس، فلتر مناسب، ميزان، طاحونة، غلاية ومؤقت.",
+    "equipment": "Chemex, matching filter, scale, grinder, kettle and timer.",
+    "tips_ar": [
+      "وجّه جانب الفلتر ذي الطبقات الثلاث نحو الفوهة واترك ممر الهواء مفتوحاً.",
+      "اشطف الفلتر وأفرغ ماء الشطف؛ وزن الوصفة لا يشمل الشطف.",
+      "مقاس3 أكواب له فلتر خاص؛ طابق الفلتر والسعة."
+    ],
+    "tips": [
+      "Place the three-layer filter side at the spout and keep air passage clear.",
+      "Discard rinse water; it is outside the recipe water total.",
+      "The 3-cup brewer needs its own filter; match filter and capacity."
+    ],
+    "source": "https://chemexcoffeemaker.com/pages/classic-series-product-support",
+    "source_name": "CHEMEX",
+    "video": {
+      "method": "chemex",
+      "url": "https://www.youtube.com/watch?v=4qCbjSCLOZc",
+      "title": "How to Brew Coffee with Chemex",
+      "publisher": "Equator Coffees",
+      "publisher_url": "https://www.youtube.com/@Equatorcoffeesandteas",
+      "verified_at": "2026-10-04"
+    }
+  },
+  "moka_pot": {
+    "title_ar": "دليل الموكا بوت",
+    "title": "Moka pot guide",
+    "intro_ar": "تحضير على النار؛ حجم الإبريق يحدد تعبئة الخزان والسلة.",
+    "intro": "Stovetop brewing; pot size determines boiler and basket fill.",
+    "equipment_ar": "موكا بوت بالحجم المطابق، طاحونة، ميزان، موقد وحماية حرارية.",
+    "equipment": "Matching moka pot, grinder, scale, stove and heat protection.",
+    "tips_ar": [
+      "لا تغطِّ الصمام بالماء ولا تكبس البن؛ استخدم طحنة موكا.",
+      "بياليتي توصي بنار منخفضة؛ احصر اللهب داخل القاعدة وارفعه مع بداية القرقرة.",
+      "برّده قبل الفتح؛ موكا إكسبريس الألمنيوم يُشطف بالماء ولا يدخل غسالة الصحون."
+    ],
+    "tips": [
+      "Keep water below the valve and coffee loose; use moka grind.",
+      "Bialetti recommends low heat; flame stays inside the base. Remove when gurgling begins.",
+      "Cool before opening. Rinse aluminium Moka Express with water, without dishwasher cleaning."
+    ],
+    "source": "https://www.bialetti.com/it_en/moka-express.html",
+    "source_name": "Bialetti",
+    "video": {
+      "method": "moka_pot",
+      "url": "https://www.youtube.com/watch?v=BfDLoIvb0w4",
+      "title": "The Ultimate Moka Pot Technique (Episode #3)",
+      "publisher": "James Hoffmann",
+      "publisher_url": "https://www.youtube.com/@jameshoffmann",
+      "verified_at": "2026-10-04"
+    }
+  },
+  "aeropress": {
+    "title_ar": "دليل الإيروبريس",
+    "title": "AeroPress guide",
+    "intro_ar": "نقع وكبس؛ مدة النقع تختلف عن الوقت الإجمالي للتحضير.",
+    "intro": "Immersion and pressing; steeping time differs from total brewing time.",
+    "equipment_ar": "إيروبريس، فلتر مناسب، كوب متين وثابت، ميزان، طاحونة، غلاية ومؤقت.",
+    "equipment": "AeroPress, matching filter, sturdy stable cup, scale, grinder, kettle and timer.",
+    "tips_ar": [
+      "ثبت غطاء الفلتر وضع الجهاز على كوب يتحمل ضغط الكبس.",
+      "ابدأ بالطريقة العادية؛ بعض وصفات البطولة تستخدم وضعاً مقلوباً متقدماً.",
+      "اكبس بلطف دون قوة زائدة؛ ماء التخفيف يضاف للمشروب بعد الكبس."
+    ],
+    "tips": [
+      "Secure the filter cap and use a cup that can support pressing.",
+      "Start upright; some competition recipes use an advanced inverted setup.",
+      "Press gently; dilution water goes into the beverage after pressing."
+    ],
+    "source": "https://www.equatorcoffees.com/blogs/guides/aeropress",
+    "source_name": "Equator Coffees",
+    "video": {
+      "method": "aeropress",
+      "url": "https://www.youtube.com/watch?v=Jjc34jyBlTM",
+      "title": "How to Brew Coffee with AeroPress",
+      "publisher": "Equator Coffees",
+      "publisher_url": "https://www.youtube.com/@Equatorcoffeesandteas",
+      "verified_at": "2026-10-04"
+    }
+  },
+  "french_press": {
+    "title_ar": "دليل الفرنش برس",
+    "title": "French press guide",
+    "intro_ar": "نقع كامل؛ طحن خشن لوصفات هذا الدليل، ثم كبس ونقل القهوة.",
+    "intro": "Full immersion; these guides use coarse grind, then pressing and decanting.",
+    "equipment_ar": "فرنش برس بالسعة المناسبة، طاحونة، ميزان، غلاية، ملعقة ومؤقت.",
+    "equipment": "Adequate-capacity French press, grinder, scale, kettle, spoon and timer.",
+    "tips_ar": [
+      "سخّن الإبريق وأفرغ ماء الشطف قبل وضع البن.",
+      "ابدأ المؤقت مع الماء؛ اتبع زمن النقع والترسيب المحدد للوصفة.",
+      "أبعد الإبريق عن الميزان عند الكبس وانقل القهوة بعده لمنع استمرار الاستخلاص."
+    ],
+    "tips": [
+      "Preheat and discard rinse water before adding coffee.",
+      "Start timing with water; follow the recipe steeping and settling stages.",
+      "Press off the scale and decant to stop prolonged extraction."
+    ],
+    "source": "https://www.stumptowncoffee.com/pages/brew-guide-french-press",
+    "source_name": "Stumptown Coffee Roasters",
+    "video": {
+      "method": "french_press",
+      "url": "https://www.youtube.com/watch?v=4RJPwdaeO7E",
+      "title": "French Press Brew Guide - Stumptown Coffee Roasters",
+      "publisher": "Stumptown Coffee Roasters",
+      "publisher_url": "https://www.youtube.com/@StumptownCoffeeRoasters",
+      "verified_at": "2026-10-04"
+    }
+  },
+  "origami": {
+    "title_ar": "دليل الأوريغامي",
+    "title": "Origami guide",
+    "intro_ar": "قمع سريع التصريف؛ نوع الفلتر والطحنة يغيران التدفق.",
+    "intro": "A fast-flowing dripper; filter type and grind change the flow.",
+    "equipment_ar": "أوريغامي وحامل ثابت، فلتر مخروطي أو ويف مناسب للوصفة، ميزان وطاحونة وغلاية ومؤقت.",
+    "equipment": "Origami with stable holder, recipe-matched cone or Wave filter, scale, grinder, kettle and timer.",
+    "tips_ar": [
+      "طابق نوع الفلتر مع الوصفة؛ لا تتوقع الوقت نفسه عند تبديله.",
+      "اشطف الفلتر وأفرغ ماء الشطف وسوِّ البن.",
+      "بعض وصفات كوراسو ترفع القمع قبل انتهاء الماء؛ اتبع وقت الإزالة المحدد."
+    ],
+    "tips": [
+      "Match the recipe filter; changing it can change timing.",
+      "Rinse, discard rinse water and level the grounds.",
+      "Some Kurasu recipes remove the dripper before fully drained; follow that recipe finish."
+    ],
+    "source": "https://kurasu.kyoto/blogs/kurasu-journal/origami-dripper-brewing-recipe-how-we-do-it-at-kurasu",
+    "source_name": "Kurasu",
+    "video": {
+      "method": "origami",
+      "url": "https://www.youtube.com/watch?v=epkWs-Eo4m4",
+      "title": "オリガミドリッパー 抽出レシピ / Origami Dripper Brew Guide by Kurasu Kyoto",
+      "publisher": "Kurasu Kyoto",
+      "publisher_url": "https://www.youtube.com/@KurasuKyoto",
+      "verified_at": "2026-10-04"
+    }
+  },
+  "kalita_wave": {
+    "title_ar": "دليل الكاليتا ويف",
+    "title": "Kalita Wave guide",
+    "intro_ar": "ترشيح بقاعدة مسطحة وفلتر مموج؛ مقاس 155 يختلف عن 185.",
+    "intro": "Flat-bottom filtration with a pleated filter; match 155 or 185 size.",
+    "equipment_ar": "كاليتا ويف وفلتر مموج مطابق، وعاء تقديم، ميزان، طاحونة، غلاية ومؤقت.",
+    "equipment": "Kalita Wave with matching pleated filter, server, scale, grinder, kettle and timer.",
+    "tips_ar": [
+      "طابق الفلتر والسعة؛ وصفة155 لا تتسع دائماً لجرعة185.",
+      "اشطف الفلتر برفق وسوِّ طبقة البن.",
+      "راقب نطاق وقت التزهير والتصريف؛ أرقامEK43 تخص تلك المطحنة."
+    ],
+    "tips": [
+      "Match filter and capacity; a155 brewer may not fit a185 batch.",
+      "Rinse gently and level the coffee bed.",
+      "Follow bloom and drawdown ranges; EK43 settings belong to that grinder."
+    ],
+    "source": "https://kurasu.kyoto/blogs/kurasu-journal/kalita-wave-brewing-guide-how-we-do-it-at-kurasu",
+    "source_name": "Kurasu",
+    "video": {
+      "method": "kalita_wave",
+      "url": "https://www.youtube.com/watch?v=JcKtGV7pRzM",
+      "title": "カリタウェーブ 抽出レシピ How to brew with Kalita Wave by Kurasu Kyoto",
+      "publisher": "Kurasu Kyoto",
+      "publisher_url": "https://www.youtube.com/@KurasuKyoto",
+      "verified_at": "2026-10-04"
+    }
+  }
+}

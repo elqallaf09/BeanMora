@@ -1,6 +1,6 @@
 {
   "name": "beanmora-mobile",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "main": "index.ts",
   "scripts": {
@@ -12,7 +12,7 @@
     "setup": "node scripts/setup.mjs",
     "sync:core": "node scripts/sync-core.mjs",
     "typecheck": "tsc --noEmit",
-    "test": "node scripts/sync-core.mjs --check && node scripts/check-mobile.mjs && node scripts/check-data.mjs",
+    "test": "node scripts/sync-core.mjs --check && node scripts/check-mobile.mjs && node scripts/check-data.mjs && node scripts/check-brewing.mjs",
     "export": "expo export --platform all"
   },
   "dependencies": {
