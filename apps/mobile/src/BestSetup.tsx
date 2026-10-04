@@ -26,9 +26,9 @@ function secondsLabel(seconds:number|null){if(!seconds)return '—';const m=Math
 export function BestSetup({userId,recipes,coffees,login,openRecipe,openCoffee}:{userId:string|null;recipes:RecipeItem[];coffees:CoffeeItem[];login:()=>void;openRecipe:(r:RecipeItem)=>void;openCoffee:(c:CoffeeItem)=>void}) {
   const locale=useContext(Language);const ar=locale==='ar';
   const [logs,setLogs]=useState<Parsed[]>([]);const [loading,setLoading]=useState(false);const [error,setError]=useState('');
-  useEffect(()=>{let active=true;if(!userId||!supabase){setLogs([]);return;}setLoading(true);setError('');
+  useEffect(()=>{let active=true;const client=supabase;if(!userId||!client){setLogs([]);return;}setLoading(true);setError('');
     const run=async()=>{try{
-      const {data,error}=await supabase.from('brew_logs').select('id,recipe_id,bean_id,brew_method,dose_grams,water_grams,actual_time_seconds,outcome_submission,created_at').eq('user_id',userId).order('created_at',{ascending:false}).limit(100);
+      const {data,error}=await client.from('brew_logs').select('id,recipe_id,bean_id,brew_method,dose_grams,water_grams,actual_time_seconds,outcome_submission,created_at').eq('user_id',userId).order('created_at',{ascending:false}).limit(100);
       if(!active)return;if(error){setError(ar?'تعذّر تحميل سجل التحضير.':'Could not load brew history.');setLogs([]);return;}
       setLogs(((data??[]) as Log[]).map(row=>({...row,...parseSubmission(row.outcome_submission)})));
     }catch{if(active)setError(ar?'تعذّر تحميل سجل التحضير.':'Could not load brew history.');}finally{if(active)setLoading(false);}};
