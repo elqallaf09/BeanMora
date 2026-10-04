@@ -1,4 +1,4 @@
-import { test, expect, type Page, type Route } from '@playwright/test';
+import { test, expect, type Page, type Request, type Route } from '@playwright/test';
 
 // All network responses and public keys are isolated test fixtures. SQL behavior
 // is tested separately against the actual migration in check-recipe-discovery-sql.
@@ -27,6 +27,9 @@ async function openLibrary(page: Page, locale: 'ar' | 'en') {
   if (locale === 'en') {
     await page.getByRole('button', { name: 'تغيير اللغة، العربية', exact: true }).click();
     await page.getByRole('button', { name: 'English', exact: true }).click();
+    // Modal fade-out restores focus to its opener. Finish that transition
+    // before navigating and typing into another control.
+    await expect(page.getByRole('button', { name: 'Close language selection', exact: true, includeHidden: true })).toHaveCount(0);
   }
   await page.getByRole('button', { name: locale === 'ar' ? 'تحضير' : 'Brew', exact: true }).click();
   await expect(page.getByRole('button', { name: locale === 'ar' ? records[0].title_ar : records[0].title, exact: true })).toBeVisible();
@@ -106,33 +109,65 @@ test('main search debounces text, carries punctuation literally and ignores a su
   const queries: (string | null)[] = [];
   let releaseOld = () => {};
   const oldGate = new Promise<void>(resolve => { releaseOld = resolve; });
+  let finishOld = () => {};
+  const oldFinished = new Promise<void>(resolve => { finishOld = resolve; });
+  let oldRequest: Request | undefined;
+  let completeOldRequest = () => {};
+  const oldRequestCompleted = new Promise<void>(resolve => { completeOldRequest = resolve; });
+  const onRequestCompleted = (request: Request) => { if (request === oldRequest) completeOldRequest(); };
+  page.on('requestfinished', onRequestCompleted);
+  page.on('requestfailed', onRequestCompleted);
+  const resultTitle = (query: string) => `Current search recipe: ${query}`;
+  await page.clock.install({ time: new Date('2026-10-04T00:00:00Z') });
   await page.route('https://mobilefixture.supabase.co/**', async route => {
     const url = new URL(route.request().url());
     if (!url.pathname.endsWith('/rpc/search_public_recipes')) return reply(route, url.pathname.endsWith('/recipes') ? [records[0]] : []);
     const query = route.request().postDataJSON().p_query;
     queries.push(query);
     if (query === 'old') {
+      oldRequest = route.request();
       await oldGate;
       try { await reply(route, [{ ...records[1], title: 'Stale response recipe' }]); } catch { /* request was intentionally aborted */ }
+      finally { finishOld(); }
       return;
     }
-    return reply(route, query ? [{ ...records[2], title: 'Current search recipe' }] : [records[0]]);
+    return reply(route, query ? [{ ...records[2], title: resultTitle(query) }] : [records[0]]);
   });
   await openLibrary(page, 'en');
+  await page.clock.pauseAt(new Date('2026-10-04T00:01:00Z'));
   const field = page.getByLabel('Find a recipe', { exact: true });
-  await field.pressSequentially('fast', { delay: 20 });
-  await expect(page.getByRole('button', { name: 'Current search recipe', exact: true })).toBeVisible();
-  expect(queries.filter(Boolean)).toEqual(['fast']);
-  await field.fill("literal_%'),visibility.eq.private");
-  await expect.poll(() => queries.at(-1)).toBe("literal_%'),visibility.eq.private");
+  // Wall-clock character delays are only a minimum on a busy CI worker. Keep
+  // browser time fixed and advance it explicitly to exercise every timer reset.
+  for (let index = 0; index < 'fast'.length; index += 1) {
+    await field.pressSequentially('fast'[index]);
+    await expect(field).toHaveValue('fast'.slice(0, index + 1));
+    await expect(field).toBeFocused();
+    if (index < 'fast'.length - 1) await page.clock.runFor(100);
+    expect(queries.filter(Boolean)).toEqual([]);
+  }
+  await page.clock.runFor(319);
+  expect(queries.filter(Boolean)).toEqual([]);
+  await page.clock.runFor(1);
+  await expect.poll(() => queries.filter(Boolean)).toEqual(['fast']);
+  await expect(page.getByRole('button', { name: resultTitle('fast'), exact: true })).toBeVisible();
+  const literal = "literal_%'),visibility.eq.private";
+  await field.fill(literal);
+  await page.clock.runFor(320);
+  await expect.poll(() => queries.at(-1)).toBe(literal);
+  await expect(page.getByRole('button', { name: resultTitle(literal), exact: true })).toBeVisible();
   await field.fill('old');
+  await page.clock.runFor(320);
   await expect.poll(() => queries.at(-1)).toBe('old');
   await field.fill('new');
+  await page.clock.runFor(320);
   await expect.poll(() => queries.at(-1)).toBe('new');
-  await expect(page.getByRole('button', { name: 'Current search recipe', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: resultTitle('new'), exact: true })).toBeVisible();
   releaseOld();
-  await page.waitForTimeout(150);
+  await oldFinished;
+  await oldRequestCompleted;
+  await page.clock.runFor(16);
   await expect(page.getByRole('button', { name: 'Stale response recipe', exact: true })).not.toBeVisible();
-  await expect(page.getByRole('button', { name: 'Current search recipe', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: resultTitle('new'), exact: true })).toBeVisible();
   await expect(page.getByText('Could not load recipes.', { exact: true })).not.toBeVisible();
+  expect(queries.filter(Boolean)).toEqual(['fast', literal, 'old', 'new']);
 });
