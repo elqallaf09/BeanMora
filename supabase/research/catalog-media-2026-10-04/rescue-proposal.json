@@ -1,0 +1,551 @@
+{
+  "summary": {
+    "reviewed_at": "2026-10-04T12:49:14.364289+00:00",
+    "project_id": "ubvzdglrwkkuaigmkjap",
+    "scope": "Original 137 public, published, reviewed beans; later imports are excluded.",
+    "initial_snapshot": {
+      "beans": 137,
+      "roasted_products_available_or_low_stock": 0,
+      "with_url": 87,
+      "without_url": 50,
+      "unique_urls": 86,
+      "http_success_unique_urls": 86,
+      "empty_image_galleries": 137
+    },
+    "first_pass_application_reported_by_root": {
+      "beans": 137,
+      "with_image": 122,
+      "without_image": 15,
+      "sensory_profiles": 14
+    },
+    "rescue_proposal_status": "applied_verified",
+    "rescue_rows": 5,
+    "rescue_unique_images": 4,
+    "total_url_updates_across_both_passes": 51,
+    "expected_after_rescue": {
+      "beans": 137,
+      "with_image": 127,
+      "without_image": 10,
+      "packaging": 93,
+      "product_artwork": 23,
+      "origin_photo": 11
+    },
+    "counting_note": "Image-kind counts count bean records, not unique image files. Chelelektu and Chire share one official two-bag photo.",
+    "rights_status": "source_linked only; no redistribution rights asserted.",
+    "production_writes_by_this_agent": false,
+    "application": {
+      "applied_by": "root",
+      "status": "applied_verified",
+      "verified_at": "2026-10-04T14:18:01Z",
+      "evidence": "evidence/application-verification.json"
+    },
+    "observed_after_rescue": {
+      "audited_beans": 137,
+      "with_image": 127,
+      "missing_image": 10,
+      "packaging": 93,
+      "product_artwork": 23,
+      "origin_photo": 11,
+      "unexpected_usage_status": 0,
+      "missing_image_source": 0,
+      "sourced_sensory_profiles": 14
+    },
+    "final_catalog_verification": {
+      "scope": "Original137 plus canonical77 imported beans",
+      "verified_at": "2026-10-04T16:24:19.371181+00:00",
+      "evidence": "evidence/final-catalog-verification.json",
+      "counts": {
+        "beans": 214,
+        "packaging": 167,
+        "with_image": 204,
+        "origin_photo": 11,
+        "missing_image": 10,
+        "product_artwork": 26,
+        "missing_image_source": 0,
+        "public_reviewed_beans": 214,
+        "unexpected_usage_status": 0,
+        "sourced_sensory_profiles": 16
+      },
+      "new_exact_matches": 77,
+      "new_mismatches": 0
+    }
+  },
+  "updates": [
+    {
+      "id": "61bac2e2-5005-412d-a524-8d03ea072d9e",
+      "slug": "crossbridge-chelelektu",
+      "name_en": "Chelelektu",
+      "roaster_name": "Crossbridge Coffee",
+      "previous_image_url": null,
+      "image_url": "https://images.squarespace-cdn.com/content/v1/5626184ce4b0581ff0294cfe/1592739895522-PPAE5V3TZSZO3QR0SKB2/image-asset.jpeg",
+      "image_source_url": "https://web.archive.org/web/20240822132556/https://crossbridgecoffee.com/",
+      "original_source_url": "https://crossbridgecoffee.com/",
+      "archived_source_url": "https://web.archive.org/web/20240822132556/https://crossbridgecoffee.com/",
+      "archive_timestamp": "20240822132556",
+      "image_usage_status": "source_linked",
+      "image_kind": "packaging",
+      "classification": "packaging",
+      "source_status": "archived_official_page_live_image",
+      "checked_at": "2026-10-04",
+      "selection_evidence": "Official embedded post explicitly names Chelelektu and Chire. Photo visibly shows both named Crossbridge retail bags; Chelelektu is the left bag. Caption credits Windrose as roaster.",
+      "multi_product_image": true,
+      "target_position": "left",
+      "current_availability_verified": false,
+      "visual_evidence": {
+        "valid_image": true,
+        "format": "JPEG",
+        "width": 640,
+        "height": 640,
+        "reviewed_visually": true
+      },
+      "image_check": {
+        "url": "https://images.squarespace-cdn.com/content/v1/5626184ce4b0581ff0294cfe/1592739895522-PPAE5V3TZSZO3QR0SKB2/image-asset.jpeg",
+        "checked_at": "2026-10-04",
+        "get_status": 200,
+        "valid_image": true,
+        "content_type": "image/jpeg",
+        "bytes_read": 89990,
+        "format": "JPEG",
+        "width": 640,
+        "height": 640,
+        "validation": "Full HTTP GET, PIL decode, and human-readable label inspected"
+      },
+      "source_linked_note": "Historical official source and live original CDN image. This is provenance, not redistribution permission; not rights_confirmed. No current stock claim.",
+      "expected_description_en": "Single-origin Ethiopian roast; roaster-stated tasting notes of berries, lavender and black tea. No process/varietal/altitude/bag size published.",
+      "expected_source_url": "https://crossbridgecoffee.com/",
+      "reviewed_at": "2026-10-04T12:49:14.364289+00:00",
+      "apply": true,
+      "review_status": "visually_reviewed_again_and_public_identity_checked",
+      "evidence_file": "evidence/rescue-source-evidence.json",
+      "review_image": "evidence/rescue-product-contact-sheet.jpg",
+      "application_status": "applied_verified",
+      "verified_applied_at": "2026-10-04T14:18:01Z"
+    },
+    {
+      "id": "7a095545-5136-4962-b17e-3cd4d872470c",
+      "slug": "crossbridge-chire",
+      "name_en": "Chire",
+      "roaster_name": "Crossbridge Coffee",
+      "previous_image_url": null,
+      "image_url": "https://images.squarespace-cdn.com/content/v1/5626184ce4b0581ff0294cfe/1592739895522-PPAE5V3TZSZO3QR0SKB2/image-asset.jpeg",
+      "image_source_url": "https://web.archive.org/web/20240822132556/https://crossbridgecoffee.com/",
+      "original_source_url": "https://crossbridgecoffee.com/",
+      "archived_source_url": "https://web.archive.org/web/20240822132556/https://crossbridgecoffee.com/",
+      "archive_timestamp": "20240822132556",
+      "image_usage_status": "source_linked",
+      "image_kind": "packaging",
+      "classification": "packaging",
+      "source_status": "archived_official_page_live_image",
+      "checked_at": "2026-10-04",
+      "selection_evidence": "Official embedded post explicitly names Chelelektu and Chire. Photo visibly shows both named Crossbridge retail bags; Chire is the right bag. Caption credits Windrose as roaster.",
+      "multi_product_image": true,
+      "target_position": "right",
+      "current_availability_verified": false,
+      "visual_evidence": {
+        "valid_image": true,
+        "format": "JPEG",
+        "width": 640,
+        "height": 640,
+        "reviewed_visually": true
+      },
+      "image_check": {
+        "url": "https://images.squarespace-cdn.com/content/v1/5626184ce4b0581ff0294cfe/1592739895522-PPAE5V3TZSZO3QR0SKB2/image-asset.jpeg",
+        "checked_at": "2026-10-04",
+        "get_status": 200,
+        "valid_image": true,
+        "content_type": "image/jpeg",
+        "bytes_read": 89990,
+        "format": "JPEG",
+        "width": 640,
+        "height": 640,
+        "validation": "Full HTTP GET, PIL decode, and human-readable label inspected"
+      },
+      "source_linked_note": "Historical official source and live original CDN image. This is provenance, not redistribution permission; not rights_confirmed. No current stock claim.",
+      "expected_description_en": "Single-origin Ethiopian roast. No further process/varietal/altitude/notes published on the fetched page.",
+      "expected_source_url": "https://crossbridgecoffee.com/",
+      "reviewed_at": "2026-10-04T12:49:14.364289+00:00",
+      "apply": true,
+      "review_status": "visually_reviewed_again_and_public_identity_checked",
+      "evidence_file": "evidence/rescue-source-evidence.json",
+      "review_image": "evidence/rescue-product-contact-sheet.jpg",
+      "application_status": "applied_verified",
+      "verified_applied_at": "2026-10-04T14:18:01Z"
+    },
+    {
+      "id": "5c81bc4d-7a34-4ff4-8d23-2e8edda1db05",
+      "slug": "crossbridge-yemen-abu-wudiyyan",
+      "name_en": "Yemen Abu Wudiyyan",
+      "roaster_name": "Crossbridge Coffee",
+      "previous_image_url": null,
+      "image_url": "https://images.squarespace-cdn.com/content/v1/5626184ce4b0581ff0294cfe/1592322352259-XAERMEVG77FCZH9Z5N3W/image-asset.jpeg",
+      "image_source_url": "https://web.archive.org/web/20240822132556/https://crossbridgecoffee.com/",
+      "original_source_url": "https://crossbridgecoffee.com/",
+      "archived_source_url": "https://web.archive.org/web/20240822132556/https://crossbridgecoffee.com/",
+      "archive_timestamp": "20240822132556",
+      "image_usage_status": "source_linked",
+      "image_kind": "packaging",
+      "classification": "packaging",
+      "source_status": "archived_official_page_live_image",
+      "checked_at": "2026-10-04",
+      "selection_evidence": "Official embedded post names Yemen Abu Wudiyyan. Photo visibly reads Windrose / Yemen / Abu Al-Wudiyyan; exact seller-roaster and coffee identity are supported.",
+      "multi_product_image": false,
+      "target_position": null,
+      "current_availability_verified": false,
+      "visual_evidence": {
+        "valid_image": true,
+        "format": "JPEG",
+        "width": 640,
+        "height": 640,
+        "reviewed_visually": true
+      },
+      "image_check": {
+        "url": "https://images.squarespace-cdn.com/content/v1/5626184ce4b0581ff0294cfe/1592322352259-XAERMEVG77FCZH9Z5N3W/image-asset.jpeg",
+        "checked_at": "2026-10-04",
+        "get_status": 200,
+        "valid_image": true,
+        "content_type": "image/jpeg",
+        "bytes_read": 143996,
+        "format": "JPEG",
+        "width": 640,
+        "height": 640,
+        "validation": "Full HTTP GET, PIL decode, and human-readable label inspected"
+      },
+      "source_linked_note": "Historical official source and live original CDN image. This is provenance, not redistribution permission; not rights_confirmed. No current stock claim.",
+      "expected_description_en": "Single-origin Yemeni beans named \"Abu Wudiyyan\" on the roaster's own homepage. No process/varietal/altitude/notes published.",
+      "expected_source_url": "https://crossbridgecoffee.com/",
+      "reviewed_at": "2026-10-04T12:49:14.364289+00:00",
+      "apply": true,
+      "review_status": "visually_reviewed_again_and_public_identity_checked",
+      "evidence_file": "evidence/rescue-source-evidence.json",
+      "review_image": "evidence/rescue-product-contact-sheet.jpg",
+      "application_status": "applied_verified",
+      "verified_applied_at": "2026-10-04T14:18:01Z"
+    },
+    {
+      "id": "6cb87075-99cd-4ed8-aff8-0bb4992e5942",
+      "slug": "crossbridge-brazil-roast",
+      "name_en": "Brazil Roast",
+      "roaster_name": "Crossbridge Coffee",
+      "previous_image_url": null,
+      "image_url": "https://images.squarespace-cdn.com/content/v1/5626184ce4b0581ff0294cfe/1592031396284-AIPHWSQR3DO48KI7X264/image-asset.jpeg",
+      "image_source_url": "https://web.archive.org/web/20240822132556/https://crossbridgecoffee.com/",
+      "original_source_url": "https://crossbridgecoffee.com/",
+      "archived_source_url": "https://web.archive.org/web/20240822132556/https://crossbridgecoffee.com/",
+      "archive_timestamp": "20240822132556",
+      "image_usage_status": "source_linked",
+      "image_kind": "packaging",
+      "classification": "packaging",
+      "source_status": "archived_official_page_live_image",
+      "checked_at": "2026-10-04",
+      "selection_evidence": "Official embedded post calls this coffee its Brazil roast, matching the catalog name. Visible Crossbridge bag reads Brazil / Samambaia. Preserve the historical association; no current lot or stock claim.",
+      "multi_product_image": false,
+      "target_position": null,
+      "current_availability_verified": false,
+      "visual_evidence": {
+        "valid_image": true,
+        "format": "JPEG",
+        "width": 640,
+        "height": 640,
+        "reviewed_visually": true
+      },
+      "image_check": {
+        "url": "https://images.squarespace-cdn.com/content/v1/5626184ce4b0581ff0294cfe/1592031396284-AIPHWSQR3DO48KI7X264/image-asset.jpeg",
+        "checked_at": "2026-10-04",
+        "get_status": 200,
+        "valid_image": true,
+        "content_type": "image/jpeg",
+        "bytes_read": 63824,
+        "format": "JPEG",
+        "width": 640,
+        "height": 640,
+        "validation": "Full HTTP GET, PIL decode, and human-readable label inspected"
+      },
+      "source_linked_note": "Historical official source and live original CDN image. This is provenance, not redistribution permission; not rights_confirmed. No current stock claim.",
+      "expected_description_en": "Single-origin Brazilian roast. No process/varietal/altitude/notes published on the fetched page.",
+      "expected_source_url": "https://crossbridgecoffee.com/",
+      "reviewed_at": "2026-10-04T12:49:14.364289+00:00",
+      "apply": true,
+      "review_status": "visually_reviewed_again_and_public_identity_checked",
+      "evidence_file": "evidence/rescue-source-evidence.json",
+      "review_image": "evidence/rescue-product-contact-sheet.jpg",
+      "application_status": "applied_verified",
+      "verified_applied_at": "2026-10-04T14:18:01Z"
+    },
+    {
+      "id": "08f9dfeb-375b-4578-bb24-8ca1639836c5",
+      "slug": "crossbridge-oasis-blend",
+      "name_en": "Oasis Blend",
+      "roaster_name": "Crossbridge Coffee",
+      "previous_image_url": null,
+      "image_url": "https://images.squarespace-cdn.com/content/v1/5626184ce4b0581ff0294cfe/1593350415515-UAU8BG9WMUYTUTU2LK6P/image-asset.jpeg",
+      "image_source_url": "https://web.archive.org/web/20240822132556/https://crossbridgecoffee.com/",
+      "original_source_url": "https://crossbridgecoffee.com/",
+      "archived_source_url": "https://web.archive.org/web/20240822132556/https://crossbridgecoffee.com/",
+      "archive_timestamp": "20240822132556",
+      "image_usage_status": "source_linked",
+      "image_kind": "packaging",
+      "classification": "packaging",
+      "source_status": "archived_official_page_live_image",
+      "checked_at": "2026-10-04",
+      "selection_evidence": "The visible bag says Oasis Blend. The archived official caption specifies Uganda, Brazil and Colombia; the existing published DB description specifies exactly the same three-country blend. The alternative four-country conventional blend is excluded.",
+      "multi_product_image": false,
+      "target_position": null,
+      "current_availability_verified": false,
+      "visual_evidence": {
+        "valid_image": true,
+        "format": "JPEG",
+        "width": 640,
+        "height": 640,
+        "reviewed_visually": true
+      },
+      "image_check": {
+        "url": "https://images.squarespace-cdn.com/content/v1/5626184ce4b0581ff0294cfe/1593350415515-UAU8BG9WMUYTUTU2LK6P/image-asset.jpeg",
+        "checked_at": "2026-10-04",
+        "get_status": 200,
+        "valid_image": true,
+        "content_type": "image/jpeg",
+        "bytes_read": 72491,
+        "format": "JPEG",
+        "width": 640,
+        "height": 640,
+        "validation": "Full HTTP GET, PIL decode, and human-readable label inspected"
+      },
+      "source_linked_note": "Historical official source and live original CDN image. This is provenance, not redistribution permission; not rights_confirmed. No current stock claim.",
+      "status": "approved_after_public_identity_reconciliation",
+      "apply": true,
+      "identity_reconciliation": {
+        "public_description_en": "Signature house blend, stated as featuring beans from Uganda, Brazil and Colombia. No process/varietal/roast/bag size published.",
+        "matched_countries": [
+          "Uganda",
+          "Brazil",
+          "Colombia"
+        ],
+        "excluded_other_blend_countries": [
+          "Colombia",
+          "El Salvador",
+          "Guatemala",
+          "Peru"
+        ],
+        "confirmed_by_second_reviewer": true
+      },
+      "expected_description_en": "Signature house blend, stated as featuring beans from Uganda, Brazil and Colombia. No process/varietal/roast/bag size published.",
+      "expected_source_url": "https://crossbridgecoffee.com/",
+      "reviewed_at": "2026-10-04T12:49:14.364289+00:00",
+      "review_status": "visually_reviewed_again_and_public_identity_checked",
+      "evidence_file": "evidence/rescue-source-evidence.json",
+      "review_image": "evidence/rescue-product-contact-sheet.jpg",
+      "application_status": "applied_verified",
+      "verified_applied_at": "2026-10-04T14:18:01Z"
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "b3fb9a14-395b-4008-a1e0-ad2b017336fb",
+      "slug": "crossbridge-guatemala-roast",
+      "name_en": "Guatemala Roast",
+      "source_url": "https://crossbridgecoffee.com/",
+      "reason": "Archived official post caption mentions Guatemala, but the photo visibly reads Uganda / Bushula. Rejected wrong-coffee image despite caption."
+    },
+    {
+      "id": "d9f43409-6346-416d-a155-54c9fb730845",
+      "slug": "earth-indonesia-pantan-musara-washed",
+      "name_en": "Indonesia Pantan Musara (Washed)",
+      "source_url": "https://kw.earthroastery.com/products/indonesia-pantan-musara-washed",
+      "reason": "An exact AE Washed-titled page was recovered from 2025-03-15, but the bag, drip and capsule labels all visibly say Natural. The associated generic Indonesia origin photograph does not resolve that product identity conflict. All wrong-process packaging was rejected."
+    },
+    {
+      "id": "722d69fd-e014-4f60-8886-13d205a2a60e",
+      "slug": "windrose-ethiopia-aricha",
+      "name_en": "Ethiopia Aricha - Natural",
+      "source_url": "https://www.windrosecoffee.com/product/ethiopia-aricha/",
+      "reason": "BonPlus exact natural Aricha listing is currently a maintenance page. A recovered 2018 official Aricha Sun-Dried Natural page identifies an Aricha station photograph, but its live original image returns403. The October2025 homepage and June2026 slider point to Aricha Red Honey, which is a different process and was rejected."
+    },
+    {
+      "id": "645eac25-cff1-4331-a129-2b5dc6a4aa40",
+      "slug": "windrose-midnight-crafted-blend",
+      "name_en": "Midnight - Crafted Blend",
+      "source_url": "https://www.windrosecoffee.com/product/midnight-crafted-blend/",
+      "reason": "Exact official product-page snapshot exists2026-02-17, but original Midnight-.png image GET returns403. No alternate hostname/header bypass attempted."
+    },
+    {
+      "id": "7ff8346e-067d-4bf7-ae5f-fd98986696d3",
+      "slug": "windrose-yemen-shaian-hiwar",
+      "name_en": "Yemen Shai'an Hiwar - Natural",
+      "source_url": "https://www.windrosecoffee.com/product/yemen-shaian-hiwar/",
+      "reason": "Exact Shai’an Hiwar Natural product-page snapshot recovered from 2026-06-12; all four original gallery images return403. Current Shai’an Hiwar Peaberry is a different lot and was not substituted."
+    },
+    {
+      "id": "d033447d-b45b-4a43-ab46-1e98cd074dfe",
+      "slug": "wings-coffee-doha-brazil",
+      "name_en": "Brazil",
+      "source_url": "https://wingscoffeedoha.com/shop/",
+      "reason": "Exact current product pages use shared generic brand bags without coffee identity; official homepage contains no verified alternate exact product photography. Instagram fetch failed; shop returned 403 and was not bypassed."
+    },
+    {
+      "id": "fb682f41-734a-4bd5-9a87-e16c0cbdb4a0",
+      "slug": "wings-coffee-doha-colombia-decaf",
+      "name_en": "Colombia Decaf Coffee",
+      "source_url": "https://wingscoffeedoha.com/shop/",
+      "reason": "Exact current product pages use shared generic brand bags without coffee identity; official homepage contains no verified alternate exact product photography. Instagram fetch failed; shop returned 403 and was not bypassed."
+    },
+    {
+      "id": "1ff611a4-e1a4-48f6-9f5f-889355fa150b",
+      "slug": "wings-coffee-doha-el-salvador-gourmet",
+      "name_en": "El Salvador -- Gourmet",
+      "source_url": "https://wingscoffeedoha.com/shop/",
+      "reason": "Exact current product pages use shared generic brand bags without coffee identity; official homepage contains no verified alternate exact product photography. Instagram fetch failed; shop returned 403 and was not bypassed."
+    },
+    {
+      "id": "30868992-2873-4042-9bf0-451c616aea76",
+      "slug": "wings-coffee-doha-el-salvador-natural",
+      "name_en": "El Salvador -- Natural",
+      "source_url": "https://wingscoffeedoha.com/shop/",
+      "reason": "Exact current product pages use shared generic brand bags without coffee identity; official homepage contains no verified alternate exact product photography. Instagram fetch failed; shop returned 403 and was not bypassed."
+    },
+    {
+      "id": "725f39a1-2709-434d-b5ff-5ab12ad1f7b2",
+      "slug": "wings-coffee-doha-ethiopia-guji",
+      "name_en": "Ethiopia -- Guji",
+      "source_url": "https://wingscoffeedoha.com/shop/",
+      "reason": "Exact current product pages use shared generic brand bags without coffee identity; official homepage contains no verified alternate exact product photography. Instagram fetch failed; shop returned 403 and was not bypassed."
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "slug": "crossbridge-guatemala-roast",
+      "image_url": "https://images.squarespace-cdn.com/content/v1/5626184ce4b0581ff0294cfe/1592149831875-RF79ZDFO6WL3NTSY5IMY/image-asset.jpeg",
+      "source_url": "https://web.archive.org/web/20240822132556/https://crossbridgecoffee.com/",
+      "reason": "Visible Uganda/Bushula label contradicts Guatemala caption"
+    },
+    {
+      "slug": "windrose-midnight-crafted-blend",
+      "image_url": "https://www.windrosecoffee.com/wp-content/uploads/2025/09/Midnight-.png",
+      "source_url": "https://web.archive.org/web/20260217205840/https://www.windrosecoffee.com/product/midnight-crafted-blend/",
+      "reason": "HTTP Error 403: Forbidden",
+      "image_kind": "product_artwork"
+    },
+    {
+      "slug": "earth-indonesia-pantan-musara-washed",
+      "image_url": "https://ae.earthroastery.com/cdn/shop/files/17.jpg?v=1734812189&width=1500",
+      "source_url": "https://web.archive.org/web/20250315141945/https://ae.earthroastery.com/products/pantan-musara-washed",
+      "reason": "Official title says Washed, but actual packaging labels say Natural; generic Indonesia origin image does not resolve the conflicting product identity",
+      "image_check": {
+        "image_url": "https://ae.earthroastery.com/cdn/shop/files/17.jpg?v=1734812189&width=1500",
+        "source_url": "https://web.archive.org/web/20250315141945/https://ae.earthroastery.com/products/pantan-musara-washed",
+        "http_status": 200,
+        "mime_type": "image/jpeg",
+        "bytes": 257041,
+        "dimensions": [
+          1500,
+          1500
+        ],
+        "decoded": true
+      }
+    },
+    {
+      "slug": "earth-indonesia-pantan-musara-washed",
+      "image_url": "https://ae.earthroastery.com/cdn/shop/files/IDNN22VA.jpg?v=1734812193&width=1500",
+      "source_url": "https://web.archive.org/web/20250315141945/https://ae.earthroastery.com/products/pantan-musara-washed",
+      "reason": "Official title says Washed, but actual packaging labels say Natural; generic Indonesia origin image does not resolve the conflicting product identity",
+      "image_check": {
+        "image_url": "https://ae.earthroastery.com/cdn/shop/files/IDNN22VA.jpg?v=1734812193&width=1500",
+        "source_url": "https://web.archive.org/web/20250315141945/https://ae.earthroastery.com/products/pantan-musara-washed",
+        "http_status": 200,
+        "mime_type": "image/jpeg",
+        "bytes": 30849,
+        "dimensions": [
+          1500,
+          1500
+        ],
+        "decoded": true
+      }
+    },
+    {
+      "slug": "earth-indonesia-pantan-musara-washed",
+      "image_url": "https://ae.earthroastery.com/cdn/shop/files/IDNN22VA_2.jpg?v=1734812193&width=1500",
+      "source_url": "https://web.archive.org/web/20250315141945/https://ae.earthroastery.com/products/pantan-musara-washed",
+      "reason": "Official title says Washed, but actual packaging labels say Natural; generic Indonesia origin image does not resolve the conflicting product identity",
+      "image_check": {
+        "image_url": "https://ae.earthroastery.com/cdn/shop/files/IDNN22VA_2.jpg?v=1734812193&width=1500",
+        "source_url": "https://web.archive.org/web/20250315141945/https://ae.earthroastery.com/products/pantan-musara-washed",
+        "http_status": 200,
+        "mime_type": "image/jpeg",
+        "bytes": 27848,
+        "dimensions": [
+          1500,
+          1500
+        ],
+        "decoded": true
+      }
+    },
+    {
+      "slug": "earth-indonesia-pantan-musara-washed",
+      "image_url": "https://ae.earthroastery.com/cdn/shop/files/IDNN22VA_3.jpg?v=1734812193&width=1500",
+      "source_url": "https://web.archive.org/web/20250315141945/https://ae.earthroastery.com/products/pantan-musara-washed",
+      "reason": "Official title says Washed, but actual packaging labels say Natural; generic Indonesia origin image does not resolve the conflicting product identity",
+      "image_check": {
+        "image_url": "https://ae.earthroastery.com/cdn/shop/files/IDNN22VA_3.jpg?v=1734812193&width=1500",
+        "source_url": "https://web.archive.org/web/20250315141945/https://ae.earthroastery.com/products/pantan-musara-washed",
+        "http_status": 200,
+        "mime_type": "image/jpeg",
+        "bytes": 27066,
+        "dimensions": [
+          1500,
+          1500
+        ],
+        "decoded": true
+      }
+    },
+    {
+      "slug": "windrose-yemen-shaian-hiwar",
+      "image_url": "https://www.windrosecoffee.com/wp-content/uploads/2026/05/Haiwar-600-400.jpg",
+      "source_url": "https://web.archive.org/web/20260612173704/https://www.windrosecoffee.com/product/yemen-shaian-hiwar/",
+      "reason": "HTTP Error 403: Forbidden",
+      "image_check": {
+        "image_url": "https://www.windrosecoffee.com/wp-content/uploads/2026/05/Haiwar-600-400.jpg",
+        "source_url": "https://web.archive.org/web/20260612173704/https://www.windrosecoffee.com/product/yemen-shaian-hiwar/",
+        "error": "HTTP Error 403: Forbidden"
+      }
+    },
+    {
+      "slug": "windrose-yemen-shaian-hiwar",
+      "image_url": "https://www.windrosecoffee.com/wp-content/uploads/2026/05/Haiwar-5-600-400.jpg",
+      "source_url": "https://web.archive.org/web/20260612173704/https://www.windrosecoffee.com/product/yemen-shaian-hiwar/",
+      "reason": "HTTP Error 403: Forbidden",
+      "image_check": {
+        "image_url": "https://www.windrosecoffee.com/wp-content/uploads/2026/05/Haiwar-5-600-400.jpg",
+        "source_url": "https://web.archive.org/web/20260612173704/https://www.windrosecoffee.com/product/yemen-shaian-hiwar/",
+        "error": "HTTP Error 403: Forbidden"
+      }
+    },
+    {
+      "slug": "windrose-yemen-shaian-hiwar",
+      "image_url": "https://www.windrosecoffee.com/wp-content/uploads/2026/05/Haiwar-4-600-400.jpg",
+      "source_url": "https://web.archive.org/web/20260612173704/https://www.windrosecoffee.com/product/yemen-shaian-hiwar/",
+      "reason": "HTTP Error 403: Forbidden",
+      "image_check": {
+        "image_url": "https://www.windrosecoffee.com/wp-content/uploads/2026/05/Haiwar-4-600-400.jpg",
+        "source_url": "https://web.archive.org/web/20260612173704/https://www.windrosecoffee.com/product/yemen-shaian-hiwar/",
+        "error": "HTTP Error 403: Forbidden"
+      }
+    },
+    {
+      "slug": "windrose-yemen-shaian-hiwar",
+      "image_url": "https://www.windrosecoffee.com/wp-content/uploads/2026/05/Haiwar-3-600-400.jpg",
+      "source_url": "https://web.archive.org/web/20260612173704/https://www.windrosecoffee.com/product/yemen-shaian-hiwar/",
+      "reason": "HTTP Error 403: Forbidden",
+      "image_check": {
+        "image_url": "https://www.windrosecoffee.com/wp-content/uploads/2026/05/Haiwar-3-600-400.jpg",
+        "source_url": "https://web.archive.org/web/20260612173704/https://www.windrosecoffee.com/product/yemen-shaian-hiwar/",
+        "error": "HTTP Error 403: Forbidden"
+      }
+    },
+    {
+      "slug": "windrose-ethiopia-aricha",
+      "image_url": "https://windrosecoffee.com/wp-content/uploads/2018/04/5ee26d3f-8ff1-4789-8006-5a68d289153a-600x600.jpg",
+      "source_url": "https://web.archive.org/web/20180809003456/http://windrosecoffee.com:80/product/ethiopia-aricha/",
+      "reason": "HTTP Error 403: Forbidden",
+      "image_kind": "origin_photo"
+    }
+  ]
+}

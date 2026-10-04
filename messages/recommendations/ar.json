@@ -76,7 +76,12 @@
     "cold_brew": "كولد برو",
     "moka_pot": "موكا بوت",
     "origami": "أوريغامي",
-    "kalita_wave": "كاليتا ويف"
+    "kalita_wave": "كاليتا ويف",
+    "april": "أبريل",
+    "orea": "أوريا",
+    "switch": "هاريو سويتش",
+    "pour_over": "تقطير يدوي",
+    "auto_drip": "تقطير آلي"
   },
   "flavors": {
     "chocolate": "شوكولاتة",

@@ -1,0 +1,72 @@
+[
+  {
+    "id": "b3fb9a14-395b-4008-a1e0-ad2b017336fb",
+    "slug": "crossbridge-guatemala-roast",
+    "name_en": "Guatemala Roast",
+    "source_url": "https://crossbridgecoffee.com/",
+    "reason": "Archived official post caption mentions Guatemala, but the photo visibly reads Uganda / Bushula. Rejected wrong-coffee image despite caption."
+  },
+  {
+    "id": "d9f43409-6346-416d-a155-54c9fb730845",
+    "slug": "earth-indonesia-pantan-musara-washed",
+    "name_en": "Indonesia Pantan Musara (Washed)",
+    "source_url": "https://kw.earthroastery.com/products/indonesia-pantan-musara-washed",
+    "reason": "An exact AE Washed-titled page was recovered from 2025-03-15, but the bag, drip and capsule labels all visibly say Natural. The associated generic Indonesia origin photograph does not resolve that product identity conflict. All wrong-process packaging was rejected."
+  },
+  {
+    "id": "722d69fd-e014-4f60-8886-13d205a2a60e",
+    "slug": "windrose-ethiopia-aricha",
+    "name_en": "Ethiopia Aricha - Natural",
+    "source_url": "https://www.windrosecoffee.com/product/ethiopia-aricha/",
+    "reason": "BonPlus exact natural Aricha listing is currently a maintenance page. A recovered 2018 official Aricha Sun-Dried Natural page identifies an Aricha station photograph, but its live original image returns403. The October2025 homepage and June2026 slider point to Aricha Red Honey, which is a different process and was rejected."
+  },
+  {
+    "id": "645eac25-cff1-4331-a129-2b5dc6a4aa40",
+    "slug": "windrose-midnight-crafted-blend",
+    "name_en": "Midnight - Crafted Blend",
+    "source_url": "https://www.windrosecoffee.com/product/midnight-crafted-blend/",
+    "reason": "Exact official product-page snapshot exists2026-02-17, but original Midnight-.png image GET returns403. No alternate hostname/header bypass attempted."
+  },
+  {
+    "id": "7ff8346e-067d-4bf7-ae5f-fd98986696d3",
+    "slug": "windrose-yemen-shaian-hiwar",
+    "name_en": "Yemen Shai'an Hiwar - Natural",
+    "source_url": "https://www.windrosecoffee.com/product/yemen-shaian-hiwar/",
+    "reason": "Exact Shai’an Hiwar Natural product-page snapshot recovered from 2026-06-12; all four original gallery images return403. Current Shai’an Hiwar Peaberry is a different lot and was not substituted."
+  },
+  {
+    "id": "d033447d-b45b-4a43-ab46-1e98cd074dfe",
+    "slug": "wings-coffee-doha-brazil",
+    "name_en": "Brazil",
+    "source_url": "https://wingscoffeedoha.com/shop/",
+    "reason": "Exact current product pages use shared generic brand bags without coffee identity; official homepage contains no verified alternate exact product photography. Instagram fetch failed; shop returned 403 and was not bypassed."
+  },
+  {
+    "id": "fb682f41-734a-4bd5-9a87-e16c0cbdb4a0",
+    "slug": "wings-coffee-doha-colombia-decaf",
+    "name_en": "Colombia Decaf Coffee",
+    "source_url": "https://wingscoffeedoha.com/shop/",
+    "reason": "Exact current product pages use shared generic brand bags without coffee identity; official homepage contains no verified alternate exact product photography. Instagram fetch failed; shop returned 403 and was not bypassed."
+  },
+  {
+    "id": "1ff611a4-e1a4-48f6-9f5f-889355fa150b",
+    "slug": "wings-coffee-doha-el-salvador-gourmet",
+    "name_en": "El Salvador -- Gourmet",
+    "source_url": "https://wingscoffeedoha.com/shop/",
+    "reason": "Exact current product pages use shared generic brand bags without coffee identity; official homepage contains no verified alternate exact product photography. Instagram fetch failed; shop returned 403 and was not bypassed."
+  },
+  {
+    "id": "30868992-2873-4042-9bf0-451c616aea76",
+    "slug": "wings-coffee-doha-el-salvador-natural",
+    "name_en": "El Salvador -- Natural",
+    "source_url": "https://wingscoffeedoha.com/shop/",
+    "reason": "Exact current product pages use shared generic brand bags without coffee identity; official homepage contains no verified alternate exact product photography. Instagram fetch failed; shop returned 403 and was not bypassed."
+  },
+  {
+    "id": "725f39a1-2709-434d-b5ff-5ab12ad1f7b2",
+    "slug": "wings-coffee-doha-ethiopia-guji",
+    "name_en": "Ethiopia -- Guji",
+    "source_url": "https://wingscoffeedoha.com/shop/",
+    "reason": "Exact current product pages use shared generic brand bags without coffee identity; official homepage contains no verified alternate exact product photography. Instagram fetch failed; shop returned 403 and was not bypassed."
+  }
+]

@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { AppState, Share, View } from 'react-native';
 import type { RecipeItem } from './data';
 import { numberInput } from './guards';
-import { doseLabel, elapsedMs, emptyClock, formatTime, scaleChemex, scaledPours, timeLabel, updateClock } from './manualBrew';
+import { doseLabel, elapsedMs, emptyClock, formatTime, scaleChemex, scaledPours, timeLabel, updateClock, waterLabel } from './manualBrew';
 import { Action, Field, Icon, Language, Txt, colors, styles } from './ui';
 
 export function GuidedBrew({ recipe, record }: { recipe: RecipeItem; record: (seconds?: number) => void }) {
@@ -36,7 +36,7 @@ export function GuidedBrew({ recipe, record }: { recipe: RecipeItem; record: (se
   }
   async function share() {
     try {
-      await Share.share({ message: [recipe.title, changed ? (ar ? 'كمية محسوبة من الوصفة' : 'Calculated batch adaptation') : (ar ? 'مقادير المصدر' : 'Source recipe'), `${ar ? 'البن' : 'Coffee'}: ${changed ? `${numberInput(dose)} g` : doseLabel(recipe)}`, `${ar ? 'الماء' : 'Water'}: ${recipe.water ? `${Math.round(recipe.water * (factor ?? 1) * 10) / 10} ${recipe.waterUnit}` : (ar ? manual?.water_note_ar : manual?.water_note) ?? '—'}`, `${ar ? 'الوقت الإرشادي' : 'Guide time'}: ${timeLabel(recipe, ar)}`, manual?.example_pours ? (ar ? 'الصبات مثال ضمن نطاق المصدر.' : 'Pours are an example within source ranges.') : null, (ar ? manual?.pour_note_ar : manual?.pour_note), ...pours.map(p => `${p.at !== null ? formatTime(p.at) : '—'} · +${p.grams} g · ${ar ? 'الميزان' : 'scale'} ${p.cumulative} g`), recipe.sources[0]?.url].filter(Boolean).join('\n') });
+      await Share.share({ message: [recipe.title, changed ? (ar ? 'كمية محسوبة من الوصفة' : 'Calculated batch adaptation') : (ar ? 'مقادير المصدر' : 'Source recipe'), `${ar ? 'البن' : 'Coffee'}: ${changed ? `${numberInput(dose)} g` : doseLabel(recipe)}`, `${recipe.method === 'espresso' ? (ar ? 'الناتج' : 'Yield') : (ar ? 'ماء التحضير' : 'Brew water')}: ${changed && recipe.water ? `${Math.round(recipe.water * (factor ?? 1) * 10) / 10} ${recipe.waterUnit}` : waterLabel(recipe, ar)}`, `${ar ? 'الوقت الإرشادي' : 'Guide time'}: ${timeLabel(recipe, ar)}`, manual?.example_pours ? (ar ? 'الصبات مثال ضمن نطاق المصدر.' : 'Pours are an example within source ranges.') : null, (ar ? manual?.pour_note_ar : manual?.pour_note), ...pours.map(p => `${p.at !== null ? formatTime(p.at) : '—'} · +${p.grams} g · ${ar ? 'الميزان' : 'scale'} ${p.cumulative} g`), recipe.sources[0]?.url].filter(Boolean).join('\n') });
       setShareError(false);
     } catch { setShareError(true); }
   }

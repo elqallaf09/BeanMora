@@ -39,7 +39,7 @@ function Shell() {
   const [visibleCount,setVisibleCount]=useState(30); const [saved,setSaved]=useState<{owner:string;ids:string[]}|null>(null);
   const savePending=useRef(new Set<string>()); const identity=useRef(userId); identity.current=userId;
   const [message,setMessage]=useState(''); const [notifications,setNotifications]=useState<string[]|null>(null);
-  const [fontsLoaded,fontError]=useFonts({'Tajawal-Regular':require('./assets/fonts/Tajawal-Regular.ttf'),'Tajawal-Bold':require('./assets/fonts/Tajawal-Bold.ttf')});
+  const [fontsLoaded,fontError]=useFonts({'Tajawal-Regular':require('./assets/fonts/Tajawal-Regular.ttf'),'Tajawal-Bold':require('./assets/fonts/Tajawal-Bold.ttf'),'Quicksand':require('./assets/fonts/Quicksand.ttf')});
   useEffect(()=>{
     if(!supabase)return;
     const {data:{subscription}}=supabase.auth.onAuthStateChange((_event,value)=>setSession(value));

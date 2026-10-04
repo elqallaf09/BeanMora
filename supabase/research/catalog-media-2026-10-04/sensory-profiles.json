@@ -1,0 +1,386 @@
+{
+  "reviewed_at": "2026-10-04T12:29:08.568055+00:00",
+  "summary": {
+    "total": 14,
+    "48east": 11,
+    "archers": 3,
+    "body_values_added": 0,
+    "legacy_body_values_to_clear": 1
+  },
+  "updates": [
+    {
+      "id": "f8270341-8ff4-4f38-9335-3fc2df4a8f67",
+      "slug": "48e-bani-ismail-yemen",
+      "name_en": "Bani Ismail | Yemen",
+      "expected_source_url": "https://48e.co/products/bani-ismail-yemen",
+      "sensory_profile": {
+        "source_url": "https://48e.co/products/bani-ismail-yemen",
+        "scale_max": 5,
+        "sweetness": 5,
+        "acidity": 4
+      },
+      "reviewed_at": "2026-10-04T12:29:08.568055+00:00",
+      "evidence": {
+        "type": "live_official_product_page",
+        "retrieved_at": "2026-10-04T12:04:42.349945+00:00",
+        "http_status": 200,
+        "published_metrics": {
+          "sweetness": 5,
+          "acidity": 4
+        },
+        "other_metric_label": "Aroma",
+        "conflict_note": "Some Arabic text labels the same third metric القوام (body), while English and the current Flavour Profile label it Aroma. Do not convert Aroma into Body."
+      },
+      "body_decision": "Omitted: no unambiguous, explicitly published numeric Body metric was verified."
+    },
+    {
+      "id": "a3c66b65-4330-4471-aea6-a4d4c888c92d",
+      "slug": "48e-bossa-nova-brazil",
+      "name_en": "Bossa Nova | Brazil",
+      "expected_source_url": "https://48e.co/products/santa-lucia-brazil",
+      "sensory_profile": {
+        "source_url": "https://48e.co/products/santa-lucia-brazil",
+        "scale_max": 5,
+        "sweetness": 3,
+        "acidity": 2
+      },
+      "reviewed_at": "2026-10-04T12:29:08.568055+00:00",
+      "evidence": {
+        "type": "live_official_product_page",
+        "retrieved_at": "2026-10-04T12:04:42.262807+00:00",
+        "http_status": 200,
+        "published_metrics": {
+          "sweetness": 3,
+          "acidity": 2
+        },
+        "other_metric_label": "Aroma",
+        "conflict_note": "Some Arabic text labels the same third metric القوام (body), while English and the current Flavour Profile label it Aroma. Do not convert Aroma into Body."
+      },
+      "body_decision": "Omitted: no unambiguous, explicitly published numeric Body metric was verified."
+    },
+    {
+      "id": "0ec28062-0301-422d-8164-8d1fe177e483",
+      "slug": "48e-buenos-dias",
+      "name_en": "Buenos Dias",
+      "expected_source_url": "https://48e.co/products/buenos-dias",
+      "sensory_profile": {
+        "source_url": "https://48e.co/products/buenos-dias",
+        "scale_max": 5,
+        "sweetness": 3,
+        "acidity": 3
+      },
+      "reviewed_at": "2026-10-04T12:29:08.568055+00:00",
+      "evidence": {
+        "type": "live_official_product_page",
+        "retrieved_at": "2026-10-04T12:04:42.244472+00:00",
+        "http_status": 200,
+        "published_metrics": {
+          "sweetness": 3,
+          "acidity": 3
+        },
+        "other_metric_label": "Aroma",
+        "conflict_note": "Some Arabic text labels the same third metric القوام (body), while English and the current Flavour Profile label it Aroma. Do not convert Aroma into Body."
+      },
+      "body_decision": "Omitted: no unambiguous, explicitly published numeric Body metric was verified.",
+      "legacy_body_correction": {
+        "previous_value": 3,
+        "proposed_value": null,
+        "reason": "Fresh live page at 2026-10-04T12:04:42.244472+00:00 says Aroma 3/5, not Body. Earlier cached Body wording conflicts; current explicit field governs."
+      }
+    },
+    {
+      "id": "6b771104-0304-4ebd-8fed-f630d268160a",
+      "slug": "48e-freddy-mellado-peru",
+      "name_en": "Freddy Mellado | Peru",
+      "expected_source_url": "https://48e.co/products/freddy-mellado-peru",
+      "sensory_profile": {
+        "source_url": "https://48e.co/products/freddy-mellado-peru",
+        "scale_max": 5,
+        "sweetness": 4,
+        "acidity": 4
+      },
+      "reviewed_at": "2026-10-04T12:29:08.568055+00:00",
+      "evidence": {
+        "type": "live_official_product_page",
+        "retrieved_at": "2026-10-04T12:04:42.255881+00:00",
+        "http_status": 200,
+        "published_metrics": {
+          "sweetness": 4,
+          "acidity": 4
+        },
+        "other_metric_label": "Aroma",
+        "conflict_note": "Some Arabic text labels the same third metric القوام (body), while English and the current Flavour Profile label it Aroma. Do not convert Aroma into Body."
+      },
+      "body_decision": "Omitted: no unambiguous, explicitly published numeric Body metric was verified."
+    },
+    {
+      "id": "7b8b9ea2-109c-4a2f-b256-134fedc5a607",
+      "slug": "48e-guayata",
+      "name_en": "Guayata",
+      "expected_source_url": "https://48e.co/products/guayata-colombia",
+      "sensory_profile": {
+        "source_url": "https://48e.co/cdn/shop/files/1_823fd739-8911-495a-917e-d9d2a7457fc1.png?v=1779096647&width=480",
+        "scale_max": 5,
+        "acidity": 3,
+        "sweetness": 3
+      },
+      "reviewed_at": "2026-10-04T12:29:08.568055+00:00",
+      "evidence": {
+        "type": "live_official_product_label_image",
+        "retrieved_at": "2026-10-04T12:29:08.568055+00:00",
+        "source_image_url": "https://48e.co/cdn/shop/files/1_823fd739-8911-495a-917e-d9d2a7457fc1.png?v=1779096647&width=480",
+        "original_product_page": "https://48e.co/products/guayata-colombia",
+        "product_page_status": 404,
+        "image_status": 200,
+        "published_metrics": {
+          "acidity": 3,
+          "sweetness": 3
+        },
+        "encoding": "Count filled orange circles out of five in the explicitly labelled English Sweetness and Acidity rows. Exact product name appears on the same card.",
+        "conflict_note": "Third English metric is Aroma, while the Arabic label uses body. Omitted due ambiguous bilingual labeling."
+      },
+      "body_decision": "Omitted: no unambiguous, explicitly published numeric Body metric was verified."
+    },
+    {
+      "id": "d2887ae7-d3f7-486b-b544-21d04ff0df54",
+      "slug": "48e-los-colores-el-salvador",
+      "name_en": "Los Colores | El Salvador",
+      "expected_source_url": "https://48e.co/products/los-colores-el-salvador",
+      "sensory_profile": {
+        "source_url": "https://48e.co/cdn/shop/files/4_009a1d44-0110-4a49-b902-bbd3d734e530.png?v=1780900038&width=480",
+        "scale_max": 5,
+        "acidity": 4,
+        "sweetness": 3
+      },
+      "reviewed_at": "2026-10-04T12:29:08.568055+00:00",
+      "evidence": {
+        "type": "live_official_product_label_image",
+        "retrieved_at": "2026-10-04T12:29:08.568055+00:00",
+        "source_image_url": "https://48e.co/cdn/shop/files/4_009a1d44-0110-4a49-b902-bbd3d734e530.png?v=1780900038&width=480",
+        "original_product_page": "https://48e.co/products/los-colores-el-salvador",
+        "product_page_status": 404,
+        "image_status": 200,
+        "published_metrics": {
+          "acidity": 4,
+          "sweetness": 3
+        },
+        "encoding": "Count filled orange circles out of five in the explicitly labelled English Sweetness and Acidity rows. Exact product name appears on the same card.",
+        "conflict_note": "Third English metric is Aroma, while the Arabic label uses body. Omitted due ambiguous bilingual labeling."
+      },
+      "body_decision": "Omitted: no unambiguous, explicitly published numeric Body metric was verified."
+    },
+    {
+      "id": "f8bfde66-fcf1-4161-bdd5-c9832178034b",
+      "slug": "48e-mameria-native-community-peru",
+      "name_en": "Mameria Native Community | Peru",
+      "expected_source_url": "https://48e.co/products/mameria-native-community-peru",
+      "sensory_profile": {
+        "source_url": "https://48e.co/products/mameria-native-community-peru",
+        "scale_max": 5,
+        "sweetness": 4,
+        "acidity": 3
+      },
+      "reviewed_at": "2026-10-04T12:29:08.568055+00:00",
+      "evidence": {
+        "type": "live_official_product_page",
+        "retrieved_at": "2026-10-04T12:04:42.226948+00:00",
+        "http_status": 200,
+        "published_metrics": {
+          "sweetness": 4,
+          "acidity": 3
+        },
+        "other_metric_label": "Aroma",
+        "conflict_note": "Some Arabic text labels the same third metric القوام (body), while English and the current Flavour Profile label it Aroma. Do not convert Aroma into Body."
+      },
+      "body_decision": "Omitted: no unambiguous, explicitly published numeric Body metric was verified."
+    },
+    {
+      "id": "3baa9332-4708-426c-89eb-b20cf0ea877f",
+      "slug": "48e-supernatural-karibu",
+      "name_en": "SuperNatural Karibu",
+      "expected_source_url": "https://48e.co/products/supernatural-karibu-kenya",
+      "sensory_profile": {
+        "source_url": "https://48e.co/cdn/shop/files/1-3_39bee618-0acc-44a9-8755-12cb9421f284.png?v=1776839475&width=480",
+        "scale_max": 5,
+        "acidity": 3,
+        "sweetness": 4
+      },
+      "reviewed_at": "2026-10-04T12:29:08.568055+00:00",
+      "evidence": {
+        "type": "live_official_product_label_image",
+        "retrieved_at": "2026-10-04T12:29:08.568055+00:00",
+        "source_image_url": "https://48e.co/cdn/shop/files/1-3_39bee618-0acc-44a9-8755-12cb9421f284.png?v=1776839475&width=480",
+        "original_product_page": "https://48e.co/products/supernatural-karibu-kenya",
+        "product_page_status": 404,
+        "image_status": 200,
+        "published_metrics": {
+          "acidity": 3,
+          "sweetness": 4
+        },
+        "encoding": "Count filled orange circles out of five in the explicitly labelled English Sweetness and Acidity rows. Exact product name appears on the same card.",
+        "conflict_note": "Third English metric is Aroma, while the Arabic label uses body. Omitted due ambiguous bilingual labeling."
+      },
+      "body_decision": "Omitted: no unambiguous, explicitly published numeric Body metric was verified."
+    },
+    {
+      "id": "0b326ce4-f838-47af-827a-30aa42b38172",
+      "slug": "48e-thageini-indigo-kenya",
+      "name_en": "Thageini Indigo | Kenya",
+      "expected_source_url": "https://48e.co/products/thageini-indigo-kenya",
+      "sensory_profile": {
+        "source_url": "https://48e.co/products/thageini-indigo-kenya",
+        "scale_max": 5,
+        "sweetness": 4,
+        "acidity": 3
+      },
+      "reviewed_at": "2026-10-04T12:29:08.568055+00:00",
+      "evidence": {
+        "type": "live_official_product_page",
+        "retrieved_at": "2026-10-04T12:04:50.179910+00:00",
+        "http_status": 200,
+        "published_metrics": {
+          "sweetness": 4,
+          "acidity": 3
+        },
+        "other_metric_label": "Aroma",
+        "conflict_note": "Some Arabic text labels the same third metric القوام (body), while English and the current Flavour Profile label it Aroma. Do not convert Aroma into Body."
+      },
+      "body_decision": "Omitted: no unambiguous, explicitly published numeric Body metric was verified."
+    },
+    {
+      "id": "4384608f-ddd0-4919-956c-7e22371171f2",
+      "slug": "48e-tropical-canopy-ethiopia",
+      "name_en": "Tropical Canopy | Ethiopia",
+      "expected_source_url": "https://48e.co/products/tropical-canopy-ethiopia",
+      "sensory_profile": {
+        "source_url": "https://48e.co/products/tropical-canopy-ethiopia",
+        "scale_max": 5,
+        "sweetness": 4,
+        "acidity": 4
+      },
+      "reviewed_at": "2026-10-04T12:29:08.568055+00:00",
+      "evidence": {
+        "type": "live_official_product_page",
+        "retrieved_at": "2026-10-04T12:04:50.148227+00:00",
+        "http_status": 200,
+        "published_metrics": {
+          "sweetness": 4,
+          "acidity": 4
+        },
+        "other_metric_label": "Aroma",
+        "conflict_note": "Some Arabic text labels the same third metric القوام (body), while English and the current Flavour Profile label it Aroma. Do not convert Aroma into Body."
+      },
+      "body_decision": "Omitted: no unambiguous, explicitly published numeric Body metric was verified."
+    },
+    {
+      "id": "8574ec7f-2dba-4159-8d99-7a102d35a91d",
+      "slug": "48e-yirgacheffe-chelchele",
+      "name_en": "Yirgacheffe Chelchele",
+      "expected_source_url": "https://48e.co/products/yirgacheffe-chelchele-ethiopia",
+      "sensory_profile": {
+        "source_url": "https://48e.co/collections/espresso-coffee/products/yirgacheffe-chelchele-ethiopia-espresso",
+        "scale_max": 5,
+        "acidity": 4,
+        "sweetness": 4
+      },
+      "reviewed_at": "2026-10-04T12:29:08.568055+00:00",
+      "evidence": {
+        "type": "live_official_product_page",
+        "retrieved_at": "2026-10-04T12:29:08.568055+00:00",
+        "http_status": 200,
+        "published_metrics": {
+          "acidity": 4,
+          "sweetness": 4
+        },
+        "other_metric_label": "Aroma",
+        "identity_note": "Current product title adds Espresso. Ethiopia, Natural process, Heirloom, 1200-3200m and Berries Jam/Peach/Milk Chocolate/Floral exactly match existing published bean description. No roast scale or recipe inferred."
+      },
+      "body_decision": "Omitted: no unambiguous, explicitly published numeric Body metric was verified."
+    },
+    {
+      "id": "0572cf80-9e66-42e4-8c7c-042c83bea9f2",
+      "slug": "archers-ethiopia-daye-bensa-hamasho",
+      "name_en": "Ethiopia Daye Bensa Hamasho Natural",
+      "expected_source_url": "https://archerscoffee.com/products/ethiopia-daye-bensa-hamasho-natural-archers-lot-0126",
+      "sensory_profile": {
+        "source_url": "https://archerscoffee.com/products/ethiopia-daye-bensa-hamasho-natural-archers-lot-0126",
+        "scale_max": 5,
+        "fermentation": 2,
+        "sweetness": 5,
+        "acidity": 4,
+        "roast": 2
+      },
+      "reviewed_at": "2026-10-04T12:29:08.568055+00:00",
+      "evidence": {
+        "type": "live_official_product_jsonld_and_description",
+        "retrieved_at": "2026-10-04T12:04:49.962956+00:00",
+        "http_status": 200,
+        "encoding": "Count filled squares in each explicitly labelled 5-square source scale.",
+        "published_metrics": {
+          "fermentation": 2,
+          "sweetness": 5,
+          "acidity": 4,
+          "roast": 2
+        }
+      },
+      "body_decision": "Omitted: no unambiguous, explicitly published numeric Body metric was verified."
+    },
+    {
+      "id": "c6a39dd3-109d-474a-a96e-9f0fb5c10e0c",
+      "slug": "archers-ethiopia-rumudamo",
+      "name_en": "Ethiopia Rumudamo Anaerobic",
+      "expected_source_url": "https://archerscoffee.com/products/ethiopia-rumudamo-anaerobic-mini-archers-lot-0102-26",
+      "sensory_profile": {
+        "source_url": "https://archerscoffee.com/products/ethiopia-rumudamo-anaerobic-mini-archers-lot-0102-26",
+        "scale_max": 5,
+        "fermentation": 3,
+        "sweetness": 5,
+        "acidity": 4,
+        "roast": 2
+      },
+      "reviewed_at": "2026-10-04T12:29:08.568055+00:00",
+      "evidence": {
+        "type": "live_official_product_jsonld_and_description",
+        "retrieved_at": "2026-10-04T12:04:57.915631+00:00",
+        "http_status": 200,
+        "encoding": "Count filled squares in each explicitly labelled 5-square source scale.",
+        "published_metrics": {
+          "fermentation": 3,
+          "sweetness": 5,
+          "acidity": 4,
+          "roast": 2
+        }
+      },
+      "body_decision": "Omitted: no unambiguous, explicitly published numeric Body metric was verified."
+    },
+    {
+      "id": "3ea7eceb-2c8f-4ffa-b60c-c88570540d47",
+      "slug": "archers-panama-janson-hacienda",
+      "name_en": "Panama Janson Family Hacienda",
+      "expected_source_url": "https://archerscoffee.com/products/panama-janson-family-hacienda-lot-26-127",
+      "sensory_profile": {
+        "source_url": "https://archerscoffee.com/products/panama-janson-family-hacienda-lot-26-127",
+        "scale_max": 5,
+        "fermentation": 3,
+        "sweetness": 5,
+        "acidity": 3,
+        "roast": 2
+      },
+      "reviewed_at": "2026-10-04T12:29:08.568055+00:00",
+      "evidence": {
+        "type": "live_official_product_jsonld_and_description",
+        "retrieved_at": "2026-10-04T12:04:58.020686+00:00",
+        "http_status": 200,
+        "encoding": "Count filled squares in each explicitly labelled 5-square source scale.",
+        "published_metrics": {
+          "fermentation": 3,
+          "sweetness": 5,
+          "acidity": 3,
+          "roast": 2
+        }
+      },
+      "body_decision": "Omitted: no unambiguous, explicitly published numeric Body metric was verified."
+    }
+  ],
+  "policy": "Only explicitly published numeric scales are included. Taste-note prose was not converted into numeric metrics. Missing values remain absent and must not fall back to legacy unproven ratings."
+}

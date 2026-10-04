@@ -1,0 +1,4493 @@
+{
+  "verified_at": "2026-10-04",
+  "roasters": [
+    {
+      "name": "Onyx Coffee Lab",
+      "country": "United States",
+      "source_url": "https://onyxcoffeelab.com/pages/our-story",
+      "website": "https://onyxcoffeelab.com",
+      "name_ar": "أونيكس كوفي لاب",
+      "country_ar": "الولايات المتحدة"
+    },
+    {
+      "name": "Verve Coffee Roasters",
+      "country": "United States",
+      "source_url": "https://www.vervecoffee.com/pages/story",
+      "website": "https://www.vervecoffee.com",
+      "name_ar": "فيرف كوفي روسترز",
+      "country_ar": "الولايات المتحدة"
+    },
+    {
+      "name": "49th Parallel Coffee Roasters",
+      "country": "Canada",
+      "source_url": "https://49thcoffee.com/pages/our-story",
+      "website": "https://49thcoffee.com",
+      "name_ar": "49 بارالل",
+      "country_ar": "كندا"
+    },
+    {
+      "name": "Counter Culture Coffee",
+      "country": "United States",
+      "source_url": "https://counterculturecoffee.com/pages/history",
+      "website": "https://counterculturecoffee.com",
+      "name_ar": "كاونتر كالتشر",
+      "country_ar": "الولايات المتحدة"
+    },
+    {
+      "name": "Cat & Cloud",
+      "country": "United States",
+      "source_url": "https://catandcloud.com/pages/about-us",
+      "website": "https://catandcloud.com",
+      "name_ar": "كات آند كلاود",
+      "country_ar": "الولايات المتحدة"
+    },
+    {
+      "name": "Olympia Coffee",
+      "country": "United States",
+      "source_url": "https://www.olympiacoffee.com/pages/our-story",
+      "website": "https://www.olympiacoffee.com",
+      "name_ar": "أولمبيا كوفي",
+      "country_ar": "الولايات المتحدة"
+    },
+    {
+      "name": "Intelligentsia Coffee",
+      "country": "United States",
+      "source_url": "https://www.intelligentsia.com/pages/our-story",
+      "website": "https://www.intelligentsia.com",
+      "name_ar": "إنتليجنسيا",
+      "country_ar": "الولايات المتحدة"
+    }
+  ],
+  "coffees": [
+    {
+      "name": "Monarch",
+      "name_ar": "مونارك",
+      "roaster": "Onyx Coffee Lab",
+      "source_url": "https://onyxcoffeelab.com/products/monarch",
+      "image_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/monarch-8-10-26.webp?v=1786377610",
+      "origin": "Colombia, Ethiopia",
+      "process": null,
+      "variety": "Mixed",
+      "coffee_type": "Blend",
+      "roast": "Expressive Dark",
+      "flavor_notes": [
+        "Dark Chocolate",
+        "Molasses",
+        "Red Wine",
+        "Dried Berries",
+        "Thick & Syrupy"
+      ],
+      "flavor_notes_ar": [
+        "شوكولاتة داكنة",
+        "دبس",
+        "إيحاء نبيذي أحمر",
+        "توت مجفف",
+        "قوام كثيف وشرابي"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "caramel",
+        "fruity"
+      ],
+      "description_en": "Monarch from Onyx; origin listed as Colombia, Ethiopia. Flavor notes and roast label are the roaster’s published descriptions.",
+      "description_ar": "مونارك من أونيكس؛ منشأ البن المنشور: كولومبيا، إثيوبيا. الإيحاءات ودرجة التحميص من وصف المحمصة.",
+      "origin_ar": "كولومبيا، إثيوبيا",
+      "coffee_type_ar": "خلطة",
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Southern Weather",
+      "name_ar": "ساوذرن ويذر",
+      "roaster": "Onyx Coffee Lab",
+      "source_url": "https://onyxcoffeelab.com/products/southern-weather",
+      "image_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/southernweather.webp?v=1736189959",
+      "origin": "Honduras, Colombia, Ethiopia",
+      "process": "Washed",
+      "variety": "Mixed",
+      "coffee_type": "Blend",
+      "roast": "Moderate",
+      "flavor_notes": [
+        "Milk Chocolate",
+        "Plum",
+        "Candied Walnuts",
+        "Juicy & Citrus Finish"
+      ],
+      "flavor_notes_ar": [
+        "شوكولاتة بالحليب",
+        "برقوق",
+        "جوز مسكر",
+        "نهاية عصيرية وحمضية"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "fruity",
+        "nutty",
+        "citrus"
+      ],
+      "description_en": "Southern Weather from Onyx; origin listed as Honduras, Colombia, Ethiopia. Flavor notes and roast label are the roaster’s published descriptions.",
+      "description_ar": "ساوذرن ويذر من أونيكس؛ منشأ البن المنشور: هندوراس، كولومبيا، إثيوبيا. الإيحاءات ودرجة التحميص من وصف المحمصة.",
+      "origin_ar": "هندوراس، كولومبيا، إثيوبيا",
+      "coffee_type_ar": "خلطة",
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Tropical Weather",
+      "name_ar": "تروبيكال ويذر",
+      "roaster": "Onyx Coffee Lab",
+      "source_url": "https://onyxcoffeelab.com/products/tropical-weather",
+      "image_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/tropical-weather-10oz-v2.webp?v=1785945822",
+      "origin": "Ethiopia",
+      "process": "Washed, Natural",
+      "variety": "Mixed",
+      "coffee_type": "Blend",
+      "roast": "Light",
+      "flavor_notes": [
+        "Mixed Berries",
+        "Sweet Tea",
+        "Raw Honey",
+        "Plum"
+      ],
+      "flavor_notes_ar": [
+        "توت مشكل",
+        "شاي محلى",
+        "عسل خام",
+        "برقوق"
+      ],
+      "flavor_families": [
+        "fruity",
+        "caramel"
+      ],
+      "description_en": "Tropical Weather from Onyx; origin listed as Ethiopia. Flavor notes and roast label are the roaster’s published descriptions.",
+      "description_ar": "تروبيكال ويذر من أونيكس؛ منشأ البن المنشور: إثيوبيا. الإيحاءات ودرجة التحميص من وصف المحمصة.",
+      "origin_ar": "إثيوبيا",
+      "coffee_type_ar": "خلطة",
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Geometry",
+      "name_ar": "جيومتري",
+      "roaster": "Onyx Coffee Lab",
+      "source_url": "https://onyxcoffeelab.com/products/geometry",
+      "image_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/geometry-10oz-v2.webp?v=1785978501",
+      "origin": "Colombia, Ethiopia",
+      "process": "Washed",
+      "variety": "Mixed",
+      "coffee_type": "Blend",
+      "roast": "Light",
+      "flavor_notes": [
+        "Berries",
+        "Stone Fruit",
+        "Earl Grey",
+        "Honeysuckle",
+        "Round"
+      ],
+      "flavor_notes_ar": [
+        "توت",
+        "فاكهة ذات نواة",
+        "شاي إيرل غراي",
+        "زهر العسل",
+        "قوام متوازن"
+      ],
+      "flavor_families": [
+        "fruity",
+        "floral"
+      ],
+      "description_en": "Geometry from Onyx; origin listed as Colombia, Ethiopia. Flavor notes and roast label are the roaster’s published descriptions.",
+      "description_ar": "جيومتري من أونيكس؛ منشأ البن المنشور: كولومبيا، إثيوبيا. الإيحاءات ودرجة التحميص من وصف المحمصة.",
+      "origin_ar": "كولومبيا، إثيوبيا",
+      "coffee_type_ar": "خلطة",
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Power Nap",
+      "name_ar": "باور ناب",
+      "roaster": "Onyx Coffee Lab",
+      "source_url": "https://onyxcoffeelab.com/products/power-nap",
+      "image_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/power-nap_69f9a89a-a9b9-4556-878b-bdccb0438b72.webp?v=1749497384",
+      "origin": "Colombia, Ethiopia",
+      "process": "Washed",
+      "variety": "Mixed",
+      "coffee_type": "Half-caf blend",
+      "roast": "Moderate",
+      "flavor_notes": [
+        "Brown Sugar",
+        "Cocoa",
+        "Silky",
+        "Floral",
+        "Peach"
+      ],
+      "flavor_notes_ar": [
+        "سكر بني",
+        "كاكاو",
+        "قوام حريري",
+        "زهري",
+        "خوخ"
+      ],
+      "flavor_families": [
+        "caramel",
+        "chocolate",
+        "floral",
+        "fruity"
+      ],
+      "description_en": "Power Nap from Onyx; origin listed as Colombia, Ethiopia. Flavor notes and roast label are the roaster’s published descriptions.",
+      "description_ar": "باور ناب من أونيكس؛ منشأ البن المنشور: كولومبيا، إثيوبيا. الإيحاءات ودرجة التحميص من وصف المحمصة.",
+      "origin_ar": "كولومبيا، إثيوبيا",
+      "coffee_type_ar": "خلطة نصف كافيين",
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Kenya Kamunyaka AA",
+      "name_ar": "كينيا كامونياكا AA",
+      "roaster": "Onyx Coffee Lab",
+      "source_url": "https://onyxcoffeelab.com/products/kenya-kamunyaka-aa",
+      "image_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/kenya_86738ee2-426d-4fbb-b3f0-a939ec9fa107.webp?v=1788529946",
+      "origin": "Kenya",
+      "process": null,
+      "variety": "SL34, Batian, Ruiru 11, SL28",
+      "coffee_type": null,
+      "roast": "Moderate",
+      "flavor_notes": [
+        "Grapefruit",
+        "Brown Sugar",
+        "Kumquat",
+        "Mulling Spice"
+      ],
+      "flavor_notes_ar": [
+        "جريب فروت",
+        "سكر بني",
+        "برتقال ذهبي",
+        "توابل دافئة"
+      ],
+      "flavor_families": [
+        "citrus",
+        "caramel",
+        "spice"
+      ],
+      "description_en": "Kenya Kamunyaka AA from Onyx; origin listed as Kenya. Flavor notes and roast label are the roaster’s published descriptions.",
+      "description_ar": "كينيا كامونياكا AA من أونيكس؛ منشأ البن المنشور: كينيا. الإيحاءات ودرجة التحميص من وصف المحمصة.",
+      "origin_ar": "كينيا",
+      "coffee_type_ar": null,
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Honduras Fredy Perez",
+      "name_ar": "هندوراس فريدي بيريز",
+      "roaster": "Onyx Coffee Lab",
+      "source_url": "https://onyxcoffeelab.com/products/honduras-fredy-perez",
+      "image_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/honduras_d3978eef-da4c-498f-a263-e4f844bec94a.webp?v=1788452911",
+      "origin": "Honduras",
+      "process": "Washed",
+      "variety": "Pacas, Catuai, Typica",
+      "coffee_type": null,
+      "roast": "Ultra Light",
+      "flavor_notes": [
+        "Tart Apple",
+        "Pecan",
+        "Fig",
+        "Allspice"
+      ],
+      "flavor_notes_ar": [
+        "تفاح حامض",
+        "بيكان",
+        "تين",
+        "بهار حلو"
+      ],
+      "flavor_families": [
+        "fruity",
+        "nutty",
+        "spice"
+      ],
+      "description_en": "Honduras Fredy Perez from Onyx; origin listed as Honduras. Flavor notes and roast label are the roaster’s published descriptions.",
+      "description_ar": "هندوراس فريدي بيريز من أونيكس؛ منشأ البن المنشور: هندوراس. الإيحاءات ودرجة التحميص من وصف المحمصة.",
+      "origin_ar": "هندوراس",
+      "coffee_type_ar": null,
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Ethiopia Agaro Yukro G1",
+      "name_ar": "إثيوبيا أغارو يوكرو G1",
+      "roaster": "Onyx Coffee Lab",
+      "source_url": "https://onyxcoffeelab.com/products/ethiopia-agaro-yukro-g1",
+      "image_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/ethiopia_8249300a-ae15-495c-8e3a-022f08728bc0.webp?v=1785347461",
+      "origin": "Ethiopia",
+      "process": "Washed",
+      "variety": "Landrace",
+      "coffee_type": null,
+      "roast": "Ultra Light",
+      "flavor_notes": [
+        "Apricot",
+        "Barley Tea",
+        "Bergamot",
+        "Caramel"
+      ],
+      "flavor_notes_ar": [
+        "مشمش",
+        "شاي الشعير",
+        "برغموت",
+        "كراميل"
+      ],
+      "flavor_families": [
+        "fruity",
+        "citrus",
+        "caramel"
+      ],
+      "description_en": "Ethiopia Agaro Yukro G1 from Onyx; origin listed as Ethiopia. Flavor notes and roast label are the roaster’s published descriptions.",
+      "description_ar": "إثيوبيا أغارو يوكرو G1 من أونيكس؛ منشأ البن المنشور: إثيوبيا. الإيحاءات ودرجة التحميص من وصف المحمصة.",
+      "origin_ar": "إثيوبيا",
+      "coffee_type_ar": null,
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Costa Rica Las Lajas Natural",
+      "name_ar": "كوستاريكا لاس لاخاس مجففة",
+      "roaster": "Onyx Coffee Lab",
+      "source_url": "https://onyxcoffeelab.com/products/costa-rica-las-lajas-natural-26",
+      "image_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/costa-rica_1f9309cc-3aa6-44c2-88f2-b8768a4f5e8b.webp?v=1787082836",
+      "origin": "Costa Rica",
+      "process": "Natural",
+      "variety": "Catuai, Caturra",
+      "coffee_type": null,
+      "roast": "Light",
+      "flavor_notes": [
+        "Pineapple",
+        "Hibiscus",
+        "Blueberry",
+        "Milk Chocolate"
+      ],
+      "flavor_notes_ar": [
+        "أناناس",
+        "كركديه",
+        "توت أزرق",
+        "شوكولاتة بالحليب"
+      ],
+      "flavor_families": [
+        "fruity",
+        "floral",
+        "chocolate"
+      ],
+      "description_en": "Costa Rica Las Lajas Natural from Onyx; origin listed as Costa Rica. Flavor notes and roast label are the roaster’s published descriptions.",
+      "description_ar": "كوستاريكا لاس لاخاس مجففة من أونيكس؛ منشأ البن المنشور: كوستاريكا. الإيحاءات ودرجة التحميص من وصف المحمصة.",
+      "origin_ar": "كوستاريكا",
+      "coffee_type_ar": null,
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Mexico Oaxaca Yogondoy Gesha",
+      "name_ar": "المكسيك أواكساكا يوغوندوي جيشا",
+      "roaster": "Onyx Coffee Lab",
+      "source_url": "https://onyxcoffeelab.com/products/mexico-oaxaca-yogondoy-gesha",
+      "image_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/mexico_984eacc2-ab53-4ac3-ace1-589bf631f0b2.webp?v=1787166122",
+      "origin": "Mexico",
+      "process": "Washed",
+      "variety": "Gesha",
+      "coffee_type": null,
+      "roast": "Light",
+      "flavor_notes": [
+        "Almond",
+        "Matcha",
+        "Jasmine",
+        "Allspice"
+      ],
+      "flavor_notes_ar": [
+        "لوز",
+        "ماتشا",
+        "ياسمين",
+        "بهار حلو"
+      ],
+      "flavor_families": [
+        "nutty",
+        "floral",
+        "spice"
+      ],
+      "description_en": "Mexico Oaxaca Yogondoy Gesha from Onyx; origin listed as Mexico. Flavor notes and roast label are the roaster’s published descriptions.",
+      "description_ar": "المكسيك أواكساكا يوغوندوي جيشا من أونيكس؛ منشأ البن المنشور: المكسيك. الإيحاءات ودرجة التحميص من وصف المحمصة.",
+      "origin_ar": "المكسيك",
+      "coffee_type_ar": null,
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Peru La Margarita Gesha",
+      "name_ar": "بيرو لا مارغريتا جيشا",
+      "roaster": "Onyx Coffee Lab",
+      "source_url": "https://onyxcoffeelab.com/products/peru-la-margarita-gesha-26",
+      "image_url": "https://cdn.shopify.com/s/files/1/1707/3261/files/peru_cb75e089-b53c-410d-b243-c6a12aca82ae.webp?v=1777583152",
+      "origin": "Peru",
+      "process": "Dry Washed",
+      "variety": "Gesha",
+      "coffee_type": null,
+      "roast": "Light",
+      "flavor_notes": [
+        "Jasmine",
+        "White Grape",
+        "Black Tea",
+        "Refined"
+      ],
+      "flavor_notes_ar": [
+        "ياسمين",
+        "عنب أبيض",
+        "شاي أسود",
+        "قوام رقيق"
+      ],
+      "flavor_families": [
+        "floral",
+        "fruity"
+      ],
+      "description_en": "Peru La Margarita Gesha from Onyx; origin listed as Peru. Flavor notes and roast label are the roaster’s published descriptions.",
+      "description_ar": "بيرو لا مارغريتا جيشا من أونيكس؛ منشأ البن المنشور: بيرو. الإيحاءات ودرجة التحميص من وصف المحمصة.",
+      "origin_ar": "بيرو",
+      "coffee_type_ar": null,
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Buena Vista Dark Roast",
+      "name_ar": "بوينا فيستا",
+      "roaster": "Verve Coffee Roasters",
+      "source_url": "https://www.vervecoffee.com/products/buena-vista-dark-roast",
+      "image_url": "https://www.vervecoffee.com/cdn/shop/files/Buena-Vista-12oz-Silo_1024x1024.png?v=1737401998",
+      "origin": "Colombia",
+      "process": null,
+      "variety": null,
+      "coffee_type": "Blend",
+      "roast": "Dark roast",
+      "flavor_notes": [
+        "Chocolate",
+        "Red Apple",
+        "Maple"
+      ],
+      "flavor_notes_ar": [
+        "شوكولاتة",
+        "تفاح أحمر",
+        "شراب القيقب"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "fruity",
+        "caramel"
+      ],
+      "description_en": "Verve blend with published origin Colombia. Product-specific brewing values and bag image are from the current product page.",
+      "description_ar": "خلطة من فيرف؛ المنشأ المنشور كولومبيا. إعدادات التحضير وصورة العبوة من صفحة البن الحالية.",
+      "origin_ar": "كولومبيا",
+      "coffee_type_ar": "خلطة",
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Sermon",
+      "name_ar": "سيرمون",
+      "roaster": "Verve Coffee Roasters",
+      "source_url": "https://www.vervecoffee.com/products/sermon",
+      "image_url": "https://www.vervecoffee.com/cdn/shop/files/Sermon-12oz-Silo_1024x1024.png?v=1737402021",
+      "origin": "Colombia, East Africa",
+      "process": "Washed, Natural",
+      "variety": null,
+      "coffee_type": "Blend",
+      "roast": "Medium roast",
+      "flavor_notes": [
+        "Blueberry Pie",
+        "Cocoa",
+        "Candied Pecan"
+      ],
+      "flavor_notes_ar": [
+        "فطيرة التوت الأزرق",
+        "كاكاو",
+        "بيكان مسكر"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate",
+        "nutty"
+      ],
+      "description_en": "Verve blend with published origin Colombia, East Africa. Product-specific brewing values and bag image are from the current product page.",
+      "description_ar": "خلطة من فيرف؛ المنشأ المنشور كولومبيا، شرق أفريقيا. إعدادات التحضير وصورة العبوة من صفحة البن الحالية.",
+      "origin_ar": "كولومبيا، شرق أفريقيا",
+      "coffee_type_ar": "خلطة",
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Streetlevel",
+      "name_ar": "ستريت ليفل",
+      "roaster": "Verve Coffee Roasters",
+      "source_url": "https://www.vervecoffee.com/products/streetlevel",
+      "image_url": "https://www.vervecoffee.com/cdn/shop/files/Streetlevel-12oz-Silo_1024x1024.png?v=1748900359",
+      "origin": "Honduras, Guatemala, Colombia",
+      "process": null,
+      "variety": null,
+      "coffee_type": "Blend",
+      "roast": "Medium roast",
+      "flavor_notes": [
+        "Clementine",
+        "Red Apple",
+        "Honeycomb"
+      ],
+      "flavor_notes_ar": [
+        "كلمنتينا",
+        "تفاح أحمر",
+        "قرص عسل"
+      ],
+      "flavor_families": [
+        "citrus",
+        "fruity",
+        "caramel"
+      ],
+      "description_en": "Verve blend with published origin Honduras, Guatemala, Colombia. Product-specific brewing values and bag image are from the current product page.",
+      "description_ar": "خلطة من فيرف؛ المنشأ المنشور هندوراس، غواتيمالا، كولومبيا. إعدادات التحضير وصورة العبوة من صفحة البن الحالية.",
+      "origin_ar": "هندوراس، غواتيمالا، كولومبيا",
+      "coffee_type_ar": "خلطة",
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Seabright House Blend",
+      "name_ar": "سيبرايت",
+      "roaster": "Verve Coffee Roasters",
+      "source_url": "https://www.vervecoffee.com/products/seabright-house-blend",
+      "image_url": "https://www.vervecoffee.com/cdn/shop/files/Seabright-12oz-Silo_1024x1024.png?v=1737402258",
+      "origin": "El Salvador, Guatemala",
+      "process": null,
+      "variety": null,
+      "coffee_type": "Blend",
+      "roast": "Medium roast",
+      "flavor_notes": [
+        "Honeydew",
+        "Apricot",
+        "Hazelnut"
+      ],
+      "flavor_notes_ar": [
+        "شمام عسلي",
+        "مشمش",
+        "بندق"
+      ],
+      "flavor_families": [
+        "fruity",
+        "nutty"
+      ],
+      "description_en": "Verve blend with published origin El Salvador, Guatemala. Product-specific brewing values and bag image are from the current product page.",
+      "description_ar": "خلطة من فيرف؛ المنشأ المنشور السلفادور، غواتيمالا. إعدادات التحضير وصورة العبوة من صفحة البن الحالية.",
+      "origin_ar": "السلفادور، غواتيمالا",
+      "coffee_type_ar": "خلطة",
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Epic Espresso",
+      "name_ar": "إبيك إسبريسو",
+      "roaster": "49th Parallel Coffee Roasters",
+      "source_url": "https://49thcoffee.com/products/epic-espresso",
+      "image_url": "https://49thcoffee.com/cdn/shop/files/PLP_Epic_12oz_withtag_1908x1908_Award_2026_1024x1024.png?v=1790100928",
+      "origin": "Guatemala, Rwanda",
+      "process": "Washed",
+      "variety": "Bourbon, Caturra, Catuai",
+      "coffee_type": "Blend",
+      "roast": "Light Espresso",
+      "flavor_notes": [
+        "Clean",
+        "Floral",
+        "Sweet"
+      ],
+      "flavor_notes_ar": [
+        "نظيف",
+        "زهري",
+        "حلو"
+      ],
+      "flavor_families": [
+        "floral"
+      ],
+      "description_en": "49th Parallel coffee with origin Guatemala, Rwanda; product photos and brewing recommendations are published on the product page.",
+      "description_ar": "بن من 49 بارالل بمنشأ غواتيمالا، رواندا؛ صورة العبوة وتوصية التحضير منشورتان في صفحة المنتج.",
+      "origin_ar": "غواتيمالا، رواندا",
+      "coffee_type_ar": "خلطة",
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Old School Espresso",
+      "name_ar": "أولد سكول إسبريسو",
+      "roaster": "49th Parallel Coffee Roasters",
+      "source_url": "https://49thcoffee.com/products/old-school-espresso",
+      "image_url": "https://49thcoffee.com/cdn/shop/files/49th_OSE_SquareLabelBestseller_1024x1024.png?v=1781813326",
+      "origin": "Brazil, Colombia",
+      "process": "Natural, Washed",
+      "variety": "Bourbon, Catuai, Catucai, Topázio, Caturra, Castillo, Colombia, Typica",
+      "coffee_type": "Blend",
+      "roast": "Medium-Dark Espresso Roast",
+      "flavor_notes": [
+        "Caramel",
+        "Dark Chocolate",
+        "Nuts"
+      ],
+      "flavor_notes_ar": [
+        "كراميل",
+        "شوكولاتة داكنة",
+        "مكسرات"
+      ],
+      "flavor_families": [
+        "caramel",
+        "chocolate",
+        "nutty"
+      ],
+      "description_en": "49th Parallel coffee with origin Brazil, Colombia; product photos and brewing recommendations are published on the product page.",
+      "description_ar": "بن من 49 بارالل بمنشأ البرازيل، كولومبيا؛ صورة العبوة وتوصية التحضير منشورتان في صفحة المنتج.",
+      "origin_ar": "البرازيل، كولومبيا",
+      "coffee_type_ar": "خلطة",
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Blue Sky Espresso",
+      "name_ar": "بلو سكاي إسبريسو",
+      "roaster": "49th Parallel Coffee Roasters",
+      "source_url": "https://49thcoffee.com/products/blue-sky-espresso",
+      "image_url": "https://49thcoffee.com/cdn/shop/files/PDP_BlueSky_12oz_2026_1024x1024.png?v=1790100464",
+      "origin": "Brazil",
+      "process": null,
+      "variety": "Bourbon, Catuai, Catucai, Topázio",
+      "coffee_type": "Blend",
+      "roast": "Dark Espresso Roast",
+      "flavor_notes": [
+        "Brown Sugar",
+        "Dark Chocolate",
+        "Molasses"
+      ],
+      "flavor_notes_ar": [
+        "سكر بني",
+        "شوكولاتة داكنة",
+        "دبس"
+      ],
+      "flavor_families": [
+        "caramel",
+        "chocolate"
+      ],
+      "description_en": "49th Parallel coffee with origin Brazil; product photos and brewing recommendations are published on the product page.",
+      "description_ar": "بن من 49 بارالل بمنشأ البرازيل؛ صورة العبوة وتوصية التحضير منشورتان في صفحة المنتج.",
+      "origin_ar": "البرازيل",
+      "coffee_type_ar": "خلطة",
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Big Trouble",
+      "name_ar": "بيغ ترابل",
+      "roaster": "Counter Culture Coffee",
+      "source_url": "https://counterculturecoffee.com/products/big-trouble",
+      "image_url": "https://counterculturecoffee.com/cdn/shop/files/BigTrouble_Main_2741x.jpg?v=1749045429",
+      "origin": "El Salvador, Nicaragua",
+      "process": "Washed",
+      "variety": null,
+      "coffee_type": "Blend",
+      "roast": "Medium dark",
+      "flavor_notes": [
+        "Nutty",
+        "Caramel",
+        "Chocolate"
+      ],
+      "flavor_notes_ar": [
+        "إيحاء مكسرات",
+        "كراميل",
+        "شوكولاتة"
+      ],
+      "flavor_families": [
+        "nutty",
+        "caramel",
+        "chocolate"
+      ],
+      "description_en": "Current blend components: 50% Sitio de Maria, El Salvador, and 50% Aurora, Nicaragua, for the published September 21–present roast-date selection.",
+      "description_ar": "الخلطة المنشورة لاختيار تاريخ التحميص من September 21 إلى الوقت الحالي: 50% سيتيو دي ماريا من السلفادور و50% أورورا من نيكاراغوا.",
+      "origin_as_of": "2026-10-04; source roast-date selection September 21–Present",
+      "origin_ar": "السلفادور، نيكاراغوا",
+      "coffee_type_ar": "خلطة",
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "The Answer",
+      "name_ar": "ذا آنسر",
+      "roaster": "Cat & Cloud",
+      "source_url": "https://catandcloud.com/products/answer",
+      "image_url": "https://catandcloud.com/cdn/shop/files/TheAnswer-white.png?v=1726698448",
+      "origin": "Central America & Africa",
+      "process": "Washed, Natural",
+      "variety": "Various",
+      "coffee_type": "Blend",
+      "roast": null,
+      "flavor_notes": [
+        "Caramel",
+        "Berries",
+        "Chocolate"
+      ],
+      "flavor_notes_ar": [
+        "كراميل",
+        "توت",
+        "شوكولاتة"
+      ],
+      "flavor_families": [
+        "caramel",
+        "fruity",
+        "chocolate"
+      ],
+      "description_en": "Cat & Cloud blend with source origin Central America & Africa; the product provides a specific espresso dose/yield/time range.",
+      "description_ar": "خلطة كات آند كلاود بمنشأ منشور أمريكا الوسطى وأفريقيا؛ تحدد صفحة البن نطاقات الجرعة والناتج والزمن للإسبريسو.",
+      "origin_ar": "أمريكا الوسطى وأفريقيا",
+      "coffee_type_ar": "خلطة",
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "The Best Friends Blend",
+      "name_ar": "بيست فريندز بليند",
+      "roaster": "Cat & Cloud",
+      "source_url": "https://catandcloud.com/products/the-best-friends-blend",
+      "image_url": "https://catandcloud.com/cdn/shop/files/BFB-WHITER.png?v=1726779641",
+      "origin": "Honduras, Ethiopia",
+      "process": "Anaerobic Washed, Natural",
+      "variety": "Various",
+      "coffee_type": "Blend",
+      "roast": null,
+      "flavor_notes": [
+        "Key Lime",
+        "Apple",
+        "White Wine"
+      ],
+      "flavor_notes_ar": [
+        "ليمون أخضر",
+        "تفاح",
+        "إيحاء نبيذي أبيض"
+      ],
+      "flavor_families": [
+        "citrus",
+        "fruity"
+      ],
+      "description_en": "Cat & Cloud blend with source origin Honduras, Ethiopia; the product provides a specific espresso dose/yield/time range.",
+      "description_ar": "خلطة كات آند كلاود بمنشأ منشور هندوراس، إثيوبيا؛ تحدد صفحة البن نطاقات الجرعة والناتج والزمن للإسبريسو.",
+      "origin_ar": "هندوراس، إثيوبيا",
+      "coffee_type_ar": "خلطة",
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Big Truck",
+      "name_ar": "بيغ ترك",
+      "roaster": "Olympia Coffee",
+      "source_url": "https://www.olympiacoffee.com/products/big-truck",
+      "image_url": "https://www.olympiacoffee.com/cdn/shop/files/Big_Truck_2582x.png?v=1776922931",
+      "origin": "Colombia, Ethiopia",
+      "process": null,
+      "variety": null,
+      "coffee_type": "Blend",
+      "roast": null,
+      "flavor_notes": [
+        "Chocolate",
+        "Caramel",
+        "Berries"
+      ],
+      "flavor_notes_ar": [
+        "شوكولاتة",
+        "كراميل",
+        "توت"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "caramel",
+        "fruity"
+      ],
+      "description_en": "Olympia’s flagship blend uses lots from Colombia and Ethiopia. The product publishes chocolate, caramel and berry notes.",
+      "description_ar": "خلطة أولمبيا الأساسية من كولومبيا وإثيوبيا؛ إيحاءاتها المنشورة شوكولاتة وكراميل وتوت.",
+      "origin_ar": "كولومبيا، إثيوبيا",
+      "coffee_type_ar": "خلطة",
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    },
+    {
+      "name": "Black Cat Classic Espresso",
+      "name_ar": "بلاك كات كلاسيك إسبريسو",
+      "roaster": "Intelligentsia Coffee",
+      "source_url": "https://www.intelligentsia.com/products/black-cat-classic-espresso",
+      "image_url": "https://www.intelligentsia.com/cdn/shop/files/12oz_BC_Classic_1024x1024.png?v=1762379623",
+      "origin": "Brazil (Carmo de Minas)",
+      "process": "Semi-washed",
+      "variety": null,
+      "coffee_type": "Blend",
+      "roast": "Comforting",
+      "flavor_notes": [
+        "Cherry",
+        "Cola",
+        "Orange"
+      ],
+      "flavor_notes_ar": [
+        "كرز",
+        "كولا",
+        "برتقال"
+      ],
+      "flavor_families": [
+        "fruity",
+        "citrus"
+      ],
+      "description_en": "Intelligentsia lists Brazil’s Carmo de Minas as origin and recommends 18 g in for 45 g beverage yield.",
+      "description_ar": "تنشر إنتليجنسيا كارمو دي ميناس في البرازيل منشأً للبن، وتوصي بجرعة 18 g لإنتاج 45 g إسبريسو.",
+      "origin_ar": "البرازيل — كارمو دي ميناس",
+      "coffee_type_ar": "خلطة",
+      "image_kind": "packaging",
+      "image_display_verified": true,
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page image, HTTP image signature checked and visually reviewed as packaging on the 23-product contact sheet."
+    }
+  ],
+  "recipes": [
+    {
+      "slug": "onyx-monarch-kalita-wave",
+      "title": "Onyx Monarch — Kalita Wave",
+      "title_ar": "أونيكس مونارك — كاليتا ويف",
+      "brew_method": "kalita_wave",
+      "coffee_name": "Monarch",
+      "coffee_name_ar": "مونارك",
+      "roaster_name": "Onyx Coffee Lab",
+      "roaster_name_ar": "أونيكس كوفي لاب",
+      "source_author_name": "Onyx Coffee Lab",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Colombia, Ethiopia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Dark Chocolate",
+        "Molasses",
+        "Red Wine",
+        "Dried Berries",
+        "Thick & Syrupy"
+      ],
+      "flavor_notes_ar": [
+        "شوكولاتة داكنة",
+        "دبس",
+        "إيحاء نبيذي أحمر",
+        "توت مجفف",
+        "قوام كثيف وشرابي"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "caramel",
+        "fruity"
+      ],
+      "dose_grams": 25.0,
+      "water_grams": 400.0,
+      "water_ml": null,
+      "water_temp_c": 93.3,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 210,
+      "grinder_setting": "600 µm",
+      "notes": "Kalita Wave & 185; source temperature 200°F. Pour weights below are incremental additions; the source schedule reports cumulative scale readings. Grind size is in microns, not grinder dial clicks.",
+      "notes_ar": "Kalita Wave & 185؛ حرارة المصدر 200°F. كميات الصبات هنا إضافات منفصلة، بينما يعرض المصدر مجموع قراءة الميزان. نعومة الطحن بالميكرون وليست درجات طاحونة محددة.",
+      "source_url": "https://onyxcoffeelab.com/products/monarch",
+      "source_author_url": "https://onyxcoffeelab.com",
+      "source_country_url": "https://onyxcoffeelab.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 25 g coffee, ground to the published 600 µm reference, with Kalita Wave & 185.",
+          "description_ar": "استخدم 25 g بن بطحن مرجعي 600 µm مع Kalita Wave & 185.",
+          "duration_seconds": null,
+          "step_kind": "prepare"
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "At 0:00, add 50 g water to reach 50 g on the scale.",
+          "description_ar": "عند 0:00 أضف 50 g ماء لتصل قراءة الميزان إلى 50 g.",
+          "duration_seconds": null,
+          "step_kind": "bloom",
+          "start_at_seconds": 0
+        },
+        {
+          "title": "Heavy Spiral Pour",
+          "title_ar": "صبة دائرية قوية",
+          "description": "At 0:30, add 110 g water to reach 160 g on the scale.",
+          "description_ar": "عند 0:30 أضف 110 g ماء لتصل قراءة الميزان إلى 160 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 30
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 0:45, add 60 g water to reach 220 g on the scale.",
+          "description_ar": "عند 0:45 أضف 60 g ماء لتصل قراءة الميزان إلى 220 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 45
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 1:05, add 60 g water to reach 280 g on the scale.",
+          "description_ar": "عند 1:05 أضف 60 g ماء لتصل قراءة الميزان إلى 280 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 65
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 1:30, add 60 g water to reach 340 g on the scale.",
+          "description_ar": "عند 1:30 أضف 60 g ماء لتصل قراءة الميزان إلى 340 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 90
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 2:00, add 60 g water to reach 400 g on the scale.",
+          "description_ar": "عند 2:00 أضف 60 g ماء لتصل قراءة الميزان إلى 400 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 120
+        },
+        {
+          "title": "Draw down",
+          "title_ar": "التصريف",
+          "description": "Allow the bed to drain; the guide targets 3:30 total.",
+          "description_ar": "اترك الماء يتصرف؛ يستهدف الدليل زمنًا إجماليًا 3:30.",
+          "duration_seconds": null,
+          "step_kind": "drawdown"
+        }
+      ],
+      "pours": [
+        {
+          "pour_number": 1,
+          "water_grams": 50.0,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "pour_number": 2,
+          "water_grams": 110.0,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 3,
+          "water_grams": 60.0,
+          "start_at_seconds": 45,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 4,
+          "water_grams": 60.0,
+          "start_at_seconds": 65,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 5,
+          "water_grams": 60.0,
+          "start_at_seconds": 90,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 6,
+          "water_grams": 60.0,
+          "start_at_seconds": 120,
+          "is_bloom": false
+        }
+      ],
+      "source_brew_parameters": {
+        "manual": {
+          "equipment": "Kalita Wave & 185",
+          "source_water_temperature_f": 200.0,
+          "grind_microns": 600.0,
+          "timer_start": "First bloom water contact",
+          "timer_start_ar": "أول ملامسة لماء التزهير",
+          "scalable": true
+        }
+      },
+      "verified_at": "2026-10-04",
+      "pour_sum_validated": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "كولومبيا، إثيوبيا",
+      "coffee_type_ar": "خلطة",
+      "existing_recipe_id": "b93e7d45-b98b-40e2-972b-3b3960672d28",
+      "approved_previous_source_urls": [
+        "https://onyxcoffeelab.com/pages/help-me-brew"
+      ],
+      "expected_existing_parameters": {
+        "dose_grams": 25,
+        "water_grams": 400,
+        "total_time_seconds": 210
+      },
+      "source_upgrade_basis": "The public curator record already holds the same named Monarch filter guide. Both official pages were re-opened on 2026-10-04: Kalita Wave, 25 g coffee, 400 g water at 200°F, 600 µm, cumulative 50/160/220/280/340/400 g and 3:30. Retain the existing recipe ID and old source link, add the product-specific source and verified coffee/discovery linkage.",
+      "source_urls": [
+        "https://onyxcoffeelab.com/products/monarch",
+        "https://onyxcoffeelab.com/pages/help-me-brew"
+      ]
+    },
+    {
+      "slug": "onyx-southern-weather-kalita-wave",
+      "title": "Onyx Southern Weather — Kalita Wave",
+      "title_ar": "أونيكس ساوذرن ويذر — كاليتا ويف",
+      "brew_method": "kalita_wave",
+      "coffee_name": "Southern Weather",
+      "coffee_name_ar": "ساوذرن ويذر",
+      "roaster_name": "Onyx Coffee Lab",
+      "roaster_name_ar": "أونيكس كوفي لاب",
+      "source_author_name": "Onyx Coffee Lab",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Honduras, Colombia, Ethiopia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Milk Chocolate",
+        "Plum",
+        "Candied Walnuts",
+        "Juicy & Citrus Finish"
+      ],
+      "flavor_notes_ar": [
+        "شوكولاتة بالحليب",
+        "برقوق",
+        "جوز مسكر",
+        "نهاية عصيرية وحمضية"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "fruity",
+        "nutty",
+        "citrus"
+      ],
+      "dose_grams": 25.0,
+      "water_grams": 300.0,
+      "water_ml": null,
+      "water_temp_c": 93.3,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 150,
+      "grinder_setting": "650 µm",
+      "notes": "Kalita Wave & 185; source temperature 200°F. Pour weights below are incremental additions; the source schedule reports cumulative scale readings. Grind size is in microns, not grinder dial clicks. English guide ends at 2:30; the separate Spanish guide prints 3:00. This record follows the English guide only.",
+      "notes_ar": "Kalita Wave & 185؛ حرارة المصدر 200°F. كميات الصبات هنا إضافات منفصلة، بينما يعرض المصدر مجموع قراءة الميزان. نعومة الطحن بالميكرون وليست درجات طاحونة محددة. ينتهي الدليل الإنجليزي عند 2:30، بينما يعرض الإسباني 3:00؛ هذه النسخة تتبع الإنجليزي.",
+      "source_url": "https://onyxcoffeelab.com/products/southern-weather",
+      "source_author_url": "https://onyxcoffeelab.com",
+      "source_country_url": "https://onyxcoffeelab.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 25 g coffee, ground to the published 650 µm reference, with Kalita Wave & 185.",
+          "description_ar": "استخدم 25 g بن بطحن مرجعي 650 µm مع Kalita Wave & 185.",
+          "duration_seconds": null,
+          "step_kind": "prepare"
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "At 0:00, add 40 g water to reach 40 g on the scale.",
+          "description_ar": "عند 0:00 أضف 40 g ماء لتصل قراءة الميزان إلى 40 g.",
+          "duration_seconds": null,
+          "step_kind": "bloom",
+          "start_at_seconds": 0
+        },
+        {
+          "title": "Center Pour",
+          "title_ar": "صبة في المنتصف",
+          "description": "At 0:30, add 80 g water to reach 120 g on the scale.",
+          "description_ar": "عند 0:30 أضف 80 g ماء لتصل قراءة الميزان إلى 120 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 30
+        },
+        {
+          "title": "Spiral pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 0:50, add 60 g water to reach 180 g on the scale.",
+          "description_ar": "عند 0:50 أضف 60 g ماء لتصل قراءة الميزان إلى 180 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 50
+        },
+        {
+          "title": "Spiral pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 1:10, add 60 g water to reach 240 g on the scale.",
+          "description_ar": "عند 1:10 أضف 60 g ماء لتصل قراءة الميزان إلى 240 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 70
+        },
+        {
+          "title": "Spiral pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 1:30, add 60 g water to reach 300 g on the scale.",
+          "description_ar": "عند 1:30 أضف 60 g ماء لتصل قراءة الميزان إلى 300 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 90
+        },
+        {
+          "title": "Draw down",
+          "title_ar": "التصريف",
+          "description": "Allow the bed to drain; the guide targets 2:30 total.",
+          "description_ar": "اترك الماء يتصرف؛ يستهدف الدليل زمنًا إجماليًا 2:30.",
+          "duration_seconds": null,
+          "step_kind": "drawdown"
+        }
+      ],
+      "pours": [
+        {
+          "pour_number": 1,
+          "water_grams": 40.0,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "pour_number": 2,
+          "water_grams": 80.0,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 3,
+          "water_grams": 60.0,
+          "start_at_seconds": 50,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 4,
+          "water_grams": 60.0,
+          "start_at_seconds": 70,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 5,
+          "water_grams": 60.0,
+          "start_at_seconds": 90,
+          "is_bloom": false
+        }
+      ],
+      "source_brew_parameters": {
+        "manual": {
+          "equipment": "Kalita Wave & 185",
+          "source_water_temperature_f": 200.0,
+          "grind_microns": 650.0,
+          "timer_start": "First bloom water contact",
+          "timer_start_ar": "أول ملامسة لماء التزهير",
+          "scalable": true
+        }
+      },
+      "verified_at": "2026-10-04",
+      "pour_sum_validated": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "هندوراس، كولومبيا، إثيوبيا",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "onyx-tropical-weather-origami",
+      "title": "Onyx Tropical Weather — Origami",
+      "title_ar": "أونيكس تروبيكال ويذر — أوريغامي",
+      "brew_method": "origami",
+      "coffee_name": "Tropical Weather",
+      "coffee_name_ar": "تروبيكال ويذر",
+      "roaster_name": "Onyx Coffee Lab",
+      "roaster_name_ar": "أونيكس كوفي لاب",
+      "source_author_name": "Onyx Coffee Lab",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Ethiopia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Mixed Berries",
+        "Sweet Tea",
+        "Raw Honey",
+        "Plum"
+      ],
+      "flavor_notes_ar": [
+        "توت مشكل",
+        "شاي محلى",
+        "عسل خام",
+        "برقوق"
+      ],
+      "flavor_families": [
+        "fruity",
+        "caramel"
+      ],
+      "dose_grams": 15.0,
+      "water_grams": 250.0,
+      "water_ml": null,
+      "water_temp_c": 93.3,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 180,
+      "grinder_setting": "530 µm",
+      "notes": "Origami & Cone; source temperature 200°F. Pour weights below are incremental additions; the source schedule reports cumulative scale readings. Grind size is in microns, not grinder dial clicks.",
+      "notes_ar": "Origami & Cone؛ حرارة المصدر 200°F. كميات الصبات هنا إضافات منفصلة، بينما يعرض المصدر مجموع قراءة الميزان. نعومة الطحن بالميكرون وليست درجات طاحونة محددة.",
+      "source_url": "https://onyxcoffeelab.com/products/tropical-weather",
+      "source_author_url": "https://onyxcoffeelab.com",
+      "source_country_url": "https://onyxcoffeelab.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 15 g coffee, ground to the published 530 µm reference, with Origami & Cone.",
+          "description_ar": "استخدم 15 g بن بطحن مرجعي 530 µm مع Origami & Cone.",
+          "duration_seconds": null,
+          "step_kind": "prepare"
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "At 0:00, add 50 g water to reach 50 g on the scale.",
+          "description_ar": "عند 0:00 أضف 50 g ماء لتصل قراءة الميزان إلى 50 g.",
+          "duration_seconds": null,
+          "step_kind": "bloom",
+          "start_at_seconds": 0
+        },
+        {
+          "title": "Center Pour",
+          "title_ar": "صبة في المنتصف",
+          "description": "At 0:30, add 100 g water to reach 150 g on the scale.",
+          "description_ar": "عند 0:30 أضف 100 g ماء لتصل قراءة الميزان إلى 150 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 30
+        },
+        {
+          "title": "Spiral pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 1:30, add 100 g water to reach 250 g on the scale.",
+          "description_ar": "عند 1:30 أضف 100 g ماء لتصل قراءة الميزان إلى 250 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 90
+        },
+        {
+          "title": "Draw down",
+          "title_ar": "التصريف",
+          "description": "Allow the bed to drain; the guide targets 3:00 total.",
+          "description_ar": "اترك الماء يتصرف؛ يستهدف الدليل زمنًا إجماليًا 3:00.",
+          "duration_seconds": null,
+          "step_kind": "drawdown"
+        }
+      ],
+      "pours": [
+        {
+          "pour_number": 1,
+          "water_grams": 50.0,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "pour_number": 2,
+          "water_grams": 100.0,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 3,
+          "water_grams": 100.0,
+          "start_at_seconds": 90,
+          "is_bloom": false
+        }
+      ],
+      "source_brew_parameters": {
+        "manual": {
+          "equipment": "Origami & Cone",
+          "source_water_temperature_f": 200.0,
+          "grind_microns": 530.0,
+          "timer_start": "First bloom water contact",
+          "timer_start_ar": "أول ملامسة لماء التزهير",
+          "scalable": true
+        }
+      },
+      "verified_at": "2026-10-04",
+      "pour_sum_validated": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "إثيوبيا",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "onyx-geometry-origami",
+      "title": "Onyx Geometry — Origami",
+      "title_ar": "أونيكس جيومتري — أوريغامي",
+      "brew_method": "origami",
+      "coffee_name": "Geometry",
+      "coffee_name_ar": "جيومتري",
+      "roaster_name": "Onyx Coffee Lab",
+      "roaster_name_ar": "أونيكس كوفي لاب",
+      "source_author_name": "Onyx Coffee Lab",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Colombia, Ethiopia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Berries",
+        "Stone Fruit",
+        "Earl Grey",
+        "Honeysuckle",
+        "Round"
+      ],
+      "flavor_notes_ar": [
+        "توت",
+        "فاكهة ذات نواة",
+        "شاي إيرل غراي",
+        "زهر العسل",
+        "قوام متوازن"
+      ],
+      "flavor_families": [
+        "fruity",
+        "floral"
+      ],
+      "dose_grams": 25.0,
+      "water_grams": 400.0,
+      "water_ml": null,
+      "water_temp_c": 96.1,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 215,
+      "grinder_setting": "725 µm",
+      "notes": "Origami & Hario Cone; source temperature 205°F. Pour weights below are incremental additions; the source schedule reports cumulative scale readings. Grind size is in microns, not grinder dial clicks.",
+      "notes_ar": "Origami & Hario Cone؛ حرارة المصدر 205°F. كميات الصبات هنا إضافات منفصلة، بينما يعرض المصدر مجموع قراءة الميزان. نعومة الطحن بالميكرون وليست درجات طاحونة محددة.",
+      "source_url": "https://onyxcoffeelab.com/products/geometry",
+      "source_author_url": "https://onyxcoffeelab.com",
+      "source_country_url": "https://onyxcoffeelab.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 25 g coffee, ground to the published 725 µm reference, with Origami & Hario Cone.",
+          "description_ar": "استخدم 25 g بن بطحن مرجعي 725 µm مع Origami & Hario Cone.",
+          "duration_seconds": null,
+          "step_kind": "prepare"
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "At 0:00, add 50 g water to reach 50 g on the scale.",
+          "description_ar": "عند 0:00 أضف 50 g ماء لتصل قراءة الميزان إلى 50 g.",
+          "duration_seconds": null,
+          "step_kind": "bloom",
+          "start_at_seconds": 0
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 0:30, add 110 g water to reach 160 g on the scale.",
+          "description_ar": "عند 0:30 أضف 110 g ماء لتصل قراءة الميزان إلى 160 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 30
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 0:45, add 60 g water to reach 220 g on the scale.",
+          "description_ar": "عند 0:45 أضف 60 g ماء لتصل قراءة الميزان إلى 220 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 45
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 1:05, add 60 g water to reach 280 g on the scale.",
+          "description_ar": "عند 1:05 أضف 60 g ماء لتصل قراءة الميزان إلى 280 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 65
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 1:30, add 60 g water to reach 340 g on the scale.",
+          "description_ar": "عند 1:30 أضف 60 g ماء لتصل قراءة الميزان إلى 340 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 90
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 2:00, add 60 g water to reach 400 g on the scale.",
+          "description_ar": "عند 2:00 أضف 60 g ماء لتصل قراءة الميزان إلى 400 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 120
+        },
+        {
+          "title": "Draw down",
+          "title_ar": "التصريف",
+          "description": "Allow the bed to drain; the guide targets 3:35 total.",
+          "description_ar": "اترك الماء يتصرف؛ يستهدف الدليل زمنًا إجماليًا 3:35.",
+          "duration_seconds": null,
+          "step_kind": "drawdown"
+        }
+      ],
+      "pours": [
+        {
+          "pour_number": 1,
+          "water_grams": 50.0,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "pour_number": 2,
+          "water_grams": 110.0,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 3,
+          "water_grams": 60.0,
+          "start_at_seconds": 45,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 4,
+          "water_grams": 60.0,
+          "start_at_seconds": 65,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 5,
+          "water_grams": 60.0,
+          "start_at_seconds": 90,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 6,
+          "water_grams": 60.0,
+          "start_at_seconds": 120,
+          "is_bloom": false
+        }
+      ],
+      "source_brew_parameters": {
+        "manual": {
+          "equipment": "Origami & Hario Cone",
+          "source_water_temperature_f": 205.0,
+          "grind_microns": 725.0,
+          "timer_start": "First bloom water contact",
+          "timer_start_ar": "أول ملامسة لماء التزهير",
+          "scalable": true
+        }
+      },
+      "verified_at": "2026-10-04",
+      "pour_sum_validated": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "كولومبيا، إثيوبيا",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "onyx-power-nap-kalita-wave",
+      "title": "Onyx Power Nap — Kalita Wave",
+      "title_ar": "أونيكس باور ناب — كاليتا ويف",
+      "brew_method": "kalita_wave",
+      "coffee_name": "Power Nap",
+      "coffee_name_ar": "باور ناب",
+      "roaster_name": "Onyx Coffee Lab",
+      "roaster_name_ar": "أونيكس كوفي لاب",
+      "source_author_name": "Onyx Coffee Lab",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Colombia, Ethiopia",
+      "coffee_type": "Half-caf blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Brown Sugar",
+        "Cocoa",
+        "Silky",
+        "Floral",
+        "Peach"
+      ],
+      "flavor_notes_ar": [
+        "سكر بني",
+        "كاكاو",
+        "قوام حريري",
+        "زهري",
+        "خوخ"
+      ],
+      "flavor_families": [
+        "caramel",
+        "chocolate",
+        "floral",
+        "fruity"
+      ],
+      "dose_grams": 25.0,
+      "water_grams": 400.0,
+      "water_ml": null,
+      "water_temp_c": 96.1,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 270,
+      "grinder_setting": "750 µm",
+      "notes": "Kalita Wave & Kalita Wave 185; source temperature 205°F. Pour weights below are incremental additions; the source schedule reports cumulative scale readings. Grind size is in microns, not grinder dial clicks.",
+      "notes_ar": "Kalita Wave & Kalita Wave 185؛ حرارة المصدر 205°F. كميات الصبات هنا إضافات منفصلة، بينما يعرض المصدر مجموع قراءة الميزان. نعومة الطحن بالميكرون وليست درجات طاحونة محددة.",
+      "source_url": "https://onyxcoffeelab.com/products/power-nap",
+      "source_author_url": "https://onyxcoffeelab.com",
+      "source_country_url": "https://onyxcoffeelab.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 25 g coffee, ground to the published 750 µm reference, with Kalita Wave & Kalita Wave 185.",
+          "description_ar": "استخدم 25 g بن بطحن مرجعي 750 µm مع Kalita Wave & Kalita Wave 185.",
+          "duration_seconds": null,
+          "step_kind": "prepare"
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "At 0:00, add 50 g water to reach 50 g on the scale.",
+          "description_ar": "عند 0:00 أضف 50 g ماء لتصل قراءة الميزان إلى 50 g.",
+          "duration_seconds": null,
+          "step_kind": "bloom",
+          "start_at_seconds": 0
+        },
+        {
+          "title": "Heavy Spiral Pour",
+          "title_ar": "صبة دائرية قوية",
+          "description": "At 0:30, add 110 g water to reach 160 g on the scale.",
+          "description_ar": "عند 0:30 أضف 110 g ماء لتصل قراءة الميزان إلى 160 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 30
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 0:45, add 60 g water to reach 220 g on the scale.",
+          "description_ar": "عند 0:45 أضف 60 g ماء لتصل قراءة الميزان إلى 220 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 45
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 1:20, add 60 g water to reach 280 g on the scale.",
+          "description_ar": "عند 1:20 أضف 60 g ماء لتصل قراءة الميزان إلى 280 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 80
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 1:47, add 60 g water to reach 340 g on the scale.",
+          "description_ar": "عند 1:47 أضف 60 g ماء لتصل قراءة الميزان إلى 340 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 107
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 2:20, add 60 g water to reach 400 g on the scale.",
+          "description_ar": "عند 2:20 أضف 60 g ماء لتصل قراءة الميزان إلى 400 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 140
+        },
+        {
+          "title": "Draw down",
+          "title_ar": "التصريف",
+          "description": "Allow the bed to drain; the guide targets 4:30 total.",
+          "description_ar": "اترك الماء يتصرف؛ يستهدف الدليل زمنًا إجماليًا 4:30.",
+          "duration_seconds": null,
+          "step_kind": "drawdown"
+        }
+      ],
+      "pours": [
+        {
+          "pour_number": 1,
+          "water_grams": 50.0,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "pour_number": 2,
+          "water_grams": 110.0,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 3,
+          "water_grams": 60.0,
+          "start_at_seconds": 45,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 4,
+          "water_grams": 60.0,
+          "start_at_seconds": 80,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 5,
+          "water_grams": 60.0,
+          "start_at_seconds": 107,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 6,
+          "water_grams": 60.0,
+          "start_at_seconds": 140,
+          "is_bloom": false
+        }
+      ],
+      "source_brew_parameters": {
+        "manual": {
+          "equipment": "Kalita Wave & Kalita Wave 185",
+          "source_water_temperature_f": 205.0,
+          "grind_microns": 750.0,
+          "timer_start": "First bloom water contact",
+          "timer_start_ar": "أول ملامسة لماء التزهير",
+          "scalable": true
+        }
+      },
+      "verified_at": "2026-10-04",
+      "pour_sum_validated": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "كولومبيا، إثيوبيا",
+      "coffee_type_ar": "خلطة نصف كافيين"
+    },
+    {
+      "slug": "onyx-kenya-kamunyaka-aa-origami",
+      "title": "Onyx Kenya Kamunyaka AA — Origami",
+      "title_ar": "أونيكس كينيا كامونياكا AA — أوريغامي",
+      "brew_method": "origami",
+      "coffee_name": "Kenya Kamunyaka AA",
+      "coffee_name_ar": "كينيا كامونياكا AA",
+      "roaster_name": "Onyx Coffee Lab",
+      "roaster_name_ar": "أونيكس كوفي لاب",
+      "source_author_name": "Onyx Coffee Lab",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Kenya",
+      "coffee_type": null,
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Grapefruit",
+        "Brown Sugar",
+        "Kumquat",
+        "Mulling Spice"
+      ],
+      "flavor_notes_ar": [
+        "جريب فروت",
+        "سكر بني",
+        "برتقال ذهبي",
+        "توابل دافئة"
+      ],
+      "flavor_families": [
+        "citrus",
+        "caramel",
+        "spice"
+      ],
+      "dose_grams": 20.0,
+      "water_grams": 320.0,
+      "water_ml": null,
+      "water_temp_c": 87.8,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 220,
+      "grinder_setting": "654 µm",
+      "notes": "Origami & Hario Cone; source temperature 190°F. Pour weights below are incremental additions; the source schedule reports cumulative scale readings. Grind size is in microns, not grinder dial clicks.",
+      "notes_ar": "Origami & Hario Cone؛ حرارة المصدر 190°F. كميات الصبات هنا إضافات منفصلة، بينما يعرض المصدر مجموع قراءة الميزان. نعومة الطحن بالميكرون وليست درجات طاحونة محددة.",
+      "source_url": "https://onyxcoffeelab.com/products/kenya-kamunyaka-aa",
+      "source_author_url": "https://onyxcoffeelab.com",
+      "source_country_url": "https://onyxcoffeelab.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 20 g coffee, ground to the published 654 µm reference, with Origami & Hario Cone.",
+          "description_ar": "استخدم 20 g بن بطحن مرجعي 654 µm مع Origami & Hario Cone.",
+          "duration_seconds": null,
+          "step_kind": "prepare"
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "At 0:00, add 40 g water to reach 40 g on the scale.",
+          "description_ar": "عند 0:00 أضف 40 g ماء لتصل قراءة الميزان إلى 40 g.",
+          "duration_seconds": null,
+          "step_kind": "bloom",
+          "start_at_seconds": 0
+        },
+        {
+          "title": "Heavy Spiral Pour",
+          "title_ar": "صبة دائرية قوية",
+          "description": "At 0:30, add 100 g water to reach 140 g on the scale.",
+          "description_ar": "عند 0:30 أضف 100 g ماء لتصل قراءة الميزان إلى 140 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 30
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 0:50, add 60 g water to reach 200 g on the scale.",
+          "description_ar": "عند 0:50 أضف 60 g ماء لتصل قراءة الميزان إلى 200 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 50
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 1:20, add 60 g water to reach 260 g on the scale.",
+          "description_ar": "عند 1:20 أضف 60 g ماء لتصل قراءة الميزان إلى 260 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 80
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 1:40, add 60 g water to reach 320 g on the scale.",
+          "description_ar": "عند 1:40 أضف 60 g ماء لتصل قراءة الميزان إلى 320 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 100
+        },
+        {
+          "title": "Draw down",
+          "title_ar": "التصريف",
+          "description": "Allow the bed to drain; the guide targets 3:40 total.",
+          "description_ar": "اترك الماء يتصرف؛ يستهدف الدليل زمنًا إجماليًا 3:40.",
+          "duration_seconds": null,
+          "step_kind": "drawdown"
+        }
+      ],
+      "pours": [
+        {
+          "pour_number": 1,
+          "water_grams": 40.0,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "pour_number": 2,
+          "water_grams": 100.0,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 3,
+          "water_grams": 60.0,
+          "start_at_seconds": 50,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 4,
+          "water_grams": 60.0,
+          "start_at_seconds": 80,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 5,
+          "water_grams": 60.0,
+          "start_at_seconds": 100,
+          "is_bloom": false
+        }
+      ],
+      "source_brew_parameters": {
+        "manual": {
+          "equipment": "Origami & Hario Cone",
+          "source_water_temperature_f": 190.0,
+          "grind_microns": 654.0,
+          "timer_start": "First bloom water contact",
+          "timer_start_ar": "أول ملامسة لماء التزهير",
+          "scalable": true
+        }
+      },
+      "verified_at": "2026-10-04",
+      "pour_sum_validated": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "كينيا",
+      "coffee_type_ar": null
+    },
+    {
+      "slug": "onyx-honduras-fredy-perez-origami",
+      "title": "Onyx Honduras Fredy Perez — Origami",
+      "title_ar": "أونيكس هندوراس فريدي بيريز — أوريغامي",
+      "brew_method": "origami",
+      "coffee_name": "Honduras Fredy Perez",
+      "coffee_name_ar": "هندوراس فريدي بيريز",
+      "roaster_name": "Onyx Coffee Lab",
+      "roaster_name_ar": "أونيكس كوفي لاب",
+      "source_author_name": "Onyx Coffee Lab",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Honduras",
+      "coffee_type": null,
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Tart Apple",
+        "Pecan",
+        "Fig",
+        "Allspice"
+      ],
+      "flavor_notes_ar": [
+        "تفاح حامض",
+        "بيكان",
+        "تين",
+        "بهار حلو"
+      ],
+      "flavor_families": [
+        "fruity",
+        "nutty",
+        "spice"
+      ],
+      "dose_grams": 18.0,
+      "water_grams": 270.0,
+      "water_ml": null,
+      "water_temp_c": 96.1,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 215,
+      "grinder_setting": "672 µm",
+      "notes": "Origami & Origami Cone; source temperature 205°F. Pour weights below are incremental additions; the source schedule reports cumulative scale readings. Grind size is in microns, not grinder dial clicks.",
+      "notes_ar": "Origami & Origami Cone؛ حرارة المصدر 205°F. كميات الصبات هنا إضافات منفصلة، بينما يعرض المصدر مجموع قراءة الميزان. نعومة الطحن بالميكرون وليست درجات طاحونة محددة.",
+      "source_url": "https://onyxcoffeelab.com/products/honduras-fredy-perez",
+      "source_author_url": "https://onyxcoffeelab.com",
+      "source_country_url": "https://onyxcoffeelab.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 18 g coffee, ground to the published 672 µm reference, with Origami & Origami Cone.",
+          "description_ar": "استخدم 18 g بن بطحن مرجعي 672 µm مع Origami & Origami Cone.",
+          "duration_seconds": null,
+          "step_kind": "prepare"
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "At 0:00, add 36 g water to reach 36 g on the scale.",
+          "description_ar": "عند 0:00 أضف 36 g ماء لتصل قراءة الميزان إلى 36 g.",
+          "duration_seconds": null,
+          "step_kind": "bloom",
+          "start_at_seconds": 0
+        },
+        {
+          "title": "Heavy Spiral Pour",
+          "title_ar": "صبة دائرية قوية",
+          "description": "At 0:30, add 84 g water to reach 120 g on the scale.",
+          "description_ar": "عند 0:30 أضف 84 g ماء لتصل قراءة الميزان إلى 120 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 30
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 0:50, add 60 g water to reach 180 g on the scale.",
+          "description_ar": "عند 0:50 أضف 60 g ماء لتصل قراءة الميزان إلى 180 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 50
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 1:20, add 40 g water to reach 220 g on the scale.",
+          "description_ar": "عند 1:20 أضف 40 g ماء لتصل قراءة الميزان إلى 220 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 80
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 1:45, add 50 g water to reach 270 g on the scale.",
+          "description_ar": "عند 1:45 أضف 50 g ماء لتصل قراءة الميزان إلى 270 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 105
+        },
+        {
+          "title": "Draw down",
+          "title_ar": "التصريف",
+          "description": "Allow the bed to drain; the guide targets 3:35 total.",
+          "description_ar": "اترك الماء يتصرف؛ يستهدف الدليل زمنًا إجماليًا 3:35.",
+          "duration_seconds": null,
+          "step_kind": "drawdown"
+        }
+      ],
+      "pours": [
+        {
+          "pour_number": 1,
+          "water_grams": 36.0,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "pour_number": 2,
+          "water_grams": 84.0,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 3,
+          "water_grams": 60.0,
+          "start_at_seconds": 50,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 4,
+          "water_grams": 40.0,
+          "start_at_seconds": 80,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 5,
+          "water_grams": 50.0,
+          "start_at_seconds": 105,
+          "is_bloom": false
+        }
+      ],
+      "source_brew_parameters": {
+        "manual": {
+          "equipment": "Origami & Origami Cone",
+          "source_water_temperature_f": 205.0,
+          "grind_microns": 672.0,
+          "timer_start": "First bloom water contact",
+          "timer_start_ar": "أول ملامسة لماء التزهير",
+          "scalable": true
+        }
+      },
+      "verified_at": "2026-10-04",
+      "pour_sum_validated": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "هندوراس",
+      "coffee_type_ar": null
+    },
+    {
+      "slug": "onyx-ethiopia-agaro-yukro-g1-origami",
+      "title": "Onyx Ethiopia Agaro Yukro G1 — Origami",
+      "title_ar": "أونيكس إثيوبيا أغارو يوكرو G1 — أوريغامي",
+      "brew_method": "origami",
+      "coffee_name": "Ethiopia Agaro Yukro G1",
+      "coffee_name_ar": "إثيوبيا أغارو يوكرو G1",
+      "roaster_name": "Onyx Coffee Lab",
+      "roaster_name_ar": "أونيكس كوفي لاب",
+      "source_author_name": "Onyx Coffee Lab",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Ethiopia",
+      "coffee_type": null,
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Apricot",
+        "Barley Tea",
+        "Bergamot",
+        "Caramel"
+      ],
+      "flavor_notes_ar": [
+        "مشمش",
+        "شاي الشعير",
+        "برغموت",
+        "كراميل"
+      ],
+      "flavor_families": [
+        "fruity",
+        "citrus",
+        "caramel"
+      ],
+      "dose_grams": 18.0,
+      "water_grams": 280.0,
+      "water_ml": null,
+      "water_temp_c": 96.1,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 205,
+      "grinder_setting": "648 µm",
+      "notes": "Origami & Origami Cone; source temperature 205°F. Pour weights below are incremental additions; the source schedule reports cumulative scale readings. Grind size is in microns, not grinder dial clicks.",
+      "notes_ar": "Origami & Origami Cone؛ حرارة المصدر 205°F. كميات الصبات هنا إضافات منفصلة، بينما يعرض المصدر مجموع قراءة الميزان. نعومة الطحن بالميكرون وليست درجات طاحونة محددة.",
+      "source_url": "https://onyxcoffeelab.com/products/ethiopia-agaro-yukro-g1",
+      "source_author_url": "https://onyxcoffeelab.com",
+      "source_country_url": "https://onyxcoffeelab.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 18 g coffee, ground to the published 648 µm reference, with Origami & Origami Cone.",
+          "description_ar": "استخدم 18 g بن بطحن مرجعي 648 µm مع Origami & Origami Cone.",
+          "duration_seconds": null,
+          "step_kind": "prepare"
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "At 0:00, add 40 g water to reach 40 g on the scale.",
+          "description_ar": "عند 0:00 أضف 40 g ماء لتصل قراءة الميزان إلى 40 g.",
+          "duration_seconds": null,
+          "step_kind": "bloom",
+          "start_at_seconds": 0
+        },
+        {
+          "title": "Heavy Spiral Pour",
+          "title_ar": "صبة دائرية قوية",
+          "description": "At 0:45, add 100 g water to reach 140 g on the scale.",
+          "description_ar": "عند 0:45 أضف 100 g ماء لتصل قراءة الميزان إلى 140 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 45
+        },
+        {
+          "title": "Spiral to Center",
+          "title_ar": "من الدائرة إلى المنتصف",
+          "description": "At 1:05, add 80 g water to reach 220 g on the scale.",
+          "description_ar": "عند 1:05 أضف 80 g ماء لتصل قراءة الميزان إلى 220 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 65
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 1:20, add 60 g water to reach 280 g on the scale.",
+          "description_ar": "عند 1:20 أضف 60 g ماء لتصل قراءة الميزان إلى 280 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 80
+        },
+        {
+          "title": "Draw down",
+          "title_ar": "التصريف",
+          "description": "Allow the bed to drain; the guide targets 3:25 total.",
+          "description_ar": "اترك الماء يتصرف؛ يستهدف الدليل زمنًا إجماليًا 3:25.",
+          "duration_seconds": null,
+          "step_kind": "drawdown"
+        }
+      ],
+      "pours": [
+        {
+          "pour_number": 1,
+          "water_grams": 40.0,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "pour_number": 2,
+          "water_grams": 100.0,
+          "start_at_seconds": 45,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 3,
+          "water_grams": 80.0,
+          "start_at_seconds": 65,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 4,
+          "water_grams": 60.0,
+          "start_at_seconds": 80,
+          "is_bloom": false
+        }
+      ],
+      "source_brew_parameters": {
+        "manual": {
+          "equipment": "Origami & Origami Cone",
+          "source_water_temperature_f": 205.0,
+          "grind_microns": 648.0,
+          "timer_start": "First bloom water contact",
+          "timer_start_ar": "أول ملامسة لماء التزهير",
+          "scalable": true
+        }
+      },
+      "verified_at": "2026-10-04",
+      "pour_sum_validated": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "إثيوبيا",
+      "coffee_type_ar": null
+    },
+    {
+      "slug": "onyx-costa-rica-las-lajas-natural-26-origami",
+      "title": "Onyx Costa Rica Las Lajas Natural — Origami",
+      "title_ar": "أونيكس كوستاريكا لاس لاخاس مجففة — أوريغامي",
+      "brew_method": "origami",
+      "coffee_name": "Costa Rica Las Lajas Natural",
+      "coffee_name_ar": "كوستاريكا لاس لاخاس مجففة",
+      "roaster_name": "Onyx Coffee Lab",
+      "roaster_name_ar": "أونيكس كوفي لاب",
+      "source_author_name": "Onyx Coffee Lab",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Costa Rica",
+      "coffee_type": null,
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Pineapple",
+        "Hibiscus",
+        "Blueberry",
+        "Milk Chocolate"
+      ],
+      "flavor_notes_ar": [
+        "أناناس",
+        "كركديه",
+        "توت أزرق",
+        "شوكولاتة بالحليب"
+      ],
+      "flavor_families": [
+        "fruity",
+        "floral",
+        "chocolate"
+      ],
+      "dose_grams": 25.0,
+      "water_grams": 400.0,
+      "water_ml": null,
+      "water_temp_c": 93.3,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 225,
+      "grinder_setting": "560 µm",
+      "notes": "Origami & Kalita Wave 185; source temperature 200°F. Pour weights below are incremental additions; the source schedule reports cumulative scale readings. Grind size is in microns, not grinder dial clicks.",
+      "notes_ar": "Origami & Kalita Wave 185؛ حرارة المصدر 200°F. كميات الصبات هنا إضافات منفصلة، بينما يعرض المصدر مجموع قراءة الميزان. نعومة الطحن بالميكرون وليست درجات طاحونة محددة.",
+      "source_url": "https://onyxcoffeelab.com/products/costa-rica-las-lajas-natural-26",
+      "source_author_url": "https://onyxcoffeelab.com",
+      "source_country_url": "https://onyxcoffeelab.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 25 g coffee, ground to the published 560 µm reference, with Origami & Kalita Wave 185.",
+          "description_ar": "استخدم 25 g بن بطحن مرجعي 560 µm مع Origami & Kalita Wave 185.",
+          "duration_seconds": null,
+          "step_kind": "prepare"
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "At 0:00, add 50 g water to reach 50 g on the scale.",
+          "description_ar": "عند 0:00 أضف 50 g ماء لتصل قراءة الميزان إلى 50 g.",
+          "duration_seconds": null,
+          "step_kind": "bloom",
+          "start_at_seconds": 0
+        },
+        {
+          "title": "Heavy Spiral Pour",
+          "title_ar": "صبة دائرية قوية",
+          "description": "At 0:30, add 100 g water to reach 150 g on the scale.",
+          "description_ar": "عند 0:30 أضف 100 g ماء لتصل قراءة الميزان إلى 150 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 30
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 1:00, add 150 g water to reach 300 g on the scale.",
+          "description_ar": "عند 1:00 أضف 150 g ماء لتصل قراءة الميزان إلى 300 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 60
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 1:45, add 100 g water to reach 400 g on the scale.",
+          "description_ar": "عند 1:45 أضف 100 g ماء لتصل قراءة الميزان إلى 400 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 105
+        },
+        {
+          "title": "Draw down",
+          "title_ar": "التصريف",
+          "description": "Allow the bed to drain; the guide targets 3:45 total.",
+          "description_ar": "اترك الماء يتصرف؛ يستهدف الدليل زمنًا إجماليًا 3:45.",
+          "duration_seconds": null,
+          "step_kind": "drawdown"
+        }
+      ],
+      "pours": [
+        {
+          "pour_number": 1,
+          "water_grams": 50.0,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "pour_number": 2,
+          "water_grams": 100.0,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 3,
+          "water_grams": 150.0,
+          "start_at_seconds": 60,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 4,
+          "water_grams": 100.0,
+          "start_at_seconds": 105,
+          "is_bloom": false
+        }
+      ],
+      "source_brew_parameters": {
+        "manual": {
+          "equipment": "Origami & Kalita Wave 185",
+          "source_water_temperature_f": 200.0,
+          "grind_microns": 560.0,
+          "timer_start": "First bloom water contact",
+          "timer_start_ar": "أول ملامسة لماء التزهير",
+          "scalable": true
+        }
+      },
+      "verified_at": "2026-10-04",
+      "pour_sum_validated": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "كوستاريكا",
+      "coffee_type_ar": null
+    },
+    {
+      "slug": "onyx-mexico-oaxaca-yogondoy-gesha-origami",
+      "title": "Onyx Mexico Oaxaca Yogondoy Gesha — Origami",
+      "title_ar": "أونيكس المكسيك أواكساكا يوغوندوي جيشا — أوريغامي",
+      "brew_method": "origami",
+      "coffee_name": "Mexico Oaxaca Yogondoy Gesha",
+      "coffee_name_ar": "المكسيك أواكساكا يوغوندوي جيشا",
+      "roaster_name": "Onyx Coffee Lab",
+      "roaster_name_ar": "أونيكس كوفي لاب",
+      "source_author_name": "Onyx Coffee Lab",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Mexico",
+      "coffee_type": null,
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Almond",
+        "Matcha",
+        "Jasmine",
+        "Allspice"
+      ],
+      "flavor_notes_ar": [
+        "لوز",
+        "ماتشا",
+        "ياسمين",
+        "بهار حلو"
+      ],
+      "flavor_families": [
+        "nutty",
+        "floral",
+        "spice"
+      ],
+      "dose_grams": 18.0,
+      "water_grams": 275.0,
+      "water_ml": null,
+      "water_temp_c": 95.0,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 165,
+      "grinder_setting": "710 µm",
+      "notes": "Origami & Cafec Cone; source temperature 203°F. Pour weights below are incremental additions; the source schedule reports cumulative scale readings. Grind size is in microns, not grinder dial clicks.",
+      "notes_ar": "Origami & Cafec Cone؛ حرارة المصدر 203°F. كميات الصبات هنا إضافات منفصلة، بينما يعرض المصدر مجموع قراءة الميزان. نعومة الطحن بالميكرون وليست درجات طاحونة محددة.",
+      "source_url": "https://onyxcoffeelab.com/products/mexico-oaxaca-yogondoy-gesha",
+      "source_author_url": "https://onyxcoffeelab.com",
+      "source_country_url": "https://onyxcoffeelab.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 18 g coffee, ground to the published 710 µm reference, with Origami & Cafec Cone.",
+          "description_ar": "استخدم 18 g بن بطحن مرجعي 710 µm مع Origami & Cafec Cone.",
+          "duration_seconds": null,
+          "step_kind": "prepare"
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "At 0:00, add 50 g water to reach 50 g on the scale.",
+          "description_ar": "عند 0:00 أضف 50 g ماء لتصل قراءة الميزان إلى 50 g.",
+          "duration_seconds": null,
+          "step_kind": "bloom",
+          "start_at_seconds": 0
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 0:30, add 75 g water to reach 125 g on the scale.",
+          "description_ar": "عند 0:30 أضف 75 g ماء لتصل قراءة الميزان إلى 125 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 30
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 0:50, add 75 g water to reach 200 g on the scale.",
+          "description_ar": "عند 0:50 أضف 75 g ماء لتصل قراءة الميزان إلى 200 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 50
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 1:20, add 75 g water to reach 275 g on the scale.",
+          "description_ar": "عند 1:20 أضف 75 g ماء لتصل قراءة الميزان إلى 275 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 80
+        },
+        {
+          "title": "Draw down",
+          "title_ar": "التصريف",
+          "description": "Allow the bed to drain; the guide targets 2:45 total.",
+          "description_ar": "اترك الماء يتصرف؛ يستهدف الدليل زمنًا إجماليًا 2:45.",
+          "duration_seconds": null,
+          "step_kind": "drawdown"
+        }
+      ],
+      "pours": [
+        {
+          "pour_number": 1,
+          "water_grams": 50.0,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "pour_number": 2,
+          "water_grams": 75.0,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 3,
+          "water_grams": 75.0,
+          "start_at_seconds": 50,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 4,
+          "water_grams": 75.0,
+          "start_at_seconds": 80,
+          "is_bloom": false
+        }
+      ],
+      "source_brew_parameters": {
+        "manual": {
+          "equipment": "Origami & Cafec Cone",
+          "source_water_temperature_f": 203.0,
+          "grind_microns": 710.0,
+          "timer_start": "First bloom water contact",
+          "timer_start_ar": "أول ملامسة لماء التزهير",
+          "scalable": true
+        }
+      },
+      "verified_at": "2026-10-04",
+      "pour_sum_validated": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "المكسيك",
+      "coffee_type_ar": null
+    },
+    {
+      "slug": "onyx-peru-la-margarita-gesha-26-origami",
+      "title": "Onyx Peru La Margarita Gesha — Origami",
+      "title_ar": "أونيكس بيرو لا مارغريتا جيشا — أوريغامي",
+      "brew_method": "origami",
+      "coffee_name": "Peru La Margarita Gesha",
+      "coffee_name_ar": "بيرو لا مارغريتا جيشا",
+      "roaster_name": "Onyx Coffee Lab",
+      "roaster_name_ar": "أونيكس كوفي لاب",
+      "source_author_name": "Onyx Coffee Lab",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Peru",
+      "coffee_type": null,
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Jasmine",
+        "White Grape",
+        "Black Tea",
+        "Refined"
+      ],
+      "flavor_notes_ar": [
+        "ياسمين",
+        "عنب أبيض",
+        "شاي أسود",
+        "قوام رقيق"
+      ],
+      "flavor_families": [
+        "floral",
+        "fruity"
+      ],
+      "dose_grams": 15.0,
+      "water_grams": 240.0,
+      "water_ml": null,
+      "water_temp_c": 96.1,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 210,
+      "grinder_setting": "590 µm",
+      "notes": "Origami & Kalita Wave 185; source temperature 205°F. Pour weights below are incremental additions; the source schedule reports cumulative scale readings. Grind size is in microns, not grinder dial clicks.",
+      "notes_ar": "Origami & Kalita Wave 185؛ حرارة المصدر 205°F. كميات الصبات هنا إضافات منفصلة، بينما يعرض المصدر مجموع قراءة الميزان. نعومة الطحن بالميكرون وليست درجات طاحونة محددة.",
+      "source_url": "https://onyxcoffeelab.com/products/peru-la-margarita-gesha-26",
+      "source_author_url": "https://onyxcoffeelab.com",
+      "source_country_url": "https://onyxcoffeelab.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 15 g coffee, ground to the published 590 µm reference, with Origami & Kalita Wave 185.",
+          "description_ar": "استخدم 15 g بن بطحن مرجعي 590 µm مع Origami & Kalita Wave 185.",
+          "duration_seconds": null,
+          "step_kind": "prepare"
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "At 0:00, add 30 g water to reach 30 g on the scale.",
+          "description_ar": "عند 0:00 أضف 30 g ماء لتصل قراءة الميزان إلى 30 g.",
+          "duration_seconds": null,
+          "step_kind": "bloom",
+          "start_at_seconds": 0
+        },
+        {
+          "title": "Heavy Spiral Pour",
+          "title_ar": "صبة دائرية قوية",
+          "description": "At 0:30, add 70 g water to reach 100 g on the scale.",
+          "description_ar": "عند 0:30 أضف 70 g ماء لتصل قراءة الميزان إلى 100 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 30
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 0:50, add 70 g water to reach 170 g on the scale.",
+          "description_ar": "عند 0:50 أضف 70 g ماء لتصل قراءة الميزان إلى 170 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 50
+        },
+        {
+          "title": "Spiral Pour",
+          "title_ar": "صبة دائرية",
+          "description": "At 1:15, add 70 g water to reach 240 g on the scale.",
+          "description_ar": "عند 1:15 أضف 70 g ماء لتصل قراءة الميزان إلى 240 g.",
+          "duration_seconds": null,
+          "step_kind": "pour",
+          "start_at_seconds": 75
+        },
+        {
+          "title": "Draw down",
+          "title_ar": "التصريف",
+          "description": "Allow the bed to drain; the guide targets 3:30 total.",
+          "description_ar": "اترك الماء يتصرف؛ يستهدف الدليل زمنًا إجماليًا 3:30.",
+          "duration_seconds": null,
+          "step_kind": "drawdown"
+        }
+      ],
+      "pours": [
+        {
+          "pour_number": 1,
+          "water_grams": 30.0,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "pour_number": 2,
+          "water_grams": 70.0,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 3,
+          "water_grams": 70.0,
+          "start_at_seconds": 50,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 4,
+          "water_grams": 70.0,
+          "start_at_seconds": 75,
+          "is_bloom": false
+        }
+      ],
+      "source_brew_parameters": {
+        "manual": {
+          "equipment": "Origami & Kalita Wave 185",
+          "source_water_temperature_f": 205.0,
+          "grind_microns": 590.0,
+          "timer_start": "First bloom water contact",
+          "timer_start_ar": "أول ملامسة لماء التزهير",
+          "scalable": true
+        }
+      },
+      "verified_at": "2026-10-04",
+      "pour_sum_validated": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "بيرو",
+      "coffee_type_ar": null
+    },
+    {
+      "slug": "onyx-monarch-espresso",
+      "title": "Onyx Monarch — Espresso",
+      "title_ar": "مونارك — إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Monarch",
+      "coffee_name_ar": "مونارك",
+      "roaster_name": "Onyx Coffee Lab",
+      "roaster_name_ar": "أونيكس كوفي لاب",
+      "source_author_name": "Onyx Coffee Lab",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Colombia, Ethiopia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Dark Chocolate",
+        "Molasses",
+        "Red Wine",
+        "Dried Berries",
+        "Thick & Syrupy"
+      ],
+      "flavor_notes_ar": [
+        "شوكولاتة داكنة",
+        "دبس",
+        "إيحاء نبيذي أحمر",
+        "توت مجفف",
+        "قوام كثيف وشرابي"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "caramel",
+        "fruity"
+      ],
+      "dose_grams": 19,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 23,
+      "grinder_setting": null,
+      "notes": "Espresso output is beverage yield, not input water; water_grams remains unreported. No water temperature is published. The discovery guide lists this shot time; the product page labels a line-pressure phase 0–3.5 s. That phase is not converted to a pressure or added to the published time.",
+      "notes_ar": "وزن الناتج هو وزن مشروب الإسبريسو وليس كمية ماء الإدخال؛ لذلك لا نسجله كماء التحضير. لم تُنشر حرارة الماء. يعرض دليل المجموعة زمن الشوت هذا، وتعرض صفحة البن مرحلة ضغط أولي 0–3.5 s؛ لا نحولها إلى ضغط ولا نضيفها إلى الزمن المنشور.",
+      "source_url": "https://onyxcoffeelab.com/products/monarch",
+      "source_author_url": "https://onyxcoffeelab.com",
+      "source_country_url": "https://onyxcoffeelab.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 19 g of this coffee.",
+          "description_ar": "زن 19 g من هذا البن.",
+          "duration_seconds": null,
+          "step_kind": "dose"
+        },
+        {
+          "title": "Extraction pressure",
+          "title_ar": "ضغط الاستخلاص",
+          "description": "Use the published 9 bar extraction setting.",
+          "description_ar": "استخدم ضغط الاستخلاص المنشور 9 bar.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        },
+        {
+          "title": "Beverage yield",
+          "title_ar": "وزن المشروب",
+          "description": "Target 47 g of espresso in the cup.",
+          "description_ar": "استهدف 47 g من مشروب الإسبريسو في الكوب.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        },
+        {
+          "title": "Shot time",
+          "title_ar": "زمن الشوت",
+          "description": "The source shot-time target is 23 seconds.",
+          "description_ar": "الزمن المستهدف للشوت في المصدر هو 23 ثانية.",
+          "duration_seconds": null,
+          "step_kind": "finish"
+        }
+      ],
+      "pours": [],
+      "source_brew_parameters": {
+        "manual": {
+          "espresso_yield_grams": 47,
+          "pressure_bar": 9,
+          "scalable": false,
+          "supporting_source_urls": [
+            "https://onyxcoffeelab.com/pages/discovery-box-guide"
+          ],
+          "line_pressure_phase_seconds_text": "0–3.5 s"
+        }
+      },
+      "verified_at": "2026-10-04",
+      "is_incomplete_source": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "كولومبيا، إثيوبيا",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "onyx-southern-weather-espresso",
+      "title": "Onyx Southern Weather — Espresso",
+      "title_ar": "ساوذرن ويذر — إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Southern Weather",
+      "coffee_name_ar": "ساوذرن ويذر",
+      "roaster_name": "Onyx Coffee Lab",
+      "roaster_name_ar": "أونيكس كوفي لاب",
+      "source_author_name": "Onyx Coffee Lab",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Honduras, Colombia, Ethiopia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Milk Chocolate",
+        "Plum",
+        "Candied Walnuts",
+        "Juicy & Citrus Finish"
+      ],
+      "flavor_notes_ar": [
+        "شوكولاتة بالحليب",
+        "برقوق",
+        "جوز مسكر",
+        "نهاية عصيرية وحمضية"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "fruity",
+        "nutty",
+        "citrus"
+      ],
+      "dose_grams": 20,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 25,
+      "grinder_setting": null,
+      "notes": "Espresso output is beverage yield, not input water; water_grams remains unreported. No water temperature is published. The discovery guide lists this shot time; the product page labels a line-pressure phase 0–3.5 s. That phase is not converted to a pressure or added to the published time.",
+      "notes_ar": "وزن الناتج هو وزن مشروب الإسبريسو وليس كمية ماء الإدخال؛ لذلك لا نسجله كماء التحضير. لم تُنشر حرارة الماء. يعرض دليل المجموعة زمن الشوت هذا، وتعرض صفحة البن مرحلة ضغط أولي 0–3.5 s؛ لا نحولها إلى ضغط ولا نضيفها إلى الزمن المنشور.",
+      "source_url": "https://onyxcoffeelab.com/products/southern-weather",
+      "source_author_url": "https://onyxcoffeelab.com",
+      "source_country_url": "https://onyxcoffeelab.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 20 g of this coffee.",
+          "description_ar": "زن 20 g من هذا البن.",
+          "duration_seconds": null,
+          "step_kind": "dose"
+        },
+        {
+          "title": "Extraction pressure",
+          "title_ar": "ضغط الاستخلاص",
+          "description": "Use the published 9 bar extraction setting.",
+          "description_ar": "استخدم ضغط الاستخلاص المنشور 9 bar.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        },
+        {
+          "title": "Beverage yield",
+          "title_ar": "وزن المشروب",
+          "description": "Target 45 g of espresso in the cup.",
+          "description_ar": "استهدف 45 g من مشروب الإسبريسو في الكوب.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        },
+        {
+          "title": "Shot time",
+          "title_ar": "زمن الشوت",
+          "description": "The source shot-time target is 25 seconds.",
+          "description_ar": "الزمن المستهدف للشوت في المصدر هو 25 ثانية.",
+          "duration_seconds": null,
+          "step_kind": "finish"
+        }
+      ],
+      "pours": [],
+      "source_brew_parameters": {
+        "manual": {
+          "espresso_yield_grams": 45,
+          "pressure_bar": 9,
+          "scalable": false,
+          "supporting_source_urls": [
+            "https://onyxcoffeelab.com/pages/discovery-box-guide"
+          ],
+          "line_pressure_phase_seconds_text": "0–3.5 s"
+        }
+      },
+      "verified_at": "2026-10-04",
+      "is_incomplete_source": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "هندوراس، كولومبيا، إثيوبيا",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "onyx-tropical-weather-espresso",
+      "title": "Onyx Tropical Weather — Espresso",
+      "title_ar": "تروبيكال ويذر — إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Tropical Weather",
+      "coffee_name_ar": "تروبيكال ويذر",
+      "roaster_name": "Onyx Coffee Lab",
+      "roaster_name_ar": "أونيكس كوفي لاب",
+      "source_author_name": "Onyx Coffee Lab",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Ethiopia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Mixed Berries",
+        "Sweet Tea",
+        "Raw Honey",
+        "Plum"
+      ],
+      "flavor_notes_ar": [
+        "توت مشكل",
+        "شاي محلى",
+        "عسل خام",
+        "برقوق"
+      ],
+      "flavor_families": [
+        "fruity",
+        "caramel"
+      ],
+      "dose_grams": 19,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 25,
+      "grinder_setting": null,
+      "notes": "Espresso output is beverage yield, not input water; water_grams remains unreported. No water temperature is published. The discovery guide lists this shot time; the product page labels a line-pressure phase 0–3.5 s. That phase is not converted to a pressure or added to the published time.",
+      "notes_ar": "وزن الناتج هو وزن مشروب الإسبريسو وليس كمية ماء الإدخال؛ لذلك لا نسجله كماء التحضير. لم تُنشر حرارة الماء. يعرض دليل المجموعة زمن الشوت هذا، وتعرض صفحة البن مرحلة ضغط أولي 0–3.5 s؛ لا نحولها إلى ضغط ولا نضيفها إلى الزمن المنشور.",
+      "source_url": "https://onyxcoffeelab.com/products/tropical-weather",
+      "source_author_url": "https://onyxcoffeelab.com",
+      "source_country_url": "https://onyxcoffeelab.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 19 g of this coffee.",
+          "description_ar": "زن 19 g من هذا البن.",
+          "duration_seconds": null,
+          "step_kind": "dose"
+        },
+        {
+          "title": "Extraction pressure",
+          "title_ar": "ضغط الاستخلاص",
+          "description": "Use the published 9 bar extraction setting.",
+          "description_ar": "استخدم ضغط الاستخلاص المنشور 9 bar.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        },
+        {
+          "title": "Beverage yield",
+          "title_ar": "وزن المشروب",
+          "description": "Target 45 g of espresso in the cup.",
+          "description_ar": "استهدف 45 g من مشروب الإسبريسو في الكوب.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        },
+        {
+          "title": "Shot time",
+          "title_ar": "زمن الشوت",
+          "description": "The source shot-time target is 25 seconds.",
+          "description_ar": "الزمن المستهدف للشوت في المصدر هو 25 ثانية.",
+          "duration_seconds": null,
+          "step_kind": "finish"
+        }
+      ],
+      "pours": [],
+      "source_brew_parameters": {
+        "manual": {
+          "espresso_yield_grams": 45,
+          "pressure_bar": 9,
+          "scalable": false,
+          "supporting_source_urls": [
+            "https://onyxcoffeelab.com/pages/discovery-box-guide"
+          ],
+          "line_pressure_phase_seconds_text": "0–3.5 s"
+        }
+      },
+      "verified_at": "2026-10-04",
+      "is_incomplete_source": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "إثيوبيا",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "onyx-geometry-espresso",
+      "title": "Onyx Geometry — Espresso",
+      "title_ar": "جيومتري — إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Geometry",
+      "coffee_name_ar": "جيومتري",
+      "roaster_name": "Onyx Coffee Lab",
+      "roaster_name_ar": "أونيكس كوفي لاب",
+      "source_author_name": "Onyx Coffee Lab",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Colombia, Ethiopia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Berries",
+        "Stone Fruit",
+        "Earl Grey",
+        "Honeysuckle",
+        "Round"
+      ],
+      "flavor_notes_ar": [
+        "توت",
+        "فاكهة ذات نواة",
+        "شاي إيرل غراي",
+        "زهر العسل",
+        "قوام متوازن"
+      ],
+      "flavor_families": [
+        "fruity",
+        "floral"
+      ],
+      "dose_grams": 20,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 26,
+      "grinder_setting": null,
+      "notes": "Espresso output is beverage yield, not input water; water_grams remains unreported. No water temperature is published. The discovery guide lists this shot time; the product page labels a line-pressure phase 0–3.5 s. That phase is not converted to a pressure or added to the published time.",
+      "notes_ar": "وزن الناتج هو وزن مشروب الإسبريسو وليس كمية ماء الإدخال؛ لذلك لا نسجله كماء التحضير. لم تُنشر حرارة الماء. يعرض دليل المجموعة زمن الشوت هذا، وتعرض صفحة البن مرحلة ضغط أولي 0–3.5 s؛ لا نحولها إلى ضغط ولا نضيفها إلى الزمن المنشور.",
+      "source_url": "https://onyxcoffeelab.com/products/geometry",
+      "source_author_url": "https://onyxcoffeelab.com",
+      "source_country_url": "https://onyxcoffeelab.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 20 g of this coffee.",
+          "description_ar": "زن 20 g من هذا البن.",
+          "duration_seconds": null,
+          "step_kind": "dose"
+        },
+        {
+          "title": "Extraction pressure",
+          "title_ar": "ضغط الاستخلاص",
+          "description": "Use the published 9 bar extraction setting.",
+          "description_ar": "استخدم ضغط الاستخلاص المنشور 9 bar.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        },
+        {
+          "title": "Beverage yield",
+          "title_ar": "وزن المشروب",
+          "description": "Target 47 g of espresso in the cup.",
+          "description_ar": "استهدف 47 g من مشروب الإسبريسو في الكوب.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        },
+        {
+          "title": "Shot time",
+          "title_ar": "زمن الشوت",
+          "description": "The source shot-time target is 26 seconds.",
+          "description_ar": "الزمن المستهدف للشوت في المصدر هو 26 ثانية.",
+          "duration_seconds": null,
+          "step_kind": "finish"
+        }
+      ],
+      "pours": [],
+      "source_brew_parameters": {
+        "manual": {
+          "espresso_yield_grams": 47,
+          "pressure_bar": 9,
+          "scalable": false,
+          "supporting_source_urls": [
+            "https://onyxcoffeelab.com/pages/discovery-box-guide"
+          ],
+          "line_pressure_phase_seconds_text": "0–3.5 s"
+        }
+      },
+      "verified_at": "2026-10-04",
+      "is_incomplete_source": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "كولومبيا، إثيوبيا",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "onyx-power-nap-espresso",
+      "title": "Onyx Power Nap — Espresso",
+      "title_ar": "باور ناب — إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Power Nap",
+      "coffee_name_ar": "باور ناب",
+      "roaster_name": "Onyx Coffee Lab",
+      "roaster_name_ar": "أونيكس كوفي لاب",
+      "source_author_name": "Onyx Coffee Lab",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Colombia, Ethiopia",
+      "coffee_type": "Half-caf blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Brown Sugar",
+        "Cocoa",
+        "Silky",
+        "Floral",
+        "Peach"
+      ],
+      "flavor_notes_ar": [
+        "سكر بني",
+        "كاكاو",
+        "قوام حريري",
+        "زهري",
+        "خوخ"
+      ],
+      "flavor_families": [
+        "caramel",
+        "chocolate",
+        "floral",
+        "fruity"
+      ],
+      "dose_grams": 19,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 25,
+      "grinder_setting": null,
+      "notes": "Espresso output is beverage yield, not input water; water_grams remains unreported. No water temperature is published. The discovery guide lists this shot time; the product page labels a line-pressure phase 0–3.5 s. That phase is not converted to a pressure or added to the published time.",
+      "notes_ar": "وزن الناتج هو وزن مشروب الإسبريسو وليس كمية ماء الإدخال؛ لذلك لا نسجله كماء التحضير. لم تُنشر حرارة الماء. يعرض دليل المجموعة زمن الشوت هذا، وتعرض صفحة البن مرحلة ضغط أولي 0–3.5 s؛ لا نحولها إلى ضغط ولا نضيفها إلى الزمن المنشور.",
+      "source_url": "https://onyxcoffeelab.com/products/power-nap",
+      "source_author_url": "https://onyxcoffeelab.com",
+      "source_country_url": "https://onyxcoffeelab.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 19 g of this coffee.",
+          "description_ar": "زن 19 g من هذا البن.",
+          "duration_seconds": null,
+          "step_kind": "dose"
+        },
+        {
+          "title": "Extraction pressure",
+          "title_ar": "ضغط الاستخلاص",
+          "description": "Use the published 9 bar extraction setting.",
+          "description_ar": "استخدم ضغط الاستخلاص المنشور 9 bar.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        },
+        {
+          "title": "Beverage yield",
+          "title_ar": "وزن المشروب",
+          "description": "Target 45 g of espresso in the cup.",
+          "description_ar": "استهدف 45 g من مشروب الإسبريسو في الكوب.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        },
+        {
+          "title": "Shot time",
+          "title_ar": "زمن الشوت",
+          "description": "The source shot-time target is 25 seconds.",
+          "description_ar": "الزمن المستهدف للشوت في المصدر هو 25 ثانية.",
+          "duration_seconds": null,
+          "step_kind": "finish"
+        }
+      ],
+      "pours": [],
+      "source_brew_parameters": {
+        "manual": {
+          "espresso_yield_grams": 45,
+          "pressure_bar": 9,
+          "scalable": false,
+          "supporting_source_urls": [
+            "https://onyxcoffeelab.com/pages/discovery-box-guide"
+          ],
+          "line_pressure_phase_seconds_text": "0–3.5 s"
+        }
+      },
+      "verified_at": "2026-10-04",
+      "is_incomplete_source": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "كولومبيا، إثيوبيا",
+      "coffee_type_ar": "خلطة نصف كافيين"
+    },
+    {
+      "slug": "verve-buena-espresso",
+      "title": "Verve Buena Vista Dark Roast — Espresso",
+      "title_ar": "بوينا فيستا — إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Buena Vista Dark Roast",
+      "coffee_name_ar": "بوينا فيستا",
+      "roaster_name": "Verve Coffee Roasters",
+      "roaster_name_ar": "فيرف كوفي روسترز",
+      "source_author_name": "Verve's Coffee Department",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Colombia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Chocolate",
+        "Red Apple",
+        "Maple"
+      ],
+      "flavor_notes_ar": [
+        "شوكولاتة",
+        "تفاح أحمر",
+        "شراب القيقب"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "fruity",
+        "caramel"
+      ],
+      "dose_grams": null,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": "Fine",
+      "notes": "Espresso output is beverage yield, not input water; water_grams remains unreported. Ranges are preserved as published. Temperature and pressure are not given.",
+      "notes_ar": "وزن الناتج هو وزن مشروب الإسبريسو وليس كمية ماء الإدخال؛ لذلك لا نسجله كماء التحضير. حُفظت النطاقات كما نشرها المصدر؛ الحرارة والضغط غير منشورين.",
+      "source_url": "https://www.vervecoffee.com/products/buena-vista-dark-roast",
+      "source_author_url": "https://www.vervecoffee.com",
+      "source_country_url": "https://www.vervecoffee.com/pages/story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 18.7–19 g of this coffee.",
+          "description_ar": "زن 18.7–19 g من هذا البن.",
+          "duration_seconds": null,
+          "step_kind": "dose"
+        },
+        {
+          "title": "Grind",
+          "title_ar": "الطحن",
+          "description": "Use the source grind: Fine.",
+          "description_ar": "استخدم وصف الطحن المنشور: Fine.",
+          "duration_seconds": null,
+          "step_kind": "grind"
+        },
+        {
+          "title": "Beverage yield",
+          "title_ar": "وزن المشروب",
+          "description": "Target 33–36 g of espresso in the cup.",
+          "description_ar": "استهدف 33–36 g من مشروب الإسبريسو في الكوب.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        },
+        {
+          "title": "Shot time",
+          "title_ar": "زمن الشوت",
+          "description": "The source shot-time target is 23–27 seconds.",
+          "description_ar": "الزمن المستهدف للشوت في المصدر هو 23–27 ثانية.",
+          "duration_seconds": null,
+          "step_kind": "finish"
+        }
+      ],
+      "pours": [],
+      "source_brew_parameters": {
+        "manual": {
+          "espresso_yield_min_grams": 33,
+          "espresso_yield_max_grams": 36,
+          "dose_min_grams": 18.7,
+          "dose_max_grams": 19,
+          "time_min_seconds": 23,
+          "time_max_seconds": 27,
+          "scalable": false
+        }
+      },
+      "verified_at": "2026-10-04",
+      "is_incomplete_source": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "كولومبيا",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "verve-sermon-espresso",
+      "title": "Verve Sermon — Espresso",
+      "title_ar": "سيرمون — إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Sermon",
+      "coffee_name_ar": "سيرمون",
+      "roaster_name": "Verve Coffee Roasters",
+      "roaster_name_ar": "فيرف كوفي روسترز",
+      "source_author_name": "Verve's Coffee Department",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Colombia, East Africa",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Blueberry Pie",
+        "Cocoa",
+        "Candied Pecan"
+      ],
+      "flavor_notes_ar": [
+        "فطيرة التوت الأزرق",
+        "كاكاو",
+        "بيكان مسكر"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate",
+        "nutty"
+      ],
+      "dose_grams": null,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": "Fine",
+      "notes": "Espresso output is beverage yield, not input water; water_grams remains unreported. Ranges are preserved as published. Temperature and pressure are not given.",
+      "notes_ar": "وزن الناتج هو وزن مشروب الإسبريسو وليس كمية ماء الإدخال؛ لذلك لا نسجله كماء التحضير. حُفظت النطاقات كما نشرها المصدر؛ الحرارة والضغط غير منشورين.",
+      "source_url": "https://www.vervecoffee.com/products/sermon",
+      "source_author_url": "https://www.vervecoffee.com",
+      "source_country_url": "https://www.vervecoffee.com/pages/story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 19.7–20 g of this coffee.",
+          "description_ar": "زن 19.7–20 g من هذا البن.",
+          "duration_seconds": null,
+          "step_kind": "dose"
+        },
+        {
+          "title": "Grind",
+          "title_ar": "الطحن",
+          "description": "Use the source grind: Fine.",
+          "description_ar": "استخدم وصف الطحن المنشور: Fine.",
+          "duration_seconds": null,
+          "step_kind": "grind"
+        },
+        {
+          "title": "Beverage yield",
+          "title_ar": "وزن المشروب",
+          "description": "Target 28–32 g of espresso in the cup.",
+          "description_ar": "استهدف 28–32 g من مشروب الإسبريسو في الكوب.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        },
+        {
+          "title": "Shot time",
+          "title_ar": "زمن الشوت",
+          "description": "The source shot-time target is 23–26 seconds.",
+          "description_ar": "الزمن المستهدف للشوت في المصدر هو 23–26 ثانية.",
+          "duration_seconds": null,
+          "step_kind": "finish"
+        }
+      ],
+      "pours": [],
+      "source_brew_parameters": {
+        "manual": {
+          "espresso_yield_min_grams": 28,
+          "espresso_yield_max_grams": 32,
+          "dose_min_grams": 19.7,
+          "dose_max_grams": 20,
+          "time_min_seconds": 23,
+          "time_max_seconds": 26,
+          "scalable": false
+        }
+      },
+      "verified_at": "2026-10-04",
+      "is_incomplete_source": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "كولومبيا، شرق أفريقيا",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "verve-streetlevel-espresso",
+      "title": "Verve Streetlevel — Espresso",
+      "title_ar": "ستريت ليفل — إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Streetlevel",
+      "coffee_name_ar": "ستريت ليفل",
+      "roaster_name": "Verve Coffee Roasters",
+      "roaster_name_ar": "فيرف كوفي روسترز",
+      "source_author_name": "Verve's Coffee Department",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Honduras, Guatemala, Colombia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Clementine",
+        "Red Apple",
+        "Honeycomb"
+      ],
+      "flavor_notes_ar": [
+        "كلمنتينا",
+        "تفاح أحمر",
+        "قرص عسل"
+      ],
+      "flavor_families": [
+        "citrus",
+        "fruity",
+        "caramel"
+      ],
+      "dose_grams": null,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": "Fine",
+      "notes": "Espresso output is beverage yield, not input water; water_grams remains unreported. Ranges are preserved as published. Temperature and pressure are not given.",
+      "notes_ar": "وزن الناتج هو وزن مشروب الإسبريسو وليس كمية ماء الإدخال؛ لذلك لا نسجله كماء التحضير. حُفظت النطاقات كما نشرها المصدر؛ الحرارة والضغط غير منشورين.",
+      "source_url": "https://www.vervecoffee.com/products/streetlevel",
+      "source_author_url": "https://www.vervecoffee.com",
+      "source_country_url": "https://www.vervecoffee.com/pages/story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 19.5–20.1 g of this coffee.",
+          "description_ar": "زن 19.5–20.1 g من هذا البن.",
+          "duration_seconds": null,
+          "step_kind": "dose"
+        },
+        {
+          "title": "Grind",
+          "title_ar": "الطحن",
+          "description": "Use the source grind: Fine.",
+          "description_ar": "استخدم وصف الطحن المنشور: Fine.",
+          "duration_seconds": null,
+          "step_kind": "grind"
+        },
+        {
+          "title": "Beverage yield",
+          "title_ar": "وزن المشروب",
+          "description": "Target 27–32 g of espresso in the cup.",
+          "description_ar": "استهدف 27–32 g من مشروب الإسبريسو في الكوب.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        },
+        {
+          "title": "Shot time",
+          "title_ar": "زمن الشوت",
+          "description": "The source shot-time target is 23–26 seconds.",
+          "description_ar": "الزمن المستهدف للشوت في المصدر هو 23–26 ثانية.",
+          "duration_seconds": null,
+          "step_kind": "finish"
+        }
+      ],
+      "pours": [],
+      "source_brew_parameters": {
+        "manual": {
+          "espresso_yield_min_grams": 27,
+          "espresso_yield_max_grams": 32,
+          "dose_min_grams": 19.5,
+          "dose_max_grams": 20.1,
+          "time_min_seconds": 23,
+          "time_max_seconds": 26,
+          "scalable": false
+        }
+      },
+      "verified_at": "2026-10-04",
+      "is_incomplete_source": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "هندوراس، غواتيمالا، كولومبيا",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "verve-buena-french-press",
+      "title": "Verve Buena Vista Dark Roast — French Press",
+      "title_ar": "بوينا فيستا — فرنش برس",
+      "brew_method": "french_press",
+      "coffee_name": "Buena Vista Dark Roast",
+      "coffee_name_ar": "بوينا فيستا",
+      "roaster_name": "Verve Coffee Roasters",
+      "roaster_name_ar": "فيرف كوفي روسترز",
+      "source_author_name": "Verve's Coffee Department",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Colombia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Chocolate",
+        "Red Apple",
+        "Maple"
+      ],
+      "flavor_notes_ar": [
+        "شوكولاتة",
+        "تفاح أحمر",
+        "شراب القيقب"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "fruity",
+        "caramel"
+      ],
+      "dose_grams": 35,
+      "water_grams": 525,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 270,
+      "grinder_setting": "Medium",
+      "notes": "The product publishes dose, grind, water and time, but no timed stirring/pouring sequence or water temperature. These are a concise rendering of that specification, not an invented staged recipe.",
+      "notes_ar": "تنشر صفحة البن الجرعة والطحن والماء والزمن فقط، ولا تنشر حرارة أو جدول تحريك وصب. الخطوات صياغة مختصرة لهذه الإعدادات.",
+      "source_url": "https://www.vervecoffee.com/products/buena-vista-dark-roast",
+      "source_author_url": "https://www.vervecoffee.com",
+      "source_country_url": "https://www.vervecoffee.com/pages/story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 35 g of this coffee.",
+          "description_ar": "زن 35 g من هذا البن.",
+          "duration_seconds": null,
+          "step_kind": "dose"
+        },
+        {
+          "title": "Grind",
+          "title_ar": "الطحن",
+          "description": "Use a medium grind.",
+          "description_ar": "استخدم طحنًا متوسط.",
+          "duration_seconds": null,
+          "step_kind": "grind"
+        },
+        {
+          "title": "Water",
+          "title_ar": "الماء",
+          "description": "Use 525 g water in a French press; the source does not specify temperature.",
+          "description_ar": "استخدم 525 g ماء في الفرنش برس؛ لا يحدد المصدر الحرارة.",
+          "duration_seconds": null,
+          "step_kind": "pour"
+        },
+        {
+          "title": "Brew time",
+          "title_ar": "وقت التحضير",
+          "description": "Target 4:30; intermediate actions are not specified.",
+          "description_ar": "استهدف 4:30؛ لم تُحدد خطوات وسطية.",
+          "duration_seconds": null,
+          "step_kind": "finish"
+        }
+      ],
+      "pours": [],
+      "source_brew_parameters": {
+        "manual": {
+          "parameter_only_source": true,
+          "grind_ar": "متوسط",
+          "scalable": true,
+          "source_ratio_text": "1:15"
+        }
+      },
+      "verified_at": "2026-10-04",
+      "is_incomplete_source": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "كولومبيا",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "verve-sermon-french-press",
+      "title": "Verve Sermon — French Press",
+      "title_ar": "سيرمون — فرنش برس",
+      "brew_method": "french_press",
+      "coffee_name": "Sermon",
+      "coffee_name_ar": "سيرمون",
+      "roaster_name": "Verve Coffee Roasters",
+      "roaster_name_ar": "فيرف كوفي روسترز",
+      "source_author_name": "Verve's Coffee Department",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Colombia, East Africa",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Blueberry Pie",
+        "Cocoa",
+        "Candied Pecan"
+      ],
+      "flavor_notes_ar": [
+        "فطيرة التوت الأزرق",
+        "كاكاو",
+        "بيكان مسكر"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate",
+        "nutty"
+      ],
+      "dose_grams": 35,
+      "water_grams": 500,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 300,
+      "grinder_setting": "Coarse",
+      "notes": "The product publishes dose, grind, water and time, but no timed stirring/pouring sequence or water temperature. These are a concise rendering of that specification, not an invented staged recipe.",
+      "notes_ar": "تنشر صفحة البن الجرعة والطحن والماء والزمن فقط، ولا تنشر حرارة أو جدول تحريك وصب. الخطوات صياغة مختصرة لهذه الإعدادات.",
+      "source_url": "https://www.vervecoffee.com/products/sermon",
+      "source_author_url": "https://www.vervecoffee.com",
+      "source_country_url": "https://www.vervecoffee.com/pages/story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 35 g of this coffee.",
+          "description_ar": "زن 35 g من هذا البن.",
+          "duration_seconds": null,
+          "step_kind": "dose"
+        },
+        {
+          "title": "Grind",
+          "title_ar": "الطحن",
+          "description": "Use a coarse grind.",
+          "description_ar": "استخدم طحنًا خشن.",
+          "duration_seconds": null,
+          "step_kind": "grind"
+        },
+        {
+          "title": "Water",
+          "title_ar": "الماء",
+          "description": "Use 500 g water in a French press; the source does not specify temperature.",
+          "description_ar": "استخدم 500 g ماء في الفرنش برس؛ لا يحدد المصدر الحرارة.",
+          "duration_seconds": null,
+          "step_kind": "pour"
+        },
+        {
+          "title": "Brew time",
+          "title_ar": "وقت التحضير",
+          "description": "Target 5:00; intermediate actions are not specified.",
+          "description_ar": "استهدف 5:00؛ لم تُحدد خطوات وسطية.",
+          "duration_seconds": null,
+          "step_kind": "finish"
+        }
+      ],
+      "pours": [],
+      "source_brew_parameters": {
+        "manual": {
+          "parameter_only_source": true,
+          "grind_ar": "خشن",
+          "scalable": true,
+          "source_ratio_text": "1:14 (rounded in source)"
+        }
+      },
+      "verified_at": "2026-10-04",
+      "is_incomplete_source": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "كولومبيا، شرق أفريقيا",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "verve-streetlevel-french-press",
+      "title": "Verve Streetlevel — French Press",
+      "title_ar": "ستريت ليفل — فرنش برس",
+      "brew_method": "french_press",
+      "coffee_name": "Streetlevel",
+      "coffee_name_ar": "ستريت ليفل",
+      "roaster_name": "Verve Coffee Roasters",
+      "roaster_name_ar": "فيرف كوفي روسترز",
+      "source_author_name": "Verve's Coffee Department",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Honduras, Guatemala, Colombia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Clementine",
+        "Red Apple",
+        "Honeycomb"
+      ],
+      "flavor_notes_ar": [
+        "كلمنتينا",
+        "تفاح أحمر",
+        "قرص عسل"
+      ],
+      "flavor_families": [
+        "citrus",
+        "fruity",
+        "caramel"
+      ],
+      "dose_grams": 35,
+      "water_grams": 500,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 300,
+      "grinder_setting": "Medium",
+      "notes": "The product publishes dose, grind, water and time, but no timed stirring/pouring sequence or water temperature. These are a concise rendering of that specification, not an invented staged recipe.",
+      "notes_ar": "تنشر صفحة البن الجرعة والطحن والماء والزمن فقط، ولا تنشر حرارة أو جدول تحريك وصب. الخطوات صياغة مختصرة لهذه الإعدادات.",
+      "source_url": "https://www.vervecoffee.com/products/streetlevel",
+      "source_author_url": "https://www.vervecoffee.com",
+      "source_country_url": "https://www.vervecoffee.com/pages/story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 35 g of this coffee.",
+          "description_ar": "زن 35 g من هذا البن.",
+          "duration_seconds": null,
+          "step_kind": "dose"
+        },
+        {
+          "title": "Grind",
+          "title_ar": "الطحن",
+          "description": "Use a medium grind.",
+          "description_ar": "استخدم طحنًا متوسط.",
+          "duration_seconds": null,
+          "step_kind": "grind"
+        },
+        {
+          "title": "Water",
+          "title_ar": "الماء",
+          "description": "Use 500 g water in a French press; the source does not specify temperature.",
+          "description_ar": "استخدم 500 g ماء في الفرنش برس؛ لا يحدد المصدر الحرارة.",
+          "duration_seconds": null,
+          "step_kind": "pour"
+        },
+        {
+          "title": "Brew time",
+          "title_ar": "وقت التحضير",
+          "description": "Target 5:00; intermediate actions are not specified.",
+          "description_ar": "استهدف 5:00؛ لم تُحدد خطوات وسطية.",
+          "duration_seconds": null,
+          "step_kind": "finish"
+        }
+      ],
+      "pours": [],
+      "source_brew_parameters": {
+        "manual": {
+          "parameter_only_source": true,
+          "grind_ar": "متوسط",
+          "scalable": true,
+          "source_ratio_text": "1:14 (rounded in source)"
+        }
+      },
+      "verified_at": "2026-10-04",
+      "is_incomplete_source": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "هندوراس، غواتيمالا، كولومبيا",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "verve-seabright-aeropress",
+      "title": "Verve Seabright — AeroPress",
+      "title_ar": "فيرف سيبرايت — إيروبريس",
+      "brew_method": "aeropress",
+      "coffee_name": "Seabright House Blend",
+      "coffee_name_ar": "سيبرايت",
+      "roaster_name": "Verve Coffee Roasters",
+      "roaster_name_ar": "فيرف كوفي روسترز",
+      "source_author_name": "Verve's Coffee Department",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "El Salvador, Guatemala",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Honeydew",
+        "Apricot",
+        "Hazelnut"
+      ],
+      "flavor_notes_ar": [
+        "شمام عسلي",
+        "مشمش",
+        "بندق"
+      ],
+      "flavor_families": [
+        "fruity",
+        "nutty"
+      ],
+      "dose_grams": 17,
+      "water_grams": 255,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 134,
+      "grinder_setting": "Med/Fine",
+      "notes": "Product parameters only: no inverted/upright orientation, temperature, stirring schedule, or pressing interval is published.",
+      "notes_ar": "إعدادات صفحة البن فقط؛ لم تُنشر وضعية الأداة أو الحرارة أو جدول التحريك أو فترة الضغط.",
+      "source_url": "https://www.vervecoffee.com/products/seabright-house-blend",
+      "source_author_url": "https://www.vervecoffee.com",
+      "source_country_url": "https://www.vervecoffee.com/pages/story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Use 17 g Seabright coffee.",
+          "description_ar": "استخدم 17 g من بن سيبرايت.",
+          "duration_seconds": null,
+          "step_kind": "dose"
+        },
+        {
+          "title": "Grind",
+          "title_ar": "الطحن",
+          "description": "Use the published medium/fine grind.",
+          "description_ar": "استخدم الطحن المتوسط الناعم المنشور.",
+          "duration_seconds": null,
+          "step_kind": "grind"
+        },
+        {
+          "title": "Water",
+          "title_ar": "الماء",
+          "description": "Use 255 g water; temperature is not stated.",
+          "description_ar": "استخدم 255 g ماء؛ لم تُحدد الحرارة.",
+          "duration_seconds": null,
+          "step_kind": "pour"
+        },
+        {
+          "title": "Brew time",
+          "title_ar": "وقت التحضير",
+          "description": "The AeroPress target is 2:14; the source does not split this into steep and press stages.",
+          "description_ar": "الزمن المستهدف للإيروبريس 2:14؛ لا يفصل المصدر بين النقع والضغط.",
+          "duration_seconds": null,
+          "step_kind": "finish"
+        }
+      ],
+      "pours": [],
+      "source_brew_parameters": {
+        "manual": {
+          "parameter_only_source": true,
+          "scalable": false,
+          "source_ratio_text": "1:15"
+        }
+      },
+      "verified_at": "2026-10-04",
+      "is_incomplete_source": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "السلفادور، غواتيمالا",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "49th-parallel-epic-espresso",
+      "title": "49th Parallel Epic — Espresso",
+      "title_ar": "إبيك إسبريسو — إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Epic Espresso",
+      "coffee_name_ar": "إبيك إسبريسو",
+      "roaster_name": "49th Parallel Coffee Roasters",
+      "roaster_name_ar": "49 بارالل",
+      "source_author_name": "49th Parallel Coffee Roasters",
+      "creator_country": "Canada",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Guatemala, Rwanda",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Clean",
+        "Floral",
+        "Sweet"
+      ],
+      "flavor_notes_ar": [
+        "نظيف",
+        "زهري",
+        "حلو"
+      ],
+      "flavor_families": [
+        "floral"
+      ],
+      "dose_grams": 18,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": 93.3,
+      "water_temp_c_max": 93.9,
+      "total_time_seconds": null,
+      "grinder_setting": null,
+      "notes": "Espresso output is beverage yield, not input water; water_grams remains unreported. The same roaster specification is also published on Old School and Blue Sky product pages. It is imported once, with applicable coffees recorded, to avoid inflating the recipe count.",
+      "notes_ar": "وزن الناتج هو وزن مشروب الإسبريسو وليس كمية ماء الإدخال؛ لذلك لا نسجله كماء التحضير. تنشر المحمصة الإعدادات نفسها لبن أولد سكول وبلو سكاي؛ سُجلت كوصفة واحدة مع أسماء أنواع البن المناسبة لتجنب تكرار الوصفة.",
+      "source_url": "https://49thcoffee.com/products/epic-espresso",
+      "source_author_url": "https://49thcoffee.com",
+      "source_country_url": "https://49thcoffee.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 18 g of this coffee.",
+          "description_ar": "زن 18 g من هذا البن.",
+          "duration_seconds": null,
+          "step_kind": "dose"
+        },
+        {
+          "title": "Temperature",
+          "title_ar": "الحرارة",
+          "description": "Set the grouphead within 200–201°F.",
+          "description_ar": "اضبط حرارة رأس المجموعة ضمن 200–201°F.",
+          "duration_seconds": null,
+          "step_kind": "prepare"
+        },
+        {
+          "title": "Extraction pressure",
+          "title_ar": "ضغط الاستخلاص",
+          "description": "Use the published 9 bar extraction setting.",
+          "description_ar": "استخدم ضغط الاستخلاص المنشور 9 bar.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        },
+        {
+          "title": "Beverage yield",
+          "title_ar": "وزن المشروب",
+          "description": "Target 37–39 g of espresso in the cup.",
+          "description_ar": "استهدف 37–39 g من مشروب الإسبريسو في الكوب.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        },
+        {
+          "title": "Shot time",
+          "title_ar": "زمن الشوت",
+          "description": "The source shot-time target is 28–32 seconds.",
+          "description_ar": "الزمن المستهدف للشوت في المصدر هو 28–32 ثانية.",
+          "duration_seconds": null,
+          "step_kind": "finish"
+        }
+      ],
+      "pours": [],
+      "source_brew_parameters": {
+        "manual": {
+          "espresso_yield_min_grams": 37,
+          "espresso_yield_max_grams": 39,
+          "time_min_seconds": 28,
+          "time_max_seconds": 32,
+          "pressure_bar": 9,
+          "source_temperature_range_f": [
+            200,
+            201
+          ],
+          "scalable": false,
+          "supporting_source_urls": [
+            "https://49thcoffee.com/products/epic-espresso",
+            "https://49thcoffee.com/products/old-school-espresso",
+            "https://49thcoffee.com/products/blue-sky-espresso"
+          ],
+          "parameter_only_source": true
+        }
+      },
+      "verified_at": "2026-10-04",
+      "is_incomplete_source": true,
+      "applicable_coffees": [
+        "Epic Espresso",
+        "Old School Espresso",
+        "Blue Sky Espresso"
+      ],
+      "creator_country_ar": "كندا",
+      "coffee_origin_ar": "غواتيمالا، رواندا",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "counter-culture-big-trouble-espresso",
+      "title": "Counter Culture Big Trouble — Espresso",
+      "title_ar": "بيغ ترابل — إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Big Trouble",
+      "coffee_name_ar": "بيغ ترابل",
+      "roaster_name": "Counter Culture Coffee",
+      "roaster_name_ar": "كاونتر كالتشر",
+      "source_author_name": "Counter Culture Coffee",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "El Salvador, Nicaragua",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Nutty",
+        "Caramel",
+        "Chocolate"
+      ],
+      "flavor_notes_ar": [
+        "إيحاء مكسرات",
+        "كراميل",
+        "شوكولاتة"
+      ],
+      "flavor_families": [
+        "nutty",
+        "caramel",
+        "chocolate"
+      ],
+      "dose_grams": 18,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": "Extra-fine",
+      "notes": "Espresso output is beverage yield, not input water; water_grams remains unreported. 36 g beverage yield is calculated from the published 18 g dose and 1:2 ratio. Stop extraction a few grams before the final target to allow drips. The source permits taste-based ratios 1:1.5–1:2.5.",
+      "notes_ar": "وزن الناتج هو وزن مشروب الإسبريسو وليس كمية ماء الإدخال؛ لذلك لا نسجله كماء التحضير. ناتج 36 g محسوب من الجرعة المنشورة 18 g ونسبة 1:2. يوصي المصدر بإيقاف التدفق قبل الهدف ببضعة غرامات لاستيعاب التنقيط، مع تعديل النسبة حسب الطعم ضمن 1:1.5–1:2.5.",
+      "source_url": "https://counterculturecoffee.com/products/big-trouble",
+      "source_author_url": "https://counterculturecoffee.com",
+      "source_country_url": "https://counterculturecoffee.com/pages/history",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Weigh and grind",
+          "title_ar": "الوزن والطحن",
+          "description": "Dose 18 g and grind extra-fine.",
+          "description_ar": "زن 18 g واطحن بدرجة ناعمة جدًا.",
+          "duration_seconds": null,
+          "step_kind": "grind"
+        },
+        {
+          "title": "Distribute and tamp",
+          "title_ar": "التوزيع والكبس",
+          "description": "Level the grounds and tamp evenly.",
+          "description_ar": "سوِّ طبقة البن واكبس بالتساوي.",
+          "duration_seconds": null,
+          "step_kind": "prepare"
+        },
+        {
+          "title": "Flush the group",
+          "title_ar": "شطف المجموعة",
+          "description": "Briefly flush the grouphead before inserting the portafilter.",
+          "description_ar": "اشطف رأس المجموعة سريعًا قبل تثبيت البورتافلتر.",
+          "duration_seconds": null,
+          "step_kind": "rinse"
+        },
+        {
+          "title": "Extract",
+          "title_ar": "الاستخلاص",
+          "description": "Target a final 1:2 ratio (36 g); stop slightly early for the remaining drips.",
+          "description_ar": "استهدف نسبة نهائية 1:2 أي 36 g؛ أوقف التدفق مبكرًا قليلًا لاستيعاب التنقيط.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        },
+        {
+          "title": "Check the time and taste",
+          "title_ar": "مراجعة الزمن والطعم",
+          "description": "A shot below 25 s suggests a finer grind; above 35 s suggests coarser. Adjust by taste.",
+          "description_ar": "أقل من 25 s يستدعي تجربة طحن أنعم، وأكثر من 35 s طحنًا أخشن؛ ثم عدّل حسب الطعم.",
+          "duration_seconds": null,
+          "step_kind": "finish"
+        }
+      ],
+      "pours": [],
+      "source_brew_parameters": {
+        "manual": {
+          "espresso_yield_grams": 36,
+          "time_min_seconds": 25,
+          "time_max_seconds": 35,
+          "scalable": false,
+          "yield_calculation": "18 g × 2 = 36 g",
+          "source_ratio": "1:2",
+          "taste_adjustment_ratio_min": 1.5,
+          "taste_adjustment_ratio_max": 2.5
+        }
+      },
+      "verified_at": "2026-10-04",
+      "is_incomplete_source": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "السلفادور، نيكاراغوا",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "cat-cloud-answer-espresso",
+      "title": "Cat & Cloud The Answer — Espresso",
+      "title_ar": "ذا آنسر — إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "The Answer",
+      "coffee_name_ar": "ذا آنسر",
+      "roaster_name": "Cat & Cloud",
+      "roaster_name_ar": "كات آند كلاود",
+      "source_author_name": "Cat & Cloud",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Central America & Africa",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Caramel",
+        "Berries",
+        "Chocolate"
+      ],
+      "flavor_notes_ar": [
+        "كراميل",
+        "توت",
+        "شوكولاتة"
+      ],
+      "flavor_families": [
+        "caramel",
+        "fruity",
+        "chocolate"
+      ],
+      "dose_grams": null,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": null,
+      "notes": "Espresso output is beverage yield, not input water; water_grams remains unreported. Temperature, pressure and grind setting are not specified.",
+      "notes_ar": "وزن الناتج هو وزن مشروب الإسبريسو وليس كمية ماء الإدخال؛ لذلك لا نسجله كماء التحضير. لم تُنشر الحرارة أو الضغط أو درجة طاحونة.",
+      "source_url": "https://catandcloud.com/products/answer",
+      "source_author_url": "https://catandcloud.com",
+      "source_country_url": "https://catandcloud.com/pages/about-us",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 18.5–19 g of this coffee.",
+          "description_ar": "زن 18.5–19 g من هذا البن.",
+          "duration_seconds": null,
+          "step_kind": "dose"
+        },
+        {
+          "title": "Beverage yield",
+          "title_ar": "وزن المشروب",
+          "description": "Target 32–34 g of espresso in the cup.",
+          "description_ar": "استهدف 32–34 g من مشروب الإسبريسو في الكوب.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        },
+        {
+          "title": "Shot time",
+          "title_ar": "زمن الشوت",
+          "description": "The source shot-time target is 25–30 seconds.",
+          "description_ar": "الزمن المستهدف للشوت في المصدر هو 25–30 ثانية.",
+          "duration_seconds": null,
+          "step_kind": "finish"
+        }
+      ],
+      "pours": [],
+      "source_brew_parameters": {
+        "manual": {
+          "espresso_yield_min_grams": 32,
+          "espresso_yield_max_grams": 34,
+          "dose_min_grams": 18.5,
+          "dose_max_grams": 19,
+          "time_min_seconds": 25,
+          "time_max_seconds": 30,
+          "scalable": false
+        }
+      },
+      "verified_at": "2026-10-04",
+      "is_incomplete_source": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "أمريكا الوسطى وأفريقيا",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "cat-cloud-the-best-friends-blend-espresso",
+      "title": "Cat & Cloud The Best Friends Blend — Espresso",
+      "title_ar": "بيست فريندز بليند — إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "The Best Friends Blend",
+      "coffee_name_ar": "بيست فريندز بليند",
+      "roaster_name": "Cat & Cloud",
+      "roaster_name_ar": "كات آند كلاود",
+      "source_author_name": "Cat & Cloud",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Honduras, Ethiopia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Key Lime",
+        "Apple",
+        "White Wine"
+      ],
+      "flavor_notes_ar": [
+        "ليمون أخضر",
+        "تفاح",
+        "إيحاء نبيذي أبيض"
+      ],
+      "flavor_families": [
+        "citrus",
+        "fruity"
+      ],
+      "dose_grams": null,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": null,
+      "notes": "Espresso output is beverage yield, not input water; water_grams remains unreported. Temperature, pressure and grind setting are not specified. The current Best Friends blend listing applies to bags dated after 2026-09-04.",
+      "notes_ar": "وزن الناتج هو وزن مشروب الإسبريسو وليس كمية ماء الإدخال؛ لذلك لا نسجله كماء التحضير. لم تُنشر الحرارة أو الضغط أو درجة طاحونة. الخلطة الحالية لبيست فريندز تخص العبوات المحمصة بعد 2026-09-04.",
+      "source_url": "https://catandcloud.com/products/the-best-friends-blend",
+      "source_author_url": "https://catandcloud.com",
+      "source_country_url": "https://catandcloud.com/pages/about-us",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 18.8–19.1 g of this coffee.",
+          "description_ar": "زن 18.8–19.1 g من هذا البن.",
+          "duration_seconds": null,
+          "step_kind": "dose"
+        },
+        {
+          "title": "Beverage yield",
+          "title_ar": "وزن المشروب",
+          "description": "Target 40–45 g of espresso in the cup.",
+          "description_ar": "استهدف 40–45 g من مشروب الإسبريسو في الكوب.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        },
+        {
+          "title": "Shot time",
+          "title_ar": "زمن الشوت",
+          "description": "The source shot-time target is 27–30 seconds.",
+          "description_ar": "الزمن المستهدف للشوت في المصدر هو 27–30 ثانية.",
+          "duration_seconds": null,
+          "step_kind": "finish"
+        }
+      ],
+      "pours": [],
+      "source_brew_parameters": {
+        "manual": {
+          "espresso_yield_min_grams": 40,
+          "espresso_yield_max_grams": 45,
+          "dose_min_grams": 18.8,
+          "dose_max_grams": 19.1,
+          "time_min_seconds": 27,
+          "time_max_seconds": 30,
+          "scalable": false
+        }
+      },
+      "verified_at": "2026-10-04",
+      "is_incomplete_source": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "هندوراس، إثيوبيا",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "olympia-big-truck-reyna-espresso",
+      "title": "Olympia Big Truck — Espresso",
+      "title_ar": "بيغ ترك — إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Big Truck",
+      "coffee_name_ar": "بيغ ترك",
+      "roaster_name": "Olympia Coffee",
+      "roaster_name_ar": "أولمبيا كوفي",
+      "source_author_name": "Reyna Callejo — Olympia Coffee",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Colombia, Ethiopia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Chocolate",
+        "Caramel",
+        "Berries"
+      ],
+      "flavor_notes_ar": [
+        "شوكولاتة",
+        "كراميل",
+        "توت"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "caramel",
+        "fruity"
+      ],
+      "dose_grams": 18,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": null,
+      "notes": "Espresso output is beverage yield, not input water; water_grams remains unreported. Source recommends an 18 g starting dose and a 1:2–1:2.3 ratio for Big Truck and Sweetheart. Time, temperature and pressure are not supplied; no timer target is fabricated.",
+      "notes_ar": "وزن الناتج هو وزن مشروب الإسبريسو وليس كمية ماء الإدخال؛ لذلك لا نسجله كماء التحضير. توصي رينا بجرعة بداية 18 g ونسبة 1:2–1:2.3 لبن بيغ ترك وسويتهارت. لم تنشر زمنًا أو حرارة أو ضغطًا.",
+      "source_url": "https://www.olympiacoffee.com/blogs/brewing-methods/espresso-week-an-illustrated-guide-to-better-espresso",
+      "source_author_url": "https://www.olympiacoffee.com",
+      "source_country_url": "https://www.olympiacoffee.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Start with 18 g Big Truck coffee.",
+          "description_ar": "ابدأ بجرعة 18 g من بيغ ترك.",
+          "duration_seconds": null,
+          "step_kind": "dose"
+        },
+        {
+          "title": "Ratio",
+          "title_ar": "النسبة",
+          "description": "Aim for a beverage-to-dose multiplier within 2–2.3.",
+          "description_ar": "استهدف وزن مشروب يساوي 2–2.3 ضعف جرعة البن.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        },
+        {
+          "title": "Adjust one variable",
+          "title_ar": "عدّل متغيرًا واحدًا",
+          "description": "Change only one of grind, time, or ratio between attempts.",
+          "description_ar": "غيّر واحدًا فقط من الطحن أو الزمن أو النسبة بين المحاولات.",
+          "duration_seconds": null,
+          "step_kind": "finish"
+        }
+      ],
+      "pours": [],
+      "source_brew_parameters": {
+        "manual": {
+          "scalable": false,
+          "source_brew_ratio_min": 2,
+          "source_brew_ratio_max": 2.3,
+          "parameter_only_source": true
+        }
+      },
+      "verified_at": "2026-10-04",
+      "is_incomplete_source": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "كولومبيا، إثيوبيا",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "intelligentsia-black-cat-classic-espresso",
+      "title": "Intelligentsia Black Cat Classic — Espresso",
+      "title_ar": "بلاك كات كلاسيك إسبريسو — إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Black Cat Classic Espresso",
+      "coffee_name_ar": "بلاك كات كلاسيك إسبريسو",
+      "roaster_name": "Intelligentsia Coffee",
+      "roaster_name_ar": "إنتليجنسيا",
+      "source_author_name": "Intelligentsia Coffee",
+      "creator_country": "United States",
+      "creator_country_basis": "documented_roaster_base",
+      "recipe_country": null,
+      "coffee_origin": "Brazil (Carmo de Minas)",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Cherry",
+        "Cola",
+        "Orange"
+      ],
+      "flavor_notes_ar": [
+        "كرز",
+        "كولا",
+        "برتقال"
+      ],
+      "flavor_families": [
+        "fruity",
+        "citrus"
+      ],
+      "dose_grams": 18,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": "Fine; Intelligentsia pre-ground setting 1",
+      "notes": "Espresso output is beverage yield, not input water; water_grams remains unreported. The product guide specifies an even coffee bed and 1:2.5 beverage yield. Time and water temperature are not stated. Setting 1 refers to Intelligentsia’s grind-to-order option, not arbitrary home grinders.",
+      "notes_ar": "وزن الناتج هو وزن مشروب الإسبريسو وليس كمية ماء الإدخال؛ لذلك لا نسجله كماء التحضير. يحدد دليل البن طبقة متساوية ونسبة ناتج 1:2.5. لم ينشر الزمن أو الحرارة. الدرجة 1 تخص خدمة طحن إنتليجنسيا وليست إعدادًا عامًا لكل الطواحين.",
+      "source_url": "https://www.intelligentsia.com/products/black-cat-classic-espresso",
+      "source_author_url": "https://www.intelligentsia.com",
+      "source_country_url": "https://www.intelligentsia.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Weigh 18 g coffee.",
+          "description_ar": "زن 18 g بن.",
+          "duration_seconds": null,
+          "step_kind": "dose"
+        },
+        {
+          "title": "Grind",
+          "title_ar": "الطحن",
+          "description": "Grind fine; the source’s number 1 is its own grinding service.",
+          "description_ar": "اطحن ناعمًا؛ الرقم 1 في المصدر يخص خدمة طحن المحمصة.",
+          "duration_seconds": null,
+          "step_kind": "grind"
+        },
+        {
+          "title": "Level the bed",
+          "title_ar": "تسوية البن",
+          "description": "Make an even bed in the portafilter and start extraction.",
+          "description_ar": "سوِّ طبقة البن في البورتافلتر وابدأ الاستخلاص.",
+          "duration_seconds": null,
+          "step_kind": "prepare"
+        },
+        {
+          "title": "Yield",
+          "title_ar": "الناتج",
+          "description": "Finish at 45 g espresso; no time target is supplied.",
+          "description_ar": "أنهِ الاستخلاص عند 45 g إسبريسو؛ لم يُنشر زمن مستهدف.",
+          "duration_seconds": null,
+          "step_kind": "extract"
+        }
+      ],
+      "pours": [],
+      "source_brew_parameters": {
+        "manual": {
+          "espresso_yield_grams": 45,
+          "scalable": false
+        }
+      },
+      "verified_at": "2026-10-04",
+      "is_incomplete_source": true,
+      "creator_country_ar": "الولايات المتحدة",
+      "coffee_origin_ar": "البرازيل — كارمو دي ميناس",
+      "coffee_type_ar": "خلطة"
+    },
+    {
+      "slug": "olympia-big-truck-chilled-concentrate",
+      "title": "Olympia Big Truck — Chilled pour-over concentrate",
+      "title_ar": "أولمبيا بيغ ترك — مركز قهوة فلتر مبرد",
+      "brew_method": "pour_over",
+      "coffee_name": "Big Truck",
+      "coffee_name_ar": "بيغ ترك",
+      "roaster_name": "Olympia Coffee",
+      "roaster_name_ar": "أولمبيا كوفي",
+      "source_author_name": "Sam Schroeder and Reyna Callejo (Olympia Coffee)",
+      "creator_country": "United States",
+      "creator_country_ar": "الولايات المتحدة",
+      "recipe_country": null,
+      "coffee_origin": "Colombia, Ethiopia",
+      "coffee_origin_ar": "كولومبيا، إثيوبيا",
+      "coffee_type": "Blend",
+      "coffee_type_ar": "خلطة",
+      "serving_style": "cold",
+      "flavor_notes": [
+        "Chocolate",
+        "Caramel",
+        "Berries"
+      ],
+      "flavor_notes_ar": [
+        "شوكولاتة",
+        "كراميل",
+        "توت"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "caramel",
+        "fruity"
+      ],
+      "dose_grams": 20,
+      "water_grams": 200,
+      "water_ml": null,
+      "water_temp_c": 93.3,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": null,
+      "notes": "The coffee-only concentrate component in Olympia’s flash-brew guide. Published water temperature: 200°F. Brew at 1:10 with a pour-over method, then chill in an ice bath or refrigerator overnight. An ice bath chills the vessel; it does not specify ice added to the drink. Brewer model, grind and brew time are not provided. The roaster says to use within three days.",
+      "notes_ar": "مكون مركز القهوة فقط من دليل أوليمبيا. حرارة المصدر 200°F. حضّر القهوة بنسبة 1:10 بطريقة فلتر ثم برّد الوعاء في حمام ثلجي أو في الثلاجة طوال الليل. الحمام الثلجي يبرّد الوعاء؛ لا يحدد المصدر إضافة ثلج إلى المشروب. طراز الأداة والطحن وزمن التحضير غير منشورة. توصي المحمصة باستخدامه خلال ثلاثة أيام.",
+      "source_url": "https://www.olympiacoffee.com/blogs/recipes/coffee-cocktail-hour-flash-brew-negronis",
+      "source_author_url": "https://www.olympiacoffee.com",
+      "source_country_url": "https://www.olympiacoffee.com/pages/our-story",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Measure the coffee and water",
+          "title_ar": "وزن البن والماء",
+          "description": "Use 20 g Big Truck coffee and 200 g water at 200°F (93.3°C).",
+          "description_ar": "استخدم 20 g من بيغ تراك و200 g ماء عند 200°F (93.3°C).",
+          "duration_seconds": null,
+          "step_kind": "other"
+        },
+        {
+          "title": "Brew the concentrate",
+          "title_ar": "تحضير المركز",
+          "description": "Brew with your preferred pour-over method at the published 1:10 coffee-to-water ratio. The source does not identify a dripper model or pour schedule.",
+          "description_ar": "حضّر بطريقة الفلتر التي تستخدمها بنسبة البن إلى الماء المنشورة 1:10. لا يحدد المصدر طراز قطارة أو جدول صبات.",
+          "duration_seconds": null,
+          "step_kind": "other"
+        },
+        {
+          "title": "Chill",
+          "title_ar": "التبريد",
+          "description": "Chill in an ice bath or refrigerate overnight. Use within three days.",
+          "description_ar": "برّد في حمام ثلجي أو في الثلاجة طوال الليل. استخدمه خلال ثلاثة أيام.",
+          "duration_seconds": null,
+          "step_kind": "serve"
+        }
+      ],
+      "pours": [],
+      "is_incomplete_source": true,
+      "source_brew_parameters": {
+        "manual": {
+          "equipment": "Pour-over dripper; model not provided by the source",
+          "source_water_temperature_f": 200,
+          "source_ratio_text": "1:10",
+          "source_recipe_component": "Coffee concentrate only",
+          "chilling_method": "Ice bath or refrigerator overnight",
+          "scalable": true
+        }
+      },
+      "verified_at": "2026-10-04"
+    }
+  ],
+  "excluded": [
+    {
+      "url": "https://onyxcoffeelab.com/pages/discovery-box-guide",
+      "reason": "Generic V60 schedule repeats 240 g at 1:30 then labels the drain 300 g; missing 60 g pouring action is not repaired by assumption. Generic Origami summary says 280 g while its schedule ends at 285 g. Repeated generic method blocks across all six coffees are not multiplied into distinct coffee-specific recipes."
+    },
+    {
+      "url": "https://onyxcoffeelab.com/products/monarch",
+      "reason": "Coffee process omitted because summary says Washed but narrative discusses a natural coffee in the blend. Filter/espresso parameters themselves are internally usable."
+    },
+    {
+      "url": "https://onyxcoffeelab.com/products/kenya-kamunyaka-aa",
+      "reason": "Coffee process omitted because summary and process section say Dry Washed while abstract calls it a natural lot. No caffeine numbers imported from zero-valued template sections."
+    },
+    {
+      "url": "https://counterculturecoffee.com/products/big-trouble",
+      "reason": "French Press omitted: header gives 50 g dose but numbered instructions give 45 g. Espresso is separately included."
+    },
+    {
+      "url": "https://www.vervecoffee.com/products/seabright-house-blend",
+      "reason": "Coffee Maker omitted: 30 g coffee / 900 g water conflicts with displayed 1:15 ratio. Dwell recipes are not relabeled as a supported V60 method."
+    },
+    {
+      "url": "https://www.blackwhiteroasters.com/pages/brew-guides",
+      "reason": "Official page explicitly says it does not post definitive brew guides for specific coffees. General 1:2 / ~24 s guidance not duplicated as bean-specific records."
+    },
+    {
+      "url": "https://roguewavecoffee.ca/blogs/brew-guide/recipe-ice-brew",
+      "reason": "Public URL now returns HTTP 404; not imported from stale third-party copies."
+    },
+    {
+      "url": "https://roguewavecoffee.ca/blogs/brew-guide/how-to-make-cold-brew",
+      "reason": "Public URL now returns HTTP 404."
+    },
+    {
+      "url": "https://www.proudmaryacademy.com/en/articles/9689704-brew-guide-los-bellotos-2024-bernardina-anaerobic-honey-sunset",
+      "reason": "Public fetch returned HTTP 403; no access-control bypass or invented complete recipe."
+    },
+    {
+      "url": "https://catandcloud.com/products/after-party",
+      "reason": "Only generic 1:16 / 3–4 min brewing guidance, repeated across coffees. Not counted as a distinct detailed bean-specific recipe."
+    },
+    {
+      "url": "https://catandcloud.com/products/night-shift",
+      "reason": "Only generic 1:16 / 3–4 min brewing guidance, repeated across coffees. Not counted as a distinct detailed bean-specific recipe."
+    },
+    {
+      "url": "https://onyxcoffeelab.com/products/cold-brew",
+      "reason": "Toddy guide provides 283 g / 1750 g at 80°F and 1050 µm but no steep duration in retrieved instructions. Held out of executable recipes rather than inventing overnight time."
+    },
+    {
+      "url": "https://www.olympiacoffee.com/blogs/recipes/coffee-cocktail-hour-flash-brew-negronis",
+      "reason": "Coffee-only chilled concentrate is now included once as pour_over. Cocktail ingredients and alcoholic or zero-proof mixed-drink recipes are not imported."
+    }
+  ],
+  "counts": {
+    "roasters": 7,
+    "coffees": 23,
+    "recipes": 30
+  }
+}

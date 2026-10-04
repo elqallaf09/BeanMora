@@ -76,7 +76,12 @@
     "cold_brew": "Cold brew",
     "moka_pot": "Moka pot",
     "origami": "Origami",
-    "kalita_wave": "Kalita Wave"
+    "kalita_wave": "Kalita Wave",
+    "april": "April",
+    "orea": "Orea",
+    "switch": "Hario Switch",
+    "pour_over": "Pour over",
+    "auto_drip": "Automatic drip"
   },
   "flavors": {
     "chocolate": "Chocolate",

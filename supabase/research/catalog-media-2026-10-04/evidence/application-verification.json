@@ -1,0 +1,29 @@
+{
+  "status": "applied_verified",
+  "verified_at": "2026-10-04T14:18:01Z",
+  "project_id": "ubvzdglrwkkuaigmkjap",
+  "applied_by": "root",
+  "verification_only_by_audit_agent": true,
+  "mutation_execution_by_audit_agent": false,
+  "application_note": "Root reported successful application of all five guarded rescue rows before this read-only verification. verified_at records the verification time, not an invented exact mutation timestamp.",
+  "scope": "Original 137 reviewed published bean IDs only; later bean imports are excluded.",
+  "original_catalog_query": "sql/verify-original-catalog.sql",
+  "original_catalog_result": {
+    "audited_beans": 137,
+    "with_image": 127,
+    "missing_image": 10,
+    "packaging": 93,
+    "product_artwork": 23,
+    "origin_photo": 11,
+    "unexpected_usage_status": 0,
+    "missing_image_source": 0,
+    "sourced_sensory_profiles": 14
+  },
+  "active_products_query": "select count(*) as active_roasted_products, count(*) filter (where requires_review = false) as active_reviewed_roasted_products from public.roasted_products where status in ('available','low_stock');",
+  "active_products_result": {
+    "active_roasted_products": 0,
+    "active_reviewed_roasted_products": 0
+  },
+  "sensory_count_rule": "Requires a source URL and at least one numeric sensory metric. Non-null empty JSON objects do not count.",
+  "original_catalog_query_sha256": "303ac6976160bdeb33873b20b8f7a2c66592eb99f07487e0e2a17ec069a93ad0"
+}

@@ -1,0 +1,269 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-04T16:38:47.912758+00:00",
+  "anonymous_run_started_at": "2026-10-04T16:35:18.585Z",
+  "project_id": "ubvzdglrwkkuaigmkjap",
+  "import_id": "global-roasters-2026-10-04",
+  "passed": true,
+  "read_only": true,
+  "database_aggregate_checks_passed": 16,
+  "database_summary": {
+    "imported_recipes": 87,
+    "public_curator_recipes": 87,
+    "recipes_with_bean_links": 78,
+    "recipes_with_covers": 78,
+    "covers_matching_verified_selection": 78,
+    "incomplete_sources": 57,
+    "espresso_recipes": 49,
+    "invalid_espresso_input_water": 0,
+    "nonpublic_imported_recipes": 0,
+    "official_primary_source_links": 87,
+    "resolved_reviewed_roaster_ids": 87,
+    "applicable_name_arrays": 87,
+    "shared_multi_coffee_recipes": 5,
+    "roasters": 23,
+    "roaster_operating_countries": 11,
+    "operating_country_names": [
+      "Australia",
+      "Canada",
+      "Denmark",
+      "Germany",
+      "Italy",
+      "Japan",
+      "Netherlands",
+      "Spain",
+      "United Arab Emirates",
+      "United Kingdom",
+      "United States"
+    ],
+    "raw_country_values": [
+      "AE",
+      "Australia",
+      "Canada",
+      "Denmark",
+      "ES",
+      "Germany",
+      "Italy",
+      "Japan",
+      "Netherlands",
+      "NL",
+      "United Kingdom",
+      "United States"
+    ],
+    "total_public_recipes": 3168,
+    "method_counts": {
+      "v60": 11,
+      "orea": 1,
+      "origami": 9,
+      "espresso": 49,
+      "aeropress": 2,
+      "pour_over": 9,
+      "kalita_wave": 3,
+      "french_press": 3
+    },
+    "serving_counts": {
+      "hot": 84,
+      "cold": 1,
+      "iced": 2
+    }
+  },
+  "anonymous_validation": {
+    "access": "Anonymous requests using an enabled publishable key; credentials omitted",
+    "checks_passed": 20,
+    "http_requests": 77,
+    "http_status_counts": {
+      "200": 75,
+      "206": 2
+    },
+    "full_recipe_projection": true,
+    "embedded_resources": [
+      "sources",
+      "steps",
+      "pours",
+      "equipment"
+    ],
+    "order": "updated_at.desc,id.asc",
+    "pagination_samples": [
+      {
+        "resource": "rpc/search_public_recipes",
+        "status": 206,
+        "range": "0-29/3168",
+        "records": 30
+      },
+      {
+        "resource": "rpc/search_public_recipes",
+        "status": 206,
+        "range": "30-59/3168",
+        "records": 30
+      }
+    ],
+    "checks": [
+      {
+        "check": "import completeness through anonymous RLS",
+        "records": 87
+      },
+      {
+        "check": "anonymous import counts, reviewed roaster identity and operating countries",
+        "imported_recipes": 87,
+        "recipes_with_bean_links": 78,
+        "recipes_with_covers": 78,
+        "covers_matching_verified_selection": 78,
+        "incomplete_sources": 57,
+        "espresso_recipes": 49,
+        "invalid_espresso_input_water": 0,
+        "roasters": 23,
+        "roaster_operating_countries": 11,
+        "operating_country_names": [
+          "Australia",
+          "Canada",
+          "Denmark",
+          "Germany",
+          "Italy",
+          "Japan",
+          "Netherlands",
+          "Spain",
+          "United Arab Emirates",
+          "United Kingdom",
+          "United States"
+        ],
+        "country_label_normalization": {
+          "AE": "United Arab Emirates",
+          "ES": "Spain",
+          "NL": "Netherlands"
+        },
+        "raw_country_values": [
+          "AE",
+          "Australia",
+          "Canada",
+          "Denmark",
+          "ES",
+          "Germany",
+          "Italy",
+          "Japan",
+          "NL",
+          "Netherlands",
+          "United Kingdom",
+          "United States"
+        ]
+      },
+      {
+        "check": "whole-library count, full embeds and stable pagination",
+        "total": 3168,
+        "disjoint_rows": 60
+      },
+      {
+        "check": "shared names searchable in both languages with AND filters",
+        "slug": "49th-parallel-epic-espresso",
+        "names": 6
+      },
+      {
+        "check": "shared names searchable in both languages with AND filters",
+        "slug": "archers-milk-espresso-150-180ml",
+        "names": 4
+      },
+      {
+        "check": "shared names searchable in both languages with AND filters",
+        "slug": "tobys-estate-broadway-espresso",
+        "names": 4
+      },
+      {
+        "check": "shared names searchable in both languages with AND filters",
+        "slug": "kurasu-may-2026-comparison-v60",
+        "names": 4
+      },
+      {
+        "check": "shared names searchable in both languages with AND filters",
+        "slug": "kurasu-august-2026-comparison-flash-brew",
+        "names": 4
+      },
+      {
+        "check": "scoped shared matches, roaster separation and no generic links",
+        "coffee": "Epic Espresso",
+        "recipes": 1,
+        "expected_shared": [
+          "49th-parallel-epic-espresso"
+        ]
+      },
+      {
+        "check": "scoped shared matches, roaster separation and no generic links",
+        "coffee": "Old School Espresso",
+        "recipes": 1,
+        "expected_shared": [
+          "49th-parallel-epic-espresso"
+        ]
+      },
+      {
+        "check": "scoped shared matches, roaster separation and no generic links",
+        "coffee": "Blue Sky Espresso",
+        "recipes": 1,
+        "expected_shared": [
+          "49th-parallel-epic-espresso"
+        ]
+      },
+      {
+        "check": "scoped shared matches, roaster separation and no generic links",
+        "coffee": "Black Diamond",
+        "recipes": 1,
+        "expected_shared": [
+          "archers-milk-espresso-150-180ml"
+        ]
+      },
+      {
+        "check": "scoped shared matches, roaster separation and no generic links",
+        "coffee": "Bittersweet",
+        "recipes": 1,
+        "expected_shared": [
+          "archers-milk-espresso-150-180ml"
+        ]
+      },
+      {
+        "check": "scoped shared matches, roaster separation and no generic links",
+        "coffee": "Broadway",
+        "recipes": 1,
+        "expected_shared": [
+          "tobys-estate-broadway-espresso"
+        ]
+      },
+      {
+        "check": "scoped shared matches, roaster separation and no generic links",
+        "coffee": "Brunswick",
+        "recipes": 1,
+        "expected_shared": [
+          "tobys-estate-broadway-espresso"
+        ]
+      },
+      {
+        "check": "name-only coffee remains searchable without an invented bean row",
+        "coffee": "Brazil Inacio Urban"
+      },
+      {
+        "check": "name-only coffee remains searchable without an invented bean row",
+        "coffee": "Ethiopia Jigesa"
+      },
+      {
+        "check": "name-only coffee remains searchable without an invented bean row",
+        "coffee": "Kenya Kangocho AA"
+      },
+      {
+        "check": "name-only coffee remains searchable without an invented bean row",
+        "coffee": "Brazil João Hamilton"
+      },
+      {
+        "check": "empty coffee scope stays empty"
+      }
+    ]
+  },
+  "country_reporting": {
+    "meaning": "Operating countries of involved roasters, independent of recipe creator-country metadata.",
+    "normalization": {
+      "AE": "United Arab Emirates",
+      "ES": "Spain",
+      "NL": "Netherlands"
+    },
+    "raw_distinct_country_labels": 12,
+    "normalized_operating_countries": 11,
+    "database_rows_changed": false
+  },
+  "related_evidence": "application-verification.json",
+  "applied_function_migration": "../../../migrations/20261004124405_shared_recipe_coffee_discovery.sql"
+}

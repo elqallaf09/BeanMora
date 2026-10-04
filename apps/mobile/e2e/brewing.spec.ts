@@ -1,6 +1,94 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Route } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+
+// Independent network-fixture contract; production SQL is tested separately.
+// Search text is JSON data, never a PostgREST expression.
+type DiscoveryFixture = Record<string, any>;
+function discoveryPage(route: Route, fixtures: DiscoveryFixture[], coffees: DiscoveryFixture[] = []) {
+  expect(route.request().method()).toBe('POST');
+  const url = new URL(route.request().url());
+  expect(url.searchParams.has('or')).toBe(false);
+  const params = route.request().postDataJSON() as Record<string, string | null>;
+  const normalize = (value: unknown): string => String(value ?? '').toLowerCase()
+    .replace(/[أإآٱ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه')
+    .replace(/[ـًٌٍَُِّْٰ]/g, '').replace(/\s+/g, ' ').trim();
+  const join = (...values: unknown[]) => normalize(values.flat(Infinity).filter(value => value != null).join(' '));
+  const aliases: Record<string, string[]> = {
+    chocolate: ['chocolate', 'cocoa', 'cacao', 'شوكولاتة', 'شوكولاته', 'كاكاو'],
+    nutty: ['nutty', 'nuts', 'hazelnut', 'almond', 'مكسرات', 'بندق', 'لوز'],
+    fruity: ['fruity', 'fruit', 'berry', 'berries', 'strawberry', 'blueberry', 'فواكه', 'فراولة', 'توت'],
+    citrus: ['citrus', 'lemon', 'orange', 'grapefruit', 'حمضيات', 'ليمون', 'برتقال'],
+    floral: ['floral', 'jasmine', 'rose', 'زهور', 'ياسمين', 'ورد'],
+    caramel: ['caramel', 'toffee', 'كراميل', 'توفي'],
+    spice: ['spice', 'spicy', 'cinnamon', 'cardamom', 'توابل', 'قرفة', 'هيل'],
+  };
+  const items = fixtures.filter(row => {
+    if (row.visibility !== 'public') return false;
+    if (params.p_method && row.brew_method !== params.p_method) return false;
+    if (params.p_source && params.p_source !== 'all' &&
+      !(params.p_source === 'official' ? ['official_manufacturer', 'official_roaster', 'verified_barista'].includes(row.recipe_type) : params.p_source === 'community' && row.recipe_type === 'community')) return false;
+    if (params.p_method === 'xbloom' && params.p_model && params.p_model !== 'all' && row.source_brew_parameters?.model !== params.p_model) return false;
+    const metadata = row.source_brew_parameters?.discovery ?? {};
+    const coffee = coffees.find(item => item.id === row.bean_id && item.requires_review === false && item.is_published === true);
+    const style = [row.serving_style, metadata.serving_style].find(value => ['hot', 'iced', 'cold'].includes(value)) ?? '';
+    if (params.p_serving_style && style !== params.p_serving_style) return false;
+    const terms: Record<string, string> = {
+      p_recipe_name: join(row.title, row.title_ar),
+      p_creator_name: join(row.source_author_name, metadata.creator_name, metadata.creator_name_ar),
+      p_creator_country: join(metadata.creator_country, metadata.creator_country_ar),
+      p_recipe_country: join(metadata.recipe_country, metadata.recipe_country_ar),
+      p_coffee_type: join(row.source_varietal, coffee?.varietal, metadata.coffee_type, metadata.coffee_type_ar),
+      p_coffee_name: join(row.source_coffee_name, coffee?.name_en, coffee?.name_ar, metadata.coffee_name, metadata.coffee_name_ar),
+      p_coffee_origin: join(row.source_origin_country, coffee?.origin_country, metadata.coffee_origin, metadata.coffee_origin_ar),
+      p_roaster_name: join(row.source_roaster_name, coffee?.roaster?.name_en, coffee?.roaster?.name_ar, metadata.roaster_name, metadata.roaster_name_ar),
+      p_source_name: join(row.sources?.flatMap((source: DiscoveryFixture) => [source.source_name, source.source_url]), metadata.source_urls),
+      p_flavor_note: join(row.flavor_notes, row.source_tasting_notes, coffee?.flavors?.map((flavor: DiscoveryFixture) => flavor.flavor), metadata.flavor_notes, metadata.flavor_notes_ar, metadata.flavor_families),
+    };
+    if (Object.entries(terms).some(([key, text]) => params[key] && !text.includes(normalize(params[key])))) return false;
+    if (params.p_flavor_family) {
+      const words = terms.p_flavor_note.split(/[^\p{L}\p{N}]+/u);
+      if (!(aliases[params.p_flavor_family] ?? []).some(alias => words.includes(normalize(alias)))) return false;
+    }
+    const text = join(Object.values(terms), style, style === 'hot' ? 'ساخن حار' : style === 'iced' ? 'مثلج' : style === 'cold' ? 'بارد' : '');
+    return normalize(params.p_query).split(' ').filter(Boolean).every(term => text.includes(term));
+  }).sort((a, b) => String(b.updated_at ?? '').localeCompare(String(a.updated_at ?? '')) || a.id.localeCompare(b.id));
+  const offset = Number(url.searchParams.get('offset') ?? 0);
+  const limit = Number(url.searchParams.get('limit') ?? 30);
+  expect(Number.isInteger(offset) && offset >= 0).toBe(true);
+  expect(Number.isInteger(limit) && limit > 0).toBe(true);
+  const data = items.slice(offset, offset + limit);
+  const headers = {
+    'content-range': data.length ? `${offset}-${offset + data.length - 1}/${items.length}` : `*/${items.length}`,
+    'access-control-expose-headers': 'content-range',
+  };
+  return { data, headers, offset, limit, total: items.length, params };
+}
+
+function replyCoffeeRecipes(route: Route, fixtures: DiscoveryFixture[]) {
+  expect(route.request().method()).toBe('POST');
+  const params = route.request().postDataJSON() as { p_bean_id?: string; p_product_id?: string };
+  expect(Object.keys(params)).toHaveLength(1);
+  expect(Boolean(params.p_bean_id) !== Boolean(params.p_product_id)).toBe(true);
+  const target = params.p_bean_id ?? params.p_product_id!;
+  expect(target).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);
+  const url = new URL(route.request().url());
+  const items = fixtures.filter(row => row.visibility === 'public' &&
+    (params.p_bean_id ? row.bean_id === target : row.roasted_product_id === target))
+    .sort((a, b) => String(b.updated_at ?? '').localeCompare(String(a.updated_at ?? '')) || a.id.localeCompare(b.id));
+  const offset = Number(url.searchParams.get('offset') ?? 0);
+  const limit = Number(url.searchParams.get('limit') ?? 30);
+  const data = items.slice(offset, offset + limit);
+  return route.fulfill({ status: 200, contentType: 'application/json',
+    headers: { 'content-range': data.length ? `${offset}-${offset + data.length - 1}/${items.length}` : `*/${items.length}`, 'access-control-expose-headers': 'content-range' },
+    body: JSON.stringify(data),
+  });
+}
+
+function replyDiscovery(route: Route, fixtures: DiscoveryFixture[], coffees: DiscoveryFixture[] = []) {
+  const result = discoveryPage(route, fixtures, coffees);
+  return route.fulfill({ status: 200, contentType: 'application/json', headers: result.headers, body: JSON.stringify(result.data) });
+}
 
 // Reviewed catalog in isolated network fixtures. No production auth or database writes.
 const { recipes: catalog } = JSON.parse(readFileSync(resolve(process.cwd(), '../../supabase/research/manual-brewing/recipes.json'), 'utf8'));
@@ -16,6 +104,8 @@ for (const guide of guideCases) test(`${guide.method}: Arabic guide, source unit
   await context.route('https://www.youtube.com/**', route => route.fulfill({ status: 200, contentType: 'text/html', body: '<p>Isolated link target</p>' }));
   await page.route('https://mobilefixture.supabase.co/**', route => {
     const u = new URL(route.request().url()); const m = u.searchParams.get('brew_method')?.replace('eq.', '');
+    if (u.pathname.endsWith('/rpc/search_public_recipes')) return replyDiscovery(route, rows);
+    if (u.pathname.endsWith('/rpc/recipes_for_coffee')) return replyCoffeeRecipes(route, rows);
     const data = u.pathname.endsWith('/recipes') ? rows.filter((r: any) => !m || r.brew_method === m) : [];
     return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(data) });
   });
@@ -43,6 +133,9 @@ for (const width of [320, 390, 1536]) {
     const writes: string[] = [];
     await page.route('https://mobilefixture.supabase.co/**', async route => {
       const url = new URL(route.request().url());
+      // These two RPCs are read-only POSTs; every other non-GET still counts as a write.
+      if (url.pathname.endsWith('/rpc/search_public_recipes')) return replyDiscovery(route, rows);
+      if (url.pathname.endsWith('/rpc/recipes_for_coffee')) return replyCoffeeRecipes(route, rows);
       if (route.request().method() !== 'GET') writes.push(url.pathname);
       let data: unknown[] = url.pathname.endsWith('/recipes') ? rows : [];
       const method = url.searchParams.get('brew_method')?.replace('eq.', '');
@@ -83,6 +176,8 @@ for (const width of [320, 390, 1536]) {
 test('Moka: model-specific ranges, no scaling, unspecified fields remain written guidance', async ({ page }) => {
   await page.route('https://mobilefixture.supabase.co/**', route => {
     const url = new URL(route.request().url()); const method = url.searchParams.get('brew_method')?.replace('eq.', '');
+    if (url.pathname.endsWith('/rpc/search_public_recipes')) return replyDiscovery(route, rows);
+    if (url.pathname.endsWith('/rpc/recipes_for_coffee')) return replyCoffeeRecipes(route, rows);
     const data = url.pathname.endsWith('/recipes') ? rows.filter((r: any) => !method || r.brew_method === method) : [];
     return route.fulfill({ status: 200, contentType: 'application/json', headers: { 'content-range': `0-${data.length - 1}/${data.length}` }, body: JSON.stringify(data) });
   });
@@ -104,7 +199,12 @@ test('Moka: model-specific ranges, no scaling, unspecified fields remain written
   await expect(page.getByText('سلة ممتلئة بلا كبس', { exact: true })).toBeVisible();
 });
 test('English preserves recipe instructions and source temperature ranges', async ({ page }) => {
-  await page.route('https://mobilefixture.supabase.co/**', route => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(new URL(route.request().url()).pathname.endsWith('/recipes') ? rows : []) }));
+  await page.route('https://mobilefixture.supabase.co/**', route => {
+    const path = new URL(route.request().url()).pathname;
+    if (path.endsWith('/rpc/search_public_recipes')) return replyDiscovery(route, rows);
+    if (path.endsWith('/rpc/recipes_for_coffee')) return replyCoffeeRecipes(route, rows);
+    return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(path.endsWith('/recipes') ? rows : []) });
+  });
   await page.goto('/');
   await page.getByRole('button', { name: 'تغيير اللغة، العربية', exact: true }).click();
   await page.getByRole('button', { name: 'English', exact: true }).click();
@@ -124,6 +224,8 @@ test('measured time reaches explicit outcome review without silently recording a
   const writes: any[] = [];
   await page.route('https://mobilefixture.supabase.co/**', async route => {
     const path = new URL(route.request().url()).pathname;
+    if (path.endsWith('/rpc/search_public_recipes')) return replyDiscovery(route, rows);
+    if (path.endsWith('/rpc/recipes_for_coffee')) return replyCoffeeRecipes(route, rows);
     let data: unknown = [];
     if (path.endsWith('/token')) data = { access_token: token, token_type: 'bearer', expires_in: 3600, refresh_token: 'isolated_refresh_fixture', user };
     else if (path.endsWith('/user')) data = user;
@@ -160,3 +262,58 @@ test('measured time reaches explicit outcome review without silently recording a
   expect(writes).toHaveLength(1);
   expect(writes[0].p_payload).toMatchObject({ dose_grams: 20, water_grams: 320, actual_time_seconds: 65, status: 'brewed_with_modifications', share_with_community: false, brewed: true });
 });
+
+for (const locale of ['ar', 'en'] as const) {
+  test(`${locale} 320 px: published ice, per-shot milk and phase temperatures retain their separate meanings`, async ({ page }, testInfo) => {
+    await page.setViewportSize({ width: 320, height: 960 });
+    const { recipes: reviewed } = JSON.parse(readFileSync(resolve(process.cwd(), '../../supabase/research/global-roasters/catalog.json'), 'utf8'));
+    const slugs = ['kurasu-august-2026-comparison-flash-brew', 'ona-aspen-espresso', 'friedhats-lex-wenneker-cool-bloom-origami'];
+    const fixtures = slugs.map((slug, index) => {
+      const published = reviewed.find((row: DiscoveryFixture) => row.slug === slug);
+      expect(published).toBeDefined();
+      return { ...published, id: `aaaaaaaa-aaaa-4aaa-8aaa-${String(index).padStart(12, '0')}`, bean_id: null, roasted_product_id: null,
+        visibility: 'public', equipment: [], sources: [{ source_url: published.source_url, source_name: published.source_author_name, data_confidence: 'official' }],
+      };
+    });
+    const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
+    await page.route('https://mobilefixture.supabase.co/**', route => {
+      const url = new URL(route.request().url());
+      if (url.pathname.endsWith('/rpc/search_public_recipes')) return replyDiscovery(route, fixtures);
+      if (url.pathname.endsWith('/rpc/recipes_for_coffee')) return replyCoffeeRecipes(route, fixtures);
+      return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(url.pathname.endsWith('/recipes') ? fixtures : []) });
+    });
+    await page.goto('/');
+    if (locale === 'en') {
+      await page.getByRole('button', { name: 'تغيير اللغة، العربية', exact: true }).click();
+      await page.getByRole('button', { name: 'English', exact: true }).click();
+    }
+    await page.getByRole('button', { name: locale === 'ar' ? 'تحضير' : 'Brew', exact: true }).click();
+    for (const fixture of fixtures) {
+      await page.getByRole('button', { name: locale === 'ar' ? fixture.title_ar : fixture.title, exact: true }).click();
+      const facts = page.getByTestId('recipe-source-facts');
+      if (fixture.slug === slugs[0]) {
+        await expect(facts.getByText('150 g', { exact: true })).toBeVisible();
+        await expect(page.getByTestId('recipe-fact-ice')).toContainText('65–70 g');
+        await expect(facts.getByText('1:40–1:45', { exact: true })).toBeVisible();
+        await expect(page.getByTestId('recipe-fact-milk-single-shot')).toHaveCount(0);
+      } else if (fixture.slug === slugs[1]) {
+        await expect(facts.getByText('35–40 g', { exact: true })).toBeVisible();
+        await expect(page.getByTestId('recipe-fact-milk-single-shot')).toContainText('120 g');
+        await expect(page.getByTestId('recipe-fact-milk-single-shot')).toContainText(locale === 'ar' ? 'الحليب لكل شوت إسبريسو منفرد' : 'Milk per single espresso shot');
+        await expect(page.getByTestId('recipe-fact-yield-scope')).toContainText('two espresso shots combined');
+        await expect(page.getByTestId('recipe-fact-ice')).toHaveCount(0);
+      } else {
+        const phaseTemperature = facts.getByText(locale === 'ar' ? '62°C للتزهير · 90°C للصبات التالية' : '62°C bloom · 90°C main pours', { exact: true });
+        await expect(phaseTemperature).toBeVisible();
+        await expect(page.getByTestId('recipe-fact-bloom-temperature')).toContainText('62°C');
+        await expect(page.getByTestId('recipe-fact-main-temperature')).toContainText('90°C');
+        await facts.scrollIntoViewIfNeeded();
+        expect(await phaseTemperature.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
+        await page.screenshot({ path: testInfo.outputPath(`${locale}-friedhats-temperatures-320.png`) });
+      }
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      await page.getByRole('button', { name: locale === 'ar' ? 'رجوع' : 'Back', exact: true }).click();
+    }
+    expect(errors).toEqual([]);
+  });
+}

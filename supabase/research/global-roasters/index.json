@@ -1,0 +1,23 @@
+{
+  "verified_at": "2026-10-04",
+  "project_id": "ubvzdglrwkkuaigmkjap",
+  "snapshot": "public-catalog-snapshot.json",
+  "corrections": "espresso-corrections.json",
+  "regions": [
+    {
+      "name": "americas",
+      "catalog": "regional/americas.json",
+      "photos": "evidence/americas-photo-validation.json"
+    },
+    {
+      "name": "emea",
+      "catalog": "regional/emea.json",
+      "photos": "evidence/emea-image-checks.json"
+    },
+    {
+      "name": "apac",
+      "catalog": "regional/apac.json",
+      "photos": "evidence/apac-photo-validation.json"
+    }
+  ]
+}

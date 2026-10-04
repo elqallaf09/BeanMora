@@ -1,0 +1,3901 @@
+{
+  "verified_at": "2026-10-04",
+  "roasters": [
+    {
+      "name": "April Coffee Roasters",
+      "country": "Denmark",
+      "source_url": "https://www.aprilcoffeeroasters.com/pages/wholesale",
+      "website": "https://www.aprilcoffeeroasters.com",
+      "name_ar": "أبريل كوفي روسترز",
+      "country_ar": "الدنمارك"
+    },
+    {
+      "name": "Workshop Coffee",
+      "country": "United Kingdom",
+      "source_url": "https://workshopcoffee.com/pages/terms-of-use",
+      "website": "https://workshopcoffee.com",
+      "name_ar": "وركشوب كوفي",
+      "country_ar": "المملكة المتحدة"
+    },
+    {
+      "name": "Gardelli Specialty Coffees",
+      "country": "Italy",
+      "source_url": "https://shop.gardellicoffee.com/contact-us",
+      "website": "https://shop.gardellicoffee.com",
+      "name_ar": "غارديلي",
+      "country_ar": "إيطاليا"
+    },
+    {
+      "name": "Square Mile Coffee Roasters",
+      "country": "United Kingdom",
+      "source_url": "https://shop.squaremilecoffee.com/pages/about-us",
+      "website": "https://shop.squaremilecoffee.com",
+      "name_ar": "سكوير مايل",
+      "country_ar": "المملكة المتحدة"
+    },
+    {
+      "name": "NOMAD Coffee",
+      "country": "Spain",
+      "source_url": "https://nomadcoffee.es/en/pages/contact",
+      "website": "https://nomadcoffee.es",
+      "name_ar": "نوماد كوفي",
+      "country_ar": "إسبانيا"
+    },
+    {
+      "name": "DAK Coffee Roasters",
+      "country": "Netherlands",
+      "source_url": "https://www.dakcoffeeroasters.com/about/",
+      "website": "https://www.dakcoffeeroasters.com",
+      "name_ar": "داك كوفي روسترز",
+      "country_ar": "هولندا"
+    },
+    {
+      "name": "La Cabra",
+      "country": "Denmark",
+      "source_url": "https://lacabra.com/pages/about-la-cabra",
+      "website": "https://lacabra.com",
+      "name_ar": "لا كابرا",
+      "country_ar": "الدنمارك"
+    },
+    {
+      "name": "Five Elephant",
+      "country": "Germany",
+      "source_url": "https://www.fiveelephant.com/pages/contact",
+      "website": "https://www.fiveelephant.com",
+      "name_ar": "فايف إليفنت",
+      "country_ar": "ألمانيا"
+    },
+    {
+      "name": "Friedhats Coffee Roasters",
+      "country": "Netherlands",
+      "source_url": "https://friedhats.com/about",
+      "website": "https://friedhats.com",
+      "name_ar": "فرايدهاتس",
+      "country_ar": "هولندا"
+    },
+    {
+      "name": "Archers Coffee",
+      "country": "United Arab Emirates",
+      "source_url": "https://archerscoffee.com/pages/terms-and-conditions",
+      "website": "https://archerscoffee.com",
+      "name_ar": "آرتشرز كوفي",
+      "country_ar": "الإمارات العربية المتحدة"
+    }
+  ],
+  "coffees": [
+    {
+      "name": "Kayon Mountain Natural Heirloom",
+      "name_ar": "كايون ماونتن هيرلوم طبيعي",
+      "roaster": "April Coffee Roasters",
+      "source_url": "https://www.aprilcoffeeroasters.com/product/ethiopia-kayon-mountain-natural-heirloom-organic",
+      "image_url": "https://cdn.shopify.com/s/files/1/1510/0358/files/KayonMountain250g.jpg?width=700",
+      "origin": "Ethiopia",
+      "process": "Natural",
+      "variety": "Heirloom",
+      "coffee_type": "Single origin",
+      "roast": null,
+      "flavor_notes": [
+        "Fig",
+        "Red grape",
+        "Florals"
+      ],
+      "flavor_notes_ar": [
+        "تين",
+        "عنب أحمر",
+        "زهور"
+      ],
+      "flavor_families": [
+        "fruity",
+        "floral"
+      ],
+      "description_ar": "بن Heirloom بمعالجة طبيعية.",
+      "description_en": "Ethiopia; natural Heirloom.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page packaging image; some April items use shared unlabeled packaging photographs.",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "إثيوبيا",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Kamavindi Washed SL28 & SL34 AA",
+      "name_ar": "كامافيندي SL28 وSL34 مغسول AA",
+      "roaster": "April Coffee Roasters",
+      "source_url": "https://www.aprilcoffeeroasters.com/product/kamavindi-kenya-washed-mixed-varietals-aa",
+      "image_url": "https://cdn.shopify.com/s/files/1/1510/0358/files/filter250g.jpg?width=700",
+      "origin": "Kenya",
+      "process": "Washed",
+      "variety": "SL28 & SL34 (AA)",
+      "coffee_type": "Single origin",
+      "roast": null,
+      "flavor_notes": [
+        "Blackberries",
+        "Red apple",
+        "Florals"
+      ],
+      "flavor_notes_ar": [
+        "توت أسود",
+        "تفاح أحمر",
+        "زهور"
+      ],
+      "flavor_families": [
+        "fruity",
+        "floral"
+      ],
+      "description_ar": "بن SL28 & SL34 (AA) بمعالجة مغسولة.",
+      "description_en": "Kenya; washed SL28 & SL34 (AA).",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page packaging image; some April items use shared unlabeled packaging photographs.",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "كينيا",
+      "image_kind": "product_artwork"
+    },
+    {
+      "name": "Tadesse Washed Krume",
+      "name_ar": "تاديسي كرومي مغسول",
+      "roaster": "April Coffee Roasters",
+      "source_url": "https://www.aprilcoffeeroasters.com/product/tadesse-ethiopia-washed-krume-74158",
+      "image_url": "https://cdn.shopify.com/s/files/1/1510/0358/files/filter250g.jpg?width=700",
+      "origin": "Ethiopia",
+      "process": "Washed",
+      "variety": "Krume",
+      "coffee_type": "Single origin",
+      "roast": null,
+      "flavor_notes": [
+        "Peach",
+        "Jasmine",
+        "Candied lemon"
+      ],
+      "flavor_notes_ar": [
+        "خوخ",
+        "ياسمين",
+        "ليمون مسكّر"
+      ],
+      "flavor_families": [
+        "fruity",
+        "floral",
+        "citrus"
+      ],
+      "description_ar": "بن Krume بمعالجة مغسولة.",
+      "description_en": "Ethiopia; washed Krume.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page packaging image; some April items use shared unlabeled packaging photographs.",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "إثيوبيا",
+      "image_kind": "product_artwork"
+    },
+    {
+      "name": "Volcan Azul Washed SL28",
+      "name_ar": "فولكان أزول SL28 مغسول",
+      "roaster": "April Coffee Roasters",
+      "source_url": "https://www.aprilcoffeeroasters.com/product/volcan-azul-costa-rica-washed-sl28",
+      "image_url": "https://cdn.shopify.com/s/files/1/1510/0358/files/filter250g.jpg?width=700",
+      "origin": "Costa Rica",
+      "process": "Washed",
+      "variety": "SL28",
+      "coffee_type": "Single origin",
+      "roast": null,
+      "flavor_notes": [
+        "Florals",
+        "Plum",
+        "Stone fruit"
+      ],
+      "flavor_notes_ar": [
+        "زهور",
+        "برقوق",
+        "فاكهة ذات نواة"
+      ],
+      "flavor_families": [
+        "floral",
+        "fruity"
+      ],
+      "description_ar": "بن SL28 بمعالجة مغسولة.",
+      "description_en": "Costa Rica; washed SL28.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_note": "Official product-page packaging image; some April items use shared unlabeled packaging photographs.",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "كوستاريكا",
+      "image_kind": "product_artwork"
+    },
+    {
+      "name": "Reset Half Caff",
+      "name_ar": "ريسيت نصف كافيين",
+      "roaster": "Workshop Coffee",
+      "source_url": "https://workshopcoffee.com/products/reset",
+      "image_url": "https://workshopcoffee.com/cdn/shop/files/250g_Reset.png?v=1765380913",
+      "origin": "Colombia",
+      "process": "Washed; 50% ethyl-acetate decaffeinated",
+      "variety": "Caturra, Castillo, Colombia",
+      "coffee_type": "Half-caf blend",
+      "roast": null,
+      "flavor_notes": [
+        "Roasted almonds",
+        "Raspberry",
+        "Milk chocolate"
+      ],
+      "flavor_notes_ar": [
+        "لوز محمص",
+        "توت العليق",
+        "شوكولاتة بالحليب"
+      ],
+      "flavor_families": [
+        "nutty",
+        "fruity",
+        "chocolate"
+      ],
+      "description_ar": "بن من Colombia؛ بيانات المنتج منشورة من المحمصة.",
+      "description_en": "Colombia; washed; 50% ethyl-acetate decaffeinated.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "كولومبيا",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Chakra",
+      "name_ar": "شاكرا",
+      "roaster": "Workshop Coffee",
+      "source_url": "https://workshopcoffee.com/products/chakra",
+      "image_url": "https://workshopcoffee.com/cdn/shop/files/250gChakra.png?v=1775055674",
+      "origin": "Peru",
+      "process": "Washed",
+      "variety": "Bourbon, Typica, Pache",
+      "coffee_type": "Single origin",
+      "roast": null,
+      "flavor_notes": [
+        "Stone fruit",
+        "Butterscotch"
+      ],
+      "flavor_notes_ar": [
+        "فاكهة ذات نواة",
+        "كراميل الزبدة"
+      ],
+      "flavor_families": [
+        "fruity",
+        "caramel"
+      ],
+      "description_ar": "بن من Peru؛ بيانات المنتج منشورة من المحمصة.",
+      "description_en": "Peru; washed.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "بيرو",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "La Plata Decaf",
+      "name_ar": "لا بلاتا منزوع الكافيين",
+      "roaster": "Workshop Coffee",
+      "source_url": "https://workshopcoffee.com/products/la-plata-decaf",
+      "image_url": "https://workshopcoffee.com/cdn/shop/files/250g_La_Plata.png?v=1765373525",
+      "origin": "Colombia",
+      "process": "Washed; ethyl-acetate sugarcane decaffeinated",
+      "variety": "Caturra, Castillo, Colombia",
+      "coffee_type": "Decaf",
+      "roast": null,
+      "flavor_notes": [
+        "Currants",
+        "Dark chocolate",
+        "Roasted almonds"
+      ],
+      "flavor_notes_ar": [
+        "كشمش",
+        "شوكولاتة داكنة",
+        "لوز محمص"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate",
+        "nutty"
+      ],
+      "description_ar": "بن من Colombia؛ منزوع الكافيين.",
+      "description_en": "Colombia; washed; ethyl-acetate sugarcane decaffeinated.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "كولومبيا",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Pillar",
+      "name_ar": "بيلار",
+      "roaster": "Workshop Coffee",
+      "source_url": "https://workshopcoffee.com/products/pillar",
+      "image_url": "https://workshopcoffee.com/cdn/shop/files/250g_Pillar.png?v=1765373524",
+      "origin": "Brazil; Ethiopia",
+      "process": "Semi-washed Brazil; washed Ethiopia",
+      "variety": "Mundo Novo, Catuai; JARC cultivars and landraces",
+      "coffee_type": "Blend",
+      "roast": null,
+      "flavor_notes": [
+        "Molasses",
+        "Cola",
+        "Roasted walnuts"
+      ],
+      "flavor_notes_ar": [
+        "دبس",
+        "كولا",
+        "جوز محمص"
+      ],
+      "flavor_families": [
+        "caramel",
+        "nutty"
+      ],
+      "description_ar": "بن من Brazil; Ethiopia؛ بيانات المنتج منشورة من المحمصة.",
+      "description_en": "Brazil; Ethiopia; semi-washed brazil; washed ethiopia.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "البرازيل؛ إثيوبيا",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Maidy Bocanegra Pink Bourbon",
+      "name_ar": "مايدي بوكانغرا بينك بوربون",
+      "roaster": "Workshop Coffee",
+      "source_url": "https://workshopcoffee.com/products/maidy-bocanegra-pink-bourbon",
+      "image_url": "https://workshopcoffee.com/cdn/shop/files/250gMaidyBocanegra.png?v=1789119013",
+      "origin": "Colombia",
+      "process": "Washed",
+      "variety": "Pink Bourbon",
+      "coffee_type": "Single origin",
+      "roast": null,
+      "flavor_notes": [
+        "Lime curd",
+        "Blackcurrant",
+        "Cane sugar"
+      ],
+      "flavor_notes_ar": [
+        "كريمة الليمون الأخضر",
+        "كشمش أسود",
+        "سكر القصب"
+      ],
+      "flavor_families": [
+        "citrus",
+        "fruity",
+        "caramel"
+      ],
+      "description_ar": "بن من Colombia؛ بيانات المنتج منشورة من المحمصة.",
+      "description_en": "Colombia; washed.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "كولومبيا",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "La Torre Mejia Geisha",
+      "name_ar": "لا توري ميخيا غيشا",
+      "roaster": "Gardelli Specialty Coffees",
+      "source_url": "https://shop.gardellicoffee.com/coffees/813-la-torre-mejia-geisha-peru",
+      "image_url": "https://gardellicoffee.b-cdn.net/7437-large_default/la-torre-mejia-geisha-peru.jpg",
+      "origin": "Peru",
+      "process": "Classic natural; raised beds",
+      "variety": "Geisha",
+      "coffee_type": "Arabica",
+      "roast": null,
+      "flavor_notes": [
+        "Jasmine",
+        "Pineapple",
+        "Maple syrup",
+        "Cinnamon",
+        "Peach"
+      ],
+      "flavor_notes_ar": [
+        "ياسمين",
+        "أناناس",
+        "شراب القيقب",
+        "قرفة",
+        "خوخ"
+      ],
+      "flavor_families": [
+        "floral",
+        "fruity",
+        "caramel",
+        "spice"
+      ],
+      "description_ar": "لا توري ميخيا غيشا من غارديلي.",
+      "description_en": "Peru Geisha, roasted by Gardelli.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "بيرو",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Lalesa Ephtah",
+      "name_ar": "لاليسا إفثاه",
+      "roaster": "Gardelli Specialty Coffees",
+      "source_url": "https://shop.gardellicoffee.com/coffees/834-441-lalesa-ephtah-ethiopia",
+      "image_url": "https://gardellicoffee.b-cdn.net/7652-large_default/lalesa-ephtah-ethiopia.jpg",
+      "origin": "Ethiopia",
+      "process": "Special natural; raised beds",
+      "variety": "Ethiopian heirloom",
+      "coffee_type": "Arabica",
+      "roast": null,
+      "flavor_notes": [
+        "Violet",
+        "Blackberry",
+        "Dark grape",
+        "Peach",
+        "Orange"
+      ],
+      "flavor_notes_ar": [
+        "بنفسج",
+        "توت أسود",
+        "عنب داكن",
+        "خوخ",
+        "برتقال"
+      ],
+      "flavor_families": [
+        "floral",
+        "fruity",
+        "citrus"
+      ],
+      "description_ar": "لاليسا إفثاه من غارديلي.",
+      "description_en": "Ethiopia Ethiopian heirloom, roasted by Gardelli.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "إثيوبيا",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Cumbres Decaffeinated",
+      "name_ar": "كومبريس منزوع الكافيين",
+      "roaster": "Gardelli Specialty Coffees",
+      "source_url": "https://shop.gardellicoffee.com/coffees/821-425-cumbres-decaffeinated-colombia",
+      "image_url": "https://gardellicoffee.b-cdn.net/7391-large_default/cumbres-decaffeinated-colombia.jpg",
+      "origin": "Colombia",
+      "process": "Natural; ethyl-acetate decaffeinated",
+      "variety": "Castillo, Colombia, Caturra",
+      "coffee_type": "Decaf Arabica",
+      "roast": null,
+      "flavor_notes": [
+        "Orange zest",
+        "Panela",
+        "Apple"
+      ],
+      "flavor_notes_ar": [
+        "قشر برتقال",
+        "سكر بانيلا",
+        "تفاح"
+      ],
+      "flavor_families": [
+        "citrus",
+        "caramel",
+        "fruity"
+      ],
+      "description_ar": "كومبريس منزوع الكافيين من غارديلي.",
+      "description_en": "Colombia Castillo, Colombia, Caturra, roasted by Gardelli.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "كولومبيا",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Red Brick",
+      "name_ar": "ريد بريك",
+      "roaster": "Square Mile Coffee Roasters",
+      "source_url": "https://shop.squaremilecoffee.com/products/red-brick",
+      "image_url": "https://shop.squaremilecoffee.com/cdn/shop/files/REDBRICK-92.jpg?v=1790672242",
+      "origin": "Costa Rica; Ethiopia",
+      "process": "White honey; washed",
+      "variety": "Catuai; Ethiopian landraces",
+      "coffee_type": "Blend",
+      "roast": "Medium",
+      "flavor_notes": [
+        "Peach",
+        "Chocolate",
+        "Nougat"
+      ],
+      "flavor_notes_ar": [
+        "خوخ",
+        "شوكولاتة",
+        "نوجا"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate",
+        "nutty"
+      ],
+      "description_ar": "التركيب الحالي: 70% ألتاميرا دي تشيرّبو و30% لاليسا؛ تتغير المكونات موسمياً.",
+      "description_en": "Current composition: 70% Altamira de Chirripó, 30% Lalesa; components change seasonally.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": null,
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": false,
+      "image_verification_error": "HTTP Error 403: Forbidden",
+      "origin_ar": "كوستاريكا؛ إثيوبيا"
+    },
+    {
+      "name": "Churupallana 2026",
+      "name_ar": "تشوروبالانا 2026",
+      "roaster": "NOMAD Coffee",
+      "source_url": "https://nomadcoffee.es/products/churupallana",
+      "image_url": "https://nomadcoffee.es/cdn/shop/files/E.PE.CHU_1.png?v=1782734878",
+      "origin": "Peru",
+      "process": "Washed",
+      "variety": "Mixed",
+      "coffee_type": "Single origin",
+      "roast": null,
+      "flavor_notes": [
+        "Walnut",
+        "Dates",
+        "Yellow plum"
+      ],
+      "flavor_notes_ar": [
+        "جوز",
+        "تمر",
+        "برقوق أصفر"
+      ],
+      "flavor_families": [
+        "nutty",
+        "fruity"
+      ],
+      "description_ar": "بيانات البن من صفحة المحمصة؛ الوصفة من سجل نوماد الرسمي بالاسم.",
+      "description_en": "Official coffee product; recipe comes from the named NOMAD archive entry.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "crop_note": "Product crop and recipe publication year are distinct; crop shown on current page is 2025/26 for Churupallana and 2025 for the others.",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "بيرو",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Parainema 2026",
+      "name_ar": "باراينما 2026",
+      "roaster": "NOMAD Coffee",
+      "source_url": "https://nomadcoffee.es/products/parainema",
+      "image_url": "https://nomadcoffee.es/cdn/shop/files/E.SA.PARA_1_6a77b08e-b709-42c9-b918-64c442718ec8.png?v=1777455238",
+      "origin": "El Salvador",
+      "process": "Natural",
+      "variety": "Parainema",
+      "coffee_type": "Single origin",
+      "roast": null,
+      "flavor_notes": [
+        "Raspberry",
+        "Milk chocolate",
+        "Cherry"
+      ],
+      "flavor_notes_ar": [
+        "توت العليق",
+        "شوكولاتة بالحليب",
+        "كرز"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate"
+      ],
+      "description_ar": "بيانات البن من صفحة المحمصة؛ الوصفة من سجل نوماد الرسمي بالاسم.",
+      "description_en": "Official coffee product; recipe comes from the named NOMAD archive entry.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "crop_note": "Product crop and recipe publication year are distinct; crop shown on current page is 2025/26 for Churupallana and 2025 for the others.",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "السلفادور",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Pacas 2026",
+      "name_ar": "باكاس 2026",
+      "roaster": "NOMAD Coffee",
+      "source_url": "https://nomadcoffee.es/products/pacas",
+      "image_url": "https://nomadcoffee.es/cdn/shop/files/E.SA.PACA_1.png?v=1778676920",
+      "origin": "El Salvador",
+      "process": "Natural",
+      "variety": "Pacas",
+      "coffee_type": "Single origin",
+      "roast": null,
+      "flavor_notes": [
+        "Candied almond",
+        "Cinnamon",
+        "Dates"
+      ],
+      "flavor_notes_ar": [
+        "لوز مكرمل",
+        "قرفة",
+        "تمر"
+      ],
+      "flavor_families": [
+        "nutty",
+        "spice",
+        "fruity"
+      ],
+      "description_ar": "بيانات البن من صفحة المحمصة؛ الوصفة من سجل نوماد الرسمي بالاسم.",
+      "description_en": "Official coffee product; recipe comes from the named NOMAD archive entry.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "crop_note": "Product crop and recipe publication year are distinct; crop shown on current page is 2025/26 for Churupallana and 2025 for the others.",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "السلفادور",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Kafipamba",
+      "name_ar": "كافي بامبا",
+      "roaster": "NOMAD Coffee",
+      "source_url": "https://nomadcoffee.es/products/kafipamba",
+      "image_url": "https://nomadcoffee.es/cdn/shop/files/E.EC.KAFI_1_69dcf032-9077-483e-941e-fbe3aa4039a3.png?v=1782734931",
+      "origin": "Ecuador",
+      "process": "Washed",
+      "variety": "Sidra",
+      "coffee_type": "Single origin",
+      "roast": null,
+      "flavor_notes": [
+        "Melon",
+        "Panela",
+        "Spearmint"
+      ],
+      "flavor_notes_ar": [
+        "شمام",
+        "سكر بانيلا",
+        "نعناع"
+      ],
+      "flavor_families": [
+        "fruity",
+        "caramel"
+      ],
+      "description_ar": "بيانات البن من صفحة المحمصة؛ الوصفة من سجل نوماد الرسمي بالاسم.",
+      "description_en": "Official coffee product; recipe comes from the named NOMAD archive entry.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "crop_note": "Product crop and recipe publication year are distinct; crop shown on current page is 2025/26 for Churupallana and 2025 for the others.",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "الإكوادور",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Jhenrry Chávez",
+      "name_ar": "خينري تشافيز",
+      "roaster": "NOMAD Coffee",
+      "source_url": "https://nomadcoffee.es/products/jhenrry-chavez",
+      "image_url": "https://nomadcoffee.es/cdn/shop/files/f.cr.can_1_db7cdf59-17a6-4397-af61-602d90cb998b.jpg?v=1790347220",
+      "origin": "Peru",
+      "process": "Washed",
+      "variety": "Geisha Inca (SL9)",
+      "coffee_type": "Single origin",
+      "roast": null,
+      "flavor_notes": [
+        "Mango",
+        "Honey",
+        "Mandarin"
+      ],
+      "flavor_notes_ar": [
+        "مانجو",
+        "عسل",
+        "يوسفي"
+      ],
+      "flavor_families": [
+        "fruity",
+        "caramel",
+        "citrus"
+      ],
+      "description_ar": "بن من المنتج خينري تشافيز في بيرو؛ محصول صفحة المنتج 2025.",
+      "description_en": "Producer-specific coffee from Peru. Current product harvest: 2025.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "بيرو",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Silky Way",
+      "name_ar": "سيلكي واي",
+      "roaster": "DAK Coffee Roasters",
+      "source_url": "https://www.dakcoffeeroasters.com/product/silky-way/",
+      "image_url": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Silky-Way_Render_Front_89x89-1024x717.png",
+      "origin": "Colombia",
+      "process": "Anaerobic Washed",
+      "variety": "Pink Bourbon",
+      "coffee_type": null,
+      "roast": null,
+      "flavor_notes": [
+        "Green Apple",
+        "Lemongrass",
+        "White Florals"
+      ],
+      "flavor_notes_ar": [
+        "تفاح أخضر",
+        "حشيشة الليمون",
+        "زهور بيضاء"
+      ],
+      "flavor_families": [
+        "fruity",
+        "citrus",
+        "floral"
+      ],
+      "description_ar": "منتج رسمي من داك؛ دليل التحضير المشترك للمحمصة محفوظ دون تكراره لكل بن.",
+      "description_en": "Official DAK product; the roaster publishes one shared general brew guide.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "كولومبيا",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "The Alchemist",
+      "name_ar": "ذي ألكيميست",
+      "roaster": "DAK Coffee Roasters",
+      "source_url": "https://www.dakcoffeeroasters.com/product/the-alchemist/",
+      "image_url": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/08/The-Alchemist2025_Render_Front_89x89-1024x717.png",
+      "origin": "Rwanda",
+      "process": "Anaerobic Natural",
+      "variety": "Red Bourbon",
+      "coffee_type": null,
+      "roast": null,
+      "flavor_notes": [
+        "Cacao",
+        "Ripe Fruits",
+        "Tropical Fruits"
+      ],
+      "flavor_notes_ar": [
+        "كاكاو",
+        "فاكهة ناضجة",
+        "فاكهة استوائية"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "fruity"
+      ],
+      "description_ar": "منتج رسمي من داك؛ دليل التحضير المشترك للمحمصة محفوظ دون تكراره لكل بن.",
+      "description_en": "Official DAK product; the roaster publishes one shared general brew guide.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "رواندا",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Golden Waffle",
+      "name_ar": "غولدن وافل",
+      "roaster": "DAK Coffee Roasters",
+      "source_url": "https://www.dakcoffeeroasters.com/product/golden-waffle/",
+      "image_url": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Golden-Waffle_Render_Front_89x89-1024x717.png",
+      "origin": "Ecuador",
+      "process": "Honey",
+      "variety": "Typica",
+      "coffee_type": null,
+      "roast": null,
+      "flavor_notes": [
+        "Waffle",
+        "Cookies",
+        "Maple Syrup"
+      ],
+      "flavor_notes_ar": [
+        "وافل",
+        "بسكويت",
+        "شراب القيقب"
+      ],
+      "flavor_families": [
+        "caramel"
+      ],
+      "description_ar": "منتج رسمي من داك؛ دليل التحضير المشترك للمحمصة محفوظ دون تكراره لكل بن.",
+      "description_en": "Official DAK product; the roaster publishes one shared general brew guide.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "الإكوادور",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Juice Box",
+      "name_ar": "جوس بوكس",
+      "roaster": "DAK Coffee Roasters",
+      "source_url": "https://www.dakcoffeeroasters.com/product/juice-box/",
+      "image_url": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Juice-Box_Render_Front_89x89-1024x717.png",
+      "origin": "Colombia",
+      "process": "Washed",
+      "variety": "Chiroso Field Blend",
+      "coffee_type": null,
+      "roast": null,
+      "flavor_notes": [
+        "Blood Orange",
+        "Honey",
+        "Rhubarb"
+      ],
+      "flavor_notes_ar": [
+        "برتقال دموي",
+        "عسل",
+        "راوند"
+      ],
+      "flavor_families": [
+        "citrus",
+        "caramel",
+        "fruity"
+      ],
+      "description_ar": "منتج رسمي من داك؛ دليل التحضير المشترك للمحمصة محفوظ دون تكراره لكل بن.",
+      "description_en": "Official DAK product; the roaster publishes one shared general brew guide.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "كولومبيا",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Caramello",
+      "name_ar": "كاراميلو",
+      "roaster": "DAK Coffee Roasters",
+      "source_url": "https://www.dakcoffeeroasters.com/product/caramello/",
+      "image_url": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Caramello_Render_Front_89x89-1024x717.png",
+      "origin": "Brazil",
+      "process": "Natural",
+      "variety": "Yellow Catuai",
+      "coffee_type": null,
+      "roast": null,
+      "flavor_notes": [
+        "Caramel",
+        "Hazelnut",
+        "Milk Chocolate"
+      ],
+      "flavor_notes_ar": [
+        "كراميل",
+        "بندق",
+        "شوكولاتة بالحليب"
+      ],
+      "flavor_families": [
+        "caramel",
+        "nutty",
+        "chocolate"
+      ],
+      "description_ar": "منتج رسمي من داك؛ دليل التحضير المشترك للمحمصة محفوظ دون تكراره لكل بن.",
+      "description_en": "Official DAK product; the roaster publishes one shared general brew guide.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "البرازيل",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Cream Donut",
+      "name_ar": "كريم دونت",
+      "roaster": "DAK Coffee Roasters",
+      "source_url": "https://www.dakcoffeeroasters.com/product/cream-donut/",
+      "image_url": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Cream-Donut_Render_Front_89x89-1024x717.png",
+      "origin": "Colombia",
+      "process": "Yeast Inoculated Natural",
+      "variety": "Caturra Chiroso",
+      "coffee_type": null,
+      "roast": null,
+      "flavor_notes": [
+        "Cherry Filled Doughnut",
+        "Chocolate Milk",
+        "Vanilla"
+      ],
+      "flavor_notes_ar": [
+        "دونت محشوة بالكرز",
+        "شوكولاتة بالحليب",
+        "فانيلا"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate"
+      ],
+      "description_ar": "منتج رسمي من داك؛ دليل التحضير المشترك للمحمصة محفوظ دون تكراره لكل بن.",
+      "description_en": "Official DAK product; the roaster publishes one shared general brew guide.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "كولومبيا",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Milky Cake",
+      "name_ar": "ميلكي كيك",
+      "roaster": "DAK Coffee Roasters",
+      "source_url": "https://www.dakcoffeeroasters.com/product/milky-cake/",
+      "image_url": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Milky-Cake_Render_Front_89x89-1024x717.png",
+      "origin": "Colombia",
+      "process": "Advanced Fermentation",
+      "variety": "Castillo",
+      "coffee_type": null,
+      "roast": null,
+      "flavor_notes": [
+        "Cardamom",
+        "Pistachio",
+        "Vanilla Cake"
+      ],
+      "flavor_notes_ar": [
+        "هيل",
+        "فستق",
+        "كيك الفانيلا"
+      ],
+      "flavor_families": [
+        "spice",
+        "nutty"
+      ],
+      "description_ar": "منتج رسمي من داك؛ دليل التحضير المشترك للمحمصة محفوظ دون تكراره لكل بن.",
+      "description_en": "Official DAK product; the roaster publishes one shared general brew guide.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "كولومبيا",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Berry Blues",
+      "name_ar": "بيري بلوز",
+      "roaster": "DAK Coffee Roasters",
+      "source_url": "https://www.dakcoffeeroasters.com/product/berry-blues/",
+      "image_url": "https://d1j9xh2330ho4m.cloudfront.net/uploads/2026/09/Berry-Blues_Render_Front_89x89-1024x717.png",
+      "origin": "Ethiopia",
+      "process": "Anaerobic Natural",
+      "variety": "Heirloom",
+      "coffee_type": null,
+      "roast": null,
+      "flavor_notes": [
+        "Cashew Butter",
+        "Grape Soda",
+        "Myrtle Liquor"
+      ],
+      "flavor_notes_ar": [
+        "زبدة كاجو",
+        "صودا العنب",
+        "ليكير الآس"
+      ],
+      "flavor_families": [
+        "nutty",
+        "fruity"
+      ],
+      "description_ar": "منتج رسمي من داك؛ دليل التحضير المشترك للمحمصة محفوظ دون تكراره لكل بن.",
+      "description_en": "Official DAK product; the roaster publishes one shared general brew guide.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "إثيوبيا",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Sagastume Typica 2023",
+      "name_ar": "ساغاستومي تيبيكا 2023",
+      "roaster": "La Cabra",
+      "source_url": "https://lacabra.com/pages/sagastume-typica",
+      "image_url": null,
+      "origin": "Honduras",
+      "process": "Washed",
+      "variety": "Typica",
+      "coffee_type": "Single origin",
+      "roast": null,
+      "flavor_notes": [
+        "Jasmine",
+        "Honeysuckle",
+        "Black tea",
+        "Stone fruit"
+      ],
+      "flavor_notes_ar": [
+        "ياسمين",
+        "زهرة العسل",
+        "شاي أسود",
+        "فاكهة ذات نواة"
+      ],
+      "flavor_families": [
+        "floral",
+        "fruity"
+      ],
+      "description_ar": "تيبيكا لوس كيتزاليس من محصول 2023؛ لم تتوفر صورة كيس موثقة.",
+      "description_en": "Archived 2023 Los Quetzales Typica; no verified product bag photograph found.",
+      "image_rights_status": "missing",
+      "image_verified_at": null,
+      "source_urls": [
+        "https://lacabra.com/pages/sagastume-typica",
+        "https://us.lacabra.com/pages/rituals-subscription-2026-1-the-sagastume-family"
+      ],
+      "origin_ar": "هندوراس"
+    },
+    {
+      "name": "PNG Keto Tapasi (2022 competition coffee)",
+      "name_ar": "بي إن جي كيتو تاباسي — بطولة 2022",
+      "roaster": "Five Elephant",
+      "source_url": "https://www.fiveelephant.com/blogs/stories/recap-of-german-aeropress-championship-2022",
+      "image_url": null,
+      "origin": "Papua New Guinea",
+      "process": null,
+      "variety": null,
+      "coffee_type": null,
+      "roast": null,
+      "flavor_notes": [],
+      "flavor_notes_ar": [],
+      "flavor_families": [],
+      "description_ar": "البن المذكور صراحة في ملخص بطولة فايف إليفنت 2022؛ صفحة المنتج القديمة لم تعد متاحة.",
+      "description_en": "Coffee explicitly named in Five Elephant’s 2022 championship recap; historical product page returns 404.",
+      "image_rights_status": "missing",
+      "image_verified_at": null,
+      "origin_ar": "بابوا غينيا الجديدة"
+    },
+    {
+      "name": "Black Diamond",
+      "name_ar": "بلاك دايموند",
+      "roaster": "Archers Coffee",
+      "source_url": "https://archerscoffee.com/products/black-diamond",
+      "image_url": "https://archerscoffee.com/cdn/shop/files/BlackDiamond.png?v=1683704979",
+      "origin": "Brazil; Rwanda; Ethiopia",
+      "process": null,
+      "variety": null,
+      "coffee_type": "Blend",
+      "roast": "Medium-dark",
+      "flavor_notes": [
+        "Dark chocolate",
+        "Lotus biscuit",
+        "Almond"
+      ],
+      "flavor_notes_ar": [
+        "شوكولاتة داكنة",
+        "بسكويت لوتس",
+        "لوز"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "nutty",
+        "caramel"
+      ],
+      "description_ar": "خلطة محمصة لمشروبات الحليب.",
+      "description_en": "Blend roasted for milk drinks.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "sensory_profile": {
+        "scale_max": 5,
+        "acidity": 1,
+        "sweetness": 3,
+        "fermentation": 2,
+        "roast": 4,
+        "source_url": "https://archerscoffee.com/products/black-diamond",
+        "status": "published_by_roaster"
+      },
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "البرازيل؛ رواندا؛ إثيوبيا",
+      "image_kind": "packaging"
+    },
+    {
+      "name": "Bittersweet",
+      "name_ar": "بيترسويت",
+      "roaster": "Archers Coffee",
+      "source_url": "https://archerscoffee.com/products/bittersweet",
+      "image_url": "https://archerscoffee.com/cdn/shop/files/Bittersweet.png?v=1683704863",
+      "origin": "Brazil; Rwanda; Colombia",
+      "process": null,
+      "variety": null,
+      "coffee_type": "Blend",
+      "roast": "Dark",
+      "flavor_notes": [
+        "Caramel",
+        "Chocolate fudge",
+        "Hazelnut",
+        "Butter biscuit"
+      ],
+      "flavor_notes_ar": [
+        "كراميل",
+        "فدج الشوكولاتة",
+        "بندق",
+        "بسكويت الزبدة"
+      ],
+      "flavor_families": [
+        "chocolate",
+        "nutty",
+        "caramel"
+      ],
+      "description_ar": "خلطة محمصة لمشروبات الحليب.",
+      "description_en": "Blend roasted for milk drinks.",
+      "image_rights_status": "source_linked",
+      "image_verified_at": "2026-10-04",
+      "sensory_profile": {
+        "scale_max": 5,
+        "acidity": 1,
+        "sweetness": 2,
+        "fermentation": 2,
+        "roast": 5,
+        "source_url": "https://archerscoffee.com/products/bittersweet",
+        "status": "published_by_roaster"
+      },
+      "image_source_verified_at": "2026-10-04",
+      "image_display_verified": true,
+      "origin_ar": "البرازيل؛ رواندا؛ كولومبيا",
+      "image_kind": "packaging"
+    }
+  ],
+  "recipes": [
+    {
+      "slug": "april-kayon-mountain-filter-2026",
+      "title": "April — Kayon Mountain filter",
+      "title_ar": "أبريل — كايون ماونتن فلتر",
+      "brew_method": "pour_over",
+      "coffee_name": "Kayon Mountain Natural Heirloom",
+      "roaster_name": "April Coffee Roasters",
+      "source_author_name": "April Coffee Roasters",
+      "creator_country": "Denmark",
+      "recipe_country": null,
+      "coffee_origin": "Ethiopia",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Fig",
+        "Red grape",
+        "Florals"
+      ],
+      "flavor_notes_ar": [
+        "تين",
+        "عنب أحمر",
+        "زهور"
+      ],
+      "flavor_families": [
+        "fruity",
+        "floral"
+      ],
+      "dose_grams": 13,
+      "water_grams": 200,
+      "water_ml": null,
+      "water_temp_c": 94,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": "9 (grinder not identified in current recipe section)",
+      "notes": "Published filter recipe. Two 100 g pours; 60 g circular then 40 g central each. Brew window 2–3 minutes. Brewer model is not named in this live section.",
+      "notes_ar": "وصفة الفلتر المنشورة: صبتان كل منهما 100 g، تبدأ كل صبة بـ60 g دائرياً ثم 40 g في المنتصف. الزمن 2–3 دقائق؛ طراز أداة الفلتر غير مذكور في هذا القسم.",
+      "source_url": "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/kayon-mountain",
+      "source_author_url": "https://www.aprilcoffeeroasters.com",
+      "source_country_url": "https://www.aprilcoffeeroasters.com/pages/wholesale",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Use 13 g coffee.",
+          "description_ar": "استخدم 13 g بن.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Water",
+          "title_ar": "الماء",
+          "description": "Prepare 200 g at 94°C.",
+          "description_ar": "جهز 200 g ماء عند 94°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "First pour",
+          "title_ar": "الصبة الأولى",
+          "description": "At 0:00 pour 60 g in circles, then 40 g centrally.",
+          "description_ar": "عند 0:00 اسكب 60 g دائرياً ثم 40 g في المنتصف.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Second pour",
+          "title_ar": "الصبة الثانية",
+          "description": "At 0:30 repeat; allow drainage to finish within 2–3 minutes.",
+          "description_ar": "عند 0:30 كرر الصبة؛ اتركه يصرف خلال 2–3 دقائق.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [
+        {
+          "water_grams": 100,
+          "start_at_seconds": 0,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 100,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        }
+      ],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "time_min_seconds": 120,
+          "time_max_seconds": 180,
+          "grinder_reference_ambiguous": true
+        }
+      },
+      "source_urls": [
+        "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/kayon-mountain",
+        "https://www.aprilcoffeeroasters.com/pages/wholesale",
+        "https://www.aprilcoffeeroasters.com/product/ethiopia-kayon-mountain-natural-heirloom-organic"
+      ],
+      "roaster_name_ar": "أبريل كوفي روسترز",
+      "creator_country_ar": "الدنمارك",
+      "coffee_name_ar": "كايون ماونتن هيرلوم طبيعي",
+      "coffee_origin_ar": "إثيوبيا"
+    },
+    {
+      "slug": "april-kayon-mountain-espresso-2026",
+      "title": "April — Kayon Mountain espresso",
+      "title_ar": "أبريل — كايون ماونتن إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Kayon Mountain Natural Heirloom",
+      "roaster_name": "April Coffee Roasters",
+      "source_author_name": "April Coffee Roasters",
+      "creator_country": "Denmark",
+      "recipe_country": null,
+      "coffee_origin": "Ethiopia",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Fig",
+        "Red grape",
+        "Florals"
+      ],
+      "flavor_notes_ar": [
+        "تين",
+        "عنب أحمر",
+        "زهور"
+      ],
+      "flavor_families": [
+        "fruity",
+        "floral"
+      ],
+      "dose_grams": 18,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": "4.2 (grinder not identified in current recipe section)",
+      "notes": "Espresso temperature and grinder model are not specified on the current page.",
+      "notes_ar": "المصدر الحالي لا يحدد حرارة الإسبريسو ولا طراز الطاحونة.",
+      "source_url": "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/kayon-mountain",
+      "source_author_url": "https://www.aprilcoffeeroasters.com",
+      "source_country_url": "https://www.aprilcoffeeroasters.com/pages/wholesale",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Use 18 g of this coffee.",
+          "description_ar": "استخدم 18 g من هذا البن.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Set up",
+          "title_ar": "الضبط",
+          "description": "Use the published grinder or machine reference where available.",
+          "description_ar": "استخدم مرجع الطاحونة أو الماكينة المنشور إن توفر.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Yield",
+          "title_ar": "الناتج",
+          "description": "Extract to 48 g in the cup.",
+          "description_ar": "استخلص حتى يصل الناتج في الكوب إلى 48 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Time",
+          "title_ar": "الوقت",
+          "description": "Target extraction: 23–25 s; adjust grind to suit your equipment.",
+          "description_ar": "استهدف استخلاصاً خلال 23–25 s؛ اضبط الطحن بحسب معداتك.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "time_min_seconds": 23,
+          "time_max_seconds": 25,
+          "yield_grams": 48,
+          "parameter_only_source": true
+        }
+      },
+      "source_urls": [
+        "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/kayon-mountain",
+        "https://www.aprilcoffeeroasters.com/pages/wholesale",
+        "https://www.aprilcoffeeroasters.com/product/ethiopia-kayon-mountain-natural-heirloom-organic"
+      ],
+      "yield_grams": 48,
+      "roaster_name_ar": "أبريل كوفي روسترز",
+      "creator_country_ar": "الدنمارك",
+      "coffee_name_ar": "كايون ماونتن هيرلوم طبيعي",
+      "coffee_origin_ar": "إثيوبيا",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "april-kamavindi-espresso-2026",
+      "title": "April — Kamavindi Washed SL28 & SL34 AA espresso",
+      "title_ar": "أبريل — كامافيندي إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Kamavindi Washed SL28 & SL34 AA",
+      "roaster_name": "April Coffee Roasters",
+      "source_author_name": "April Coffee Roasters",
+      "creator_country": "Denmark",
+      "recipe_country": null,
+      "coffee_origin": "Kenya",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Blackberries",
+        "Red apple",
+        "Florals"
+      ],
+      "flavor_notes_ar": [
+        "توت أسود",
+        "تفاح أحمر",
+        "زهور"
+      ],
+      "flavor_families": [
+        "fruity",
+        "floral"
+      ],
+      "dose_grams": 20,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 22,
+      "grinder_setting": "0.4 (grinder unspecified)",
+      "notes": "Published output range; grinder model and temperature are unspecified.",
+      "notes_ar": "نطاق الناتج محفوظ كما هو؛ طراز الطاحونة والحرارة غير مذكورين.",
+      "source_url": "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/kamavindi",
+      "source_author_url": "https://www.aprilcoffeeroasters.com",
+      "source_country_url": "https://www.aprilcoffeeroasters.com/pages/wholesale",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Use 20 g of this coffee.",
+          "description_ar": "استخدم 20 g من هذا البن.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Set up",
+          "title_ar": "الضبط",
+          "description": "Use the published grinder or machine reference where available.",
+          "description_ar": "استخدم مرجع الطاحونة أو الماكينة المنشور إن توفر.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Yield",
+          "title_ar": "الناتج",
+          "description": "Extract to 58–60 g in the cup.",
+          "description_ar": "استخلص حتى يصل الناتج في الكوب إلى 58–60 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Time",
+          "title_ar": "الوقت",
+          "description": "Target extraction: 22 s; adjust grind to suit your equipment.",
+          "description_ar": "استهدف استخلاصاً خلال 22 s؛ اضبط الطحن بحسب معداتك.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "yield_min_grams": 58,
+          "yield_max_grams": 60,
+          "grinder_reference_ambiguous": true,
+          "parameter_only_source": true
+        }
+      },
+      "source_urls": [
+        "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/kamavindi",
+        "https://www.aprilcoffeeroasters.com/pages/wholesale",
+        "https://www.aprilcoffeeroasters.com/product/kamavindi-kenya-washed-mixed-varietals-aa"
+      ],
+      "yield_grams": null,
+      "roaster_name_ar": "أبريل كوفي روسترز",
+      "creator_country_ar": "الدنمارك",
+      "coffee_name_ar": "كامافيندي SL28 وSL34 مغسول AA",
+      "coffee_origin_ar": "كينيا",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "april-tadesse-station-espresso-2026",
+      "title": "April — Tadesse Washed Krume espresso",
+      "title_ar": "أبريل — تاديسي إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Tadesse Washed Krume",
+      "roaster_name": "April Coffee Roasters",
+      "source_author_name": "April Coffee Roasters",
+      "creator_country": "Denmark",
+      "recipe_country": null,
+      "coffee_origin": "Ethiopia",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Peach",
+        "Jasmine",
+        "Candied lemon"
+      ],
+      "flavor_notes_ar": [
+        "خوخ",
+        "ياسمين",
+        "ليمون مسكّر"
+      ],
+      "flavor_families": [
+        "fruity",
+        "floral",
+        "citrus"
+      ],
+      "dose_grams": 19,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 21,
+      "grinder_setting": "1.5 (grinder unspecified)",
+      "notes": "Output is a published range; no midpoint is invented. Tadesse variety number conflicts across live pages, so only Krume is retained.",
+      "notes_ar": "نطاق الناتج محفوظ كما هو؛ طراز الطاحونة والحرارة غير مذكورين.",
+      "source_url": "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/tadesse-station",
+      "source_author_url": "https://www.aprilcoffeeroasters.com",
+      "source_country_url": "https://www.aprilcoffeeroasters.com/pages/wholesale",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Use 19 g of this coffee.",
+          "description_ar": "استخدم 19 g من هذا البن.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Set up",
+          "title_ar": "الضبط",
+          "description": "Use the published grinder or machine reference where available.",
+          "description_ar": "استخدم مرجع الطاحونة أو الماكينة المنشور إن توفر.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Yield",
+          "title_ar": "الناتج",
+          "description": "Extract to 56–60 g in the cup.",
+          "description_ar": "استخلص حتى يصل الناتج في الكوب إلى 56–60 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Time",
+          "title_ar": "الوقت",
+          "description": "Target extraction: 21 s; adjust grind to suit your equipment.",
+          "description_ar": "استهدف استخلاصاً خلال 21 s؛ اضبط الطحن بحسب معداتك.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "yield_min_grams": 56,
+          "yield_max_grams": 60,
+          "grinder_reference_ambiguous": true,
+          "parameter_only_source": true
+        }
+      },
+      "source_urls": [
+        "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/tadesse-station",
+        "https://www.aprilcoffeeroasters.com/pages/wholesale",
+        "https://www.aprilcoffeeroasters.com/product/tadesse-ethiopia-washed-krume-74158"
+      ],
+      "yield_grams": null,
+      "roaster_name_ar": "أبريل كوفي روسترز",
+      "creator_country_ar": "الدنمارك",
+      "coffee_name_ar": "تاديسي كرومي مغسول",
+      "coffee_origin_ar": "إثيوبيا",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "april-volcan-azul-washed-sl28-espresso-2026",
+      "title": "April — Volcan Azul washed SL28 espresso",
+      "title_ar": "أبريل — فولكان أزول SL28 مغسول إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Volcan Azul Washed SL28",
+      "roaster_name": "April Coffee Roasters",
+      "source_author_name": "April Coffee Roasters",
+      "creator_country": "Denmark",
+      "recipe_country": null,
+      "coffee_origin": "Costa Rica",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Florals",
+        "Plum",
+        "Stone fruit"
+      ],
+      "flavor_notes_ar": [
+        "زهور",
+        "برقوق",
+        "فاكهة ذات نواة"
+      ],
+      "flavor_families": [
+        "floral",
+        "fruity"
+      ],
+      "dose_grams": 19,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": "4 (grinder unspecified)",
+      "notes": "Source gives 19 g in and 60 g out; its stated 1:3.2 ratio is rounded.",
+      "notes_ar": "المصدر يحدد 19 g بن و60 g ناتج، ويعرض النسبة مقربة إلى 1:3.2.",
+      "source_url": "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/volcan-azul",
+      "source_author_url": "https://www.aprilcoffeeroasters.com",
+      "source_country_url": "https://www.aprilcoffeeroasters.com/pages/wholesale",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Use 19 g of this coffee.",
+          "description_ar": "استخدم 19 g من هذا البن.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Set up",
+          "title_ar": "الضبط",
+          "description": "Use the published grinder or machine reference where available.",
+          "description_ar": "استخدم مرجع الطاحونة أو الماكينة المنشور إن توفر.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Yield",
+          "title_ar": "الناتج",
+          "description": "Extract to 60 g in the cup.",
+          "description_ar": "استخلص حتى يصل الناتج في الكوب إلى 60 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Time",
+          "title_ar": "الوقت",
+          "description": "Target extraction: 20–25 s; adjust grind to suit your equipment.",
+          "description_ar": "استهدف استخلاصاً خلال 20–25 s؛ اضبط الطحن بحسب معداتك.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "time_min_seconds": 20,
+          "time_max_seconds": 25,
+          "pressure_bar": 6,
+          "yield_grams": 60,
+          "parameter_only_source": true
+        }
+      },
+      "source_urls": [
+        "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/volcan-azul",
+        "https://www.aprilcoffeeroasters.com/pages/wholesale",
+        "https://www.aprilcoffeeroasters.com/product/volcan-azul-costa-rica-washed-sl28"
+      ],
+      "yield_grams": 60,
+      "roaster_name_ar": "أبريل كوفي روسترز",
+      "creator_country_ar": "الدنمارك",
+      "coffee_name_ar": "فولكان أزول SL28 مغسول",
+      "coffee_origin_ar": "كوستاريكا",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "workshop-reset-espresso",
+      "title": "Workshop — Reset Half Caff espresso",
+      "title_ar": "وركشوب — ريسيت نصف كافيين إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Reset Half Caff",
+      "roaster_name": "Workshop Coffee",
+      "source_author_name": "Workshop Coffee",
+      "creator_country": "United Kingdom",
+      "recipe_country": null,
+      "coffee_origin": "Colombia",
+      "coffee_type": "Half-caf blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Roasted almonds",
+        "Raspberry",
+        "Milk chocolate"
+      ],
+      "flavor_notes_ar": [
+        "لوز محمص",
+        "توت العليق",
+        "شوكولاتة بالحليب"
+      ],
+      "flavor_families": [
+        "nutty",
+        "fruity",
+        "chocolate"
+      ],
+      "dose_grams": 18,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": 93.5,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": null,
+      "notes": "Published product-specific recommendation; also used for other Workshop coffees.",
+      "notes_ar": "توصية منشورة لهذا المنتج، وتستخدم المحمصة الإعدادات نفسها لبعض منتجاتها الأخرى.",
+      "source_url": "https://workshopcoffee.com/products/reset",
+      "source_author_url": "https://workshopcoffee.com",
+      "source_country_url": "https://workshopcoffee.com/pages/terms-of-use",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Use 18 g of this coffee.",
+          "description_ar": "استخدم 18 g من هذا البن.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Set up",
+          "title_ar": "الضبط",
+          "description": "Brew at 93.5°C.",
+          "description_ar": "اضبط الحرارة على 93.5°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Yield",
+          "title_ar": "الناتج",
+          "description": "Extract to 38 g in the cup.",
+          "description_ar": "استخلص حتى يصل الناتج في الكوب إلى 38 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Time",
+          "title_ar": "الوقت",
+          "description": "Target extraction: 30–32 s; adjust grind to suit your equipment.",
+          "description_ar": "استهدف استخلاصاً خلال 30–32 s؛ اضبط الطحن بحسب معداتك.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "time_min_seconds": 30,
+          "time_max_seconds": 32,
+          "pressure_bar": 9,
+          "yield_grams": 38,
+          "parameter_only_source": true
+        }
+      },
+      "source_urls": [
+        "https://workshopcoffee.com/products/reset",
+        "https://workshopcoffee.com/pages/terms-of-use"
+      ],
+      "yield_grams": 38,
+      "roaster_name_ar": "وركشوب كوفي",
+      "creator_country_ar": "المملكة المتحدة",
+      "coffee_name_ar": "ريسيت نصف كافيين",
+      "coffee_origin_ar": "كولومبيا",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "workshop-reset-pourover",
+      "title": "Workshop — Reset Half Caff pour-over",
+      "title_ar": "وركشوب — ريسيت نصف كافيين تقطير",
+      "brew_method": "pour_over",
+      "coffee_name": "Reset Half Caff",
+      "roaster_name": "Workshop Coffee",
+      "source_author_name": "Workshop Coffee",
+      "creator_country": "United Kingdom",
+      "recipe_country": null,
+      "coffee_origin": "Colombia",
+      "coffee_type": "Half-caf blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Roasted almonds",
+        "Raspberry",
+        "Milk chocolate"
+      ],
+      "flavor_notes_ar": [
+        "لوز محمص",
+        "توت العليق",
+        "شوكولاتة بالحليب"
+      ],
+      "flavor_families": [
+        "nutty",
+        "fruity",
+        "chocolate"
+      ],
+      "dose_grams": 21,
+      "water_grams": 300,
+      "water_ml": null,
+      "water_temp_c": 95,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 210,
+      "grinder_setting": "Couscous",
+      "notes": "Brewer not named. Source: 50 g bloom, then 50 g additions every 30 seconds; water complete by 3:00 and drawdown by 3:30. Exact per-pour starts are not inferred.",
+      "notes_ar": "أداة التقطير غير مسماة. تزهير 50 g ثم إضافات 50 g كل 30 ثانية؛ اكتمال الماء بحلول 3:00 والتصريف بحلول 3:30. لم نخترع أوقات بدء الصبات.",
+      "source_url": "https://workshopcoffee.com/products/reset",
+      "source_author_url": "https://workshopcoffee.com",
+      "source_country_url": "https://workshopcoffee.com/pages/terms-of-use",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose and grind",
+          "title_ar": "الجرعة والطحن",
+          "description": "Use 21 g; grind texture: couscous.",
+          "description_ar": "استخدم 21 g؛ اتبع مرجع الطحن المنشور.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Add 50 g water; wait 30 seconds.",
+          "description_ar": "أضف 50 g ماء وانتظر 30 ثانية.",
+          "duration_seconds": 30
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إكمال الماء",
+          "description": "Add 50 g every 30 seconds to reach 300 g; use 95°C water.",
+          "description_ar": "أضف 50 g كل 30 ثانية حتى يبلغ الماء 300 g عند 95°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Drain",
+          "title_ar": "التصريف",
+          "description": "Aim to finish draining by 3:30.",
+          "description_ar": "استهدف اكتمال التصريف بحلول 3:30.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "source_pour_schedule_note": "All water added by 3:00."
+        }
+      },
+      "source_urls": [
+        "https://workshopcoffee.com/products/reset",
+        "https://workshopcoffee.com/pages/terms-of-use"
+      ],
+      "roaster_name_ar": "وركشوب كوفي",
+      "creator_country_ar": "المملكة المتحدة",
+      "coffee_name_ar": "ريسيت نصف كافيين",
+      "coffee_origin_ar": "كولومبيا"
+    },
+    {
+      "slug": "workshop-chakra-espresso",
+      "title": "Workshop — Chakra espresso",
+      "title_ar": "وركشوب — شاكرا إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Chakra",
+      "roaster_name": "Workshop Coffee",
+      "source_author_name": "Workshop Coffee",
+      "creator_country": "United Kingdom",
+      "recipe_country": null,
+      "coffee_origin": "Peru",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Stone fruit",
+        "Butterscotch"
+      ],
+      "flavor_notes_ar": [
+        "فاكهة ذات نواة",
+        "كراميل الزبدة"
+      ],
+      "flavor_families": [
+        "fruity",
+        "caramel"
+      ],
+      "dose_grams": 18,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": 93.5,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": null,
+      "notes": "Published product-specific recommendation; also used for other Workshop coffees.",
+      "notes_ar": "توصية منشورة لهذا المنتج، وتستخدم المحمصة الإعدادات نفسها لبعض منتجاتها الأخرى.",
+      "source_url": "https://workshopcoffee.com/products/chakra",
+      "source_author_url": "https://workshopcoffee.com",
+      "source_country_url": "https://workshopcoffee.com/pages/terms-of-use",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Use 18 g of this coffee.",
+          "description_ar": "استخدم 18 g من هذا البن.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Set up",
+          "title_ar": "الضبط",
+          "description": "Brew at 93.5°C.",
+          "description_ar": "اضبط الحرارة على 93.5°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Yield",
+          "title_ar": "الناتج",
+          "description": "Extract to 38 g in the cup.",
+          "description_ar": "استخلص حتى يصل الناتج في الكوب إلى 38 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Time",
+          "title_ar": "الوقت",
+          "description": "Target extraction: 30–32 s; adjust grind to suit your equipment.",
+          "description_ar": "استهدف استخلاصاً خلال 30–32 s؛ اضبط الطحن بحسب معداتك.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "time_min_seconds": 30,
+          "time_max_seconds": 32,
+          "pressure_bar": 9,
+          "yield_grams": 38,
+          "parameter_only_source": true
+        }
+      },
+      "source_urls": [
+        "https://workshopcoffee.com/products/chakra",
+        "https://workshopcoffee.com/pages/terms-of-use"
+      ],
+      "yield_grams": 38,
+      "roaster_name_ar": "وركشوب كوفي",
+      "creator_country_ar": "المملكة المتحدة",
+      "coffee_name_ar": "شاكرا",
+      "coffee_origin_ar": "بيرو",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "workshop-chakra-pourover",
+      "title": "Workshop — Chakra pour-over",
+      "title_ar": "وركشوب — شاكرا تقطير",
+      "brew_method": "pour_over",
+      "coffee_name": "Chakra",
+      "roaster_name": "Workshop Coffee",
+      "source_author_name": "Workshop Coffee",
+      "creator_country": "United Kingdom",
+      "recipe_country": null,
+      "coffee_origin": "Peru",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Stone fruit",
+        "Butterscotch"
+      ],
+      "flavor_notes_ar": [
+        "فاكهة ذات نواة",
+        "كراميل الزبدة"
+      ],
+      "flavor_families": [
+        "fruity",
+        "caramel"
+      ],
+      "dose_grams": 21,
+      "water_grams": 300,
+      "water_ml": null,
+      "water_temp_c": 95,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 210,
+      "grinder_setting": "Couscous",
+      "notes": "Brewer not named. Source: 50 g bloom, then 50 g additions every 30 seconds; water complete by 3:00 and drawdown by 3:30. Exact per-pour starts are not inferred.",
+      "notes_ar": "أداة التقطير غير مسماة. تزهير 50 g ثم إضافات 50 g كل 30 ثانية؛ اكتمال الماء بحلول 3:00 والتصريف بحلول 3:30. لم نخترع أوقات بدء الصبات.",
+      "source_url": "https://workshopcoffee.com/products/chakra",
+      "source_author_url": "https://workshopcoffee.com",
+      "source_country_url": "https://workshopcoffee.com/pages/terms-of-use",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose and grind",
+          "title_ar": "الجرعة والطحن",
+          "description": "Use 21 g; grind texture: couscous.",
+          "description_ar": "استخدم 21 g؛ اتبع مرجع الطحن المنشور.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Add 50 g water; wait 30 seconds.",
+          "description_ar": "أضف 50 g ماء وانتظر 30 ثانية.",
+          "duration_seconds": 30
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إكمال الماء",
+          "description": "Add 50 g every 30 seconds to reach 300 g; use 95°C water.",
+          "description_ar": "أضف 50 g كل 30 ثانية حتى يبلغ الماء 300 g عند 95°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Drain",
+          "title_ar": "التصريف",
+          "description": "Aim to finish draining by 3:30.",
+          "description_ar": "استهدف اكتمال التصريف بحلول 3:30.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "source_pour_schedule_note": "All water added by 3:00."
+        }
+      },
+      "source_urls": [
+        "https://workshopcoffee.com/products/chakra",
+        "https://workshopcoffee.com/pages/terms-of-use"
+      ],
+      "roaster_name_ar": "وركشوب كوفي",
+      "creator_country_ar": "المملكة المتحدة",
+      "coffee_name_ar": "شاكرا",
+      "coffee_origin_ar": "بيرو"
+    },
+    {
+      "slug": "workshop-la-plata-decaf-espresso",
+      "title": "Workshop — La Plata Decaf espresso",
+      "title_ar": "وركشوب — لا بلاتا منزوع الكافيين إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "La Plata Decaf",
+      "roaster_name": "Workshop Coffee",
+      "source_author_name": "Workshop Coffee",
+      "creator_country": "United Kingdom",
+      "recipe_country": null,
+      "coffee_origin": "Colombia",
+      "coffee_type": "Decaf",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Currants",
+        "Dark chocolate",
+        "Roasted almonds"
+      ],
+      "flavor_notes_ar": [
+        "كشمش",
+        "شوكولاتة داكنة",
+        "لوز محمص"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate",
+        "nutty"
+      ],
+      "dose_grams": 18,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": 93.5,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": null,
+      "notes": "Published product-specific recommendation; also used for other Workshop coffees.",
+      "notes_ar": "توصية منشورة لهذا المنتج، وتستخدم المحمصة الإعدادات نفسها لبعض منتجاتها الأخرى.",
+      "source_url": "https://workshopcoffee.com/products/la-plata-decaf",
+      "source_author_url": "https://workshopcoffee.com",
+      "source_country_url": "https://workshopcoffee.com/pages/terms-of-use",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Use 18 g of this coffee.",
+          "description_ar": "استخدم 18 g من هذا البن.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Set up",
+          "title_ar": "الضبط",
+          "description": "Brew at 93.5°C.",
+          "description_ar": "اضبط الحرارة على 93.5°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Yield",
+          "title_ar": "الناتج",
+          "description": "Extract to 38 g in the cup.",
+          "description_ar": "استخلص حتى يصل الناتج في الكوب إلى 38 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Time",
+          "title_ar": "الوقت",
+          "description": "Target extraction: 30–32 s; adjust grind to suit your equipment.",
+          "description_ar": "استهدف استخلاصاً خلال 30–32 s؛ اضبط الطحن بحسب معداتك.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "time_min_seconds": 30,
+          "time_max_seconds": 32,
+          "pressure_bar": 9,
+          "yield_grams": 38,
+          "parameter_only_source": true
+        }
+      },
+      "source_urls": [
+        "https://workshopcoffee.com/products/la-plata-decaf",
+        "https://workshopcoffee.com/pages/terms-of-use"
+      ],
+      "yield_grams": 38,
+      "roaster_name_ar": "وركشوب كوفي",
+      "creator_country_ar": "المملكة المتحدة",
+      "coffee_name_ar": "لا بلاتا منزوع الكافيين",
+      "coffee_origin_ar": "كولومبيا",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "workshop-la-plata-decaf-pourover",
+      "title": "Workshop — La Plata Decaf pour-over",
+      "title_ar": "وركشوب — لا بلاتا منزوع الكافيين تقطير",
+      "brew_method": "pour_over",
+      "coffee_name": "La Plata Decaf",
+      "roaster_name": "Workshop Coffee",
+      "source_author_name": "Workshop Coffee",
+      "creator_country": "United Kingdom",
+      "recipe_country": null,
+      "coffee_origin": "Colombia",
+      "coffee_type": "Decaf",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Currants",
+        "Dark chocolate",
+        "Roasted almonds"
+      ],
+      "flavor_notes_ar": [
+        "كشمش",
+        "شوكولاتة داكنة",
+        "لوز محمص"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate",
+        "nutty"
+      ],
+      "dose_grams": 21,
+      "water_grams": 300,
+      "water_ml": null,
+      "water_temp_c": 95,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 210,
+      "grinder_setting": "Couscous",
+      "notes": "Brewer not named. Source: 50 g bloom, then 50 g additions every 30 seconds; water complete by 3:00 and drawdown by 3:30. Exact per-pour starts are not inferred.",
+      "notes_ar": "أداة التقطير غير مسماة. تزهير 50 g ثم إضافات 50 g كل 30 ثانية؛ اكتمال الماء بحلول 3:00 والتصريف بحلول 3:30. لم نخترع أوقات بدء الصبات.",
+      "source_url": "https://workshopcoffee.com/products/la-plata-decaf",
+      "source_author_url": "https://workshopcoffee.com",
+      "source_country_url": "https://workshopcoffee.com/pages/terms-of-use",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose and grind",
+          "title_ar": "الجرعة والطحن",
+          "description": "Use 21 g; grind texture: couscous.",
+          "description_ar": "استخدم 21 g؛ اتبع مرجع الطحن المنشور.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Add 50 g water; wait 30 seconds.",
+          "description_ar": "أضف 50 g ماء وانتظر 30 ثانية.",
+          "duration_seconds": 30
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إكمال الماء",
+          "description": "Add 50 g every 30 seconds to reach 300 g; use 95°C water.",
+          "description_ar": "أضف 50 g كل 30 ثانية حتى يبلغ الماء 300 g عند 95°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Drain",
+          "title_ar": "التصريف",
+          "description": "Aim to finish draining by 3:30.",
+          "description_ar": "استهدف اكتمال التصريف بحلول 3:30.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "source_pour_schedule_note": "All water added by 3:00."
+        }
+      },
+      "source_urls": [
+        "https://workshopcoffee.com/products/la-plata-decaf",
+        "https://workshopcoffee.com/pages/terms-of-use"
+      ],
+      "roaster_name_ar": "وركشوب كوفي",
+      "creator_country_ar": "المملكة المتحدة",
+      "coffee_name_ar": "لا بلاتا منزوع الكافيين",
+      "coffee_origin_ar": "كولومبيا"
+    },
+    {
+      "slug": "workshop-pillar-espresso",
+      "title": "Workshop — Pillar espresso",
+      "title_ar": "وركشوب — بيلار إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Pillar",
+      "roaster_name": "Workshop Coffee",
+      "source_author_name": "Workshop Coffee",
+      "creator_country": "United Kingdom",
+      "recipe_country": null,
+      "coffee_origin": "Brazil; Ethiopia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Molasses",
+        "Cola",
+        "Roasted walnuts"
+      ],
+      "flavor_notes_ar": [
+        "دبس",
+        "كولا",
+        "جوز محمص"
+      ],
+      "flavor_families": [
+        "caramel",
+        "nutty"
+      ],
+      "dose_grams": 18,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": 93.5,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": null,
+      "notes": "Published product-specific recommendation; also used for other Workshop coffees.",
+      "notes_ar": "توصية منشورة لهذا المنتج، وتستخدم المحمصة الإعدادات نفسها لبعض منتجاتها الأخرى.",
+      "source_url": "https://workshopcoffee.com/products/pillar",
+      "source_author_url": "https://workshopcoffee.com",
+      "source_country_url": "https://workshopcoffee.com/pages/terms-of-use",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Use 18 g of this coffee.",
+          "description_ar": "استخدم 18 g من هذا البن.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Set up",
+          "title_ar": "الضبط",
+          "description": "Brew at 93.5°C.",
+          "description_ar": "اضبط الحرارة على 93.5°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Yield",
+          "title_ar": "الناتج",
+          "description": "Extract to 36 g in the cup.",
+          "description_ar": "استخلص حتى يصل الناتج في الكوب إلى 36 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Time",
+          "title_ar": "الوقت",
+          "description": "Target extraction: 28–30 s; adjust grind to suit your equipment.",
+          "description_ar": "استهدف استخلاصاً خلال 28–30 s؛ اضبط الطحن بحسب معداتك.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "time_min_seconds": 28,
+          "time_max_seconds": 30,
+          "pressure_bar": 9,
+          "yield_grams": 36,
+          "parameter_only_source": true
+        }
+      },
+      "source_urls": [
+        "https://workshopcoffee.com/products/pillar",
+        "https://workshopcoffee.com/pages/terms-of-use"
+      ],
+      "yield_grams": 36,
+      "roaster_name_ar": "وركشوب كوفي",
+      "creator_country_ar": "المملكة المتحدة",
+      "coffee_name_ar": "بيلار",
+      "coffee_origin_ar": "البرازيل؛ إثيوبيا",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "workshop-pillar-pourover",
+      "title": "Workshop — Pillar pour-over",
+      "title_ar": "وركشوب — بيلار تقطير",
+      "brew_method": "pour_over",
+      "coffee_name": "Pillar",
+      "roaster_name": "Workshop Coffee",
+      "source_author_name": "Workshop Coffee",
+      "creator_country": "United Kingdom",
+      "recipe_country": null,
+      "coffee_origin": "Brazil; Ethiopia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Molasses",
+        "Cola",
+        "Roasted walnuts"
+      ],
+      "flavor_notes_ar": [
+        "دبس",
+        "كولا",
+        "جوز محمص"
+      ],
+      "flavor_families": [
+        "caramel",
+        "nutty"
+      ],
+      "dose_grams": 24,
+      "water_grams": 300,
+      "water_ml": null,
+      "water_temp_c": 90,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 210,
+      "grinder_setting": "Coarse salt / cracked pepper",
+      "notes": "Brewer not named. Source: 50 g bloom, then 50 g additions every 30 seconds; water complete by 3:00 and drawdown by 3:30. Exact per-pour starts are not inferred.",
+      "notes_ar": "أداة التقطير غير مسماة. تزهير 50 g ثم إضافات 50 g كل 30 ثانية؛ اكتمال الماء بحلول 3:00 والتصريف بحلول 3:30. لم نخترع أوقات بدء الصبات.",
+      "source_url": "https://workshopcoffee.com/products/pillar",
+      "source_author_url": "https://workshopcoffee.com",
+      "source_country_url": "https://workshopcoffee.com/pages/terms-of-use",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose and grind",
+          "title_ar": "الجرعة والطحن",
+          "description": "Use 24 g; grind texture: coarse salt / cracked pepper.",
+          "description_ar": "استخدم 24 g؛ اتبع مرجع الطحن المنشور.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Add 50 g water; wait 30 seconds.",
+          "description_ar": "أضف 50 g ماء وانتظر 30 ثانية.",
+          "duration_seconds": 30
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إكمال الماء",
+          "description": "Add 50 g every 30 seconds to reach 300 g; use 90°C water.",
+          "description_ar": "أضف 50 g كل 30 ثانية حتى يبلغ الماء 300 g عند 90°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Drain",
+          "title_ar": "التصريف",
+          "description": "Aim to finish draining by 3:30.",
+          "description_ar": "استهدف اكتمال التصريف بحلول 3:30.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "source_pour_schedule_note": "All water added by 3:00."
+        }
+      },
+      "source_urls": [
+        "https://workshopcoffee.com/products/pillar",
+        "https://workshopcoffee.com/pages/terms-of-use"
+      ],
+      "roaster_name_ar": "وركشوب كوفي",
+      "creator_country_ar": "المملكة المتحدة",
+      "coffee_name_ar": "بيلار",
+      "coffee_origin_ar": "البرازيل؛ إثيوبيا"
+    },
+    {
+      "slug": "workshop-maidy-bocanegra-pink-bourbon-pourover",
+      "title": "Workshop — Maidy Bocanegra Pink Bourbon pour-over",
+      "title_ar": "وركشوب — مايدي بوكانغرا بينك بوربون تقطير",
+      "brew_method": "pour_over",
+      "coffee_name": "Maidy Bocanegra Pink Bourbon",
+      "roaster_name": "Workshop Coffee",
+      "source_author_name": "Workshop Coffee",
+      "creator_country": "United Kingdom",
+      "recipe_country": null,
+      "coffee_origin": "Colombia",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Lime curd",
+        "Blackcurrant",
+        "Cane sugar"
+      ],
+      "flavor_notes_ar": [
+        "كريمة الليمون الأخضر",
+        "كشمش أسود",
+        "سكر القصب"
+      ],
+      "flavor_families": [
+        "citrus",
+        "fruity",
+        "caramel"
+      ],
+      "dose_grams": 18,
+      "water_grams": 300,
+      "water_ml": null,
+      "water_temp_c": 100,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 210,
+      "grinder_setting": "Caster sugar",
+      "notes": "Brewer not named. Source: 50 g bloom, then 50 g additions every 30 seconds; water complete by 3:00 and drawdown by 3:30. Exact per-pour starts are not inferred.",
+      "notes_ar": "أداة التقطير غير مسماة. تزهير 50 g ثم إضافات 50 g كل 30 ثانية؛ اكتمال الماء بحلول 3:00 والتصريف بحلول 3:30. لم نخترع أوقات بدء الصبات.",
+      "source_url": "https://workshopcoffee.com/products/maidy-bocanegra-pink-bourbon",
+      "source_author_url": "https://workshopcoffee.com",
+      "source_country_url": "https://workshopcoffee.com/pages/terms-of-use",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose and grind",
+          "title_ar": "الجرعة والطحن",
+          "description": "Use 18 g; grind texture: caster sugar.",
+          "description_ar": "استخدم 18 g؛ اتبع مرجع الطحن المنشور.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Add 50 g water; wait 30 seconds.",
+          "description_ar": "أضف 50 g ماء وانتظر 30 ثانية.",
+          "duration_seconds": 30
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إكمال الماء",
+          "description": "Add 50 g every 30 seconds to reach 300 g; use 100°C water.",
+          "description_ar": "أضف 50 g كل 30 ثانية حتى يبلغ الماء 300 g عند 100°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Drain",
+          "title_ar": "التصريف",
+          "description": "Aim to finish draining by 3:30.",
+          "description_ar": "استهدف اكتمال التصريف بحلول 3:30.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "source_pour_schedule_note": "Maidy page says final pour at 3:00; no inferred sequence replaces that wording."
+        }
+      },
+      "source_urls": [
+        "https://workshopcoffee.com/products/maidy-bocanegra-pink-bourbon",
+        "https://workshopcoffee.com/pages/terms-of-use"
+      ],
+      "roaster_name_ar": "وركشوب كوفي",
+      "creator_country_ar": "المملكة المتحدة",
+      "coffee_name_ar": "مايدي بوكانغرا بينك بوربون",
+      "coffee_origin_ar": "كولومبيا"
+    },
+    {
+      "slug": "gardelli-813-v60",
+      "title": "Gardelli — La Torre Mejia Geisha V60",
+      "title_ar": "غارديلي — لا توري ميخيا غيشا V60",
+      "brew_method": "v60",
+      "coffee_name": "La Torre Mejia Geisha",
+      "roaster_name": "Gardelli Specialty Coffees",
+      "source_author_name": "Rubens Gardelli",
+      "creator_country": "Italy",
+      "recipe_country": null,
+      "coffee_origin": "Peru",
+      "coffee_type": "Arabica",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Jasmine",
+        "Pineapple",
+        "Maple syrup",
+        "Cinnamon",
+        "Peach"
+      ],
+      "flavor_notes_ar": [
+        "ياسمين",
+        "أناناس",
+        "شراب القيقب",
+        "قرفة",
+        "خوخ"
+      ],
+      "flavor_families": [
+        "floral",
+        "fruity",
+        "caramel",
+        "spice"
+      ],
+      "dose_grams": 17,
+      "water_grams": 250,
+      "water_ml": null,
+      "water_temp_c": 94,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 160,
+      "grinder_setting": "Comandante 16 clicks (medium)",
+      "notes": "Coffee-specific V60-style parameters; source provides no bloom or pour schedule. Same parameter table also appears under flatbed; stored once to avoid duplicate inflation.",
+      "notes_ar": "إعدادات V60 لهذا البن؛ المصدر لا يحدد التزهير أو جدول الصبات. يعرض القيم نفسها للفلتر المسطح، فحُفظت وصفة واحدة.",
+      "source_url": "https://shop.gardellicoffee.com/coffees/813-la-torre-mejia-geisha-peru",
+      "source_author_url": "https://shop.gardellicoffee.com/content/gsc-story",
+      "source_country_url": "https://shop.gardellicoffee.com/contact-us",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Measure 17 g.",
+          "description_ar": "زن 17 g بن.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Grind",
+          "title_ar": "الطحن",
+          "description": "Comandante: 16 clicks.",
+          "description_ar": "كوماندانتي: 16 نقرة.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Brew",
+          "title_ar": "التحضير",
+          "description": "Use 250 g water, 40 ppm, at 94°C and Cafec Abaca+ filter.",
+          "description_ar": "استخدم 250 g ماء بتركيز 40 ppm عند 94°C وفلتر Cafec Abaca+.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Time",
+          "title_ar": "الوقت",
+          "description": "Target 2:40; source does not prescribe individual pours.",
+          "description_ar": "الهدف 2:40؛ المصدر لا يفصل الصبات.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "filter_model": "Cafec Abaca+",
+          "water_tds_ppm": 40,
+          "alternative_brewer": "Flatbed, same published parameters",
+          "published_brew_strength_tds": 1.45
+        }
+      },
+      "source_urls": [
+        "https://shop.gardellicoffee.com/coffees/813-la-torre-mejia-geisha-peru",
+        "https://shop.gardellicoffee.com/contact-us"
+      ],
+      "roaster_name_ar": "غارديلي",
+      "creator_country_ar": "إيطاليا",
+      "coffee_name_ar": "لا توري ميخيا غيشا",
+      "coffee_origin_ar": "بيرو"
+    },
+    {
+      "slug": "gardelli-834-v60",
+      "title": "Gardelli — Lalesa Ephtah V60",
+      "title_ar": "غارديلي — لاليسا إفثاه V60",
+      "brew_method": "v60",
+      "coffee_name": "Lalesa Ephtah",
+      "roaster_name": "Gardelli Specialty Coffees",
+      "source_author_name": "Rubens Gardelli",
+      "creator_country": "Italy",
+      "recipe_country": null,
+      "coffee_origin": "Ethiopia",
+      "coffee_type": "Arabica",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Violet",
+        "Blackberry",
+        "Dark grape",
+        "Peach",
+        "Orange"
+      ],
+      "flavor_notes_ar": [
+        "بنفسج",
+        "توت أسود",
+        "عنب داكن",
+        "خوخ",
+        "برتقال"
+      ],
+      "flavor_families": [
+        "floral",
+        "fruity",
+        "citrus"
+      ],
+      "dose_grams": 17,
+      "water_grams": 250,
+      "water_ml": null,
+      "water_temp_c": 92,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 165,
+      "grinder_setting": "Comandante 18 clicks (medium)",
+      "notes": "Coffee-specific V60-style parameters; source provides no bloom or pour schedule. Same parameter table also appears under flatbed; stored once to avoid duplicate inflation.",
+      "notes_ar": "إعدادات V60 لهذا البن؛ المصدر لا يحدد التزهير أو جدول الصبات. يعرض القيم نفسها للفلتر المسطح، فحُفظت وصفة واحدة.",
+      "source_url": "https://shop.gardellicoffee.com/coffees/834-441-lalesa-ephtah-ethiopia",
+      "source_author_url": "https://shop.gardellicoffee.com/content/gsc-story",
+      "source_country_url": "https://shop.gardellicoffee.com/contact-us",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Measure 17 g.",
+          "description_ar": "زن 17 g بن.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Grind",
+          "title_ar": "الطحن",
+          "description": "Comandante: 18 clicks.",
+          "description_ar": "كوماندانتي: 18 نقرة.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Brew",
+          "title_ar": "التحضير",
+          "description": "Use 250 g water, 40 ppm, at 92°C and Cafec Abaca+ filter.",
+          "description_ar": "استخدم 250 g ماء بتركيز 40 ppm عند 92°C وفلتر Cafec Abaca+.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Time",
+          "title_ar": "الوقت",
+          "description": "Target 2:45; source does not prescribe individual pours.",
+          "description_ar": "الهدف 2:45؛ المصدر لا يفصل الصبات.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "filter_model": "Cafec Abaca+",
+          "water_tds_ppm": 40,
+          "alternative_brewer": "Flatbed, same published parameters",
+          "published_brew_strength_tds": 1.47
+        }
+      },
+      "source_urls": [
+        "https://shop.gardellicoffee.com/coffees/834-441-lalesa-ephtah-ethiopia",
+        "https://shop.gardellicoffee.com/contact-us"
+      ],
+      "roaster_name_ar": "غارديلي",
+      "creator_country_ar": "إيطاليا",
+      "coffee_name_ar": "لاليسا إفثاه",
+      "coffee_origin_ar": "إثيوبيا"
+    },
+    {
+      "slug": "gardelli-821-v60",
+      "title": "Gardelli — Cumbres Decaffeinated V60",
+      "title_ar": "غارديلي — كومبريس منزوع الكافيين V60",
+      "brew_method": "v60",
+      "coffee_name": "Cumbres Decaffeinated",
+      "roaster_name": "Gardelli Specialty Coffees",
+      "source_author_name": "Rubens Gardelli",
+      "creator_country": "Italy",
+      "recipe_country": null,
+      "coffee_origin": "Colombia",
+      "coffee_type": "Decaf Arabica",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Orange zest",
+        "Panela",
+        "Apple"
+      ],
+      "flavor_notes_ar": [
+        "قشر برتقال",
+        "سكر بانيلا",
+        "تفاح"
+      ],
+      "flavor_families": [
+        "citrus",
+        "caramel",
+        "fruity"
+      ],
+      "dose_grams": 17,
+      "water_grams": 250,
+      "water_ml": null,
+      "water_temp_c": 95,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 160,
+      "grinder_setting": "Comandante 23 clicks (medium)",
+      "notes": "Coffee-specific V60-style parameters; source provides no bloom or pour schedule. Same parameter table also appears under flatbed; stored once to avoid duplicate inflation.",
+      "notes_ar": "إعدادات V60 لهذا البن؛ المصدر لا يحدد التزهير أو جدول الصبات. يعرض القيم نفسها للفلتر المسطح، فحُفظت وصفة واحدة.",
+      "source_url": "https://shop.gardellicoffee.com/coffees/821-425-cumbres-decaffeinated-colombia",
+      "source_author_url": "https://shop.gardellicoffee.com/content/gsc-story",
+      "source_country_url": "https://shop.gardellicoffee.com/contact-us",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Measure 17 g.",
+          "description_ar": "زن 17 g بن.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Grind",
+          "title_ar": "الطحن",
+          "description": "Comandante: 23 clicks.",
+          "description_ar": "كوماندانتي: 23 نقرة.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Brew",
+          "title_ar": "التحضير",
+          "description": "Use 250 g water, 40 ppm, at 95°C and Cafec Abaca+ filter.",
+          "description_ar": "استخدم 250 g ماء بتركيز 40 ppm عند 95°C وفلتر Cafec Abaca+.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Time",
+          "title_ar": "الوقت",
+          "description": "Target 2:40; source does not prescribe individual pours.",
+          "description_ar": "الهدف 2:40؛ المصدر لا يفصل الصبات.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "filter_model": "Cafec Abaca+",
+          "water_tds_ppm": 40,
+          "alternative_brewer": "Flatbed, same published parameters",
+          "published_brew_strength_tds": 1.55
+        }
+      },
+      "source_urls": [
+        "https://shop.gardellicoffee.com/coffees/821-425-cumbres-decaffeinated-colombia",
+        "https://shop.gardellicoffee.com/contact-us"
+      ],
+      "roaster_name_ar": "غارديلي",
+      "creator_country_ar": "إيطاليا",
+      "coffee_name_ar": "كومبريس منزوع الكافيين",
+      "coffee_origin_ar": "كولومبيا"
+    },
+    {
+      "slug": "square-mile-red-brick-current",
+      "title": "Square Mile — Red Brick espresso",
+      "title_ar": "سكوير مايل — ريد بريك إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Red Brick",
+      "roaster_name": "Square Mile Coffee Roasters",
+      "source_author_name": "Square Mile Coffee Roasters",
+      "creator_country": "United Kingdom",
+      "recipe_country": null,
+      "coffee_origin": "Costa Rica; Ethiopia",
+      "coffee_type": "Blend",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Peach",
+        "Chocolate",
+        "Nougat"
+      ],
+      "flavor_notes_ar": [
+        "خوخ",
+        "شوكولاتة",
+        "نوجا"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate",
+        "nutty"
+      ],
+      "dose_grams": 19,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": 94,
+      "water_temp_c_max": 94.5,
+      "total_time_seconds": null,
+      "grinder_setting": null,
+      "notes": "38 g output is calculated from the published 19 g dose and 1:2 ratio.",
+      "notes_ar": "ناتج 38 g محسوب من جرعة المصدر 19 g ونسبته 1:2.",
+      "source_url": "https://shop.squaremilecoffee.com/products/red-brick",
+      "source_author_url": "https://shop.squaremilecoffee.com",
+      "source_country_url": "https://shop.squaremilecoffee.com/pages/about-us",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Use 19 g of this coffee.",
+          "description_ar": "استخدم 19 g من هذا البن.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Temperature and basket",
+          "title_ar": "الحرارة والسلة",
+          "description": "Use 94–94.5°C; reference basket VST 20 g.",
+          "description_ar": "استخدم 94–94.5°C؛ سلة المصدر VST 20 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Yield",
+          "title_ar": "الناتج",
+          "description": "Extract to 38 g in the cup.",
+          "description_ar": "استخلص حتى يصل الناتج في الكوب إلى 38 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Time",
+          "title_ar": "الوقت",
+          "description": "Target extraction: 28–32 s; adjust grind to suit your equipment.",
+          "description_ar": "استهدف استخلاصاً خلال 28–32 s؛ اضبط الطحن بحسب معداتك.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "time_min_seconds": 28,
+          "time_max_seconds": 32,
+          "temperature_min_c": 94,
+          "temperature_max_c": 94.5,
+          "basket": "VST 20g",
+          "machine": "Victoria Arduino VA388 Black Eagle",
+          "yield_derived_from_ratio": "19 g × published 1:2 = 38 g",
+          "yield_grams": 38,
+          "parameter_only_source": true
+        }
+      },
+      "source_urls": [
+        "https://shop.squaremilecoffee.com/products/red-brick",
+        "https://shop.squaremilecoffee.com/pages/about-us"
+      ],
+      "yield_grams": 38,
+      "roaster_name_ar": "سكوير مايل",
+      "creator_country_ar": "المملكة المتحدة",
+      "coffee_name_ar": "ريد بريك",
+      "coffee_origin_ar": "كوستاريكا؛ إثيوبيا",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "nomad-churupallana-espresso-2026",
+      "title": "NOMAD — Churupallana 2026 espresso",
+      "title_ar": "نوماد — تشوروبالانا 2026 إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Churupallana 2026",
+      "roaster_name": "NOMAD Coffee",
+      "source_author_name": "NOMAD Coffee",
+      "creator_country": "Spain",
+      "recipe_country": null,
+      "coffee_origin": "Peru",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Walnut",
+        "Dates",
+        "Yellow plum"
+      ],
+      "flavor_notes_ar": [
+        "جوز",
+        "تمر",
+        "برقوق أصفر"
+      ],
+      "flavor_families": [
+        "nutty",
+        "fruity"
+      ],
+      "dose_grams": 17.5,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 26,
+      "grinder_setting": "Sage Barista Pro; grind 18; grind time 14 s",
+      "notes": "Named entry in NOMAD recipe archive; no water temperature is published. Product tasting notes describe current offered coffee; recipe year is separately labeled.",
+      "notes_ar": "وصفة مسماة في أرشيف نوماد؛ حرارة الماء غير منشورة. إيحاءات البن تخص صفحة المنتج الحالية، وسنة الوصفة معروضة مستقلة.",
+      "source_url": "https://nomadcoffee.es/en/pages/historico-recetas",
+      "source_author_url": "https://nomadcoffee.es",
+      "source_country_url": "https://nomadcoffee.es/en/pages/contact",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Use 17.5 g of this coffee.",
+          "description_ar": "استخدم 17.5 g من هذا البن.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Set up",
+          "title_ar": "الضبط",
+          "description": "Use the published grinder or machine reference where available.",
+          "description_ar": "استخدم مرجع الطاحونة أو الماكينة المنشور إن توفر.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Yield",
+          "title_ar": "الناتج",
+          "description": "Extract to 41 g in the cup.",
+          "description_ar": "استخلص حتى يصل الناتج في الكوب إلى 41 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Time",
+          "title_ar": "الوقت",
+          "description": "Target extraction: 26 s; adjust grind to suit your equipment.",
+          "description_ar": "استهدف استخلاصاً خلال 26 s؛ اضبط الطحن بحسب معداتك.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "water_brand": "Lanjarón",
+          "yield_grams": 41,
+          "parameter_only_source": true
+        }
+      },
+      "source_urls": [
+        "https://nomadcoffee.es/en/pages/historico-recetas",
+        "https://nomadcoffee.es/en/pages/contact",
+        "https://nomadcoffee.es/products/churupallana"
+      ],
+      "yield_grams": 41,
+      "roaster_name_ar": "نوماد كوفي",
+      "creator_country_ar": "إسبانيا",
+      "coffee_name_ar": "تشوروبالانا 2026",
+      "coffee_origin_ar": "بيرو",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "nomad-parainema-espresso-2026",
+      "title": "NOMAD — Parainema 2026 espresso",
+      "title_ar": "نوماد — باراينما 2026 إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Parainema 2026",
+      "roaster_name": "NOMAD Coffee",
+      "source_author_name": "NOMAD Coffee",
+      "creator_country": "Spain",
+      "recipe_country": null,
+      "coffee_origin": "El Salvador",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Raspberry",
+        "Milk chocolate",
+        "Cherry"
+      ],
+      "flavor_notes_ar": [
+        "توت العليق",
+        "شوكولاتة بالحليب",
+        "كرز"
+      ],
+      "flavor_families": [
+        "fruity",
+        "chocolate"
+      ],
+      "dose_grams": 19,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 26,
+      "grinder_setting": "La Marzocco Micra; grind 18III (grinder not named in entry)",
+      "notes": "Named entry in NOMAD recipe archive; no water temperature is published. Product tasting notes describe current offered coffee; recipe year is separately labeled.",
+      "notes_ar": "وصفة مسماة في أرشيف نوماد؛ حرارة الماء غير منشورة. إيحاءات البن تخص صفحة المنتج الحالية، وسنة الوصفة معروضة مستقلة.",
+      "source_url": "https://nomadcoffee.es/en/pages/historico-recetas",
+      "source_author_url": "https://nomadcoffee.es",
+      "source_country_url": "https://nomadcoffee.es/en/pages/contact",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Use 19 g of this coffee.",
+          "description_ar": "استخدم 19 g من هذا البن.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Set up",
+          "title_ar": "الضبط",
+          "description": "Use the published grinder or machine reference where available.",
+          "description_ar": "استخدم مرجع الطاحونة أو الماكينة المنشور إن توفر.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Yield",
+          "title_ar": "الناتج",
+          "description": "Extract to 40.5 g in the cup.",
+          "description_ar": "استخلص حتى يصل الناتج في الكوب إلى 40.5 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Time",
+          "title_ar": "الوقت",
+          "description": "Target extraction: 26 s; adjust grind to suit your equipment.",
+          "description_ar": "استهدف استخلاصاً خلال 26 s؛ اضبط الطحن بحسب معداتك.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "water_brand": "Lanjarón",
+          "yield_grams": 40.5,
+          "parameter_only_source": true
+        }
+      },
+      "source_urls": [
+        "https://nomadcoffee.es/en/pages/historico-recetas",
+        "https://nomadcoffee.es/en/pages/contact",
+        "https://nomadcoffee.es/products/parainema"
+      ],
+      "yield_grams": 40.5,
+      "roaster_name_ar": "نوماد كوفي",
+      "creator_country_ar": "إسبانيا",
+      "coffee_name_ar": "باراينما 2026",
+      "coffee_origin_ar": "السلفادور",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "nomad-pacas-espresso-2026",
+      "title": "NOMAD — Pacas 2026 espresso",
+      "title_ar": "نوماد — باكاس 2026 إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Pacas 2026",
+      "roaster_name": "NOMAD Coffee",
+      "source_author_name": "NOMAD Coffee",
+      "creator_country": "Spain",
+      "recipe_country": null,
+      "coffee_origin": "El Salvador",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Candied almond",
+        "Cinnamon",
+        "Dates"
+      ],
+      "flavor_notes_ar": [
+        "لوز مكرمل",
+        "قرفة",
+        "تمر"
+      ],
+      "flavor_families": [
+        "nutty",
+        "spice",
+        "fruity"
+      ],
+      "dose_grams": 18.5,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 29,
+      "grinder_setting": "La Marzocco Mini; La Marzocco Pico 18.25",
+      "notes": "Named entry in NOMAD recipe archive; no water temperature is published. Product tasting notes describe current offered coffee; recipe year is separately labeled.",
+      "notes_ar": "وصفة مسماة في أرشيف نوماد؛ حرارة الماء غير منشورة. إيحاءات البن تخص صفحة المنتج الحالية، وسنة الوصفة معروضة مستقلة.",
+      "source_url": "https://nomadcoffee.es/en/pages/historico-recetas",
+      "source_author_url": "https://nomadcoffee.es",
+      "source_country_url": "https://nomadcoffee.es/en/pages/contact",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Use 18.5 g of this coffee.",
+          "description_ar": "استخدم 18.5 g من هذا البن.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Set up",
+          "title_ar": "الضبط",
+          "description": "Use the published grinder or machine reference where available.",
+          "description_ar": "استخدم مرجع الطاحونة أو الماكينة المنشور إن توفر.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Yield",
+          "title_ar": "الناتج",
+          "description": "Extract to 40 g in the cup.",
+          "description_ar": "استخلص حتى يصل الناتج في الكوب إلى 40 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Time",
+          "title_ar": "الوقت",
+          "description": "Target extraction: 29 s; adjust grind to suit your equipment.",
+          "description_ar": "استهدف استخلاصاً خلال 29 s؛ اضبط الطحن بحسب معداتك.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "water_brand": "Lanjarón",
+          "yield_grams": 40,
+          "parameter_only_source": true
+        }
+      },
+      "source_urls": [
+        "https://nomadcoffee.es/en/pages/historico-recetas",
+        "https://nomadcoffee.es/en/pages/contact",
+        "https://nomadcoffee.es/products/pacas"
+      ],
+      "yield_grams": 40,
+      "roaster_name_ar": "نوماد كوفي",
+      "creator_country_ar": "إسبانيا",
+      "coffee_name_ar": "باكاس 2026",
+      "coffee_origin_ar": "السلفادور",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "nomad-kafipamba-espresso-archive",
+      "title": "NOMAD — Kafipamba espresso",
+      "title_ar": "نوماد — كافي بامبا إسبريسو",
+      "brew_method": "espresso",
+      "coffee_name": "Kafipamba",
+      "roaster_name": "NOMAD Coffee",
+      "source_author_name": "NOMAD Coffee",
+      "creator_country": "Spain",
+      "recipe_country": null,
+      "coffee_origin": "Ecuador",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Melon",
+        "Panela",
+        "Spearmint"
+      ],
+      "flavor_notes_ar": [
+        "شمام",
+        "سكر بانيلا",
+        "نعناع"
+      ],
+      "flavor_families": [
+        "fruity",
+        "caramel"
+      ],
+      "dose_grams": 16.5,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 25,
+      "grinder_setting": "Sage Barista Pro; grind 13; grind time 12 s",
+      "notes": "Named entry in NOMAD recipe archive; no water temperature is published. Product tasting notes describe current offered coffee; recipe year is separately labeled.",
+      "notes_ar": "وصفة مسماة في أرشيف نوماد؛ حرارة الماء غير منشورة. إيحاءات البن تخص صفحة المنتج الحالية، وسنة الوصفة معروضة مستقلة.",
+      "source_url": "https://nomadcoffee.es/en/pages/historico-recetas",
+      "source_author_url": "https://nomadcoffee.es",
+      "source_country_url": "https://nomadcoffee.es/en/pages/contact",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Use 16.5 g of this coffee.",
+          "description_ar": "استخدم 16.5 g من هذا البن.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Set up",
+          "title_ar": "الضبط",
+          "description": "Use the published grinder or machine reference where available.",
+          "description_ar": "استخدم مرجع الطاحونة أو الماكينة المنشور إن توفر.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Yield",
+          "title_ar": "الناتج",
+          "description": "Extract to 39 g in the cup.",
+          "description_ar": "استخلص حتى يصل الناتج في الكوب إلى 39 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Time",
+          "title_ar": "الوقت",
+          "description": "Target extraction: 25 s; adjust grind to suit your equipment.",
+          "description_ar": "استهدف استخلاصاً خلال 25 s؛ اضبط الطحن بحسب معداتك.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "water_brand": "Lanjarón",
+          "yield_grams": 39,
+          "parameter_only_source": true
+        }
+      },
+      "source_urls": [
+        "https://nomadcoffee.es/en/pages/historico-recetas",
+        "https://nomadcoffee.es/en/pages/contact",
+        "https://nomadcoffee.es/products/kafipamba"
+      ],
+      "yield_grams": 39,
+      "roaster_name_ar": "نوماد كوفي",
+      "creator_country_ar": "إسبانيا",
+      "coffee_name_ar": "كافي بامبا",
+      "coffee_origin_ar": "الإكوادور",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "nomad-jhenrry-chavez-orea",
+      "title": "NOMAD — Jhenrry Chávez OREA V4",
+      "title_ar": "نوماد — خينري تشافيز OREA V4",
+      "brew_method": "orea",
+      "coffee_name": "Jhenrry Chávez",
+      "roaster_name": "NOMAD Coffee",
+      "source_author_name": "NOMAD Coffee",
+      "creator_country": "Spain",
+      "recipe_country": null,
+      "coffee_origin": "Peru",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Mango",
+        "Honey",
+        "Mandarin"
+      ],
+      "flavor_notes_ar": [
+        "مانجو",
+        "عسل",
+        "يوسفي"
+      ],
+      "flavor_families": [
+        "fruity",
+        "caramel",
+        "citrus"
+      ],
+      "dose_grams": 18.5,
+      "water_grams": 260,
+      "water_ml": null,
+      "water_temp_c": 93,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 130,
+      "grinder_setting": "Fellow Opus 8",
+      "notes": "Named archive recipe. OREA V4 Classic base; Lanjarón water.",
+      "notes_ar": "وصفة الأرشيف المسماة؛ OREA V4 بقاعدة Classic وماء Lanjarón.",
+      "source_url": "https://nomadcoffee.es/en/pages/historico-recetas",
+      "source_author_url": "https://nomadcoffee.es",
+      "source_country_url": "https://nomadcoffee.es/en/pages/contact",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Use 18.5 g at Fellow Opus setting 8.",
+          "description_ar": "استخدم 18.5 g وطحنة Fellow Opus رقم 8.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Start with 60 g at 93°C; wait 30 seconds.",
+          "description_ar": "ابدأ بـ60 g عند 93°C وانتظر 30 ثانية.",
+          "duration_seconds": 30
+        },
+        {
+          "title": "Second pour",
+          "title_ar": "الصبة الثانية",
+          "description": "Bring the scale to 160 g before 1:00.",
+          "description_ar": "أكمل حتى 160 g على الميزان قبل 1:00.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Final pour",
+          "title_ar": "الصبة الأخيرة",
+          "description": "At 1:15 add to 260 g; target completion 2:10.",
+          "description_ar": "عند 1:15 أكمل إلى 260 g؛ استهدف الانتهاء 2:10.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [
+        {
+          "water_grams": 60,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "water_grams": 100,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 100,
+          "start_at_seconds": 75,
+          "is_bloom": false
+        }
+      ],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "model": "OREA V4 Classic base",
+          "water_brand": "Lanjarón"
+        }
+      },
+      "source_urls": [
+        "https://nomadcoffee.es/en/pages/historico-recetas",
+        "https://nomadcoffee.es/en/pages/contact",
+        "https://nomadcoffee.es/products/jhenrry-chavez"
+      ],
+      "roaster_name_ar": "نوماد كوفي",
+      "creator_country_ar": "إسبانيا",
+      "coffee_name_ar": "خينري تشافيز",
+      "coffee_origin_ar": "بيرو"
+    },
+    {
+      "slug": "dak-general-filter-16-5g-250g",
+      "title": "DAK — general filter guide",
+      "title_ar": "داك — دليل الفلتر العام",
+      "brew_method": "pour_over",
+      "coffee_name": null,
+      "roaster_name": "DAK Coffee Roasters",
+      "source_author_name": "DAK Coffee Roasters",
+      "creator_country": "Netherlands",
+      "recipe_country": null,
+      "coffee_origin": null,
+      "coffee_type": null,
+      "serving_style": "hot",
+      "flavor_notes": [],
+      "flavor_notes_ar": [],
+      "flavor_families": [],
+      "dose_grams": 16.5,
+      "water_grams": 250,
+      "water_ml": null,
+      "water_temp_c": 92,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": null,
+      "grinder_setting": null,
+      "notes": "One common guide repeated across DAK product pages; not coffee-specific. Total time 2:00–2:30. Source does not specify a brewer model.",
+      "notes_ar": "دليل عام واحد يتكرر في صفحات منتجات داك، وليس وصفة خاصة ببن معين. الزمن 2:00–2:30 وطراز أداة الفلتر غير مذكور.",
+      "source_url": "https://www.dakcoffeeroasters.com/product/milky-cake/",
+      "source_author_url": "https://www.dakcoffeeroasters.com",
+      "source_country_url": "https://www.dakcoffeeroasters.com/about/",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "First pour",
+          "title_ar": "الصبة الأولى",
+          "description": "At 0:00 pour to 50 g, about 8 g/s.",
+          "description_ar": "عند 0:00 اسكب إلى 50 g بمعدل نحو 8 g/s.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Second pour",
+          "title_ar": "الصبة الثانية",
+          "description": "At 0:30 pour to 120 g, about 8 g/s.",
+          "description_ar": "عند 0:30 اسكب إلى 120 g بمعدل نحو 8 g/s.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Third pour",
+          "title_ar": "الصبة الثالثة",
+          "description": "At 1:00 pour to 190 g, about 3 g/s.",
+          "description_ar": "عند 1:00 اسكب إلى 190 g بمعدل نحو 3 g/s.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Last pour",
+          "title_ar": "الصبة الأخيرة",
+          "description": "At 1:30 pour to 250 g at 3 g/s; finish by 2:00–2:30.",
+          "description_ar": "عند 1:30 اسكب إلى 250 g بمعدل 3 g/s؛ الانتهاء خلال 2:00–2:30.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [
+        {
+          "water_grams": 50,
+          "start_at_seconds": 0,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 70,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 70,
+          "start_at_seconds": 60,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": 90,
+          "is_bloom": false
+        }
+      ],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "time_min_seconds": 120,
+          "time_max_seconds": 150,
+          "flow_rate_g_s": [
+            8,
+            8,
+            3,
+            3
+          ]
+        }
+      },
+      "source_urls": [
+        "https://www.dakcoffeeroasters.com/product/milky-cake/",
+        "https://www.dakcoffeeroasters.com/about/"
+      ],
+      "roaster_name_ar": "داك كوفي روسترز",
+      "creator_country_ar": "هولندا"
+    },
+    {
+      "slug": "la-cabra-sagastume-typica-espresso-2023",
+      "title": "La Cabra — Sagastume Typica espresso base",
+      "title_ar": "لا كابرا — إسبريسو ساغاستومي تيبيكا",
+      "brew_method": "espresso",
+      "coffee_name": "Sagastume Typica 2023",
+      "roaster_name": "La Cabra",
+      "source_author_name": "La Cabra",
+      "creator_country": "Denmark",
+      "recipe_country": null,
+      "coffee_origin": "Honduras",
+      "coffee_type": "Single origin",
+      "serving_style": "hot",
+      "flavor_notes": [
+        "Jasmine",
+        "Honeysuckle",
+        "Black tea",
+        "Stone fruit"
+      ],
+      "flavor_notes_ar": [
+        "ياسمين",
+        "زهرة العسل",
+        "شاي أسود",
+        "فاكهة ذات نواة"
+      ],
+      "flavor_families": [
+        "floral",
+        "fruity"
+      ],
+      "dose_grams": 17,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": 94,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 23,
+      "grinder_setting": null,
+      "notes": "Espresso component of La Cabra’s published espresso-tonic recipe. Tonic formulation is not included in this base espresso entry. Historical 2023 coffee.",
+      "notes_ar": "قاعدة الإسبريسو المستخدمة في وصفة الإسبريسو تونك المنشورة؛ هذه البطاقة للإسبريسو فقط. البن تاريخي من 2023.",
+      "source_url": "https://lacabra.com/pages/sagastume-typica",
+      "source_author_url": "https://lacabra.com",
+      "source_country_url": "https://lacabra.com/pages/about-la-cabra",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Use 17 g of this coffee.",
+          "description_ar": "استخدم 17 g من هذا البن.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Set up",
+          "title_ar": "الضبط",
+          "description": "Brew at 94°C.",
+          "description_ar": "اضبط الحرارة على 94°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Yield",
+          "title_ar": "الناتج",
+          "description": "Extract to 43 g in the cup.",
+          "description_ar": "استخلص حتى يصل الناتج في الكوب إلى 43 g.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Time",
+          "title_ar": "الوقت",
+          "description": "Target extraction: 23 s; adjust grind to suit your equipment.",
+          "description_ar": "استهدف استخلاصاً خلال 23 s؛ اضبط الطحن بحسب معداتك.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "water_tds_ppm": 50,
+          "yield_grams": 43,
+          "parameter_only_source": true
+        }
+      },
+      "source_urls": [
+        "https://lacabra.com/pages/sagastume-typica",
+        "https://lacabra.com/pages/about-la-cabra",
+        "https://us.lacabra.com/pages/rituals-subscription-2026-1-the-sagastume-family"
+      ],
+      "yield_grams": 43,
+      "roaster_name_ar": "لا كابرا",
+      "creator_country_ar": "الدنمارك",
+      "coffee_name_ar": "ساغاستومي تيبيكا 2023",
+      "coffee_origin_ar": "هندوراس",
+      "is_incomplete_source": true
+    },
+    {
+      "slug": "la-cabra-iced-v60-18g",
+      "title": "La Cabra — iced V60",
+      "title_ar": "لا كابرا — V60 مثلج",
+      "brew_method": "v60",
+      "coffee_name": null,
+      "roaster_name": "La Cabra",
+      "source_author_name": "La Cabra",
+      "creator_country": "Denmark",
+      "recipe_country": null,
+      "coffee_origin": null,
+      "coffee_type": null,
+      "serving_style": "iced",
+      "flavor_notes": [],
+      "flavor_notes_ar": [],
+      "flavor_families": [],
+      "dose_grams": 18,
+      "water_grams": 180,
+      "water_ml": null,
+      "water_temp_c": 96,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 150,
+      "grinder_setting": "Medium-fine",
+      "notes": "180 g hot brewing water plus 60 g ice in the server; additional serving ice is unspecified. Ice is not counted as hot brew water.",
+      "notes_ar": "180 g ماء تحضير ساخن مع 60 g ثلج في الوعاء. ثلج التقديم الإضافي غير محدد، ولا يُحسب الثلج ضمن ماء التحضير الساخن.",
+      "source_url": "https://lacabra.com/pages/icedcoffee-brew-guide",
+      "source_author_url": "https://lacabra.com",
+      "source_country_url": "https://lacabra.com/pages/about-la-cabra",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Rinse the filter without heating the server; add 60 g ice to it.",
+          "description_ar": "اشطف الفلتر دون تسخين الوعاء؛ ضع فيه 60 g ثلج.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Use 18 g coffee; at 0:00 pour 60 g water at 96°C.",
+          "description_ar": "استخدم 18 g بن؛ عند 0:00 اسكب 60 g ماء عند 96°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Continue",
+          "title_ar": "إكمال الصب",
+          "description": "Add 60 g at 0:45 and another 60 g at 1:30.",
+          "description_ar": "أضف 60 g عند 0:45 و60 g أخرى عند 1:30.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Serve",
+          "title_ar": "التقديم",
+          "description": "Drain by about 2:30, then serve over ice.",
+          "description_ar": "ينتهي التصريف قرابة 2:30؛ قدّم فوق الثلج.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [
+        {
+          "water_grams": 60,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": 45,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 60,
+          "start_at_seconds": 90,
+          "is_bloom": false
+        }
+      ],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "ice_grams": 60,
+          "water_input_total_grams": 240
+        }
+      },
+      "source_urls": [
+        "https://lacabra.com/pages/icedcoffee-brew-guide",
+        "https://lacabra.com/pages/about-la-cabra"
+      ],
+      "roaster_name_ar": "لا كابرا",
+      "creator_country_ar": "الدنمارك"
+    },
+    {
+      "slug": "five-elephant-peter-budenz-aeropress-2022",
+      "title": "Peter Budenz — PNG Keto Tapasi AeroPress 2022",
+      "title_ar": "بيتر بودنتس — آيروبرس كيتو تاباسي 2022",
+      "brew_method": "aeropress",
+      "coffee_name": "PNG Keto Tapasi (2022 competition coffee)",
+      "roaster_name": "Five Elephant",
+      "source_author_name": "Peter Budenz",
+      "creator_country": null,
+      "recipe_country": "Germany",
+      "coffee_origin": "Papua New Guinea",
+      "coffee_type": null,
+      "serving_style": "hot",
+      "flavor_notes": [],
+      "flavor_notes_ar": [],
+      "flavor_families": [],
+      "dose_grams": 18,
+      "water_grams": 150,
+      "water_ml": null,
+      "water_temp_c": 90,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 165,
+      "grinder_setting": "Comandante MK3 with Red Clix, 54 clicks",
+      "notes": "Inverted competition method; 36 g room-temperature bypass in server before brewing, plus 150 g brewing water. Press ends 2:30; serving finishes by 2:45. Country is event provenance, not a claim about nationality.",
+      "notes_ar": "طريقة البطولة المقلوبة: 36 g ماء بحرارة الغرفة في الوعاء قبل التحضير، مع 150 g ماء للتحضير. ينتهي الضغط 2:30 والتقديم 2:45. البلد يخص مكان البطولة ولا يثبت جنسية صاحب الوصفة.",
+      "source_url": "https://www.fiveelephant.com/blogs/stories/recap-of-german-aeropress-championship-2022",
+      "source_author_url": "https://www.fiveelephant.com/blogs/stories/recap-of-german-aeropress-championship-2022",
+      "source_country_url": null,
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Rinse the Aesir filter. Put 36 g room-temperature water in the server; dose the inverted AeroPress.",
+          "description_ar": "اشطف فلتر Aesir. ضع 36 g ماء بحرارة الغرفة في الوعاء وجرعة البن في الآيروبرس المقلوب.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "0:00–0:05 add 50 g at 90°C; swirl to wet all grounds; wait until 0:30.",
+          "description_ar": "بين 0:00 و0:05 أضف 50 g عند 90°C؛ دوّر لتبليل البن وانتظر حتى 0:30.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Fill and steep",
+          "title_ar": "التعبئة والنقع",
+          "description": "0:30–0:55 bring water to 150 g; stir 10 times, fit cap, expel excess air, and steep until 1:45.",
+          "description_ar": "بين 0:30 و0:55 أكمل الماء إلى 150 g؛ حرّك 10 مرات، ثبّت الغطاء، أخرج الهواء الزائد وانتظر حتى 1:45.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Press and serve",
+          "title_ar": "الضغط والتقديم",
+          "description": "At 1:45 flip, swirl twice and tap. Press slowly 1:50–2:30; swirl and transfer by 2:45.",
+          "description_ar": "عند 1:45 اقلب ودوّر مرتين وربّت. اضغط ببطء من 1:50 إلى 2:30؛ حرّك وانقل للتقديم بحلول 2:45.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [
+        {
+          "water_grams": 50,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "water_grams": 100,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        }
+      ],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "orientation": "inverted",
+          "filter": "Aesir, rinsed",
+          "bypass_water_grams": 36,
+          "total_water_input_grams": 186,
+          "press_end_seconds": 150,
+          "serve_end_seconds": 165
+        }
+      },
+      "source_urls": [
+        "https://www.fiveelephant.com/blogs/stories/recap-of-german-aeropress-championship-2022",
+        "https://www.fiveelephant.com/pages/contact"
+      ],
+      "roaster_name_ar": "فايف إليفنت",
+      "creator_country_ar": null,
+      "recipe_country_ar": "ألمانيا",
+      "coffee_name_ar": "بي إن جي كيتو تاباسي — بطولة 2022",
+      "coffee_origin_ar": "بابوا غينيا الجديدة"
+    },
+    {
+      "slug": "friedhats-lex-wenneker-cool-bloom-origami",
+      "title": "Friedhats / Lex Wenneker — cool-bloom Origami",
+      "title_ar": "فرايدهاتس / ليكس وينيكر — أوريغامي بتزهير منخفض الحرارة",
+      "brew_method": "origami",
+      "coffee_name": null,
+      "roaster_name": "Friedhats Coffee Roasters",
+      "source_author_name": "Lex Wenneker",
+      "creator_country": "Netherlands",
+      "recipe_country": null,
+      "coffee_origin": null,
+      "coffee_type": null,
+      "serving_style": "hot",
+      "flavor_notes": [],
+      "flavor_notes_ar": [],
+      "flavor_families": [],
+      "dose_grams": 20,
+      "water_grams": 300,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "total_time_seconds": 150,
+      "grinder_setting": null,
+      "notes": "62°C bloom; subsequent brewing water 90°C. Published Origami method also allows V60; no swirling or pre-rinsing. Hot serving; the lower bloom temperature is not cold brew.",
+      "notes_ar": "تزهير عند 62°C، ثم ماء عند 90°C. الوصفة منشورة لأوريغامي وتسمح بـV60، دون تدوير أو شطف مسبق للفلتر. تصنف حارة وليست كولد برو.",
+      "source_url": "https://friedhats.com/blogs/news/the-definitive-friedhats-brew-recipe",
+      "source_author_url": "https://friedhats.com/blogs/news/the-definitive-friedhats-brew-recipe",
+      "source_country_url": "https://friedhats.com/about",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 20 g coffee with an Origami; filter is not pre-rinsed in this method.",
+          "description_ar": "استخدم 20 g بن مع أوريغامي؛ لا يُشطف الفلتر مسبقاً في هذه الطريقة.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Cool bloom",
+          "title_ar": "التزهير الأقل حرارة",
+          "description": "Pour 50 g at 62°C and wait 30 seconds.",
+          "description_ar": "اسكب 50 g عند 62°C وانتظر 30 ثانية.",
+          "duration_seconds": 30
+        },
+        {
+          "title": "Second pour",
+          "title_ar": "الصبة الثانية",
+          "description": "Add 150 g at 90°C.",
+          "description_ar": "أضف 150 g عند 90°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Final pour",
+          "title_ar": "الصبة الأخيرة",
+          "description": "At 1:10 add 100 g; total brew around 2:30. Do not swirl.",
+          "description_ar": "عند 1:10 أضف 100 g؛ الزمن الكلي قرابة 2:30. لا تدوّر.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [
+        {
+          "water_grams": 50,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "water_grams": 150,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        },
+        {
+          "water_grams": 100,
+          "start_at_seconds": 70,
+          "is_bloom": false
+        }
+      ],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "bloom_temperature_c": 62,
+          "main_temperature_c": 90,
+          "alternate_brewer": "v60",
+          "recipe_creator": "Lex Wenneker",
+          "article_author": "Dylan Sedgwick"
+        }
+      },
+      "source_urls": [
+        "https://friedhats.com/blogs/news/the-definitive-friedhats-brew-recipe",
+        "https://friedhats.com/about"
+      ],
+      "roaster_name_ar": "فرايدهاتس",
+      "creator_country_ar": "هولندا"
+    },
+    {
+      "slug": "archers-milk-espresso-150-180ml",
+      "title": "Archers — espresso for a 150–180 mL milk drink",
+      "title_ar": "آرتشرز — إسبريسو لمشروب حليب 150–180 mL",
+      "brew_method": "espresso",
+      "coffee_name": null,
+      "roaster_name": "Archers Coffee",
+      "source_author_name": "Archers Coffee",
+      "creator_country": "United Arab Emirates",
+      "recipe_country": null,
+      "coffee_origin": null,
+      "coffee_type": null,
+      "serving_style": "hot",
+      "flavor_notes": [],
+      "flavor_notes_ar": [],
+      "flavor_families": [],
+      "dose_grams": null,
+      "water_grams": null,
+      "water_ml": null,
+      "water_temp_c": null,
+      "water_temp_c_min": 90,
+      "water_temp_c_max": 93,
+      "total_time_seconds": null,
+      "grinder_setting": null,
+      "notes": "Shared published milk-drink guidance on Black Diamond and Bittersweet pages. Dose 18–20 g; espresso yield 22–28 mL for a 150–180 mL cup. No brew time or grams of beverage yield published.",
+      "notes_ar": "إرشاد الحليب المنشور نفسه في صفحتي بلاك دايموند وبيترسويت: جرعة 18–20 g وناتج إسبريسو 22–28 mL لكوب 150–180 mL. زمن الاستخلاص ووزن الناتج بالغرام غير منشورين.",
+      "source_url": "https://archerscoffee.com/products/black-diamond",
+      "source_author_url": "https://archerscoffee.com",
+      "source_country_url": "https://archerscoffee.com/pages/terms-and-conditions",
+      "video_url": null,
+      "steps": [
+        {
+          "title": "Cup size",
+          "title_ar": "حجم الكوب",
+          "description": "Use the 150–180 mL cup recommendation.",
+          "description_ar": "اتبع توصية الكوب بسعة 150–180 mL.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Choose 18–20 g to suit the basket.",
+          "description_ar": "استخدم 18–20 g بحسب سلة التحضير.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Temperature",
+          "title_ar": "الحرارة",
+          "description": "Use the published 90–93°C range.",
+          "description_ar": "استخدم نطاق المصدر 90–93°C.",
+          "duration_seconds": null
+        },
+        {
+          "title": "Espresso base",
+          "title_ar": "قاعدة الإسبريسو",
+          "description": "Aim for 22–28 mL espresso. Milk amount and brew time are not specified.",
+          "description_ar": "استهدف 22–28 mL إسبريسو؛ كمية الحليب وزمن التحضير غير محددين.",
+          "duration_seconds": null
+        }
+      ],
+      "pours": [],
+      "recipe_type": "official_roaster",
+      "source_brew_parameters": {
+        "manual": {
+          "dose_min_grams": 18,
+          "dose_max_grams": 20,
+          "yield_min_ml": 22,
+          "yield_max_ml": 28,
+          "serving_cup_min_ml": 150,
+          "serving_cup_max_ml": 180,
+          "applies_to_coffee_names": [
+            "Black Diamond",
+            "Bittersweet"
+          ],
+          "parameter_only_source": true
+        }
+      },
+      "source_urls": [
+        "https://archerscoffee.com/products/black-diamond",
+        "https://archerscoffee.com/products/bittersweet",
+        "https://archerscoffee.com/pages/terms-and-conditions"
+      ],
+      "roaster_name_ar": "آرتشرز كوفي",
+      "creator_country_ar": "الإمارات العربية المتحدة",
+      "is_incomplete_source": true
+    }
+  ],
+  "excluded": [
+    {
+      "url": "https://www.aprilcoffeeroasters.com/pages/kayon-mountain-natural-heirloom-infos",
+      "reason": "404; replaced with live /coffee-inf-recipes/kayon-mountain and product page."
+    },
+    {
+      "url": "https://www.aprilcoffeeroasters.com/pages/arsosala-infos",
+      "reason": "404; historical search text is not imported as a current recipe."
+    },
+    {
+      "url": "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/volcan-azul",
+      "reason": "SP Costa Rica association excluded: product says washed; farm recipe data says yellow honey. Other explicit Volcan SL28 espresso is retained."
+    },
+    {
+      "url": "https://www.aprilcoffeeroasters.com/coffee-inf-recipes/tadesse-station",
+      "reason": "Filter recipe timing conflict: prose second pour 35 seconds, table 30 seconds. Only espresso imported. Variety retained as Krume because numeric identifier differs between product and farm data."
+    },
+    {
+      "url": "https://www.fiveelephant.com/products/png-keto-tapasi-filter",
+      "reason": "404; historical recipe retained with image_url null; no logo substituted."
+    },
+    {
+      "url": "https://www.fiveelephant.com/blogs/stories/the-2023-german-aeropress-championship-at-five-elephant-roastery",
+      "reason": "Usable general competition recipe but exact coffee identity is not established in article text; deferred in favor of coffee-specific 2022 source."
+    },
+    {
+      "url": "https://archerscoffee.com/products/ethiopia-gatta-natural-anaerobic",
+      "reason": "404; excluded."
+    },
+    {
+      "url": "https://archerscoffee.com/products/colombia-aroma-nativo-geisha-honey",
+      "reason": "404; excluded."
+    },
+    {
+      "url": "https://nomadcoffee.es/en/pages/historico-recetas",
+      "reason": "Churupallana Mugen Switch entry deferred: volume-unit schedule and valve-state wording need source clarification; no invented g conversions."
+    }
+  ],
+  "counts": {
+    "roasters": 10,
+    "coffees": 30,
+    "recipes": 29,
+    "coffee_linked_recipes": 25,
+    "generic_guides": 4,
+    "coffees_with_source_images": 28,
+    "coffees_missing_source_images": 2,
+    "methods": {
+      "aeropress": 1,
+      "espresso": 15,
+      "orea": 1,
+      "origami": 1,
+      "pour_over": 7,
+      "v60": 4
+    },
+    "coffees_with_display_verified_images": 27
+  }
+}

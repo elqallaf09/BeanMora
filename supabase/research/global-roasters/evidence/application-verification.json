@@ -1,0 +1,223 @@
+{
+  "status": "applied_and_verified",
+  "checked_at_utc": "2026-10-04 16:33:46 UTC",
+  "project_id": "ubvzdglrwkkuaigmkjap",
+  "verification_agent": "/root/recipes_americas",
+  "read_only_verification": true,
+  "database_writes_performed_by_verification_agent": false,
+  "application": {
+    "status": "complete",
+    "applied_by": "/root",
+    "applied_on": "2026-10-04",
+    "confirmation": "Root confirmed every recipe transaction and all three espresso corrections returned isError:false before these read-only queries.",
+    "successful_transactions": 71,
+    "transport": "The older roaster-only transaction created/reused all 23 required roasters, followed by the eight matching bean parts. Recipe parts 09 through 69 and corrections part 70 came from the final additive-only 71-part index. No recipe import contains DELETE.",
+    "rows": {
+      "reviewed_recipe_records": 87,
+      "new_recipes": 86,
+      "existing_recipe_updates": 1,
+      "new_roasters": 20,
+      "reused_roasters": 3,
+      "new_coffees": 77,
+      "existing_espresso_corrections": 3
+    }
+  },
+  "query_source": {
+    "file": "supabase/research/global-roasters/verify-import.sql",
+    "sha256": "3feac3ebd279371d3c647ff66c9ffcdf38889db3dcf2b8e0a8c3fb147845e03e",
+    "original_statement_count": 4,
+    "executed_selects": 5,
+    "method": "Executed the exact four reviewed SELECT statements. The second statement was split into two non-overlapping expected-coffee arrays of 39 and 38 rows to stay below the transport size limit; aggregate results were added.",
+    "maximum_request_bytes": 11886
+  },
+  "checks_passed": true,
+  "observed": {
+    "recipes": {
+      "expected_recipes": 87,
+      "present_recipes": 87,
+      "public_curator_recipes": 87,
+      "recipes_linked_to_coffee": 78,
+      "incomplete_sources": 57,
+      "espresso_specs": 49,
+      "invalid_espresso_input_water": 0,
+      "official_primary_source_links": 87,
+      "resolved_roaster_ids": 87,
+      "shared_name_arrays": 87,
+      "recipes_with_covers": 78,
+      "covers_matching_verified_selection": 78
+    },
+    "coffees": {
+      "expected_added_coffees": 77,
+      "present_coffees": 77,
+      "reviewed_public_coffees": 77,
+      "exact_source_linked_photos": 77,
+      "packaging": 74,
+      "product_artwork": 3,
+      "sourced_sensory_profiles": 2
+    },
+    "corrections": [
+      {
+        "slug": "crema-coffee-espresso",
+        "water_grams": null,
+        "total_time_seconds": null,
+        "reviewed_output_parameters": {
+          "yield_note": "42 g is the published headline target; the guide also specifies a 40–42 g output window.",
+          "yield_grams": 42,
+          "yield_max_grams": 42,
+          "yield_min_grams": 40,
+          "time_max_seconds": 28,
+          "time_min_seconds": 21
+        }
+      },
+      {
+        "slug": "equator-espresso",
+        "water_grams": null,
+        "total_time_seconds": null,
+        "reviewed_output_parameters": {
+          "yield_grams": 36,
+          "time_max_seconds": 30,
+          "time_min_seconds": 25,
+          "source_ratio_text": "1:2",
+          "yield_calculation": "18 g × published 1:2 target = 36 g",
+          "yield_derived_from_ratio": true
+        }
+      },
+      {
+        "slug": "flair-58-starter-espresso",
+        "water_grams": null,
+        "total_time_seconds": 30,
+        "reviewed_output_parameters": {
+          "yield_grams": 40
+        }
+      }
+    ],
+    "monarch": {
+      "preserved_monarch_id": true,
+      "still_public": true,
+      "coffee_link_added": true,
+      "retained_previous_source": true,
+      "added_product_source": true
+    }
+  },
+  "queries": [
+    {
+      "file": "01-recipes.sql",
+      "bytes": 11886,
+      "sha256": "252596d7b8317a46e4c9a26079396ef88d15583acd545f1c7e4dc07f0aa46bbb",
+      "is_error": false,
+      "rows": [
+        {
+          "expected_recipes": 87,
+          "present_recipes": 87,
+          "public_curator_recipes": 87,
+          "recipes_linked_to_coffee": 78,
+          "incomplete_sources": 57,
+          "espresso_specs": 49,
+          "invalid_espresso_input_water": 0,
+          "official_primary_source_links": 87,
+          "resolved_roaster_ids": 87,
+          "shared_name_arrays": 87,
+          "recipes_with_covers": 78,
+          "covers_matching_verified_selection": 78
+        }
+      ]
+    },
+    {
+      "file": "02-coffees.sql",
+      "bytes": 10741,
+      "sha256": "b725061cc8fac65bbba567170784c418f4b62e796fbe44618750f91450c46d49",
+      "is_error": false,
+      "rows": [
+        {
+          "expected_added_coffees": 39,
+          "present_coffees": 39,
+          "reviewed_public_coffees": 39,
+          "exact_source_linked_photos": 39,
+          "packaging": 36,
+          "product_artwork": 3,
+          "sourced_sensory_profiles": 0
+        }
+      ]
+    },
+    {
+      "file": "03-coffees.sql",
+      "bytes": 11079,
+      "sha256": "c0dd0bcec98cfa7c29c08cfecf93fddbeb5b45189646490d142af9f15b08ba77",
+      "is_error": false,
+      "rows": [
+        {
+          "expected_added_coffees": 38,
+          "present_coffees": 38,
+          "reviewed_public_coffees": 38,
+          "exact_source_linked_photos": 38,
+          "packaging": 38,
+          "product_artwork": 0,
+          "sourced_sensory_profiles": 2
+        }
+      ]
+    },
+    {
+      "file": "04-espresso-corrections.sql",
+      "bytes": 271,
+      "sha256": "1df9a23ba5413fd10bae6400afb870ec8ccfcae8f873696aaf095e65b7e6d0c8",
+      "is_error": false,
+      "rows": [
+        {
+          "slug": "crema-coffee-espresso",
+          "water_grams": null,
+          "total_time_seconds": null,
+          "reviewed_output_parameters": {
+            "yield_note": "42 g is the published headline target; the guide also specifies a 40–42 g output window.",
+            "yield_grams": 42,
+            "yield_max_grams": 42,
+            "yield_min_grams": 40,
+            "time_max_seconds": 28,
+            "time_min_seconds": 21
+          }
+        },
+        {
+          "slug": "equator-espresso",
+          "water_grams": null,
+          "total_time_seconds": null,
+          "reviewed_output_parameters": {
+            "yield_grams": 36,
+            "time_max_seconds": 30,
+            "time_min_seconds": 25,
+            "source_ratio_text": "1:2",
+            "yield_calculation": "18 g × published 1:2 target = 36 g",
+            "yield_derived_from_ratio": true
+          }
+        },
+        {
+          "slug": "flair-58-starter-espresso",
+          "water_grams": null,
+          "total_time_seconds": 30,
+          "reviewed_output_parameters": {
+            "yield_grams": 40
+          }
+        }
+      ]
+    },
+    {
+      "file": "05-monarch.sql",
+      "bytes": 550,
+      "sha256": "09e3e2c5708cd70d7a6776942cc987bfa8bfd4d6487672118221d66d580e68c7",
+      "is_error": false,
+      "rows": [
+        {
+          "preserved_monarch_id": true,
+          "still_public": true,
+          "coffee_link_added": true,
+          "retained_previous_source": true,
+          "added_product_source": true
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Recipe/step/pour ID preservation and historical-row rejection were exercised by the existing in-memory SQL tests. This post-import query independently confirms the live Monarch recipe ID and source-link retention; it does not reconstruct a complete before/after history of instruction IDs.",
+    "Source-photo comparisons verify the stored URLs and source-linked status against the reviewed catalog. Image HTTP, decode and visual checks were performed during source review and were not repeated.",
+    "Operating-country reporting normalizes equivalent codes and country names; the catalog covers 11 documented operating countries, not 12 distinct raw labels. Creator countries and recipe provenance remain separate.",
+    "Public aggregate and anonymous search/RPC checks are recorded separately by the release agent in evidence/discovery-verification.json."
+  ]
+}

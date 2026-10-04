@@ -1,0 +1,66 @@
+{
+  "checked_at": "2026-10-04",
+  "project_id": "ubvzdglrwkkuaigmkjap",
+  "statement": "EXPLAIN (FORMAT JSON) of sql/05-photo-rescue.sql",
+  "analyze": false,
+  "update_executed": false,
+  "plan": [
+    {
+      "Plan": {
+        "Node Type": "ModifyTable",
+        "Operation": "Update",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Relation Name": "beans",
+        "Alias": "b",
+        "Startup Cost": 0.15,
+        "Total Cost": 8.69,
+        "Plan Rows": 1,
+        "Plan Width": 350,
+        "Plans": [
+          {
+            "Node Type": "Nested Loop",
+            "Parent Relationship": "Outer",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Join Type": "Inner",
+            "Startup Cost": 0.15,
+            "Total Cost": 8.69,
+            "Plan Rows": 1,
+            "Plan Width": 350,
+            "Inner Unique": true,
+            "Plans": [
+              {
+                "Node Type": "Values Scan",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Alias": "*VALUES*",
+                "Startup Cost": 0,
+                "Total Cost": 0.06,
+                "Plan Rows": 5,
+                "Plan Width": 408
+              },
+              {
+                "Node Type": "Index Scan",
+                "Parent Relationship": "Inner",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Scan Direction": "Forward",
+                "Index Name": "beans_pkey",
+                "Relation Name": "beans",
+                "Alias": "b",
+                "Startup Cost": 0.15,
+                "Total Cost": 1.72,
+                "Plan Rows": 1,
+                "Plan Width": 405,
+                "Index Cond": "(id = (\"*VALUES*\".column1)::uuid)",
+                "Filter": "(is_published AND (NOT requires_review) AND (image_url IS NULL) AND (image_source_url IS NULL) AND (image_usage_status IS NULL) AND (NOT (source_url IS DISTINCT FROM \"*VALUES*\".column3)) AND (NOT (description_en IS DISTINCT FROM \"*VALUES*\".column4)) AND (\"*VALUES*\".column2 = slug))"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

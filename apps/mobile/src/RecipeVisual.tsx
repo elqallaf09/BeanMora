@@ -5,7 +5,7 @@ import { Icon, colors } from './ui';
 import { MethodPhoto, hasMethodPhoto } from './MethodPhoto';
 
 export function RecipeVisual({ recipe }: { recipe: RecipeItem }) {
-  if (recipe.coverUrl) return <CoffeePhoto uri={recipe.coverUrl} seed={recipe.id} />;
+  if (recipe.coverUrl) return <CoffeePhoto uri={recipe.coverUrl} kind={recipe.coverKind} seed={recipe.id} />;
   if (hasMethodPhoto(recipe.method)) return <MethodPhoto method={recipe.method}/>;
   // A method illustration avoids presenting an unrelated coffee bag as a recipe photo.
   return <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.chip }}><View style={{ backgroundColor: colors.paper, borderRadius: 70, width: 110, height: 110, alignItems: 'center', justifyContent: 'center' }}><Icon name={recipe.method} size={64} color={colors.brown} /></View></View>;
