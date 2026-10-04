@@ -24,7 +24,7 @@ export function CommunityScreen({userId,recipes,login}:{userId:string|null;recip
   };
   useEffect(()=>{void load();},[ar]);
 
-  const methods=useMemo(()=>['all',...new Set(posts.map(p=>p.recipe_id?recipes.find(r=>r.id===p.recipe_id)?.method:null).filter((v):v is string=>Boolean(v)))],[posts,recipes]);
+  const methods=useMemo(()=>{const values=new Set<string>();for(const post of posts){const method=post.recipe_id?recipes.find(r=>r.id===post.recipe_id)?.method:null;if(method)values.add(method);}return ['all',...values];},[posts,recipes]);
   const visible=useMemo(()=>posts.filter(p=>filter==='all'||(p.recipe_id&&recipes.find(r=>r.id===p.recipe_id)?.method===filter)),[posts,recipes,filter]);
   const likeCount=(postId:string)=>likes.filter(l=>l.post_id===postId).length;
   const liked=(postId:string)=>!!userId&&likes.some(l=>l.post_id===postId&&l.user_id===userId);
