@@ -21,10 +21,11 @@ import { AccountScreen, finishOAuth } from './src/AccountScreen';
 import { AppVersion } from './src/AppVersion';
 import { MyBags } from './src/MyBags';
 import { BestSetup } from './src/BestSetup';
+import { CommunityScreen } from './src/CommunityScreen';
 import { CoffeeCard, CoffeeDetail, Home, MethodPicker, SectionTitle, coffeeStyles } from './src/CoffeeScreens';
 import { Action, Brand, Field, Icon, IconButton, Language, Txt, colors, styles, type IconName } from './src/ui';
 
-type Tab = 'home' | 'beans' | 'recipes' | 'forYou' | 'favorites' | 'bags' | 'best' | 'account' | 'equipment' | 'roasters' | 'xbloom';
+type Tab = 'home' | 'beans' | 'recipes' | 'forYou' | 'favorites' | 'bags' | 'best' | 'community' | 'account' | 'equipment' | 'roasters' | 'xbloom';
 type Detail = { type: 'coffee'; item: CoffeeItem } | { type: 'recipe'; item: RecipeItem } | { type: 'equipment'; item: EquipmentItem } | { type: 'roaster'; item: RoasterItem };
 type Loaded = Bundle & { owner: string | null; locale: Locale };
 
@@ -103,7 +104,7 @@ function Shell() {
   }
   const login=tab==='account'&&!userId&&!detail;
   const nav:{tab:Tab;icon:IconName;label:string}[]=[
-    {tab:'home',icon:'home',label:ar?'الرئيسية':'Home'},{tab:'beans',icon:'search',label:ar?'اكتشف':'Discover'},{tab:'recipes',icon:'plus',label:ar?'تحضير':'Brew'},{tab:'favorites',icon:'heart',label:ar?'المفضلة':'Favorites'},{tab:'account',icon:'user',label:t.account},
+    {tab:'home',icon:'home',label:ar?'الرئيسية':'Home'},{tab:'beans',icon:'search',label:ar?'اكتشف':'Discover'},{tab:'recipes',icon:'plus',label:ar?'تحضير':'Brew'},{tab:'community',icon:'globe',label:ar?'المجتمع':'Community'},{tab:'account',icon:'user',label:t.account},
   ];
   const columns=width>=850?4:width>=600?3:2;const cardWidth=(Math.min(width,1120)-36-(columns-1)*12)/columns;
   const displayCoffee=tab==='favorites'?coffees.filter(c=>savedIds.includes(c.beanId??c.id)):coffees;
@@ -125,6 +126,7 @@ function Shell() {
     :tab==='recipes'?<RecipeCatalog key={locale} method={method} open={openRecipe}/>
     :tab==='bags'?<MyBags key={(userId??'guest')+locale} coffees={coffees.filter(item=>savedIds.includes(item.beanId??item.id))} openCoffee={openCoffee}/>
     :tab==='best'?<BestSetup key={(userId??'guest')+locale} userId={userId} recipes={data?.recipes??[]} coffees={data?.coffees??[]} login={()=>navigate('account')} openRecipe={openRecipe} openCoffee={openCoffee}/>
+    :tab==='community'?<CommunityScreen key={(userId??'guest')+locale} userId={userId} recipes={data?.recipes??[]} login={()=>navigate('account')}/>
     :tab==='account'?<AccountScreen key={userId??'public'} session={userId?session:null} back={()=>navigate('home')}/>
     :tab==='home'?<Home data={data} coffees={coffees} method={method} setMethod={setMethod} openCoffee={openCoffee} browse={()=>navigate('beans')} brew={()=>navigate('recipes')} personalize={()=>navigate('best')} bags={()=>navigate('bags')} tools={category=>void showTools(category)} saved={savedIds} save={item=>void saveCoffee(item)} refresh={refresh} refreshing={refreshing}/>
     :tab==='forYou'?<ScrollView contentContainerStyle={coffeeStyles.page}><View style={s.catalogTabs}><Action title={t.beans} onPress={()=>navigate('beans')}/><Action title={t.recipes} onPress={()=>navigate('recipes')}/><Action title={t.forYou} onPress={()=>{}} selected/></View><Txt heading style={styles.title}>{t.forYou}</Txt><Txt style={styles.muted}>{t.ruleNote}</Txt>{data?.limited?<Txt style={styles.muted}>{ar?'التوصيات تستخدم مجموعة محدودة من الوصفات. ابحث في مكتبة الوصفات لاستكشاف الكتالوغ الكامل.':'Recommendations use a bounded recipe sample. Search the recipe library for the full catalog.'}</Txt>:null}<SectionTitle title={t.beans}/>{rankedCoffee.length?rankedCoffee.map(row=><View key={row.item.kind+row.item.id} style={styles.card}><Action title={row.item.name} onPress={()=>{const item=data?.coffees.find(c=>c.id===row.item.id&&c.kind===row.item.kind);if(item)openCoffee(item);}}/><Txt>{t.matching}: {row.reasons.length?row.reasons.map(r=>reasons[locale][r]).join(' · '):t.general}</Txt>{row.caveats.map(c=><Txt key={c} style={styles.muted}>{caveats[locale][c]}</Txt>)}</View>):<Txt>{t.empty}</Txt>}<SectionTitle title={t.recipes}/>{rankedRecipes.map(row=><View key={row.item.id} style={styles.card}><Action title={row.item.title} onPress={()=>{const item=data?.recipes.find(r=>r.id===row.item.id);if(item)setDetail({type:'recipe',item});}}/><Txt>{t.matching}: {row.reasons.length?row.reasons.map(r=>reasons[locale][r]).join(' · '):t.general}</Txt></View>)}</ScrollView>
