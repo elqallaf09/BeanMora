@@ -49,6 +49,8 @@ export const formatTime = (seconds: number) => {
   const s = Math.max(0, Math.floor(seconds));
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 };
+// Keep Latin-unit quantities together inside Arabic titles, without changing stored content.
+export const recipeTitle = (title: string, ar: boolean) => ar ? title.replace(/(\d+(?:[.:–]\d+)*\s*(?:g|ml)\b(?:\s*\/\s*\d+(?:[.:–]\d+)*\s*(?:g|ml)\b)?)/g, '\u2066$1\u2069') : title;
 export function doseLabel(recipe: RecipeItem): string {
   const m = recipe.sourceBrew.manual;
   if (m?.dose_min_grams && m.dose_max_grams) return `${m.dose_min_grams}–${m.dose_max_grams} g`;

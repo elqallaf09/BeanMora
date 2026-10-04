@@ -25,6 +25,7 @@ export function GuidedBrew({ recipe, record }: { recipe: RecipeItem; record: (se
   const invalid = scalable && factor === null;
   const changed = factor !== null && factor !== 1;
   const seconds = Math.floor(elapsedMs(clock, now) / 1000);
+  const guideTime = timeLabel(recipe, ar) === '—' ? (ar ? 'حسب انتهاء التدفق' : 'Follow the end of the flow') : timeLabel(recipe, ar);
   const target = manual?.time_max_seconds ?? recipe.seconds;
   const pours = scaledPours(recipe.pours, factor ?? 1);
   const timed = pours.filter(p => p.at !== null);
@@ -49,7 +50,7 @@ export function GuidedBrew({ recipe, record }: { recipe: RecipeItem; record: (se
     <View style={[styles.card, { backgroundColor: colors.brown, borderColor: colors.brown }]}>
       <View style={styles.row}><Icon name="clock" color="#FFF"/><Txt heading style={[styles.subtitle, { color: '#FFF' }]}>{ar ? 'مؤقت التحضير' : 'Brew timer'}</Txt></View>
       <View testID="brew-elapsed"><Txt style={{ fontSize: 48, lineHeight: 64, color: '#FFF', fontFamily: undefined, fontWeight: '700', textAlign: 'center', writingDirection: 'ltr' }}>{formatTime(seconds)}</Txt></View>
-      <Txt style={{ color: '#EADFD2', textAlign: 'center' }}>{ar ? 'الوقت الإرشادي: ' : 'Guide time: '}{timeLabel(recipe, ar) === '—' ? (ar ? 'حسب انتهاء التدفق' : 'Follow the end of the flow') : timeLabel(recipe, ar)}</Txt>
+      <View style={[styles.row, { justifyContent: 'center', flexDirection: ar ? 'row-reverse' : 'row' }]}><Txt style={{ color: '#EADFD2' }}>{ar ? 'الوقت الإرشادي:' : 'Guide time:'}</Txt><Txt style={{ color: '#EADFD2', textAlign: 'center', writingDirection: /^\d/.test(guideTime) ? 'ltr' : ar ? 'rtl' : 'ltr' }}>{guideTime}</Txt></View>
       {target ? <View style={{ height: 5, borderRadius: 4, backgroundColor: '#725744', overflow: 'hidden' }}><View style={{ height: 5, width: `${Math.min(100, seconds / target * 100)}%`, backgroundColor: '#E5C29E' }}/></View> : null}
       <Txt style={{ color: '#EADFD2' }}>{(ar ? manual?.timer_start_ar : manual?.timer_start) || (ar ? 'شغّل المؤقت عند بدء التحضير الفعلي.' : 'Start the timer when actual brewing begins.')}</Txt>
       <View style={styles.row}>
@@ -67,9 +68,9 @@ export function GuidedBrew({ recipe, record }: { recipe: RecipeItem; record: (se
       <Txt style={styles.muted}>{ar ? '«الميزان» هو إجمالي الماء التراكمي؛ + تعني كمية هذه الصبة فقط.' : 'Scale means cumulative water; + means only the water added in that pour.'}</Txt>
       {(ar ? manual?.pour_note_ar : manual?.pour_note) ? <Txt>{ar ? manual?.pour_note_ar : manual?.pour_note}</Txt> : null}
       {mismatch ? <Txt style={styles.warning}>{ar ? 'مجموع الصبات يختلف عن إجمالي المصدر؛ راجع الرابط قبل التحضير.' : 'Pour amounts differ from the source total. Check the source before brewing.'}</Txt> : null}
-      {pours.map(p => <View key={p.number} style={[styles.card, clock.mode === 'running' && p.number === currentPour && { borderColor: colors.brown, backgroundColor: '#F1E2CC' }]}>
+      {pours.map(p => <View key={p.number} testID={`brew-pour-${p.number}`} style={[styles.card, clock.mode === 'running' && p.number === currentPour && { borderColor: colors.brown, backgroundColor: '#F1E2CC' }]}>
         <View style={[styles.row, { justifyContent: 'space-between' }]}><Txt heading style={{ fontWeight: '700' }}>{manual?.dilution_pour_numbers?.includes(p.number) ? (ar ? 'التخفيف بعد الكبس' : 'Dilute after pressing') : p.bloom ? (ar ? 'التزهير' : 'Bloom') : (ar ? `الصبة ${p.number}` : `Pour ${p.number}`)}</Txt><Txt style={{ fontFamily: undefined, writingDirection: 'ltr' }}>{p.at !== null ? formatTime(p.at) : (ar ? 'حسب التدفق' : 'Follow flow')}</Txt></View>
-        <Txt style={{ fontSize: 20, fontWeight: '700' }}>+{p.grams} g · {ar ? 'الميزان: ' : 'Scale: '}{p.cumulative} g</Txt>
+        <View style={[styles.row, { flexDirection: ar ? 'row-reverse' : 'row' }]}><Txt style={{ fontSize: 20, fontWeight: '700', writingDirection: 'ltr' }}>+{p.grams} g</Txt><Txt style={{ fontSize: 20, fontWeight: '700' }}>{ar ? '· الميزان:' : '· Scale:'}</Txt><Txt style={{ fontSize: 20, fontWeight: '700', writingDirection: 'ltr' }}>{p.cumulative} g</Txt></View>
       </View>)}
     </View> : null}
     <Action title={ar ? 'مشاركة المقادير والخطة' : 'Share amounts and plan'} onPress={() => void share()} disabled={!!invalid}/>

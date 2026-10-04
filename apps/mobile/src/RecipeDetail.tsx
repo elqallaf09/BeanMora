@@ -8,7 +8,7 @@ import { GuidedBrew } from './GuidedBrew';
 import { RecipeVisual } from './RecipeVisual';
 import { MethodGuide } from './MethodGuide';
 import { SourceBrewDetails } from './SourceBrewDetails';
-import { doseLabel, timeLabel } from './manualBrew';
+import { doseLabel, recipeTitle, timeLabel } from './manualBrew';
 import { Action, Icon, Language, Txt, styles, type IconName } from './ui';
 
 export function RecipeDetail({ recipe, record }: { recipe: RecipeItem; record: (seconds?: number) => void }) {
@@ -26,9 +26,9 @@ export function RecipeDetail({ recipe, record }: { recipe: RecipeItem; record: (
   return <ScrollView testID="recipe-detail" showsVerticalScrollIndicator={false} contentContainerStyle={[coffeeStyles.page, { maxWidth: 780 }]}>
     <View style={{ height: 190, borderRadius: 18, overflow: 'hidden' }}><RecipeVisual recipe={recipe}/></View>
     <Txt style={styles.muted}>{methods[locale][recipe.method]}{recipe.author ? ` · ${recipe.author}` : ''}</Txt>
-    <Txt heading style={styles.title}>{recipe.title}</Txt>
+    <Txt heading style={styles.title}>{recipeTitle(recipe.title, ar)}</Txt>
     <Txt style={styles.muted}>{ar ? 'مقادير وصفة المصدر' : 'Source recipe amounts'}</Txt>
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>{values.map(n => <View key={n.icon} style={[styles.card, { flexBasis: '46%', flexGrow: 1, minWidth: 116, marginBottom: 0 }]}><View style={styles.row}><Icon name={n.icon} size={20}/><Txt style={styles.muted}>{n.label}</Txt></View><Txt style={{ fontSize: 20, lineHeight: 30, fontWeight: '700' }}>{n.value}</Txt></View>)}</View>
+    <View testID="recipe-source-facts" style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>{values.map(n => <View key={n.icon} style={[styles.card, { flexBasis: '46%', flexGrow: 1, minWidth: 116, marginBottom: 0 }]}><View style={styles.row}><Icon name={n.icon} size={20}/><Txt style={styles.muted}>{n.label}</Txt></View><Txt style={{ fontSize: 20, lineHeight: 30, fontWeight: '700', writingDirection: /^\d/.test(n.value) ? 'ltr' : ar ? 'rtl' : 'ltr' }}>{n.value}</Txt></View>)}</View>
     {grind || manual?.model || manual?.heat ? <View style={styles.card}><Txt>{ar ? 'الطحنة: ' : 'Grind: '}{grind || (ar ? 'لم يحددها المصدر' : 'Unspecified by source')}</Txt>{recipe.dose && recipe.waterUnit === 'g' && recipe.water ? <Txt>{ar ? 'النسبة: ' : 'Ratio: '}1:{Math.round(recipe.water / recipe.dose * 100) / 100}</Txt> : null}{manual?.model ? <Txt>{ar ? 'الموديل أو السعة: ' : 'Model or size: '}{ar ? manual.model_ar || manual.model : manual.model}</Txt> : null}{manual?.heat ? <Txt>{ar ? 'النار: ' : 'Heat: '}{ar ? manual.heat_ar || manual.heat : manual.heat}</Txt> : null}</View> : null}
     {recipe.incomplete ? <Txt style={styles.warning}>{ar ? 'المصدر لا يحدد بعض المقادير؛ اتبع التعليمات المكتوبة ورابطه.' : 'Some quantities are unspecified; follow the written instructions and source.'}</Txt> : null}
     {recipe.notes ? <Txt>{recipe.notes}</Txt> : null}

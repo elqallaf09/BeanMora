@@ -58,7 +58,8 @@ for (const width of [320, 390, 1536]) {
     await expect(page.getByText('عند 0:30 أضف 210 g؛ الميزان: 300 g.', { exact: true })).toBeVisible();
     await page.getByLabel('جرعة البن للحساب (g)').fill('20');
     await expect(page.getByText('إجمالي ماء التحضير: 320 g', { exact: true })).toBeVisible();
-    await expect(page.getByText('+40 g · الميزان: 40 g', { exact: true })).toBeVisible();
+    await expect(page.getByTestId('brew-pour-1').getByText('+40 g', { exact: true })).toBeVisible();
+    await expect(page.getByTestId('brew-pour-1').getByText('40 g', { exact: true })).toBeVisible();
     await page.getByLabel('جرعة البن للحساب (g)').fill('80');
     await expect(page.getByRole('button', { name: 'ابدأ التحضير', exact: true })).toBeDisabled();
     await page.getByLabel('جرعة البن للحساب (g)').fill('20');
@@ -91,12 +92,12 @@ test('Moka: model-specific ranges, no scaling, unspecified fields remain written
   await page.getByRole('button', { name: 'بلو بوتل — موكا بوت 6 أكواب', exact: true }).click();
   await expect(page.getByText('20–22 g', { exact: true })).toBeVisible();
   await expect(page.getByText('345 g', { exact: true })).toBeVisible();
-  await expect(page.getByText('3:00–6:00', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('recipe-source-facts').getByText('3:00–6:00', { exact: true })).toBeVisible();
   await expect(page.getByLabel('جرعة البن للحساب (g)')).toHaveCount(0);
   await page.getByRole('button', { name: 'رجوع', exact: true }).click();
   await page.getByRole('button', { name: 'باكت — موكا بوت 240 ml', exact: true }).click();
   await expect(page.getByText('240 ml', { exact: true })).toBeVisible();
-  await expect(page.getByText('حسب انتهاء التدفق', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('recipe-source-facts').getByText('حسب انتهاء التدفق', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'رجوع', exact: true }).click();
   await page.getByRole('button', { name: 'بياليتي — دليل موكا إكسبريس الرسمي', exact: true }).click();
   await expect(page.getByText('ماء بحرارة الغرفة', { exact: true })).toBeVisible();
