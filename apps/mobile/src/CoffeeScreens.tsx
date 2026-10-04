@@ -40,8 +40,8 @@ export function CoffeeCard({ item, width, saved, open, save }: { item: CoffeeIte
   const ar = useContext(Language) === 'ar';
   return <View style={[s.coffeeCard, { width }]}><Pressable accessibilityRole="button" accessibilityLabel={item.name} onPress={open} style={{ flex: 1 }}><View style={{ height: Math.max(120, Math.min(185, width * 0.8)), overflow: 'hidden', borderRadius: 13 }}><CoffeePhoto uri={item.imageUrl} uris={item.images} kind={item.imageKind}/></View><View style={s.coffeeCopy}><Txt numberOfLines={1} style={s.coffeeFlavors}>{item.roaster}</Txt><Txt numberOfLines={2} style={s.coffeeName}>{item.name}</Txt><FlavorNotes notes={item.flavors} compact max={2}/></View></Pressable><View style={s.coffeeFooter}><Txt numberOfLines={1} style={{ fontSize: 11, lineHeight: 18, flex: 1, fontFamily: undefined, writingDirection: 'ltr', textAlign: 'left' }}>{originLabel(item.origin) || item.roaster}</Txt><IconButton name="heart" label={(saved ? ar ? 'إزالة من المفضلة: ' : 'Unsave: ' : ar ? 'حفظ في المفضلة: ' : 'Save: ') + item.name} onPress={save} selected={saved} size={20}/></View></View>;
 }
-export function Home({ data, coffees, method, setMethod, openCoffee, browse, brew, tools, saved, save, refresh, refreshing }: {
-  data: Bundle | null; coffees: CoffeeItem[]; method?: Method; setMethod: (method?: Method) => void; openCoffee: (item: CoffeeItem) => void; browse: () => void; brew: () => void; tools: (category:'all'|'xbloom'|'grinder'|'scale') => void; saved: string[]; save: (item: CoffeeItem) => void; refresh: () => void; refreshing: boolean;
+export function Home({ data, coffees, method, setMethod, openCoffee, browse, brew, personalize, bags, tools, saved, save, refresh, refreshing }: {
+  data: Bundle | null; coffees: CoffeeItem[]; method?: Method; setMethod: (method?: Method) => void; openCoffee: (item: CoffeeItem) => void; browse: () => void; brew: () => void; personalize: () => void; bags: () => void; tools: (category:'all'|'xbloom'|'grinder'|'scale') => void; saved: string[]; save: (item: CoffeeItem) => void; refresh: () => void; refreshing: boolean;
 }) {
   const locale = useContext(Language); const ar = locale === 'ar'; const { width } = useWindowDimensions();
   const available = Math.min(width, 1120) - 36; const cols = available >= 600 ? 4 : 2; const cardWidth = (available - (cols - 1) * 12) / cols;
@@ -51,11 +51,21 @@ export function Home({ data, coffees, method, setMethod, openCoffee, browse, bre
     { icon: 'xbloom', value: METHODS.length, title: ar ? 'طريقة تحضير' : 'Brew methods', note: ar ? 'من إسبريسو إلى كولد برو' : 'From espresso to cold brew' },
     { icon: 'globe', value: data ? new Set(data.coffees.map(c=>c.origin).filter(Boolean)).size : '—', title: ar ? 'دولة' : 'Origins', note: ar ? 'حبوب من مختلف المزارع' : 'Discover coffee origins' },
   ];
+  const journey: {icon: IconName; title: string; note: string; press: () => void; accent?: boolean}[] = [
+    {icon:'play',title:ar?'حضّر قهوتي':'Brew my coffee',note:ar?'اختر البن والطريقة وابدأ التحضير':'Pick your coffee and start brewing',press:brew,accent:true},
+    {icon:'bean',title:ar?'أكياسي':'My bags',note:ar?'ارجع للبن المحفوظ وإعداداتك':'Your saved coffees and settings',press:bags},
+    {icon:'search',title:ar?'اكتشف':'Discover',note:ar?'ابحث بين البن والوصفات والمحامص':'Search coffees, recipes and roasters',press:browse},
+    {icon:'star',title:ar?'أفضل إعداد':'Best setup',note:ar?'اقتراحات مبنية على تفضيلاتك':'Recommendations for your next cup',press:personalize},
+  ];
   return <ScrollView testID="home-scroll" showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={colors.brown}/>} contentContainerStyle={s.page}>
     <ImageBackground testID="home-hero" source={artwork.hero} style={[s.hero, { minHeight: Math.max(180, Math.min(280, available / 3.1)), paddingVertical: width < 500 ? 22 : 18 }]} imageStyle={{ borderRadius: 18, width:'100%',height:'100%' }}>
       <View style={s.heroShade}/><View style={[s.heroCopy, { width: width < 500 ? '72%' : '55%', paddingHorizontal: width < 500 ? 16 : 25 }]}><Txt heading style={[s.heroTitle, { fontSize: width < 500 ? 24 : 34, lineHeight: width < 500 ? 34 : 45 }]}>{ar ? 'اكتشف عالم القهوة.' : 'Discover the world of coffee.'}</Txt><Txt style={s.heroDescription}>{ar ? 'من الحبوب إلى الكوب، تجربة أفضل كل يوم.' : 'From bean to cup, a better experience every day.'}</Txt><Pressable accessibilityRole="button" accessibilityLabel={ar ? 'استكشف الآن' : 'Explore now'} onPress={browse} style={s.heroButton}><Txt style={{ color: '#FFF', fontSize: 14, fontWeight: '700', flexShrink: 1, textAlign: 'center' }}>{ar ? 'استكشف الآن' : 'Explore now'}</Txt><Icon name="arrow" color="#FFF" size={17}/></Pressable></View>{width >= 650 ? <Txt style={s.heroSignature}>More{'\n'}Than{'\n'}Coffee</Txt> : null}
     </ImageBackground>
     <View style={s.stats}>{stats.map(stat=><View key={stat.icon} style={[s.stat, width < 500 && { paddingHorizontal: 6 }]}>{width >= 600 ? <View style={s.statIcon}><Icon name={stat.icon} size={23}/></View> : null}<View style={{ flex: 1 }}><Txt style={s.statNumber}>{stat.value}</Txt><Txt numberOfLines={1} style={s.statTitle}>{stat.title}</Txt>{width >= 600 ? <Txt numberOfLines={1} style={s.statNote}>{stat.note}</Txt> : null}</View></View>)}</View>
+    <View style={s.journeyWrap}>
+      <View style={s.journeyHeader}><View style={{flex:1}}><Txt heading style={s.journeyTitle}>{ar?'رحلتك مع القهوة':'Your coffee journey'}</Txt><Txt style={s.journeyIntro}>{ar?'ابدأ من البن الذي عندك، ثم ارجع لأفضل نتيجة وصلت لها.':'Start with the coffee you have, then return to your best result.'}</Txt></View><View style={s.journeyBadge}><Icon name="bean" size={22} color={colors.copper}/></View></View>
+      <View style={s.journeyGrid}>{journey.map(item=><Pressable key={item.title} accessibilityRole="button" accessibilityLabel={item.title+' — '+item.note} onPress={item.press} style={[s.journeyCard,item.accent&&s.journeyCardAccent]}><View style={[s.journeyIcon,item.accent&&{backgroundColor:'#FFFFFF24'}]}><Icon name={item.icon} size={23} color={item.accent?'#FFF':colors.copper} filled={item.icon==='star'}/></View><View style={{flex:1,gap:3}}><Txt style={[s.journeyCardTitle,item.accent&&{color:'#FFF'}]}>{item.title}</Txt><Txt style={[s.journeyCardNote,item.accent&&{color:'#F8EEE5'}]}>{item.note}</Txt></View><Icon name="arrow" size={18} color={item.accent?'#FFF':colors.teal}/></Pressable>)}</View>
+    </View>
     <View style={s.section}><SectionTitle title={ar ? 'اختر طريقة التحضير' : 'Choose your brew method'} onPress={brew}/><MethodPicker value={method} onChange={setMethod}/></View>
     <View style={s.section}><SectionTitle title={ar ? 'أحدث الحبوب' : 'Latest beans'} onPress={browse}/>{refreshing && !data ? <View style={s.grid}>{Array.from({ length: cols },(_,i)=><View key={i} style={[s.skeleton, { width: cardWidth }]}><View style={s.skeletonPhoto}/><View style={s.skeletonText}/></View>)}</View> : coffees.length ? <View style={s.grid}>{coffees.slice(0,4).map(c=><CoffeeCard key={c.kind+c.id} item={c} width={cardWidth} saved={saved.includes(c.beanId ?? c.id)} open={()=>openCoffee(c)} save={()=>save(c)}/>)}</View> : <Txt style={styles.muted}>{ar ? 'لا توجد حبوب مطابقة لطريقة التحضير.' : 'No coffees match this brew method.'}</Txt>}</View>
     <View style={s.section}><SectionTitle title={ar ? 'أدوات وتوصيات' : 'Tools and recommendations'} onPress={()=>tools('all')}/><View style={s.tools}>{[
@@ -118,6 +128,17 @@ const s=StyleSheet.create({
   statNumber:{fontFamily:undefined,fontSize:23,lineHeight:28,fontWeight:'800',textAlign:'center',writingDirection:'ltr'},
   statTitle:{fontSize:12,lineHeight:19,fontWeight:'700',textAlign:'center'},
   statNote:{fontSize:10,lineHeight:17,color:colors.muted,textAlign:'center'},
+  journeyWrap:{gap:12,backgroundColor:'#F2E7D8',borderRadius:22,padding:14,borderWidth:1,borderColor:'#E2D2C0'},
+  journeyHeader:{flexDirection:'row',alignItems:'center',gap:12},
+  journeyTitle:{fontSize:20,lineHeight:29,fontWeight:'800'},
+  journeyIntro:{fontSize:12,lineHeight:20,color:colors.muted,marginTop:2},
+  journeyBadge:{width:46,height:46,borderRadius:23,backgroundColor:'#FFF9F0',alignItems:'center',justifyContent:'center'},
+  journeyGrid:{flexDirection:'row',flexWrap:'wrap',gap:10},
+  journeyCard:{width:'48%',minWidth:145,minHeight:105,backgroundColor:colors.paper,borderRadius:18,padding:13,borderWidth:1,borderColor:colors.line,gap:9,justifyContent:'space-between'},
+  journeyCardAccent:{backgroundColor:colors.teal,borderColor:colors.teal},
+  journeyIcon:{width:38,height:38,borderRadius:19,backgroundColor:'#F4E8DB',alignItems:'center',justifyContent:'center'},
+  journeyCardTitle:{fontSize:15,lineHeight:22,fontWeight:'800'},
+  journeyCardNote:{fontSize:10.5,lineHeight:16,color:colors.muted},
   section:{gap:10},
   sectionHeading:{flexDirection:'row',alignItems:'center',justifyContent:'space-between',gap:8},
   sectionLink:{flexDirection:'row',gap:6,alignItems:'center',minHeight:40},
