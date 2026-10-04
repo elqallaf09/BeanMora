@@ -13,7 +13,10 @@ import {
   type RecipeItem,
   type RecipeRow,
 } from "./data";
-import { CoffeePhoto, MethodPicker, coffeeStyles } from "./CoffeeScreens";
+import { MethodPicker, coffeeStyles } from "./CoffeeScreens";
+import { RecipeVisual } from './RecipeVisual';
+import { MethodGuide } from './MethodGuide';
+import { doseLabel, timeLabel } from './manualBrew';
 import { Action, Field, Language, Txt, colors, styles } from "./ui";
 import { methods } from "./copy";
 import type { Method } from "./core/engine";
@@ -167,6 +170,7 @@ export function RecipeCatalog({
               }}
             />
           ) : null}
+          <MethodGuide key={method ?? 'all'} method={method}/>
           <Field
             label={ar ? "ابحث عن وصفة" : "Find a recipe"}
             value={search}
@@ -280,7 +284,7 @@ export function RecipeCatalog({
           ]}
         >
           <View style={{ height: 145 }}>
-            <CoffeePhoto uri={item.coverUrl} seed={item.id} />
+            <RecipeVisual recipe={item}/>
           </View>
           <View style={{ padding: 12, gap: 5 }}>
             <Txt style={[styles.muted, { fontSize: 11 }]}>
@@ -293,8 +297,9 @@ export function RecipeCatalog({
               {item.title}
             </Txt>
             <Txt style={{ fontSize: 12 }}>
-              {item.dose ?? "—"} g · {item.water ?? "—"} {item.waterUnit}
+              {doseLabel(item)} · {item.water ? `${item.water} ${item.waterUnit}` : ar && item.method === 'moka_pot' ? 'أدنى صمام الأمان' : item.method === 'moka_pot' ? 'Below safety valve' : '—'}
             </Txt>
+            <Txt style={styles.muted}>{timeLabel(item, ar) !== '—' ? timeLabel(item, ar) : ar && item.method === 'moka_pot' ? 'حسب التدفق' : item.method === 'moka_pot' ? 'Follow flow' : '—'}</Txt>
             <Txt numberOfLines={1} style={[styles.muted, { fontSize: 11 }]}>
               {item.author || item.sources[0]?.name || ""}
             </Txt>

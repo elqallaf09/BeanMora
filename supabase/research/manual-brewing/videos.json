@@ -1,0 +1,50 @@
+[
+  {
+    "method": "chemex",
+    "url": "https://www.youtube.com/watch?v=4qCbjSCLOZc",
+    "title": "How to Brew Coffee with Chemex",
+    "publisher": "Equator Coffees",
+    "publisher_url": "https://www.youtube.com/@Equatorcoffeesandteas",
+    "verified_at": "2026-10-04"
+  },
+  {
+    "method": "aeropress",
+    "url": "https://www.youtube.com/watch?v=Jjc34jyBlTM",
+    "title": "How to Brew Coffee with AeroPress",
+    "publisher": "Equator Coffees",
+    "publisher_url": "https://www.youtube.com/@Equatorcoffeesandteas",
+    "verified_at": "2026-10-04"
+  },
+  {
+    "method": "french_press",
+    "url": "https://www.youtube.com/watch?v=4RJPwdaeO7E",
+    "title": "French Press Brew Guide - Stumptown Coffee Roasters",
+    "publisher": "Stumptown Coffee Roasters",
+    "publisher_url": "https://www.youtube.com/@StumptownCoffeeRoasters",
+    "verified_at": "2026-10-04"
+  },
+  {
+    "method": "origami",
+    "url": "https://www.youtube.com/watch?v=epkWs-Eo4m4",
+    "title": "オリガミドリッパー 抽出レシピ / Origami Dripper Brew Guide by Kurasu Kyoto",
+    "publisher": "Kurasu Kyoto",
+    "publisher_url": "https://www.youtube.com/@KurasuKyoto",
+    "verified_at": "2026-10-04"
+  },
+  {
+    "method": "kalita_wave",
+    "url": "https://www.youtube.com/watch?v=JcKtGV7pRzM",
+    "title": "カリタウェーブ 抽出レシピ How to brew with Kalita Wave by Kurasu Kyoto",
+    "publisher": "Kurasu Kyoto",
+    "publisher_url": "https://www.youtube.com/@KurasuKyoto",
+    "verified_at": "2026-10-04"
+  },
+  {
+    "method": "moka_pot",
+    "url": "https://www.youtube.com/watch?v=BfDLoIvb0w4",
+    "title": "The Ultimate Moka Pot Technique (Episode #3)",
+    "publisher": "James Hoffmann",
+    "publisher_url": "https://www.youtube.com/@jameshoffmann",
+    "verified_at": "2026-10-04"
+  }
+]

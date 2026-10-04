@@ -39,6 +39,8 @@ jobs:
         run: npm test
       - name: Application typecheck
         run: npm run typecheck
+      - name: Application lint
+        run: npm run lint
       - name: Next.js production build
         run: npm run build
       - name: Install browser engines

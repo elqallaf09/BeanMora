@@ -1,0 +1,1877 @@
+{
+  "verified_at": "2026-10-04",
+  "recipes": [
+    {
+      "slug": "equator-chemex",
+      "title": "Equator Coffees — Chemex 45 g / 720 g",
+      "title_ar": "إكواتور — كيمكس 45 g / 720 g",
+      "brew_method": "chemex",
+      "source_author_name": "Equator Coffees",
+      "source_url": "https://www.equatorcoffees.com/blogs/guides/chemex",
+      "recipe_type": "official_roaster",
+      "dose_grams": 45,
+      "water_grams": 720,
+      "water_temp_c": 96.1,
+      "total_time_seconds": 300,
+      "grinder_setting": "Medium-coarse",
+      "notes": "45 g / 720 g; 205°F converts to 96.1°C. Smaller batches preserve 1:16; adjust grind if drawdown changes.",
+      "notes_ar": "45 g / 720 g؛ حرارة 205°F تعادل 96.1°C. الكميات الأصغر تحافظ على 1:16؛ راقب زمن التصريف.",
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start with the bloom pour.",
+          "timer_start_ar": "ابدأ المؤقت مع صبة التزهير.",
+          "time_min_seconds": 240,
+          "time_max_seconds": 300,
+          "grind_ar": "متوسط خشن.",
+          "scalable": true
+        }
+      },
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Rinse the filter, discard rinse water, level 45 g of coffee.",
+          "description_ar": "اشطف الفلتر، أفرغ ماء الشطف، وسوِّ طبقة 45 g بن.",
+          "step_kind": "rinse"
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Start with 90 g.",
+          "description_ar": "ابدأ بـ 90 g ماء.",
+          "step_kind": "bloom"
+        },
+        {
+          "title": "First addition",
+          "title_ar": "الإضافة الأولى",
+          "description": "At 0:30 add 210 g; scale: 300 g.",
+          "description_ar": "عند 0:30 أضف 210 g؛ الميزان: 300 g.",
+          "step_kind": "pour"
+        },
+        {
+          "title": "Second addition",
+          "title_ar": "الإضافة الثانية",
+          "description": "At 1:30 add 210 g; scale: 510 g.",
+          "description_ar": "عند 1:30 أضف 210 g؛ الميزان: 510 g.",
+          "step_kind": "pour"
+        },
+        {
+          "title": "Final addition",
+          "title_ar": "الإضافة الأخيرة",
+          "description": "At 2:30 add 210 g; scale: 720 g.",
+          "description_ar": "عند 2:30 أضف 210 g؛ الميزان: 720 g.",
+          "step_kind": "pour"
+        },
+        {
+          "title": "Drain and serve",
+          "title_ar": "التصريف والتقديم",
+          "description": "Wait for dripping to end, usually 4–5 minutes.",
+          "description_ar": "انتظر انتهاء التنقيط؛ المعتاد 4–5 دقائق.",
+          "step_kind": "drawdown"
+        }
+      ],
+      "pours": [
+        {
+          "pour_number": 1,
+          "water_grams": 90,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "pour_number": 2,
+          "water_grams": 210,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 3,
+          "water_grams": 210,
+          "start_at_seconds": 90,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 4,
+          "water_grams": 210,
+          "start_at_seconds": 150,
+          "is_bloom": false
+        }
+      ],
+      "video_url": "https://www.youtube.com/watch?v=4qCbjSCLOZc"
+    },
+    {
+      "slug": "crema-coffee-chemex",
+      "title": "Crema — Chemex 25 g / 400 g",
+      "title_ar": "كريما — كيمكس 25 g / 400 g",
+      "brew_method": "chemex",
+      "source_author_name": "Crema Coffee Roasters",
+      "source_url": "https://crema-coffee.com/pages/chemex-brewing-guide",
+      "recipe_type": "official_roaster",
+      "dose_grams": 25,
+      "water_grams": 400,
+      "water_temp_c": null,
+      "total_time_seconds": 240,
+      "grinder_setting": "Like kosher salt",
+      "notes": "25 g / 400 g; water just off boiling.",
+      "notes_ar": "25 g / 400 g؛ الماء بُعيد الغليان.",
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start with the bloom pour.",
+          "timer_start_ar": "ابدأ المؤقت مع صبة التزهير.",
+          "temperature_note": "Just off boiling",
+          "temperature_note_ar": "بُعيد الغليان",
+          "grind_ar": "مثل الملح الخشن.",
+          "scalable": true,
+          "pour_note": "After bloom, +350 g is a gradual addition through 3:00, not one pour.",
+          "pour_note_ar": "بعد التزهير، +350 g مجموع إضافات متدرجة حتى 3:00، وليس صبة واحدة."
+        }
+      },
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Rinse the filter; discard rinse water. Set three layers toward the spout.",
+          "description_ar": "اشطف الفلتر وأفرغ الماء؛ وجّه الطبقات الثلاث نحو الفوهة.",
+          "step_kind": "rinse"
+        },
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Use 25 g, ground like coarse salt.",
+          "description_ar": "استخدم 25 g بطحنة تشبه الملح الخشن.",
+          "step_kind": "other"
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Wet the bed with about 50 g; wait 30 seconds.",
+          "description_ar": "بلّل الطبقة بنحو 50 g؛ انتظر 30 ثانية.",
+          "step_kind": "bloom"
+        },
+        {
+          "title": "Gradual pouring",
+          "title_ar": "الصب التدريجي",
+          "description": "Add the remaining 350 g in stages by 3:00.",
+          "description_ar": "أضف الـ 350 g الباقية على مراحل حتى 3:00.",
+          "step_kind": "pour"
+        },
+        {
+          "title": "Drawdown",
+          "title_ar": "التصريف",
+          "description": "Stir gently; aim to finish near 4:00.",
+          "description_ar": "حرّك برفق؛ الوقت المستهدف قرابة 4:00.",
+          "step_kind": "drawdown"
+        },
+        {
+          "title": "Serve",
+          "title_ar": "التقديم",
+          "description": "Remove the filter, swirl and serve.",
+          "description_ar": "أزل الفلتر، حرّك الوعاء وقدّم.",
+          "step_kind": "serve"
+        }
+      ],
+      "pours": [
+        {
+          "pour_number": 1,
+          "water_grams": 50,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "pour_number": 2,
+          "water_grams": 350,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        }
+      ]
+    },
+    {
+      "slug": "stumptown-chemex-42g-700g",
+      "title": "Stumptown — Chemex 42 g / 700 g",
+      "title_ar": "ستمبتاون — كيمكس 42 g / 700 g",
+      "brew_method": "chemex",
+      "source_author_name": "Stumptown Coffee Roasters",
+      "source_url": "https://www.stumptowncoffee.com/pages/brew-guide-chemex",
+      "recipe_type": "official_roaster",
+      "dose_grams": 42,
+      "water_grams": 700,
+      "water_temp_c": 96.1,
+      "total_time_seconds": 240,
+      "grinder_setting": "Medium-coarse",
+      "notes": "Published for an 8-cup Chemex. 205°F is approximately 96.1°C.",
+      "notes_ar": "الوصفة منشورة لكيمكس 8 أكواب. حرارة 205°F تعادل نحو 96.1°C.",
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start with the bloom pour.",
+          "timer_start_ar": "ابدأ المؤقت مع صبة التزهير.",
+          "model": "8-cup Chemex",
+          "model_ar": "كيمكس 8 أكواب",
+          "grind_ar": "متوسط خشن."
+        }
+      },
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Rinse and empty the filter; level 42 g of grounds.",
+          "description_ar": "اشطف الفلتر وأفرغ الماء؛ سوِّ طبقة 42 g بن.",
+          "step_kind": "rinse"
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Wet all grounds with 150 g, then stir.",
+          "description_ar": "بلّل كامل البن بـ 150 g، ثم حرّك.",
+          "step_kind": "bloom"
+        },
+        {
+          "title": "Middle addition",
+          "title_ar": "الإضافة الوسطى",
+          "description": "At 0:45 pour to a scale total of 450 g.",
+          "description_ar": "عند 0:45 اسكب حتى يصل الميزان إلى 450 g.",
+          "step_kind": "pour"
+        },
+        {
+          "title": "Last addition",
+          "title_ar": "الإضافة الأخيرة",
+          "description": "At 1:45 bring the scale total to 700 g.",
+          "description_ar": "عند 1:45 أكمل حتى 700 g على الميزان.",
+          "step_kind": "pour"
+        },
+        {
+          "title": "Finish",
+          "title_ar": "الإنهاء",
+          "description": "At about 4:00, remove the filter and swirl before serving.",
+          "description_ar": "قرابة 4:00 أزل الفلتر وحرّك الوعاء قبل التقديم.",
+          "step_kind": "serve"
+        }
+      ],
+      "pours": [
+        {
+          "pour_number": 1,
+          "water_grams": 150,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "pour_number": 2,
+          "water_grams": 300,
+          "start_at_seconds": 45,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 3,
+          "water_grams": 250,
+          "start_at_seconds": 105,
+          "is_bloom": false
+        }
+      ]
+    },
+    {
+      "slug": "blue-bottle-chemex-600g",
+      "title": "Blue Bottle — Chemex 600 g",
+      "title_ar": "بلو بوتل — كيمكس 600 g",
+      "brew_method": "chemex",
+      "source_author_name": "Blue Bottle Coffee",
+      "source_url": "https://cdn.bluebottlecoffee.com/us/eng/brew-guides/chemex",
+      "recipe_type": "official_roaster",
+      "dose_grams": null,
+      "water_grams": 600,
+      "water_temp_c": null,
+      "total_time_seconds": 330,
+      "grinder_setting": "Medium-coarse",
+      "notes": "Source dose is a range, 36–46 g. 200–210°F converts to 93.3–98.9°C.",
+      "notes_ar": "جرعة المصدر نطاق: 36–46 g. حرارة 200–210°F تعادل 93.3–98.9°C.",
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start with the bloom pour.",
+          "timer_start_ar": "ابدأ المؤقت مع صبة التزهير.",
+          "dose_min_grams": 36,
+          "dose_max_grams": 46,
+          "time_min_seconds": 270,
+          "time_max_seconds": 330,
+          "grind_ar": "متوسط خشن."
+        }
+      },
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Rinse the filter and discard water. Use 36–46 g of grounds.",
+          "description_ar": "اشطف الفلتر وأفرغ الماء؛ استخدم 36–46 g بن.",
+          "step_kind": "rinse"
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Start by adding 80 g.",
+          "description_ar": "ابدأ بإضافة 80 g.",
+          "step_kind": "bloom"
+        },
+        {
+          "title": "First addition",
+          "title_ar": "الإضافة الأولى",
+          "description": "At 0:45 pour to 300 g by 1:00.",
+          "description_ar": "عند 0:45 اسكب حتى 300 g بحلول 1:00.",
+          "step_kind": "pour"
+        },
+        {
+          "title": "Second addition",
+          "title_ar": "الإضافة الثانية",
+          "description": "At 1:20 pour to 400 g by 1:30.",
+          "description_ar": "عند 1:20 اسكب حتى 400 g بحلول 1:30.",
+          "step_kind": "pour"
+        },
+        {
+          "title": "Third addition",
+          "title_ar": "الإضافة الثالثة",
+          "description": "At 1:50 pour to 500 g by 2:00.",
+          "description_ar": "عند 1:50 اسكب حتى 500 g بحلول 2:00.",
+          "step_kind": "pour"
+        },
+        {
+          "title": "Final addition",
+          "title_ar": "الإضافة الأخيرة",
+          "description": "At 2:20 pour to 600 g by 2:30; let drain until 4:30–5:30.",
+          "description_ar": "عند 2:20 اسكب حتى 600 g بحلول 2:30؛ اتركه يصرف حتى 4:30–5:30.",
+          "step_kind": "pour"
+        }
+      ],
+      "pours": [
+        {
+          "pour_number": 1,
+          "water_grams": 80,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "pour_number": 2,
+          "water_grams": 220,
+          "start_at_seconds": 45,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 3,
+          "water_grams": 100,
+          "start_at_seconds": 80,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 4,
+          "water_grams": 100,
+          "start_at_seconds": 110,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 5,
+          "water_grams": 100,
+          "start_at_seconds": 140,
+          "is_bloom": false
+        }
+      ],
+      "water_temp_c_min": 93.3,
+      "water_temp_c_max": 98.9
+    },
+    {
+      "slug": "bialetti-moka-express-official",
+      "title": "Bialetti — Moka Express manufacturer guide",
+      "title_ar": "بياليتي — دليل موكا إكسبريس الرسمي",
+      "brew_method": "moka_pot",
+      "source_author_name": "Bialetti",
+      "source_url": "https://www.bialetti.com/it_en/moka-express.html",
+      "recipe_type": "official_manufacturer",
+      "dose_grams": null,
+      "water_grams": null,
+      "water_temp_c": null,
+      "total_time_seconds": null,
+      "grinder_setting": "Moka grind; not too fine",
+      "notes": "Match your pot; grams and minutes vary.",
+      "notes_ar": "الكميات والوقت حسب حجم الإبريق.",
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start on the heat; watch flow.",
+          "timer_start_ar": "ابدأ مع التسخين؛ راقب التدفق.",
+          "heat": "Low flame; keep it within the base.",
+          "heat_ar": "نار منخفضة لا تتجاوز قاعدة الإبريق.",
+          "grind_ar": "طحنة موكا؛ تجنّب الناعمة جداً.",
+          "model": "Moka Express — match the pot size",
+          "model_ar": "موكا إكسبريس — حسب حجم الإبريق",
+          "water_note": "Keep below the safety valve",
+          "water_note_ar": "أدنى صمام الأمان حسب الحجم",
+          "temperature_note": "Room-temperature water",
+          "temperature_note_ar": "ماء بحرارة الغرفة"
+        }
+      },
+      "steps": [
+        {
+          "title": "Fill boiler",
+          "title_ar": "تعبئة الخزان",
+          "description": "Add room-temperature water without covering the valve.",
+          "description_ar": "أضف ماء بحرارة الغرفة دون تغطية الصمام.",
+          "step_kind": "other"
+        },
+        {
+          "title": "Fill basket",
+          "title_ar": "تعبئة السلة",
+          "description": "Fill loosely with moka-ground coffee; do not compact.",
+          "description_ar": "املأ السلة بطحنة موكا دون كبس.",
+          "step_kind": "other"
+        },
+        {
+          "title": "Assemble",
+          "title_ar": "التركيب",
+          "description": "Clean the sealing edge and close securely.",
+          "description_ar": "نظّف حافة الإغلاق وأحكم التركيب.",
+          "step_kind": "other"
+        },
+        {
+          "title": "Heat gently",
+          "title_ar": "التسخين الهادئ",
+          "description": "Use low heat; watch the flow.",
+          "description_ar": "استخدم ناراً منخفضة وراقب التدفق.",
+          "step_kind": "other"
+        },
+        {
+          "title": "Remove and serve",
+          "title_ar": "الرفع والتقديم",
+          "description": "Remove as brewing ends. Cool fully before opening.",
+          "description_ar": "ارفعه عند انتهاء التحضير؛ برّده تماماً قبل الفتح.",
+          "step_kind": "serve"
+        }
+      ],
+      "pours": []
+    },
+    {
+      "slug": "blue-bottle-moka-6cup",
+      "title": "Blue Bottle — Moka pot 6-cup",
+      "title_ar": "بلو بوتل — موكا بوت 6 أكواب",
+      "brew_method": "moka_pot",
+      "source_author_name": "Blue Bottle Coffee",
+      "source_url": "https://cdn.bluebottlecoffee.com/us/eng/brew-guides/moka-pot",
+      "recipe_type": "official_roaster",
+      "dose_grams": null,
+      "water_grams": 345,
+      "water_temp_c": null,
+      "total_time_seconds": 360,
+      "grinder_setting": "Medium-fine",
+      "notes": "Use the source 6-cup pot; valve and basket limits take priority.",
+      "notes_ar": "لإبريق 6 أكواب المطابق؛ حد الصمام والسلة مقدّم على الأرقام.",
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start on the heat; watch flow.",
+          "timer_start_ar": "ابدأ مع التسخين؛ راقب التدفق.",
+          "heat": "Medium heat; flame inside base.",
+          "heat_ar": "نار متوسطة؛ اللهب داخل القاعدة.",
+          "grind_ar": "متوسط ناعم؛ أخشن من الإسبريسو.",
+          "dose_min_grams": 20,
+          "dose_max_grams": 22,
+          "time_min_seconds": 180,
+          "time_max_seconds": 360,
+          "model": "6-cup moka pot in the source",
+          "model_ar": "موكا بوت 6 أكواب المستخدم بالمصدر",
+          "temperature_note": "Hot water optional",
+          "temperature_note_ar": "الماء الساخن اختياري"
+        }
+      },
+      "steps": [
+        {
+          "title": "Match pot",
+          "title_ar": "مطابقة الإبريق",
+          "description": "Use the source 6-cup size; grind 20–22 g, coarser than espresso.",
+          "description_ar": "طابق حجم 6 أكواب؛ اطحن 20–22 g أخشن من الإسبريسو.",
+          "step_kind": "other"
+        },
+        {
+          "title": "Fill safely",
+          "title_ar": "التعبئة الآمنة",
+          "description": "About 345 g water, without submerging the valve or flooding the funnel.",
+          "description_ar": "نحو 345 g ماء دون غمر الصمام أو وصول الماء للقمع.",
+          "step_kind": "other"
+        },
+        {
+          "title": "Basket",
+          "title_ar": "السلة",
+          "description": "Distribute coffee loosely, clean the rim and close the pot.",
+          "description_ar": "وزّع البن بلا كبس؛ نظّف الحافة وأغلق الإبريق.",
+          "step_kind": "other"
+        },
+        {
+          "title": "Monitor heating",
+          "title_ar": "مراقبة التسخين",
+          "description": "Use medium heat; monitor flow. Guide: 3–6 minutes.",
+          "description_ar": "نار متوسطة مع مراقبة التدفق؛ الإرشادي 3–6 دقائق.",
+          "step_kind": "other"
+        },
+        {
+          "title": "Finish",
+          "title_ar": "الإنهاء",
+          "description": "Remove at the first gurgling; handle with heat protection.",
+          "description_ar": "ارفعه عند بداية القرقرة واستخدم حماية حرارية.",
+          "step_kind": "serve"
+        }
+      ],
+      "pours": []
+    },
+    {
+      "slug": "pact-moka-240ml",
+      "title": "Pact — Moka pot 240 ml",
+      "title_ar": "باكت — موكا بوت 240 ml",
+      "brew_method": "moka_pot",
+      "source_author_name": "Pact Coffee",
+      "source_url": "https://www.pactcoffee.com/brew-guides/stovetop",
+      "recipe_type": "official_roaster",
+      "dose_grams": 24,
+      "water_grams": null,
+      "water_temp_c": null,
+      "total_time_seconds": null,
+      "grinder_setting": "Medium-fine",
+      "notes": "24 g / 240 ml for the matching pot; stop by flow.",
+      "notes_ar": "24 g / 240 ml للإبريق المطابق؛ الإنهاء حسب التدفق.",
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start on the heat; watch flow.",
+          "timer_start_ar": "ابدأ مع التسخين؛ راقب التدفق.",
+          "heat": "Low flame; keep it within the base.",
+          "heat_ar": "نار منخفضة لا تتجاوز قاعدة الإبريق.",
+          "grind_ar": "متوسط ناعم؛ أخشن من الإسبريسو.",
+          "model": "240 ml moka pot in the source",
+          "model_ar": "موكا بوت 240 ml المستخدم بالمصدر",
+          "temperature_note": "Just off boiling",
+          "temperature_note_ar": "بُعيد الغليان"
+        },
+        "water_ml": 240
+      },
+      "steps": [
+        {
+          "title": "Prepare water",
+          "title_ar": "تجهيز الماء",
+          "description": "Use recently boiled water; never cover the safety valve.",
+          "description_ar": "استخدم ماءً بُعيد الغليان دون تغطية الصمام.",
+          "step_kind": "other"
+        },
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "For the matching pot, fill with 24 g of medium-fine coffee without pressing.",
+          "description_ar": "للإبريق المطابق، ضع 24 g بطحن متوسط ناعم دون كبس.",
+          "step_kind": "other"
+        },
+        {
+          "title": "Close carefully",
+          "title_ar": "الإغلاق بحذر",
+          "description": "Use a towel to protect your hand while assembling.",
+          "description_ar": "احمِ يدك بمنشفة عند التركيب.",
+          "step_kind": "other"
+        },
+        {
+          "title": "Gentle heat",
+          "title_ar": "النار الهادئة",
+          "description": "Keep heat low, reducing it as coffee emerges.",
+          "description_ar": "أبقِ النار منخفضة وقلّلها مع خروج القهوة.",
+          "step_kind": "other"
+        },
+        {
+          "title": "Serve",
+          "title_ar": "التقديم",
+          "description": "End heating when the liquid has passed through; serve promptly.",
+          "description_ar": "أوقف التسخين عند انتهاء خروج السائل وقدّم.",
+          "step_kind": "serve"
+        }
+      ],
+      "pours": []
+    },
+    {
+      "slug": "equator-aeropress",
+      "notes": "Strong concentrate; dilute to taste. 205°F ≈ 96.1°C.",
+      "pours": [
+        {
+          "is_bloom": true,
+          "pour_number": 1,
+          "water_grams": 50,
+          "start_at_seconds": 0
+        },
+        {
+          "is_bloom": false,
+          "pour_number": 2,
+          "water_grams": 150,
+          "start_at_seconds": 30
+        }
+      ],
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Rinse the secured filter; empty rinse water. Add 18 g.",
+          "description_ar": "اشطف الفلتر المثبت وأفرغ الماء؛ أضف 18 g.",
+          "step_kind": "other",
+          "duration_seconds": null
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Pour 50 g; lightly seal with the plunger.",
+          "description_ar": "اسكب 50 g؛ أدخل المكبس قليلاً لإغلاق السطح.",
+          "step_kind": "bloom",
+          "duration_seconds": null
+        },
+        {
+          "title": "Fill",
+          "title_ar": "تعبئة الماء",
+          "description": "At 0:30–0:45, add 150 g, then reseal.",
+          "description_ar": "عند 0:30–0:45 أضف 150 g وأعد الإغلاق.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Press",
+          "title_ar": "الكبس",
+          "description": "At 2:00 stir 5 s; press gently for about 30 s.",
+          "description_ar": "عند 2:00 حرّك 5 ثوانٍ؛ اكبس بلطف نحو 30 ثانية.",
+          "step_kind": "press",
+          "duration_seconds": null
+        }
+      ],
+      "title": "Equator Coffees — AeroPress",
+      "notes_ar": "قهوة مركزة؛ خفّف حسب ذوقك. 205°F ≈ 96.1°C.",
+      "title_ar": "إكواتور كوفيز — إيروبرس",
+      "dose_grams": 18,
+      "brew_method": "aeropress",
+      "recipe_type": "verified_barista",
+      "water_grams": 200,
+      "water_temp_c": 96.1,
+      "grinder_setting": "Medium-fine",
+      "water_temp_c_max": null,
+      "water_temp_c_min": null,
+      "source_author_name": "Equator Coffees",
+      "total_time_seconds": null,
+      "is_incomplete_source": false,
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start with the first water addition.",
+          "timer_start_ar": "ابدأ مع أول إضافة للماء.",
+          "grind_ar": "متوسط ناعم",
+          "model": "Upright AeroPress",
+          "model_ar": "إيروبريس بالطريقة العادية",
+          "time_note": "2:00 steep, stir 5 s, then press about 30 s",
+          "time_note_ar": "نقع 2:00، تحريك 5 ثوانٍ ثم كبس نحو 30 ثانية"
+        }
+      },
+      "source_url": "https://www.equatorcoffees.com/blogs/guides/aeropress",
+      "video_url": "https://www.youtube.com/watch?v=Jjc34jyBlTM"
+    },
+    {
+      "slug": "tim-wendelboe-aeropress-filter",
+      "notes": "Light roast recommended. Total time is not published.",
+      "pours": [
+        {
+          "is_bloom": false,
+          "pour_number": 1,
+          "water_grams": 200,
+          "start_at_seconds": 0
+        }
+      ],
+      "steps": [
+        {
+          "title": "Rinse",
+          "title_ar": "الشطف",
+          "description": "Rinse the paper filter briefly.",
+          "description_ar": "اشطف الفلتر الورقي قليلاً.",
+          "step_kind": "rinse",
+          "duration_seconds": null
+        },
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Add 14 g freshly ground coffee.",
+          "description_ar": "أضف 14 g بن مطحون للتو.",
+          "step_kind": "other",
+          "duration_seconds": null
+        },
+        {
+          "title": "Water",
+          "title_ar": "الماء",
+          "description": "Add 200 g boiling water.",
+          "description_ar": "أضف 200 g ماء عند الغليان.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Mix",
+          "title_ar": "التحريك",
+          "description": "Stir three times.",
+          "description_ar": "حرّك ثلاث مرات.",
+          "step_kind": "stir",
+          "duration_seconds": null
+        },
+        {
+          "title": "Steep",
+          "title_ar": "النقع",
+          "description": "Seal with the plunger; wait 60 s.",
+          "description_ar": "أغلق بالمكبس وانتظر 60 ثانية.",
+          "step_kind": "steep",
+          "duration_seconds": 60
+        },
+        {
+          "title": "Mix again",
+          "title_ar": "التحريك مجدداً",
+          "description": "Remove plunger and stir three times front-to-back.",
+          "description_ar": "انزع المكبس وحرّك ثلاث مرات للأمام والخلف.",
+          "step_kind": "stir",
+          "duration_seconds": null
+        },
+        {
+          "title": "Press",
+          "title_ar": "الكبس",
+          "description": "Press into a stable cup; avoid excessive force.",
+          "description_ar": "اكبس في كوب ثابت دون قوة زائدة.",
+          "step_kind": "press",
+          "duration_seconds": null
+        }
+      ],
+      "title": "Tim Wendelboe — AeroPress filter-style",
+      "notes_ar": "المصدر يقترح تحميصاً فاتحاً؛ لم يحدد الوقت الإجمالي.",
+      "title_ar": "تيم ويندلبو — إيروبريس بطابع الترشيح",
+      "dose_grams": 14,
+      "brew_method": "aeropress",
+      "recipe_type": "official_roaster",
+      "water_grams": 200,
+      "water_temp_c": null,
+      "grinder_setting": "Fine filter grind",
+      "water_temp_c_max": null,
+      "water_temp_c_min": null,
+      "source_author_name": "Tim Wendelboe",
+      "total_time_seconds": null,
+      "is_incomplete_source": true,
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start with the first water addition.",
+          "timer_start_ar": "ابدأ مع أول إضافة للماء.",
+          "grind_ar": "ناعم مناسب للترشيح",
+          "model": "Upright AeroPress",
+          "model_ar": "إيروبريس بالطريقة العادية",
+          "temperature_note": "Boiling water",
+          "temperature_note_ar": "ماء عند الغليان",
+          "time_note": "60 s steep, then press; total unspecified",
+          "time_note_ar": "نقع 60 ثانية ثم الكبس؛ الإجمالي غير محدد"
+        }
+      },
+      "source_url": "https://timwendelboe.no/pages/how-to-brew-with-an-aeropress"
+    },
+    {
+      "slug": "wac-2021-maru-mallee",
+      "notes": "Formula 6 water: 75% Classic, 25% distilled. 36 g dilution follows pressing.",
+      "pours": [
+        {
+          "is_bloom": false,
+          "pour_number": 1,
+          "water_grams": 150,
+          "start_at_seconds": 0
+        },
+        {
+          "is_bloom": false,
+          "pour_number": 2,
+          "water_grams": 36,
+          "start_at_seconds": 135
+        }
+      ],
+      "steps": [
+        {
+          "title": "Water",
+          "title_ar": "الماء",
+          "description": "Inverted, add 150 g at 93°C during 0:00–0:12.",
+          "description_ar": "بالوضع المقلوب أضف 150 g بحرارة 93°C خلال 0:00–0:12.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Mix and cap",
+          "title_ar": "التحريك والإغلاق",
+          "description": "Stir 20 times by 0:25; secure rinsed filter cap by 0:30.",
+          "description_ar": "حرّك 20 مرة حتى 0:25؛ ثبت غطاء الفلتر المغسول حتى 0:30.",
+          "step_kind": "stir",
+          "duration_seconds": null
+        },
+        {
+          "title": "Flip and press",
+          "title_ar": "القلب والكبس",
+          "description": "At 1:50 flip, swirl 3 times and tap twice; press 1:55–2:15 gently.",
+          "description_ar": "عند 1:50 اقلب ودوّر 3 مرات وانقر مرتين؛ اكبس بلطف 1:55–2:15.",
+          "step_kind": "press",
+          "duration_seconds": null
+        },
+        {
+          "title": "Dilute",
+          "title_ar": "التخفيف",
+          "description": "Add 36 g room-temperature water; swirl to cool for 1 min.",
+          "description_ar": "أضف 36 g ماء بحرارة الغرفة ودوّر دقيقة للتبريد.",
+          "step_kind": "serve",
+          "duration_seconds": null
+        }
+      ],
+      "title": "Maru Mallee — 2021 World AeroPress Championship, 2 nd",
+      "notes_ar": "ماء Formula 6: ‏75% Classic و 25% مقطر؛ 36 g للتخفيف بعد الكبس.",
+      "title_ar": "مارو ماليه — بطولة العالم للإيروبرس 2021، المركز الثاني",
+      "dose_grams": 18,
+      "brew_method": "aeropress",
+      "recipe_type": "verified_barista",
+      "water_grams": 186,
+      "water_temp_c": 93,
+      "grinder_setting": "Macap Labo 70 D: 6.7 (Comandante: 23 clicks)",
+      "water_temp_c_max": null,
+      "water_temp_c_min": null,
+      "source_author_name": "AeroPress",
+      "total_time_seconds": 135,
+      "is_incomplete_source": false,
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start with the first water addition.",
+          "timer_start_ar": "ابدأ مع أول إضافة للماء.",
+          "grind_ar": "Macap Labo 70 D: 6.7؛ Comandante: 23 نقرة",
+          "model": "Competition recipe: inverted, one rinsed filter",
+          "model_ar": "وصفة بطولة: مقلوبة، فلتر واحد مغسول",
+          "time_note": "Press ends 2:15; swirl to cool another 1:00",
+          "time_note_ar": "نهاية الكبس 2:15؛ تدوير للتبريد دقيقة إضافية",
+          "dilution_pour_numbers": [
+            2
+          ]
+        }
+      },
+      "source_url": "https://aeropress.com/blogs/w-a-c-aeropress-recipes/maru-mallee"
+    },
+    {
+      "slug": "wac-2021-tuomas-merikanto",
+      "notes": "Formula 2 water. Two filters; cool from 2:00 to 2:30.",
+      "pours": [
+        {
+          "is_bloom": true,
+          "pour_number": 1,
+          "water_grams": 50,
+          "start_at_seconds": 0
+        },
+        {
+          "is_bloom": false,
+          "pour_number": 2,
+          "water_grams": 150,
+          "start_at_seconds": 15
+        }
+      ],
+      "steps": [
+        {
+          "title": "Start",
+          "title_ar": "البداية",
+          "description": "Inverted, add 50 g at 80°C during 0:00–0:10.",
+          "description_ar": "بالوضع المقلوب أضف 50 g بحرارة 80°C خلال 0:00–0:10.",
+          "step_kind": "bloom",
+          "duration_seconds": null
+        },
+        {
+          "title": "Mix",
+          "title_ar": "التحريك",
+          "description": "Make 3 gentle stirs during 0:10–0:15.",
+          "description_ar": "حرّك برفق 3 مرات خلال 0:10–0:15.",
+          "step_kind": "stir",
+          "duration_seconds": null
+        },
+        {
+          "title": "Fill",
+          "title_ar": "الإكمال",
+          "description": "During 0:15–0:30 add 150 g: total 200 g.",
+          "description_ar": "خلال 0:15–0:30 أضف 150 g؛ الإجمالي 200 g.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Steep",
+          "title_ar": "النقع",
+          "description": "Stir 3 times at 0:50; cap at 1:00 and wait to 1:40.",
+          "description_ar": "حرّك 3 مرات عند 0:50؛ أغلق عند 1:00 وانتظر حتى 1:40.",
+          "step_kind": "steep",
+          "duration_seconds": null
+        },
+        {
+          "title": "Finish",
+          "title_ar": "الإنهاء",
+          "description": "Flip at 1:40; press to 2:00, then swirl to cool to 2:30.",
+          "description_ar": "اقلب عند 1:40؛ اكبس حتى 2:00 ودوّر للتبريد حتى 2:30.",
+          "step_kind": "press",
+          "duration_seconds": null
+        }
+      ],
+      "title": "Tuomas Merikanto — 2021 World AeroPress Championship, 1 st",
+      "notes_ar": "ماء Formula 2؛ فلتران، والتبريد من 2:00 إلى 2:30.",
+      "title_ar": "توماس ميريكانتو — بطولة العالم للإيروبرس 2021، المركز الأول",
+      "dose_grams": 18,
+      "brew_method": "aeropress",
+      "recipe_type": "verified_barista",
+      "water_grams": 200,
+      "water_temp_c": 80,
+      "grinder_setting": "Macap Labo 70 D: 7.0 (Comandante: 27 clicks)",
+      "water_temp_c_max": null,
+      "water_temp_c_min": null,
+      "source_author_name": "AeroPress",
+      "total_time_seconds": 150,
+      "is_incomplete_source": false,
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start with the first water addition.",
+          "timer_start_ar": "ابدأ مع أول إضافة للماء.",
+          "grind_ar": "Macap Labo 70 D: 7.0؛ Comandante: 27 نقرة",
+          "model": "Competition recipe: inverted, two rinsed filters",
+          "model_ar": "وصفة بطولة: مقلوبة، فلتران مغسولان"
+        }
+      },
+      "source_url": "https://aeropress.com/blogs/blog/wac"
+    },
+    {
+      "slug": "wac-2023-tay-wipvasutt",
+      "notes": "Ingredient list: 149 g hot +25 g room-temp water. Instructions instead dilute to 110 g, then 154 g beverage; resulting water varies with yield.",
+      "pours": [
+        {
+          "is_bloom": false,
+          "pour_number": 1,
+          "water_grams": 55,
+          "start_at_seconds": 0
+        },
+        {
+          "is_bloom": false,
+          "pour_number": 2,
+          "water_grams": 50,
+          "start_at_seconds": 65
+        }
+      ],
+      "steps": [
+        {
+          "title": "First brew",
+          "title_ar": "التحضير الأول",
+          "description": "With three filters, add 16 g coffee and 55 g water at 89°C.",
+          "description_ar": "مع 3 فلاتر أضف 16 g بن و 55 g ماء بحرارة 89°C.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "First press",
+          "title_ar": "الكبس الأول",
+          "description": "Stir 0:25–0:30; press 0:45–0:55. Set ~35 g yield aside.",
+          "description_ar": "حرّك 0:25–0:30 واكبس 0:45–0:55؛ ضع الناتج نحو 35 g جانباً.",
+          "step_kind": "press",
+          "duration_seconds": null
+        },
+        {
+          "title": "Second brew",
+          "title_ar": "التحضير الثاني",
+          "description": "At 1:05 move to second server, add 2 g coffee and 50 g water.",
+          "description_ar": "عند 1:05 انتقل للوعاء الثاني؛ أضف 2 g بن و 50 g ماء.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Return and press",
+          "title_ar": "الإرجاع والكبس",
+          "description": "Stir 1:30–1:35, return first yield; press 2:10–2:20.",
+          "description_ar": "حرّك 1:30–1:35 وأعد الناتج الأول؛ اكبس 2:10–2:20.",
+          "step_kind": "press",
+          "duration_seconds": null
+        },
+        {
+          "title": "Dilute to yield",
+          "title_ar": "التخفيف حسب الناتج",
+          "description": "Top beverage to 110 g with room-temperature water, then to 154 g with hot water.",
+          "description_ar": "أكمل وزن المشروب إلى 110 g بماء بحرارة الغرفة، ثم 154 g بماء ساخن.",
+          "step_kind": "serve",
+          "duration_seconds": null
+        }
+      ],
+      "title": "Tay Wipvasutt — 2023 World AeroPress Championship, 1 st",
+      "notes_ar": "قائمة المكونات: 149 g ساخن و 25 g بحرارة الغرفة. الخطوات تخفّف المشروب إلى 110 g ثم 154 g؛ الماء المضاف يتغير حسب الناتج.",
+      "title_ar": "تاي ويبفاسوت — بطولة العالم للإيروبرس 2023، المركز الأول",
+      "dose_grams": 18,
+      "brew_method": "aeropress",
+      "recipe_type": "verified_barista",
+      "water_grams": 174,
+      "water_temp_c": 89,
+      "grinder_setting": null,
+      "water_temp_c_max": null,
+      "water_temp_c_min": null,
+      "source_author_name": "AeroPress",
+      "total_time_seconds": 140,
+      "is_incomplete_source": true,
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start with the first water addition.",
+          "timer_start_ar": "ابدأ مع أول إضافة للماء.",
+          "model": "Upright AeroPress, three paper filters, two servers",
+          "model_ar": "إيروبريس عادي، 3 فلاتر ووعاءان",
+          "time_note": "Last press ends 2:20; dilute afterwards",
+          "time_note_ar": "نهاية الكبس الأخير 2:20 ثم التخفيف",
+          "pour_note": "Two brew additions total 105 g. Final dilution follows beverage targets, not a fixed 69 g pour.",
+          "pour_note_ar": "صبّتا التحضير مجموعهما 105 g؛ التخفيف لاحقاً حسب وزن المشروب، وليس صبة ثابتة 69 g."
+        }
+      },
+      "source_url": "https://aeropress.com/blogs/w-a-c-aeropress-recipes/1st-tay-wipvasutt-thailand-2023",
+      "pour_sum_validated": false
+    },
+    {
+      "slug": "coffee-collective-french-press-guide",
+      "notes": "Source uses 65 g per litre; volume is not a measured gram weight.",
+      "pours": [],
+      "steps": [
+        {
+          "title": "Dose",
+          "title_ar": "الجرعة",
+          "description": "Use 65 g per litre, ground coarse.",
+          "description_ar": "استخدم 65 g لكل لتر بطحن خشن.",
+          "step_kind": "other",
+          "duration_seconds": null
+        },
+        {
+          "title": "Infuse",
+          "title_ar": "النقع",
+          "description": "Pour 92–95°C water; stir to wet coffee. Leave lid off.",
+          "description_ar": "اسكب ماء 92–95°C وحرّك لبلّ البن؛ اترك الغطاء مرفوعاً.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Break crust",
+          "title_ar": "كسر القشرة",
+          "description": "At 4:00 break crust and skim floating foam.",
+          "description_ar": "عند 4:00 اكسر القشرة وأزل الرغوة الطافية.",
+          "step_kind": "stir",
+          "duration_seconds": null
+        },
+        {
+          "title": "Settle",
+          "title_ar": "الترسيب",
+          "description": "Wait 30 s for sediment to fall.",
+          "description_ar": "انتظر 30 ثانية لترسيب الجزيئات.",
+          "step_kind": "steep",
+          "duration_seconds": 30
+        },
+        {
+          "title": "Press",
+          "title_ar": "الكبس",
+          "description": "Fit lid and lower the plunger slowly.",
+          "description_ar": "ركب الغطاء وأنزل المكبس ببطء.",
+          "step_kind": "press",
+          "duration_seconds": null
+        },
+        {
+          "title": "Serve",
+          "title_ar": "التقديم",
+          "description": "Allow to cool slightly before drinking.",
+          "description_ar": "اتركها تبرد قليلاً قبل الشرب.",
+          "step_kind": "serve",
+          "duration_seconds": null
+        }
+      ],
+      "title": "Coffee Collective — French press 65 g / 1 litre",
+      "notes_ar": "المصدر يحدد 65 g لكل لتر؛ الحجم ليس وزناً مقاساً بالجرام.",
+      "title_ar": "كوفي كولكتيف — فرنش برس 65 g / لتر",
+      "dose_grams": 65,
+      "brew_method": "french_press",
+      "recipe_type": "official_roaster",
+      "water_grams": null,
+      "water_temp_c": null,
+      "grinder_setting": "Coarse (the guide's own grind description; no numeric setting, micron figure or grinder model published)",
+      "water_temp_c_max": 95,
+      "water_temp_c_min": 92,
+      "source_author_name": "Coffee Collective",
+      "total_time_seconds": null,
+      "is_incomplete_source": true,
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start with the first water addition.",
+          "timer_start_ar": "ابدأ مع أول إضافة للماء.",
+          "grind_ar": "خشن",
+          "model": "Choose a press with capacity for a litre",
+          "model_ar": "إبريق بسعة مناسبة للتر",
+          "time_note": "4:00 infusion, then 0:30 settling and press",
+          "time_note_ar": "نقع 4:00 ثم ترسيب 0:30 والكبس"
+        },
+        "water_ml": 1000
+      },
+      "source_url": "https://coffeecollective.dk/pages/brew-guide/french-press"
+    },
+    {
+      "slug": "stumptown-coffee-french-press",
+      "notes": "205°F ≈96.1°C. Decant promptly after pressing.",
+      "pours": [
+        {
+          "is_bloom": false,
+          "pour_number": 1,
+          "water_grams": 450,
+          "start_at_seconds": 0
+        },
+        {
+          "is_bloom": false,
+          "pour_number": 2,
+          "water_grams": 400,
+          "start_at_seconds": 60
+        }
+      ],
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Preheat and empty press; add 56 g coarse coffee.",
+          "description_ar": "سخّن الإبريق وأفرغه؛ أضف 56 g بن خشن.",
+          "step_kind": "other",
+          "duration_seconds": null
+        },
+        {
+          "title": "Water",
+          "title_ar": "الماء",
+          "description": "Start with 450 g water; cover without pressing.",
+          "description_ar": "ابدأ بـ 450 g ماء؛ غطِّ دون كبس.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Stir",
+          "title_ar": "التحريك",
+          "description": "At 1:00 stir the grounds.",
+          "description_ar": "عند 1:00 حرّك البن.",
+          "step_kind": "stir",
+          "duration_seconds": null
+        },
+        {
+          "title": "Fill",
+          "title_ar": "الإكمال",
+          "description": "Add 400 g to reach 850 g; replace lid.",
+          "description_ar": "أضف 400 g ليبلغ الإجمالي 850 g وأعد الغطاء.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Press",
+          "title_ar": "الكبس",
+          "description": "At 4:00 move off the scale and lower plunger.",
+          "description_ar": "عند 4:00 أبعده عن الميزان وأنزل المكبس.",
+          "step_kind": "press",
+          "duration_seconds": null
+        },
+        {
+          "title": "Decant",
+          "title_ar": "نقل القهوة",
+          "description": "Serve or decant all coffee to avoid prolonged extraction.",
+          "description_ar": "قدّم أو انقل كامل القهوة لتجنب استمرار الاستخلاص.",
+          "step_kind": "serve",
+          "duration_seconds": null
+        }
+      ],
+      "title": "Stumptown Coffee Roasters — French Press",
+      "notes_ar": "205°F ≈96.1°C؛ انقل القهوة بعد الكبس.",
+      "title_ar": null,
+      "dose_grams": 56,
+      "brew_method": "french_press",
+      "recipe_type": "official_roaster",
+      "water_grams": 850,
+      "water_temp_c": 96.1,
+      "grinder_setting": "Coarse, like breadcrumbs",
+      "water_temp_c_max": null,
+      "water_temp_c_min": null,
+      "source_author_name": "Stumptown Coffee Roasters",
+      "total_time_seconds": 240,
+      "is_incomplete_source": false,
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start with the first water addition.",
+          "timer_start_ar": "ابدأ مع أول إضافة للماء.",
+          "grind_ar": "خشن مثل فتات الخبز",
+          "model": "8-cup French press",
+          "model_ar": "فرنش برس 8 أكواب"
+        }
+      },
+      "source_url": "https://www.stumptowncoffee.com/pages/brew-guide-french-press",
+      "video_url": "https://www.youtube.com/watch?v=4RJPwdaeO7E"
+    },
+    {
+      "slug": "drop-coffee-kalita-155",
+      "notes": "Grind unspecified; adjust to reach the published time range.",
+      "pours": [
+        {
+          "pour_number": 1,
+          "water_grams": 50,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "pour_number": 2,
+          "water_grams": 50,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 3,
+          "water_grams": 50,
+          "start_at_seconds": 60,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 4,
+          "water_grams": 50,
+          "start_at_seconds": 90,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 5,
+          "water_grams": 60,
+          "start_at_seconds": 120,
+          "is_bloom": false
+        }
+      ],
+      "steps": [
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Wet grounds with 40–50 g.",
+          "description_ar": "بلّل البن بـ 40–50 g.",
+          "step_kind": "bloom",
+          "duration_seconds": null
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إضافة الماء",
+          "description": "After 20–30 s → scale 100 g.",
+          "description_ar": "بعد 20–30 ثانية ← الميزان 100 g.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إضافة الماء",
+          "description": "1:00 → scale 150 g.",
+          "description_ar": "1:00 ← الميزان 150 g.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إضافة الماء",
+          "description": "1:30 → scale 200 g.",
+          "description_ar": "1:30 ← الميزان 200 g.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إضافة الماء",
+          "description": "2:00 → scale 260 g.",
+          "description_ar": "2:00 ← الميزان 260 g.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        }
+      ],
+      "title": "Drop Coffee — Kalita Wave 155",
+      "notes_ar": "الطحنة غير محددة؛ اضبطها للوصول لنطاق الوقت.",
+      "title_ar": "دروب — كاليتا 155",
+      "dose_grams": 16,
+      "brew_method": "kalita_wave",
+      "recipe_type": "verified_barista",
+      "water_grams": 260,
+      "water_temp_c": null,
+      "grinder_setting": null,
+      "water_temp_c_max": 96,
+      "water_temp_c_min": 92,
+      "source_author_name": "Drop Coffee Roasters",
+      "total_time_seconds": 180,
+      "is_incomplete_source": false,
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start with the first water addition.",
+          "timer_start_ar": "ابدأ مع أول إضافة للماء.",
+          "model": "Kalita Wave 155",
+          "model_ar": "كاليتا ويف 155",
+          "time_min_seconds": 165,
+          "time_max_seconds": 180,
+          "example_pours": true,
+          "pour_note": "Bloom 40–50 g; second pour after 20–30 s. Plan uses 50 g and 0:30.",
+          "pour_note_ar": "تزهير 40–50 g، والصبة التالية بعد 20–30 ثانية؛ المثال 50 g و 0:30."
+        }
+      },
+      "source_url": "https://www.dropcoffee.com/pages/this-is-how-we-brew-kalita-wave"
+    },
+    {
+      "slug": "drop-coffee-kalita-185",
+      "notes": "Grind unspecified; adjust to reach the published time range.",
+      "pours": [
+        {
+          "pour_number": 1,
+          "water_grams": 80,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "pour_number": 2,
+          "water_grams": 120,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 3,
+          "water_grams": 100,
+          "start_at_seconds": 60,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 4,
+          "water_grams": 100,
+          "start_at_seconds": 90,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 5,
+          "water_grams": 100,
+          "start_at_seconds": 120,
+          "is_bloom": false
+        }
+      ],
+      "steps": [
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Wet grounds with 70–80 g.",
+          "description_ar": "بلّل البن بـ 70–80 g.",
+          "step_kind": "bloom",
+          "duration_seconds": null
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إضافة الماء",
+          "description": "After 20–30 s → scale 200 g.",
+          "description_ar": "بعد 20–30 ثانية ← الميزان 200 g.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إضافة الماء",
+          "description": "1:00 → scale 300 g.",
+          "description_ar": "1:00 ← الميزان 300 g.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إضافة الماء",
+          "description": "1:30 → scale 400 g.",
+          "description_ar": "1:30 ← الميزان 400 g.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إضافة الماء",
+          "description": "2:00 → scale 500 g.",
+          "description_ar": "2:00 ← الميزان 500 g.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        }
+      ],
+      "title": "Drop Coffee — Kalita Wave 185",
+      "notes_ar": "الطحنة غير محددة؛ اضبطها للوصول لنطاق الوقت.",
+      "title_ar": "دروب — كاليتا 185",
+      "dose_grams": 30,
+      "brew_method": "kalita_wave",
+      "recipe_type": "verified_barista",
+      "water_grams": 500,
+      "water_temp_c": null,
+      "grinder_setting": null,
+      "water_temp_c_max": 96,
+      "water_temp_c_min": 92,
+      "source_author_name": "Drop Coffee Roasters",
+      "total_time_seconds": 240,
+      "is_incomplete_source": false,
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start with the first water addition.",
+          "timer_start_ar": "ابدأ مع أول إضافة للماء.",
+          "model": "Kalita Wave 185",
+          "model_ar": "كاليتا ويف 185",
+          "time_min_seconds": 225,
+          "time_max_seconds": 240,
+          "example_pours": true,
+          "pour_note": "Bloom 70–80 g; second pour after 20–30 s. Plan uses 80 g and 0:30.",
+          "pour_note_ar": "تزهير 70–80 g، والصبة التالية بعد 20–30 ثانية؛ المثال 80 g و 0:30."
+        }
+      },
+      "source_url": "https://www.dropcoffee.com/pages/this-is-how-we-brew-kalita-wave"
+    },
+    {
+      "slug": "drop-coffee-kalita-wave",
+      "notes": "Grind unspecified; adjust to reach the published time range.",
+      "pours": [
+        {
+          "pour_number": 1,
+          "water_grams": 50,
+          "start_at_seconds": 0,
+          "is_bloom": true
+        },
+        {
+          "pour_number": 2,
+          "water_grams": 50,
+          "start_at_seconds": 30,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 3,
+          "water_grams": 50,
+          "start_at_seconds": 60,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 4,
+          "water_grams": 50,
+          "start_at_seconds": 90,
+          "is_bloom": false
+        },
+        {
+          "pour_number": 5,
+          "water_grams": 60,
+          "start_at_seconds": 120,
+          "is_bloom": false
+        }
+      ],
+      "steps": [
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Wet grounds with 40–50 g.",
+          "description_ar": "بلّل البن بـ 40–50 g.",
+          "step_kind": "bloom",
+          "duration_seconds": null
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إضافة الماء",
+          "description": "After 20–30 s → scale 100 g.",
+          "description_ar": "بعد 20–30 ثانية ← الميزان 100 g.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إضافة الماء",
+          "description": "1:00 → scale 150 g.",
+          "description_ar": "1:00 ← الميزان 150 g.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إضافة الماء",
+          "description": "1:30 → scale 200 g.",
+          "description_ar": "1:30 ← الميزان 200 g.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إضافة الماء",
+          "description": "2:00 → scale 260 g.",
+          "description_ar": "2:00 ← الميزان 260 g.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Drain",
+          "title_ar": "التصريف",
+          "description": "Finish within 2:45–3:00.",
+          "description_ar": "الانتهاء ضمن 2:45–3:00.",
+          "step_kind": "drawdown",
+          "duration_seconds": null
+        }
+      ],
+      "title": "Drop Coffee Roasters — Kalita Wave",
+      "notes_ar": "الطحنة غير محددة؛ اضبطها للوصول لنطاق الوقت.",
+      "title_ar": "دروب — كاليتا ويف 155",
+      "dose_grams": 16,
+      "brew_method": "kalita_wave",
+      "recipe_type": "official_roaster",
+      "water_grams": 260,
+      "water_temp_c": null,
+      "grinder_setting": "Not specified — the guide only says to adjust the grind coarser or finer depending on results in the cup; no default grind description, micron figure, or grinder model is published on this page.",
+      "water_temp_c_max": 96,
+      "water_temp_c_min": 92,
+      "source_author_name": "Drop Coffee Roasters",
+      "total_time_seconds": null,
+      "is_incomplete_source": true,
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start with the first water addition.",
+          "timer_start_ar": "ابدأ مع أول إضافة للماء.",
+          "model": "Kalita Wave 155",
+          "model_ar": "كاليتا ويف 155",
+          "time_min_seconds": 165,
+          "time_max_seconds": 180,
+          "example_pours": true,
+          "pour_note": "Bloom 40–50 g; second pour after 20–30 s. Plan uses 50 g and 0:30.",
+          "pour_note_ar": "تزهير 40–50 g، والصبة التالية بعد 20–30 ثانية؛ المثال 50 g و 0:30."
+        }
+      },
+      "source_url": "https://www.dropcoffee.com/pages/this-is-how-we-brew-kalita-wave"
+    },
+    {
+      "slug": "kurasu-kalita-wave",
+      "notes": "15 g /250 g. Second-pour time is a range, not a fixed instant.",
+      "pours": [
+        {
+          "is_bloom": true,
+          "pour_number": 1,
+          "water_grams": 30,
+          "start_at_seconds": 0
+        },
+        {
+          "is_bloom": false,
+          "pour_number": 2,
+          "water_grams": 120,
+          "start_at_seconds": 40
+        },
+        {
+          "is_bloom": false,
+          "pour_number": 3,
+          "water_grams": 100,
+          "start_at_seconds": 105
+        }
+      ],
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Rinse Wave filter, empty water and add 15 g.",
+          "description_ar": "اشطف فلتر ويف وأفرغ الماء وأضف 15 g.",
+          "step_kind": "rinse",
+          "duration_seconds": null
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Add 30 g; wait 30–40 s.",
+          "description_ar": "أضف 30 g وانتظر 30–40 ثانية.",
+          "step_kind": "bloom",
+          "duration_seconds": null
+        },
+        {
+          "title": "Fill",
+          "title_ar": "الإكمال",
+          "description": "Add 120 g over 30 s, then 100 g at 1:45.",
+          "description_ar": "أضف 120 g خلال 30 ثانية، ثم 100 g عند 1:45.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Finish",
+          "title_ar": "الإنهاء",
+          "description": "Complete drawdown around 2:30–2:45.",
+          "description_ar": "أنهِ التصريف قرابة 2:30–2:45.",
+          "step_kind": "drawdown",
+          "duration_seconds": null
+        }
+      ],
+      "title": "Kurasu — Kalita Wave House Recipe",
+      "notes_ar": "15 g /250 g؛ موعد الإضافة الثانية نطاق.",
+      "title_ar": "كوراسو — وصفة كاليتا ويف المنزلية",
+      "dose_grams": 15,
+      "brew_method": "kalita_wave",
+      "recipe_type": "verified_barista",
+      "water_grams": 250,
+      "water_temp_c": null,
+      "grinder_setting": "EK 43:7.5",
+      "water_temp_c_max": 93,
+      "water_temp_c_min": 90,
+      "source_author_name": "Kurasu",
+      "total_time_seconds": 165,
+      "is_incomplete_source": false,
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start with the first water addition.",
+          "timer_start_ar": "ابدأ مع أول إضافة للماء.",
+          "grind_ar": "متوسط خشن؛ EK 43 نحو 7.5",
+          "time_min_seconds": 150,
+          "time_max_seconds": 165,
+          "pour_note": "Second addition begins after the 30–40 s bloom.",
+          "pour_note_ar": "الإضافة الثانية بعد انتهاء التزهير 30–40 ثانية."
+        }
+      },
+      "source_url": "https://kurasu.kyoto/blogs/kurasu-journal/kalita-wave-brewing-guide-how-we-do-it-at-kurasu"
+    },
+    {
+      "slug": "onyx-monarch-kalita-wave",
+      "notes": "200°F ≈93.3°C; source lists this under Filter Brew Guide Monarch.",
+      "pours": [
+        {
+          "is_bloom": true,
+          "pour_number": 1,
+          "water_grams": 50,
+          "start_at_seconds": 0
+        },
+        {
+          "is_bloom": false,
+          "pour_number": 2,
+          "water_grams": 110,
+          "start_at_seconds": 30
+        },
+        {
+          "is_bloom": false,
+          "pour_number": 3,
+          "water_grams": 60,
+          "start_at_seconds": 45
+        },
+        {
+          "is_bloom": false,
+          "pour_number": 4,
+          "water_grams": 60,
+          "start_at_seconds": 65
+        },
+        {
+          "is_bloom": false,
+          "pour_number": 5,
+          "water_grams": 60,
+          "start_at_seconds": 90
+        },
+        {
+          "is_bloom": false,
+          "pour_number": 6,
+          "water_grams": 60,
+          "start_at_seconds": 120
+        }
+      ],
+      "steps": [
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "0:00: scale 50 g.",
+          "description_ar": "0:00: الميزان 50 g.",
+          "step_kind": "bloom",
+          "duration_seconds": null
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إضافة الماء",
+          "description": "0:30: scale 160 g. Use a strong spiral.",
+          "description_ar": "0:30: الميزان 160 g. صب حلزونياً بقوة.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إضافة الماء",
+          "description": "0:45: scale 220 g.",
+          "description_ar": "0:45: الميزان 220 g.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إضافة الماء",
+          "description": "1:05: scale 280 g.",
+          "description_ar": "1:05: الميزان 280 g.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إضافة الماء",
+          "description": "1:30: scale 340 g.",
+          "description_ar": "1:30: الميزان 340 g.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إضافة الماء",
+          "description": "2:00: scale 400 g. Drain by 3:30.",
+          "description_ar": "2:00: الميزان 400 g. ينتهي التصريف بحلول 3:30.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        }
+      ],
+      "title": "Onyx Coffee Lab — Monarch on Kalita Wave",
+      "notes_ar": "200°F ≈93.3°C؛ منشورة بدليل ترشيح مونارك.",
+      "title_ar": "أونكس كوفي لاب — مونارك على كاليتا ويف",
+      "dose_grams": 25,
+      "brew_method": "kalita_wave",
+      "recipe_type": "verified_barista",
+      "water_grams": 400,
+      "water_temp_c": 93.3,
+      "grinder_setting": "600 µm",
+      "water_temp_c_max": null,
+      "water_temp_c_min": null,
+      "source_author_name": "Onyx Coffee Lab",
+      "total_time_seconds": 210,
+      "is_incomplete_source": false,
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start with the first water addition.",
+          "timer_start_ar": "ابدأ مع أول إضافة للماء.",
+          "grind_ar": "600 ميكرون حسب المصدر",
+          "model": "Kalita Wave, Monarch blend",
+          "model_ar": "كاليتا ويف، خلطة مونارك"
+        }
+      },
+      "source_url": "https://onyxcoffeelab.com/pages/help-me-brew"
+    },
+    {
+      "slug": "equator-origami",
+      "notes": "Source conflicts: equipment says 360 g, pour targets end at 370 g. Plan follows the targets.205°F ≈96.1°C.",
+      "pours": [
+        {
+          "is_bloom": true,
+          "pour_number": 1,
+          "water_grams": 50,
+          "start_at_seconds": 0
+        },
+        {
+          "is_bloom": false,
+          "pour_number": 2,
+          "water_grams": 200,
+          "start_at_seconds": 30
+        },
+        {
+          "is_bloom": false,
+          "pour_number": 3,
+          "water_grams": 120,
+          "start_at_seconds": 120
+        }
+      ],
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Rinse cone filter, empty water and level 22 g.",
+          "description_ar": "اشطف الفلتر المخروطي وأفرغ الماء وسوِّ22 g.",
+          "step_kind": "rinse",
+          "duration_seconds": null
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "التزهير",
+          "description": "Add 50 g in the centre.",
+          "description_ar": "أضف 50 g بالمنتصف.",
+          "step_kind": "bloom",
+          "duration_seconds": null
+        },
+        {
+          "title": "Middle",
+          "title_ar": "الصبة الوسطى",
+          "description": "At 0:30 add 200 g over 45–60 s; scale 250 g.",
+          "description_ar": "عند 0:30 أضف 200 g خلال 45–60 ثانية؛ الميزان 250 g.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Finish",
+          "title_ar": "الإنهاء",
+          "description": "At 2:00 add 120 g over 30 s; scale 370 g. Drain near 3:00.",
+          "description_ar": "عند 2:00 أضف 120 g خلال 30 ثانية؛ الميزان 370 g، والتصريف نحو 3:00.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        }
+      ],
+      "title": "Equator Coffees — Origami Dripper",
+      "notes_ar": "تعارض بالمصدر: قائمة الأدوات 360 g، والصبات 370 g. الخطة حسب الصبات؛205°F ≈96.1°C.",
+      "title_ar": "إكواتور كوفيز — قمع أوريغامي",
+      "dose_grams": 22,
+      "brew_method": "origami",
+      "recipe_type": "verified_barista",
+      "water_grams": 370,
+      "water_temp_c": 96.1,
+      "grinder_setting": "Medium-fine",
+      "water_temp_c_max": null,
+      "water_temp_c_min": null,
+      "source_author_name": "Equator Coffees",
+      "total_time_seconds": 180,
+      "is_incomplete_source": false,
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start with the first water addition.",
+          "timer_start_ar": "ابدأ مع أول إضافة للماء.",
+          "grind_ar": "متوسط ناعم",
+          "model": "Origami with cone filter",
+          "model_ar": "أوريغامي بفلتر مخروطي"
+        }
+      },
+      "source_url": "https://www.equatorcoffees.com/blogs/guides/origami",
+      "pour_sum_validated": false
+    },
+    {
+      "slug": "kurasu-origami",
+      "notes": "Yield 170–180 g; remove dripper at 1:20 even if water remains.",
+      "pours": [
+        {
+          "is_bloom": true,
+          "pour_number": 1,
+          "water_grams": 40,
+          "start_at_seconds": 0
+        },
+        {
+          "is_bloom": false,
+          "pour_number": 2,
+          "water_grams": 130,
+          "start_at_seconds": 30
+        },
+        {
+          "is_bloom": false,
+          "pour_number": 3,
+          "water_grams": 100,
+          "start_at_seconds": 60
+        }
+      ],
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Rinse filter, discard water and add 15 g.",
+          "description_ar": "اشطف الفلتر وأفرغ الماء وأضف 15 g.",
+          "step_kind": "rinse",
+          "duration_seconds": null
+        },
+        {
+          "title": "First",
+          "title_ar": "الإضافة الأولى",
+          "description": "During 0:00–0:30 add 40 g.",
+          "description_ar": "خلال 0:00–0:30 أضف 40 g.",
+          "step_kind": "bloom",
+          "duration_seconds": null
+        },
+        {
+          "title": "Middle",
+          "title_ar": "الإضافة الوسطى",
+          "description": "During 0:30–1:00 add 130 g; scale 170 g.",
+          "description_ar": "خلال 0:30–1:00 أضف 130 g؛ الميزان 170 g.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        },
+        {
+          "title": "Finish",
+          "title_ar": "الإنهاء",
+          "description": "Add 100 g to reach 270 g before 1:20, then lift dripper.",
+          "description_ar": "أضف 100 g ليبلغ 270 g قبل 1:20، ثم ارفع القمع.",
+          "step_kind": "pour",
+          "duration_seconds": null
+        }
+      ],
+      "title": "Kurasu — Origami Dripper House Recipe",
+      "notes_ar": "الناتج 170–180 g؛ ارفع القمع عند 1:20 ولو بقي ماء.",
+      "title_ar": "كوراسو — وصفة أوريغامي المنزلية",
+      "dose_grams": 15,
+      "brew_method": "origami",
+      "recipe_type": "verified_barista",
+      "water_grams": 270,
+      "water_temp_c": null,
+      "grinder_setting": "EK 43:6.5",
+      "water_temp_c_max": 90,
+      "water_temp_c_min": 88,
+      "source_author_name": "Kurasu",
+      "total_time_seconds": 80,
+      "is_incomplete_source": false,
+      "source_brew_parameters": {
+        "manual": {
+          "timer_start": "Start with the first water addition.",
+          "timer_start_ar": "ابدأ مع أول إضافة للماء.",
+          "grind_ar": "أنعم من V 60؛ EK 43 نحو 6.5"
+        }
+      },
+      "source_url": "https://kurasu.kyoto/blogs/kurasu-journal/origami-dripper-brewing-recipe-how-we-do-it-at-kurasu"
+    }
+  ]
+}
