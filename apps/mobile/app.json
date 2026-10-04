@@ -3,7 +3,7 @@
     "name": "BeanMora",
     "slug": "beanmora-mobile",
     "owner": "elqallaf09",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "scheme": "beanmora",
     "orientation": "default",
     "userInterfaceStyle": "light",
@@ -18,7 +18,7 @@
     },
     "android": {
       "package": "com.beanmora.mobile",
-      "versionCode": 6,
+      "versionCode": 7,
       "icon": "../../public/icons/icon-512.png",
       "adaptiveIcon": {
         "foregroundImage": "../../public/icons/icon-512.png",

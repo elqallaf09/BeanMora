@@ -3,7 +3,7 @@ import type { Outcome, SaveError } from './core/outcome';
 export type Locale = 'ar' | 'en';
 const en = {
   tagline: 'Your next good cup.', preview: 'Expo Go preview · Connected to your BeanMora data',
-  beans: 'Coffee', recipes: 'Recipes', forYou: 'For you', account: 'Account',
+  beans: 'Coffee', recipes: 'Recipes', forYou: 'For you', account: 'Account', appVersion: 'Version',
   loading: 'Loading your coffee…', retry: 'Try again', refresh: 'Refresh', back: 'Back',
   search: 'Search loaded results', all: 'All methods', empty: 'No matching reviewed records.',
   partial: 'Some data could not be loaded. Missing information is not an empty catalog.',
@@ -27,11 +27,11 @@ const en = {
   invalidCredentials: 'Email or password is incorrect.', emailNotConfirmed: 'Confirm your email before signing in.', networkError: 'Could not reach BeanMora. Check your connection and try again.',
   logoutError: 'Could not sign out. Try again.', show: 'Show password', hide: 'Hide password',
   profileNote: 'Recommendations use your saved web preferences, equipment, bean inventory and latest own brew results. These are not changed here.',
-  setup: 'Connect BeanMora', setupNote: 'Run npm run setup inside apps/mobile, then restart Expo. Only the project URL and publishable/anon key are needed. Never use a service-role key.',
+  setup: 'Connection setup unavailable', setupNote: 'This version is missing its connection settings. Update BeanMora to the latest version, then reopen the app.',
 };
 const ar: Record<keyof typeof en, string> = {
   tagline: 'كوبك القادم يبدأ هنا.', preview: 'نسخة Expo Go التجريبية · مرتبطة ببيانات BeanMora',
-  beans: 'البن', recipes: 'الوصفات', forYou: 'لك أنت', account: 'حسابي',
+  beans: 'البن', recipes: 'الوصفات', forYou: 'لك أنت', account: 'حسابي', appVersion: 'الإصدار',
   loading: 'جارٍ تحميل قهوتك…', retry: 'إعادة المحاولة', refresh: 'تحديث', back: 'رجوع',
   search: 'ابحث ضمن النتائج المحمّلة', all: 'كل طرق التحضير', empty: 'لا توجد سجلات مراجعة مطابقة.',
   partial: 'تعذّر تحميل بعض البيانات. نقص المعلومات لا يعني أن الدليل فارغ.',
@@ -54,7 +54,7 @@ const ar: Record<keyof typeof en, string> = {
   authError: 'تعذّر الدخول. تحقق من البريد وكلمة المرور وتأكيد البريد والاتصال.', invalidCredentials: 'البريد الإلكتروني أو كلمة المرور غير صحيحة.', emailNotConfirmed: 'أكد بريدك الإلكتروني قبل تسجيل الدخول.', networkError: 'تعذّر الاتصال بـ BeanMora. تحقق من الإنترنت وحاول مرة ثانية.', logoutError: 'تعذّر تسجيل الخروج. حاول مجددًا.',
   show: 'إظهار كلمة المرور', hide: 'إخفاء كلمة المرور',
   profileNote: 'تستخدم الاقتراحات تفضيلاتك ومعداتك ومخزون البن وآخر نتائجك المسجلة في حساب الويب؛ لا تُعدّل هذه البيانات هنا.',
-  setup: 'ربط BeanMora', setupNote: 'شغّل npm run setup داخل apps/mobile ثم أعد تشغيل Expo. تحتاج رابط المشروع ومفتاح القراءة العام فقط، وليس مفتاح service_role.',
+  setup: 'تعذّر تهيئة الاتصال', setupNote: 'تفتقد هذه النسخة إعدادات الاتصال. حدّث BeanMora إلى أحدث إصدار، ثم افتح التطبيق من جديد.',
 };
 export const copy = { en, ar };
 export const methods: Record<Locale, Record<Method, string>> = {

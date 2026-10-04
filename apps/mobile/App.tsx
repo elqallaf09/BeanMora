@@ -18,6 +18,7 @@ import { MethodGuide } from './src/MethodGuide';
 import { RecipeCatalog } from './src/RecipeCatalog';
 import { OutcomeForm } from './src/OutcomeForm';
 import { AccountScreen, finishOAuth } from './src/AccountScreen';
+import { AppVersion } from './src/AppVersion';
 import { CoffeeCard, CoffeeDetail, Home, MethodPicker, SectionTitle, coffeeStyles } from './src/CoffeeScreens';
 import { Action, Brand, Field, Icon, IconButton, Language, Txt, colors, styles, type IconName } from './src/ui';
 
@@ -110,7 +111,7 @@ function Shell() {
     {!login?<View style={s.header}>{detail?<><IconButton name="back" label={t.back} onPress={back}/><View style={{flex:1}}/><LanguageSwitcher change={changeLanguage}/>{detail.type==='coffee'?<IconButton name="heart" label={ar?'المفضلة':'Favorites'} onPress={()=>void saveCoffee(detail.item as CoffeeItem)}/>:null}<IconButton name="share" label={ar?'مشاركة':'Share'} onPress={()=>void Share.share({message:detail.type==='recipe'?detail.item.title:detail.item.name}).catch(()=>setMessage(t.sourceError))}/></>:<><LanguageSwitcher change={changeLanguage}/><Brand/><View style={[s.headerActions,{width:width<500?80:150}]}><IconButton name="search" label={ar?'البحث':'Search'} onPress={()=>navigate('beans')}/>{width>=400?<IconButton name="bell" label={ar?'التنبيهات':'Notifications'} onPress={()=>void showNotifications()}/>:null}<IconButton name="user" label={ar?'فتح حسابي':'Open account'} onPress={()=>navigate('account')}/></View></>}</View>:null}
     {!login&&!detail&&configured?<View style={s.libraryNav}>{[{id:'equipment' as const,label:ar?'أدوات القهوة':'Equipment',icon:'gear' as const},{id:'roasters' as const,label:ar?'المحامص':'Roasteries',icon:'bean' as const},{id:'xbloom' as const,label:'xBloom',icon:'xbloom' as const}].map(item=><Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.label} accessibilityState={{selected:tab===item.id}} onPress={()=>{if(item.id==='equipment')setEquipmentCategory('all');navigate(item.id);}} style={[s.libraryButton,tab===item.id&&{backgroundColor:colors.brown}]}><Icon name={item.icon} size={18} color={tab===item.id?'#FFF':colors.brown}/><Txt style={{fontSize:13,fontWeight:'700',color:tab===item.id?'#FFF':colors.brown}}>{item.label}</Txt></Pressable>)}</View>:null}
     <ScreenTransition key={recording?'record':detail?detail.type+detail.item.id:tab}><KeyboardAvoidingView style={{flex:1}} behavior={Platform.OS==='ios'?'padding':undefined}>
-    {!configured?<View style={styles.content}><Txt heading style={styles.title}>{t.setup}</Txt><Txt>{t.setupNote}</Txt></View>
+    {!configured?<View style={styles.content}><Txt heading style={styles.title}>{t.setup}</Txt><Txt>{t.setupNote}</Txt><AppVersion/></View>
     :recording&&detail?.type==='recipe'&&userId?<OutcomeForm key={userId+detail.item.id} userId={userId} recipe={detail.item} measuredSeconds={measuredSeconds} done={()=>{navigate('forYou');refresh();}}/>
     :detail?.type==='coffee'?<CoffeeDetail key={detail.item.id+locale} item={detail.item} recipes={data?.recipes??[]} openRecipe={openRecipe}/>
     :detail?.type==='recipe'?<RecipeDetail recipe={detail.item} record={startRecord}/>

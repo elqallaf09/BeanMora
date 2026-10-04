@@ -4,6 +4,7 @@ import * as WebBrowser from 'expo-web-browser';
 import type { Session } from '@supabase/supabase-js';
 import { supabase, authProviderEnabled } from './client';
 import { artwork } from './CoffeeScreens';
+import { AppVersion } from './AppVersion';
 import { Action, Brand, Icon, IconButton, Language, Txt, colors, styles, useCopy } from './ui';
 
 WebBrowser.maybeCompleteAuthSession();
@@ -62,7 +63,7 @@ export function AccountScreen({ session, back }: { session: Session | null; back
       if(result.type==='success')await finishOAuth(result.url);
     });
   }
-  if(session)return <ScrollView contentContainerStyle={[styles.content,{width:'100%',maxWidth:620,alignSelf:'center',gap:22}]}><View style={{alignItems:'center',padding:22}}><Brand/><Txt heading style={[styles.title,{marginTop:20}]}>{t.account}</Txt><Txt style={styles.muted}>{session.user.email}</Txt></View><View style={styles.card}><Txt>{t.profileNote}</Txt><Action title={t.logout} onPress={()=>void authenticate()} selected disabled={busy}/>{error?<Txt style={styles.error}>{error}</Txt>:null}</View></ScrollView>;
+  if(session)return <ScrollView contentContainerStyle={[styles.content,{width:'100%',maxWidth:620,alignSelf:'center',gap:22}]}><View style={{alignItems:'center',padding:22}}><Brand/><Txt heading style={[styles.title,{marginTop:20}]}>{t.account}</Txt><Txt style={styles.muted}>{session.user.email}</Txt></View><View style={styles.card}><Txt>{t.profileNote}</Txt><Action title={t.logout} onPress={()=>void authenticate()} selected disabled={busy}/>{error?<Txt style={styles.error}>{error}</Txt>:null}</View><AppVersion/></ScrollView>;
   return <ImageBackground source={artwork.login} resizeMode="cover" imageStyle={{width:'100%',height:'100%'}} style={{flex:1,width:'100%',overflow:'hidden',backgroundColor:colors.brown}}><View style={s.shade}/><View style={s.back}><IconButton name="back" label={t.back} color="#FFF" onPress={back}/></View><KeyboardAvoidingView style={{flex:1}} behavior={Platform.OS==='ios'?'padding':undefined}><ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={s.page}>
     <View style={s.intro}><Brand light large/><Txt heading style={s.welcome}>{ar?'مرحباً بك مجدداً':'Welcome back'}</Txt><Txt style={s.tagline}>{ar?'سجل دخولك لمتابعة وصفاتك وحفظ\nحبوبك المفضلة.':'Sign in to follow recipes and save\nyour favorite beans.'}</Txt></View>
     <View style={s.panel}>
@@ -77,6 +78,7 @@ export function AccountScreen({ session, back }: { session: Session | null; back
       <Txt style={s.terms}>{ar?'بمتابعتك، أنت توافق على شروط الاستخدام\nوسياسة الخصوصية.':'By continuing, you agree to the terms of use\nand privacy policy.'}</Txt>
       <Pressable accessibilityRole="button" accessibilityLabel={t.guest} onPress={back} style={{alignSelf:'center',padding:4}}><Txt style={{fontSize:12,color:colors.muted}}>{t.guest}</Txt></Pressable>
     </View>
+    <AppVersion light/>
   </ScrollView></KeyboardAvoidingView></ImageBackground>;
 }
 const s=StyleSheet.create({

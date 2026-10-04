@@ -40,13 +40,34 @@ npm start
 
 Native sessions persist using the Supabase storage adapter; web previews use browser storage. Social sign-in first checks the project's enabled providers. Google uses PKCE and an authentication browser; Apple displays an explicit unavailable message when its provider is disabled. A standalone build must register the beanmora scheme and allow beanmora://auth in Supabase's redirect URL list. Provider configuration and device sign-in have to be verified separately from isolated browser tests. Background push, admin and direct device control are not included. The stopwatch catches up when the app resumes; it does not provide background alarms or control heat.
 
-Version 0.2.1 / Android versionCode 6 adds manual brewing guides and timers. Updating source or exporting Metro bundles does not update a previously installed APK. Build a new preview APK using the existing EAS project and its configured production environment:
+Version 0.2.2 / Android versionCode 7 includes the manual brewing guides and timers, explicit release configuration, and an in-app version label on the account and connection-setup screens. Updating source or exporting Metro bundles does not update a previously installed APK. Build a new preview APK using the existing EAS project and its configured production environment:
 
 ```sh
 npx eas-cli build --platform android --profile preview
 ```
 
 This command requires access to the existing Expo account. No EAS build or store publication is implied by a successful Metro export.
+
+For **Build from GitHub** in the existing Expo project, use:
+
+| Setting | Value |
+| --- | --- |
+| Git ref | `main` after the release PR is merged |
+| Base directory | `apps/mobile` (plural `apps`) |
+| Platform | Android |
+| EAS build profile | `preview` |
+| Environment | `Production` |
+| Automatically submit | Off |
+
+Both EAS profiles explicitly select `production` variables and the Android `latest` build image. Version numbers come from the checked-in app config (`cli.appVersionSource: local`). The `preview` profile still produces an internally distributed APK, while `production` produces an app bundle.
+
+Before EAS installs dependencies, `eas-build-pre-install` validates `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. Missing configuration, isolated test fixtures, malformed values, privileged keys and known anon-key/project mismatches stop the build with variable names only. Set the public values in this Expo project's **Production** environment; use a publishable key or legacy anon key, never a secret/service-role key. The check does not contact Supabase or prove that an opaque publishable key belongs to the configured project.
+
+Run `npm run check:build-config` from an environment where those two variables are already exported to check locally. This dependency-free command deliberately does not load `.env` files. Its isolated regression tests run as part of `npm test`; normal development and browser fixtures remain separate from EAS release checks.
+
+When the existing Expo GitHub integration is configured, the official `eas-build-android:preview` PR label can request a build. A label or a passing GitHub check is not proof that an APK exists: verify the EAS build reaches **Finished** and exposes its installable artifact, then install that artifact and check the displayed app version.
+
+Release references: [Expo GitHub builds](https://docs.expo.dev/build/building-from-github/), [build lifecycle hooks](https://docs.expo.dev/build-reference/npm-hooks/), [EAS environments](https://docs.expo.dev/eas/environment-variables/usage/) and [local app version source](https://docs.expo.dev/build-reference/app-versions/#local-version-source).
 
 Approved product photography is read from bean_images / product_images and direct approved image_url fields. Attributed `source_linked` direct photos remain at the publisher. Missing or failed coffee images use bundled, explicitly labelled illustrative photos; equipment shows a model-photo-unavailable label. Product origins come from the linked coffee lot. Brew amounts, temperatures and times are shown only from a recipe linked to the selected coffee and method; no mock ratings or quantities are substituted. Source milliliters are displayed as milliliters and are not prefilled as measured grams in a brew result.
 
