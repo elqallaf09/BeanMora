@@ -1256,38 +1256,25 @@ export function XBLOOMHub({
       locked
       open={openRecipe}
       header={
-        <View style={{ gap: 16 }}>
-          <View style={s.roasterHero}>
-            <Icon name="xbloom" size={44} color="#FFF" />
-            <Txt heading style={[styles.title, { color: "#FFF" }]}>
-              {ar ? "عالم xBloom" : "Your xBloom corner"}
-            </Txt>
-            <Txt style={{ color: "#EEE4D5" }}>
-              {ar
-                ? "وصفات ومصادر تساعدك على تحضير كوبك القادم."
-                : "Recipes and resources for your next cup."}
-            </Txt>
-          </View>
-          <SectionTitle title={ar ? "روابط مفيدة" : "Useful links"} />
-          {XBLOOM_RESOURCES.map((r) => (
-            <View key={r.url} style={styles.card}>
-              <SourceLink title={ar ? r.ar : r.en} url={r.url} />
-              <Txt style={styles.muted}>{ar ? r.noteAr : r.noteEn}</Txt>
+        <View style={{ gap: 10 }}>
+          <View style={s.xbloomCompactHero}>
+            <View style={s.xbloomIcon}><Icon name="xbloom" size={30} color="#FFF" /></View>
+            <View style={{ flex: 1, gap: 3 }}>
+              <Txt heading style={s.xbloomTitle}>{ar ? "xBloom" : "xBloom"}</Txt>
+              <Txt style={s.xbloomSubtitle}>{ar ? "اختَر الوصفة والموديل وابدأ بسرعة." : "Pick a recipe and model, then start quickly."}</Txt>
             </View>
-          ))}
-          <Action
-            title={
-              ar
-                ? "قارن أدوات xBloom وتجارب المشتركين"
-                : "Explore xBloom tools and member reviews"
-            }
-            onPress={tools}
-          />
-          <Txt style={s.editorial}>
-            {ar
-              ? "افتح روابط المشاركة في تطبيق xBloom الرسمي. توافق الوصفة يعتمد على موديل الجهاز؛ راجع الطحنة ونمط الصب في المصدر."
-              : "Open sharing links in the official xBloom app. Check the model, grind setting and pouring pattern in the source."}
-          </Txt>
+            <Pressable accessibilityRole="button" accessibilityLabel={ar ? "أدوات xBloom" : "xBloom tools"} onPress={tools} style={s.xbloomToolsButton}>
+              <Icon name="gear" size={19} color="#FFF"/><Txt style={s.xbloomToolsText}>{ar ? "الأدوات" : "Tools"}</Txt>
+            </Pressable>
+          </View>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.xbloomLinks}>
+            {XBLOOM_RESOURCES.map((r) => (
+              <View key={r.url} style={s.xbloomLinkChip}>
+                <SourceLink title={ar ? r.ar : r.en} url={r.url} />
+              </View>
+            ))}
+          </ScrollView>
+          <Txt style={s.editorial}>{ar ? "الوصفات الطويلة والتفاصيل تبقى داخل كل وصفة؛ الصفحة الرئيسية تعرض فقط ما تحتاجه للوصول السريع." : "Long instructions stay inside each recipe; this page only keeps the controls you need to get brewing quickly."}</Txt>
         </View>
       }
     />
@@ -1335,6 +1322,14 @@ const s = StyleSheet.create({
     borderRadius: 22,
     gap: 10,
   },
+  xbloomCompactHero:{backgroundColor:colors.brown,borderRadius:20,padding:14,flexDirection:"row",alignItems:"center",gap:11},
+  xbloomIcon:{width:46,height:46,borderRadius:14,backgroundColor:"#FFFFFF18",alignItems:"center",justifyContent:"center"},
+  xbloomTitle:{color:"#FFF",fontSize:22,lineHeight:28,fontWeight:"800"},
+  xbloomSubtitle:{color:"#EEDFD1",fontSize:11,lineHeight:17},
+  xbloomToolsButton:{minHeight:40,borderRadius:12,borderWidth:1,borderColor:"#FFFFFF35",paddingHorizontal:10,flexDirection:"row",alignItems:"center",gap:6},
+  xbloomToolsText:{color:"#FFF",fontSize:11,lineHeight:17,fontWeight:"800"},
+  xbloomLinks:{gap:8,paddingBottom:2},
+  xbloomLinkChip:{minHeight:42,maxWidth:230,borderRadius:14,backgroundColor:colors.paper,borderWidth:1,borderColor:colors.line,paddingHorizontal:10,justifyContent:"center"},
   reviewSummary: {
     flexDirection: "row",
     alignItems: "center",
