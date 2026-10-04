@@ -166,5 +166,89 @@
       "publisher_url": "https://www.youtube.com/@KurasuKyoto",
       "verified_at": "2026-10-04"
     }
+  },
+  "cold_brew": {
+    "title_ar": "دليل الكولد برو",
+    "title": "Cold brew guide",
+    "intro_ar": "نقع بارد طويل المدة؛ اضبط النسبة والطحن ومدة النقع ثم صفِّ القهوة جيداً.",
+    "intro": "Long cold immersion; control ratio, grind and steep time, then filter thoroughly.",
+    "equipment_ar": "وعاء تحضير، ميزان، طاحونة، ماء بارد أو بدرجة الغرفة، فلتر ومؤقت.",
+    "equipment": "Brewing vessel, scale, grinder, cool or room-temperature water, filter and timer.",
+    "tips_ar": [
+      "ابدأ بنسبة الوصفة المنشورة ولا تغيّر أكثر من متغير في كل تجربة.",
+      "استخدم طحنًا خشنًا إلى متوسط خشن لتقليل الرواسب وسهولة التصفية.",
+      "بعد انتهاء النقع صفِّ القهوة واحفظها مبردة؛ المركّز يُخفف حسب الوصفة."
+    ],
+    "tips": [
+      "Start with the published recipe ratio and change one variable at a time.",
+      "Use coarse to medium-coarse grind for easier filtration and less sediment.",
+      "Filter after steeping and refrigerate; dilute concentrate only as the recipe specifies."
+    ],
+    "source": "https://www.equatorcoffees.com/blogs/guides/cold-brew",
+    "source_name": "Equator Coffees",
+    "video": {
+      "method": "cold_brew",
+      "url": "https://www.youtube.com/watch?v=QUify5FKUJY",
+      "title": "How we Make Cold Brew Coffee",
+      "publisher": "Equator Coffees",
+      "publisher_url": "https://www.youtube.com/@Equatorcoffeesandteas",
+      "verified_at": "2026-10-05"
+    }
+  },
+  "april": {
+    "title_ar": "دليل April Brewer",
+    "title": "April Brewer guide",
+    "intro_ar": "قطّارة مسطحة القاعدة من April؛ الوصفة المرجعية الشائعة 12 غرام بن إلى 200 غرام ماء بصبتين.",
+    "intro": "April's flat-bottom brewer; a common reference recipe uses 12 g coffee to 200 g water in two main pours.",
+    "equipment_ar": "April Brewer، فلتر April مناسب، ميزان، طاحونة، غلاية ومؤقت.",
+    "equipment": "April Brewer, matching April paper, scale, grinder, kettle and timer.",
+    "tips_ar": [
+      "ابدأ بـ 12 غ بن و200 غ ماء واضبط الطحن حسب زمن التصريف والطعم.",
+      "قسّم كل صبة بين حركة دائرية ثم صب مركزي كما توضح وصفات April.",
+      "أرقام الطحن المنشورة مرتبطة بطاحونة محددة؛ استخدمها كنقطة مرجعية فقط."
+    ],
+    "tips": [
+      "Start around 12 g coffee and 200 g water, then dial grind by drawdown and taste.",
+      "Split each pour between circular and center pouring as shown in April recipes.",
+      "Published grind numbers are grinder-specific; use them only as references."
+    ],
+    "source": "https://www.aprilcoffeeroasters.com/coffee-inf-recipes",
+    "source_name": "April Coffee Roasters",
+    "video": {
+      "method": "april",
+      "url": "https://www.youtube.com/watch?v=8WUo0jBHpHI",
+      "title": "Recommended April Brewer pouring structure",
+      "publisher": "Coffee with April",
+      "publisher_url": "https://www.youtube.com/@coffeewithapril",
+      "verified_at": "2026-10-05"
+    }
+  },
+  "orea": {
+    "title_ar": "دليل OREA V4",
+    "title": "OREA V4 guide",
+    "intro_ar": "قطّارة معيارية سريعة؛ نوع القاعدة والفلتر يغيّران سرعة التصريف ونمط الصب.",
+    "intro": "A fast modular brewer; bottom and filter choice change drawdown and pouring style.",
+    "equipment_ar": "OREA V4، قاعدة مناسبة، فلتر Wave أو Flat مناسب، ميزان، طاحونة، غلاية ومؤقت.",
+    "equipment": "OREA V4, matching bottom, Wave or Flat filter, scale, grinder, kettle and timer.",
+    "tips_ar": [
+      "ابدأ بوصفة مخصصة للقاعدة التي تستخدمها: FAST أو CLASSIC أو OPEN أو APEX.",
+      "غيّر الطحن تدريجيًا عند تبديل القاعدة أو نوع الفلتر.",
+      "أزمنة OREA إرشادية؛ راقب مستوى الماء واقترب من القيم المنشورة بدل مطاردتها حرفياً."
+    ],
+    "tips": [
+      "Start with a recipe intended for your FAST, CLASSIC, OPEN or APEX bottom.",
+      "Adjust grind gradually when changing bottom or paper.",
+      "OREA timings are guides; watch water level and use the published time as a target range."
+    ],
+    "source": "https://www.orea.uk/guides-v4",
+    "source_name": "OREA",
+    "video": {
+      "method": "orea",
+      "url": "https://www.youtube.com/watch?v=3SIFFaT1MFU",
+      "title": "Winning OREA V4 World Brewers Cup recipe",
+      "publisher": "OREA / Martin Wölfl recipe",
+      "publisher_url": "https://www.orea.uk/guides-v4",
+      "verified_at": "2026-10-05"
+    }
   }
 }
