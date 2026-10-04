@@ -1,5 +1,5 @@
 import { useContext, useRef, useState } from 'react';
-import { ScrollView, Switch, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
 import { randomUUID } from 'expo-crypto';
 import { parseOutcome, saveOutcome, OUTCOMES, type BrewOutcome, type Outcome } from './core/outcome';
 import type { RecipeItem } from './data';
@@ -13,6 +13,7 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
   const [water, setWater] = useState(recipe.water === null || recipe.waterUnit === 'ml' ? '' : String(recipe.water));
   const [seconds, setSeconds] = useState(measuredSeconds && Number.isInteger(measuredSeconds) && measuredSeconds > 0 ? String(measuredSeconds) : ''); const [outcome, setOutcome] = useState<Outcome | null>(null);
   const [brewed, setBrewed] = useState(false); const [modified, setModified] = useState(false); const [share, setShare] = useState(false);
+  const [nextGrind, setNextGrind] = useState<'finer' | 'same' | 'coarser' | null>(null);
   const [busy, setBusy] = useState(false); const [saved, setSaved] = useState(false); const [error, setError] = useState('');
   const inFlight = useRef(false); const pending = useRef<{ id: string; payload: BrewOutcome } | null>(null);
   const locked = busy || pending.current !== null;
@@ -27,7 +28,7 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
           dose_grams: numberInput(dose), water_grams: numberInput(water),
           actual_time_seconds: seconds.trim() ? numberInput(seconds) ?? -1 : null,
           outcome, status: modified ? 'brewed_with_modifications' : 'brewed_as_written',
-          share_with_community: share, next_grind_adjustment: null, taste_scores: {}, brewed });
+          share_with_community: share, next_grind_adjustment: nextGrind, taste_scores: {}, brewed });
         if (!payload) { setError(errors[locale].invalid); return; }
         pending.current = { id: randomUUID(), payload };
       }
