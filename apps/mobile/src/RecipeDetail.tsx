@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, useWindowDimensions } from 'react-native';
 import type { RecipeItem } from './data';
 import { copy, methods } from './copy';
 import { coffeeStyles } from './CoffeeScreens';
@@ -9,54 +9,323 @@ import { RecipeVisual } from './RecipeVisual';
 import { MethodGuide } from './MethodGuide';
 import { SourceBrewDetails } from './SourceBrewDetails';
 import { ManualRecipeFacts } from './ManualRecipeFacts';
-import { doseLabel, recipeTitle, timeLabel, waterLabel, temperatureLabel } from './manualBrew';
+import { Disclosure } from './Disclosure';
+import {
+  doseLabel,
+  recipeTitle,
+  timeLabel,
+  waterLabel,
+  temperatureLabel,
+} from './manualBrew';
 import { FlavorNotes } from './SensoryProfile';
-import { Action, Icon, Language, Txt, colors, styles, type IconName } from './ui';
+import { catalogName } from './localizedContent';
+import {
+  Action,
+  Icon,
+  Language,
+  Txt,
+  colors,
+  styles,
+  type IconName,
+} from './ui';
 
-export function RecipeDetail({ recipe, record }: { recipe: RecipeItem; record: (seconds?: number) => void }) {
-  const locale = useContext(Language); const ar = locale === 'ar'; const t = copy[locale];
+export function RecipeDetail({
+  recipe,
+  record,
+}: {
+  recipe: RecipeItem;
+  record: (seconds?: number) => void;
+}) {
+  const locale = useContext(Language);
+  const ar = locale === 'ar';
+  const t = copy[locale];
+  const { width } = useWindowDimensions();
   const manual = recipe.sourceBrew.manual;
   const discovery = recipe.discovery;
-  const grindTranslations: Record<string, string> = { 'Medium-coarse': 'متوسط خشن', 'Medium-fine': 'متوسط ناعم', 'Like kosher salt': 'مثل الملح الخشن' };
-  const grind = (ar ? manual?.grind_ar : undefined) || (ar && recipe.grindSetting ? grindTranslations[recipe.grindSetting] : undefined) || recipe.grindSetting;
-  const temperature = temperatureLabel(recipe, ar);
-  const values = ([
-    { icon: recipe.method, value: methods[locale][recipe.method], label: ar ? 'طريقة التحضير' : 'Brew method' },
-    { icon: 'bean', value: doseLabel(recipe) === '—' && recipe.method === 'moka_pot' ? (ar ? 'سلة ممتلئة بلا كبس' : 'Full, loose basket') : doseLabel(recipe), label: t.dose },
-    { icon: 'drop', value: waterLabel(recipe, ar), label: recipe.method === 'espresso' ? ar ? 'ناتج الإسبريسو' : 'Espresso yield' : ar ? 'ماء التحضير' : 'Brew water' },
-    { icon: 'gear', value: grind || '—', label: ar ? 'إعداد الطحنة' : 'Grind setting' },
-    { icon: 'temp', value: temperature, label: ar ? 'حرارة الماء' : 'Water temperature' },
-    { icon: 'clock', value: timeLabel(recipe, ar) === '—' && recipe.method === 'moka_pot' ? (ar ? 'حسب انتهاء التدفق' : 'Until flow ends') : timeLabel(recipe, ar), label: ar ? 'الوقت الإرشادي' : 'Guide time' },
-  ] satisfies { icon: IconName; value: string; label: string }[]).filter(fact => fact.value !== '—');
-  const typeNames: Record<string, string> = ar ? { single_origin: 'منشأ واحد', blend: 'خلطة', decaf: 'منزوع الكافيين', arabica: 'أرابيكا', robusta: 'روبوستا' } : { single_origin: 'Single origin', blend: 'Blend', decaf: 'Decaf', arabica: 'Arabica', robusta: 'Robusta' };
+  const sourcePours = !!recipe.sourceBrew.pours?.length;
+  const grindTranslations: Record<string, string> = {
+    'Medium-coarse': 'متوسط خشن',
+    'Medium-fine': 'متوسط ناعم',
+    'Like kosher salt': 'مثل الملح الخشن',
+  };
+  const grind =
+    (ar ? manual?.grind_ar : undefined) ||
+    (ar && recipe.grindSetting
+      ? grindTranslations[recipe.grindSetting]
+      : undefined) ||
+    recipe.grindSetting;
+  const values = (
+    [
+      {
+        icon: recipe.method,
+        value: methods[locale][recipe.method],
+        label: ar ? 'طريقة التحضير' : 'Brew method',
+      },
+      {
+        icon: 'bean',
+        value:
+          doseLabel(recipe) === '—' && recipe.method === 'moka_pot'
+            ? ar
+              ? 'سلة ممتلئة بلا كبس'
+              : 'Full, loose basket'
+            : doseLabel(recipe),
+        label: t.dose,
+      },
+      {
+        icon: 'drop',
+        value: waterLabel(recipe, ar),
+        label:
+          recipe.method === 'espresso'
+            ? ar
+              ? 'ناتج الإسبريسو'
+              : 'Espresso yield'
+            : ar
+              ? 'ماء التحضير'
+              : 'Brew water',
+      },
+      {
+        icon: 'gear',
+        value: grind || '—',
+        label: ar ? 'إعداد الطحنة' : 'Grind setting',
+      },
+      {
+        icon: 'temp',
+        value: temperatureLabel(recipe, ar),
+        label: ar ? 'حرارة الماء' : 'Water temperature',
+      },
+      {
+        icon: 'clock',
+        value:
+          timeLabel(recipe, ar) === '—' && recipe.method === 'moka_pot'
+            ? ar
+              ? 'حسب انتهاء التدفق'
+              : 'Until flow ends'
+            : timeLabel(recipe, ar),
+        label: ar ? 'الوقت الإرشادي' : 'Guide time',
+      },
+    ] satisfies { icon: IconName; value: string; label: string }[]
+  ).filter((f) => f.value !== '—');
   const provenance = [
     [ar ? 'صاحب الوصفة' : 'Recipe by', discovery?.creatorName || recipe.author],
-    [ar ? 'بلد صاحب الوصفة' : 'Creator’s base country', discovery?.creatorCountry],
+    [ar ? 'بلد صاحب الوصفة' : 'Creator country', discovery?.creatorCountry],
     [ar ? 'منشأ الوصفة' : 'Recipe origin', discovery?.recipeCountry],
     [ar ? 'البن' : 'Coffee', discovery?.coffeeName],
     [ar ? 'المحمصة' : 'Roaster', discovery?.roasterName],
     [ar ? 'منشأ البن' : 'Coffee origin', discovery?.coffeeOrigin],
-    [ar ? 'نوع البن' : 'Coffee type', discovery?.coffeeType ? typeNames[discovery.coffeeType] || discovery.coffeeType : null],
+    [
+      ar ? 'نوع البن' : 'Coffee type',
+      discovery?.coffeeType
+        ? catalogName(discovery.coffeeType.replaceAll('_', ' '), locale)
+        : null,
+    ],
   ].filter((entry): entry is [string, string] => Boolean(entry[1]));
-  return <ScrollView testID="recipe-detail" showsVerticalScrollIndicator={false} contentContainerStyle={[coffeeStyles.page, { maxWidth: 780 }]}>
-    <View style={{ height: 220, borderRadius: 20, overflow: 'hidden' }}><RecipeVisual recipe={recipe}/></View>
-    <View style={[styles.row, ar && { flexDirection: 'row-reverse' }]}><Txt style={styles.muted}>{methods[locale][recipe.method]}{recipe.author ? ` · ${recipe.author}` : ''}</Txt>{discovery?.servingStyle ? <View style={[styles.metaPill, { backgroundColor: '#E2EFEB' }]}><Txt style={{ fontSize: 12, color: colors.teal }}>{discovery.servingStyle === 'hot' ? ar ? 'حار' : 'Hot' : discovery.servingStyle === 'iced' ? ar ? 'مثلّج' : 'Iced' : ar ? 'بارد' : 'Cold'}</Txt></View> : null}</View>
-    <Txt heading style={styles.title}>{recipeTitle(recipe.title, ar)}</Txt>
-    <FlavorNotes notes={discovery?.flavorNotes.length ? discovery.flavorNotes : recipe.flavors} max={8}/>
-    <Txt style={styles.muted}>{ar ? 'مقادير وصفة المصدر' : 'Source recipe amounts'}</Txt>
-    <View testID="recipe-source-facts" style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>{values.map(n => <View key={n.icon} style={[styles.card, { flexBasis: '46%', flexGrow: 1, minWidth: 116, marginBottom: 0 }]}><View style={styles.row}><Icon name={n.icon} size={20}/><Txt style={styles.muted}>{n.label}</Txt></View><Txt style={{ fontSize: 20, lineHeight: 30, fontWeight: '700', writingDirection: /^\d/.test(n.value) ? 'ltr' : ar ? 'rtl' : 'ltr' }}>{n.value}</Txt></View>)}</View>
-    <ManualRecipeFacts recipe={recipe}/>
-    {provenance.length ? <View style={[styles.card, { gap: 10 }]}><Txt heading style={styles.subtitle}>{ar ? 'عن الوصفة والبن' : 'Recipe & coffee'}</Txt>{provenance.map(([label, value]) => <View key={label} style={{ gap: 2 }}><Txt style={{ fontSize: 11, color: colors.muted }}>{label}</Txt><Txt style={{ fontSize: 14, fontWeight: '700' }}>{value}</Txt></View>)}</View> : null}
-    {recipe.incomplete ? <Txt style={styles.warning}>{manual?.parameter_only_source ? ar ? 'المصدر ينشر مواصفات التحضير دون إجراء تفصيلي؛ الخطوات أدناه تلخّص الأرقام المنشورة.' : 'The source publishes brewing specifications without a full procedure; the steps below summarize those specifications.' : ar ? 'بعض تفاصيل التحضير غير محددة في المصدر؛ راجع التعليمات المكتوبة ورابطه.' : 'Some brewing details are unspecified; review the written instructions and source.'}</Txt> : null}
-    {recipe.notes ? <Txt>{recipe.notes}</Txt> : null}
-    <MethodGuide method={recipe.method} showPhoto={false}/>
-    <GuidedBrew key={recipe.id} recipe={recipe} record={record}/>
-    {recipe.method === 'xbloom' && recipe.xBloom ? <View style={styles.card}><Txt heading style={styles.subtitle}>xBloom</Txt><Txt>{ar ? 'ملف التحضير المتوافق' : 'Compatible brew profile'}: {recipe.xBloom.deviceModel}</Txt>{recipe.xBloom.grindSetting ? <Txt>{ar ? 'الطحنة' : 'Grind'}: {recipe.xBloom.grindSetting}</Txt> : null}{Array.isArray(recipe.xBloom.pours) ? recipe.xBloom.pours.map((p: any, i: number) => <Txt key={i}>{ar ? 'الصبة ' : 'Pour '}{i + 1}: {[p?.water_grams ?? p?.grams ?? p?.amount, p?.duration_seconds ?? p?.seconds].filter(v => v != null).join(' · ')}</Txt>) : null}</View> : null}
-    <SourceBrewDetails recipe={recipe}/>
-    <Txt heading style={styles.subtitle}>{t.instructions}</Txt>
-    {recipe.steps.length ? recipe.steps.map(step => <View key={step.number} style={styles.card}><Txt style={{ fontWeight: '700' }}>{step.number}. {step.title}</Txt><Txt>{step.description}</Txt></View>) : recipe.sourceBrew.pours?.length ? <Txt style={styles.muted}>{ar?'اتبع ملف الصبات الموضح أعلاه، أو افتح الوصفة في تطبيق xBloom لتنفيذ إعدادات جهازك.':'Follow the pour program above, or open the recipe in xBloom to use your machine settings.'}</Txt> : <Txt style={styles.warning}>{t.noSteps}</Txt>}
-    {recipe.videoUrl ? <SourceLink title={recipe.videoUrl.includes('youtube.com') ? (ar ? 'شاهد فيديو هذه الوصفة' : 'Watch this recipe video') : (ar ? 'فتح رابط الوصفة' : 'Open recipe link')} url={recipe.videoUrl}/> : null}
-    {recipe.sources.length ? <View style={{ gap: 10 }}><Txt heading style={styles.subtitle}>{ar ? 'مصادر الوصفة' : 'Recipe sources'}</Txt>{recipe.sources.map(source => <View key={source.url} style={styles.card}><SourceLink title={source.url.includes('share-h5.xbloom.com') ? (ar ? 'فتح الوصفة في xBloom' : 'Open recipe in xBloom') : source.name} url={source.url}/>{source.verifiedAt ? <Txt style={styles.muted}>{ar ? 'آخر تحقق: ' : 'Last checked: '}{new Date(source.verifiedAt).toLocaleDateString(locale + '-u-nu-latn')}</Txt> : null}</View>)}</View> : null}
-    <Action title={t.record} onPress={() => record()} selected/>
-  </ScrollView>;
+  const primary =
+    recipe.sources.find((s) => s.url.includes('share-h5.xbloom.com')) ??
+    recipe.sources[0];
+  return (
+    <ScrollView
+      testID="recipe-detail"
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={[coffeeStyles.page, { maxWidth: 780, gap: 12 }]}
+    >
+      <View
+        style={{
+          height: width < 600 ? 150 : 170,
+          borderRadius: 18,
+          overflow: 'hidden',
+        }}
+      >
+        <RecipeVisual recipe={recipe} />
+      </View>
+      <View style={{ gap: 3 }}>
+        <View style={[styles.row, ar && { flexDirection: 'row-reverse' }]}>
+          <Txt style={styles.muted}>
+            {methods[locale][recipe.method]}
+            {recipe.author ? ' · ' + recipe.author : ''}
+          </Txt>
+          {discovery?.servingStyle ? (
+            <View style={[styles.metaPill, { backgroundColor: '#E2EFEB' }]}>
+              <Txt style={{ fontSize: 12, color: colors.teal }}>
+                {discovery.servingStyle === 'hot'
+                  ? ar
+                    ? 'حار'
+                    : 'Hot'
+                  : discovery.servingStyle === 'iced'
+                    ? ar
+                      ? 'مثلّج'
+                      : 'Iced'
+                    : ar
+                      ? 'بارد'
+                      : 'Cold'}
+              </Txt>
+            </View>
+          ) : null}
+        </View>
+        <Txt heading style={[styles.title, { fontSize: 24, lineHeight: 32 }]}>
+          {recipeTitle(recipe.title, ar)}
+        </Txt>
+        <FlavorNotes
+          notes={
+            discovery?.flavorNotes.length
+              ? discovery.flavorNotes
+              : recipe.flavors
+          }
+          max={8}
+        />
+      </View>
+      <View
+        testID="recipe-source-facts"
+        style={{
+          flexDirection: ar ? 'row-reverse' : 'row',
+          flexWrap: 'wrap',
+          gap: 8,
+        }}
+      >
+        {values.map((n) => (
+          <View
+            key={n.icon}
+            style={[
+              styles.card,
+              {
+                flexBasis: width >= 600 ? '30%' : '46%',
+                flexGrow: 1,
+                minWidth: 116,
+                marginBottom: 0,
+                padding: 12,
+                gap: 5,
+              },
+            ]}
+          >
+            <View style={[styles.row, ar && { flexDirection: 'row-reverse' }]}>
+              <Icon name={n.icon} size={16} />
+              <Txt style={{ fontSize: 11, color: colors.muted }}>{n.label}</Txt>
+            </View>
+            <Txt
+              style={{
+                fontSize: 17,
+                lineHeight: 25,
+                fontWeight: '700',
+                writingDirection: /^\d/.test(n.value)
+                  ? 'ltr'
+                  : ar
+                    ? 'rtl'
+                    : 'ltr',
+              }}
+            >
+              {n.value}
+            </Txt>
+          </View>
+        ))}
+      </View>
+      <ManualRecipeFacts recipe={recipe} />
+      {recipe.incomplete ? (
+        <Txt style={styles.warning}>
+          {manual?.parameter_only_source
+            ? ar
+              ? 'المصدر ينشر مقادير التحضير دون إجراء تفصيلي.'
+              : 'The source publishes brewing amounts without a full procedure.'
+            : ar
+              ? 'بعض التفاصيل غير منشورة؛ افتح المصدر قبل التحضير.'
+              : 'Some details are not published; check the source before brewing.'}
+        </Txt>
+      ) : null}
+      <GuidedBrew key={recipe.id} recipe={recipe} record={record} />
+      {sourcePours ? (
+        <SourceBrewDetails recipe={recipe} />
+      ) : (
+        <View testID="recipe-instructions" style={{ gap: 8 }}>
+          <Txt heading style={styles.subtitle}>
+            {t.instructions}
+          </Txt>
+          {recipe.steps.length ? (
+            recipe.steps.map((step) => (
+              <View
+                key={step.number}
+                style={[styles.card, { padding: 12, marginBottom: 0, gap: 5 }]}
+              >
+                <Txt style={{ fontWeight: '700' }}>
+                  {step.number}. {step.title}
+                </Txt>
+                <Txt>{step.description}</Txt>
+              </View>
+            ))
+          ) : !recipe.pours.length ? (
+            <Txt style={styles.warning}>{t.noSteps}</Txt>
+          ) : null}
+        </View>
+      )}
+      {primary ? (
+        <SourceLink
+          title={
+            primary.url.includes('share-h5.xbloom.com')
+              ? ar
+                ? 'فتح الوصفة في xBloom'
+                : 'Open recipe in xBloom'
+              : ar
+                ? 'فتح مصدر الوصفة'
+                : 'Open recipe source'
+          }
+          url={primary.url}
+        />
+      ) : null}
+      <Disclosure
+        title={ar ? 'عن الوصفة وإعدادات المصدر' : 'Recipe and source details'}
+        subtitle={
+          ar
+            ? 'الناشر، البن، ملاحظات التحضير والروابط'
+            : 'Publisher, coffee, brewing notes and links'
+        }
+        testID="recipe-source-disclosure"
+      >
+        {provenance.map(([label, value]) => (
+          <View key={label} style={{ gap: 2 }}>
+            <Txt style={{ fontSize: 11, color: colors.muted }}>{label}</Txt>
+            <Txt style={{ fontSize: 14, fontWeight: '700' }}>{value}</Txt>
+          </View>
+        ))}
+        <SourceBrewDetails recipe={recipe} settingsOnly />
+        {recipe.notes ? <Txt>{recipe.notes}</Txt> : null}
+        {recipe.originalTitle && recipe.originalTitle !== recipe.title ? (
+          <View testID="recipe-original-title">
+            <Txt style={styles.muted}>
+              {ar ? 'عنوان المصدر الأصلي' : 'Original source title'}
+            </Txt>
+            <Txt>{recipe.originalTitle}</Txt>
+          </View>
+        ) : null}
+        {recipe.videoUrl ? (
+          <SourceLink
+            title={ar ? 'شاهد فيديو الوصفة' : 'Watch recipe video'}
+            url={recipe.videoUrl}
+          />
+        ) : null}
+        {recipe.sources.map((source) => (
+          <View key={source.url} style={{ gap: 2 }}>
+            <SourceLink
+              title={
+                source.url.includes('share-h5.xbloom.com')
+                  ? ar
+                    ? 'الوصفة في xBloom'
+                    : 'Recipe in xBloom'
+                  : catalogName(source.name, locale)
+              }
+              url={source.url}
+            />
+            {source.verifiedAt ? (
+              <Txt style={styles.muted}>
+                {ar ? 'آخر تحقق: ' : 'Last checked: '}
+                {new Date(source.verifiedAt).toLocaleDateString(
+                  locale + '-u-nu-latn',
+                )}
+              </Txt>
+            ) : null}
+          </View>
+        ))}
+      </Disclosure>
+      <Disclosure title={ar ? 'دليل طريقة التحضير' : 'Brew method guide'}>
+        <MethodGuide method={recipe.method} showPhoto={false} />
+      </Disclosure>
+      <Action title={t.record} onPress={() => record()} selected />
+    </ScrollView>
+  );
 }

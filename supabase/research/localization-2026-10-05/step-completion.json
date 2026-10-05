@@ -1,0 +1,77 @@
+{
+  "applied_at": "2026-10-05",
+  "chunks": [
+    {
+      "file": "10-recipe-steps.sql",
+      "result": [
+        {
+          "scope": "recipe_steps",
+          "changed": 1758
+        }
+      ]
+    },
+    {
+      "file": "11-recipe-steps.sql",
+      "result": [
+        {
+          "scope": "recipe_steps",
+          "changed": 1566
+        }
+      ]
+    },
+    {
+      "file": "12-recipe-steps.sql",
+      "result": [
+        {
+          "scope": "recipe_steps",
+          "changed": 1996
+        }
+      ]
+    },
+    {
+      "file": "13-recipe-steps.sql",
+      "result": [
+        {
+          "scope": "recipe_steps",
+          "changed": 1416
+        }
+      ]
+    },
+    {
+      "file": "14-recipe-steps.sql",
+      "result": [
+        {
+          "scope": "recipe_steps",
+          "changed": 1855
+        }
+      ]
+    },
+    {
+      "file": "15-recipe-steps.sql",
+      "result": [
+        {
+          "scope": "recipe_steps",
+          "changed": 1733
+        }
+      ]
+    },
+    {
+      "file": "16-recipe-steps.sql",
+      "result": [
+        {
+          "scope": "recipe_steps",
+          "changed": 1654
+        }
+      ]
+    },
+    {
+      "file": "17-recipe-steps.sql",
+      "result": [
+        {
+          "scope": "recipe_steps",
+          "changed": 981
+        }
+      ]
+    }
+  ]
+}

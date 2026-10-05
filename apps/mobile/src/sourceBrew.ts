@@ -23,45 +23,51 @@ export interface SourceBrew {
   }[];
 }
 const numeric = (v: unknown, zero = false): number | null =>
-  typeof v === "number" && Number.isFinite(v) && (zero ? v >= 0 : v > 0)
+  typeof v === 'number' && Number.isFinite(v) && (zero ? v >= 0 : v > 0)
     ? v
     : null;
 export function sourceBrew(value: unknown): SourceBrew {
-  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
   const row = value as Record<string, unknown>;
   const result: SourceBrew = {};
   result.manual = manualBrew(row.manual);
   for (const field of [
-    "water_ml",
-    "dose",
-    "ratio",
-    "grind_size",
-    "rpm",
-    "source_model_code",
-    "poured_water_ml",
+    'water_ml',
+    'dose',
+    'ratio',
+    'grind_size',
+    'rpm',
+    'source_model_code',
+    'poured_water_ml',
   ] as const) {
     const n = numeric(row[field]);
     if (n !== null) result[field] = n;
   }
-  for (const field of ["cup_type", "model", "source_tier"] as const)
-    if (typeof row[field] === "string") result[field] = row[field].slice(0, 80);
-  if (typeof row.pour_sum_matches_stated_water === "boolean")
+  for (const field of ['cup_type', 'model', 'source_tier'] as const)
+    if (typeof row[field] === 'string') result[field] = row[field].slice(0, 80);
+  if (typeof row.pour_sum_matches_stated_water === 'boolean')
     result.pour_sum_matches_stated_water = row.pour_sum_matches_stated_water;
   if (Array.isArray(row.pours))
     result.pours = row.pours
       .slice(0, 50)
-      .filter((p) => p && typeof p === "object" && !Array.isArray(p))
+      .filter((p) => p && typeof p === 'object' && !Array.isArray(p))
       .map((p) => ({
         volume: numeric(p.volume),
         temperature: numeric(p.temperature, true),
         flow_rate: numeric(p.flow_rate),
         pause_seconds: numeric(p.pause_seconds, true),
-        pattern_code: numeric(p.pattern_code),
-        vibration_before: numeric(p.vibration_before),
-        vibration_after: numeric(p.vibration_after),
+        pattern_code: numeric(p.pattern_code, true),
+        vibration_before:
+          p.vibration_before === 0 || p.vibration_before === 1
+            ? p.vibration_before
+            : null,
+        vibration_after:
+          p.vibration_after === 0 || p.vibration_after === 1
+            ? p.vibration_after
+            : null,
       }));
   return result;
 }
 export function sourceTemperature(value: number | null, ar: boolean): string {
-  return value === null ? "—" : `${value}°C`;
+  return value === null ? '—' : `${value}°C`;
 }

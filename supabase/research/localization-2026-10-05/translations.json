@@ -1,0 +1,1502 @@
+{
+  "items": [
+    {
+      "table": "beans",
+      "id": "61bac2e2-5005-412d-a524-8d03ea072d9e",
+      "name": "Chelelektu",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-origin Ethiopian roast; roaster-stated tasting notes of berries, lavender and black tea. No process/varietal/altitude/bag size published.",
+      "after": "بن إثيوبي أحادي المنشأ. إيحاءات المحمصة: توت، لافندر، وشاي أسود. لم تُنشر تفاصيل المعالجة والسلالة والارتفاع وحجم العبوة."
+    },
+    {
+      "table": "beans",
+      "id": "7a095545-5136-4962-b17e-3cd4d872470c",
+      "name": "Chire",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-origin Ethiopian roast. No further process/varietal/altitude/notes published on the fetched page.",
+      "after": "بن إثيوبي أحادي المنشأ. لم تُنشر تفاصيل المعالجة والسلالة والارتفاع أو إيحاءات الطعم."
+    },
+    {
+      "table": "beans",
+      "id": "5c81bc4d-7a34-4ff4-8d23-2e8edda1db05",
+      "name": "Yemen Abu Wudiyyan",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-origin Yemeni beans named \"Abu Wudiyyan\" on the roaster's own homepage. No process/varietal/altitude/notes published.",
+      "after": "بن يمني أحادي المنشأ باسم أبو وديان في موقع المحمصة. لم تُنشر تفاصيل المعالجة والسلالة والارتفاع أو الإيحاءات."
+    },
+    {
+      "table": "beans",
+      "id": "6cb87075-99cd-4ed8-aff8-0bb4992e5942",
+      "name": "Brazil Roast",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-origin Brazilian roast. No process/varietal/altitude/notes published on the fetched page.",
+      "after": "بن برازيلي أحادي المنشأ. لم تُنشر تفاصيل المعالجة والسلالة والارتفاع أو الإيحاءات."
+    },
+    {
+      "table": "beans",
+      "id": "b5625497-8196-4d3d-b0b5-79c2ddf7ac28",
+      "name": "Mogiana",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Caramel, medium acidity, nuts, dark chocolate. Espresso roast.",
+      "after": "إيحاءات كراميل ومكسرات وشوكولاتة داكنة، مع حموضة متوسطة. تحميص مخصص للإسبريسو."
+    },
+    {
+      "table": "beans",
+      "id": "0a811cf1-102c-4fb6-85c5-6ff6e9588c22",
+      "name": "Finca El Bosque",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Apple, dried apricot, caramel, milk chocolate. Grown at 1400-1600 MASL.",
+      "after": "إيحاءات تفاح ومشمش مجفف وكراميل وشوكولاتة بالحليب. مزروع على ارتفاع 1400–1600 متر."
+    },
+    {
+      "table": "beans",
+      "id": "2c268de1-8ee9-4890-b688-8d6d04c99b8a",
+      "name": "Colombia Sanchez Finca Monteblanco",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Process stated by roaster as \"Co-fermented, Infused\" (mapped to catalog value 'other' — not in the named check-constraint list). Tasting notes: coconut, lemonade. Roaster labels this \"Medium / Filter Roast\". Available ground for filter or as whole bean. Arabica. 250g bag, 189.00 AED at time of fetch.",
+      "after": "بن أرابيكا بمعالجة تخمير مشترك مع إضافات، بحسب المحمصة. إيحاءات جوز الهند والليمونادة. تحميص متوسط للترشيح، يتوفر حبوبًا كاملة أو مطحونًا، بعبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "7ffc48be-9d5e-4b30-92c4-1218af89733c",
+      "name": "Ethiopia Bona Zuria Fermented",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Process stated by roaster as \"Carbonic Maceration\" (mapped to catalog value 'other' — not in the washed/natural/honey/anaerobic/wet_hulled/other check constraint's named list). Tasting notes: dark chocolate, banana, passion fruit, black cherry, caramel. Altitude published as a 2000-2330m range (not recorded in altitude_meters — single-value column). Recommended for filter brewing and espresso-based methods. Sold in 250g and 500g bags, from 75.00 AED; 250g recorded here.",
+      "after": "معالجة بالنقع الكربوني بحسب المحمصة. إيحاءات شوكولاتة داكنة وموز وباشن فروت وكرز أسود وكراميل. الارتفاع 2000–2330 متر. موصى به للترشيح والإسبريسو، بعبوات 250 و500 غ."
+    },
+    {
+      "table": "beans",
+      "id": "f7126f88-c7f3-43ed-a79d-579e04fb9212",
+      "name": "Ethiopia Goro Bedesa Fermented",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Process stated by roaster as \"Anaerobic Fermentation\" (mapped to catalog value 'anaerobic'). Tasting notes: chocolate, mango, peach, red grape; roaster describes \"a smooth chocolate base, juicy mango and peach notes, and a red grape-like sweetness\" giving \"a bright and fruity cup with a well-balanced body.\" Altitude published as a 1900-2100m range (not recorded in altitude_meters — single-value column). Recommended for filter brewing; available ground for filter or as whole bean. Sold in 250g and 500g bags, from 105.00 AED; 250g recorded here.",
+      "after": "معالجة بالتخمير اللاهوائي. إيحاءات شوكولاتة ومانجو وخوخ وعنب أحمر، مع قوام متوازن بحسب المحمصة. الارتفاع 1900–2100 متر. مخصص للترشيح، حبوبًا كاملة أو مطحونًا، بعبوات 250 و500 غ."
+    },
+    {
+      "table": "beans",
+      "id": "fb696f05-4728-44c4-bfe2-9c761e8c1b2b",
+      "name": "Elixir - Brazil",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Alta Mogiana region, São Paulo/Minas Gerais border. Aroma: nuts, caramel, brown sugar. Flavor: chocolate, nuts. Acidity: Low-Medium (roaster-stated, not a numeric column value). SCA cupping score: 83 points. Roasted dark-medium for espresso/milk drinks. Sold out at time of fetch. 4.500 BHD.",
+      "after": "من منطقة ألتا موغيانا عند حدود ساو باولو وميناس جيرايس. روائح مكسرات وكراميل وسكر بني، وإيحاءات شوكولاتة ومكسرات. حموضة منخفضة إلى متوسطة، وتقييم تذوق معلن 83 نقطة. تحميص متوسط داكن للإسبريسو ومشروبات الحليب."
+    },
+    {
+      "table": "beans",
+      "id": "8e4dfbdf-f285-4547-ac2e-81f58db66436",
+      "name": "HABMELA - Ethiopia (HAMBELA)",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "West Guji, Buku Sayisa washing station, anaerobic natural process, 2300 masl. Aroma: berry, floral, sweet candy. Flavor: blueberry, winey fruitiness, candy-like finish, slight floral. SCA cupping score: 88.5 points. Roaster lists this as \"Omni Roast\" rather than a light/medium/dark level, so roast_level is left null rather than guessed. Sold out at time of fetch. 6.800 BHD.",
+      "after": "من غرب غوجي ومحطة بوكو ساييسا، بمعالجة طبيعية لاهوائية، على ارتفاع 2300 متر. روائح توت وزهور وحلوى، وإيحاءات توت أزرق وفاكهة ونهاية حلوة ولمسة زهرية. تقييم المحمصة 88.5 نقطة، وتحميص متعدد الاستخدام."
+    },
+    {
+      "table": "beans",
+      "id": "1f582ab1-550a-4a42-a2ac-5d9e444119af",
+      "name": "Ethiopia Bisrat Melaku Washed",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-varietal lot of the landrace Wolisho selection, which the roaster says naturally evolved in a certain microregion and is grown mainly across Gedeo, Guji and Sidama. Altitude stated as 2150-2350 masl (range, so altitude_meters left null). Tasting notes: jasmine, white peach, bergamot. Page shows an \"Espresso\" roast option (a brew-method label, so roast_level left null). 250g at USD 19.00.",
+      "after": "محصول من سلالة ووليشو المحلية المنتشرة في غيديو وغوجي وسيداما. الارتفاع 2150–2350 متر. إيحاءات ياسمين وخوخ أبيض وبرغموت، مع خيار تحميص للإسبريسو وعبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "8c6568c7-32c5-488c-a19c-a962c90291aa",
+      "name": "360° Profile Blend",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "1 kg whole-bean blend.",
+      "after": "خلطة حبوب كاملة بعبوة 1 كغ."
+    },
+    {
+      "table": "beans",
+      "id": "c0a4d04e-ce93-4452-bf89-37af9ce228d6",
+      "name": "AmberWood Reserve (Wood-Fired Coffee)",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Bahrain Roastery's wood-fired/wood-smoked reserve line, roasted over amber wood flame per the product page (distinct product from the already-catalogued \"AppleWood Reserve\" -- separate product URL and name). Origin, process classification and roast level are not stated on the page (only the wood-fire roasting method is described), so left unset rather than guessed. Page showed \"Sold out\" at fetch time. Site is English-only; name_ar is a transliteration, not sourced from the page.",
+      "after": "من مجموعة المحمصة المحمصة على لهب الخشب. لم تُنشر تفاصيل المنشأ أو المعالجة أو درجة التحميص."
+    },
+    {
+      "table": "beans",
+      "id": "9e239c55-3d07-4f3b-a097-e785a0729c0e",
+      "name": "Barista Elite Supremo Espresso",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "1 kg espresso blend.",
+      "after": "خلطة للإسبريسو بعبوة 1 كغ."
+    },
+    {
+      "table": "beans",
+      "id": "4e38c68a-3349-4790-8850-c4af6512d893",
+      "name": "Masar (Yemen)",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Slow-dried lot (\"تجفيف مطول\" / slow drying, mapped to the natural/dry process family per the site's own product title). Roaster description: rich and balanced flavors (\"نكهات غنية ومتوازنة\"). Varietal, altitude and roast level not stated on the product page.",
+      "after": "محصول بتجفيف مطوّل، تصفه المحمصة بنكهات غنية ومتوازنة. لم تُنشر السلالة أو الارتفاع أو درجة التحميص."
+    },
+    {
+      "table": "beans",
+      "id": "6f7530e6-839a-4b73-9cc2-1c3e5b6921f2",
+      "name": "Meloraa (Costa Rica)",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Honey-process lot from Costa Rica. Roaster's own labels: roast \"تحميص مختص\" (\"specialty roast\" — not a light/medium/dark value, so roast_level is left null) and flavor text \"نكهة متوازنة وحلاوة طبيعية\" (\"balanced flavor and natural sweetness\"). Sold in 250g (68.00 SAR) and 1000g (243.80 SAR) bags; 250g recorded here. Marked out of stock at fetch time (\"نفدت الكمية\"). Arabic-only product page; name_en is BeanMora's own English rendering, not a confirmed source string.",
+      "after": "محصول كوستاريكي بمعالجة عسلية، تصفه المحمصة بنكهة متوازنة وحلاوة طبيعية. يتوفر بعبوات 250 و1000 غ، من دون تحديد درجة تحميص فاتحة أو متوسطة أو داكنة."
+    },
+    {
+      "table": "beans",
+      "id": "c757b135-ba1b-43c9-a796-27e809decff0",
+      "name": "Nardos (Ethiopia)",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Anaerobic-process lot (\"لاهوائي\", stated directly on the product page). Varietal, altitude, roast level and tasting notes not stated on the product page.",
+      "after": "محصول بمعالجة لاهوائية. لم تُنشر السلالة أو الارتفاع أو درجة التحميص أو إيحاءات الطعم."
+    },
+    {
+      "table": "beans",
+      "id": "144cdbc9-8e15-48a1-8489-f8042c0609e5",
+      "name": "Bright Eye -- Speciality Blend",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "House speciality blend, 250g, listed OMR 4.300.",
+      "after": "خلطة المحمصة للقهوة المختصة، بعبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "110cff89-911e-4be4-92b4-f4e219d2c73d",
+      "name": "Darkness -- Speciality Blend",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "House speciality blend, 250g, listed OMR 4.500.",
+      "after": "خلطة المحمصة للقهوة المختصة، بعبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "1d9acf03-7d41-4f5c-9a97-0b8845744016",
+      "name": "Desert -- Speciality Blend",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "House speciality blend, 250g, listed OMR 5.000.",
+      "after": "خلطة المحمصة للقهوة المختصة، بعبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "c6ff4d8f-b189-49c6-b0d3-eade4826be90",
+      "name": "El kaif -- Speciality Blend",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "House speciality blend, 250g, listed OMR 3.500. New product not seen in an earlier researcher's unapplied notes on this roaster.",
+      "after": "خلطة المحمصة للقهوة المختصة، بعبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "ccb013f2-eced-46ed-945b-728bcec84fd8",
+      "name": "Mystery -- Speciality Blend",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "House speciality blend, 250g, listed OMR 6.000. Component origins not published per-product; CAFINTO states general sourcing from Ethiopia, Brazil, Colombia, Yemen, Kenya, Guatemala.",
+      "after": "خلطة المحمصة للقهوة المختصة، بعبوة 250 غ. لم تُنشر مناشئ مكونات هذه الخلطة."
+    },
+    {
+      "table": "beans",
+      "id": "e2ceaf0e-34fe-44d4-b2eb-7a5a38f1983f",
+      "name": "Old lady -- Speciality Blend",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "House speciality blend, 250g, listed OMR 4.800.",
+      "after": "خلطة المحمصة للقهوة المختصة، بعبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "72555d6f-77c1-4e0c-9579-e3049e34d16e",
+      "name": "Shepherd -- Speciality Blend",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "House speciality blend, 250g, listed OMR 4.000.",
+      "after": "خلطة المحمصة للقهوة المختصة، بعبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "833898d9-79b4-4062-9b4a-aefa4c09e50c",
+      "name": "Wild Arabian -- Speciality Blend",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "House speciality blend, 250g, listed OMR 5.500.",
+      "after": "خلطة المحمصة للقهوة المختصة، بعبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "74bcdb41-3d01-409a-8c95-2e1bbb821204",
+      "name": "Wilderness -- Speciality Blend",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "House speciality blend, 250g, listed OMR 3.700.",
+      "after": "خلطة المحمصة للقهوة المختصة، بعبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "3e352196-03d4-4418-bc93-a14059e9453e",
+      "name": "Kenya Gicherori Washed",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Heritage SL varieties grafted onto Ruiru 11 rootstock. Altitude stated as 1650-1800 masl (range, so altitude_meters left null). Importer: Poma. Tasting notes: apricot, rhubarb, brown sugar. Page shows an \"Espresso\" roast option (a brew-method label, so roast_level left null). 250g at USD 18.00.",
+      "after": "سلالات SL تقليدية مطعّمة على أصول رويرو 11. الارتفاع 1650–1800 متر، والمستورد بوما. إيحاءات مشمش وراوند وسكر بني، مع خيار تحميص للإسبريسو وعبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "b3fb9a14-395b-4008-a1e0-ad2b017336fb",
+      "name": "Guatemala Roast",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-origin Guatemalan roast. No process/varietal/altitude/notes published on the fetched page.",
+      "after": "بن غواتيمالي أحادي المنشأ. لم تُنشر تفاصيل المعالجة والسلالة والارتفاع أو الإيحاءات."
+    },
+    {
+      "table": "beans",
+      "id": "1bf374c0-347c-4b65-9936-d119580eed88",
+      "name": "Ethiopia Guji Coffee Beans",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Roaster's own product page lists this bean's region as Yirgacheffe (يرقاشيف) even though the product is named \"Guji\" — recorded exactly as published, not corrected/guessed. Altitude published as a range, 1700-2200 masl, so left out of the single-value altitude_meters column. Specialty score stated as 84.00 (roaster's own cupping claim). Flavor notes stated: chocolate, berry, floral. Sizes/prices at fetch: 100g 25 QAR / 250g 65 QAR / 500g 90 QAR / 1kg 140 QAR. Roast level not stated on this page (unlike the roaster's Yirgacheffe bean, which is explicitly labelled \"light\").",
+      "after": "بن إثيوبي باسم غوجي، بينما تذكر صفحة المحمصة منطقة يرقاشيف؛ يحتاج هذا الاختلاف إلى توضيح من المصدر. الارتفاع المعلن 1700–2200 متر، وتقييم المحمصة 84 نقطة. إيحاءات شوكولاتة وتوت وزهور، وعبوات 100 و250 و500 و1000 غ."
+    },
+    {
+      "table": "beans",
+      "id": "05dab7a3-7d48-43f2-b840-19e5e5073d77",
+      "name": "Ethiopia Yirgacheffe Beans",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Bright floral and jasmine aroma with hints of lemon and blueberry, per the roaster's own product-page description. Marketed as the roaster's lightest roast. Price options seen: 100g 25 QAR / 250g 65 QAR / 500g 90 QAR / 1kg 140 QAR at time of fetch. Product-page body copy beyond this is generic storefront template text, not repeated here (see migration header).",
+      "after": "روائح زهرية وياسمين مع لمسات ليمون وتوت أزرق، بحسب المحمصة، التي تقدمه بوصفه أخف تحميصاتها. يتوفر بعبوات 100 و250 و500 و1000 غ."
+    },
+    {
+      "table": "beans",
+      "id": "385c9f0c-362c-4cf2-9b22-f4303ba79066",
+      "name": "India Single Origin Coffee Beans",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Roaster's own product page states \"heavy body with earthy, spice touches and low acidity,\" recommended for espresso and French press. Process, varietal, altitude and roast level not stated on the page — left null rather than guessed. Only size/price offered: 250g, 65 QAR.",
+      "after": "بن هندي بقوام ثقيل ولمسات ترابية وتوابل وحموضة منخفضة بحسب المحمصة. موصى به للإسبريسو والفرنش برس، بعبوة 250 غ. لم تُنشر تفاصيل المعالجة والسلالة والارتفاع ودرجة التحميص."
+    },
+    {
+      "table": "beans",
+      "id": "450ed2b1-59a8-4aab-8de0-51d59454174a",
+      "name": "Yemen Rare Single Origin Coffee Beans",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Roaster's own product page describes flavor as \"resembling wine with hints of berries and spices\" and calls Yemen \"one of the oldest coffee sources in the world.\" Process, varietal, altitude and roast level not stated on the page — left null rather than guessed. Only size/price offered: 250g, 85 QAR. Grind options offered: whole bean, espresso, filter, moka, French press (order-time grind choice, not a bean attribute).",
+      "after": "بن يمني تصف المحمصة إيحاءاته بفاكهة مخمّرة مع توت وتوابل. يتوفر بعبوة 250 غ، حبوبًا كاملة أو بطحنات متعددة. لم تُنشر تفاصيل المعالجة والسلالة والارتفاع ودرجة التحميص."
+    },
+    {
+      "table": "beans",
+      "id": "bc63a3af-a665-4878-a198-7f1ce7cfda4e",
+      "name": "Brazil Cascavel Vermelha (Natural)",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Natural-process lot from Sul de Minas, patio-dried whole cherry. Altitude published as an 800 m - 1150 m range (not recorded in altitude_meters). Variety stated only as \"Mixed Varieties\". Roast stated as Medium (Omni Roast). Tasting notes: pecan, cherry, raisins; described as bold, velvety, syrupy body. 4.800 KWD for 250g whole bean; also sold as 5 drip sachets (3.800 KWD) and capsules. name_ar is a phonetic transliteration, not sourced.",
+      "after": "محصول طبيعي من سول دي ميناس، مجفف بالثمرة الكاملة، على ارتفاع 800–1150 متر، من سلالات مختلطة. تحميص متوسط متعدد الاستخدام. إيحاءات بيكان وكرز وزبيب، بقوام مخملي كثيف، وعبوة حبوب 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "1090fec2-e4e1-4ff2-aec9-d00a3d8e054b",
+      "name": "Ethiopia Korma (Natural)",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Natural-process lot from the village of Korma in the Hambela highlands of the Guji zone, grown by smallholders in garden plots under indigenous forest canopy; cherries dried slowly on raised African beds. Altitude published as a 1700 m - 1830 m range (not recorded in altitude_meters). Roast stated as Medium (Omni Roast). Tasting notes: apricot, strawberry, milk chocolate; described as fragrant, tea-like, jammy. 5.300 KWD for 250g whole bean; also sold as 5 drip sachets (4.200 KWD) and capsules. name_ar is a phonetic transliteration, not sourced.",
+      "after": "محصول طبيعي من قرية كورما في مرتفعات هامبيلا بغوجي، يزرعه أصحاب مزارع صغيرة ويجفف ببطء على أسرّة مرتفعة. الارتفاع 1700–1830 متر. تحميص متوسط متعدد الاستخدام، بإيحاءات مشمش وفراولة وشوكولاتة بالحليب وقوام قريب من الشاي والمربى. عبوة الحبوب 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "d9f43409-6346-416d-a155-54c9fb730845",
+      "name": "Indonesia Pantan Musara (Washed)",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Fully washed (not wet-hulled) lot from the Pantan Musara mill in the Gayo Highlands, Central Aceh, Sumatra, serving smallholder farmers; grown at 1600 m. Roast stated as Medium (Omni Roast). Tasting notes: passionfruit, brown sugar, lime; described as bright and clean. 6.800 KWD for 250g whole bean; also sold as 5 drip sachets (5.600 KWD) and capsules (6.800 KWD). name_ar is a phonetic transliteration, not sourced.",
+      "after": "محصول مغسول بالكامل من مطحنة بانتان موسارا في مرتفعات غايو بآتشيه الوسطى، سومطرة، على ارتفاع 1600 متر. تحميص متوسط متعدد الاستخدام، بإيحاءات باشن فروت وسكر بني ولايم وكوب واضح ومشرق. عبوة الحبوب 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "87162ebd-df97-48fc-b33f-bcc54c0d16fd",
+      "name": "Costa Rica Adelina Fallas Honey",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Fourth-generation producer Adelina Fallas took over management of her mother's farm at 18; the Amé Café Micromill pays neighbouring producers better than large regional corporations, per the roaster. Importer: Ally. Tasting notes: white chocolate, raspberry, citrus. Page shows a \"Filter\" roast option (a brew-method label, so roast_level left null). 250g at USD 17.00.",
+      "after": "من المنتجة أديلينا فالاس ومحطة أمي كافيه الصغيرة، بحسب المحمصة. المستورد ألي. إيحاءات شوكولاتة بيضاء وتوت العليق وحمضيات، مع خيار تحميص للترشيح وعبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "dbcf59f8-4e88-4f29-9e52-d37d3ab8228d",
+      "name": "Laymoon Twist (Costa Rica Red Honey)",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Red honey process Costa Rican lot.",
+      "after": "محصول كوستاريكي بمعالجة عسلية حمراء."
+    },
+    {
+      "table": "beans",
+      "id": "6b6b4953-e7de-431c-9d8b-eb0d50842008",
+      "name": "Lollit (Ethiopia)",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Natural/dried-process lot from Ethiopia. The product page states only origin, process, weight and price — no varietal, altitude, roast level or tasting notes are published, so those fields are left null rather than guessed. In-stock/out-of-stock indicators on the page were inconsistent (both states displayed); not resolved here. Arabic-only product page; name_en is BeanMora's own English rendering, not a confirmed source string.",
+      "after": "محصول إثيوبي بمعالجة طبيعية مجففة. لم تُنشر السلالة أو الارتفاع أو درجة التحميص أو الإيحاءات."
+    },
+    {
+      "table": "beans",
+      "id": "607a472b-06f9-422c-88d5-b70fad7da399",
+      "name": "Arabic Gahwa",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Traditional Arabic-style gahwa preparation. Roaster-stated: light roast (\"lightly roasted for a smooth, delicate flavor\"), Heirloom varietal, natural process, notes \"Nutty, Floral, Sweet\". Sold pre-ground only (\"most home grinders wont be able to grind the coffee, hence it is sold grinded\"), 224g/500g/1kg. Origin country/region not stated on the page.",
+      "after": "قهوة للتحضير العربي بتحميص فاتح ومعالجة طبيعية وسلالات محلية. إيحاءات مكسرات وزهور وحلاوة بحسب المحمصة. تباع مطحونة بعبوات 224 و500 و1000 غ، ولم يُحدد بلد المنشأ."
+    },
+    {
+      "table": "beans",
+      "id": "208a6c4a-69ef-40b1-a999-1e35477489af",
+      "name": "Bond Street Espresso Blend",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Espresso blend combining Rancho Grande (Brazil) and Rocko Mountain (Ethiopia) -- both already-catalogued Gold Box single-origins. Roaster-stated cup: \"Sweet Milk Chocolate, Hazelnut and Strawberry Sweetness\", medium roast. Sold in 224g/500g/1kg -- no single bag_weight_grams recorded since the page names all three with no stated default.",
+      "after": "خلطة إسبريسو من رانشو غراندي البرازيلي وروكو ماونتن الإثيوبي، بتحميص متوسط. إيحاءات شوكولاتة بالحليب وبندق وحلاوة فراولة. تتوفر بعبوات 224 و500 و1000 غ."
+    },
+    {
+      "table": "beans",
+      "id": "40268f9b-0217-4d87-8871-1e2989f7ed0f",
+      "name": "Brazil Rancho Grande Estate",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-estate Brazilian lot.",
+      "after": "محصول برازيلي من مزرعة واحدة."
+    },
+    {
+      "table": "beans",
+      "id": "0b5561fa-ce79-400e-8e56-1d7e368b7958",
+      "name": "Brazil Santa Lucia",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-origin Brazilian lot.",
+      "after": "محصول برازيلي أحادي المنشأ."
+    },
+    {
+      "table": "beans",
+      "id": "cfcb6f79-d030-4414-b424-04e368a865cf",
+      "name": "Colombia La Cristalina",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-origin Colombian lot.",
+      "after": "محصول كولومبي أحادي المنشأ."
+    },
+    {
+      "table": "beans",
+      "id": "ad3508b8-401d-43ca-ba92-53f5d99ba34f",
+      "name": "Colombia Santa Ana",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-origin Colombian lot.",
+      "after": "محصول كولومبي أحادي المنشأ."
+    },
+    {
+      "table": "beans",
+      "id": "268429cc-3b76-4fb5-ad6f-330ef98d0b0e",
+      "name": "Dark Sugars",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Seasonal espresso blend of Brazil and Indonesia lots (origin_country left null — a blend, same convention used elsewhere in this catalog for blends). 100% arabica, specialty grade. Tasting notes: heavy, rich chocolate with a hint of spice; described by the roaster as \"Rich Chocolate Full Bodied\". Intended for espresso-based drinks. Sold in 224g (AED 42.00 at fetch time, listed regular price AED 39.90), 500g, and 1kg; 224g recorded here.",
+      "after": "خلطة إسبريسو موسمية من البرازيل وإندونيسيا، من أرابيكا مختصة. إيحاءات شوكولاتة غنية مع لمسة توابل وقوام ممتلئ، بحسب المحمصة. تتوفر بعبوات 224 و500 و1000 غ."
+    },
+    {
+      "table": "beans",
+      "id": "0e4b731c-6607-4d0a-98f3-85f2b7562fb6",
+      "name": "Ethiopia Hambela Halaka",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-origin Ethiopian lot.",
+      "after": "محصول إثيوبي أحادي المنشأ."
+    },
+    {
+      "table": "beans",
+      "id": "c162490c-4357-47e8-af6f-974fbf34da15",
+      "name": "Funky Weekend Blend",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Blend of Rancho Grande (Brazil, natural process) and Santa Ana (Colombia, fermented natural process) -- both already-catalogued Gold Box single-origins. Roaster-stated cup: \"a sweet funky but balanced cup\"; \"Brazil brings a sweet well balanced cup that is creamy and smooth whilst the Santa Ana gives this blend just a hint of Red funky fruit.\" process left null (two different stated processes for the two components); roast level not stated. Sold in 224g/500g/1kg/drip-box -- no single bag_weight_grams recorded.",
+      "after": "خلطة من رانشو غراندي البرازيلي الطبيعي وسانتا آنا الكولومبي الطبيعي المخمّر. تصفها المحمصة بكوب حلو ومتوازن وناعم مع لمسة فاكهة حمراء. تتوفر بعبوات 224 و500 و1000 غ وأكياس تقطير، من دون درجة تحميص منشورة."
+    },
+    {
+      "table": "beans",
+      "id": "6ad6f1ba-0fd6-4604-8eb5-43dd7e14f2a0",
+      "name": "Kenya Anaerobic",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Anaerobic-process Kenyan lot.",
+      "after": "محصول كيني بمعالجة لاهوائية."
+    },
+    {
+      "table": "beans",
+      "id": "d9e2fa86-72e9-403a-ab70-e15d30d18cc8",
+      "name": "Rocko Mountain",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Tasting notes: strawberry, stone fruit, white florals. Cup score 88.75 (roaster-stated). Altitude published as 1900-2150 MASL (not recorded in altitude_meters — single-value column). Sold in 224g (AED 52.50), 500g, 1kg, and a Drip Box format; only 224g price was shown at fetch time. 224g recorded here.",
+      "after": "إيحاءات فراولة وفواكه ذات نواة وزهور بيضاء. تقييم المحمصة 88.75 نقطة، والارتفاع 1900–2150 متر. يتوفر بعبوات 224 و500 و1000 غ وأكياس تقطير."
+    },
+    {
+      "table": "beans",
+      "id": "51423f52-16e6-450e-9c69-5ba6a554b00e",
+      "name": "Colombia Decaf",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Blackberry, sugarcane, milk chocolate.",
+      "after": "إيحاءات توت أسود وقصب سكر وشوكولاتة بالحليب."
+    },
+    {
+      "table": "beans",
+      "id": "33deb576-a65e-4fcb-ae79-b8ef79b84803",
+      "name": "Finca El Diviso",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Red rose, peach, grape yoghurt. Natural anaerobic process, best brewed as V60.",
+      "after": "إيحاءات ورد أحمر وخوخ وزبادي العنب. معالجة طبيعية لاهوائية، موصى به لتحضير V60."
+    },
+    {
+      "table": "beans",
+      "id": "778874db-68c8-447f-8ad6-5b1d8ff1f992",
+      "name": "Rivense La Guaca",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Blackberry, brown sugar, dried fig. Honey process, best brewed as V60.",
+      "after": "إيحاءات توت أسود وسكر بني وتين مجفف. معالجة عسلية، موصى به لتحضير V60."
+    },
+    {
+      "table": "beans",
+      "id": "59dd3b44-19f3-43e4-b88a-4092153a511d",
+      "name": "Sunda Wanoja",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Sugar cane, orange, berries, chocolate coating. Natural Extended process, grown at 1500 MASL.",
+      "after": "إيحاءات قصب سكر وبرتقال وتوت وشوكولاتة. معالجة طبيعية مطوّلة، ومزروع على ارتفاع 1500 متر."
+    },
+    {
+      "table": "beans",
+      "id": "443e7187-131e-407f-b1e9-8c34699c75db",
+      "name": "Brazilian Coffee Beans",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-origin lot from Campo das Vertentes, Minas Gerais, red and yellow Caturra varietals, natural process (\"dried with the fruit still on\"), 900-1,300 masl (range too wide for the single-value altitude column, so left null here). Flavour notes: caramel, orange, chocolate, raisins. Sourced from smallholder farms, roasted in small batches in Abu Dhabi; suited to espresso or filter. 250g/500g/1kg bags, from 57.75 AED at time of fetch.",
+      "after": "من كامبو داس فيرتينتيس بميناس جيرايس، من كاتورا الحمراء والصفراء، بمعالجة طبيعية وارتفاع 900–1300 متر. إيحاءات كراميل وبرتقال وشوكولاتة وزبيب. يحمص على دفعات صغيرة في أبوظبي، ومناسب للإسبريسو والترشيح، بعبوات 250 و500 و1000 غ."
+    },
+    {
+      "table": "beans",
+      "id": "884f86b5-3d5b-48d8-b6af-8a1d09bea559",
+      "name": "Colombian Coffee Supremo",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Supremo-grade lot (largest bean size grade) from various smallholder farmers, fully washed, 1,250-2,150 masl (range too wide for the single-value altitude column, so left null here). Flavour notes: cocoa nibs, red grapes, molasses, roasted nuts. Roasted in Abu Dhabi; suitable for espresso or filter; roaster states it ships across the UAE and GCC (Saudi Arabia, Qatar, Kuwait, Bahrain, Oman). 250g/500g/1kg bags, from 57.75 AED at time of fetch.",
+      "after": "محصول كولومبي بتصنيف حبة سوبريمو، من مزارعين صغار، مغسول بالكامل وعلى ارتفاع 1250–2150 متر. إيحاءات قطع كاكاو وعنب أحمر ودبس ومكسرات محمصة. يحمص في أبوظبي، ومناسب للإسبريسو والترشيح، بعبوات 250 و500 و1000 غ."
+    },
+    {
+      "table": "beans",
+      "id": "25cebaa5-1eea-4ced-9ee8-4df141e4c973",
+      "name": "Ethiopia Chelchele",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-origin lot from Chelichele, Yirgacheffe, JARC variety, natural process, 1,945 masl. Flavour notes: floral, chocolate, jammy berries. Roasted in Abu Dhabi; recommended for espresso. 250g/500g/1kg bags, from 57.75 AED at time of fetch.",
+      "after": "محصول من تشيلتشيلي في يرقاشيف، من سلالة JARC، بمعالجة طبيعية وعلى ارتفاع 1945 متر. إيحاءات زهور وشوكولاتة وتوت بقوام مربى. يحمص في أبوظبي وموصى به للإسبريسو، بعبوات 250 و500 و1000 غ."
+    },
+    {
+      "table": "beans",
+      "id": "0fadd092-b676-4d06-a9bb-aebd41681486",
+      "name": "Khayalah Mountain",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Stated on jazeancoffee.com/store as \"Saudi coffee, harvested from the heights of the Jazan mountains\" -- single-origin Saudi, no other-country blend stated (unlike several of Jazean's other mountain-named products). Varietal, process, roast level and altitude are not stated on the product page and are left null rather than guessed. Priced SAR 107 at fetch time (price is a snapshot, not stored as a durable fact -- no price column on this table).",
+      "after": "بن سعودي أحادي المنشأ، تصفه الشركة بأنه محصول من مرتفعات جبال جازان. لم تُنشر السلالة أو المعالجة أو درجة التحميص أو الارتفاع."
+    },
+    {
+      "table": "beans",
+      "id": "015b13c8-fc4c-46b4-883c-326163b8d6a2",
+      "name": "Watad Mountain",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Stated on jazeancoffee.com/store as \"100% Khawalni beans\" sourced from the Jazan mountains of southwestern Saudi Arabia. Khawlani (Khawlani/Khawlaji) is the native heirloom Arabica varietal traditionally grown across Jazan and neighbouring Yemen. Roast level, process and altitude are not stated on the product page and are left null rather than guessed. Priced SAR 107 at fetch time (price is a snapshot, not stored as a durable fact -- no price column on this table).",
+      "after": "بن خولاني بالكامل من جبال جازان في جنوب غرب السعودية، بحسب الشركة. لم تُنشر المعالجة أو درجة التحميص أو الارتفاع."
+    },
+    {
+      "table": "beans",
+      "id": "75f025c8-f42b-4a8b-b909-c8c8d32b2193",
+      "name": "Aquiares — Costa Rica — Natural",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Costa Rican natural-process lot from the Aquiares estate, sold by Jeed Roastery in a 250g bag, 2026 harvest. Farm is named (Aquiares) but no separate washing-station, varietal, altitude or tasting-note fields are published on this product page, so left unset rather than guessed.",
+      "after": "محصول كوستاريكي طبيعي من مزرعة أكياريس، تقدمه محمصة جيد بعبوة 250 غ، من حصاد 2026. لم تُنشر السلالة أو الارتفاع أو الإيحاءات."
+    },
+    {
+      "table": "beans",
+      "id": "f6beacc2-7e19-498e-b510-ae5d2db0bf98",
+      "name": "Benti Nenqa — Ethiopia — Washed",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Ethiopian washed-process lot from Jeed Roastery's 250g Ethiopian Crops line, 2025 harvest. Farm/washing station, varietal, altitude and tasting notes are not published on the product page, so left unset rather than guessed.",
+      "after": "محصول إثيوبي مغسول من مجموعة محاصيل جيد، بعبوة 250 غ، من حصاد 2025. لم تُنشر المزرعة أو المحطة أو السلالة أو الارتفاع أو الإيحاءات."
+    },
+    {
+      "table": "beans",
+      "id": "9975653b-1c43-47c7-bba9-0c668f6e2f9e",
+      "name": "Bombe — Ethiopia — Natural",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Ethiopian natural-process lot from Jeed Roastery's 250g Ethiopian Crops line, 2026 harvest. Farm/washing station, varietal, altitude and tasting notes are not published on the product page, so left unset rather than guessed.",
+      "after": "محصول إثيوبي طبيعي من مجموعة محاصيل جيد، بعبوة 250 غ، من حصاد 2026. لم تُنشر المزرعة أو المحطة أو السلالة أو الارتفاع أو الإيحاءات."
+    },
+    {
+      "table": "beans",
+      "id": "a7c1dbad-fd86-489d-9aa8-f3490d162cae",
+      "name": "Hambela Supernatural",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Roaster-stated process: \"Full Natural and sun-dried\". Flavor notes per roaster: berries, categorized under fresh fruit/chocolate/nutty. Roaster labels this a \"Filter\" roast (brew-method suitability, not one of this catalog's light/medium/dark roast levels), so roast_level left null rather than mapped. Region, farm and varietal not stated on the product page. Fetch-time price 6.000 KD, not stored as a durable fact. name_ar is BeanMora's own transliteration, not sourced from the page.",
+      "after": "معالجة طبيعية كاملة مع تجفيف شمسي، بحسب المحمصة. إيحاءات توت ضمن عائلات الفواكه الطازجة والشوكولاتة والمكسرات. مخصص للترشيح، من دون درجة تحميص منشورة."
+    },
+    {
+      "table": "beans",
+      "id": "e556b549-4674-47b6-9efa-c92a0b2fd7cc",
+      "name": "Papayo Hydro Natural",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Varietal per roaster: \"Papayo\". Roaster-stated process: \"Hydro Natural\" (recorded verbatim in this note; mapped to this catalog's generic 'other' process value rather than assumed equivalent to plain natural). Flavor notes per roaster: floral, strawberry. Roast labeled \"Filter (whole bean)\" on the page (brew-method/format suitability, not one of this catalog's light/medium/dark roast levels), so roast_level left null rather than mapped. Farm not stated. Fetch-time price 12.000 KWD, not stored as a durable fact. name_ar is BeanMora's own transliteration, not sourced from the page.",
+      "after": "سلالة بابايو بمعالجة هايدرو ناتشورال كما تسميها المحمصة. إيحاءات زهور وفراولة، وحبوب كاملة مخصصة للترشيح، من دون درجة تحميص منشورة."
+    },
+    {
+      "table": "beans",
+      "id": "ca6c4c9c-dafc-44a6-a5a0-db336f84ad4a",
+      "name": "Yirgacheffe Washed Halo Bariti",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Varietal per roaster: \"Ethiopia Heirloom\". Flavor notes per roaster: cherries, tropical, citrus. Roaster labels this a \"Filter Whole Bean\" roast (brew-method/format suitability, not one of this catalog's light/medium/dark roast levels), so roast_level left null rather than mapped. Farm not stated on the product page. Fetch-time price 5.50 KWD, not stored as a durable fact. name_ar is BeanMora's own transliteration, not sourced from the page.",
+      "after": "سلالات إثيوبية محلية بإيحاءات كرز وفواكه استوائية وحمضيات. حبوب كاملة مخصصة للترشيح، من دون درجة تحميص منشورة."
+    },
+    {
+      "table": "beans",
+      "id": "6642fc71-2ede-4cb2-b888-37789f1f4c83",
+      "name": "Brazil Alta Mogiana",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Sourced from Brazil; described by the roaster as smooth, balanced and comforting with gentle red-fruit and honey notes. Flavor notes: Honey | Milk sweet | Red Fruit. Acidity: Low. Sold as 250g / 500g / 1kg, whole bean or ground, with an Espresso or Filter roast option (brew-intent selector, not a roast-level scale). From 5.000 KWD. Process, varietal, altitude and region not stated on the product page. name_ar is a phonetic transliteration, not sourced.",
+      "after": "بن برازيلي تصفه المحمصة بأنه ناعم ومتوازن مع لمسات عسل وفاكهة حمراء وحلاوة حليبية، وحموضة منخفضة. يتوفر للإسبريسو أو الترشيح، حبوبًا كاملة أو مطحونًا، بعبوات 250 و500 و1000 غ. لم تُنشر المعالجة والسلالة والارتفاع."
+    },
+    {
+      "table": "beans",
+      "id": "29909e22-8890-45f2-8b20-b5390c56f01a",
+      "name": "Colombia Catiope Bourbon",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Colombian coffee sourced from Huila (roaster's own wording: \"Sourced from Huila, Colombia\"). Farm/producer, varietal, process and altitude are not stated on the product page and are left null rather than guessed; the page does state a qualitative \"Medium\" acidity, which is recorded here as text rather than converted to the numeric 1-5 acidity_level column, since the page gives no exact figure. Tasting notes as stated: apricot, dark chocolate, floral. Roast option stated as \"Filter\" only (no light/medium/dark word), so roast_level is left null. Sold in a single 250g bag size at 8.500 KD at fetch time (2026-09-26), whole bean or ground.",
+      "after": "محصول من هويلا بكولومبيا، بإيحاءات مشمش وشوكولاتة داكنة وزهور وحموضة متوسطة بحسب المحمصة. مخصص للترشيح، بعبوة 250 غ. لم تُنشر المزرعة أو المعالجة أو الارتفاع أو تفاصيل مؤكدة للسلالة."
+    },
+    {
+      "table": "beans",
+      "id": "3632b7a8-c652-4006-88bf-dfc1e814110a",
+      "name": "Colombia Passion Fruit",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Lively, fruity cup with tropical sweetness. Flavor notes: Passion Fruit, Berries, Caramel. Acidity: High (roaster-stated). Sold as Filter roast, 250g, whole bean or ground.",
+      "after": "كوب فاكهي بحلاوة استوائية، وإيحاءات باشن فروت وتوت وكراميل، مع حموضة مرتفعة بحسب المحمصة. مخصص للترشيح، بعبوة 250 غ، حبوبًا كاملة أو مطحونًا."
+    },
+    {
+      "table": "beans",
+      "id": "972a15e9-09ec-431a-8461-66984acce4df",
+      "name": "Colombia Supremo",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Colombian coffee described only as \"from Colombia's renowned coffee regions\" — no specific region, farm, varietal, process or altitude stated, all left null rather than guessed. The page does state a qualitative \"High\" acidity, recorded here as text rather than converted to the numeric 1-5 acidity_level column. Tasting notes as stated: chocolate, caramel, fruity. Roast options stated as \"Filter, Espresso\" (no light/medium/dark word), so roast_level is left null. Sold in 250g/500g/1kg with no single canonical size, so bag_weight_grams is left null; 250g listed at 5.000 KD at fetch time (2026-09-26).",
+      "after": "بن كولومبي بإيحاءات شوكولاتة وكراميل وفواكه، وحموضة مرتفعة بحسب المحمصة. يتوفر للإسبريسو أو الترشيح بعبوات 250 و500 و1000 غ. لم تُنشر المنطقة المحددة أو المزرعة أو السلالة أو المعالجة أو الارتفاع."
+    },
+    {
+      "table": "beans",
+      "id": "559a7d46-790d-4b18-b173-9169d81d9c17",
+      "name": "Ethiopia Guji G1 Masina",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Flavor notes: lemon, raspberry, cherries, blueberry. Acidity: Medium (roaster-stated). Marked sold out on the live product page at time of fetch. 6.500 KWD.",
+      "after": "إيحاءات ليمون وتوت العليق وكرز وتوت أزرق، مع حموضة متوسطة بحسب المحمصة."
+    },
+    {
+      "table": "beans",
+      "id": "c53534a9-10fc-49e8-a2e7-7f28878b6b6f",
+      "name": "Mexico Altura High Grown",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Flavor notes: honey, pecan, burnt sugar. Acidity: Low (roaster-stated). 5.000 KWD at time of fetch.",
+      "after": "إيحاءات عسل وبيكان وسكر محروق، مع حموضة منخفضة بحسب المحمصة."
+    },
+    {
+      "table": "beans",
+      "id": "a7ca90ca-3de5-464d-9470-2e39a662fcea",
+      "name": "ORU Blend",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "ORU's signature in-house blend of Colombia & Brazil beans. Flavor notes: white chocolate, caramel, red fruits. Acidity: Medium (roaster-stated, not the 5-dot scale — see migration header). Available as Espresso or Filter roast, whole bean or ground. 5.000 KWD at time of fetch.",
+      "after": "خلطة أورو الخاصة من بن كولومبي وبرازيلي. إيحاءات شوكولاتة بيضاء وكراميل وفواكه حمراء، مع حموضة متوسطة بحسب المحمصة. تتوفر للإسبريسو أو الترشيح، حبوبًا كاملة أو مطحونًا."
+    },
+    {
+      "table": "beans",
+      "id": "c351b151-fda0-4bf7-9a21-6afdd628aaee",
+      "name": "Uganda Mukhoto",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Opens with chocolate notes, followed by vibrant pineapple and dried-fruit sweetness. Flavor notes: Dried Cherry, Dark Chocolate, Pineapple. Acidity: Medium (roaster-stated). Sold as Filter roast, 250g, whole bean or ground.",
+      "after": "إيحاءات كرز مجفف وشوكولاتة داكنة وأناناس، مع حلاوة فواكه مجففة وحموضة متوسطة بحسب المحمصة. مخصص للترشيح، بعبوة 250 غ، حبوبًا كاملة أو مطحونًا."
+    },
+    {
+      "table": "beans",
+      "id": "37c6d60c-9819-4e44-b776-79d33ac5a6dd",
+      "name": "Bolivia Gregorio Palli, Anoxic Washed",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Process stated as Anoxic Washed (mapped to \"other\" in the process enum). Roaster tasting notes: brown sugar, nectarine, nutmeg. Altitude stated as 1,400-1,650 masl (left null; single value only). Medium roast, stated as suitable for filter and espresso. Roaster cupping score 87/100. Bag sizes stated: 220g, 500g, 1kg.",
+      "after": "معالجة مغسولة دون أكسجين كما تسميها المحمصة، على ارتفاع 1400–1650 متر. إيحاءات سكر بني ونكتارين وجوزة الطيب. تحميص متوسط للترشيح والإسبريسو، وتقييم المحمصة 87/100، بعبوات 220 و500 و1000 غ."
+    },
+    {
+      "table": "beans",
+      "id": "c466eb6d-9017-4d72-a4d1-aefe824c1c70",
+      "name": "Costa Rica Granitos - Ortiz 1800, Catuai, Yellow Honey",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Process stated as Yellow Honey. Roaster tasting notes: peach, marzipan, sultana. Medium roast, stated as suitable for filter and espresso. Harvest January to February. Roaster cupping score 86.5/100. Bag sizes stated: 220g, 500g, 1kg.",
+      "after": "معالجة عسلية صفراء، بإيحاءات خوخ ومرزبان وزبيب سلطاني. تحميص متوسط للترشيح والإسبريسو، وحصاد من يناير إلى فبراير. تقييم المحمصة 86.5/100، بعبوات 220 و500 و1000 غ."
+    },
+    {
+      "table": "beans",
+      "id": "8f2ca4cd-9c96-4d01-a2ae-f44101860380",
+      "name": "El Salvador Finca Argentina, Yellow Pacamara, Natural",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Roaster tasting notes: pear, miso caramel, bitter orange. Medium roast, stated as suitable for filter brewing. Roaster cupping score 87/100. Bag sizes stated: 220g, 500g, 1kg.",
+      "after": "إيحاءات إجاص وكراميل الميسو وبرتقال مر. تحميص متوسط موصى به للترشيح، وتقييم المحمصة 87/100، بعبوات 220 و500 و1000 غ."
+    },
+    {
+      "table": "beans",
+      "id": "8842eae8-c9d0-4d9d-94dd-3cc42c11b749",
+      "name": "Ethiopian Enaria",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Tasting notes per roaster: \"vibrant notes of black cherry, nectarine, and peach. Bright, balanced, and full of character.\" Sold in 250g and 500g (no single canonical bag size stated, so bag_weight_grams left null); fetch-time price AED 78.00 for 250g, not stored as a durable fact. Varietal, altitude and farm/producer not stated on the product page. name_ar is BeanMora's own transliteration, not sourced from the page.",
+      "after": "إيحاءات كرز أسود ونكتارين وخوخ، بكوب مشرق ومتوازن بحسب المحمصة. يتوفر بعبوات 250 و500 غ. لم تُنشر السلالة أو الارتفاع أو المزرعة والمنتج."
+    },
+    {
+      "table": "beans",
+      "id": "2c02ea17-b8d6-4d1d-8ee0-793981125713",
+      "name": "Uganda Elgon Anaerobic Natural",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Roaster-stated process: five-day anaerobic fermentation followed by slow sun-drying. Tasting notes per roaster: \"notes of dark chocolate, black cherry, and blackberry.\" Roaster reports a 90-point score and 1st place, Uganda National Taste of Harvest 2026 (Experimental Category) — recorded as a roaster claim, not independently verified by BeanMora. Sold in a single 250g bag (recorded); fetch-time price AED 92.00, not stored as a durable fact. Varietal, altitude and farm/producer not stated on the product page. name_ar is BeanMora's own transliteration, not sourced from the page.",
+      "after": "تخمير لاهوائي لمدة خمسة أيام يليه تجفيف شمسي بطيء. إيحاءات شوكولاتة داكنة وكرز أسود وتوت أسود. تعلن المحمصة تقييمًا من 90 نقطة ومركزًا أول بفئة تجريبية في مسابقة أوغندا لعام 2026؛ هذا ادعاء المصدر ولم يتحقق التطبيق منه مستقلًا. عبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "7989ebe3-b23a-4d20-8bd2-5308d4869dc8",
+      "name": "Ecuador Finca La Aurum - Auction Lot",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Auction lot won as part of the \"2026 Ecuador Farmer's Collection,\" where Windrose Coffee served as jury members (per the roaster's own product page). Tasting notes as stated: cherry, raspberry, strawberry, pineapple, honey; described as refined and fruity with complex red fruits and honey-like sweetness. Recommended for both espresso and filter. Sold in 250g bags, OMR 12.500 at fetch time. No roast_level stated.",
+      "after": "محصول مزاد من مجموعة مزارعي الإكوادور لعام 2026، بحسب محمصة ويندروز المشاركة في لجنة التذوق. إيحاءات كرز وتوت العليق وفراولة وأناناس وعسل. موصى به للإسبريسو والترشيح، بعبوة 250 غ، من دون درجة تحميص منشورة."
+    },
+    {
+      "table": "beans",
+      "id": "608f0dc6-e082-4105-a48f-6be71a912e6b",
+      "name": "Black Forest Blend",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "House blend from three origins (Brazil, Ethiopia, Guatemala), roasted for a sweet, chocolaty and fruity cup; used for espresso and milk-based drinks. Sold as 250g or 1 Kilo, 4.50-15.00 KWD depending on size. Marked \"Sold out\" on the live product page at time of fetch. name_ar is a phonetic transliteration, not confirmed from the roaster's own Arabic site (not fetched this run).",
+      "after": "خلطة من البرازيل وإثيوبيا وغواتيمالا بكوب حلو وإيحاءات شوكولاتة وفواكه. مخصصة للإسبريسو ومشروبات الحليب، بعبوات 250 و1000 غ."
+    },
+    {
+      "table": "beans",
+      "id": "6c900477-898b-46da-ba19-4d3c18ff52a2",
+      "name": "Colombia Geisha Marcela",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Anaerobic natural process lot from Fresno town, Tolima department, Colombia, grown at 1500 masl on the El Vergel estate. Geisha (Gesha) varietal, described by the roaster as one of the rarest and most precious Arabica varieties. Flavor notes: passion fruit, peach, tropical fruit. Recommended for filter coffee. 10.00 KWD, 250g. Marked \"Out of stock\" on the live product page at time of fetch. name_ar is a phonetic transliteration, not confirmed from source.",
+      "after": "غيشا من مزرعة إل فيرغيل في فريسنو، توليما، كولومبيا، بمعالجة طبيعية لاهوائية وعلى ارتفاع 1500 متر. إيحاءات باشن فروت وخوخ وفواكه استوائية. موصى به للترشيح، بعبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "ceb93a1a-0af8-4e04-a8b3-60c92ee7d3b2",
+      "name": "Ethiopia Hambella",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Natural process lot from the Hambella region of Ethiopia, grown at 1950 masl. Flavor notes: peach, berries, sweetness. Roasted for espresso, filter, and milk-based drinks. Sold as 250g or 1 Kilo, 5.00-18.25 KWD depending on size. name_ar is a phonetic transliteration, not confirmed from source.",
+      "after": "محصول طبيعي من هامبيلا بإثيوبيا، على ارتفاع 1950 متر. إيحاءات خوخ وتوت وحلاوة. مخصص للإسبريسو والترشيح ومشروبات الحليب، بعبوات 250 و1000 غ."
+    },
+    {
+      "table": "beans",
+      "id": "722d69fd-e014-4f60-8886-13d205a2a60e",
+      "name": "Ethiopia Aricha - Natural",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Natural-process Yirgacheffe. Fruity acidity, floral aroma, silky smooth body.",
+      "after": "يرقاشيف بمعالجة طبيعية، مع حموضة فاكهية ورائحة زهرية وقوام حريري ناعم."
+    },
+    {
+      "table": "beans",
+      "id": "bfad0a19-95a0-4e0c-ad15-e5c154cc439c",
+      "name": "Ethiopia - Guji",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-origin Ethiopian Guji coffee listed on thecoffeesheep.com's shop, priced BHD 5.50 at fetch time. Process, roast level, varietal and altitude are not stated on the shop listing and are left null rather than guessed.",
+      "after": "بن إثيوبي أحادي المنشأ من غوجي. لم تُنشر المعالجة أو درجة التحميص أو السلالة أو الارتفاع."
+    },
+    {
+      "table": "beans",
+      "id": "1d157986-8f1c-4aca-a2c8-2565706c151f",
+      "name": "Peru - Cajamarca",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-origin Peruvian coffee from the Cajamarca region, listed on thecoffeesheep.com's shop, priced BHD 6.70 at fetch time. Process, roast level, varietal and altitude are not stated on the shop listing and are left null rather than guessed.",
+      "after": "بن بيروفي أحادي المنشأ من كاخاماركا. لم تُنشر المعالجة أو درجة التحميص أو السلالة أو الارتفاع."
+    },
+    {
+      "table": "beans",
+      "id": "8cfefa25-4996-406d-b7e0-4e0a261ec81f",
+      "name": "Yemen - Kholani",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-origin Yemeni coffee listed on thecoffeesheep.com's shop as \"Yemen - Kholani\", priced BHD 5.00 at fetch time -- the same Khawlani/Kholani heirloom varietal as Jazean's Watad Mountain (also added this run), here from Yemen rather than Saudi Arabia. Process, roast level and altitude are not stated on the shop listing and are left null rather than guessed.",
+      "after": "بن يمني خولاني أحادي المنشأ. لم تُنشر المعالجة أو درجة التحميص أو الارتفاع."
+    },
+    {
+      "table": "beans",
+      "id": "0e0e6e24-f4f6-413e-bb91-5bdd5e17dde0",
+      "name": "Brazil Fazenda Samambaia",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Low-acidity lot with big body, chocolate and caramel.",
+      "after": "محصول منخفض الحموضة بقوام ممتلئ وإيحاءات شوكولاتة وكراميل."
+    },
+    {
+      "table": "beans",
+      "id": "6a2d5237-dde9-4fcc-ab7d-e5109b3c4bd9",
+      "name": "Colombia Arcila - Anaerobic Honey",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Anaerobic Honey process (site's own compound process label — see migration header). Grown at 1,650 masl. Tasting notes: peach, orange, hibiscus, chocolate. Recommended for espresso and filter. OMR 5.800, 250g bag. name_ar is a phonetic transliteration, not sourced.",
+      "after": "معالجة عسلية لاهوائية، على ارتفاع 1650 متر. إيحاءات خوخ وبرتقال وكركديه وشوكولاتة. موصى به للإسبريسو والترشيح، بعبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "8b336d45-fe93-434e-8faa-df2a3feb0aef",
+      "name": "Colombia Calderon - Anaerobic Natural",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Roaster states altitude as a range, \"1,550-1,700 MASL\" — not a single figure, so altitude_meters is left null rather than picking one end of the range (same convention as other range-stated lots in this catalog). Tasting notes as stated: passion fruit, red apple, grape, mango; long sweet finish. Recommended for espresso and filter. Sold in 250g bags, OMR 7.200 at fetch time. No roast_level stated.",
+      "after": "الارتفاع المعلن 1550–1700 متر. إيحاءات باشن فروت وتفاح أحمر وعنب ومانجو، مع نهاية حلوة ممتدة. موصى به للإسبريسو والترشيح، بعبوة 250 غ، من دون درجة تحميص منشورة."
+    },
+    {
+      "table": "beans",
+      "id": "081e9941-1213-48ae-ad8c-06910432ca24",
+      "name": "Dawn - Crafted Filter Blend",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "House blend crafted to bring brightness and sweetness to the morning cup; recommended for espresso and filter, best as filter coffee, hot or cold. Flavour notes: Tropical Fruit, Marzipan. 250g bag, 5.100 OMR at time of fetch.",
+      "after": "خلطة لكوب صباحي مشرق وحلو، بإيحاءات فواكه استوائية ومرزبان. موصى بها للإسبريسو والترشيح، وتبرز بالترشيح الساخن أو البارد. عبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "b7da40da-ef3f-4eb7-a1f9-e7edc69bfc3d",
+      "name": "Dusk - Crafted Espresso Blend",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "House espresso blend, described by the roaster as sweet, syrupy, and explosive as espresso or on milk; recommended for espresso. Flavour notes: Chocolate, Fruity, Syrupy Body. 250g bag, 5.100 OMR at time of fetch.",
+      "after": "خلطة إسبريسو حلوة بقوام كثيف بحسب المحمصة، مناسبة أيضًا لمشروبات الحليب. إيحاءات شوكولاتة وفواكه، وعبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "24201a74-12d3-412e-b555-8eee05547a8f",
+      "name": "Kenya Ruiruiru - Anaerobic Natural",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Anaerobic Natural process (site's own compound process label — see migration header). Elevation published as a 1,800-2,000 MASL range (not recorded in altitude_meters). Tasting notes: blackberry, apple, red grape. Recommended for espresso and filter. OMR 6.000, 250g bag. name_ar is a phonetic transliteration, not sourced.",
+      "after": "معالجة طبيعية لاهوائية، على ارتفاع 1800–2000 متر. إيحاءات توت أسود وتفاح وعنب أحمر. موصى به للإسبريسو والترشيح، بعبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "645eac25-cff1-4331-a129-2b5dc6a4aa40",
+      "name": "Midnight - Crafted Blend",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Blend. More syrupy body than the Dawn blend, big notes of dark fruit; recommended for espresso and filter, hot or cold. Tasting notes: dark fruit, sugar cane, cola. OMR 5.400 at time of fetch (267g bag per the site's own stated weight).",
+      "after": "خلطة بقوام أكثف من خلطة دون، وإيحاءات فواكه داكنة وقصب سكر وكولا. موصى بها للإسبريسو والترشيح الساخن أو البارد. وزن العبوة المعلن 267 غ."
+    },
+    {
+      "table": "beans",
+      "id": "caa0ae7c-61ba-4ad2-bb7c-fa87083c5d73",
+      "name": "Papua New Guinea Sigri Peaberry",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Peaberry lot from Sigri Estate, Wahgi Valley, shade-grown. Low acidity, sweet cup.",
+      "after": "محصول بيبيري من مزرعة سيغري في وادي واغي، مزروع في الظل. حموضة منخفضة وكوب حلو."
+    },
+    {
+      "table": "beans",
+      "id": "504103ad-9407-4281-b5fb-9bc48839fc8d",
+      "name": "Twilight - Crafted Blend",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Blend, medium roast. Recommended for espresso and Turkish coffee. Tasting notes: chocolate, caramel, molasses. OMR 4.600 at time of fetch (267g bag per the site's own stated weight).",
+      "after": "خلطة بتحميص متوسط، موصى بها للإسبريسو والقهوة التركية. إيحاءات شوكولاتة وكراميل ودبس. وزن العبوة المعلن 267 غ."
+    },
+    {
+      "table": "beans",
+      "id": "f70a61bf-f6e1-4499-a225-4aca9162ae1b",
+      "name": "Yemen Muhammad Zidan - Natural",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "From award-winning farmer Muhammad Zidan. Juicy texture, fruit notes with vanilla and star anise.",
+      "after": "من المزارع محمد زيدان، بإيحاءات فواكه وفانيلا ويانسون نجمي، وقوام عصيري بحسب المحمصة."
+    },
+    {
+      "table": "beans",
+      "id": "7ff8346e-067d-4bf7-ae5f-fd98986696d3",
+      "name": "Yemen Shai'an Hiwar - Natural",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "From Wadi Hiwar. Clean cup with complex fruit notes and a classic Yemeni spice-and-chocolate finish.",
+      "after": "من وادي حوار، بكوب واضح وإيحاءات فاكهة معقدة ونهاية توابل وشوكولاتة يمنية."
+    },
+    {
+      "table": "beans",
+      "id": "60633536-42a2-47fe-aaa4-0b57ecbd7b46",
+      "name": "Yemen Shai'an Hiwar - Peaberry",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Peaberry lot from Wadi Hiwar, Ibb. Elevation published as a 1,700-1,800 MASL range (not recorded in altitude_meters). Tasting notes: orange, kiwi, cinnamon, sugar cane. Recommended for espresso and filter. OMR 7.900, 250g bag. Distinct product/SKU from the already-catalogued \"Yemen Shai'an Hiwar - Natural\" (migration 27) — different process and price. name_ar is a phonetic transliteration, not sourced.",
+      "after": "محصول بيبيري من وادي حوار بإب، على ارتفاع 1700–1800 متر. إيحاءات برتقال وكيوي وقرفة وقصب سكر. موصى به للإسبريسو والترشيح، بعبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "d033447d-b45b-4a43-ab46-1e98cd074dfe",
+      "name": "Brazil",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-origin coffee from Brazil, described by the roaster as suited to \"Drip or Espresso.\" Process and roast level not stated on the shop listing.",
+      "after": "بن برازيلي أحادي المنشأ، تصفه المحمصة بأنه مناسب للتقطير أو الإسبريسو. لم تُنشر المعالجة أو درجة التحميص."
+    },
+    {
+      "table": "beans",
+      "id": "fb682f41-734a-4bd5-9a87-e16c0cbdb4a0",
+      "name": "Colombia Decaf Coffee",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Decaffeinated single-origin coffee from Colombia, described by the roaster as having \"the same health benefits and the same great taste... with less caffeine.\" Decaffeination method not stated on the shop listing.",
+      "after": "بن كولومبي أحادي المنشأ منزوع الكافيين. لم تُنشر طريقة إزالة الكافيين."
+    },
+    {
+      "table": "beans",
+      "id": "1ff611a4-e1a4-48f6-9f5f-889355fa150b",
+      "name": "El Salvador -- Gourmet",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-origin coffee from El Salvador, described by the roaster as suited to the \"dripping method.\" Process and roast level not stated on the shop listing.",
+      "after": "بن سلفادوري أحادي المنشأ، موصى به للتقطير. لم تُنشر المعالجة أو درجة التحميص."
+    },
+    {
+      "table": "beans",
+      "id": "30868992-2873-4042-9bf0-451c616aea76",
+      "name": "El Salvador -- Natural",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-origin coffee from El Salvador, described by the roaster as suited to \"Drip or Espresso.\" The product name states \"Natural\" as the process, taken directly from the product title.",
+      "after": "بن سلفادوري أحادي المنشأ بمعالجة طبيعية كما في اسم المنتج، وموصى به للتقطير أو الإسبريسو."
+    },
+    {
+      "table": "beans",
+      "id": "725f39a1-2709-434d-b5ff-5ab12ad1f7b2",
+      "name": "Ethiopia -- Guji",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Single-origin coffee from the Guji zone of Ethiopia, described by the roaster as \"best known for its rich, full body (mouthfeel).\" Process and roast level not stated on the shop listing.",
+      "after": "بن إثيوبي أحادي المنشأ من غوجي، تصفه المحمصة بقوام غني وممتلئ. لم تُنشر المعالجة أو درجة التحميص."
+    },
+    {
+      "table": "beans",
+      "id": "f8270341-8ff4-4f38-9335-3fc2df4a8f67",
+      "name": "Bani Ismail | Yemen",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Mixed berries, dates, cloves. Altitude published as a 1850-2250 MASL range (left out of the single-value altitude_meters column per this catalog's convention). Roaster-published tasting-profile bars: sweetness 5/5, aroma 4/5, acidity 4/5.",
+      "after": "إيحاءات توت مشكل وتمر وقرنفل، على ارتفاع 1850–2250 متر. درجات المحمصة المنشورة: الحلاوة 5/5، الرائحة 4/5، والحموضة 4/5."
+    },
+    {
+      "table": "beans",
+      "id": "a3c66b65-4330-4471-aea6-a4d4c888c92d",
+      "name": "Bossa Nova | Brazil",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Brazilian lot, Yellow Bourbon varietal, 1200m, natural process. Flavour notes: chocolate, almond, hazelnut. Page's third dot-metric labelled \"القوام\" (body) in Arabic but \"Aroma\" in English for the same product — not recorded (see migration header). 250g bag, 5.000 KWD at time of fetch.",
+      "after": "محصول برازيلي من بوربون الأصفر، بمعالجة طبيعية وعلى ارتفاع 1200 متر. إيحاءات شوكولاتة ولوز وبندق، بعبوة 250 غ. يوجد اختلاف في تسمية أحد مقاييس المصدر بين القوام والرائحة، لذلك لم يُعتمد هذا المقياس."
+    },
+    {
+      "table": "beans",
+      "id": "6b771104-0304-4ebd-8fed-f630d268160a",
+      "name": "Freddy Mellado | Peru",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Almond, toffee, stone fruits. Roaster-published tasting-profile bars: sweetness 4/5, aroma 3/5, acidity 4/5. Available grind options listed: whole bean, Turkish, espresso, Moka pot, V60, coarse pour-over, cold brew, French press.",
+      "after": "إيحاءات لوز وتوفي وفواكه ذات نواة. درجات المحمصة: الحلاوة 4/5، الرائحة 3/5، والحموضة 4/5. يتوفر حبوبًا كاملة أو مطحونًا لطرق تحضير متعددة."
+    },
+    {
+      "table": "beans",
+      "id": "7b8b9ea2-109c-4a2f-b256-134fedc5a607",
+      "name": "Guayata",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Colombian lot, Castillo/Caturra varietal, 1900m. Process left unrecorded: the product page states \"مغسولة\" (washed) in its Arabic block and \"Natural\" in its English block for the same product — a source self-contradiction, not resolved here (see migration header). Flavour notes: raisins, hazelnut, chocolate. 250g bag, 5.000 KWD at time of fetch.",
+      "after": "محصول كولومبي من كاستيو وكاتورا، على ارتفاع 1900 متر، بإيحاءات زبيب وبندق وشوكولاتة، وعبوة 250 غ. تختلف معالجة المصدر بين النص العربي المغسول والإنجليزي الطبيعي؛ لا نعتمد إحداهما حتى تتضح."
+    },
+    {
+      "table": "beans",
+      "id": "d2887ae7-d3f7-486b-b544-21d04ff0df54",
+      "name": "Los Colores | El Salvador",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "El Salvador lot, Bourbon/Pacas varietal. Altitude published as a 1300-1600m range (not recorded in altitude_meters — see migration header). Process stated as \"شبه مغسولة\" / \"Semi-Washed\" — mapped to 'other' rather than force-fit to washed. Flavour notes: orange, caramel, apple. Page's third dot-metric labelled \"القوام\" (body) in Arabic but \"Aroma\" in English for the same product — not recorded. 250g bag, 5.000 KWD at time of fetch.",
+      "after": "محصول سلفادوري من بوربون وباكاس، بمعالجة شبه مغسولة وعلى ارتفاع 1300–1600 متر. إيحاءات برتقال وكراميل وتفاح، بعبوة 250 غ. يوجد اختلاف في تسمية أحد مقاييس المصدر بين القوام والرائحة، لذلك لم يُعتمد."
+    },
+    {
+      "table": "beans",
+      "id": "f8bfde66-fcf1-4161-bdd5-c9832178034b",
+      "name": "Mameria Native Community | Peru",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Orange marmalade, floral, stone fruits. Sweetness 4/5, aroma 3/5, acidity 3/5 per the roaster's own published bars (aroma has no dedicated BeanMora column and is recorded here in text only). Sold out at fetch time; roast level and farm/producer not stated on the product page.",
+      "after": "إيحاءات مربى برتقال وزهور وفواكه ذات نواة. درجات المحمصة: الحلاوة 4/5، الرائحة 3/5، والحموضة 3/5. لم تُنشر درجة التحميص أو المزرعة والمنتج."
+    },
+    {
+      "table": "beans",
+      "id": "3baa9332-4708-426c-89eb-b20cf0ea877f",
+      "name": "SuperNatural Karibu",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Kenyan lot, SL28/SL34 varietal, roaster-labelled \"SuperNatural\" process (mapped to natural — see migration header). Altitude published as a 1650-1800m range (not recorded in altitude_meters — see migration header). Flavour notes: chocolate, mixed berries, stone fruits. 250g bag, 6.500 KWD at time of fetch.",
+      "after": "محصول كيني من SL28 وSL34، بمعالجة تسميها المحمصة سوبرناتشورال، على ارتفاع 1650–1800 متر. إيحاءات شوكولاتة وتوت مشكل وفواكه ذات نواة، بعبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "0b326ce4-f838-47af-827a-30aa42b38172",
+      "name": "Thageini Indigo | Kenya",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Roaster labels the process \"CMN\" (its own shorthand, described on-site as a natural process with carbonated fermentation) — recorded as 'other' rather than guessed into 'natural'/'anaerobic'. Mixed berries, grapes, chocolate. Altitude published as a 1650-2050 MASL range (left out of altitude_meters). Roaster-published tasting-profile bars: sweetness 4/5, aroma 4/5, acidity 3/5. Listed as sold out at time of fetch (stock status only, not a product fact).",
+      "after": "معالجة CMN، تصفها المحمصة بأنها طبيعية بتخمير كربوني. إيحاءات توت مشكل وعنب وشوكولاتة، على ارتفاع 1650–2050 متر. درجات المحمصة: الحلاوة 4/5، الرائحة 4/5، والحموضة 3/5."
+    },
+    {
+      "table": "beans",
+      "id": "4384608f-ddd0-4919-956c-7e22371171f2",
+      "name": "Tropical Canopy | Ethiopia",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Raspberry, yellow plum, chamomile, chocolate. Sweetness 4/5, aroma 3/5, acidity 4/5 per the roaster's own published bars (aroma has no dedicated BeanMora column and is recorded here in text only). Altitude published as a 1800-2150 MASL range, left out of the single-value altitude_meters column per convention. Roast level and farm/producer not stated on the product page.",
+      "after": "إيحاءات توت العليق وبرقوق أصفر وبابونج وشوكولاتة. درجات المحمصة: الحلاوة 4/5، الرائحة 3/5، والحموضة 4/5. الارتفاع 1800–2150 متر، ولم تُنشر درجة التحميص أو المزرعة والمنتج."
+    },
+    {
+      "table": "beans",
+      "id": "8574ec7f-2dba-4159-8d99-7a102d35a91d",
+      "name": "Yirgacheffe Chelchele",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Ethiopian Yirgacheffe, heirloom varietal, natural process. Altitude published as a 1200-3200m range (not recorded in altitude_meters — see migration header). Flavour notes: berries jam, peach, milk chocolate, floral. Sold as whole bean or ground to order (Turkish, espresso, moka pot, V60, coarse pour-over, cold brew, French press); 250g bag, 6.000 KWD at time of fetch.",
+      "after": "يرقاشيف إثيوبي من سلالات محلية، بمعالجة طبيعية. الارتفاع المعلن 1200–3200 متر. إيحاءات مربى توت وخوخ وشوكولاتة بالحليب وزهور. يتوفر حبوبًا كاملة أو مطحونًا حسب الطلب، بعبوة 250 غ."
+    },
+    {
+      "table": "beans",
+      "id": "0572cf80-9e66-42e4-8c7c-042c83bea9f2",
+      "name": "Ethiopia Daye Bensa Hamasho Natural",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Natural-processed Ethiopian lot from smallholder farmer Asefa Dukamo, Hamasho Village, Sidama Bensa (Archers Lot 0126), varietal 74158. Roaster states altitude as \"2,230-2,300 masl\" — a range, so altitude_meters is left null rather than picking one end. Tasting notes as stated: peach, cantaloupe, lychee, white grapes, mandarine. Recommended for filter and espresso; no single light/medium/dark roast word given, only a roast-intensity bar, so roast_level is left null. Sold in 100g/200g/1kg bags with no single canonical size, so bag_weight_grams is left null; 100g listed at 38.00 AED at fetch time (2026-09-26).",
+      "after": "محصول طبيعي من المزارع أسيفا دوكامو في قرية هاماشو، سيداما بينسا، من سلالة 74158، ومحصول آرتشرز 0126. الارتفاع 2230–2300 متر. إيحاءات خوخ وشمام وليتشي وعنب أبيض ويوسفي. موصى به للترشيح والإسبريسو، بعبوات 100 و200 و1000 غ."
+    },
+    {
+      "table": "beans",
+      "id": "c6a39dd3-109d-474a-a96e-9f0fb5c10e0c",
+      "name": "Ethiopia Rumudamo Anaerobic",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Natural anaerobic Ethiopian lot from smallholder farmer Asefa Dukamo at Rumudamo Station, Arbegona, Sidama Bensa (Mini Archers Lot 0102-26), varietal 74158. Roaster states altitude as \"2,300-2,400 masl\" — a range, so altitude_meters is left null rather than picking one end. Processing stated as \"Natural Anaerobic,\" mapped to this catalog's anaerobic value. Tasting notes as stated: strawberry, peach iced tea, mango, pineapple, red grapes. Recommended for filter and espresso; no single light/medium/dark roast word given, only a roast-intensity bar, so roast_level is left null. Sold in 100g/200g/1kg bags with no single canonical size, so bag_weight_grams is left null; 200g listed at 110.00 AED at fetch time (2026-09-26).",
+      "after": "محصول طبيعي لاهوائي من أسيفا دوكامو في محطة رومودامو، آربيغونا، سيداما بينسا، من سلالة 74158، ومحصول ميني آرتشرز 0102-26. الارتفاع 2300–2400 متر. إيحاءات فراولة وشاي خوخ مثلج ومانجو وأناناس وعنب أحمر. موصى به للترشيح والإسبريسو، بعبوات 100 و200 و1000 غ."
+    },
+    {
+      "table": "beans",
+      "id": "3ea7eceb-2c8f-4ffa-b60c-c88570540d47",
+      "name": "Panama Janson Family Hacienda",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Geisha varietal from the Janson Family's Hacienda Cafetalera S.A., Volcán, Tierras Altas, Chiriquí, Panama (Lot 26-127), stated altitude 1,350 masl. Processing stated as \"Natural Anaerobic,\" mapped to this catalog's anaerobic value. Tasting notes as stated: red grapes, mango, peach, mandarine, lychee, winegum. Recommended for filter and espresso; no single light/medium/dark roast word given, so roast_level is left null. Sold in 100g/200g/1kg bags with no single canonical size, so bag_weight_grams is left null; base price 270.00 AED at fetch time (2026-09-26).",
+      "after": "غيشا من مزرعة عائلة جانسون في فولكان، تييراس ألتاس، تشيريكي، بنما، ومحصول 26-127. الارتفاع 1350 متر، والمعالجة طبيعية لاهوائية. إيحاءات عنب أحمر ومانجو وخوخ ويوسفي وليتشي وحلوى فاكهة. موصى به للترشيح والإسبريسو، بعبوات 100 و200 و1000 غ."
+    },
+    {
+      "table": "beans",
+      "id": "0ec28062-0301-422d-8164-8d1fe177e483",
+      "name": "Buenos Dias",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Blend/lot with no stated origin, varietal, altitude or process on its own product page. Flavour notes: nutty, chocolate, raspberry. Sweetness/Body/Acidity dot-metrics agree between the Arabic and English blocks on this product (no label mismatch here). 250g bag, 5.000 KWD at time of fetch.",
+      "after": "إيحاءات مكسرات وشوكولاتة وتوت العليق، بعبوة 250 غ. تتفق تسميات مقاييس الحلاوة والقوام والحموضة في نسختي المصدر. لم يُحدد المنشأ أو السلالة أو الارتفاع أو المعالجة."
+    },
+    {
+      "table": "roasters",
+      "id": "6e5676b2-97e8-4331-9f8a-ab55b63c2ccc",
+      "name": "ORU Roasters",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Kuwait-based specialty coffee roastery, roasting since 2018. Sources and roasts single-origin and signature blend beans, with a Shuwaikh roastery/original branch plus three additional Kuwait City-area locations.",
+      "after": "محمصة قهوة مختصة كويتية بدأت التحميص عام 2018، وتقدم محاصيل أحادية المنشأ وخلطاتها الخاصة، مع محمصة وفرع أصلي في الشويخ وفروع أخرى في الكويت."
+    },
+    {
+      "table": "roasters",
+      "id": "7ac12d12-ee3e-4e52-8988-e8f495bb5f40",
+      "name": "48 East Coffee Roasters",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Kuwait coffee roaster and multi-brand equipment retailer sourcing, roasting, and distributing specialty coffee to individuals and businesses; also runs in-person barista/latte-art/filter courses at its Shuwaikh Industrial roastery.",
+      "after": "محمصة كويتية ومورّد للقهوة المختصة ومعدات من علامات متعددة للأفراد والأعمال، وتقدم دورات حضورية للباريستا وفن الحليب والترشيح في محمصة الشويخ الصناعية."
+    },
+    {
+      "table": "roasters",
+      "id": "c4ace273-10a8-4cb1-94b0-c487388b3ea1",
+      "name": "Roots Roastery",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Kuwait specialty coffee roaster offering single-origin beans from origins including Ethiopia, Colombia, and Yemen, with online ordering and a Shuwaikh Industrial shop.",
+      "after": "محمصة كويتية للقهوة المختصة تقدم محاصيل من إثيوبيا وكولومبيا واليمن وغيرها، مع طلب إلكتروني ومتجر في الشويخ الصناعية."
+    },
+    {
+      "table": "roasters",
+      "id": "d8bc8dc4-ec9a-402a-ba3d-1c83ad88870c",
+      "name": "GREY",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Specialty coffee roaster based in Doha, Qatar, established 2020. Cafes in Al Wakra and Gewan Island; roasts and ships single-origin filter and espresso coffee across Qatar and the GCC, and publishes a per-bean V60 brew recipe with every product.",
+      "after": "محمصة قهوة مختصة في الدوحة، تأسست عام 2020، ولها مقاهٍ في الوكرة وجزيرة جيوان. تقدم بنًا للترشيح والإسبريسو وتشحن إلى قطر والخليج، وتنشر وصفات V60 لمحاصيلها."
+    },
+    {
+      "table": "roasters",
+      "id": "882c01ce-086c-4f93-8235-bf9e49a6e0dc",
+      "name": "Gold Box Roastery",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Specialty coffee roaster with a UK head office and a Dubai, UAE location (Al Quoz Industrial). Brewer's Cup baristas and licensed Q-graders on staff; sells single-origin and blended coffee plus espresso machines and grinders.",
+      "after": "محمصة قهوة مختصة بمقر رئيسي في المملكة المتحدة وموقع في القوز بدبي، تقدم محاصيل أحادية المنشأ وخلطات، إلى جانب ماكينات الإسبريسو والطواحين، وتضم مختصي تذوق وباريستا."
+    },
+    {
+      "table": "roasters",
+      "id": "5492b827-d06a-412b-945a-c5b7571fe4bb",
+      "name": "Windrose Coffee",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Oman's first specialty coffee roastery, founded 2012, one of the first in the Gulf. Retail cafe plus wholesale roasting for cafes and restaurants across Oman.",
+      "after": "محمصة قهوة مختصة عُمانية تأسست عام 2012، وتقدم التحميص بالجملة للمقاهي والمطاعم، إلى جانب مقهى ومتجر تجزئة."
+    },
+    {
+      "table": "roasters",
+      "id": "2afdd3c4-2e39-4efc-bcce-76d912ee005f",
+      "name": "Bahrain Roastery",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Bahrain-based coffee roastery selling a large catalogue of whole-bean blends, single origins, and flavored coffees, plus wood-fired roasted lines.",
+      "after": "محمصة بحرينية تقدم حبوبًا كاملة وخلطات ومحاصيل أحادية المنشأ وقهوة منكهة، إلى جانب مجموعات تحميص على الخشب."
+    },
+    {
+      "table": "roasters",
+      "id": "7738b7df-cef3-42ed-b8da-762a1c5f4b59",
+      "name": "Earth Roastery",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Kuwaiti specialty roaster. Per its own site, started in 2014 as a micro-roaster by founder Ali Al-Fahad, who began with a home roaster before growing into a full roastery. Sells single-origin whole beans (each lot also offered as 5-sachet drip packs and capsules), brewing tools, and equipment through its Shopify store; offers barista training, wholesale coffee supply, machines, and consultation. Site footer lists Branches and Franchise pages (links were placeholders at fetch time, so has_physical_store is left unset). Direct-trade sourcing is stated on the homepage.",
+      "after": "محمصة كويتية بدأت عام 2014 بمبادرة علي الفهد، من التحميص المنزلي إلى محمصة متكاملة. تقدم محاصيل وحبوبًا وأكياس تقطير وكبسولات وأدوات، مع تدريب باريستا وتوريد قهوة ومعدات واستشارات، وتذكر الشراء المباشر ضمن نهجها."
+    },
+    {
+      "table": "roasters",
+      "id": "68ec359d-d64b-4f48-b8fb-3e9697055155",
+      "name": "Doha Roastery",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Specialty coffee roastery in Doha, Qatar, founded 2017 by Qatari owners Eisa and Aryam Al-Romaihi. Roasts daily and operates 5+ branches; sells single-origin beans, blends, decaf, Nespresso-compatible capsules, drip bags, plain Qatari coffee (gahwa), and brewing tools, plus a wholesale program for cafes/hotels/businesses.",
+      "after": "محمصة قطرية تأسست في الدوحة عام 2017 على يد عيسى وأريام الرميحي. تقدم محاصيل وخلطات وقهوة منزوعة الكافيين وكبسولات وأكياس تقطير وقهوة قطرية وأدوات، مع فروع وبرنامج توريد للمقاهي والفنادق والأعمال."
+    },
+    {
+      "table": "roasters",
+      "id": "78ee8e93-55b1-4dcb-9907-774f050ba032",
+      "name": "80+ Speciality Coffee Roastery",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Bahraini specialty coffee roastery (\"Eighty Plus Speciality Coffee Roastery W.L.L\", CR#165007), SCA member, based in Tubli. Sources and roasts single-origin lots organized by cupping score band (Admission / Mild Aroma / High Scoring / 90+) and by roast intent (Filter / Omni / Espresso). Offers B2B wholesale supply for cafes.",
+      "after": "محمصة قهوة مختصة بحرينية في توبلي، تعرض محاصيلها بحسب نطاقات تقييم التذوق واستخدام التحميص للترشيح أو الإسبريسو أو الاستخدام المتعدد، وتقدم توريدًا للمقاهي."
+    },
+    {
+      "table": "roasters",
+      "id": "3935d665-aa0f-4e01-8274-4fd09254c30e",
+      "name": "Medd Cafe and Roastery",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Saudi roastery based in Jeddah since 2015, specializing in roasting specialty coffee to international standards, sourcing crops from farms around the world. Sells coffee beans (including a dedicated \"Saudi coffee\" line), drip coffee, espresso, tea, and brewing tools; runs a wholesale program and has multiple physical branches. VAT registration 311463986100003.",
+      "after": "محمصة سعودية في جدة منذ عام 2015، تستورد محاصيل من مزارع مختلفة وتقدم بنًا مختصًا وقهوة سعودية وأكياس تقطير وشايًا وأدوات، مع فروع وبرنامج توريد بالجملة."
+    },
+    {
+      "table": "roasters",
+      "id": "89ec4bcb-5729-4b27-864e-12b0e9dd08f1",
+      "name": "Jeed Roastery",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Saudi specialty coffee roastery and online store (\"Jeed premium coffee\"). Product category tree confirms Ethiopian and Costa Rican single-origin crop lines, a \"Mufawah\" Saudi-coffee line, and a premium 125g crops line. VAT registration 310250883400003.",
+      "after": "محمصة ومتجر سعودي للقهوة المختصة، يقدم محاصيل إثيوبية وكوستاريكية، ومجموعة للقهوة السعودية ومحاصيل مميزة بعبوات 125 غ."
+    },
+    {
+      "table": "roasters",
+      "id": "86cc2f9f-d233-44bb-af35-2a74d4e30afd",
+      "name": "Black Knight Roastery",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Saudi specialty coffee roaster and online store, sourcing Brazilian, Ethiopian, and Yemeni coffee; states a self-imposed policy of never importing or roasting beans scored below 86 (SCA-style cupping scale, roaster's own claim). Product category tree confirms a \"Coffee Crops\" line with a dedicated \"Saudi Coffee\" sub-category, 250g/1000g crop sizes, and cascara (coffee cherry tea).",
+      "after": "محمصة ومتجر سعودي يقدم بنًا من البرازيل وإثيوبيا واليمن، مع مجموعة محاصيل وقهوة سعودية وقشر القهوة. تذكر الشركة أنها تختار محاصيل بتقييم 86 نقطة أو أعلى؛ هذا معيار معلن منها."
+    },
+    {
+      "table": "roasters",
+      "id": "c4dd7787-0c6e-4be2-b6e3-618598090873",
+      "name": "Camel Step Coffee Roasters",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Saudi specialty coffee company (Camel Step Co. LTD, commercial registration 1010412094), established 2014, headquartered in Riyadh. Sells freshly roasted specialty coffee beans, brewing equipment, tools, and accessories online, and operates physical cafés across Saudi Arabia. Category tree confirms Coffee, Equipment (coffee machines, electric grinders), Tools (filters, brewing tools, cleaning tools), Spare Parts, and Accessories lines.",
+      "after": "شركة سعودية للقهوة المختصة تأسست عام 2014 ومقرها الرياض، تقدم حبوبًا ومعدات وأدوات وفلاتر وملحقات وقطع غيار عبر متجرها، وتشغّل مقاهي في السعودية."
+    },
+    {
+      "table": "roasters",
+      "id": "bc18a667-ccc5-4514-bdac-95b1ca2abe97",
+      "name": "42 Coffee Roasters",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Specialty coffee roasting company based in Abu Dhabi, UAE, with an additional location in Dubai, UAE (and a Baku, Azerbaijan location). Roasts its own 86+ grade, 100% Arabica beans grown above 1,000m; sells whole bean coffee, drip bags, capsules and equipment via an integrated online shop, plus a wholesale program.",
+      "after": "محمصة قهوة مختصة في أبوظبي، مع مواقع إضافية في دبي وباكو. تقدم حبوب أرابيكا وأكياس تقطير وكبسولات ومعدات وبرنامج توريد، وتذكر تقييم 86 نقطة أو أعلى ضمن اختيارها للمحاصيل."
+    },
+    {
+      "table": "roasters",
+      "id": "f49eb5b4-c2bc-4b0f-bd56-1405834e135a",
+      "name": "Archers Coffee",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "UAE-based higher-end specialty coffee roaster and green-bean trader, operating a Shopify storefront with international distribution across the Middle East, Europe and Asia. Sources single-origin lots from Ethiopia (Daye Bensa, Rumudamo, Elto, Oboleyan), Panama (including Hacienda La Esmeralda and Finca Lerida), Yemen nano-lots, Kenya, Burundi, Guatemala, Indonesia, Brazil and El Salvador. Also runs a CQI/SCA-affiliated coffee academy and wholesale green/roasted coffee supply.",
+      "after": "محمصة إماراتية ومورّد للبن الأخضر والمحمص، يقدم محاصيل من مناشئ متعددة وتوزيعًا دوليًا، مع أكاديمية لتعليم القهوة وتوريد للمقاهي والأعمال."
+    },
+    {
+      "table": "roasters",
+      "id": "0941a372-c6ce-4a1b-bffa-6ed7b45d6261",
+      "name": "Haute Coffee Roasters",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Specialty coffee roastery based in Abu Dhabi and Dubai, UAE, describing small-batch, closely-monitored artisanal roasting. Sells filter and premium espresso coffee collections plus subscriptions via its online shop, with eco-friendly packaging and a wholesale program. Bean origins featured on the site include Brazil, Colombian Supremo, El Salvador, Ethiopia (Chelchele, Benesa Sidamo), Papua New Guinea, Rwanda Karisimbi and Costa Rica.",
+      "after": "محمصة في أبوظبي ودبي تركز على الدفعات الصغيرة، وتقدم مجموعات للترشيح والإسبريسو والاشتراكات والتوريد، مع محاصيل من البرازيل وكولومبيا وإثيوبيا وكوستاريكا وغيرها."
+    },
+    {
+      "table": "roasters",
+      "id": "def9ece4-ad7c-4aeb-a6e9-b704a30eab05",
+      "name": "Friedhats Coffee Roasters",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Amsterdam-based specialty coffee roastery (\"a micro roastery based in Amsterdam, sourcing and roasting the best, most interesting coffee we can find\"), operating the Friedhats Fuku Cafe at its Bos en Lommerweg roastery address and a wholesale program for cafes, restaurants and offices.",
+      "after": "محمصة صغيرة للقهوة المختصة في أمستردام، تدير مقهى فوكو في موقع المحمصة، وتورد للمقاهي والمطاعم والمكاتب."
+    },
+    {
+      "table": "roasters",
+      "id": "a009d523-d512-47cf-83e3-15eac3d740cb",
+      "name": "Nomad Coffee",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Barcelona specialty coffee roaster and B Corp running multiple Nomad Cafe locations plus the Frutas Selectas cafe in the Poblenou district, its own Coffee Academy for barista training, an events/catering arm, and a \"Nomad at home\" subscription; ships free to Spain/Portugal over 30 EUR and to the rest of Europe over 80 EUR.",
+      "after": "محمصة قهوة مختصة في برشلونة، مع مقاهٍ وأكاديمية تدريب وخدمة فعاليات واشتراكات قهوة منزلية، وتوزيع داخل إسبانيا وخارجها."
+    },
+    {
+      "table": "roasters",
+      "id": "33e0f189-4b9c-4a3f-b094-557fc015b924",
+      "name": "THE BARN Coffee Roasters",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Berlin-founded specialty coffee roaster describing itself as \"one of the leading Specialty Coffee Roasters in Europe,\" with cafes in Berlin, Munich and Seoul, a monthly seasonal single-origin subscription, and three core coffees (Atlas from Guatemala, Elemental from Brazil, Genesis from Ethiopia) confirmed on its own site.",
+      "after": "محمصة قهوة مختصة تأسست في برلين، مع مقاهٍ في برلين وميونخ وسيول واشتراك شهري لمحاصيل موسمية. تقدم مجموعات أساسية من غواتيمالا والبرازيل وإثيوبيا."
+    },
+    {
+      "table": "roasters",
+      "id": "a7d4971e-187b-48bb-b907-f73ebc0e22da",
+      "name": "Roastado Specialty Coffee",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Qatar-based specialty coffee retailer and roastery, trading online as \"Roastado Specialty Coffee\" (tagline: \"Town's Finest Coffee\"). Sells specialty coffee beans, brewing equipment and accessories to retail customers, and separately runs a wholesale platform supplying hotels and cafes in Qatar.",
+      "after": "محمصة ومتجر قطري للقهوة المختصة، يقدم حبوبًا ومعدات وملحقات للتجزئة، مع منصة توريد للفنادق والمقاهي في قطر."
+    },
+    {
+      "table": "roasters",
+      "id": "e544e2da-0109-4952-ab84-a69afaa219bc",
+      "name": "Vulcan Coffee Roastery",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Specialty coffee roastery established in Al Wukair, Doha, Qatar, positioned by its own site as supporting \"local production at the heart of the Arabian Peninsula, where coffee trading originated.\" Sells specialty coffee including a competition-grade \"Treasury Series\" line, capsules, instant coffee and drip bags, plus espresso machines, roasting equipment and used-machinery sales; also runs a coffee training academy (Vulcan Academy).",
+      "after": "محمصة قهوة مختصة في الوكير بقطر، تقدم محاصيل وكبسولات وأكياس تقطير وقهوة فورية، إلى جانب ماكينات ومعدات تحميص وأكاديمية لتعليم القهوة."
+    },
+    {
+      "table": "roasters",
+      "id": "7a50c6c2-426d-4a6f-8bf5-48f4eb935975",
+      "name": "Wings Coffee Doha",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Doha, Qatar specialty coffee roastery trading as \"Wings Coffee Roasters\" (WCR), founded by a group of aviation and engineering professionals. Sources and roasts small-batch specialty coffee (cupping scores stated as 84+ to 90+, origins including Brazil, Rwanda and Panama) under an SCA-certified roast master. Has a retail shop at Al Bidda Park, Doha.",
+      "after": "محمصة قهوة مختصة في الدوحة أسسها مهنيون من الطيران والهندسة، وتقدم محاصيل محمصة على دفعات صغيرة من البرازيل ورواندا وبنما وغيرها، ولها متجر في حديقة البدع."
+    },
+    {
+      "table": "roasters",
+      "id": "60931e33-d8ca-4480-9150-9e09dfdc0e6a",
+      "name": "Jazean",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Saudi specialty coffee brand launched May 2022 by the Saudi Coffee Company, a Public Investment Fund (PIF) initiative committed to developing the domestic Saudi coffee value chain \"from seed to cup\" (stated SAR 1.2 billion investment over 10 years). Sells single-origin and blended coffees named after mountains in the Jazan region of southwestern Saudi Arabia, several using Saudi-grown beans (some blended with beans from Ethiopia or Costa Rica). Operates a DQ Cafe & Experience Center in Riyadh's Diplomatic Quarter. name_ar is BeanMora's own phonetic transliteration -- not confirmed from an Arabic-language page.",
+      "after": "علامة قهوة سعودية أطلقتها الشركة السعودية للقهوة عام 2022 لتطوير القهوة المحلية من الزراعة إلى الكوب. تقدم محاصيل وخلطات تحمل أسماء جبال جازان، وبعضها يضم بنًا سعوديًا، مع مقهى ومركز تجربة في الحي الدبلوماسي بالرياض."
+    },
+    {
+      "table": "roasters",
+      "id": "c596b6bd-cbad-4a7b-bcc0-f00b223a19ce",
+      "name": "The Coffeesheep Roastery",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Specialty coffee roastery based in Manama, Bahrain (\"Roasted With Precision\"). Self-described as \"Bahrain's premier coffee roastery\", sourcing single-origin beans from multiple countries (Colombia, Ethiopia, Peru, Costa Rica, Uganda, El Salvador, Yemen, China, Vietnam, Brazil) alongside an Italian espresso blend. Sold by weight in 250g and 1kg options via its own online shop. name_ar is BeanMora's own phonetic transliteration of the brand name as printed in its own Instagram handle (@COFFEESHEEP.BH) -- the fetched page had no Arabic content to confirm against.",
+      "after": "محمصة قهوة مختصة في المنامة تقدم محاصيل أحادية المنشأ من دول متعددة وخلطة إسبريسو إيطالية، عبر متجرها بعبوات 250 و1000 غ."
+    },
+    {
+      "table": "roasters",
+      "id": "97d2e1cb-c0ba-441e-8280-ad3da8d65c10",
+      "name": "CAFINTO",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Omani specialty coffee roastery/brand selling nine 250g \"Speciality Blend\" espresso-line products (Mystery, Wild Arabian, Desert, Old lady, Darkness, Bright Eye, Shepherd, Wilderness, El kaif), each with a printed OMR price. General sourcing regions mentioned (not tied to individual products): Ethiopia, Brazil, Colombia, Yemen, Kenya, Guatemala. Phone +968 7198 8408 stated on-site. No specific physical store address was found on the fetched page this run (an earlier researcher's note claimed a footer address, but this run could not independently confirm it, so has_physical_store is left null). name_ar is BeanMora's own phonetic transliteration, not confirmed against the site's own Arabic branding this run.",
+      "after": "علامة ومحمصة قهوة عُمانية تقدم خلطات للإسبريسو بعبوات 250 غ. تذكر مناشئ عامة تشمل إثيوبيا والبرازيل وكولومبيا واليمن وكينيا وغواتيمالا، من دون ربط كل خلطة بمنشأ محدد."
+    },
+    {
+      "table": "roasters",
+      "id": "5bca67ab-2767-4fbc-aaf9-ae54e830734c",
+      "name": "A'dalla Secrets",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Omani family-run coffee roastery based in Al Ghubra, Muscat. Founded 2007 by the late Masoud Mohamed Hamid Al Harthi, starting with green beans from Rwanda; still family-operated, now sources beans \"from around the world.\" Products distributed through major retail chains across Oman rather than a confirmed own storefront (has_physical_store left null). Product lines per own site: single-origin coffee beans, specialty coffee beans, ground Arabica, Turkish coffee, Omani coffee, instant coffee, plus a sweetener/sugar line. No individual bean/product page was reachable this run to add specific bean rows. name_ar is BeanMora's own phonetic transliteration, not sourced from the site (English-only site, no confirmed Arabic branding found).",
+      "after": "محمصة عائلية في الغبرة بمسقط تأسست عام 2007 على يد مسعود محمد حمد الحارثي. توزع منتجاتها عبر متاجر عُمانية وتقدم حبوبًا أحادية المنشأ وقهوة مختصة وتركية وعُمانية وفورية ومطحونة."
+    },
+    {
+      "table": "roasters",
+      "id": "814315d3-ccdd-424f-89eb-c6da674d401a",
+      "name": "RAW Coffee Company",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Specialty Arabica coffee roaster in Dubai, UAE, founded 2007 by Kim Thompson (Matt Toogood joined shortly after as an equal 50% partner). Roasts on-site at its own Al Quoz warehouse; emphasises direct-trade, ethically-sourced Arabica and runs SCA-aligned training. Café open daily. name_ar is a plain phonetic transliteration of the Latin brand name, not confirmed from the fetched page.",
+      "after": "محمصة أرابيكا مختصة في دبي تأسست عام 2007، وتحمص في مقرها بالقوز. تركز على الشراء المباشر وتقدم تدريبًا في القهوة، مع مقهى في الموقع."
+    },
+    {
+      "table": "roasters",
+      "id": "90786ee1-15d1-416b-adbe-b0a5c916fbea",
+      "name": "Julith Coffee Roastery",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Specialty coffee roastery, brew lounge and concept store in Dubai, UAE (Al Quoz Industrial). Head Coffee Roaster Serkan Sağsöz (Turkish Barista Champion). Sources Panama Geisha, Colombian single-origin (e.g. Finca Zarza) and Indonesian coffees; offers espresso, pour-over, drip-bag and capsule formats. name_ar is a plain phonetic transliteration of the Latin brand name, not confirmed from the fetched page.",
+      "after": "محمصة وصالة تحضير ومتجر في القوز بدبي، تقدم محاصيل من بنما وكولومبيا وإندونيسيا بصيغ إسبريسو وترشيح وأكياس تقطير وكبسولات."
+    },
+    {
+      "table": "roasters",
+      "id": "23f7890d-6260-47fc-b5cd-b0fa849a957a",
+      "name": "Black22 Coffee Bar & Roastery",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Self-described \"first micro-roaster in Bahrain\", styled as a specialty coffee bar with multiple locations (incl. Riffa). Runs \"Black Academy\" SCA-aligned training programmes and hosted the World AeroPress Championship 2026. Online shop (\"Shop 22\") was showing \"Opening Shortly\" at time of discovery, so no product catalogue is recorded yet. name_ar is a plain phonetic transliteration of the Latin brand name, not confirmed from the fetched page.",
+      "after": "مقهى ومحمصة صغيرة بحرينية لها مواقع متعددة، ومنها الرفاع، وتقدم برامج تدريب في القهوة من خلال بلاك أكاديمي."
+    },
+    {
+      "table": "roasters",
+      "id": "68da6957-38e1-44ee-bdf8-715f0efc50b7",
+      "name": "Crossbridge Coffee",
+      "field": "description_ar",
+      "before": null,
+      "source_field": "description_en",
+      "source_before": "Coffee roaster/supplier based at Crossbridge Trading, Seeb, Muscat Governorate, Oman -- roasted locally in partnership with the already-catalogued Windrose Coffee. Sells specialty and conventional beans plus barista tools/brewing accessories in sizes from 250g retail up to wholesale, serving cafes, bakeries, offices and home brewers. States sourcing from Colombia, Costa Rica, Ethiopia, Rwanda, Kenya and Yemen. Phone +968 91106344, email crossbridgeoman@gmail.com stated on-site. Instagram handle noted on the official site (not fetched -- Instagram is a blocked platform per project policy). name_ar is BeanMora's own phonetic transliteration, not sourced.",
+      "after": "محمصة ومورّد في السيب بمحافظة مسقط، يحمص محليًا بالشراكة مع ويندروز. يقدم بنًا مختصًا وتقليديًا وأدوات تحضير من التجزئة إلى التوريد للمقاهي والمخابز والمكاتب والمنازل."
+    },
+    {
+      "table": "recipes",
+      "id": "6bbdef1b-344a-46ea-841b-44a5069bcca4",
+      "field": "notes_ar",
+      "before": null,
+      "source_field": "notes",
+      "source_before": "Dose, grind number and the three pour totals are published exactly as stated on the roaster's product page (Ratio 1:15, Dose 18g, Grind 14.5 EK, pours to 58ml/158ml/170ml cumulative, TDS 1.4, Time 2:02). The page's \"1:15\" ratio label implies roughly 270g of water for an 18g dose, but its own final pour figure is only 170ml (roughly 1:9.4) — the same size and shape of mismatch already flagged on GREY's Rivense La Guaca recipe (migration 30). Recorded exactly as published, not corrected or reconciled; flagged here for a moderator to check against GREY directly rather than assumed to be a site typo. Water temperature is not published for this recipe and is left blank. Individual pour start times are not published (only the 2:02 total) — the per-pour start times stored here are BeanMora's own linear-interpolation estimate across that total, not a roaster-confirmed timestamp.",
+      "after": "تنشر المحمصة جرعة 18 غ وطحنة 14.5 على EK ونسبة 1:15، مع أهداف صب تراكمية 58 و158 و170 مل، ووقت إجمالي 2:02 وقراءة TDS مقدارها 1.4. لا تتفق كمية الماء الأخيرة مع النسبة المنشورة؛ احتُفظ بالقيم كما هي. لم تُنشر حرارة الماء أو أوقات بدء الصبّات؛ راجع المصدر قبل اعتماد الخطة."
+    },
+    {
+      "table": "recipes",
+      "id": "d6a8c1dd-04ce-4b50-b8c5-11204cb41b32",
+      "field": "notes_ar",
+      "before": null,
+      "source_field": "notes",
+      "source_before": "Proud Mary's published V60 method: 15 g coffee, 250 ml water, stated ratio 1:17, water \"at or just off of the boil\" (no numeric temperature published, so water_temp_c is null). Bloom 50 ml over 0:00-0:30 with agitation, then the remaining 200 ml in a steady circular pour 0:30-0:50, then drain. Total brew time is published as a range, 2:30-3:00; 180 s (upper end) is stored. Water is given in ml and stored as grams. No specific coffee is named, so bean_id is null.",
+      "after": "طريقة براود ماري المنشورة: 15 غ بن و250 مل ماء بنسبة معلنة 1:17، وماء عند الغليان أو بعده مباشرة دون درجة رقمية. التزهير بـ50 مل خلال أول 30 ثانية مع تحريك، ثم صب 200 مل بحركة دائرية من 0:30 إلى 0:50، ثم التصريف. الوقت الإجمالي المنشور 2:30–3:00. هذه طريقة عامة لم يُحدد فيها بن بعينه."
+    }
+  ]
+}
