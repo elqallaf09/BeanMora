@@ -132,7 +132,7 @@ export async function loadData(db: SupabaseClient, locale: 'ar' | 'en', userId: 
   if (!userId) return result;
   const [prefs, gear, inventory, attempts, saves] = await Promise.all([
     read<{ preferred_brew_methods: string[]; preferred_flavors: string[]; preferred_roast_level: string | null }>(db.from('user_preferences').select('preferred_brew_methods,preferred_flavors,preferred_roast_level').eq('user_id', userId).limit(1)),
-    read<{ category: string; equipment_model_id: string | null }>(db.from('user_equipment').select('category,equipment_model_id').eq('user_id', userId).order('id').limit(201)),
+    read<{ category: string; equipment_model_id: string | null; custom_name: string | null; model: { name?: string | null } | { name?: string | null }[] | null }>(db.from('user_equipment').select('category,equipment_model_id,custom_name,model:equipment_models(name)').eq('user_id', userId).order('id').limit(201)),
     read<Inventory>(db.from('user_bean_inventory').select('roasted_product_id,legacy_bean_id').eq('user_id', userId).is('archived_at', null).or('remaining_weight_grams.is.null,remaining_weight_grams.gt.0').order('id').limit(201)),
     read<OwnAttempt>(db.from('recipe_attempts').select('recipe_id,outcome').eq('user_id', userId).in('status', ['tried','brewed_as_written','brewed_with_modifications']).order('created_at', { ascending: false }).order('id').limit(201)),
     read<{ bean_id: string }>(db.from('bean_saves').select('bean_id').eq('user_id', userId).order('created_at', { ascending: false }).limit(1001), 1000),
@@ -144,7 +144,24 @@ export async function loadData(db: SupabaseClient, locale: 'ar' | 'en', userId: 
   result.profile.methods = (pref?.preferred_brew_methods ?? []).filter(isMethod);
   result.profile.flavors = pref?.preferred_flavors ?? [];
   result.profile.roast = validChoice(pref?.preferred_roast_level, ROASTS) ?? null;
-  result.profile.gear = gear.rows.map(g => ({ category: g.category, modelId: g.equipment_model_id }));
+  const inferredGearMethod=(category:string,name:string):Method|undefined=>{
+    const text=(name||'').toLowerCase();
+    const byName:/^$/ extends never ? never : Method|undefined =
+      /moka/.test(text)?'moka_pot':
+      /orea/.test(text)?'orea':
+      /april/.test(text)?'april':
+      /french\s*press|cafeti/.test(text)?'french_press':
+      /cold\s*brew/.test(text)?'cold_brew':
+      undefined;
+    if(byName)return byName;
+    const aliases:Record<string,Method>={kalita_dripper:'kalita_wave',origami_dripper:'origami'};
+    return aliases[category]??(isMethod(category)?category:undefined);
+  };
+  result.profile.gear = gear.rows.map(g => {
+    const model=Array.isArray(g.model)?g.model[0]:g.model;
+    const name=model?.name||g.custom_name||'';
+    return { category: g.category, modelId: g.equipment_model_id, method: inferredGearMethod(g.category,name) };
+  });
   result.profile.productIds = inventory.rows.flatMap(i => i.roasted_product_id ? [i.roasted_product_id] : []);
   result.profile.beanIds = inventory.rows.flatMap(i => i.legacy_bean_id ? [i.legacy_bean_id] : []);
   const seen = new Set<string>();
