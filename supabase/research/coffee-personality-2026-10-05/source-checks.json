@@ -1,0 +1,1509 @@
+[
+  {
+    "url": "https://42coffeeroasters.com/product/colombia-sanchez-finca-monteblanco/",
+    "checked_at": "2026-10-05T19:23:56.113256+00:00",
+    "status": 200,
+    "final_url": "https://42coffeeroasters.com/product/colombia-sanchez-finca-monteblanco/",
+    "title": "Roasting Specialty Coffee - Colombia Sanchez Finca Monteblanco - 42 Coffee Roasters UAE",
+    "sha256": "d1ec9943e137bf44a05e2e6668f6742c777de57e1f93dc23487edeb9b76b97f2"
+  },
+  {
+    "url": "https://42coffeeroasters.com/product/ethiopia-bona-zuria/",
+    "checked_at": "2026-10-05T19:23:56.114349+00:00",
+    "status": 200,
+    "final_url": "https://42coffeeroasters.com/product/ethiopia-bona-zuria/",
+    "title": "Roasting Specialty Coffee - Ethiopia Bona Zuria Fermented - 42 Coffee Roasters UAE",
+    "sha256": "7a1cbdfe52a5aec6b9780b89e2875c27e6a2d034105aee67c506ec887710b6ac"
+  },
+  {
+    "url": "https://42coffeeroasters.com/product/ethiopia-goro-bedesa-fermented/",
+    "checked_at": "2026-10-05T19:23:56.114952+00:00",
+    "status": 200,
+    "final_url": "https://42coffeeroasters.com/product/ethiopia-goro-bedesa-fermented/",
+    "title": "Roasting Specialty Coffee - Ethiopia Goro Bedesa Fermented - 42 Coffee Roasters UAE",
+    "sha256": "6a3becd6fe00c1f95b6801b54619d119be113d00666f8af6e680bc4515be1946"
+  },
+  {
+    "url": "https://48e.co/products/bani-ismail-yemen",
+    "checked_at": "2026-10-05T19:23:56.115456+00:00",
+    "status": 200,
+    "final_url": "https://48e.co/products/bani-ismail-yemen",
+    "title": "Bani Ismail | Yemen – 48 East Coffee Roasters",
+    "sha256": "566e01796d04ff59682ff3b32ba89f3de5457876b1c396e04d33b86716419430"
+  },
+  {
+    "url": "https://48e.co/products/buenos-dias",
+    "checked_at": "2026-10-05T19:23:56.116714+00:00",
+    "status": 200,
+    "final_url": "https://48e.co/products/buenos-dias",
+    "title": "Buenos Dias – 48 East Coffee Roasters",
+    "sha256": "e6e368b79d1262b77ad2c2f66e9fe70de374b3dd252ceeb87c4252e4f5414b84"
+  },
+  {
+    "url": "https://48e.co/products/freddy-mellado-peru",
+    "checked_at": "2026-10-05T19:23:56.118212+00:00",
+    "status": 200,
+    "final_url": "https://48e.co/products/freddy-mellado-peru",
+    "title": "Freddy Mellado | Peru – 48 East Coffee Roasters",
+    "sha256": "02e217b7eb114b7142db9207e8aa97773f1089e8f6a7ee6239036ca07259c28d"
+  },
+  {
+    "url": "https://48e.co/products/guayata-colombia",
+    "checked_at": "2026-10-05T19:23:56.119100+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://48e.co/products/los-colores-el-salvador",
+    "checked_at": "2026-10-05T19:23:56.119701+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://48e.co/products/mameria-native-community-peru",
+    "checked_at": "2026-10-05T19:24:02.917085+00:00",
+    "status": 200,
+    "final_url": "https://48e.co/products/mameria-native-community-peru",
+    "title": "Mameria Native Community | Peru – 48 East Coffee Roasters",
+    "sha256": "834cb2e166d85f008c9501847ded51f2532c390181d1f32d9f06dccd3a38732d"
+  },
+  {
+    "url": "https://48e.co/products/santa-lucia-brazil",
+    "checked_at": "2026-10-05T19:24:02.955271+00:00",
+    "status": 200,
+    "final_url": "https://48e.co/products/santa-lucia-brazil",
+    "title": "Bossa Nova | Brazil – 48 East Coffee Roasters",
+    "sha256": "576306ece4fe070bbddffa321d2b2f81f00bce7761d3de3e837c58935396535f"
+  },
+  {
+    "url": "https://48e.co/products/supernatural-karibu-kenya",
+    "checked_at": "2026-10-05T19:24:03.260940+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://48e.co/products/thageini-indigo-kenya",
+    "checked_at": "2026-10-05T19:24:05.149525+00:00",
+    "status": 200,
+    "final_url": "https://48e.co/products/thageini-indigo-kenya",
+    "title": "Thageini Indigo| Kenya – 48 East Coffee Roasters",
+    "sha256": "13ce57e565438240bad2c128b2538860f00bb44c0a007de86a25c5e3c7c1cae3"
+  },
+  {
+    "url": "https://48e.co/products/tropical-canopy-ethiopia",
+    "checked_at": "2026-10-05T19:24:05.197229+00:00",
+    "status": 200,
+    "final_url": "https://48e.co/products/tropical-canopy-ethiopia",
+    "title": "Tropical Canopy | Ethiopia – 48 East Coffee Roasters",
+    "sha256": "6fbd0c55235ed4ca2ee500e4f87eaf0a89203f89e1b6dd941c1e912b2825b2d6"
+  },
+  {
+    "url": "https://48e.co/products/yirgacheffe-chelchele-ethiopia",
+    "checked_at": "2026-10-05T19:24:05.213162+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://49thcoffee.com/products/blue-sky-espresso",
+    "checked_at": "2026-10-05T19:24:05.213445+00:00",
+    "status": 200,
+    "final_url": "https://49thcoffee.com/products/blue-sky-espresso",
+    "title": "Blue Sky Espresso | 49th Parallel Coffee Roasters",
+    "sha256": "c63f1497abd811a171ee55b242ee88e511cbaa5e6893435fb2d11c1fa9aa8db4"
+  },
+  {
+    "url": "https://49thcoffee.com/products/epic-espresso",
+    "checked_at": "2026-10-05T19:24:05.240904+00:00",
+    "status": 200,
+    "final_url": "https://49thcoffee.com/products/epic-espresso",
+    "title": "Epic Espresso | 49th Parallel Coffee Roasters",
+    "sha256": "91eddd80006c9b8683c6bec6324ec4eb1f8c024772a143d76dc93854d4a01ae5"
+  },
+  {
+    "url": "https://49thcoffee.com/products/old-school-espresso",
+    "checked_at": "2026-10-05T19:24:05.290705+00:00",
+    "status": 200,
+    "final_url": "https://49thcoffee.com/products/old-school-espresso",
+    "title": "Old School Espresso | 49th Parallel Coffee Roasters",
+    "sha256": "eaf0b1ea65b675b874cba4116522ed73fa691a85f2014e356ac3a0aed4c8f728"
+  },
+  {
+    "url": "https://80pluscoffeebh.com/products/elixir-brazil",
+    "checked_at": "2026-10-05T19:24:05.346031+00:00",
+    "status": 200,
+    "final_url": "https://80pluscoffeebh.com/products/elixir-brazil",
+    "title": "Elixir - Brazil\n – 80+ Speciality Coffee Roastery",
+    "sha256": "1ebd2c70504ce03ec30c2098195cdfd7358ba2d617b009c7d4fe0e02805feb94"
+  },
+  {
+    "url": "https://80pluscoffeebh.com/products/hambela-ethiopia-1",
+    "checked_at": "2026-10-05T19:24:05.346557+00:00",
+    "status": 200,
+    "final_url": "https://80pluscoffeebh.com/products/hambela-ethiopia-1",
+    "title": "HABMELA - Ethiopia (HAMBELA)\n – 80+ Speciality Coffee Roastery",
+    "sha256": "1906861e3d8a6f840831c7ca2ada91761165dcb8cb2a2d576c90dd4558699eb2"
+  },
+  {
+    "url": "https://archerscoffee.com/products/bittersweet",
+    "checked_at": "2026-10-05T19:24:10.759414+00:00",
+    "status": 200,
+    "final_url": "https://archerscoffee.com/products/bittersweet",
+    "title": "Bittersweet | Archers Coffee Bespoke Blends",
+    "sha256": "78c6ac1246447430d52ca49a4528bec7af3843748984bbe23082162ad23030c7"
+  },
+  {
+    "url": "https://archerscoffee.com/products/black-diamond",
+    "checked_at": "2026-10-05T19:24:10.798364+00:00",
+    "status": 200,
+    "final_url": "https://archerscoffee.com/products/black-diamond",
+    "title": "Black Diamond | Archers Coffee Bespoke Blends",
+    "sha256": "522987ff528a9ff77ad2923dc198f8a27650b9289e674b9668b75a5ebdc6a6c5"
+  },
+  {
+    "url": "https://archerscoffee.com/products/ethiopia-daye-bensa-hamasho-natural-archers-lot-0126",
+    "checked_at": "2026-10-05T19:24:10.882243+00:00",
+    "status": 200,
+    "final_url": "https://archerscoffee.com/products/ethiopia-daye-bensa-hamasho-natural-archers-lot-0126",
+    "title": "Ethiopia - Daye Bensa Hamasho Natural Archers Lot 0126 | Archers Coffee",
+    "sha256": "84b0034db95c5ac2068753c43a8297a4fe39d5cbcc57b13572b3714062af1d91"
+  },
+  {
+    "url": "https://archerscoffee.com/products/ethiopia-rumudamo-anaerobic-mini-archers-lot-0102-26",
+    "checked_at": "2026-10-05T19:24:11.004130+00:00",
+    "status": 200,
+    "final_url": "https://archerscoffee.com/products/ethiopia-rumudamo-anaerobic-mini-archers-lot-0102-26",
+    "title": "Ethiopia - Rumudamo Anaerobic Mini Archers lot 0102-26 | Archers Coffee",
+    "sha256": "53fabf974fe25badd3f8bc409b753e3d4edd156493ac341a80c077e0bff73932"
+  },
+  {
+    "url": "https://archerscoffee.com/products/panama-janson-family-hacienda-lot-26-127",
+    "checked_at": "2026-10-05T19:24:11.053588+00:00",
+    "status": 200,
+    "final_url": "https://archerscoffee.com/products/panama-janson-family-hacienda-lot-26-127",
+    "title": "Panama - Janson Family Hacienda Lot 26 - 127 | Archers Coffee",
+    "sha256": "35516009e4882904fd9aadfc3ed55786e37a87ac7df0146b0c03cb92220d19be"
+  },
+  {
+    "url": "https://b-k.coffee/products/masar-yemen-slow-dried-coffee-250g",
+    "checked_at": "2026-10-05T19:24:13.706371+00:00",
+    "status": 200,
+    "final_url": "https://b-k.coffee/products/masar-yemen-slow-dried-coffee-250g",
+    "title": "قهوة مسار اليمنية 250 جرام | تجفيف مطول - بلاك نايت",
+    "sha256": "94e8d8d3dafc75370af63789c17219eb31a25b97eb8c0a4ff5c55d74fc801b0a"
+  },
+  {
+    "url": "https://b-k.coffee/products/كولومبيا-اكسيلسو-مغسول-250g",
+    "checked_at": "2026-10-05T19:24:13.709625+00:00",
+    "status": 200,
+    "final_url": "https://b-k.coffee/products/%D9%83%D9%88%D9%84%D9%88%D9%85%D8%A8%D9%8A%D8%A7-%D8%A7%D9%83%D8%B3%D9%8A%D9%84%D8%B3%D9%88-%D9%85%D8%BA%D8%B3%D9%88%D9%84-250g",
+    "title": "إكسيلسو - كولومبيا / مغسول / 250 جرام",
+    "sha256": "4905a9dae609685e82b07459cdb9e69eec164d78308794080415e93f2f2a45f5"
+  },
+  {
+    "url": "https://b-k.coffee/products/لوليت-اثيوبيا-مجفف-g250",
+    "checked_at": "2026-10-05T19:24:13.736807+00:00",
+    "status": 200,
+    "final_url": "https://b-k.coffee/products/%D9%84%D9%88%D9%84%D9%8A%D8%AA-%D8%A7%D8%AB%D9%8A%D9%88%D8%A8%D9%8A%D8%A7-%D9%85%D8%AC%D9%81%D9%81-g250",
+    "title": "لوليت - إثيوبيا / مجفف / 250 جرام",
+    "sha256": "d11e106584dc6a7a1288c6ebcf7634e51ec6500896114c23b33fa92e89adb65d"
+  },
+  {
+    "url": "https://b-k.coffee/products/ميلورا-كوستاريكا-عسلي-250-جرام",
+    "checked_at": "2026-10-05T19:24:16.739227+00:00",
+    "status": 200,
+    "final_url": "https://b-k.coffee/products/%D9%85%D9%8A%D9%84%D9%88%D8%B1%D8%A7-%D9%83%D9%88%D8%B3%D8%AA%D8%A7%D8%B1%D9%8A%D9%83%D8%A7-%D8%B9%D8%B3%D9%84%D9%8A-250-%D8%AC%D8%B1%D8%A7%D9%85",
+    "title": "قهوة ميلورا كوستاريكا عسلي 250 جرام | بلاك نايت",
+    "sha256": "8bf41e23f8d9f32cc6f47e8b0276d85a9faae1ba75d6eee9ad7df53d0e07e355"
+  },
+  {
+    "url": "https://b-k.coffee/products/ناردوس-اثيوبيا-لاهوائي-250g",
+    "checked_at": "2026-10-05T19:24:16.855671+00:00",
+    "status": 200,
+    "final_url": "https://b-k.coffee/products/%D9%86%D8%A7%D8%B1%D8%AF%D9%88%D8%B3-%D8%A7%D8%AB%D9%8A%D9%88%D8%A8%D9%8A%D8%A7-%D9%84%D8%A7%D9%87%D9%88%D8%A7%D8%A6%D9%8A-250g",
+    "title": "ناردوس - إثيوبيا / لاهوائي / 250 جرام",
+    "sha256": "13bedbe801b2df61c7a119073f17520da9bbbfa0575f04f9319982f6308c8fd7"
+  },
+  {
+    "url": "https://bahrainroastery.com/products/1-kg-amberwood-reserve-wood-fired-coffee",
+    "checked_at": "2026-10-05T19:24:16.858364+00:00",
+    "status": 200,
+    "final_url": "https://bahrainroastery.com/products/1-kg-amberwood-reserve-wood-fired-coffee",
+    "title": "1 KG Amberwood Reserve (Wood-Fired Coffee)\n – Bahrain Roastery",
+    "sha256": "c950fbd73881513789f985bcefa442b1cd84319beaaab9fd8f0c37d4cb2684a5"
+  },
+  {
+    "url": "https://bahrainroastery.com/products/1-kg-applewood-reserve-wood-fired-coffee",
+    "checked_at": "2026-10-05T19:24:16.930535+00:00",
+    "status": 200,
+    "final_url": "https://bahrainroastery.com/products/1-kg-applewood-reserve-wood-fired-coffee",
+    "title": "1 KG AppleWood Reserve (Wood-Fired Coffee)\n – Bahrain Roastery",
+    "sha256": "02b41a732ae96a81603316c0746f10c92f4248451a804d1306d436ebd12935f9"
+  },
+  {
+    "url": "https://bahrainroastery.com/products/1-kg-barista-elite-supremo-espresso",
+    "checked_at": "2026-10-05T19:24:16.931624+00:00",
+    "status": 200,
+    "final_url": "https://bahrainroastery.com/products/1-kg-barista-elite-supremo-espresso",
+    "title": "1 KG Barista Elite Supremo Espresso\n – Bahrain Roastery",
+    "sha256": "f4862482339370791bf9095971df04ec4e09064de584076dda4c43231aed0d1c"
+  },
+  {
+    "url": "https://bahrainroastery.com/products/360-profile-blend",
+    "checked_at": "2026-10-05T19:24:22.906218+00:00",
+    "status": 200,
+    "final_url": "https://bahrainroastery.com/products/360-profile-blend",
+    "title": "1 KG 360° Profile Blend\n – Bahrain Roastery",
+    "sha256": "ff515be35c9c37cef6aa905ad8b35937cc37182c8e96a384be9fde666a3264b4"
+  },
+  {
+    "url": "https://cafinto.com/specialty-coffee/",
+    "checked_at": "2026-10-05T19:24:22.953616+00:00",
+    "status": 200,
+    "final_url": "https://cafinto.com/specialty-coffee/",
+    "title": "Specialty Coffee from CAFINTO | Oman's Finest Roastery",
+    "sha256": "0087ea2a2a745598dd0cd6a7a967183c33e47825b31526acf5d548ccd0d9665b"
+  },
+  {
+    "url": "https://camelstep.com/products/%D8%A5%D8%AB%D9%8A%D9%88%D8%A8%D9%8A%D8%A7-%D8%AC%D9%8A%D9%86%D9%8A%D8%AA",
+    "checked_at": "2026-10-05T19:24:23.083115+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://camelstep.com/products/%D9%83%D9%88%D8%B3%D8%AA%D8%A7%D8%B1%D9%8A%D9%83%D8%A7-%D8%A8%D8%A7%D8%B1%D8%A7%D8%AA%D9%8A%D9%84%D8%A7",
+    "checked_at": "2026-10-05T19:24:23.184817+00:00",
+    "status": 200,
+    "final_url": "https://camelstep.com/ar-us/products/%D9%83%D9%88%D8%B3%D8%AA%D8%A7%D8%B1%D9%8A%D9%83%D8%A7-%D8%A8%D8%A7%D8%B1%D8%A7%D8%AA%D9%8A%D9%84%D8%A7",
+    "title": "قهوة كوستاريكا بارتيلا المختصة | إيحاءات الفراولة والتوت والمكسرات",
+    "sha256": "00dc02a890d781a4c082e979bbb08e9c5f0bdb17dbaabd0d6777478a0f66cc6c"
+  },
+  {
+    "url": "https://camelstep.com/products/%D9%83%D9%88%D9%84%D9%88%D9%85%D8%A8%D9%8A%D8%A7-%D9%84%D8%A7%D8%B3-%D8%A8%D8%A7%D9%84%D9%85%D8%A7%D8%B3",
+    "checked_at": "2026-10-05T19:24:23.728600+00:00",
+    "status": 200,
+    "final_url": "https://camelstep.com/ar-us/products/%D9%83%D9%88%D9%84%D9%88%D9%85%D8%A8%D9%8A%D8%A7-%D9%84%D8%A7%D8%B3-%D8%A8%D8%A7%D9%84%D9%85%D8%A7%D8%B3",
+    "title": "كولومبيا لاس بالماس",
+    "sha256": "b5ef8525002aebbbf8beb448fa315cbc4c2c2fa6b0ffa96ee02ea3492d4a9bdc"
+  },
+  {
+    "url": "https://catandcloud.com/products/answer",
+    "checked_at": "2026-10-05T19:24:24.732907+00:00",
+    "status": 200,
+    "final_url": "https://catandcloud.com/products/answer",
+    "title": "The Answer | The Flagship Blend | Best Seller\n – Cat & Cloud",
+    "sha256": "abf5ceacce3a096efc4f8b28837bc4bd9e0bab7ff712f221196961edb330374c"
+  },
+  {
+    "url": "https://catandcloud.com/products/the-best-friends-blend",
+    "checked_at": "2026-10-05T19:24:24.817473+00:00",
+    "status": 200,
+    "final_url": "https://catandcloud.com/products/the-best-friends-blend",
+    "title": "Cat & Cloud Coffee: The Best Friends Blend",
+    "sha256": "3a76406c84ded9daaa2de4dfc5f350102f6bff117785ffad7f514c596ee76479"
+  },
+  {
+    "url": "https://codeblackcoffee.com.au/products/3056-espresso-blend-coffee",
+    "checked_at": "2026-10-05T19:24:24.862191+00:00",
+    "status": 200,
+    "final_url": "https://codeblackcoffee.com.au/products/3056-espresso-blend-coffee",
+    "title": "3056 Espresso Blend Coffee\n\n        – Code Black Coffee",
+    "sha256": "9ad1c03932eb3c27acde9459522fe05b5dc968b23b45a957822025a3d266db04"
+  },
+  {
+    "url": "https://codeblackcoffee.com.au/products/ex-wife-espresso-blend-coffee",
+    "checked_at": "2026-10-05T19:24:24.862875+00:00",
+    "status": 200,
+    "final_url": "https://codeblackcoffee.com.au/products/ex-wife-espresso-blend-coffee",
+    "title": "Ex-Wife Espresso Blend Coffee\n\n        – Code Black Coffee",
+    "sha256": "88c9b80ec3565b6e1bd1e3089946a1a91a784c3168642ed53a989c46ff97157e"
+  },
+  {
+    "url": "https://codeblackcoffee.com.au/products/seasonal-espresso-blend",
+    "checked_at": "2026-10-05T19:24:31.054895+00:00",
+    "status": 200,
+    "final_url": "https://codeblackcoffee.com.au/products/seasonal-espresso-blend",
+    "title": "Seasonal Espresso Blend – Specialty Coffee | Code Black\n\n        – Code Black Coffee",
+    "sha256": "03f8bbeb8f7a9802bd95381caeacce7a22871e33802fc70a0015e602225cc6b7"
+  },
+  {
+    "url": "https://counterculturecoffee.com/products/big-trouble",
+    "checked_at": "2026-10-05T19:24:31.055664+00:00",
+    "status": 200,
+    "final_url": "https://counterculturecoffee.com/products/big-trouble",
+    "title": "Big Trouble Coffee | Best-Selling Medium-Dark Roast Blend | Counter Culture Coffee",
+    "sha256": "ceaf164d65becf9d6750dc07ffa2be9ee00628e1f14be4418003e050eb732b56"
+  },
+  {
+    "url": "https://crossbridgecoffee.com/",
+    "checked_at": "2026-10-05T19:24:31.943366+00:00",
+    "status": 200,
+    "final_url": "https://crossbridgecoffee.com/",
+    "title": "",
+    "sha256": "6dc9c7fc93bb488bb0520a6c780a8d3c0fb5486a4711aca49b4c53fac7393023"
+  },
+  {
+    "url": "https://fivesenses.com.au/products/ardi-ethiopia",
+    "checked_at": "2026-10-05T19:24:32.308536+00:00",
+    "status": 200,
+    "final_url": "https://fivesenses.com.au/products/ardi-ethiopia",
+    "title": "Ardi | Five Senses Coffee",
+    "sha256": "e853fa623ed888c98283867519d7f98340cc0dcce6dd6d8b18ef140fa97c1792"
+  },
+  {
+    "url": "https://fivesenses.com.au/products/sweater-weather-blend",
+    "checked_at": "2026-10-05T19:24:35.471441+00:00",
+    "status": 200,
+    "final_url": "https://fivesenses.com.au/products/sweater-weather-blend",
+    "title": "Sweater Weather Blend | Five Senses Coffee",
+    "sha256": "6f62427331ee111bde4a47ecf48cced6bfa3fa748a872d90e241c39a0c18ce6e"
+  },
+  {
+    "url": "https://fivesenses.com.au/products/umoja-washed-tanzania",
+    "checked_at": "2026-10-05T19:24:36.293436+00:00",
+    "status": 200,
+    "final_url": "https://fivesenses.com.au/products/umoja-washed-tanzania",
+    "title": "Umoja, Washed | Five Senses Coffee",
+    "sha256": "e89ad8dc3b767a1e989f7a5750a2d50e3badbe453854a3df8c7e012df4c966f8"
+  },
+  {
+    "url": "https://friedhats.com/products/costa-rica-ramiro-honey",
+    "checked_at": "2026-10-05T19:24:36.380996+00:00",
+    "status": 200,
+    "final_url": "https://friedhats.com/products/costa-rica-ramiro-honey",
+    "title": "Friedhats Coffee Roasters | Costa Rica Adelina Fallas Honey",
+    "sha256": "fce4eba737525114a3ae28cdcc650085c6bd743cfac00ae8b2cfce66a7b4f524"
+  },
+  {
+    "url": "https://friedhats.com/products/ethiopia-bisrat-melaku-washed",
+    "checked_at": "2026-10-05T19:24:37.923428+00:00",
+    "status": 200,
+    "final_url": "https://friedhats.com/products/ethiopia-bisrat-melaku-washed",
+    "title": "Friedhats Coffee Roasters | Ethiopia Bisrat Melaku Washed",
+    "sha256": "7a9a6ca01ded71cf9bcf6fe40361ae728a1a8c17a3d90a6615bdf67575437ea8"
+  },
+  {
+    "url": "https://friedhats.com/products/kenya-gicherori-washed",
+    "checked_at": "2026-10-05T19:24:38.234268+00:00",
+    "status": 200,
+    "final_url": "https://friedhats.com/products/kenya-gicherori-washed",
+    "title": "Friedhats Coffee Roasters | Kenya Gicherori Washed",
+    "sha256": "fc37c3e661432a946b0727236410160e533df655d9212de65b42374f5f56baf5"
+  },
+  {
+    "url": "https://goldboxroastery.com/collections/coffee/products/arabic-gahwa",
+    "checked_at": "2026-10-05T19:24:38.983164+00:00",
+    "status": 200,
+    "final_url": "https://goldboxroastery.com/collections/coffee/products/arabic-gahwa",
+    "title": "Arabic Gahwa– Gold Box Roastery LLC",
+    "sha256": "c015be1c430b555b39ddbdcce537c96337b7da7a2b5d3a934cae461675547fe1"
+  },
+  {
+    "url": "https://goldboxroastery.com/collections/coffee/products/bond-street-espresso-blend",
+    "checked_at": "2026-10-05T19:24:39.412794+00:00",
+    "status": 200,
+    "final_url": "https://goldboxroastery.com/collections/coffee/products/bond-street-espresso-blend",
+    "title": "Bond Street Espresso Blend– Gold Box Roastery LLC",
+    "sha256": "2d80b8f5304cddee5825f0afbf54ab0a8cc228959ccc8abde5e0dcde931f2e7f"
+  },
+  {
+    "url": "https://goldboxroastery.com/collections/coffee/products/dark-sugars",
+    "checked_at": "2026-10-05T19:24:39.480226+00:00",
+    "status": 200,
+    "final_url": "https://goldboxroastery.com/collections/coffee/products/dark-sugars",
+    "title": "Dark Sugars– Gold Box Roastery LLC",
+    "sha256": "a3c2d8fdb054bae62ba6f010e3cdf76b35c0298f1077b51d64a2476dde9f2642"
+  },
+  {
+    "url": "https://goldboxroastery.com/collections/coffee/products/funky-weekend-blend",
+    "checked_at": "2026-10-05T19:24:39.520162+00:00",
+    "status": 200,
+    "final_url": "https://goldboxroastery.com/collections/coffee/products/funky-weekend-blend",
+    "title": "Funky Weekend Blend– Gold Box Roastery LLC",
+    "sha256": "8b29275136e6752de005365bc5c6b9ebadd9c006fbf978e36d83c52ffb394fde"
+  },
+  {
+    "url": "https://goldboxroastery.com/collections/coffee/products/rocko-mountain",
+    "checked_at": "2026-10-05T19:24:42.412067+00:00",
+    "status": 200,
+    "final_url": "https://goldboxroastery.com/collections/coffee/products/rocko-mountain",
+    "title": "Rocko Mountain– Gold Box Roastery LLC",
+    "sha256": "273aedb3aa482bbf28820d0910df8905359bdbc4693b0361ca3703bc280320c9"
+  },
+  {
+    "url": "https://goldboxroastery.com/collections/subscription-coffee/products/brazil-santa-lucia",
+    "checked_at": "2026-10-05T19:24:43.017596+00:00",
+    "status": 200,
+    "final_url": "https://goldboxroastery.com/collections/subscription-coffee/products/brazil-santa-lucia",
+    "title": "Brazil Santa Lucia– Gold Box Roastery LLC",
+    "sha256": "d9c662ecf1ca5e27746f7f0bb110a6c6ed81c808386b24a6414c7c3da5b99b1c"
+  },
+  {
+    "url": "https://goldboxroastery.com/collections/subscription-coffee/products/colombia-santa-ana",
+    "checked_at": "2026-10-05T19:24:43.037856+00:00",
+    "status": 200,
+    "final_url": "https://goldboxroastery.com/collections/subscription-coffee/products/colombia-santa-ana",
+    "title": "Colombia Santa Ana– Gold Box Roastery LLC",
+    "sha256": "74dbc25fcd02c49b4a08d36c587d02a23f0d5bda3ce50c74a77597e7f1e93490"
+  },
+  {
+    "url": "https://goldboxroastery.com/collections/subscription-coffee/products/ethiopia-hambela-halaka",
+    "checked_at": "2026-10-05T19:24:43.057030+00:00",
+    "status": 200,
+    "final_url": "https://goldboxroastery.com/collections/subscription-coffee/products/ethiopia-hambela-halaka",
+    "title": "Ethiopia Hambela Halaka– Gold Box Roastery LLC",
+    "sha256": "3d71ab105ebfa169e41957abf7684d0898c807c515abe8ed1524da44a8c33a5a"
+  },
+  {
+    "url": "https://goldboxroastery.com/collections/subscription-coffee/products/rancho-grande-estate",
+    "checked_at": "2026-10-05T19:24:45.281880+00:00",
+    "status": 200,
+    "final_url": "https://goldboxroastery.com/collections/subscription-coffee/products/rancho-grande-estate",
+    "title": "Brazil Rancho Grande Estate– Gold Box Roastery LLC",
+    "sha256": "20320431739f47159bd8e95f09602d65aed0a9c2fbf91e5f56725800dc3082b1"
+  },
+  {
+    "url": "https://goldboxroastery.com/collections/team-favourites/products/colombia-la-cristalina",
+    "checked_at": "2026-10-05T19:24:45.330395+00:00",
+    "status": 200,
+    "final_url": "https://goldboxroastery.com/collections/team-favourites/products/colombia-la-cristalina",
+    "title": "Colombia La Cristalina– Gold Box Roastery LLC",
+    "sha256": "e4f7067229bcaa72ed72de06709e899e1f05dca93dffaac8dbaddc9bd43b88ae"
+  },
+  {
+    "url": "https://goldboxroastery.com/collections/team-favourites/products/costa-rica-red-honey-copy",
+    "checked_at": "2026-10-05T19:24:45.353926+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://goldboxroastery.com/collections/team-favourites/products/kenya-anaerobic",
+    "checked_at": "2026-10-05T19:24:45.401604+00:00",
+    "status": 200,
+    "final_url": "https://goldboxroastery.com/collections/team-favourites/products/kenya-anaerobic",
+    "title": "Kenya Anaerobic– Gold Box Roastery LLC",
+    "sha256": "22495398c3c316b0108ff9f3b236d6bdaa9817e8719fc750aebc13aee37f0d5a"
+  },
+  {
+    "url": "https://greydoha.qa/product/decaf",
+    "checked_at": "2026-10-05T19:24:45.429301+00:00",
+    "error": "The read operation timed out"
+  },
+  {
+    "url": "https://greydoha.qa/product/el-diviso",
+    "checked_at": "2026-10-05T19:24:45.429896+00:00",
+    "error": "The read operation timed out"
+  },
+  {
+    "url": "https://greydoha.qa/product/finca-el-bosque",
+    "checked_at": "2026-10-05T19:24:45.507422+00:00",
+    "error": "The read operation timed out"
+  },
+  {
+    "url": "https://greydoha.qa/product/mogiana",
+    "checked_at": "2026-10-05T19:24:45.514034+00:00",
+    "error": "The read operation timed out"
+  },
+  {
+    "url": "https://greydoha.qa/product/rivense-la-guaca",
+    "checked_at": "2026-10-05T19:24:55.021741+00:00",
+    "status": 200,
+    "final_url": "https://greydoha.qa/product/rivense-la-guaca",
+    "title": "Rivense La Guaca | GREY",
+    "sha256": "1d22a8452ac41bb45851f789e370fac5448c06acce6f947fc25cb5582fec8f38"
+  },
+  {
+    "url": "https://greydoha.qa/product/sunda-wanoja",
+    "checked_at": "2026-10-05T19:24:55.029179+00:00",
+    "status": 200,
+    "final_url": "https://greydoha.qa/product/sunda-wanoja",
+    "title": "Sunda Wanoja | GREY",
+    "sha256": "aa38c5ee1e7fdc77be9de94fdf5e39f5428a34428e95b936d111b8ea7c332d8e"
+  },
+  {
+    "url": "https://hautecoffeeroasters.com/products/brazilian-coffee-beans",
+    "checked_at": "2026-10-05T19:24:55.130247+00:00",
+    "status": 200,
+    "final_url": "https://hautecoffeeroasters.com/products/brazilian-coffee-beans",
+    "title": "Brazilian Coffee Beans – Minas Gerais | Roasted in Abu Dhabi\n – HAUTE COFFEE ROASTERS",
+    "sha256": "4878f0eedab3fb0b106bd5907489c934cec9c578c86ea4ac997bc85a5e484b4e"
+  },
+  {
+    "url": "https://hautecoffeeroasters.com/products/colombia-coffee-supremo",
+    "checked_at": "2026-10-05T19:24:55.154604+00:00",
+    "status": 200,
+    "final_url": "https://hautecoffeeroasters.com/products/colombia-coffee-supremo",
+    "title": "Colombian Coffee Supremo Beans | Abu Dhabi & UAE\n – HAUTE COFFEE ROASTERS",
+    "sha256": "24bfc4b86c56faa1238e70b548775f455f62dd62c0d9292d01b45a9cdee81d87"
+  },
+  {
+    "url": "https://hautecoffeeroasters.com/products/ethiopia-chelchele-coffee",
+    "checked_at": "2026-10-05T19:25:01.791218+00:00",
+    "status": 200,
+    "final_url": "https://hautecoffeeroasters.com/products/ethiopia-chelchele-coffee",
+    "title": "Ethiopian Yirgacheffe Coffee Beans – Chelchele | UAE\n – HAUTE COFFEE ROASTERS",
+    "sha256": "1a7cc1f32dd5ab9c6ac7995e6f0105a793b00489c1b63a50bd25065f3e3b0b14"
+  },
+  {
+    "url": "https://jeedroastery.com/products/Aquiares_Natural_Costa_Rica",
+    "checked_at": "2026-10-05T19:25:01.903629+00:00",
+    "status": 200,
+    "final_url": "https://jeedroastery.com/products/Aquiares_Natural_Costa_Rica",
+    "title": "أكيارس - كوستاريكي مجفف - قهوة جيد",
+    "sha256": "f3465afa6780c8d72aa5f999a532022a7152729d159859f2672eee7c6b8651d3"
+  },
+  {
+    "url": "https://jeedroastery.com/products/Benti_Nenqa_Ethiopia_Washed",
+    "checked_at": "2026-10-05T19:25:04.825223+00:00",
+    "status": 200,
+    "final_url": "https://jeedroastery.com/products/Benti_Nenqa_Ethiopia_Washed",
+    "title": "بينتي نينكا - أثيوبي مغسول",
+    "sha256": "78786c9c8b3cd706728175b6ee22cb8e8fed77cefebb03878a5c976309589a07"
+  },
+  {
+    "url": "https://jeedroastery.com/products/Bombe_Ethiopia_Natural",
+    "checked_at": "2026-10-05T19:25:04.826320+00:00",
+    "status": 200,
+    "final_url": "https://jeedroastery.com/products/Bombe_Ethiopia_Natural",
+    "title": "بومبي  - أثيوبي مجفف - محمصة جيد",
+    "sha256": "062ff62e83b6c2731451c2d9f892b2df2b94cdb8df90252d6f25c0b2d422db75"
+  },
+  {
+    "url": "https://julithcoffee.com/colombia-finca-zarza-fruit-forward-papayo/",
+    "checked_at": "2026-10-05T19:25:04.827573+00:00",
+    "status": 200,
+    "final_url": "https://julithcoffee.com/colombia-finca-zarza-fruit-forward-papayo/",
+    "title": "Colombia Finca Zarza Fruit Forward Papayo Natural - Julith Coffee",
+    "sha256": "78727ffb20bc6be890a0f8bcba038325da582a5089c2aefd177bdc3b3f6827fb"
+  },
+  {
+    "url": "https://julithcoffee.com/panama-janson-coffee-geisha-washed-lot-26-178/",
+    "checked_at": "2026-10-05T19:25:04.828078+00:00",
+    "status": 200,
+    "final_url": "https://julithcoffee.com/panama-janson-coffee-geisha-washed-lot-26-178/",
+    "title": "Panama Janson Coffee Geisha Washed Lot 26-178 - Julith Coffee",
+    "sha256": "5f28a918644b8fff20c49cc78551ac7e1af5fed45a0c5c1ce95e43b480aca559"
+  },
+  {
+    "url": "https://julithcoffee.com/panama-kotowa-silvia-marina-geisha-natural-lot26-4320/",
+    "checked_at": "2026-10-05T19:25:07.809261+00:00",
+    "status": 200,
+    "final_url": "https://julithcoffee.com/panama-kotowa-silvia-marina-geisha-natural-lot26-4320/",
+    "title": "Panama Finca Kotowa Silvia Marina Geisha Natural Lot 26-4320 - Julith Coffee",
+    "sha256": "1d07fdcb7087dfe2c1bd32467aa4ce2b58ef2e0966c9a572b11b19cd36cc34b5"
+  },
+  {
+    "url": "https://kw.earthroastery.com/products/brazil-cascavel-vermelha-natural",
+    "checked_at": "2026-10-05T19:25:08.146339+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://kw.earthroastery.com/products/ethiopia-korma-natural",
+    "checked_at": "2026-10-05T19:25:08.483646+00:00",
+    "status": 200,
+    "final_url": "https://kw.earthroastery.com/products/ethiopia-korma-natural",
+    "title": "Korma",
+    "sha256": "9ca33f2b3336d4072955d1815b4a2ef3e99ad4f50cb9094b7d49bf306e84e66f"
+  },
+  {
+    "url": "https://kw.earthroastery.com/products/indonesia-pantan-musara-washed",
+    "checked_at": "2026-10-05T19:25:08.712188+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://methods.coffee/collections/coffee/products/hambela-supernatural",
+    "checked_at": "2026-10-05T19:25:08.720768+00:00",
+    "status": 200,
+    "final_url": "https://methods.coffee/collections/coffee/products/hambela-supernatural",
+    "title": "Hambela Supernatural – Methods Academy and Roastery",
+    "sha256": "8901efae52abd6e17c0769f4427c75fe4f11ab614c1f36172ab7f3a778266aad"
+  },
+  {
+    "url": "https://methods.coffee/collections/coffee/products/papayo-hydro-natural",
+    "checked_at": "2026-10-05T19:25:09.821022+00:00",
+    "status": 200,
+    "final_url": "https://methods.coffee/collections/coffee/products/papayo-hydro-natural",
+    "title": "Papayo Hydro Natural – Methods Academy and Roastery",
+    "sha256": "84af1a42fc963e1daf38a9d3dd48d899e4a8fa77bdf4805ad96b30907fdd47dd"
+  },
+  {
+    "url": "https://methods.coffee/collections/coffee/products/yirgacheffe-washed-halo-bariti",
+    "checked_at": "2026-10-05T19:25:14.488278+00:00",
+    "status": 200,
+    "final_url": "https://methods.coffee/collections/coffee/products/yirgacheffe-washed-halo-bariti",
+    "title": "Yirgacheffe Washed Halo Bariti – Methods Academy and Roastery",
+    "sha256": "6ff36e424e902c679979f131d8f4699743447e6bdce19e153bc6551b636ef503"
+  },
+  {
+    "url": "https://nomadcoffee.es/products/churupallana",
+    "checked_at": "2026-10-05T19:25:14.489309+00:00",
+    "status": 200,
+    "final_url": "https://nomadcoffee.es/products/churupallana",
+    "title": "Descubre nuestro café de especialidad Churupallana en Nomad Coffee",
+    "sha256": "416e41b0297241502992e71c65b37f90187ec74ed51d65f622669cb8894d1f69"
+  },
+  {
+    "url": "https://nomadcoffee.es/products/jhenrry-chavez",
+    "checked_at": "2026-10-05T19:25:14.529387+00:00",
+    "status": 200,
+    "final_url": "https://nomadcoffee.es/products/jhenrry-chavez",
+    "title": "Descubre nuestro café de especialidad Jhenrry Chávez en Nomad Coffee",
+    "sha256": "2113e2c01338fdf60f3790d34a8e0b0cdfb27c1e1b5baa9aa4fa8eb25e90ba37"
+  },
+  {
+    "url": "https://nomadcoffee.es/products/kafipamba",
+    "checked_at": "2026-10-05T19:25:15.067212+00:00",
+    "status": 200,
+    "final_url": "https://nomadcoffee.es/products/kafipamba",
+    "title": "Café de especialidad - Kafipamba - NOMAD COFFEE",
+    "sha256": "3d8c99b4f8cde90bcb4694d33d29f574eac936bb419ea6a69a1c3f0f00214a62"
+  },
+  {
+    "url": "https://nomadcoffee.es/products/pacas",
+    "checked_at": "2026-10-05T19:25:15.181997+00:00",
+    "status": 200,
+    "final_url": "https://nomadcoffee.es/products/pacas",
+    "title": "Café de especialidad - Pacas - NOMAD COFFEE",
+    "sha256": "5f027ab4009ef3a365c5ead49c83e097b9089db5c47e417a665729de3157d79c"
+  },
+  {
+    "url": "https://nomadcoffee.es/products/parainema",
+    "checked_at": "2026-10-05T19:25:15.182812+00:00",
+    "status": 200,
+    "final_url": "https://nomadcoffee.es/products/parainema",
+    "title": "Café de especialidad - Parainema - NOMAD COFFEE",
+    "sha256": "276a67c4b7d7b00d8de1ce7741c0b4ec2296448ffeaa87222c97b7c17aa699d5"
+  },
+  {
+    "url": "https://onacoffee.com.au/blogs/brewguides/el-angel-el-salvador-natural",
+    "checked_at": "2026-10-05T19:25:17.898776+00:00",
+    "status": 200,
+    "final_url": "https://onacoffee.com.au/blogs/brewguides/el-angel-el-salvador-natural",
+    "title": "El Ángel, El Salvador, Natural\n – ONA Coffee",
+    "sha256": "fb5e8e4471879cbed95a471b04483b8777ca5589cbb3bc34c119666dfb3fa594"
+  },
+  {
+    "url": "https://onacoffee.com.au/blogs/brewguides/elida-estate-torre-panama-drd-washed",
+    "checked_at": "2026-10-05T19:25:17.987088+00:00",
+    "status": 200,
+    "final_url": "https://onacoffee.com.au/blogs/brewguides/elida-estate-torre-panama-drd-washed",
+    "title": "Elida Estate Torre, Panama, DRD Washed\n – ONA Coffee",
+    "sha256": "d25b137465c1c2674afb4df90dcdbaa1fee5be8174d0e4f77546c349171c4e52"
+  },
+  {
+    "url": "https://onacoffee.com.au/blogs/brewguides/gargari-gutity-g1-red-ethiopia-natural",
+    "checked_at": "2026-10-05T19:25:18.064065+00:00",
+    "status": 200,
+    "final_url": "https://onacoffee.com.au/blogs/brewguides/gargari-gutity-g1-red-ethiopia-natural",
+    "title": "Gargari Gutity G1 Red, Ethiopia, Natural\n – ONA Coffee",
+    "sha256": "cc70211399a386cd0bd93e94c19b87bd9050be2c6fedf0669275b8cbdbeb78bf"
+  },
+  {
+    "url": "https://onacoffee.com.au/blogs/brewguides/kaliluni-aa-kenya-washed",
+    "checked_at": "2026-10-05T19:25:22.959211+00:00",
+    "status": 200,
+    "final_url": "https://onacoffee.com.au/blogs/brewguides/kaliluni-aa-kenya-washed",
+    "title": "Kaliluni AA, Kenya, Washed\n – ONA Coffee",
+    "sha256": "68525a35ae476de366d1f89ed183d8a6fc677e27ecdedd49b7bd35d8d3ac9dc3"
+  },
+  {
+    "url": "https://onacoffee.com.au/blogs/brewguides/kiambu-regional-c-kenya-washed",
+    "checked_at": "2026-10-05T19:25:23.701854+00:00",
+    "status": 200,
+    "final_url": "https://onacoffee.com.au/blogs/brewguides/kiambu-regional-c-kenya-washed",
+    "title": "Kiambu Regional C, Kenya, Washed\n – ONA Coffee",
+    "sha256": "a1fb6d3e5178352b97918fa37910a9ca26bdf49ba6c8b30231fb24508adb48b5"
+  },
+  {
+    "url": "https://onacoffee.com.au/blogs/brewguides/maguta-estate-lot-432-kenya-nitrogen-natural-indigo",
+    "checked_at": "2026-10-05T19:25:23.702400+00:00",
+    "status": 200,
+    "final_url": "https://onacoffee.com.au/blogs/brewguides/maguta-estate-lot-432-kenya-nitrogen-natural-indigo",
+    "title": "Maguta Estate Lot 432, Kenya, Nitrogen Natural Indigo\n – ONA Coffee",
+    "sha256": "0df1022b53e6479e1db2b93c64a5235af7042bc1ee0e31f0dfe6e6f9ad606762"
+  },
+  {
+    "url": "https://onacoffee.com.au/blogs/brewguides/miramundo-guatemala-natural",
+    "checked_at": "2026-10-05T19:25:24.185952+00:00",
+    "status": 200,
+    "final_url": "https://onacoffee.com.au/blogs/brewguides/miramundo-guatemala-natural",
+    "title": "Miramundo, Guatemala, Natural\n – ONA Coffee",
+    "sha256": "2fc4e4a117fd5d41f5d35640a19a72a516f2af335132c606698992a319ef56d6"
+  },
+  {
+    "url": "https://onacoffee.com.au/blogs/brewguides/raspberry-candy-filter",
+    "checked_at": "2026-10-05T19:25:24.312489+00:00",
+    "status": 200,
+    "final_url": "https://onacoffee.com.au/blogs/brewguides/raspberry-candy-filter",
+    "title": "Raspberry Candy Filter\n – ONA Coffee",
+    "sha256": "9b821158fd7f4045d80caeb7a6702a4f3c0dc909d436f19a2ea7de6d2d4833bf"
+  },
+  {
+    "url": "https://onacoffee.com.au/blogs/brewguides/rungeto-c-kenya-washed",
+    "checked_at": "2026-10-05T19:25:24.366002+00:00",
+    "status": 200,
+    "final_url": "https://onacoffee.com.au/blogs/brewguides/rungeto-c-kenya-washed",
+    "title": "Rungeto C, Kenya, Washed\n – ONA Coffee",
+    "sha256": "dc0a82755d8251d280e14632c1d1b4e4609ee81cf51291fd5562d96c5b442b18"
+  },
+  {
+    "url": "https://onacoffee.com.au/blogs/brewguides/yula-regional-lot-guatemala-washed",
+    "checked_at": "2026-10-05T19:25:24.404906+00:00",
+    "status": 200,
+    "final_url": "https://onacoffee.com.au/blogs/brewguides/yula-regional-lot-guatemala-washed",
+    "title": "Yula Regional Lot, Guatemala, Washed\n – ONA Coffee",
+    "sha256": "dc5f6bbcefc87572ea3d0fb63476db1cf447aff8be16633947976a491898c004"
+  },
+  {
+    "url": "https://onacoffee.com.au/products/aspen",
+    "checked_at": "2026-10-05T19:25:24.429257+00:00",
+    "status": 200,
+    "final_url": "https://onacoffee.com.au/products/aspen",
+    "title": "Aspen Coffee – Smooth, Hazelnut-Flavoured Coffee Beans\n – ONA Coffee",
+    "sha256": "a1685d9cb4d0bc7176c1ea838d1cfe8c52795bfff1bd2e0e4b5a9941f5a3c1ad"
+  },
+  {
+    "url": "https://onacoffee.com.au/products/maple",
+    "checked_at": "2026-10-05T19:25:32.745925+00:00",
+    "status": 200,
+    "final_url": "https://onacoffee.com.au/products/maple",
+    "title": "Maple Coffee | Smooth, Sweet & Caramel-Flavoured Beans\n – ONA Coffee",
+    "sha256": "d4a21ec3a1a66d3afdbdfcbd16491f3dc3c4d85f378a6797ea271a967f95a649"
+  },
+  {
+    "url": "https://onacoffee.com.au/products/raspberry-candy",
+    "checked_at": "2026-10-05T19:25:32.836239+00:00",
+    "status": 200,
+    "final_url": "https://onacoffee.com.au/products/raspberry-candy",
+    "title": "Raspberry Candy Coffee | Bold & Fruity Raspberry Coffee Beans\n – ONA Coffee",
+    "sha256": "d9a80a163ea5b53635694cd498c8e8529b84f7bd3d367261a9e36aedcc306a4c"
+  },
+  {
+    "url": "https://onyxcoffeelab.com/products/costa-rica-las-lajas-natural-26",
+    "checked_at": "2026-10-05T19:25:32.837788+00:00",
+    "status": 200,
+    "final_url": "https://onyxcoffeelab.com/products/costa-rica-las-lajas-natural-26",
+    "title": "Costa Rica Las Lajas Natural\n– Onyx Coffee Lab",
+    "sha256": "29244c46ced35472abbe5baac150104716852e3809725b0be735503f787b3b0b"
+  },
+  {
+    "url": "https://onyxcoffeelab.com/products/ethiopia-agaro-yukro-g1",
+    "checked_at": "2026-10-05T19:25:32.862320+00:00",
+    "status": 200,
+    "final_url": "https://onyxcoffeelab.com/products/ethiopia-agaro-yukro-g1",
+    "title": "Ethiopia Agaro Yukro G1\n– Onyx Coffee Lab",
+    "sha256": "94bdd5af1d3d2968beb67480667ab975755d897bf8f9dd734b1ea4657095df90"
+  },
+  {
+    "url": "https://onyxcoffeelab.com/products/geometry",
+    "checked_at": "2026-10-05T19:25:32.898995+00:00",
+    "status": 200,
+    "final_url": "https://onyxcoffeelab.com/products/geometry",
+    "title": "Onyx Coffee Lab Geometry",
+    "sha256": "af6508dbe61e9569648e5c8da319491de84da06f3c715cea13ac2cca88512e58"
+  },
+  {
+    "url": "https://onyxcoffeelab.com/products/honduras-fredy-perez",
+    "checked_at": "2026-10-05T19:25:32.925601+00:00",
+    "status": 200,
+    "final_url": "https://onyxcoffeelab.com/products/honduras-fredy-perez",
+    "title": "Honduras Fredy Perez\n– Onyx Coffee Lab",
+    "sha256": "e3b508b89f0fa8d78abd8bf7707994aea84b7cc593c957a225f836a517e8e8e9"
+  },
+  {
+    "url": "https://onyxcoffeelab.com/products/kenya-kamunyaka-aa",
+    "checked_at": "2026-10-05T19:25:32.948548+00:00",
+    "status": 200,
+    "final_url": "https://onyxcoffeelab.com/products/kenya-kamunyaka-aa",
+    "title": "Kenya Kamunyaka AA\n– Onyx Coffee Lab",
+    "sha256": "88d59300aa688731e305428de1a3ac2b0307c4d3fe59809d306f842da7d8b928"
+  },
+  {
+    "url": "https://onyxcoffeelab.com/products/mexico-oaxaca-yogondoy-gesha",
+    "checked_at": "2026-10-05T19:25:33.051620+00:00",
+    "status": 200,
+    "final_url": "https://onyxcoffeelab.com/products/mexico-oaxaca-yogondoy-gesha",
+    "title": "Mexico Oaxaca Yogondoy Gesha\n– Onyx Coffee Lab",
+    "sha256": "edcecc24eb34b90761903ca4ef0ebbd168cc596c636ef528ea055fd5acd49102"
+  },
+  {
+    "url": "https://onyxcoffeelab.com/products/monarch",
+    "checked_at": "2026-10-05T19:25:39.768313+00:00",
+    "status": 200,
+    "final_url": "https://onyxcoffeelab.com/products/monarch",
+    "title": "Monarch | Onyx Coffee Lab",
+    "sha256": "c8cfcee0f2a6a7065ee3aa3368d96f0bb14c8d0736e37086569abf919fb7ae81"
+  },
+  {
+    "url": "https://onyxcoffeelab.com/products/peru-la-margarita-gesha-26",
+    "checked_at": "2026-10-05T19:25:40.152820+00:00",
+    "status": 200,
+    "final_url": "https://onyxcoffeelab.com/products/peru-la-margarita-gesha-26",
+    "title": "Peru La Margarita Gesha\n– Onyx Coffee Lab",
+    "sha256": "ea6d5df26abcb4a86789b8095538c3cbaf66c1686e35936e214c6b9ebc51efc6"
+  },
+  {
+    "url": "https://onyxcoffeelab.com/products/power-nap",
+    "checked_at": "2026-10-05T19:25:40.244710+00:00",
+    "status": 200,
+    "final_url": "https://onyxcoffeelab.com/products/power-nap",
+    "title": "Onyx Coffee Lab Power Nap",
+    "sha256": "cb84da9dfc6511d8c3427ecf42b7fdaf7d639d96ec9b92d758c374158d1bcec1"
+  },
+  {
+    "url": "https://onyxcoffeelab.com/products/southern-weather",
+    "checked_at": "2026-10-05T19:25:40.261290+00:00",
+    "status": 200,
+    "final_url": "https://onyxcoffeelab.com/products/southern-weather",
+    "title": "Onyx Coffee Lab Southern Weather",
+    "sha256": "0290eb7c3cd06de3ef742c0305bef4d7b0aaa47501fdb06b98e695b5dc2e9b66"
+  },
+  {
+    "url": "https://onyxcoffeelab.com/products/tropical-weather",
+    "checked_at": "2026-10-05T19:25:40.265574+00:00",
+    "status": 200,
+    "final_url": "https://onyxcoffeelab.com/products/tropical-weather",
+    "title": "Onyx Coffee Lab Tropical Weather",
+    "sha256": "cbc8e54be0848f0aaae33f07b831d15d11bdb88446c3ccd20c01b5160a2c5717"
+  },
+  {
+    "url": "https://oruroasters.com/products/alta-mogiana-brazil",
+    "checked_at": "2026-10-05T19:25:40.321566+00:00",
+    "status": 200,
+    "final_url": "https://oruroasters.com/products/alta-mogiana-brazil",
+    "title": "Brazil Alta Mogiana Coffee Beans",
+    "sha256": "4e629550b43b908c9fa4cbc70cfaf20142a86edb270bd8342e1f5455a2cb4def"
+  },
+  {
+    "url": "https://oruroasters.com/products/altura-high-grown-mexico",
+    "checked_at": "2026-10-05T19:25:41.400860+00:00",
+    "status": 200,
+    "final_url": "https://oruroasters.com/products/altura-high-grown-mexico",
+    "title": "Mexico Altura High Grown Coffee Beans",
+    "sha256": "259ce9868ed27efd663b2d066f3474bbcaa55c6bbf80a901cd02a2afe5a2540d"
+  },
+  {
+    "url": "https://oruroasters.com/products/colombia-catiope-bourbon",
+    "checked_at": "2026-10-05T19:25:41.483462+00:00",
+    "status": 200,
+    "final_url": "https://oruroasters.com/products/colombia-catiope-bourbon",
+    "title": "Colombia Catiope Bourbon",
+    "sha256": "16bf6adc32b4e0db2c77e3b528354a1e96b1deb2566e4e8d0f5cd2b9ab11f72f"
+  },
+  {
+    "url": "https://oruroasters.com/products/colombia-passion-fruit",
+    "checked_at": "2026-10-05T19:25:47.649396+00:00",
+    "status": 200,
+    "final_url": "https://oruroasters.com/products/colombia-passion-fruit",
+    "title": "Colombia Passion Fruit",
+    "sha256": "78e3f60c5f47929f57418944567c4a26e256832ecfd16860c84877d0e99a4ecc"
+  },
+  {
+    "url": "https://oruroasters.com/products/colombia-supremo",
+    "checked_at": "2026-10-05T19:25:48.030913+00:00",
+    "status": 200,
+    "final_url": "https://oruroasters.com/products/colombia-supremo",
+    "title": "Colombia Supremo Coffee Beans",
+    "sha256": "fef11364c731e151e0307c25741f0a53be9c6a7f664e1e8109bde8a543cb74fa"
+  },
+  {
+    "url": "https://oruroasters.com/products/ethiopia-muji-masina",
+    "checked_at": "2026-10-05T19:25:48.097354+00:00",
+    "status": 200,
+    "final_url": "https://oruroasters.com/products/ethiopia-muji-masina",
+    "title": "Ethiopia Guji G1 Masina Coffee Beans",
+    "sha256": "674a2dee22136fd6d2f535d1dcc39d5debb8c1b2ef9bdbcb6f62341257b3b65c"
+  },
+  {
+    "url": "https://oruroasters.com/products/oru-blend",
+    "checked_at": "2026-10-05T19:25:48.147497+00:00",
+    "status": 200,
+    "final_url": "https://oruroasters.com/products/oru-blend",
+    "title": "Oru Blend Coffee Beans",
+    "sha256": "83ebf80e39caf8203625637d823312c35d382cd382616341d8ac5338ca04d80e"
+  },
+  {
+    "url": "https://oruroasters.com/products/uganda-mukhoto",
+    "checked_at": "2026-10-05T19:25:48.344501+00:00",
+    "status": 200,
+    "final_url": "https://oruroasters.com/products/uganda-mukhoto",
+    "title": "Uganda Mukhoto",
+    "sha256": "dbb246651fd0d87a5de8c478b6e38c4a7bc4bd279ff3ba36b0680a729ccb1a86"
+  },
+  {
+    "url": "https://ozonecoffee.co.uk/products/bolivia-gregorio-palli-anoxic-washed",
+    "checked_at": "2026-10-05T19:25:50.953394+00:00",
+    "status": 200,
+    "final_url": "https://ozonecoffee.co.uk/products/bolivia-gregorio-palli-anoxic-washed",
+    "title": "Bolivia: Gregorio Palli, Anoxic Washed, Caturra & Catuai\n – Ozone Coffee UK",
+    "sha256": "d485acc5eefb4aa11a9a42deb612a2b1bcb33016b2591e41d9a93977be0713f7"
+  },
+  {
+    "url": "https://ozonecoffee.co.uk/products/costa-rica-granitos-ortiz-1800",
+    "checked_at": "2026-10-05T19:25:50.976156+00:00",
+    "status": 200,
+    "final_url": "https://ozonecoffee.co.uk/products/costa-rica-granitos-ortiz-1800",
+    "title": "Costa Rica: Granitos de Altura del Ortiz, Catuai, Honey\n – Ozone Coffee UK",
+    "sha256": "49ae790b12cdeb303cd6a2430c6317247048d733b13dad1d45cddd35325528a5"
+  },
+  {
+    "url": "https://ozonecoffee.co.uk/products/el-salvador-finca-argentina-yellow-pacamara-natural",
+    "checked_at": "2026-10-05T19:25:51.018999+00:00",
+    "status": 200,
+    "final_url": "https://ozonecoffee.co.uk/products/el-salvador-finca-argentina-yellow-pacamara-natural",
+    "title": "El Salvador: Finca Argentina, Yellow Pacamara, Natural\n – Ozone Coffee UK",
+    "sha256": "2a4e35c6f86893761361407f4abea8031b1f8713a5d86bd7e3b9a858a44cf9cc"
+  },
+  {
+    "url": "https://rawcoffeecompany.com/products/ethiopian-enaria-coffee",
+    "checked_at": "2026-10-05T19:25:51.019838+00:00",
+    "status": 200,
+    "final_url": "https://rawcoffeecompany.com/products/ethiopian-enaria-coffee",
+    "title": "ETHIOPIAN ENARIA GUJI COFFEE",
+    "sha256": "1a426f21d0eda9f3070ad560afb158daf1aa35b079fb1e3e0c645f0862277164"
+  },
+  {
+    "url": "https://rawcoffeecompany.com/products/uganda-elgon-anaerobic-natural-coffee",
+    "checked_at": "2026-10-05T19:25:51.039407+00:00",
+    "status": 200,
+    "final_url": "https://rawcoffeecompany.com/products/uganda-elgon-anaerobic-natural-coffee",
+    "title": "UGANDAN ELGON ANAEROBIC NATURAL COFFEE",
+    "sha256": "a0160d4370a4966cabda7758a1e50bf2139c8bd3b4a870c85e03597d82c62899"
+  },
+  {
+    "url": "https://roastado.qa/products/brazil-classic",
+    "checked_at": "2026-10-05T19:25:51.056113+00:00",
+    "status": 200,
+    "final_url": "https://roastado.qa/products/brazil-classic",
+    "title": "Brazil — Classic\n – Roastado Specialty Coffee",
+    "sha256": "7f1c1e398dcbf0f07c202d64c248f6ef3c6e5cf63289df46aabcf6b0bd675d02"
+  },
+  {
+    "url": "https://roastado.qa/products/colombia-decaf",
+    "checked_at": "2026-10-05T19:25:51.101765+00:00",
+    "status": 200,
+    "final_url": "https://roastado.qa/products/colombia-decaf",
+    "title": "Colombia — Decaf\n – Roastado Specialty Coffee",
+    "sha256": "ff9b6a44f48cc78d80bf1e0f0ad953acd53899e2e39fd583223e4ee5433a033f"
+  },
+  {
+    "url": "https://roastado.qa/products/ethiopia-guji-filter",
+    "checked_at": "2026-10-05T19:25:51.119121+00:00",
+    "status": 200,
+    "final_url": "https://roastado.qa/products/ethiopia-guji-filter",
+    "title": "Ethiopia Guji — Filter\n – Roastado Specialty Coffee",
+    "sha256": "8623b7ac89e12b80926456c9c345e2539020951c9421f18611e9e0a8831934ab"
+  },
+  {
+    "url": "https://rootsroastery.net/en/product/black-forest-blend/",
+    "checked_at": "2026-10-05T19:25:59.959071+00:00",
+    "status": 200,
+    "final_url": "https://rootsroastery.net/en/product/black-forest-blend/",
+    "title": "Black Forest Coffee Blend | Roots Roastery Kuwait",
+    "sha256": "aca58d9b402dc5befc2e389cd38eabab5a5f8e1f718b930f1f784919961e960b"
+  },
+  {
+    "url": "https://rootsroastery.net/en/product/colombia-geisha-marcelia/",
+    "checked_at": "2026-10-05T19:26:00.039923+00:00",
+    "status": 200,
+    "final_url": "https://rootsroastery.net/en/product/colombia-geisha-marcelia/",
+    "title": "Colombia Geisha Marcela 250g | Roots Roastery Kuwait",
+    "sha256": "a8ab69cba44e1ac2acdd5a5588c9024233ed41de4741550e6c6cad52d99da004"
+  },
+  {
+    "url": "https://rootsroastery.net/en/product/ethiopia-hambella/",
+    "checked_at": "2026-10-05T19:26:00.041251+00:00",
+    "status": 200,
+    "final_url": "https://rootsroastery.net/en/product/ethiopia-hambella/",
+    "title": "Ethiopia Hambella Coffee Beans | Roots Roastery Kuwait",
+    "sha256": "2eab2c82afa1c104ee9b430318775a9f62913b8adfa62baf57d621ff6325b94f"
+  },
+  {
+    "url": "https://shop.gardellicoffee.com/coffees/813-la-torre-mejia-geisha-peru",
+    "checked_at": "2026-10-05T19:26:00.387847+00:00",
+    "status": 200,
+    "final_url": "https://shop.gardellicoffee.com/coffees/813-la-torre-mejia-geisha-peru",
+    "title": "La Torre Mejia (Peru)",
+    "sha256": "63b7cea39390003c302c066b27160841466ef717397adc01a7d23af3834cf2b0"
+  },
+  {
+    "url": "https://shop.gardellicoffee.com/coffees/821-425-cumbres-decaffeinated-colombia",
+    "checked_at": "2026-10-05T19:26:00.511042+00:00",
+    "status": 200,
+    "final_url": "https://shop.gardellicoffee.com/coffees/821-425-cumbres-decaffeinated-colombia",
+    "title": "Cumbres, Decaffeinated (Colombia)",
+    "sha256": "6f7d6d25755b44b3efb56c84f3c8e1c6faa4b7f9878e5a047e34f8307d9a81e6"
+  },
+  {
+    "url": "https://shop.gardellicoffee.com/coffees/834-441-lalesa-ephtah-ethiopia",
+    "checked_at": "2026-10-05T19:26:00.764034+00:00",
+    "status": 200,
+    "final_url": "https://shop.gardellicoffee.com/coffees/834-441-lalesa-ephtah-ethiopia",
+    "title": "Lalesa Ephtah (Ethiopia)",
+    "sha256": "70f223ba0187848170b4a9a4a88d33df381fcd2cd4a7058b336e03c256386879"
+  },
+  {
+    "url": "https://shopau.coffeesupreme.com/products/south-blend",
+    "checked_at": "2026-10-05T19:26:00.789843+00:00",
+    "status": 200,
+    "final_url": "https://shopau.coffeesupreme.com/products/south-blend",
+    "title": "Buy South Blend by Coffee Supreme online - Coffee Supreme AU",
+    "sha256": "7efe5be23801242d7d8ad46a924987266c0096c874f9cf9fddc3f370df627533"
+  },
+  {
+    "url": "https://store.jazeancoffee.com/",
+    "checked_at": "2026-10-05T19:26:00.811105+00:00",
+    "status": 200,
+    "final_url": "https://store.jazeancoffee.com/",
+    "title": "جازين",
+    "sha256": "d3c959102d74d480682d23c619083dede605c3f886595ff3bbdda07669d27577"
+  },
+  {
+    "url": "https://thebarn.de/products/atlas-coffee",
+    "checked_at": "2026-10-05T19:26:07.118039+00:00",
+    "status": 200,
+    "final_url": "https://thebarn.de/products/atlas-coffee",
+    "title": "Guatemala Filter Coffee Beans: Atlas — Nougat, Plum & Honey | THE BARN\n – THE BARN Coffee Roasters",
+    "sha256": "ecb5fc4b20116b248f6478181f41150ff5864bedfe491f21e138f6b54eabde97"
+  },
+  {
+    "url": "https://thebarn.de/products/elemental-coffee",
+    "checked_at": "2026-10-05T19:26:07.168426+00:00",
+    "status": 200,
+    "final_url": "https://thebarn.de/products/elemental-coffee",
+    "title": "Brazil Espresso Coffee Beans: Elemental — Chocolate, Almond & Dried Fruit\n – THE BARN Coffee Roasters",
+    "sha256": "4302c954d7c63cd970d99360fe4f8213a539c0ff41859bc462c17f22e8a6564e"
+  },
+  {
+    "url": "https://thebarn.de/products/genesis-coffee",
+    "checked_at": "2026-10-05T19:26:07.213257+00:00",
+    "status": 200,
+    "final_url": "https://thebarn.de/products/genesis-coffee",
+    "title": "Ethiopia Filter Coffee Beans: Genesis — Peach, Chocolate & Jasmine\n – THE BARN Coffee Roasters",
+    "sha256": "85e8ecf6916bf16da79d18c2cab851c05f9c0fbb25f7f1d5fffde5b135e87e29"
+  },
+  {
+    "url": "https://thecoffeesheep.com/",
+    "checked_at": "2026-10-05T19:26:07.299429+00:00",
+    "status": 200,
+    "final_url": "https://thecoffeesheep.com/",
+    "title": "Discover Coffeesheep: Bahrain's Finest Coffee | Coffeesheep",
+    "sha256": "94cea4fbc8c1467065936e3a53f02a4e78a3524cba89b9b7b6b4062d5ccb95d2"
+  },
+  {
+    "url": "https://wingscoffeedoha.com/shop/",
+    "checked_at": "2026-10-05T19:26:07.299969+00:00",
+    "status": 200,
+    "final_url": "https://wingscoffeedoha.com/shop/",
+    "title": "Shop – Wings Coffee Doha",
+    "sha256": "733a4612b3baec55c091ec34fbe86ae9ec198f6d8b2900debb7b8978ea164837"
+  },
+  {
+    "url": "https://workshopcoffee.com/products/chakra",
+    "checked_at": "2026-10-05T19:26:10.492355+00:00",
+    "status": 200,
+    "final_url": "https://workshopcoffee.com/products/chakra",
+    "title": "Buy Chakra Single Origin Coffee Online - Workshop Coffee",
+    "sha256": "f80b7f4026c5ff5ae147758fa4ef5a2b0db0cdf830861f76627a4efb1b9a5ac7"
+  },
+  {
+    "url": "https://workshopcoffee.com/products/la-plata-decaf",
+    "checked_at": "2026-10-05T19:26:10.530155+00:00",
+    "status": 200,
+    "final_url": "https://workshopcoffee.com/products/la-plata-decaf",
+    "title": "Buy La Plata Decaffeinated Coffee Online - Workshop Coffee",
+    "sha256": "60873893698e0f67f6777c8f4891de0f0088ed28d350f0e999a4ca3ce7733985"
+  },
+  {
+    "url": "https://workshopcoffee.com/products/maidy-bocanegra-pink-bourbon",
+    "checked_at": "2026-10-05T19:26:10.608020+00:00",
+    "status": 200,
+    "final_url": "https://workshopcoffee.com/products/maidy-bocanegra-pink-bourbon",
+    "title": "Pinnacle No.6 | Maidy Bocanegra Pink Bourbon - Limited Release Workshop\n – Workshop Coffee",
+    "sha256": "bad94a0ef7dad3f7b095b44b85f7735f189a1d8722c770cb0a17e4ca39070f44"
+  },
+  {
+    "url": "https://workshopcoffee.com/products/pillar",
+    "checked_at": "2026-10-05T19:26:13.530194+00:00",
+    "status": 200,
+    "final_url": "https://workshopcoffee.com/products/pillar",
+    "title": "Buy Pillar Coffee Online | Workshop Coffee",
+    "sha256": "72c21312c1cf4a2dad036f044903d38e5817429fb793c3e1129f6eda41814109"
+  },
+  {
+    "url": "https://workshopcoffee.com/products/reset",
+    "checked_at": "2026-10-05T19:26:13.723496+00:00",
+    "status": 200,
+    "final_url": "https://workshopcoffee.com/products/reset",
+    "title": "Buy Reset Half Caff Coffee Online - Workshop Coffee",
+    "sha256": "e5ef00e53ba63749ffab2c330252deb9e92d3797f3c74faf8b097340f864e72e"
+  },
+  {
+    "url": "https://www.aprilcoffeeroasters.com/product/ethiopia-kayon-mountain-natural-heirloom-organic",
+    "checked_at": "2026-10-05T19:26:13.725556+00:00",
+    "status": 200,
+    "final_url": "https://www.aprilcoffeeroasters.com/product/ethiopia-kayon-mountain-natural-heirloom-organic",
+    "title": "Ethiopia - Kayon Mountain - Natural Heirloom | april coffee roasters",
+    "sha256": "e59d18a10af7b707ede820f3c0a83dfc88f77ce0c3a87c6e18f36ea09269b869"
+  },
+  {
+    "url": "https://www.aprilcoffeeroasters.com/product/kamavindi-kenya-washed-mixed-varietals-aa",
+    "checked_at": "2026-10-05T19:26:15.449582+00:00",
+    "status": 200,
+    "final_url": "https://www.aprilcoffeeroasters.com/product/kamavindi-kenya-washed-mixed-varietals-aa",
+    "title": "Kamavindi - Kenya - Washed SL28 & SL34 (AA) | april coffee roasters",
+    "sha256": "6f7b253c21c3b97d2d29adfa4b52688551f89a80a5bfacc56ce9bce6c1ab3be4"
+  },
+  {
+    "url": "https://www.aprilcoffeeroasters.com/product/tadesse-ethiopia-washed-krume-74158",
+    "checked_at": "2026-10-05T19:26:15.970579+00:00",
+    "status": 200,
+    "final_url": "https://www.aprilcoffeeroasters.com/product/tadesse-ethiopia-washed-krume-74158",
+    "title": "Tadesse - Ethiopia - Washed Krume 74158 | april coffee roasters",
+    "sha256": "c5a0a87690efffe4ee0b1fda529f09265d0fb821acf65b2a7cda0777ac71ec4f"
+  },
+  {
+    "url": "https://www.aprilcoffeeroasters.com/product/volcan-azul-costa-rica-washed-sl28",
+    "checked_at": "2026-10-05T19:26:21.397873+00:00",
+    "status": 200,
+    "final_url": "https://www.aprilcoffeeroasters.com/product/volcan-azul-costa-rica-washed-sl28",
+    "title": "Volcan Azul - Costa Rica - Washed SL28 | april coffee roasters",
+    "sha256": "b2b695b5e76bed0bc92295727c5e0f817faa56cf94dea4a64f85c016084bc90a"
+  },
+  {
+    "url": "https://www.dakcoffeeroasters.com/product/berry-blues/",
+    "checked_at": "2026-10-05T19:26:21.411366+00:00",
+    "status": 200,
+    "final_url": "https://www.dakcoffeeroasters.com/product/berry-blues/",
+    "title": "Berry Blues – Dak Coffee Roasters",
+    "sha256": "0c3f6129276e803432fa5ee72812118f0301a0a475fb3100b09a4bf0c556274e"
+  },
+  {
+    "url": "https://www.dakcoffeeroasters.com/product/caramello/",
+    "checked_at": "2026-10-05T19:26:21.412938+00:00",
+    "status": 200,
+    "final_url": "https://www.dakcoffeeroasters.com/product/caramello/",
+    "title": "Caramello – Dak Coffee Roasters",
+    "sha256": "af4996dce52cc16750cdbf1f8459f29f05c958bee157159403379b80da5d9c7a"
+  },
+  {
+    "url": "https://www.dakcoffeeroasters.com/product/cream-donut/",
+    "checked_at": "2026-10-05T19:26:21.492588+00:00",
+    "status": 200,
+    "final_url": "https://www.dakcoffeeroasters.com/product/cream-donut/",
+    "title": "Cream Donut – Dak Coffee Roasters",
+    "sha256": "7ec0a2cab1d5194cc40c471c38a1720dd2de2208421ca41782c0006862ace2b0"
+  },
+  {
+    "url": "https://www.dakcoffeeroasters.com/product/golden-waffle/",
+    "checked_at": "2026-10-05T19:26:21.564195+00:00",
+    "status": 200,
+    "final_url": "https://www.dakcoffeeroasters.com/product/golden-waffle/",
+    "title": "Golden Waffle – Dak Coffee Roasters",
+    "sha256": "97edbe315532b32993bf4e70db1b5e0f909b9076863ccdce7ce2c03e98b73305"
+  },
+  {
+    "url": "https://www.dakcoffeeroasters.com/product/juice-box/",
+    "checked_at": "2026-10-05T19:26:21.566529+00:00",
+    "status": 200,
+    "final_url": "https://www.dakcoffeeroasters.com/product/juice-box/",
+    "title": "Juice Box – Dak Coffee Roasters",
+    "sha256": "6e7ea1c1923f36aadcaaf96106e6900848444abc7a4c4e78088800fb20b994df"
+  },
+  {
+    "url": "https://www.dakcoffeeroasters.com/product/milky-cake/",
+    "checked_at": "2026-10-05T19:26:21.566897+00:00",
+    "status": 200,
+    "final_url": "https://www.dakcoffeeroasters.com/product/milky-cake/",
+    "title": "Milky Cake – Dak Coffee Roasters",
+    "sha256": "81c3687679b13f07d704a4a6256adedcc1bd17abce011956c91cfc1f9dbb2fae"
+  },
+  {
+    "url": "https://www.dakcoffeeroasters.com/product/silky-way/",
+    "checked_at": "2026-10-05T19:26:21.608580+00:00",
+    "status": 200,
+    "final_url": "https://www.dakcoffeeroasters.com/product/silky-way/",
+    "title": "Silky Way – Dak Coffee Roasters",
+    "sha256": "344d1bcc3285eb6c4baa8878451079f144e945626a30142deff861944f976da6"
+  },
+  {
+    "url": "https://www.dakcoffeeroasters.com/product/the-alchemist/",
+    "checked_at": "2026-10-05T19:26:27.711355+00:00",
+    "status": 200,
+    "final_url": "https://www.dakcoffeeroasters.com/product/the-alchemist/",
+    "title": "The Alchemist – Dak Coffee Roasters",
+    "sha256": "878acbaf0411243986200b00e65490016798edd94ef349166f0aa5fd85ae38ed"
+  },
+  {
+    "url": "https://www.doharoastery.com/products/00271bf7-19bd-4336-9bf4-994196edf44f",
+    "checked_at": "2026-10-05T19:26:27.735055+00:00",
+    "status": 200,
+    "final_url": "https://www.doharoastery.com/products/00271bf7-19bd-4336-9bf4-994196edf44f",
+    "title": "حبوب قهوة اليمن النادرة أحادية المصدر — ٢٥٠ غ | دوحة روستري | دوحة روستري",
+    "sha256": "0fe91d4d4ea69fa0e6ccebd7f7f2a119bd274128160a16b91e882df5dfdcbee9"
+  },
+  {
+    "url": "https://www.doharoastery.com/products/22bc2a53-af25-41ce-bd2b-f31a649c4f05",
+    "checked_at": "2026-10-05T19:26:27.770991+00:00",
+    "status": 200,
+    "final_url": "https://www.doharoastery.com/products/22bc2a53-af25-41ce-bd2b-f31a649c4f05",
+    "title": "حبوب قهوة الهند أحادية المصدر — ٢٥٠ غ | دوحة روستري | دوحة روستري",
+    "sha256": "cbb79220eec3288b7acf7d92afa89681189a32856bae1b416bdbbcfe66ba4549"
+  },
+  {
+    "url": "https://www.doharoastery.com/products/344303c6-5a05-435b-9822-365e13bbe851",
+    "checked_at": "2026-10-05T19:26:27.854476+00:00",
+    "status": 200,
+    "final_url": "https://www.doharoastery.com/products/344303c6-5a05-435b-9822-365e13bbe851",
+    "title": "حبوب قهوة إثيوبيا غوجي — ١٠٠ غ | دوحة روستري | دوحة روستري",
+    "sha256": "15fba511e88d6b7fa320ecac4ce22ddbac2675cd0c5b51fedba14ac63a5a7818"
+  },
+  {
+    "url": "https://www.doharoastery.com/products/746227b1-287d-41f2-95a2-d74aa2b2b8e3",
+    "checked_at": "2026-10-05T19:26:29.321294+00:00",
+    "status": 200,
+    "final_url": "https://www.doharoastery.com/products/746227b1-287d-41f2-95a2-d74aa2b2b8e3",
+    "title": "حبوب قهوة إثيوبيا يرغاشيف — ١٠٠ غ | دوحة روستري | دوحة روستري",
+    "sha256": "7abe13b185a59bcaf3ce2cee309ec1a2f385f01ff5a730f9d76feb501190ebb9"
+  },
+  {
+    "url": "https://www.intelligentsia.com/products/black-cat-classic-espresso",
+    "checked_at": "2026-10-05T19:26:29.455177+00:00",
+    "status": 200,
+    "final_url": "https://www.intelligentsia.com/products/black-cat-classic-espresso",
+    "title": "Black Cat Classic Espresso | Roasted to Order | Intelligentsia Coffee",
+    "sha256": "fdf6b8b00aea8fc6aa82a81d228700e8e4990663f8295b0b18e2a223e9264e12"
+  },
+  {
+    "url": "https://www.olympiacoffee.com/products/big-truck",
+    "checked_at": "2026-10-05T19:26:29.509209+00:00",
+    "status": 200,
+    "final_url": "https://www.olympiacoffee.com/products/big-truck",
+    "title": "Big Truck",
+    "sha256": "632ab448370cf58cd7c6625ad94a9feec40b8bceb2d3b115e7eba6f3744307eb"
+  },
+  {
+    "url": "https://www.tobysestate.com.au/brew-guides/",
+    "checked_at": "2026-10-05T19:26:29.549185+00:00",
+    "status": 200,
+    "final_url": "https://www.tobysestate.com.au/brew-guides/",
+    "title": "Brew Guides",
+    "sha256": "5379cabd99d2ff2e24e1196e439480b503b2bd338aa21adebb9436b0c1382ced"
+  },
+  {
+    "url": "https://www.tobysestate.com.au/broadway/",
+    "checked_at": "2026-10-05T19:26:36.218919+00:00",
+    "status": 200,
+    "final_url": "https://www.tobysestate.com.au/broadway/",
+    "title": "Toby’s Estate Broadway Blend | Specialty Coffee",
+    "sha256": "17b87985ffaf3d93a49a737d746dbe3e5149952b89271319f2eb983613c0bb2e"
+  },
+  {
+    "url": "https://www.tobysestate.com.au/brunswick/",
+    "checked_at": "2026-10-05T19:26:36.296538+00:00",
+    "status": 200,
+    "final_url": "https://www.tobysestate.com.au/brunswick/",
+    "title": "Toby’s Estate Brunswick Blend | Specialty Coffee",
+    "sha256": "93a4c753615307fe4ca7e30e53b8413aea94d56de368d1460d04d38b8097f161"
+  },
+  {
+    "url": "https://www.tobysestate.com.au/decaf/",
+    "checked_at": "2026-10-05T19:26:37.119397+00:00",
+    "status": 200,
+    "final_url": "https://www.tobysestate.com.au/decaf/",
+    "title": "Toby’s Estate Decaf Blend | Specialty Decaf Coffee Beans",
+    "sha256": "cdb137bf73d1b05e742d7c18f9350514893e0b541e17738235f2665009ef41b8"
+  },
+  {
+    "url": "https://www.tobysestate.com.au/organic-blend/",
+    "checked_at": "2026-10-05T19:26:38.715765+00:00",
+    "status": 200,
+    "final_url": "https://www.tobysestate.com.au/organic-blend/",
+    "title": "Toby’s Estate Organic Blend | Certified Organic Coffee",
+    "sha256": "549409c0970023416877a70329b086496e21339fb69c66cb6db8fe2cac3b18ec"
+  },
+  {
+    "url": "https://www.tobysestate.com.au/rico/",
+    "checked_at": "2026-10-05T19:26:38.883128+00:00",
+    "status": 200,
+    "final_url": "https://www.tobysestate.com.au/rico/",
+    "title": "Toby’s Estate Rico Blend | Specialty Coffee",
+    "sha256": "9f227fb07da5c505b70cf484cef08082446e70fee197bd45b4273f0d1ac51022"
+  },
+  {
+    "url": "https://www.tobysestate.com.au/woolloomooloo/",
+    "checked_at": "2026-10-05T19:26:39.182361+00:00",
+    "status": 200,
+    "final_url": "https://www.tobysestate.com.au/woolloomooloo/",
+    "title": "Toby’s Estate Woolloomooloo Blend | Specialty Coffee",
+    "sha256": "5e3ff978298f6cc71468c46b1ebb2a35c6d0cd91f31384082a5772d4d1fe78e3"
+  },
+  {
+    "url": "https://www.vervecoffee.com/products/buena-vista-dark-roast",
+    "checked_at": "2026-10-05T19:26:39.646437+00:00",
+    "status": 200,
+    "final_url": "https://www.vervecoffee.com/products/buena-vista-dark-roast",
+    "title": "Buena Vista Dark Roast | Coffee Blends | Best Seller",
+    "sha256": "6fcbc451e320f18b549cb2686a68780156da7a31c4df60c5b91136d78bbd7343"
+  },
+  {
+    "url": "https://www.vervecoffee.com/products/seabright-house-blend",
+    "checked_at": "2026-10-05T19:26:40.770955+00:00",
+    "status": 200,
+    "final_url": "https://www.vervecoffee.com/products/seabright-house-blend",
+    "title": "Seabright House Blend | Coffee Blends",
+    "sha256": "e4ce49dbd1570c4824d7dd3c89733e0fb6a065d70a463e29192ec6e794989d34"
+  },
+  {
+    "url": "https://www.vervecoffee.com/products/sermon",
+    "checked_at": "2026-10-05T19:26:40.775489+00:00",
+    "status": 200,
+    "final_url": "https://www.vervecoffee.com/products/sermon",
+    "title": "Sermon | Espresso Coffee Blends | Best Seller",
+    "sha256": "d7ee095aa489254c42ec09bbb8fbc03088f32e9334d94a6c9cadcace6b8b5c24"
+  },
+  {
+    "url": "https://www.vervecoffee.com/products/streetlevel",
+    "checked_at": "2026-10-05T19:26:40.825575+00:00",
+    "status": 200,
+    "final_url": "https://www.vervecoffee.com/products/streetlevel",
+    "title": "Streetlevel | Espresso Coffee Blends | Best Seller",
+    "sha256": "3efc416f587d097edeac651362aed940b48105fd9f7661bbd63feabe11356c46"
+  },
+  {
+    "url": "https://www.vulcanroastery.com/collections/all-coffee/products/colombia-cerro-azul-geisha-honey",
+    "checked_at": "2026-10-05T19:26:40.829165+00:00",
+    "status": 200,
+    "final_url": "https://www.vulcanroastery.com/collections/all-coffee/products/colombia-cerro-azul-geisha-honey",
+    "title": "COLOMBIA - CERRO AZUL - HONEY GESHA (Competition Series)\n– Vulcan Coffee Roastery",
+    "sha256": "63a76d11c53ab017e476ab0ec1938191f6f8419d12b3ae6e85aa760ca2b940a0"
+  },
+  {
+    "url": "https://www.vulcanroastery.com/collections/all-coffee/products/costa-rica-los-robles-natural-reposado-1",
+    "checked_at": "2026-10-05T19:26:40.962730+00:00",
+    "status": 200,
+    "final_url": "https://www.vulcanroastery.com/collections/all-coffee/products/costa-rica-los-robles-natural-reposado-1",
+    "title": "COSTA RICA - LOS ROBLES - NATURAL REPOSADO\n– Vulcan Coffee Roastery",
+    "sha256": "15e3b4ef96b868c10352f32428194e46bfdfcc66d247ffd683bfab7a3b30970c"
+  },
+  {
+    "url": "https://www.vulcanroastery.com/collections/all-coffee/products/ethiopia-bench-maji-natural",
+    "checked_at": "2026-10-05T19:26:40.963459+00:00",
+    "status": 200,
+    "final_url": "https://www.vulcanroastery.com/collections/all-coffee/products/ethiopia-bench-maji-natural",
+    "title": "ETHIOPIA - BENCH MAJI - NATURAL\n– Vulcan Coffee Roastery",
+    "sha256": "2c6e24af549e22f3ef633961a271d62dbffdda6df1b0b6025339bdf49ac235cb"
+  },
+  {
+    "url": "https://www.vulcanroastery.com/collections/new-arrival/products/colombia-buesaco-natural",
+    "checked_at": "2026-10-05T19:26:41.203662+00:00",
+    "status": 200,
+    "final_url": "https://www.vulcanroastery.com/collections/new-arrival/products/colombia-buesaco-natural",
+    "title": "COLOMBIA - BUESACO - NATURAL\n– Vulcan Coffee Roastery",
+    "sha256": "77b0ef78404cebc5d5b17f506ba65ee5f33f64cb7e5caa2e648ce46fb6d7bd86"
+  },
+  {
+    "url": "https://www.vulcanroastery.com/collections/vulcan-treasury-series/products/finca-colombia-gesha-el-salvador",
+    "checked_at": "2026-10-05T19:26:47.078886+00:00",
+    "status": 200,
+    "final_url": "https://www.vulcanroastery.com/collections/vulcan-treasury-series/products/finca-colombia-gesha-el-salvador",
+    "title": "EL SALVADOR - FINCA COLOMBIA - NATURAL GESHA\n– Vulcan Coffee Roastery",
+    "sha256": "0d16835574ae83ee8d312ad7254967c1b81edad9261df6befcb6137ef38de7b3"
+  },
+  {
+    "url": "https://www.windrosecoffee.com/product/brazil-fazenda-samambaia/",
+    "checked_at": "2026-10-05T19:26:47.108946+00:00",
+    "status": 200,
+    "final_url": "https://www.windrosecoffee.com/product/brazil-fazenda-samambaia/",
+    "title": "Brazil Fazenda Samambaia – Pulped Natural - Windrose Coffee",
+    "sha256": "4610f94b5b8553a77b7e8a09d1ce49f0346e0813d26de36d74be5b26bd53c443"
+  },
+  {
+    "url": "https://www.windrosecoffee.com/product/colombia-arcila-anaerobic-honey/",
+    "checked_at": "2026-10-05T19:26:47.154722+00:00",
+    "status": 200,
+    "final_url": "https://www.windrosecoffee.com/product/colombia-arcila-anaerobic-honey/",
+    "title": "Colombia Arcila – Anaerobic Honey - Windrose Coffee",
+    "sha256": "e4b8688942777d25c5559f7b789e11adcb3b7ec06bb9eca874c7c665c02c4131"
+  },
+  {
+    "url": "https://www.windrosecoffee.com/product/colombia-calderon-anaerobic-natural/",
+    "checked_at": "2026-10-05T19:26:47.188033+00:00",
+    "status": 200,
+    "final_url": "https://www.windrosecoffee.com/product/colombia-calderon-anaerobic-natural/",
+    "title": "Colombia Calderon – Anaerobic Natural - Windrose Coffee",
+    "sha256": "2eb7266f51e238886552a52347ecaad5b061a8bb31ce392bf8cf145f26dc58fb"
+  },
+  {
+    "url": "https://www.windrosecoffee.com/product/dawn-crafted-filter-blend/",
+    "checked_at": "2026-10-05T19:26:48.274675+00:00",
+    "status": 200,
+    "final_url": "https://www.windrosecoffee.com/product/dawn-crafted-filter-blend/",
+    "title": "Dawn – Crafted Filter Blend - Windrose Coffee",
+    "sha256": "0e85b26db55dfad39cccadc24c92811d8430e846927de6c1614f018b1f98b34c"
+  },
+  {
+    "url": "https://www.windrosecoffee.com/product/dusk-crafted-espresso-blend/",
+    "checked_at": "2026-10-05T19:26:48.369625+00:00",
+    "status": 200,
+    "final_url": "https://www.windrosecoffee.com/product/dusk-crafted-espresso-blend/",
+    "title": "Dusk – Crafted Espresso Blend - Windrose Coffee",
+    "sha256": "0772b9f9ed19c1777ddea5c03384b12e4c357f274e0f492e4dd71ba3923744b8"
+  },
+  {
+    "url": "https://www.windrosecoffee.com/product/ecuador-finca-la-aurum-auction-lot/",
+    "checked_at": "2026-10-05T19:26:48.370364+00:00",
+    "status": 200,
+    "final_url": "https://www.windrosecoffee.com/product/ecuador-finca-la-aurum-auction-lot/",
+    "title": "Ecuador Finca La Aurum – Auction Lot - Windrose Coffee",
+    "sha256": "07db380d488ef630dc17c7051a8544ca00922e793b6a5874cb4bc4e91cc370f6"
+  },
+  {
+    "url": "https://www.windrosecoffee.com/product/ethiopia-aricha/",
+    "checked_at": "2026-10-05T19:26:48.383334+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://www.windrosecoffee.com/product/kenya-ruiruiru-anaerobic-natural/",
+    "checked_at": "2026-10-05T19:26:53.509937+00:00",
+    "status": 200,
+    "final_url": "https://www.windrosecoffee.com/product/kenya-ruiruiru-anaerobic-natural/",
+    "title": "Kenya Ruiruiru – Anaerobic Natural - Windrose Coffee",
+    "sha256": "69fe52887cfa6799a65d66a8bc4f971f39a7118cc9eb07b1979f53600d34817e"
+  },
+  {
+    "url": "https://www.windrosecoffee.com/product/midnight-crafted-blend/",
+    "checked_at": "2026-10-05T19:26:54.408501+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://www.windrosecoffee.com/product/papua-new-guinea-sigri-peaberry/",
+    "checked_at": "2026-10-05T19:26:54.592455+00:00",
+    "status": 200,
+    "final_url": "https://www.windrosecoffee.com/product/papua-new-guinea-sigri-peaberry/",
+    "title": "Papua New Guinea Sigri – Washed Peaberry - Windrose Coffee",
+    "sha256": "dc255865c0f9e3ffde5b4769c32f00d1cdf0d43f6d7aa519e952eb6881054285"
+  },
+  {
+    "url": "https://www.windrosecoffee.com/product/twilight-crafted-blend/",
+    "checked_at": "2026-10-05T19:26:54.845619+00:00",
+    "status": 200,
+    "final_url": "https://www.windrosecoffee.com/product/twilight-crafted-blend/",
+    "title": "Twilight – Crafted Blend - Windrose Coffee",
+    "sha256": "00b0e481154216ba9c8f1b83a0980d5259907238cc05baadc226e0c07225d094"
+  },
+  {
+    "url": "https://www.windrosecoffee.com/product/yemen-muhammad-zidan-natural/",
+    "checked_at": "2026-10-05T19:26:54.927829+00:00",
+    "status": 200,
+    "final_url": "https://www.windrosecoffee.com/product/yemen-muhammad-zidan-natural/",
+    "title": "Yemen Muhammad Zidan – Natural - Windrose Coffee",
+    "sha256": "b94f7bfa325d4ebab13ee7e6b26217f7b0349ae7c2269abb8031fa5a8b07c947"
+  },
+  {
+    "url": "https://www.windrosecoffee.com/product/yemen-shaian-hiwar-peaberry/",
+    "checked_at": "2026-10-05T19:26:54.934352+00:00",
+    "status": 200,
+    "final_url": "https://www.windrosecoffee.com/product/yemen-shaian-hiwar-peaberry/",
+    "title": "Yemen Shai’an Hiwar – Peaberry - Windrose Coffee",
+    "sha256": "fa791edf45ee2dd253d74f740f222b9a9167ee0e99ac1404afd095d051aeca1d"
+  },
+  {
+    "url": "https://www.windrosecoffee.com/product/yemen-shaian-hiwar/",
+    "checked_at": "2026-10-05T19:26:54.961009+00:00",
+    "error": "HTTP Error 404: Not Found"
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "verified_at": "2026-10-05T19:41:42.637Z",
+  "method": "Anonymous Supabase JS public-key read, current mobile sensory parser",
+  "public_beans": 214,
+  "complete_personalities": 16,
+  "source_backed_profiles": 33,
+  "with_published_tasting_notes": 160,
+  "expected_profile_matches": 16,
+  "missing_expected_profiles": [],
+  "guarded_repair_dry_run": "passed and rolled back",
+  "idempotent_replay": "passed; exact final values retained"
+}

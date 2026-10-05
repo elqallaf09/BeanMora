@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Linking, Pressable, StyleSheet, View } from 'react-native';
 import Svg, { Circle, Ellipse, Path, Rect } from 'react-native-svg';
 import { Icon, Language, Txt, colors, styles } from './ui';
-import { flavorArt, flavorLabel, type CoffeeSensoryData, type SensoryKey, type SensoryValue } from './sensory';
+import { flavorArt, flavorLabel, hasCompletePersonality, missingPersonalityAttributes, type CoffeeSensoryData, type SensoryKey, type SensoryValue } from './sensory';
 
 /** Small vector illustrations stay crisp on both native screens and web. */
 export function FlavorIcon({ note, size = 38 }: { note: string; size?: number }) {
@@ -39,26 +39,36 @@ export function RoastLevel({ roast, score }: { roast?: string | null; score?: Se
   return <View style={[s.roast, ar && { flexDirection: 'row-reverse' }]}><View style={{ flexDirection: 'row', gap: 4 }}>{[0,1,2,3,4].map(i => <Icon key={i} name="bean" size={17} color={i < filled ? colors.copper : '#D8CDBE'} filled={i < filled}/>)}</View><Txt style={{ fontSize: 12, color: colors.muted }}>{ar ? 'التحميص: ' : 'Roast: '}{index >= 0 ? names[index] : `${score!.value}/${score!.max}`}</Txt></View>;
 }
 
-export function CoffeeSensory({ notes, sensory, roast }: { notes: string[]; sensory?: CoffeeSensoryData; roast?: string | null }) {
+export function CoffeeSensory({ notes, sensory, roast, sourceUrl }: { notes: string[]; sensory?: CoffeeSensoryData; roast?: string | null; sourceUrl?: string | null }) {
   const ar = useContext(Language) === 'ar';
+  const complete = hasCompletePersonality(notes, sensory);
   const labels: Record<SensoryKey, string> = ar ? { acidity: 'الحموضة', sweetness: 'الحلاوة', body: 'القوام', fermentation: 'التخمير' } : { acidity: 'Acidity', sweetness: 'Sweetness', body: 'Body', fermentation: 'Fermentation' };
   const keys: SensoryKey[] = (['acidity', 'sweetness', 'body', 'fermentation'] as const).filter(key => sensory?.[key] || sensory?.descriptions?.[key]);
-  return <View testID="coffee-sensory" style={s.profile}>
-    <Txt heading style={styles.subtitle}>{ar ? 'شخصية البن' : 'In the cup'}</Txt>
+  const missing = missingPersonalityAttributes(sensory).map(key => labels[key]).join(ar ? '، ' : ', ');
+  const source = keys.length ? sensory?.sourceUrl : sourceUrl;
+  return <View testID="coffee-sensory" style={[s.profile, complete && s.completeProfile]}>
+    <View testID={complete ? 'coffee-personality-complete' : 'coffee-personality-pending'} style={[s.profileHeader, ar && { flexDirection: 'row-reverse' }]}>
+      <View style={s.profileIcon}><Icon name="bean" size={23} color={colors.copper}/></View>
+      <View style={{ flex: 1, gap: 2 }}><Txt heading style={styles.subtitle}>{complete ? ar ? 'شخصية البن' : 'Coffee personality' : notes.length || keys.length ? ar ? 'إيحاءات المحمصة' : 'Roaster tasting notes' : ar ? 'الطعم قيد التوثيق' : 'Taste details coming soon'}</Txt><Txt style={s.caption}>{complete ? ar ? 'الإيحاءات وملامح الكوب من وصف المحمصة' : 'Tasting notes and cup attributes from the roaster' : ar ? 'المعلومات المتوفرة من المحمصة' : 'Available information from the roaster'}</Txt></View>
+    </View>
     <RoastLevel roast={roast} score={sensory?.roast}/>
-    <View testID="coffee-flavor-notes" style={{gap:8}}><Txt style={s.sectionLabel}>{ar ? 'إيحاءات البن والطعم' : 'Coffee tasting notes'}</Txt>{notes.length ? <FlavorNotes notes={notes} max={20}/> : <Txt style={s.caption}>{ar ? 'المحمصة لم تنشر إيحاءات هذا البن بعد.' : 'The roaster has not published tasting notes for this coffee yet.'}</Txt>}</View>
-    {keys.length ? <View style={s.scales}>{keys.map(key => {
+    {notes.length ? <View testID="coffee-flavor-notes" style={{gap:8}}><Txt style={s.sectionLabel}>{ar ? 'إيحاءات البن والطعم' : 'Coffee tasting notes'}</Txt><FlavorNotes notes={notes} max={20}/></View> : null}
+    {keys.length ? <View style={[s.scales, ar && { flexDirection: 'row-reverse' }]}>{keys.map(key => {
       const metric = sensory?.[key];
       const description = sensory?.descriptions?.[key];
       const value = metric ? `${metric.value}/${metric.max}` : ar ? description!.ar : description!.en;
-      return <View key={key} style={s.scaleRow}><View style={[s.scaleHeading, ar && { flexDirection: 'row-reverse' }]}><Txt style={s.scaleTitle}>{labels[key]}</Txt><Txt style={[s.scaleValue, !metric && { flexShrink: 1, textAlign: ar ? 'left' : 'right' }]}>{value}</Txt></View>{metric ? <View accessibilityLabel={labels[key]+': '+value} style={s.track}><View style={[s.trackFill, { width: `${metric.value / metric.max * 100}%`, alignSelf: ar ? 'flex-end' : 'flex-start' }]}/></View> : null}</View>;
-    })}</View> : notes.length ? <Txt style={s.caption}>{ar ? 'إيحاءات المحمصة؛ لم تنشر درجات رقمية لشدة النكهة.' : 'Roaster tasting notes; numerical intensity scores were not published.'}</Txt> : null}
-    {sensory?.sourceUrl && keys.length ? <Pressable accessibilityRole="link" onPress={() => void Linking.openURL(sensory.sourceUrl!)} style={s.source}><Txt style={s.sourceText}>{keys.some(key => sensory[key]) ? ar ? 'درجات المحمصة · عرض المصدر' : 'Roaster’s scale · View source' : ar ? 'وصف المحمصة · عرض المصدر' : 'Roaster’s description · View source'}</Txt><Icon name="arrow" color={colors.teal} size={14}/></Pressable> : null}
+      return <View key={key} testID={'coffee-attribute-'+key} style={s.scaleRow}><View style={[s.scaleHeading, ar && { flexDirection: 'row-reverse' }]}><Txt style={s.scaleTitle}>{labels[key]}</Txt>{metric ? <Txt style={s.scaleValue}>{value}</Txt> : null}</View>{metric ? <View accessibilityLabel={labels[key]+': '+value} style={s.track}><View style={[s.trackFill, { width: `${metric.value / metric.max * 100}%`, alignSelf: ar ? 'flex-end' : 'flex-start' }]}/></View> : null}{description ? <Txt style={s.description}>{ar ? description.ar : description.en}</Txt> : null}</View>;
+    })}</View> : null}
+    {!complete ? <View testID="coffee-personality-status"><Txt style={s.caption}>{!notes.length && !keys.length ? ar ? 'تظهر شخصية البن هنا بعد توثيق الإيحاءات والحموضة والحلاوة والقوام.' : 'The full personality appears here once tasting notes, acidity, sweetness and body are documented.' : !notes.length ? ar ? 'تظهر شخصية البن الكاملة بعد استكمال توثيق الإيحاءات'+(missing ? ' و'+missing : '')+'.' : 'The full personality awaits documented tasting notes'+(missing ? ', '+missing : '')+'.' : ar ? 'شخصية البن الكاملة بانتظار توثيق: '+missing+'.' : 'The full personality awaits documented '+missing+'.'}</Txt></View> : null}
+    {source && (notes.length || keys.length) ? <Pressable accessibilityRole="link" onPress={() => void Linking.openURL(source)} style={s.source}><Txt style={s.sourceText}>{keys.some(key => sensory?.[key]) ? ar ? 'درجات المحمصة · عرض المصدر' : 'Roaster’s scale · View source' : ar ? 'وصف المحمصة · عرض المصدر' : 'Roaster’s description · View source'}</Txt><Icon name="arrow" color={colors.teal} size={16}/></Pressable> : null}
   </View>;
 }
 
 const s = StyleSheet.create({
   profile: { backgroundColor: colors.paper, borderWidth: 1, borderColor: colors.line, borderRadius: 20, padding: 18, gap: 12 },
+  completeProfile: { borderColor: '#BDD2CB', backgroundColor: '#FFFCF7' },
+  profileHeader: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  profileIcon: { width: 42, height: 42, borderRadius: 21, backgroundColor: '#F1E6D7', alignItems: 'center', justifyContent: 'center' },
   notes: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, alignItems: 'center' },
   noteTile: { minWidth: 66, maxWidth: 104, flexGrow: 1, flexBasis: 66, alignItems: 'center', gap: 4, paddingHorizontal: 7, paddingVertical: 8, borderRadius: 14, backgroundColor: '#F6EFE4' },
   noteText: { fontSize: 14, lineHeight: 21, textAlign: 'center', color: colors.ink },
@@ -66,11 +76,12 @@ const s = StyleSheet.create({
   chipText: { fontSize: 11, lineHeight: 17, color: colors.muted, flexShrink: 1 },
   roast: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 10 },
   sectionLabel: { fontSize: 14, color: colors.muted, marginTop: 3 },
-  scales: { gap: 12, borderTopWidth: 1, borderTopColor: colors.line, paddingTop: 15, marginTop: 3 },
-  scaleRow: { gap: 7 }, scaleHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 12 },
-  scaleTitle: { fontSize: 13, fontWeight: '700' }, scaleValue: { color: colors.teal, fontSize: 13, fontVariant: ['tabular-nums'] },
+  scales: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, borderTopWidth: 1, borderTopColor: colors.line, paddingTop: 15, marginTop: 3 },
+  scaleRow: { flexGrow: 1, flexBasis: 160, minWidth: 0, gap: 9, padding: 12, borderRadius: 14, backgroundColor: '#F4F4EA' }, scaleHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 12 },
+  scaleTitle: { fontSize: 14, fontWeight: '700' }, scaleValue: { color: colors.teal, fontSize: 14, fontVariant: ['tabular-nums'] },
+  description: { color: colors.teal, fontSize: 15, lineHeight: 23 },
   track: { height: 6, backgroundColor: '#EAE2D8', borderRadius: 8, overflow: 'hidden' },
   trackFill: { height: 6, backgroundColor: colors.teal, borderRadius: 8 },
-  source: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 6, minHeight: 36 },
-  sourceText: { color: colors.teal, fontSize: 11 }, caption: { color: colors.muted, fontSize: 11, lineHeight: 18 },
+  source: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 6, minHeight: 44 },
+  sourceText: { color: colors.teal, fontSize: 12, flexShrink: 1 }, caption: { color: colors.muted, fontSize: 12, lineHeight: 20 },
 });

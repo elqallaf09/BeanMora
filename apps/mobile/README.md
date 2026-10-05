@@ -49,7 +49,7 @@ Native sessions persist using the Supabase storage adapter; web previews use bro
 
 ## Manual Android APK release
 
-Version 0.5.3 / Android versionCode 13 restores direct recipe and Coffee & taste navigation, opens recipes when a home brew method is chosen, recovers published tasting notes from alternate description formats and keeps the xBloom image out of native height measurement. Updating source or exporting Metro bundles does not update a previously installed APK.
+Version 0.5.4 / Android versionCode 14 restores the full Coffee personality card for source-backed tasting notes, acidity, sweetness and body. The Coffee & taste directory includes a Complete personality filter. Partial published facts remain available under Roaster tasting notes, and qualitative descriptions keep their wording instead of becoming invented scores. The 16 complete profiles and production verification are documented in ../../supabase/research/coffee-personality-2026-10-05/. Recipe navigation and the compact xBloom layout from 0.5.3 remain included. Updating source or exporting Metro bundles does not update a previously installed APK.
 
 After the release PR is merged, open the existing BeanMora Expo project's **Builds** page and choose **Build from GitHub**. Use:
 
@@ -62,7 +62,7 @@ After the release PR is merged, open the existing BeanMora Expo project's **Buil
 | Environment from the build profile | `production` (the **Production** variables in Expo) |
 | Submit to store after build | Off |
 
-Start the build manually. When its status is **Finished**, check that the build details identify the intended release commit and version **0.5.3 (13)**, then download the **APK** from that build's artifact link. Open the APK on the Android phone to install it. The account and connection-setup screens should display **0.5.3** after installation; use the build details to verify versionCode **13**.
+Start the build manually. When its status is **Finished**, check that the build details identify the intended release commit and version **0.5.4 (14)**, then download the **APK** from that build's artifact link. Open the APK on the Android phone to install it. The account and connection-setup screens should display **0.5.4** after installation; use the build details to verify versionCode **14**.
 
 Both EAS profiles explicitly select `production` variables and the Android `latest` build image. Version numbers come from the checked-in app config (`cli.appVersionSource: local`). The `preview` profile produces an internally distributed APK; the `production` profile produces an app bundle for store distribution. The standalone preview APK runs without Expo Go or a development server.
 
