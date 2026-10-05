@@ -12,7 +12,7 @@ for (const file of ['data.ts','guards.ts','sourceBrew.ts','manualBrew.ts','senso
   writeFileSync(temp + '/' + file.replace('.ts','.mjs'), code);
 }
 const { loadData, mapRecipe } = await import(pathToFileURL(temp + '/data.mjs').href);
-const { readSensory } = await import(pathToFileURL(temp + '/sensory.mjs').href);
+const { publishedFlavorNotes, readSensory } = await import(pathToFileURL(temp + '/sensory.mjs').href);
 const { waterLabel, temperatureLabel } = await import(pathToFileURL(temp + '/manualBrew.mjs').href);
 const { recipeQuickFacts } = await import(pathToFileURL(temp + '/recipeQuickFacts.mjs').href);
 const { isGeneralBrewGuide } = await import(pathToFileURL(temp + '/brewStarter.mjs').href);
@@ -20,6 +20,25 @@ function database(tables) {
   return { from(name) { const q = { select(){return q;},eq(){return q;},in(){return q;},or(){return q;},order(){return q;},limit(){return q;},then(done){return Promise.resolve({data:tables[name]??[],error:null}).then(done);} }; return q; } };
 }
 const base={id:'bean',slug:'bean',name_en:'Real coffee',requires_review:false,is_published:true,roaster:{name_en:'Roaster',logo_url:'https://example.test/logo.png'},suitable_for_v60:true};
+test('published flavor notes survive alternate source wording and empty direct arrays', async () => {
+  for (const [description, expected] of [
+    ['Flavour notes: orange, caramel, apple. 250g bag.', ['orange', 'caramel', 'apple']],
+    ['Tasting notes as stated: peach, cantaloupe, lychee, white grapes, mandarine.', ['peach', 'cantaloupe', 'lychee', 'white grapes', 'mandarine']],
+    ['Tasting notes as stated by the roaster: pomegranate, jasmine, almond, tangerine, honey.', ['pomegranate', 'jasmine', 'almond', 'tangerine', 'honey']],
+    ['Aroma: caramel. Flavor: chocolate, nuts. Acidity: low.', ['chocolate', 'nuts']],
+    ['Roaster states notes "Nutty, Floral, Sweet". Sold pre-ground.', ['Nutty', 'Floral', 'Sweet']],
+    ['Roaster-stated tasting notes of berries, lavender and black tea.', ['berries', 'lavender', 'black tea']],
+    ['Raspberry, yellow plum, chamomile, chocolate. Sweetness 4/5.', ['Raspberry', 'yellow plum', 'chamomile', 'chocolate']],
+    ['Caramel, medium acidity, nuts, dark chocolate. Espresso roast.', ['Caramel', 'nuts', 'dark chocolate']],
+    ['إيحاءات النكهة: شوكولاتة، لوز، كراميل.', ['شوكولاتة', 'لوز', 'كراميل']],
+  ]) assert.deepEqual(publishedFlavorNotes([[]], [description]), expected);
+  assert.deepEqual(publishedFlavorNotes([[], ['jasmine']], ['Flavour notes: citrus.']), ['jasmine']);
+  assert.deepEqual(publishedFlavorNotes([], ['No process, notes or origin published.']), []);
+  assert.deepEqual(publishedFlavorNotes([], ['A fruity coffee, roast level not stated.']), []);
+  const data = await loadData(database({beans:[{...base,flavors:[],description_en:'Flavour notes: orange, caramel, apple.'}]}),'ar',null);
+  assert.deepEqual(data.coffees[0].flavors,['orange','caramel','apple']);
+  assert.equal(data.coffees[0].sensory.acidity,undefined);
+});
 test('approved gallery photos are ordered and never replaced by roaster logos or unapproved assets',async()=>{
   const data=await loadData(database({beans:[{...base,image_url:'https://example.test/unapproved.png',image_usage_status:'rights_unknown',images:[{url:'https://example.test/second.jpg',position:2,image_usage_status:'rights_confirmed'},{url:'https://example.test/first.jpg',position:0,image_usage_status:'rights_confirmed'},{url:'https://example.test/removed.jpg',position:-1,image_usage_status:'removal_requested'}]}]}),'en',null);
   assert.equal(data.coffees[0].imageUrl,'https://example.test/first.jpg');

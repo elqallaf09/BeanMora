@@ -43,17 +43,16 @@ export function CoffeeSensory({ notes, sensory, roast }: { notes: string[]; sens
   const ar = useContext(Language) === 'ar';
   const labels: Record<SensoryKey, string> = ar ? { acidity: 'الحموضة', sweetness: 'الحلاوة', body: 'القوام', fermentation: 'التخمير' } : { acidity: 'Acidity', sweetness: 'Sweetness', body: 'Body', fermentation: 'Fermentation' };
   const keys: SensoryKey[] = (['acidity', 'sweetness', 'body', 'fermentation'] as const).filter(key => sensory?.[key] || sensory?.descriptions?.[key]);
-  if (!notes.length && !keys.length && !roast) return null;
   return <View testID="coffee-sensory" style={s.profile}>
     <Txt heading style={styles.subtitle}>{ar ? 'شخصية البن' : 'In the cup'}</Txt>
     <RoastLevel roast={roast} score={sensory?.roast}/>
-    {notes.length ? <><Txt style={s.sectionLabel}>{ar ? 'الإيحاءات' : 'Tasting notes'}</Txt><FlavorNotes notes={notes} max={12}/></> : null}
+    <View testID="coffee-flavor-notes" style={{gap:8}}><Txt style={s.sectionLabel}>{ar ? 'إيحاءات البن والطعم' : 'Coffee tasting notes'}</Txt>{notes.length ? <FlavorNotes notes={notes} max={20}/> : <Txt style={s.caption}>{ar ? 'المحمصة لم تنشر إيحاءات هذا البن بعد.' : 'The roaster has not published tasting notes for this coffee yet.'}</Txt>}</View>
     {keys.length ? <View style={s.scales}>{keys.map(key => {
       const metric = sensory?.[key];
       const description = sensory?.descriptions?.[key];
       const value = metric ? `${metric.value}/${metric.max}` : ar ? description!.ar : description!.en;
       return <View key={key} style={s.scaleRow}><View style={[s.scaleHeading, ar && { flexDirection: 'row-reverse' }]}><Txt style={s.scaleTitle}>{labels[key]}</Txt><Txt style={[s.scaleValue, !metric && { flexShrink: 1, textAlign: ar ? 'left' : 'right' }]}>{value}</Txt></View>{metric ? <View accessibilityLabel={labels[key]+': '+value} style={s.track}><View style={[s.trackFill, { width: `${metric.value / metric.max * 100}%`, alignSelf: ar ? 'flex-end' : 'flex-start' }]}/></View> : null}</View>;
-    })}</View> : <Txt style={s.caption}>{ar ? 'إيحاءات المحمصة؛ لم تنشر درجات رقمية لشدة النكهة.' : 'Roaster tasting notes; numerical intensity scores were not published.'}</Txt>}
+    })}</View> : notes.length ? <Txt style={s.caption}>{ar ? 'إيحاءات المحمصة؛ لم تنشر درجات رقمية لشدة النكهة.' : 'Roaster tasting notes; numerical intensity scores were not published.'}</Txt> : null}
     {sensory?.sourceUrl && keys.length ? <Pressable accessibilityRole="link" onPress={() => void Linking.openURL(sensory.sourceUrl!)} style={s.source}><Txt style={s.sourceText}>{keys.some(key => sensory[key]) ? ar ? 'درجات المحمصة · عرض المصدر' : 'Roaster’s scale · View source' : ar ? 'وصف المحمصة · عرض المصدر' : 'Roaster’s description · View source'}</Txt><Icon name="arrow" color={colors.teal} size={14}/></Pressable> : null}
   </View>;
 }
@@ -62,11 +61,11 @@ const s = StyleSheet.create({
   profile: { backgroundColor: colors.paper, borderWidth: 1, borderColor: colors.line, borderRadius: 20, padding: 18, gap: 12 },
   notes: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, alignItems: 'center' },
   noteTile: { minWidth: 66, maxWidth: 104, flexGrow: 1, flexBasis: 66, alignItems: 'center', gap: 4, paddingHorizontal: 7, paddingVertical: 8, borderRadius: 14, backgroundColor: '#F6EFE4' },
-  noteText: { fontSize: 12, lineHeight: 18, textAlign: 'center', color: colors.ink },
+  noteText: { fontSize: 14, lineHeight: 21, textAlign: 'center', color: colors.ink },
   noteChip: { flexDirection: 'row', alignItems: 'center', gap: 4, borderRadius: 999, backgroundColor: '#F5EDE0', paddingHorizontal: 7, paddingVertical: 3, maxWidth: '100%' },
   chipText: { fontSize: 11, lineHeight: 17, color: colors.muted, flexShrink: 1 },
   roast: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 10 },
-  sectionLabel: { fontSize: 13, color: colors.muted, marginTop: 3 },
+  sectionLabel: { fontSize: 14, color: colors.muted, marginTop: 3 },
   scales: { gap: 12, borderTopWidth: 1, borderTopColor: colors.line, paddingTop: 15, marginTop: 3 },
   scaleRow: { gap: 7 }, scaleHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 12 },
   scaleTitle: { fontSize: 13, fontWeight: '700' }, scaleValue: { color: colors.teal, fontSize: 13, fontVariant: ['tabular-nums'] },
