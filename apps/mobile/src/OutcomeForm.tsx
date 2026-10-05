@@ -15,7 +15,7 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
   const [grindSetting, setGrindSetting] = useState(recipe.grindSetting ?? '');
   const [brewed, setBrewed] = useState(false); const [modified, setModified] = useState(false); const [share, setShare] = useState(false);
   const [nextGrind, setNextGrind] = useState<'finer' | 'same' | 'coarser' | null>(null);
-  const [busy, setBusy] = useState(false); const [saved, setSaved] = useState(false); const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false); const [saved, setSaved] = useState(false); const [error, setError] = useState(''); const [auxiliaryWarning,setAuxiliaryWarning]=useState('');
   const inFlight = useRef(false); const pending = useRef<{ id: string; payload: BrewOutcome } | null>(null);
   const locked = busy || pending.current !== null;
   async function submit() {
@@ -36,19 +36,22 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
       const request = pending.current;
       const response = await saveOutcome(supabase, request.id, request.payload);
       if (!response.ok) { setError(errors[locale][response.error]); return; }
+      const warnings:string[]=[];
       const grind = grindSetting.trim();
       if (grind) {
-        const update = await supabase.from('brew_logs').update({ grind_setting: grind }).eq('id', request.id).eq('user_id', userId);
-        if (update.error) throw update.error;
-        const inventoryQuery = recipe.productId
-          ? supabase.from('user_bean_inventory').update({ last_grind_setting: grind }).eq('user_id', userId).eq('roasted_product_id', recipe.productId)
-          : recipe.beanId
-            ? supabase.from('user_bean_inventory').update({ last_grind_setting: grind }).eq('user_id', userId).eq('legacy_bean_id', recipe.beanId)
-            : null;
-        if (inventoryQuery) {
-          const inventory = await inventoryQuery;
-          if (inventory.error) throw inventory.error;
-        }
+        try{
+          const update = await supabase.from('brew_logs').update({ grind_setting: grind }).eq('id', request.id).eq('user_id', userId);
+          if (update.error) throw update.error;
+          const inventoryQuery = recipe.productId
+            ? supabase.from('user_bean_inventory').update({ last_grind_setting: grind }).eq('user_id', userId).eq('roasted_product_id', recipe.productId)
+            : recipe.beanId
+              ? supabase.from('user_bean_inventory').update({ last_grind_setting: grind }).eq('user_id', userId).eq('legacy_bean_id', recipe.beanId)
+              : null;
+          if (inventoryQuery) {
+            const inventory = await inventoryQuery;
+            if (inventory.error) throw inventory.error;
+          }
+        }catch{warnings.push(locale==='ar'?'تم حفظ الكوب، لكن تعذّر تحديث درجة الطحن في المخزون.':'The brew was saved, but the grind setting could not be synced to inventory.');}
       }
       if (share) {
         const post = await supabase.from('posts').insert({
@@ -66,13 +69,14 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
           visibility: 'public',
           is_hidden: false,
         });
-        if (post.error) throw post.error;
+        if (post.error && post.error.code!=='23505') warnings.push(locale==='ar'?'تم حفظ الكوب، لكن تعذرت مشاركته تلقائيًا. تقدر تشاركه لاحقًا من المجتمع.':'The brew was saved, but automatic sharing failed. You can share it later from Community.');
       }
+      setAuxiliaryWarning(warnings.join(' '));
       setSaved(true);
     } catch { setError(errors[locale].retry); }
     finally { inFlight.current = false; setBusy(false); }
   }
-  if (saved) return <View style={styles.content}><Txt heading style={styles.title}>{t.saved}</Txt><Action title={t.next} onPress={done} selected /></View>;
+  if (saved) return <View style={styles.content}><Txt heading style={styles.title}>{t.saved}</Txt>{auxiliaryWarning?<Txt style={styles.warning}>{auxiliaryWarning}</Txt>:share?<Txt style={styles.success}>{locale==='ar'?'تمت مشاركة التجربة في المجتمع.':'Your brew was shared to Community.'}</Txt>:null}<Action title={t.next} onPress={done} selected /></View>;
   return <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.content}>
     <View style={local.hero}><Txt heading style={local.heroTitle}>{locale==='ar'?'شلون كان الكوب؟':'How was the cup?'}</Txt><Txt style={local.heroNote}>{locale==='ar'?'سجّل النتيجة بسرعة ونحتفظ بالإعداد اللي نجح معاك.':'Log the result quickly so BeanMora can remember what worked.'}</Txt></View><View style={local.recipePill}><Txt style={local.recipeTitle}>{recipe.title}</Txt></View><Txt style={styles.muted}>{t.amountNote}</Txt>{recipe.waterUnit === 'ml' ? <Txt style={styles.muted}>{locale === 'ar' ? 'ماء المصدر بالملليلتر؛ أدخل وزن الماء الفعلي من الميزان بالجرام.' : 'Source water is in milliliters; enter the actual water weight from your scale in grams.'}</Txt> : null}
     <Field label={t.dose} value={dose} onChangeText={setDose} keyboardType="decimal-pad" editable={!locked} />
