@@ -439,16 +439,16 @@ export function EquipmentDetail({
   const methodKey=validMethods.join('|');
   useEffect(()=>{
     let active=true;
-    if(!supabase||!validMethods.length){setCatalogRelated([]);return;}
+    const client=supabase;
+    if(!client||!validMethods.length){setCatalogRelated([]);return;}
     setCatalogBusy(true);
-    void supabase.from('recipes').select(RECIPE_FIELDS).eq('visibility','public').in('brew_method',validMethods).order('updated_at',{ascending:false}).limit(8)
-      .then(({data,error})=>{
-        if(!active)return;
-        if(error){setCatalogRelated([]);return;}
-        setCatalogRelated(((data??[]) as unknown as RecipeRow[]).flatMap(row=>{const mapped=mapRecipe(row,locale);return mapped?[mapped]:[];}));
-      })
-      .catch(()=>{if(active)setCatalogRelated([]);})
-      .finally(()=>{if(active)setCatalogBusy(false);});
+    const run=async()=>{try{
+      const {data,error}=await client.from('recipes').select(RECIPE_FIELDS).eq('visibility','public').in('brew_method',validMethods).order('updated_at',{ascending:false}).limit(8);
+      if(!active)return;
+      if(error){setCatalogRelated([]);return;}
+      setCatalogRelated(((data??[]) as unknown as RecipeRow[]).flatMap(row=>{const mapped=mapRecipe(row,locale);return mapped?[mapped]:[];}));
+    }catch{if(active)setCatalogRelated([]);}finally{if(active)setCatalogBusy(false);}};
+    void run();
     return()=>{active=false;};
   },[item.id,methodKey,locale]);
   const related=[...new Map([...localRelated,...catalogRelated].map(recipe=>[recipe.id,recipe])).values()];
