@@ -1,4 +1,5 @@
 import { test, expect, type Page, type Request, type Route } from '@playwright/test';
+import { openRecipeLibrary } from './navigation';
 
 // All network responses and public keys are isolated test fixtures. SQL behavior
 // is tested separately against the actual migration in check-recipe-discovery-sql.
@@ -31,7 +32,7 @@ async function openLibrary(page: Page, locale: 'ar' | 'en') {
     // before navigating and typing into another control.
     await expect(page.getByRole('button', { name: 'Close language selection', exact: true, includeHidden: true })).toHaveCount(0);
   }
-  await page.getByRole('button', { name: locale === 'ar' ? 'تحضير' : 'Brew', exact: true }).click();
+  await openRecipeLibrary(page, locale);
   await expect(page.getByRole('button', { name: locale === 'ar' ? records[0].title_ar : records[0].title, exact: true })).toBeVisible();
 }
 

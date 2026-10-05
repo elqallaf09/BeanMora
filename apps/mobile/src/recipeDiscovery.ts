@@ -79,13 +79,14 @@ function selectWithRecipeSortKeys(fields: string): string {
   }
   return selected.join(',');
 }
-export function recipePageQuery(db: Pick<SupabaseClient, 'rpc'>, search: RecipeSearch, page: number, fields: string, signal: AbortSignal) {
-  const offset = Math.max(0, Math.floor(page)) * RECIPE_PAGE_SIZE;
+export function recipePageQuery(db: Pick<SupabaseClient, 'rpc'>, search: RecipeSearch, page: number, fields: string, signal: AbortSignal, requestedPageSize = RECIPE_PAGE_SIZE) {
+  const pageSize = Number.isInteger(requestedPageSize) && requestedPageSize > 0 && requestedPageSize <= RECIPE_PAGE_SIZE ? requestedPageSize : RECIPE_PAGE_SIZE;
+  const offset = Math.max(0, Math.floor(page)) * pageSize;
   return db.rpc('search_public_recipes', recipeSearchParams(search), { count: 'exact' })
     .select(selectWithRecipeSortKeys(fields))
     .order('updated_at', { ascending: false })
     .order('id')
-    .range(offset, offset + RECIPE_PAGE_SIZE - 1)
+    .range(offset, offset + pageSize - 1)
     .abortSignal(signal);
 }
 

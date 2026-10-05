@@ -1,4 +1,5 @@
 import { test, expect, type Page, type Route } from "@playwright/test";
+import { openRecipeLibrary } from './navigation';
 
 // Independent network-fixture contract; production SQL is tested separately.
 // Search text is JSON data, never a PostgREST expression.
@@ -293,7 +294,7 @@ test("full recipe pagination retries a failed page and filters sources and machi
   });
   await page.goto("/");
   await english(page);
-  await page.getByRole("button", { name: "Brew", exact: true }).click();
+  await openRecipeLibrary(page, 'en');
   await expect(
     page.getByRole("button", { name: "Source recipe 0", exact: true }),
   ).toBeVisible();
@@ -331,7 +332,9 @@ test("full recipe pagination retries a failed page and filters sources and machi
     .getByRole("button", { name: "Source recipe 0", exact: true })
     .click();
   await expect(page.getByText("288 ml", { exact: true })).toBeVisible();
-  await expect(page.getByText(/99.44°C/)).toBeVisible();
+  await expect(
+    page.getByTestId('recipe-source-facts').getByText('99.44°C across pours', { exact: true }),
+  ).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Isolated publisher", exact: true }),
   ).toBeVisible();

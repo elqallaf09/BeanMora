@@ -131,7 +131,7 @@ function Shell() {
     <ScreenTransition key={recording?'record':detail?detail.type+detail.item.id:tab}><KeyboardAvoidingView style={{flex:1}} behavior={Platform.OS==='ios'?'padding':undefined}>
     {!configured?<View style={styles.content}><Txt heading style={styles.title}>{t.setup}</Txt><Txt>{t.setupNote}</Txt><AppVersion/></View>
     :recording&&detail?.type==='recipe'&&userId?<OutcomeForm key={userId+detail.item.id} userId={userId} recipe={detail.item} measuredSeconds={measuredSeconds} done={()=>{navigate('forYou');refresh();}}/>
-    :detail?.type==='coffee'?<CoffeeDetail key={detail.item.id+locale} item={detail.item} recipes={data?.recipes??[]} openRecipe={openRecipe} addToBags={item=>void addToBags(item)}/>
+    :detail?.type==='coffee'?<CoffeeDetail key={detail.item.id+locale} item={detail.item} recipes={data?.recipes??[]} openRecipe={openRecipe} addToBags={item=>void addToBags(item)} browseRecipes={brewMethod=>{setMethod(brewMethod);navigate(brewMethod==='xbloom'?'xbloom':'recipes');}}/>
     :detail?.type==='recipe'?<RecipeDetail recipe={detail.item} record={startRecord}/>
     :detail?.type==='equipment'?<EquipmentDetail key={detail.item.id+locale+(userId??'guest')} item={detail.item} recipes={data?.recipes??[]} userId={userId} login={()=>navigate('account')} openRecipe={openRecipe}/>
     :detail?.type==='roaster'?<RoasterDetail key={detail.item.id+locale} item={detail.item} coffees={data?.coffees??[]} recipes={data?.recipes??[]} openCoffee={openCoffee} openRecipe={openRecipe} saveCoffee={item=>void saveCoffee(item)} saved={savedIds} loading={refreshing}/>

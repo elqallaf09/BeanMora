@@ -1,4 +1,5 @@
 import { test, expect, type Route } from '@playwright/test';
+import { openRecipeLibrary } from './navigation';
 
 // Independent network-fixture contract; production SQL is tested separately.
 // Search text is JSON data, never a PostgREST expression.
@@ -118,7 +119,7 @@ for (const unit of ['g', 'ml'] as const) test(`signed-in brew with source water 
   await page.getByLabel('Password', { exact: true }).fill('isolated-fixture-password');
   await page.getByRole('button', { name: 'Sign in', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Sign out', exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Brew', exact: true }).click();
+  await openRecipeLibrary(page, 'en');
   await page.getByRole('button', { name: recipe.title, exact: true }).click();
   await page.getByRole('button', { name: 'Record my brew', exact: true }).click();
   await page.getByRole('button', { name: 'Save result', exact: true }).click();

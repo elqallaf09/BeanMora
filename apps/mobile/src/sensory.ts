@@ -7,6 +7,7 @@ export interface CoffeeSensoryData {
   sourceUrl: string | null;
   acidity?: SensoryValue; sweetness?: SensoryValue; body?: SensoryValue;
   fermentation?: SensoryValue; roast?: SensoryValue;
+  descriptions?: Partial<Record<SensoryKey, { en: string; ar: string }>>;
 }
 
 /** Keep the roaster's original scale. A flavor word never supplies an intensity. */
@@ -15,6 +16,16 @@ export function readSensory(value: unknown, legacy: { acidity?: unknown; sweetne
   const sourceUrl = safeUrl(row.source_url) || safeUrl(legacySource);
   const result: CoffeeSensoryData = { sourceUrl };
   if (!sourceUrl) return result;
+  const descriptions: NonNullable<CoffeeSensoryData['descriptions']> = {};
+  for (const key of SENSORY_KEYS) {
+    const raw = row[`${key}_description`];
+    const translated = row[`${key}_description_ar`];
+    if (typeof raw === 'string' && raw.trim()) descriptions[key] = {
+      en: raw.trim().slice(0, 160),
+      ar: typeof translated === 'string' && translated.trim() ? translated.trim().slice(0, 160) : raw.trim().slice(0, 160),
+    };
+  }
+  if (Object.keys(descriptions).length) result.descriptions = descriptions;
   const scale = typeof row.scale_max === 'number' ? row.scale_max : NaN;
   for (const key of [...SENSORY_KEYS, 'roast'] as const) {
     const raw = row[key] ?? (key === 'acidity' || key === 'sweetness' || key === 'body' ? legacy[key] : undefined);
@@ -49,6 +60,8 @@ const labels: Record<string, string> = {
   honey: 'عسل', caramel: 'كراميل', toffee: 'توفي', 'brown sugar': 'سكر بني', spice: 'توابل', cinnamon: 'قرفة', cardamom: 'هيل',
   berry: 'توت', berries: 'توت', raspberry: 'توت العليق', strawberry: 'فراولة', blueberry: 'توت أزرق', blackberry: 'توت أسود',
   cherry: 'كرز', 'red apple': 'تفاح أحمر', 'green apple': 'تفاح أخضر', plum: 'برقوق', grape: 'عنب', raisin: 'زبيب', vanilla: 'فانيلا',
+  'red berries': 'توت أحمر', 'red berry': 'توت أحمر', 'mixed berries': 'توت مشكّل', 'black berries': 'توت داكن',
+  botanical: 'نباتية', 'sweet citrus': 'حمضيات حلوة', 'orange zest': 'قشر البرتقال', 'sugar cane': 'قصب السكر',
 };
 export function flavorLabel(note: string, ar: boolean): string {
   const clean = note.trim();

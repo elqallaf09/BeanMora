@@ -64,36 +64,16 @@ export function SourceBrewDetails({ recipe }: { recipe: RecipeItem }) {
             {i + 1}
           </Txt>
           <Txt>
-            {ar ? "الماء: " : "Water: "}
-            {p.volume ?? "—"} ml · {ar ? "الحرارة: " : "Temperature: "}
-            {sourceTemperature(p.temperature, ar)}
+            {[p.volume != null ? `${ar ? 'الماء: ' : 'Water: '}${p.volume} ml` : null,p.temperature != null ? `${ar ? 'الحرارة: ' : 'Temperature: '}${sourceTemperature(p.temperature, ar)}` : null].filter(Boolean).join(' · ')}
           </Txt>
           <Txt>
-            {ar ? "تدفق الماء: " : "Flow rate: "}
-            {p.flow_rate ?? "—"} ml/s · {ar ? "التوقف: " : "Pause: "}
-            {p.pause_seconds ?? "—"} s
+            {[p.flow_rate != null ? `${ar ? 'تدفق الماء: ' : 'Flow rate: '}${p.flow_rate} ml/s` : null,p.pause_seconds != null ? `${ar ? 'التوقف: ' : 'Pause: '}${p.pause_seconds} s` : null].filter(Boolean).join(' · ')}
           </Txt>
           <Txt style={styles.muted}>
-            {ar ? "اهتزاز قبل الصبة: " : "Vibration before: "}
-            {p.vibration_before === 1
-              ? ar
-                ? "مفعّل"
-                : "On"
-              : p.vibration_before === 2
-                ? ar
-                  ? "متوقف"
-                  : "Off"
-                : "—"}{" "}
-            · {ar ? "بعد الصبة: " : "After: "}
-            {p.vibration_after === 1
-              ? ar
-                ? "مفعّل"
-                : "On"
-              : p.vibration_after === 2
-                ? ar
-                  ? "متوقف"
-                  : "Off"
-                : "—"}
+            {[
+              p.vibration_before === 1 || p.vibration_before === 2 ? `${ar ? 'اهتزاز قبل الصبة: ' : 'Vibration before: '}${p.vibration_before === 1 ? ar ? 'مفعّل' : 'On' : ar ? 'متوقف' : 'Off'}` : null,
+              p.vibration_after === 1 || p.vibration_after === 2 ? `${ar ? 'بعد الصبة: ' : 'After: '}${p.vibration_after === 1 ? ar ? 'مفعّل' : 'On' : ar ? 'متوقف' : 'Off'}` : null,
+            ].filter(Boolean).join(' · ')}
           </Txt>
         </View>
       ))}

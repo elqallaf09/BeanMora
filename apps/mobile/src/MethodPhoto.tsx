@@ -4,6 +4,7 @@ import type { Method } from './core/engine';
 import { Language, Txt } from './ui';
 
 const photos: Partial<Record<Method, ImageSourcePropType>> = {
+  xbloom: require('../assets/brewing/filter-coffee.png'),
   chemex: require('../assets/brewing/chemex.jpg'),
   aeropress: require('../assets/brewing/aeropress.jpg'),
   french_press: require('../assets/brewing/french_press.jpg'),

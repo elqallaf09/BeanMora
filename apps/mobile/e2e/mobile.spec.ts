@@ -1,4 +1,5 @@
 import { test, expect, type Page, type Route } from '@playwright/test';
+import { openRecipeLibrary } from './navigation';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
@@ -127,6 +128,9 @@ for (const locale of ['ar', 'en'] as const) {
     await expect(page.getByRole('heading', { name: coffeeName })).toBeVisible();
     await page.getByRole('button', { name: locale === 'ar' ? 'رجوع' : 'Back', exact: true }).click();
     await page.getByRole('button', { name: locale === 'ar' ? 'تحضير' : 'Brew', exact: true }).click();
+    await expect(page.getByRole('heading', { name: locale === 'ar' ? 'حضّر قهوتي' : 'Brew my coffee', exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: locale === 'ar' ? 'تسجيل الدخول' : 'Sign in', exact: true })).toBeVisible();
+    await openRecipeLibrary(page, locale);
     await page.getByRole('button', { name: locale === 'ar' ? recipe.title_ar : recipe.title, exact: true }).click();
     await expect(page.getByText('A written test instruction')).toBeVisible();
     await page.getByRole('button', { name: locale === 'ar' ? 'سجّل نتيجة تحضيري' : 'Record my brew', exact: true }).click();
