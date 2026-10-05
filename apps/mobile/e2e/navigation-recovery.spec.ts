@@ -76,6 +76,6 @@ for (const {width,height,locale} of [
   await page.screenshot({path:testInfo.outputPath(`xbloom-${locale}-${width}.png`)});
   // Resize the mounted hub to catch layout regressions when a tablet rotates.
   await page.setViewportSize({width:height,height:width});
-  await expect(hero).toBeVisible();expect((await hero.boundingBox())!.height).toBeLessThan(330);
+  await expect(hero).toBeVisible();await expect.poll(async () => (await hero.boundingBox())?.height ?? Infinity).toBeLessThan(330);
   expect(errors).toEqual([]);
 });

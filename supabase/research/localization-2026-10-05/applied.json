@@ -1,0 +1,177 @@
+{
+  "applied_at": "2026-10-05",
+  "project_id": "ubvzdglrwkkuaigmkjap",
+  "chunks": [
+    {
+      "file": "00-beans.sql",
+      "result": [
+        {
+          "scope": "beans.description_ar",
+          "changed": 117
+        }
+      ]
+    },
+    {
+      "file": "01-recipes.sql",
+      "result": [
+        {
+          "scope": "recipes.notes_ar",
+          "changed": 2
+        }
+      ]
+    },
+    {
+      "file": "02-roasters.sql",
+      "result": [
+        {
+          "scope": "roasters.description_ar",
+          "changed": 31
+        }
+      ]
+    },
+    {
+      "file": "03-recipe-titles.sql",
+      "result": [
+        {
+          "scope": "recipes.title_ar",
+          "changed": 500
+        }
+      ]
+    },
+    {
+      "file": "04-recipe-titles.sql",
+      "result": [
+        {
+          "scope": "recipes.title_ar",
+          "changed": 500
+        }
+      ]
+    },
+    {
+      "file": "05-recipe-titles.sql",
+      "result": [
+        {
+          "scope": "recipes.title_ar",
+          "changed": 500
+        }
+      ]
+    },
+    {
+      "file": "06-recipe-titles.sql",
+      "result": [
+        {
+          "scope": "recipes.title_ar",
+          "changed": 500
+        }
+      ]
+    },
+    {
+      "file": "07-recipe-titles.sql",
+      "result": [
+        {
+          "scope": "recipes.title_ar",
+          "changed": 500
+        }
+      ]
+    },
+    {
+      "file": "08-recipe-titles.sql",
+      "result": [
+        {
+          "scope": "recipes.title_ar",
+          "changed": 500
+        }
+      ]
+    },
+    {
+      "file": "09-recipe-titles.sql",
+      "result": [
+        {
+          "scope": "recipes.title_ar",
+          "changed": 37
+        }
+      ]
+    },
+    {
+      "file": "10-recipe-steps.sql",
+      "result": [
+        {
+          "scope": "recipe_steps",
+          "changed": 1778
+        }
+      ]
+    },
+    {
+      "file": "11-recipe-steps.sql",
+      "result": [
+        {
+          "scope": "recipe_steps",
+          "changed": 1624
+        }
+      ]
+    },
+    {
+      "file": "12-recipe-steps.sql",
+      "result": [
+        {
+          "scope": "recipe_steps",
+          "changed": 2007
+        }
+      ]
+    },
+    {
+      "file": "13-recipe-steps.sql",
+      "result": [
+        {
+          "scope": "recipe_steps",
+          "changed": 1453
+        }
+      ]
+    },
+    {
+      "file": "14-recipe-steps.sql",
+      "result": [
+        {
+          "scope": "recipe_steps",
+          "changed": 1868
+        }
+      ]
+    },
+    {
+      "file": "15-recipe-steps.sql",
+      "result": [
+        {
+          "scope": "recipe_steps",
+          "changed": 1746
+        }
+      ]
+    },
+    {
+      "file": "16-recipe-steps.sql",
+      "result": [
+        {
+          "scope": "recipe_steps",
+          "changed": 1665
+        }
+      ]
+    },
+    {
+      "file": "17-recipe-steps.sql",
+      "result": [
+        {
+          "scope": "recipe_steps",
+          "changed": 992
+        }
+      ]
+    },
+    {
+      "file": "18-unpublished-pour-times.sql",
+      "result": [
+        {
+          "scope": "unpublished_pour_times",
+          "changed": 3
+        }
+      ]
+    }
+  ]
+}

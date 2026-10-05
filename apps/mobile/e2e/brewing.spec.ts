@@ -119,6 +119,7 @@ for (const guide of guideCases) test(`${guide.method}: Arabic guide, source unit
   await expect(page.getByTestId(`method-photo-${guide.method}`)).toBeVisible();
   if (guide.method === 'french_press') await expect(page.getByText('1000 ml', { exact: true })).toBeVisible();
   if (guide.method === 'kalita_wave') await expect(page.getByText('الخطة مثال باستخدام حدود نطاق المصدر؛ اتبع النطاق والتدفق المذكورين.', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'دليل طريقة التحضير', exact: true }).click();
   const popupPromise = page.waitForEvent('popup');
   await page.getByRole('button', { name: /شاهد شرح التحضير على يوتيوب/ }).click();
   const popup = await popupPromise;

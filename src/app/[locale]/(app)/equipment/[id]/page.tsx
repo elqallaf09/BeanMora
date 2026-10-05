@@ -80,7 +80,7 @@ export default async function EquipmentDetailPage({
   const image = equipment.image_usage_status === "rights_confirmed" ? equipment.image_url : null;
   const brandName = equipment.brand?.name ?? null;
   const specs = (equipment.specifications ?? {}) as Record<string, unknown>;
-  const specEntries = Object.entries(specs).filter(([, v]) => v !== null && v !== undefined && v !== "");
+  const specEntries = Object.entries(specs).filter(([key, v]) => key !== "catalog" && v !== null && v !== undefined && v !== "");
   const methods = (equipment.suitable_brew_methods ?? []) as string[];
   const compatLabels = { v60: t("nav.v60"), espresso: t("nav.espresso"), xbloom: t("nav.xbloom") };
 

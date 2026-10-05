@@ -105,7 +105,7 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
       const path=new URL(route.request().url()).pathname;
       if (path.endsWith('/rpc/search_public_recipes')) return replyDiscovery(route, [recipe], beans);
       if (path.endsWith('/rpc/recipes_for_coffee')) return replyCoffeeRecipes(route, [recipe]);
-      return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(path.endsWith('/beans')?beans:path.endsWith('/recipes')?[recipe]:path.endsWith('/equipment_models')?[{id:'44444444-4444-4444-8444-444444444444',name:'Isolated scale model',category:'scale',requires_review:false,source_url:null}]:[])});
+      return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(path.endsWith('/beans')?beans:path.endsWith('/recipes')?[recipe]:path.endsWith('/equipment_models')?[{id:'44444444-4444-4444-8444-444444444444',name:'Isolated scale model',category:'scale',requires_review:false,source_url:null,specifications:{catalog:{schema_version:1,name_ar:'ميزان اختبار معزول'}}}]:[])});
     });
     // A failed source image must be an explicit unavailable state, not a different product.
     await page.route('https://photo-fixture.test/**',route=>route.abort());
@@ -121,7 +121,7 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
     await home.evaluate(el=>{el.scrollTop=el.scrollHeight;});
     await expect(page.getByRole('button',{name:'ميزان القهوة',exact:true})).toBeVisible();
     await page.getByRole('button',{name:'ميزان القهوة',exact:true}).click();
-    await expect(page.getByText('Isolated scale model',{exact:true})).toBeVisible();
+    await expect(page.getByText('ميزان اختبار معزول',{exact:true})).toBeVisible();
     await page.getByRole('button',{name:'الرئيسية',exact:true}).click();
     await page.getByTestId('home-scroll').evaluate(el=>{el.scrollTop=0;});
     await page.getByRole('button',{name:beans[0].name_ar,exact:true}).click();

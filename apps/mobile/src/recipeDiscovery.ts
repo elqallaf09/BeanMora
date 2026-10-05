@@ -1,9 +1,11 @@
+import { catalogName } from './localizedContent';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { flavorGroups, type Flavor, type Method } from './core/engine';
 import { safeUrl } from './guards';
 
 export const RECIPE_PAGE_SIZE = 30;
-export const RECIPE_DISCOVERY_FIELDS = 'serving_style,source_coffee_name,source_roaster_name,source_origin_country,source_varietal,source_tasting_notes';
+export const RECIPE_DISCOVERY_FIELDS =
+  'serving_style,source_coffee_name,source_roaster_name,source_origin_country,source_varietal,source_tasting_notes';
 export type RecipeSourceFilter = 'all' | 'official' | 'community';
 export type ServingStyle = '' | 'hot' | 'iced' | 'cold';
 export interface RecipeDiscoveryFilters {
@@ -21,12 +23,22 @@ export interface RecipeDiscoveryFilters {
   sourceName: string;
 }
 export const emptyRecipeFilters = (): RecipeDiscoveryFilters => ({
-  flavorNote: '', flavorFamily: '', creatorName: '', creatorCountry: '',
-  recipeCountry: '', recipeName: '', servingStyle: '', coffeeType: '',
-  coffeeName: '', coffeeOrigin: '', roasterName: '', sourceName: '',
+  flavorNote: '',
+  flavorFamily: '',
+  creatorName: '',
+  creatorCountry: '',
+  recipeCountry: '',
+  recipeName: '',
+  servingStyle: '',
+  coffeeType: '',
+  coffeeName: '',
+  coffeeOrigin: '',
+  roasterName: '',
+  sourceName: '',
 });
 export function recipeFilterCount(filters: RecipeDiscoveryFilters): number {
-  return Object.values(filters).filter(value => value.trim().length > 0).length;
+  return Object.values(filters).filter((value) => value.trim().length > 0)
+    .length;
 }
 export interface RecipeSearch {
   query: string;
@@ -35,7 +47,8 @@ export interface RecipeSearch {
   model: string;
   filters: RecipeDiscoveryFilters;
 }
-const parameter = (value: string | undefined) => value?.trim().slice(0, 160) || null;
+const parameter = (value: string | undefined) =>
+  value?.trim().slice(0, 160) || null;
 export function recipeSearchParams(search: RecipeSearch) {
   const f = search.filters;
   // Values stay bound JSON parameters, including quotes, %, _ and commas.
@@ -44,7 +57,10 @@ export function recipeSearchParams(search: RecipeSearch) {
     p_query: parameter(search.query),
     p_method: parameter(search.method),
     p_source: search.source === 'all' ? null : search.source,
-    p_model: search.method === 'xbloom' && search.model !== 'all' ? parameter(search.model) : null,
+    p_model:
+      search.method === 'xbloom' && search.model !== 'all'
+        ? parameter(search.model)
+        : null,
     p_flavor_note: parameter(f.flavorNote),
     p_flavor_family: parameter(f.flavorFamily),
     p_creator_name: parameter(f.creatorName),
@@ -75,14 +91,30 @@ function selectWithRecipeSortKeys(fields: string): string {
   // The deployed PostgREST RPC projection needs its ORDER BY columns selected.
   // Nested resource columns do not satisfy the parent recipe's sort keys.
   if (!selected.includes('*')) {
-    for (const key of ['id', 'updated_at']) if (!selected.includes(key)) selected.push(key);
+    for (const key of ['id', 'updated_at'])
+      if (!selected.includes(key)) selected.push(key);
   }
   return selected.join(',');
 }
-export function recipePageQuery(db: Pick<SupabaseClient, 'rpc'>, search: RecipeSearch, page: number, fields: string, signal: AbortSignal, requestedPageSize = RECIPE_PAGE_SIZE) {
-  const pageSize = Number.isInteger(requestedPageSize) && requestedPageSize > 0 && requestedPageSize <= RECIPE_PAGE_SIZE ? requestedPageSize : RECIPE_PAGE_SIZE;
+export function recipePageQuery(
+  db: Pick<SupabaseClient, 'rpc'>,
+  search: RecipeSearch,
+  page: number,
+  fields: string,
+  signal: AbortSignal,
+  requestedPageSize = RECIPE_PAGE_SIZE,
+) {
+  const pageSize =
+    Number.isInteger(requestedPageSize) &&
+    requestedPageSize > 0 &&
+    requestedPageSize <= RECIPE_PAGE_SIZE
+      ? requestedPageSize
+      : RECIPE_PAGE_SIZE;
   const offset = Math.max(0, Math.floor(page)) * pageSize;
-  return db.rpc('search_public_recipes', recipeSearchParams(search), { count: 'exact' })
+  return db
+    .rpc('search_public_recipes', recipeSearchParams(search), {
+      count: 'exact',
+    })
     .select(selectWithRecipeSortKeys(fields))
     .order('updated_at', { ascending: false })
     .order('id')
@@ -115,36 +147,94 @@ export interface RecipeDiscovery {
   servingStyle: ServingStyle;
   sourceUrls: string[];
 }
-const object = (value: unknown): Record<string, unknown> => value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {};
-const text = (value: unknown): string | null => typeof value === 'string' && value.trim() ? value.trim().slice(0, 300) : null;
-const strings = (value: unknown): string[] => Array.isArray(value) ? value.flatMap(value => text(value) ? [text(value)!] : []).slice(0, 20) : [];
-export function readRecipeDiscovery(row: RecipeDiscoveryRow, locale: 'ar' | 'en'): RecipeDiscovery {
+const object = (value: unknown): Record<string, unknown> =>
+  value && typeof value === 'object' && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : {};
+const text = (value: unknown): string | null =>
+  typeof value === 'string' && value.trim() ? value.trim().slice(0, 300) : null;
+const strings = (value: unknown): string[] =>
+  Array.isArray(value)
+    ? value.flatMap((value) => (text(value) ? [text(value)!] : [])).slice(0, 20)
+    : [];
+export function readRecipeDiscovery(
+  row: RecipeDiscoveryRow,
+  locale: 'ar' | 'en',
+): RecipeDiscovery {
   const metadata = object(object(row.source_brew_parameters).discovery);
-  const localized = (key: string): string | null => locale === 'ar'
-    ? text(metadata[`${key}_ar`]) || text(metadata[key])
-    : text(metadata[key]) || text(metadata[`${key}_ar`]);
-  const localizedNotes = strings(metadata[locale === 'ar' ? 'flavor_notes_ar' : 'flavor_notes']);
-  const otherNotes = strings(metadata[locale === 'ar' ? 'flavor_notes' : 'flavor_notes_ar']);
-  const applicableNames = strings(metadata[locale === 'ar' ? 'applicable_coffee_names_ar' : 'applicable_coffee_names']);
-  const otherApplicableNames = strings(metadata[locale === 'ar' ? 'applicable_coffee_names' : 'applicable_coffee_names_ar']);
-  const notes = localizedNotes.length ? localizedNotes : otherNotes.length ? otherNotes
-    : strings(row.flavor_notes).length ? strings(row.flavor_notes)
-    : text(row.source_tasting_notes)?.split(/[,،;]/).map(value => value.trim()).filter(Boolean) ?? [];
-  const knownStyle = (value: unknown): ServingStyle => value === 'hot' || value === 'iced' || value === 'cold' ? value : '';
+  const localized = (key: string): string | null =>
+    locale === 'ar'
+      ? text(metadata[`${key}_ar`]) || text(metadata[key])
+      : text(metadata[key]) || text(metadata[`${key}_ar`]);
+  const localizedNotes = strings(
+    metadata[locale === 'ar' ? 'flavor_notes_ar' : 'flavor_notes'],
+  );
+  const otherNotes = strings(
+    metadata[locale === 'ar' ? 'flavor_notes' : 'flavor_notes_ar'],
+  );
+  const applicableNames = strings(
+    metadata[
+      locale === 'ar' ? 'applicable_coffee_names_ar' : 'applicable_coffee_names'
+    ],
+  );
+  const otherApplicableNames = strings(
+    metadata[
+      locale === 'ar' ? 'applicable_coffee_names' : 'applicable_coffee_names_ar'
+    ],
+  );
+  const notes = localizedNotes.length
+    ? localizedNotes
+    : otherNotes.length
+      ? otherNotes
+      : strings(row.flavor_notes).length
+        ? strings(row.flavor_notes)
+        : (text(row.source_tasting_notes)
+            ?.split(/[,،;]/)
+            .map((value) => value.trim())
+            .filter(Boolean) ?? []);
+  const knownStyle = (value: unknown): ServingStyle =>
+    value === 'hot' || value === 'iced' || value === 'cold' ? value : '';
   return {
-    creatorName: localized('creator_name') || text(row.source_author_name),
+    creatorName:
+      catalogName(
+        localized('creator_name') || text(row.source_author_name),
+        locale,
+      ) || null,
     // These two countries have no fallback to coffee origin or roaster address.
-    creatorCountry: localized('creator_country'),
-    recipeCountry: localized('recipe_country'),
-    coffeeOrigin: localized('coffee_origin') || text(row.source_origin_country),
+    creatorCountry: catalogName(localized('creator_country'), locale) || null,
+    recipeCountry: catalogName(localized('recipe_country'), locale) || null,
+    coffeeOrigin:
+      catalogName(
+        localized('coffee_origin') || text(row.source_origin_country),
+        locale,
+      ) || null,
     coffeeType: localized('coffee_type') || text(row.source_varietal),
-    coffeeName: localized('coffee_name') || text(row.source_coffee_name),
+    coffeeName:
+      catalogName(
+        localized('coffee_name') || text(row.source_coffee_name),
+        locale,
+      ) || null,
     // Only promoted, verified discovery names qualify; a general guide stays empty.
-    applicableCoffeeNames: [...new Set(applicableNames.length ? applicableNames : otherApplicableNames)],
-    roasterName: localized('roaster_name') || text(row.source_roaster_name),
+    applicableCoffeeNames: [
+      ...new Set(
+        applicableNames.length ? applicableNames : otherApplicableNames,
+      ),
+    ],
+    roasterName:
+      catalogName(
+        localized('roaster_name') || text(row.source_roaster_name),
+        locale,
+      ) || null,
     flavorNotes: [...new Set(notes)],
-    flavorFamilies: flavorGroups([...notes, ...strings(metadata.flavor_families)]),
-    servingStyle: knownStyle(row.serving_style) || knownStyle(metadata.serving_style),
-    sourceUrls: strings(metadata.source_urls).flatMap(value => { const url = safeUrl(value); return url ? [url] : []; }),
+    flavorFamilies: flavorGroups([
+      ...notes,
+      ...strings(metadata.flavor_families),
+    ]),
+    servingStyle:
+      knownStyle(row.serving_style) || knownStyle(metadata.serving_style),
+    sourceUrls: strings(metadata.source_urls).flatMap((value) => {
+      const url = safeUrl(value);
+      return url ? [url] : [];
+    }),
   };
 }
