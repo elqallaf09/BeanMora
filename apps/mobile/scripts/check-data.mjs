@@ -12,7 +12,7 @@ for (const file of ['data.ts','guards.ts','sourceBrew.ts','manualBrew.ts','senso
   writeFileSync(temp + '/' + file.replace('.ts','.mjs'), code);
 }
 const { loadData, mapRecipe } = await import(pathToFileURL(temp + '/data.mjs').href);
-const { publishedFlavorNotes, readSensory } = await import(pathToFileURL(temp + '/sensory.mjs').href);
+const { hasCompletePersonality, missingPersonalityAttributes, publishedFlavorNotes, readSensory } = await import(pathToFileURL(temp + '/sensory.mjs').href);
 const { waterLabel, temperatureLabel } = await import(pathToFileURL(temp + '/manualBrew.mjs').href);
 const { recipeQuickFacts } = await import(pathToFileURL(temp + '/recipeQuickFacts.mjs').href);
 const { isGeneralBrewGuide } = await import(pathToFileURL(temp + '/brewStarter.mjs').href);
@@ -116,6 +116,18 @@ test('source descriptions remain qualitative and require a safe provenance link'
   const profile=readSensory({source_url:'https://example.test/archive',body_description:'Full-bodied',body_description_ar:'ممتلئ'});
   assert.deepEqual(profile.descriptions.body,{en:'Full-bodied',ar:'ممتلئ'});assert.equal(profile.body,undefined);
   assert.equal(readSensory({body_description:'Full-bodied'}).descriptions,undefined);
+});
+test('a complete personality requires sourced notes, acidity, sweetness and body, including valid zero scores',()=>{
+  const partial=readSensory({source_url:'https://example.test/coffee',scale_max:5,acidity:0,sweetness:4});
+  assert.deepEqual(missingPersonalityAttributes(partial),['body']);
+  assert.equal(hasCompletePersonality(['Cocoa'],partial),false);
+  const complete=readSensory({source_url:'https://example.test/coffee',scale_max:5,acidity:0,sweetness:4,body_description:'Silky',body_description_ar:'حريري'});
+  assert.equal(hasCompletePersonality(['Cocoa'],complete),true);
+  assert.equal(hasCompletePersonality([],complete),false);
+  assert.equal(hasCompletePersonality(['  '],complete),false);
+  assert.equal(hasCompletePersonality(['Cocoa'],{...complete,sourceUrl:'javascript:alert(1)'}),false);
+  const unsupported=readSensory({source_url:'https://example.test/coffee',acidity:3,sweetness:4,body:3});
+  assert.equal(hasCompletePersonality(['Cocoa'],unsupported),false);
 });
 test('general starters cannot relabel another coffee, a shared-coffee guide or an xBloom device profile',()=>{
   const row={id:'general',title:'General guide',brew_method:'v60',visibility:'public',bean_id:null,roasted_product_id:null,recipe_type:'official_manufacturer',dose_grams:15,water_grams:250,steps:[{step_number:1,title:'Pour',description:'Follow the source'}],sources:[{source_url:'https://example.test/guide',source_name:'Publisher',data_confidence:'official'}]};

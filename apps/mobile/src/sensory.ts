@@ -2,12 +2,21 @@ import { safeUrl } from './guards';
 
 export const SENSORY_KEYS = ['acidity', 'sweetness', 'body', 'fermentation'] as const;
 export type SensoryKey = typeof SENSORY_KEYS[number];
+export const PERSONALITY_KEYS = ['acidity', 'sweetness', 'body'] as const;
 export interface SensoryValue { value: number; max: number }
 export interface CoffeeSensoryData {
   sourceUrl: string | null;
   acidity?: SensoryValue; sweetness?: SensoryValue; body?: SensoryValue;
   fermentation?: SensoryValue; roast?: SensoryValue;
   descriptions?: Partial<Record<SensoryKey, { en: string; ar: string }>>;
+}
+
+/** A full personality needs tasting notes and each core attribute from a source. */
+export function missingPersonalityAttributes(sensory?: CoffeeSensoryData): (typeof PERSONALITY_KEYS[number])[] {
+  return PERSONALITY_KEYS.filter(key => !safeUrl(sensory?.sourceUrl) || (!sensory?.[key] && !sensory?.descriptions?.[key]));
+}
+export function hasCompletePersonality(notes: string[], sensory?: CoffeeSensoryData): boolean {
+  return notes.some(note => note.trim()) && missingPersonalityAttributes(sensory).length === 0;
 }
 
 /** Keep the roaster's original scale. A flavor word never supplies an intensity. */
@@ -63,6 +72,12 @@ const labels: Record<string, string> = {
   lavender: 'لافندر', chamomile: 'بابونج', 'black tea': 'شاي أسود', 'yellow plum': 'برقوق أصفر', dates: 'تمر', cloves: 'قرنفل',
   lychee: 'ليتشي', cantaloupe: 'شمام', pineapple: 'أناناس', mandarine: 'يوسفي', tangerine: 'يوسفي', pomegranate: 'رمان', 'dried fig': 'تين مجفف',
   'red berries': 'توت أحمر', 'red berry': 'توت أحمر', 'mixed berries': 'توت مشكّل', 'black berries': 'توت داكن',
+  'almond cream': 'كريمة اللوز', 'blood orange': 'برتقال أحمر', nectarine: 'نكتارين', lemongrass: 'عشبة الليمون',
+  'dried fruit': 'فواكه مجففة', 'dried fruits': 'فواكه مجففة', 'blackcurrant': 'كشمش أسود', 'white grapes': 'عنب أبيض',
+  'blueberry pie': 'فطيرة التوت الأزرق', 'candied pecan': 'بيكان مُحلّى', 'roasted walnuts': 'جوز محمّص',
+  'cacao nibs': 'قطع الكاكاو', 'candied walnuts': 'جوز مُحلّى', liquorice: 'عرق السوس', molasses: 'دبس',
+  'maraschino cherries': 'كرز ماراشينو', 'fruit-smoked': 'فواكه مع لمسة دخان', nougat: 'نوجا',
+  praline: 'برالين', maltesers: 'مالتيزرز', sweet: 'حلوة', elegant: 'أنيقة',
   botanical: 'نباتية', 'sweet citrus': 'حمضيات حلوة', 'orange zest': 'قشر البرتقال', 'sugar cane': 'قصب السكر',
 };
 export function flavorLabel(note: string, ar: boolean): string {

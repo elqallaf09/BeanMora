@@ -1,0 +1,731 @@
+[
+  {
+    "id": "91261847-9eea-4357-9779-d00ded9f2e86",
+    "slug": "49th-parallel-coffee-roasters-old-school-espresso-ea466f21",
+    "name": "Old School Espresso",
+    "source_url": "https://49thcoffee.com/products/old-school-espresso",
+    "source_title": "Old School Espresso | 49th Parallel Coffee Roasters",
+    "source_html_sha256": "eaf0b1ea65b675b874cba4116522ed73fa691a85f2014e356ac3a0aed4c8f728",
+    "evidence_kind": "official_product_description",
+    "evidence": {
+      "short_observations": [
+        "low acidity",
+        "full-body",
+        "highlights the sweetness"
+      ]
+    },
+    "profile": {
+      "source_url": "https://49thcoffee.com/products/old-school-espresso",
+      "status": "published_by_roaster",
+      "verified_at": "2026-10-05T19:24:05.290705+00:00",
+      "acidity_description": "Low",
+      "acidity_description_ar": "منخفضة",
+      "sweetness_description": "Highlighted by the medium-dark roast",
+      "sweetness_description_ar": "يبرزها التحميص المتوسط الداكن",
+      "body_description": "Full",
+      "body_description_ar": "ممتلئ"
+    },
+    "notes": [
+      "Caramel",
+      "Dark Chocolate",
+      "Nuts"
+    ],
+    "notes_sorted": [
+      "Caramel",
+      "Dark Chocolate",
+      "Nuts"
+    ],
+    "description_en": "A traditional espresso blend with a medium-dark roast. The roaster describes low acidity, a full body and sweetness highlighted by the roast, with caramel, dark chocolate and nuts.",
+    "description_ar": "خلطة إسبريسو بتحميص متوسط داكن. تصف المحمصة حموضتها بالمنخفضة وقوامها بالممتلئ، مع حلاوة يبرزها التحميص وإيحاءات الكراميل والشوكولاتة الداكنة والمكسرات.",
+    "expected_profile": {},
+    "expected_notes": [
+      "Caramel",
+      "Dark Chocolate",
+      "Nuts"
+    ],
+    "expected_description_en": "49th Parallel coffee with origin Brazil, Colombia; product photos and brewing recommendations are published on the product page.",
+    "expected_description_ar": "بن من 49 بارالل بمنشأ البرازيل، كولومبيا؛ صورة العبوة وتوصية التحضير منشورتان في صفحة المنتج."
+  },
+  {
+    "id": "1b58e3d2-6b7a-41b1-9c33-9527c30324e4",
+    "slug": "bahrainroastery-applewood-reserve",
+    "name": "AppleWood Reserve (Wood-Fired Coffee)",
+    "source_url": "https://bahrainroastery.com/products/1-kg-applewood-reserve-wood-fired-coffee",
+    "source_title": "1 KG AppleWood Reserve (Wood-Fired Coffee)\n – Bahrain Roastery",
+    "source_html_sha256": "02b41a732ae96a81603316c0746f10c92f4248451a804d1306d436ebd12935f9",
+    "evidence_kind": "official_product_description",
+    "evidence": {
+      "short_observations": [
+        "subtle sweetness",
+        "smooth body",
+        "crisp acidity",
+        "fruit-smoked"
+      ]
+    },
+    "profile": {
+      "source_url": "https://bahrainroastery.com/products/1-kg-applewood-reserve-wood-fired-coffee",
+      "status": "published_by_roaster",
+      "verified_at": "2026-10-05T19:24:16.930535+00:00",
+      "acidity_description": "Crisp",
+      "acidity_description_ar": "واضحة ومنعشة",
+      "sweetness_description": "Subtle",
+      "sweetness_description_ar": "خفيفة",
+      "body_description": "Smooth",
+      "body_description_ar": "ناعم"
+    },
+    "notes": [
+      "Fruit-smoked"
+    ],
+    "notes_sorted": [
+      "Fruit-smoked"
+    ],
+    "description_en": "Applewood-smoked coffee. The roaster describes subtle sweetness, crisp acidity and a smooth body, with a delicate fruit-and-smoke character.",
+    "description_ar": "قهوة محمصة بدخان خشب التفاح. تصف المحمصة حلاوتها بالخفيفة وحموضتها بالواضحة والمنعشة وقوامها بالناعم، مع طابع فواكه ولمسة دخان.",
+    "expected_profile": {},
+    "expected_notes": [],
+    "expected_description_en": "1 kg wood-fired roast using applewood.",
+    "expected_description_ar": null
+  },
+  {
+    "id": "04013dd4-13df-471d-afeb-260d4238ae2f",
+    "slug": "black-knight-excelso-colombia",
+    "name": "Excelso (Colombia)",
+    "source_url": "https://b-k.coffee/products/كولومبيا-اكسيلسو-مغسول-250g",
+    "source_title": "إكسيلسو - كولومبيا / مغسول / 250 جرام",
+    "source_html_sha256": "4905a9dae609685e82b07459cdb9e69eec164d78308794080415e93f2f2a45f5",
+    "evidence_kind": "official_product_metadata",
+    "evidence": {
+      "short_observations": [
+        "حمضية ناعمة متزنة",
+        "حلاوة واضحة",
+        "قوام كريمي ممتلئ"
+      ]
+    },
+    "profile": {
+      "source_url": "https://b-k.coffee/products/كولومبيا-اكسيلسو-مغسول-250g",
+      "status": "published_by_roaster",
+      "verified_at": "2026-10-05T19:24:13.709625+00:00",
+      "acidity_description": "Soft and balanced",
+      "acidity_description_ar": "ناعمة ومتزنة",
+      "sweetness_description": "Clear",
+      "sweetness_description_ar": "واضحة",
+      "body_description": "Full and creamy",
+      "body_description_ar": "كريمي ممتلئ"
+    },
+    "notes": [
+      "Caramel",
+      "Brown sugar",
+      "Almond cream"
+    ],
+    "notes_sorted": [
+      "Almond cream",
+      "Brown sugar",
+      "Caramel"
+    ],
+    "description_en": "A washed Colombian coffee. The roaster describes soft, balanced acidity, clear sweetness and a full creamy body, with caramel, brown sugar and almond cream.",
+    "description_ar": "بن كولومبي بمعالجة مغسولة. تصف المحمصة حموضته بالناعمة والمتزنة، وحلاوته بالواضحة، وقوامه بالكريمي الممتلئ، مع إيحاءات الكراميل والسكر البني وكريمة اللوز.",
+    "expected_profile": {},
+    "expected_notes": [],
+    "expected_description_en": "Washed lot (\"مغسولة\", stated directly on the product page). Full creamy body (\"قوام كريمي ممتلئ\") with caramel, brown sugar and almond-cream notes (\"الكراميل والسكر البني وكريمة اللوز\"), clear sweetness and a balanced, smooth acidity, per the roaster's own product description. Varietal, altitude and roast level not stated.",
+    "expected_description_ar": null
+  },
+  {
+    "id": "182ef429-0991-4916-aadb-741adc78178f",
+    "slug": "coffee-supreme-au-south-blend-5edb4464",
+    "name": "South Blend",
+    "source_url": "https://shopau.coffeesupreme.com/products/south-blend",
+    "source_title": "Buy South Blend by Coffee Supreme online - Coffee Supreme AU",
+    "source_html_sha256": "7efe5be23801242d7d8ad46a924987266c0096c874f9cf9fddc3f370df627533",
+    "evidence_kind": "official_product_description",
+    "evidence": {
+      "short_observations": [
+        "Acidity: Mellow",
+        "Body: Smooth",
+        "sweet and delicate with milk"
+      ]
+    },
+    "profile": {
+      "source_url": "https://shopau.coffeesupreme.com/products/south-blend",
+      "status": "published_by_roaster",
+      "verified_at": "2026-10-05T19:26:00.789843+00:00",
+      "acidity_description": "Mellow",
+      "acidity_description_ar": "هادئة",
+      "sweetness_description": "Sweet and delicate with milk",
+      "sweetness_description_ar": "رقيقة مع الحليب",
+      "body_description": "Smooth",
+      "body_description_ar": "ناعم"
+    },
+    "notes": [
+      "Maltesers",
+      "Caramel",
+      "Praline"
+    ],
+    "notes_sorted": [
+      "Caramel",
+      "Maltesers",
+      "Praline"
+    ],
+    "description_en": "The roaster describes a smooth, creamy blend with mellow acidity. Its sweetness is described as delicate with milk, with Maltesers, caramel and praline tasting notes.",
+    "description_ar": "خلطة تصفها المحمصة بالناعمة والكريمية، بحموضة هادئة وحلاوة رقيقة مع الحليب، وإيحاءات مالتيزرز والكراميل والبرالين.",
+    "expected_profile": {},
+    "expected_notes": [
+      "Caramel",
+      "Maltesers",
+      "Praline"
+    ],
+    "expected_description_en": "Australian Coffee Supreme blend with published espresso targets; described for both milk and black coffee.",
+    "expected_description_ar": "خلطة كوفي سوبريم الأسترالية لها أرقام إسبريسو منشورة، ويصفها المصدر للتقديم بالحليب أو سادة."
+  },
+  {
+    "id": "ef405312-ccd7-4529-9e67-9867cab84537",
+    "slug": "counter-culture-coffee-big-trouble-1eededa7",
+    "name": "Big Trouble",
+    "source_url": "https://counterculturecoffee.com/products/big-trouble",
+    "source_title": "Big Trouble Coffee | Best-Selling Medium-Dark Roast Blend | Counter Culture Coffee",
+    "source_html_sha256": "ceaf164d65becf9d6750dc07ffa2be9ee00628e1f14be4418003e050eb732b56",
+    "evidence_kind": "official_product_description",
+    "evidence": {
+      "short_observations": [
+        "low-acidity",
+        "sweet flavors",
+        "medium body"
+      ]
+    },
+    "profile": {
+      "source_url": "https://counterculturecoffee.com/products/big-trouble",
+      "status": "published_by_roaster",
+      "verified_at": "2026-10-05T19:24:31.055664+00:00",
+      "acidity_description": "Low",
+      "acidity_description_ar": "منخفضة",
+      "sweetness_description": "Sweet flavors",
+      "sweetness_description_ar": "طابع حلو",
+      "body_description": "Medium",
+      "body_description_ar": "متوسط"
+    },
+    "notes": [
+      "Caramel",
+      "Nutty",
+      "Chocolate"
+    ],
+    "notes_sorted": [
+      "Caramel",
+      "Chocolate",
+      "Nutty"
+    ],
+    "description_en": "A medium-dark blend. The roaster describes low acidity, sweet flavors and a medium body, with caramel, nuts and chocolate.",
+    "description_ar": "خلطة بتحميص متوسط داكن. تصف المحمصة حموضتها بالمنخفضة، وقوامها بالمتوسط، وطعمها بالحلو، مع إيحاءات الكراميل والمكسرات والشوكولاتة.",
+    "expected_profile": {},
+    "expected_notes": [
+      "Caramel",
+      "Chocolate",
+      "Nutty"
+    ],
+    "expected_description_en": "Current blend components: 50% Sitio de Maria, El Salvador, and 50% Aurora, Nicaragua, for the published September 21–present roast-date selection.",
+    "expected_description_ar": "الخلطة المنشورة لاختيار تاريخ التحميص من September 21 إلى الوقت الحالي: 50% سيتيو دي ماريا من السلفادور و50% أورورا من نيكاراغوا."
+  },
+  {
+    "id": "451b7bd4-d084-476a-a154-7f23350bb96c",
+    "slug": "julith-colombia-finca-zarza-papayo-natural",
+    "name": "Colombia Finca Zarza Fruit Forward Papayo Natural",
+    "source_url": "https://julithcoffee.com/colombia-finca-zarza-fruit-forward-papayo/",
+    "source_title": "Colombia Finca Zarza Fruit Forward Papayo Natural - Julith Coffee",
+    "source_html_sha256": "78727ffb20bc6be890a0f8bcba038325da582a5089c2aefd177bdc3b3f6827fb",
+    "evidence_kind": "official_product_description",
+    "evidence": {
+      "short_observations": [
+        "bright acidity",
+        "sweetness of maraschino cherries",
+        "full-bodied",
+        "silky and velvety"
+      ]
+    },
+    "profile": {
+      "source_url": "https://julithcoffee.com/colombia-finca-zarza-fruit-forward-papayo/",
+      "status": "published_by_roaster",
+      "verified_at": "2026-10-05T19:25:04.827573+00:00",
+      "acidity_description": "Bright",
+      "acidity_description_ar": "مشرقة",
+      "sweetness_description": "Maraschino-cherry sweetness",
+      "sweetness_description_ar": "حلاوة كرز ماراشينو",
+      "body_description": "Full, silky and velvety",
+      "body_description_ar": "ممتلئ وحريري ومخملي"
+    },
+    "notes": [
+      "Red apple",
+      "Maraschino cherries",
+      "Vanilla"
+    ],
+    "notes_sorted": [
+      "Maraschino cherries",
+      "Red apple",
+      "Vanilla"
+    ],
+    "description_en": "A natural Papayo lot from Finca Zarza, Colombia. The roaster describes bright acidity, maraschino-cherry sweetness and a full, silky body, with red apple, maraschino cherries and vanilla.",
+    "description_ar": "محصول بابايو بمعالجة طبيعية من فينكا زارزا في كولومبيا. تصفه المحمصة بحموضة مشرقة وحلاوة تشبه كرز ماراشينو وقوام ممتلئ وحريري، مع إيحاءات التفاح الأحمر وكرز ماراشينو والفانيلا.",
+    "expected_profile": {},
+    "expected_notes": [],
+    "expected_description_en": "Tasting notes per Julith: red apple, maraschino cherries, vanilla. Altitude stated as 1,450-1,800 MASL (range; altitude_meters left null). Roast stated on page as \"96 (Dark)\" — not mapped to roast_level. Suitable for V60, filter machine, French press, espresso per page. Sizes 40g, 80g, 250g (bag_weight_grams = 250).",
+    "expected_description_ar": null
+  },
+  {
+    "id": "c5e2422d-311c-4cfc-91f7-58c310db389a",
+    "slug": "julith-panama-kotowa-silvia-marina-geisha-natural-lot-26-4320",
+    "name": "Panama Finca Kotowa Silvia Marina Geisha Natural Lot 26-4320",
+    "source_url": "https://julithcoffee.com/panama-kotowa-silvia-marina-geisha-natural-lot26-4320/",
+    "source_title": "Panama Finca Kotowa Silvia Marina Geisha Natural Lot 26-4320 - Julith Coffee",
+    "source_html_sha256": "1d07fdcb7087dfe2c1bd32467aa4ce2b58ef2e0966c9a572b11b19cd36cc34b5",
+    "evidence_kind": "official_product_description",
+    "evidence": {
+      "short_observations": [
+        "Acidity is vibrant and citrus-toned",
+        "ripe nectarine sweetness",
+        "syrupy body"
+      ]
+    },
+    "profile": {
+      "source_url": "https://julithcoffee.com/panama-kotowa-silvia-marina-geisha-natural-lot26-4320/",
+      "status": "published_by_roaster",
+      "verified_at": "2026-10-05T19:25:07.809261+00:00",
+      "acidity_description": "Vibrant and citrus-toned",
+      "acidity_description_ar": "حيوية بطابع حمضيّات",
+      "sweetness_description": "Ripe-nectarine sweetness",
+      "sweetness_description_ar": "حلاوة نكتارين ناضج",
+      "body_description": "Syrupy",
+      "body_description_ar": "شرابي"
+    },
+    "notes": [
+      "Jasmine",
+      "Hibiscus",
+      "Blood orange",
+      "Nectarine"
+    ],
+    "notes_sorted": [
+      "Blood orange",
+      "Hibiscus",
+      "Jasmine",
+      "Nectarine"
+    ],
+    "description_en": "Natural Geisha from Kotowa, Panama, lot 26-4320. The roaster describes vibrant citrus-toned acidity, ripe nectarine sweetness and a syrupy body, with jasmine, hibiscus, blood orange and nectarine.",
+    "description_ar": "جيشا بمعالجة طبيعية من كوتوا في بنما، الدفعة 26-4320. تصفه المحمصة بحموضة حيوية بطابع الحمضيات، وحلاوة نكتارين ناضج، وقوام شرابي، مع إيحاءات الياسمين والكركديه والبرتقال الأحمر والنكتارين.",
+    "expected_profile": {},
+    "expected_notes": [],
+    "expected_description_en": "Tasting notes per Julith: jasmine, hibiscus, blood orange, nectarine. Altitude stated as 1750-2000 MASL (range; altitude_meters left null). Roast stated on page as \"106 (Dark)\" — not mapped to roast_level. Pour over recommended. Sizes 40g or 80g (bag_weight_grams = 80).",
+    "expected_description_ar": null
+  },
+  {
+    "id": "2ee54616-a7f5-4447-8692-4ee85ef03567",
+    "slug": "julith-panama-janson-geisha-washed-lot-26-178",
+    "name": "Panama Janson Coffee Geisha Washed Lot 26-178",
+    "source_url": "https://julithcoffee.com/panama-janson-coffee-geisha-washed-lot-26-178/",
+    "source_title": "Panama Janson Coffee Geisha Washed Lot 26-178 - Julith Coffee",
+    "source_html_sha256": "5f28a918644b8fff20c49cc78551ac7e1af5fed45a0c5c1ce95e43b480aca559",
+    "evidence_kind": "official_product_description",
+    "evidence": {
+      "short_observations": [
+        "Acidity is lively and citrus-driven",
+        "pronounced sweetness",
+        "almost weightless, silky"
+      ]
+    },
+    "profile": {
+      "source_url": "https://julithcoffee.com/panama-janson-coffee-geisha-washed-lot-26-178/",
+      "status": "published_by_roaster",
+      "verified_at": "2026-10-05T19:25:04.828078+00:00",
+      "acidity_description": "Lively and citrus-driven",
+      "acidity_description_ar": "حيوية بطابع حمضيّات",
+      "sweetness_description": "Pronounced, with a delicate honey finish",
+      "sweetness_description_ar": "بارزة مع نهاية عسلية رقيقة",
+      "body_description": "Almost weightless and silky",
+      "body_description_ar": "خفيف جدًا وحريري"
+    },
+    "notes": [
+      "Jasmine",
+      "Lemongrass",
+      "Blood orange",
+      "Honey"
+    ],
+    "notes_sorted": [
+      "Blood orange",
+      "Honey",
+      "Jasmine",
+      "Lemongrass"
+    ],
+    "description_en": "Washed Geisha from Janson, Panama, lot 26-178. The roaster describes lively citrus acidity, pronounced sweetness with a delicate honey finish and an almost weightless, silky cup, with jasmine, lemongrass and blood orange.",
+    "description_ar": "جيشا مغسولة من جانسون في بنما، الدفعة 26-178. تصفها المحمصة بحموضة حيوية بطابع الحمضيات، وحلاوة بارزة تنتهي بعسل خفيف، وقوام خفيف جدًا وحريري، مع إيحاءات الياسمين وعشبة الليمون والبرتقال الأحمر والعسل.",
+    "expected_profile": {},
+    "expected_notes": [],
+    "expected_description_en": "Tasting notes per Julith: jasmine, lemongrass, blood orange, honey. Altitude stated as 1600-1750 MASL (range; altitude_meters left null). Roast stated on page as \"102 (Dark side of medium)\" — not mapped to roast_level. Pour over (V60) recommended. 250g bag.",
+    "expected_description_ar": null
+  },
+  {
+    "id": "a1f1e8f6-60d3-49f3-b6e6-6458703db179",
+    "slug": "roastado-brazil-classic",
+    "name": "Brazil — Classic",
+    "source_url": "https://roastado.qa/products/brazil-classic",
+    "source_title": "Brazil — Classic\n – Roastado Specialty Coffee",
+    "source_html_sha256": "7f1c1e398dcbf0f07c202d64c248f6ef3c6e5cf63289df46aabcf6b0bd675d02",
+    "evidence_kind": "official_product_description",
+    "evidence": {
+      "short_observations": [
+        "balanced acidity",
+        "natural sweetness",
+        "medium to heavy body"
+      ]
+    },
+    "profile": {
+      "source_url": "https://roastado.qa/products/brazil-classic",
+      "status": "published_by_roaster",
+      "verified_at": "2026-10-05T19:25:51.056113+00:00",
+      "acidity_description": "Balanced",
+      "acidity_description_ar": "متزنة",
+      "sweetness_description": "Natural sweetness",
+      "sweetness_description_ar": "حلاوة طبيعية",
+      "body_description": "Medium to heavy",
+      "body_description_ar": "متوسط إلى ثقيل"
+    },
+    "notes": [
+      "Cacao",
+      "Nutty"
+    ],
+    "notes_sorted": [
+      "Cacao",
+      "Nutty"
+    ],
+    "description_en": "Brazilian coffee roasted in Qatar. The roaster describes balanced acidity, natural sweetness and a medium-to-heavy body, with cacao and nuts and a long, smooth finish.",
+    "description_ar": "بن برازيلي محمص في قطر. تصفه المحمصة بحموضة متزنة وحلاوة طبيعية وقوام متوسط إلى ثقيل، مع إيحاءات الكاكاو والمكسرات ونهاية طويلة وناعمة.",
+    "expected_profile": {},
+    "expected_notes": [],
+    "expected_description_en": "Sourced from \"premium Brazilian farms,\" roasted in Qatar. Tasting notes stated on the product page: cacao, nutty (\"deep notes of cacao and roasted nuts, layered with natural sweetness and a long, smooth finish\"). Body: medium to heavy. Finish: long & smooth. Marketed as best for espresso & milk-based drinks. Origin region, farm, varietal, process and roast level are not stated on the page and are left null rather than guessed. Sold in 250g and 1kg with no single canonical bag size, so bag_weight_grams is left null. name_ar is BeanMora's own phonetic transliteration; no Arabic content found on roastado.qa.",
+    "expected_description_ar": "قهوة برازيلية من \"مزارع برازيلية مميزة\"، بنكهات الكاكاو والمكسرات، جسم متوسط إلى ثقيل، نهاية طويلة وناعمة. مناسبة للإسبريسو والمشروبات بالحليب. (الاسم العربي ترجمة صوتية من إعداد BeanMora، لا يوجد اسم عربي رسمي على الموقع.)"
+  },
+  {
+    "id": "0fd59367-2da9-4541-82d4-fc12a9218fad",
+    "slug": "roastado-colombia-decaf",
+    "name": "Colombia — Decaf",
+    "source_url": "https://roastado.qa/products/colombia-decaf",
+    "source_title": "Colombia — Decaf\n – Roastado Specialty Coffee",
+    "source_html_sha256": "ff9b6a44f48cc78d80bf1e0f0ad953acd53899e2e39fd583223e4ee5433a033f",
+    "evidence_kind": "official_product_description",
+    "evidence": {
+      "short_observations": [
+        "gentle acidity",
+        "delicate sweetness",
+        "light, silky body"
+      ]
+    },
+    "profile": {
+      "source_url": "https://roastado.qa/products/colombia-decaf",
+      "status": "published_by_roaster",
+      "verified_at": "2026-10-05T19:25:51.101765+00:00",
+      "acidity_description": "Gentle",
+      "acidity_description_ar": "لطيفة",
+      "sweetness_description": "Delicate",
+      "sweetness_description_ar": "رقيقة",
+      "body_description": "Light and silky",
+      "body_description_ar": "خفيف وحريري"
+    },
+    "notes": [
+      "Brown sugar",
+      "Orange",
+      "Chocolate"
+    ],
+    "notes_sorted": [
+      "Brown sugar",
+      "Chocolate",
+      "Orange"
+    ],
+    "description_en": "Decaffeinated Colombian coffee roasted in Qatar. The roaster describes gentle acidity, delicate sweetness and a light, silky body, with brown sugar, orange and chocolate and a quick, crisp finish.",
+    "description_ar": "بن كولومبي منزوع الكافيين ومحمص في قطر. تصفه المحمصة بحموضة لطيفة وحلاوة رقيقة وقوام خفيف وحريري، مع إيحاءات السكر البني والبرتقال والشوكولاتة ونهاية قصيرة ومنعشة.",
+    "expected_profile": {},
+    "expected_notes": [],
+    "expected_description_en": "Described on-page as \"premium Colombian beans,\" roasted in Qatar, decaffeinated (the decaffeination method itself — e.g. Swiss Water, sugarcane, CO2 — is not stated, so `process` is left null rather than guessing; the beans_process check constraint also has no \"decaf\" value). Tasting notes: brown sugar, orange, chocolate. Body: light. Finish: quick & crisp. Marketed for all-day drinking, espresso & filter. Region, farm, varietal and altitude are not stated. Sold in 250g and 1kg with no single canonical bag size, so bag_weight_grams is left null. name_ar is BeanMora's own phonetic transliteration; no Arabic content found on roastado.qa.",
+    "expected_description_ar": "قهوة كولومبية منزوعة الكافيين، بنكهات السكر البني والبرتقال والشوكولاتة، جسم خفيف وحمضية لطيفة. (الاسم العربي ترجمة صوتية من إعداد BeanMora.)"
+  },
+  {
+    "id": "0dfd4f9b-047c-4697-8a5b-21d4d8a7466e",
+    "slug": "roastado-ethiopia-guji-filter",
+    "name": "Ethiopia Guji — Filter",
+    "source_url": "https://roastado.qa/products/ethiopia-guji-filter",
+    "source_title": "Ethiopia Guji — Filter\n – Roastado Specialty Coffee",
+    "source_html_sha256": "8623b7ac89e12b80926456c9c345e2539020951c9421f18611e9e0a8831934ab",
+    "evidence_kind": "official_product_description",
+    "evidence": {
+      "short_observations": [
+        "balanced acidity",
+        "vibrant fruity sweetness",
+        "smooth medium body"
+      ]
+    },
+    "profile": {
+      "source_url": "https://roastado.qa/products/ethiopia-guji-filter",
+      "status": "published_by_roaster",
+      "verified_at": "2026-10-05T19:25:51.119121+00:00",
+      "acidity_description": "Balanced",
+      "acidity_description_ar": "متزنة",
+      "sweetness_description": "Vibrant and fruity",
+      "sweetness_description_ar": "حيوية بطابع فاكهي",
+      "body_description": "Smooth and medium",
+      "body_description_ar": "متوسط وناعم"
+    },
+    "notes": [
+      "Fruity",
+      "Sweet",
+      "Elegant"
+    ],
+    "notes_sorted": [
+      "Elegant",
+      "Fruity",
+      "Sweet"
+    ],
+    "description_en": "Guji coffee roasted in Qatar for filter brewing. The roaster describes balanced acidity, fruity sweetness and a smooth medium body, with floral touches, berry nuances and a long, clean finish.",
+    "description_ar": "بن من غوجي في إثيوبيا، محمص في قطر للترشيح. تصفه المحمصة بحموضة متزنة وحلاوة فاكهية حيوية وقوام متوسط وناعم، مع لمسات زهرية وتوتية ونهاية طويلة ونظيفة.",
+    "expected_profile": {},
+    "expected_notes": [],
+    "expected_description_en": "Origin stated as Ethiopia, Guji region. Tasting notes on the product page: fruity, sweet, elegant (\"vibrant fruity sweetness, followed by soft floral undertones and delicate berry nuances\"). Finish: long & clean. Recommended brew methods stated on-page: V60, Chemex, filter brewing. Farm/producer, varietal, process and an explicit roast-level word are not stated and are left null. Sold in 250g and 1kg with no single canonical bag size, so bag_weight_grams is left null. name_ar is BeanMora's own phonetic transliteration; no Arabic content found on roastado.qa.",
+    "expected_description_ar": "قهوة إثيوبية من منطقة غوجي، بنكهات فاكهية وحلاوة رقيقة ولمسات زهرية وتوت خفيف. موصى بها لطرق التحضير بالفلتر (V60، كيمكس). (الاسم العربي ترجمة صوتية من إعداد BeanMora.)"
+  },
+  {
+    "id": "ead3b2c4-26db-422e-9cfd-d736fb00a123",
+    "slug": "the-barn-atlas-guatemala",
+    "name": "Atlas Coffee",
+    "source_url": "https://thebarn.de/products/atlas-coffee",
+    "source_title": "Guatemala Filter Coffee Beans: Atlas — Nougat, Plum & Honey | THE BARN\n – THE BARN Coffee Roasters",
+    "source_html_sha256": "ecb5fc4b20116b248f6478181f41150ff5864bedfe491f21e138f6b54eabde97",
+    "evidence_kind": "official_five_block_scale",
+    "evidence": {
+      "acidity": {
+        "filled": 3,
+        "total": 5
+      },
+      "sweetness": {
+        "filled": 4,
+        "total": 5
+      },
+      "body": {
+        "filled": 4,
+        "total": 5
+      }
+    },
+    "profile": {
+      "source_url": "https://thebarn.de/products/atlas-coffee",
+      "status": "published_by_roaster",
+      "verified_at": "2026-10-05T19:26:07.118039+00:00",
+      "acidity": 3,
+      "sweetness": 4,
+      "body": 4,
+      "scale_max": 5
+    },
+    "notes": [
+      "Nougat",
+      "Plum",
+      "Honey"
+    ],
+    "notes_sorted": [
+      "Honey",
+      "Nougat",
+      "Plum"
+    ],
+    "description_en": "Washed coffee from Finca Santa Clara in Antigua, Guatemala. The roaster publishes acidity 3/5, sweetness 4/5 and body 4/5, with nougat, plum and honey notes.",
+    "description_ar": "بن مغسول من فينكا سانتا كلارا في أنتيغوا، غواتيمالا. تنشر المحمصة حموضة 3/5 وحلاوة 4/5 وقوامًا 4/5، مع إيحاءات النوجا والبرقوق والعسل.",
+    "expected_profile": {},
+    "expected_notes": [],
+    "expected_description_en": "Guatemalan lot grown at Finca Santa Clara in the Antigua Valley on the slopes of Volcán de Agua by fourth-generation producer Ricardo Zelaya. Washed process: cherries pulped, fermented, washed, and dried in African beds over roughly 21 days per the roaster. Varietal stated as \"Caturra & Bourbon.\" Tasting notes as stated: nougat, plum, honey — described by the roaster as offering sweetness, clarity and balance. Suitable for filter coffee and espresso per the roaster; part of THE BARN's \"Core Collection\" and, at fetch time, its best-selling coffee (7 reviews, 86% five-star). No light/medium/dark roast word is stated on the page, so roast_level is left null. Sold in 250g / 2×250g / 1000g bags with no single canonical size, so bag_weight_grams is left null; 250g listed at €27.80 at fetch time (2026-09-27), a price snapshot, not a durable fact. name_ar is BeanMora's own transliteration of the product name, not a source-confirmed Arabic string — THE BARN's site is German/English only.",
+    "expected_description_ar": null
+  },
+  {
+    "id": "8c5f9fc6-b04d-47ce-a22e-fa96d9acb187",
+    "slug": "the-barn-elemental-brazil",
+    "name": "Elemental Coffee",
+    "source_url": "https://thebarn.de/products/elemental-coffee",
+    "source_title": "Brazil Espresso Coffee Beans: Elemental — Chocolate, Almond & Dried Fruit\n – THE BARN Coffee Roasters",
+    "source_html_sha256": "4302c954d7c63cd970d99360fe4f8213a539c0ff41859bc462c17f22e8a6564e",
+    "evidence_kind": "official_five_block_scale",
+    "evidence": {
+      "acidity": {
+        "filled": 2,
+        "total": 5
+      },
+      "sweetness": {
+        "filled": 4,
+        "total": 5
+      },
+      "body": {
+        "filled": 4,
+        "total": 5
+      }
+    },
+    "profile": {
+      "source_url": "https://thebarn.de/products/elemental-coffee",
+      "status": "published_by_roaster",
+      "verified_at": "2026-10-05T19:26:07.168426+00:00",
+      "acidity": 2,
+      "sweetness": 4,
+      "body": 4,
+      "scale_max": 5
+    },
+    "notes": [
+      "Chocolate",
+      "Almond",
+      "Dried fruit"
+    ],
+    "notes_sorted": [
+      "Almond",
+      "Chocolate",
+      "Dried fruit"
+    ],
+    "description_en": "Natural coffee from Caparao, Brazil. The roaster publishes acidity 2/5, sweetness 4/5 and body 4/5, with chocolate, almond and dried fruit notes.",
+    "description_ar": "بن بمعالجة طبيعية من كاباراو في البرازيل. تنشر المحمصة حموضة 2/5 وحلاوة 4/5 وقوامًا 4/5، مع إيحاءات الشوكولاتة واللوز والفواكه المجففة.",
+    "expected_profile": {},
+    "expected_notes": [],
+    "expected_description_en": "Brazilian lot from Caparao grown by producer Anderson Robadel, natural process, mixed varietals per the roaster. Tasting notes as stated: chocolate ganache, almond, dried fruit — described by the roaster as smooth-textured with gentle acidity. Suitable for espresso or filter per the roaster; a best-seller at fetch time (64 reviews, 80% five-star). No light/medium/dark roast word is stated on the page, so roast_level is left null. Sold in 250g / 2×250g / 1000g bags with no single canonical size, so bag_weight_grams is left null; regular price listed as €27.80 at fetch time (2026-09-27) with the specific per-size price not broken out on the page — a snapshot, not a durable fact. name_ar is BeanMora's own transliteration of the product name, not a source-confirmed Arabic string — THE BARN's site is German/English only.",
+    "expected_description_ar": null
+  },
+  {
+    "id": "497ec9d7-f918-4630-b67a-b345d8369740",
+    "slug": "the-barn-genesis-ethiopia",
+    "name": "Genesis Coffee",
+    "source_url": "https://thebarn.de/products/genesis-coffee",
+    "source_title": "Ethiopia Filter Coffee Beans: Genesis — Peach, Chocolate & Jasmine\n – THE BARN Coffee Roasters",
+    "source_html_sha256": "85e8ecf6916bf16da79d18c2cab851c05f9c0fbb25f7f1d5fffde5b135e87e29",
+    "evidence_kind": "official_five_block_scale",
+    "evidence": {
+      "acidity": {
+        "filled": 3,
+        "total": 5
+      },
+      "sweetness": {
+        "filled": 4,
+        "total": 5
+      },
+      "body": {
+        "filled": 4,
+        "total": 5
+      }
+    },
+    "profile": {
+      "source_url": "https://thebarn.de/products/genesis-coffee",
+      "status": "published_by_roaster",
+      "verified_at": "2026-10-05T19:26:07.213257+00:00",
+      "acidity": 3,
+      "sweetness": 4,
+      "body": 4,
+      "scale_max": 5
+    },
+    "notes": [
+      "Peach",
+      "Black tea",
+      "Chocolate",
+      "Jasmine"
+    ],
+    "notes_sorted": [
+      "Black tea",
+      "Chocolate",
+      "Jasmine",
+      "Peach"
+    ],
+    "description_en": "Natural coffee from Chelchele in Yirgacheffe, Ethiopia. The roaster publishes acidity 3/5, sweetness 4/5 and body 4/5, with peach, black tea, chocolate and jasmine notes.",
+    "description_ar": "بن بمعالجة طبيعية من تشيلشيل في يرغاتشيف، إثيوبيا. تنشر المحمصة حموضة 3/5 وحلاوة 4/5 وقوامًا 4/5، مع إيحاءات الخوخ والشاي الأسود والشوكولاتة والياسمين.",
+    "expected_profile": {},
+    "expected_notes": [],
+    "expected_description_en": "Ethiopian lot from the Chelchele Washing Station, Yirgacheffe, natural process, mixed heirloom varietal, Grade 1 per the roaster (\"Clean, complex and expressive\"). Tasting notes as stated: peach, black tea, chocolate, with a delicate note of jasmine; described by the roaster as honey-like sweetness with mellow acidity. Roasted for espresso and filter per the roaster; described as THE BARN's \"permanent Ethiopian coffee\" and a best-seller at fetch time (32 reviews). No light/medium/dark roast word is stated on the page, so roast_level is left null. Sold in 250g / 2×250g / 1000g bags with no single canonical size, so bag_weight_grams is left null; regular price listed as €28.80 at fetch time (2026-09-27), a snapshot, not a durable fact. name_ar is BeanMora's own transliteration of the product name, not a source-confirmed Arabic string — THE BARN's site is German/English only.",
+    "expected_description_ar": null
+  },
+  {
+    "id": "350842f3-d45d-4c81-9f5e-f5fb13e5d3c3",
+    "slug": "verve-coffee-roasters-sermon-bb3b473d",
+    "name": "Sermon",
+    "source_url": "https://www.vervecoffee.com/products/sermon",
+    "source_title": "Sermon | Espresso Coffee Blends | Best Seller",
+    "source_html_sha256": "d7ee095aa489254c42ec09bbb8fbc03088f32e9334d94a6c9cadcace6b8b5c24",
+    "evidence_kind": "official_product_metadata",
+    "evidence": {
+      "short_observations": [
+        "balanced sweetness and acidity",
+        "deep sweetness",
+        "full-bodied"
+      ]
+    },
+    "profile": {
+      "source_url": "https://www.vervecoffee.com/products/sermon",
+      "status": "published_by_roaster",
+      "verified_at": "2026-10-05T19:26:40.775489+00:00",
+      "acidity_description": "Balanced",
+      "acidity_description_ar": "متزنة",
+      "sweetness_description": "Deep, with berry notes",
+      "sweetness_description_ar": "عميقة مع إيحاءات توتية",
+      "body_description": "Full",
+      "body_description_ar": "ممتلئ"
+    },
+    "notes": [
+      "Blueberry Pie",
+      "Cocoa",
+      "Candied Pecan"
+    ],
+    "notes_sorted": [
+      "Blueberry Pie",
+      "Candied Pecan",
+      "Cocoa"
+    ],
+    "description_en": "A medium-roast blend from Colombia and East Africa. The roaster describes balanced acidity, deep berry sweetness and a full body, with blueberry pie, cocoa and candied pecan.",
+    "description_ar": "خلطة بتحميص متوسط من كولومبيا وشرق أفريقيا. تصفها المحمصة بحموضة متزنة وحلاوة عميقة بطابع توتي وقوام ممتلئ، مع إيحاءات فطيرة التوت الأزرق والكاكاو والبيكان المحلّى.",
+    "expected_profile": {},
+    "expected_notes": [
+      "Blueberry Pie",
+      "Candied Pecan",
+      "Cocoa"
+    ],
+    "expected_description_en": "Verve blend with published origin Colombia, East Africa. Product-specific brewing values and bag image are from the current product page.",
+    "expected_description_ar": "خلطة من فيرف؛ المنشأ المنشور كولومبيا، شرق أفريقيا. إعدادات التحضير وصورة العبوة من صفحة البن الحالية."
+  },
+  {
+    "id": "0fd3e515-b22b-4b32-a215-4b6fc991b10a",
+    "slug": "workshop-coffee-pillar-53c30f62",
+    "name": "Pillar",
+    "source_url": "https://workshopcoffee.com/products/pillar",
+    "source_title": "Buy Pillar Coffee Online | Workshop Coffee",
+    "source_html_sha256": "72c21312c1cf4a2dad036f044903d38e5817429fb793c3e1129f6eda41814109",
+    "evidence_kind": "official_product_description",
+    "evidence": {
+      "short_observations": [
+        "low acidity",
+        "complex sweetness",
+        "Full bodied"
+      ]
+    },
+    "profile": {
+      "source_url": "https://workshopcoffee.com/products/pillar",
+      "status": "published_by_roaster",
+      "verified_at": "2026-10-05T19:26:13.530194+00:00",
+      "acidity_description": "Low",
+      "acidity_description_ar": "منخفضة",
+      "sweetness_description": "Complex",
+      "sweetness_description_ar": "مركبة",
+      "body_description": "Full",
+      "body_description_ar": "ممتلئ"
+    },
+    "notes": [
+      "Molasses",
+      "Cacao nibs",
+      "Liquorice",
+      "Cloves",
+      "Candied walnuts"
+    ],
+    "notes_sorted": [
+      "Cacao nibs",
+      "Candied walnuts",
+      "Cloves",
+      "Liquorice",
+      "Molasses"
+    ],
+    "description_en": "The current Pillar blend has low acidity, complex sweetness and a full body according to the roaster, with molasses, cacao nibs, liquorice, cloves and candied walnuts. Seasonal blend components may change.",
+    "description_ar": "تصف المحمصة خلطة بيلار الحالية بحموضة منخفضة وحلاوة مركبة وقوام ممتلئ، مع إيحاءات الدبس وقطع الكاكاو وعرق السوس والقرنفل والجوز المحلّى. قد تتغير مكونات الخلطة حسب الموسم.",
+    "expected_profile": {},
+    "expected_notes": [
+      "Cola",
+      "Molasses",
+      "Roasted walnuts"
+    ],
+    "expected_description_en": "Brazil; Ethiopia; semi-washed brazil; washed ethiopia.",
+    "expected_description_ar": "بن من Brazil; Ethiopia؛ بيانات المنتج منشورة من المحمصة."
+  }
+]

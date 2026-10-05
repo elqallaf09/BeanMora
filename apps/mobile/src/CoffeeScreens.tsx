@@ -4,7 +4,7 @@ import { Language, Txt, Icon, IconButton, Action, colors, styles, type IconName 
 import { methods } from './copy';
 import { METHODS, type Method } from './core/engine';
 import type { Bundle, CoffeeItem, RecipeItem, CoffeeImageKind } from './data';
-import { CoffeeSensory, FlavorNotes, RoastLevel } from './SensoryProfile';
+import { CoffeeSensory, FlavorNotes } from './SensoryProfile';
 import { useCoffeeRecipes } from './useCoffeeRecipes';
 import { SourceLink } from './SourceLink';
 import { useBrewStarter } from './useBrewStarter';
@@ -106,8 +106,7 @@ export function CoffeeDetail({ item, recipes, openRecipe, addToBags, browseRecip
   return <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[s.page, { maxWidth: 780, gap: 18 }]}>
     <View style={[s.detailPhoto,{ height: Math.min(360, (Math.min(width,780)-36)*0.83) }]}><CoffeePhoto uri={item.images[photo]} uris={item.images} kind={item.imageKind} detail/>{item.images.length>1 ? <View style={s.galleryDots}>{item.images.map((_,i)=><Pressable key={i} accessibilityRole="button" accessibilityLabel={(ar?'صورة ':'Photo ')+(i+1)} onPress={()=>setPhoto(i)} style={[s.dot,{backgroundColor:i===photo?colors.teal:'#C8BBB0'}]}/>)}</View> : null}{item.images.length ? <Txt style={s.photoCount}>{photo+1}/{item.images.length}</Txt> : null}</View>
     <View style={s.detailTitleRow}><View style={{flex:1}}><Txt heading style={styles.title}>{item.name}</Txt><Txt style={styles.muted}>{[item.roaster,process[item.process]??item.process].filter(Boolean).join(' – ')}</Txt></View>{item.origin ? <Txt style={[styles.muted,{fontFamily:undefined,writingDirection:'ltr'}]}>{originLabel(item.origin)}</Txt> : null}</View>
-    <RoastLevel roast={item.roast} score={item.sensory?.roast}/>
-    <CoffeeSensory notes={item.flavors} sensory={item.sensory}/>
+    <CoffeeSensory notes={item.flavors} sensory={item.sensory} roast={item.roast} sourceUrl={item.sourceUrl}/>
     {item.description ? <Txt style={{ fontSize: 14, lineHeight: 27 }}>{item.description}</Txt> : null}
     {item.variety ? <View style={styles.metaPill}><Txt style={styles.metaText}>{ar ? 'السلالة: ' : 'Variety: '}{item.variety}</Txt></View> : null}
     {addToBags?<Pressable accessibilityRole="button" accessibilityLabel={ar?'أضف إلى أكياسي':'Add to My Bags'} onPress={()=>addToBags(item)} style={s.inventoryButton}><Icon name="plus" size={18} color={colors.teal}/><Txt style={s.inventoryButtonText}>{ar?'أضف إلى أكياسي':'Add to My Bags'}</Txt><Icon name="arrow" size={17} color={colors.teal}/></Pressable>:null}

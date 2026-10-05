@@ -15,7 +15,7 @@ const scored = {
   ...base, id: '77777777-7777-4777-8777-777777777771', slug: 'sourced-sensory',
   name_en: 'Coffee with a sourced scale', name_ar: 'بن بدرجات موثقة',
   source_url: sourceUrl, flavors: [{ flavor: 'citrus' }, { flavor: 'jasmine' }],
-  sensory_profile: { source_url: sourceUrl, scale_max: 5, acidity: 3, sweetness: 4 },
+  sensory_profile: { source_url: sourceUrl, scale_max: 5, acidity: 3, sweetness: 4, body: 2 },
   images: [{ url: photoUrl, position: 0, image_usage_status: 'rights_confirmed' }],
 };
 const unknown = {
@@ -26,7 +26,7 @@ const unknown = {
 };
 
 for (const { locale, width } of [{ locale: 'ar', width: 320 }, { locale: 'en', width: 768 }] as const) {
-  test(`${locale}: sourced acidity keeps 3/5, unpublished metrics have no empty bars, and the complete product photo fits`, async ({ page, context }) => {
+  test(`${locale}: a full sourced personality preserves its scale and partial data keeps no empty bars`, async ({ page, context }) => {
     await page.setViewportSize({ width, height: 960 });
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(error.message));
@@ -48,7 +48,9 @@ for (const { locale, width } of [{ locale: 'ar', width: 320 }, { locale: 'en', w
     await expect(profile).toBeVisible();
     await expect(profile.getByLabel(locale === 'ar' ? 'الحموضة: 3/5' : 'Acidity: 3/5', { exact: true })).toBeVisible();
     await expect(profile.getByLabel(locale === 'ar' ? 'الحلاوة: 4/5' : 'Sweetness: 4/5', { exact: true })).toBeVisible();
-    await expect(profile.getByLabel(locale === 'ar' ? /^القوام:/ : /^Body:/)).toHaveCount(0);
+    await expect(profile.getByLabel(locale === 'ar' ? 'القوام: 2/5' : 'Body: 2/5', { exact: true })).toBeVisible();
+    await expect(profile.getByRole('heading', { name: locale === 'ar' ? 'شخصية البن' : 'Coffee personality', exact: true })).toBeVisible();
+    await expect(profile.getByTestId('coffee-personality-complete')).toBeVisible();
     await expect(profile.getByText(locale === 'ar' ? 'غير محددة' : 'Unspecified', { exact: true })).toHaveCount(0);
     const image = page.getByTestId('coffee-product-photo');
     await expect(image).toHaveCount(1);
@@ -68,9 +70,10 @@ for (const { locale, width } of [{ locale: 'ar', width: 320 }, { locale: 'en', w
     await page.getByRole('button', { name: locale === 'ar' ? 'رجوع' : 'Back', exact: true }).click();
     await page.getByRole('button', { name: locale === 'ar' ? unknown.name_ar : unknown.name_en, exact: true }).click();
     await expect(profile.getByLabel(locale === 'ar' ? /^الحموضة:/ : /^Acidity:/)).toHaveCount(0);
-    await expect(profile.getByText(locale === 'ar' ? 'إيحاءات المحمصة؛ لم تنشر درجات رقمية لشدة النكهة.' : 'Roaster tasting notes; numerical intensity scores were not published.', { exact: true })).toBeVisible();
+    await expect(profile.getByTestId('coffee-personality-pending')).toBeVisible();
+    await expect(profile.getByTestId('coffee-personality-status')).toContainText(locale === 'ar' ? 'الحموضة، الحلاوة، القوام' : 'Acidity, Sweetness, Body');
     await expect(profile.getByText('3/5', { exact: true })).toHaveCount(0);
-    await expect(profile.getByRole('link')).toHaveCount(0);
+    await expect(profile.getByRole('link')).toHaveCount(1);
     await expect(page.getByTestId('coffee-photo-unavailable')).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     expect(errors).toEqual([]);
