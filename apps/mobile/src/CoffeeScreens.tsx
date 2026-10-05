@@ -76,7 +76,7 @@ export function Home({ data, coffees, method, setMethod, openCoffee, browse, bre
     {data?.warnings ? <Txt style={styles.warning}>{ar ? 'تعذّر تحميل بعض البيانات. اسحب لتحديثها.' : 'Some data could not be loaded. Pull to refresh.'}</Txt> : null}
   </ScrollView>;
 }
-export function CoffeeDetail({ item, recipes, openRecipe }: { item: CoffeeItem; recipes: RecipeItem[]; openRecipe: (r: RecipeItem) => void }) {
+export function CoffeeDetail({ item, recipes, openRecipe, addToBags }: { item: CoffeeItem; recipes: RecipeItem[]; openRecipe: (r: RecipeItem) => void; addToBags?: (item:CoffeeItem)=>void }) {
   const locale = useContext(Language); const ar = locale === 'ar'; const { width } = useWindowDimensions();
   const linked = useCoffeeRecipes(item, recipes, locale);
   const related = linked.recipes;
@@ -103,6 +103,7 @@ export function CoffeeDetail({ item, recipes, openRecipe }: { item: CoffeeItem; 
     {item.description ? <Txt style={{ fontSize: 14, lineHeight: 27 }}>{item.description}</Txt> : null}
     {item.variety ? <View style={styles.metaPill}><Txt style={styles.metaText}>{ar ? 'السلالة: ' : 'Variety: '}{item.variety}</Txt></View> : null}
     <CoffeeSensory notes={item.flavors} sensory={item.sensory}/>
+    {addToBags?<Pressable accessibilityRole="button" accessibilityLabel={ar?'أضف إلى أكياسي':'Add to My Bags'} onPress={()=>addToBags(item)} style={s.inventoryButton}><Icon name="plus" size={18} color={colors.teal}/><Txt style={s.inventoryButtonText}>{ar?'أضف إلى أكياسي':'Add to My Bags'}</Txt><Icon name="arrow" size={17} color={colors.teal}/></Pressable>:null}
     <View style={s.infoSection}><Txt heading style={s.infoHeading}>{ar?'مقادير الوصفة المختارة':'Selected recipe'}</Txt><View style={s.brewStats}>{numbers.map(n=><View key={n.icon} style={s.brewStat}><View style={{flexDirection:'row',gap:7,alignItems:'flex-start',width:'100%'}}><Icon name={n.icon} size={21}/><Txt style={{fontFamily:undefined,fontWeight:'700',fontSize:14,lineHeight:21,flex:1}}>{n.value}</Txt></View><Txt style={{fontSize:11,color:colors.muted}}>{n.label}</Txt></View>)}</View>{!recipe ? <Txt style={[styles.muted,{fontSize:11,paddingHorizontal:12,paddingBottom:8}]}>{ar?'تظهر مقادير التحضير عند اختيار وصفة مرتبطة بهذا البن.':'Brew measurements appear when a linked recipe is available.'}</Txt> : null}</View>
     <View style={s.section}><SectionTitle title={ar?'اختر طريقة التحضير':'Choose your brew method'}/><MethodPicker value={method} onChange={m=>m&&setMethod(m)} allowed={allowed} all={false}/>{linked.busy ? <View accessibilityLiveRegion="polite"><Txt style={styles.muted}>{ar ? 'جاري تحميل وصفات هذا البن…' : 'Loading recipes for this coffee…'}</Txt></View> : null}</View>
     <Pressable accessibilityRole="button" accessibilityState={{disabled:!recipe}} disabled={!recipe} onPress={()=>recipe&&openRecipe(recipe)} style={[s.brewButton,!recipe&&{opacity:0.55}]}><Icon name="play" color="#FFF" size={18}/><Txt style={{color:'#FFF',fontWeight:'700',fontSize:16}}>{recipe?(ar?'ابدأ التحضير مع ':'Start brewing with ')+methods[locale][method]:ar?'لا توجد وصفة مرتبطة بهذه الطريقة':'No linked recipe for this method'}</Txt></Pressable>
@@ -170,6 +171,8 @@ const s=StyleSheet.create({
   infoHeading:{alignSelf:'flex-start',fontSize:20,fontWeight:'700',backgroundColor:colors.paper,paddingHorizontal:15,paddingTop:10,borderTopLeftRadius:18,borderTopRightRadius:18},
   brewStats:{flexDirection:'row',flexWrap:'wrap',borderWidth:1,borderColor:colors.line,borderRadius:18,paddingVertical:4,backgroundColor:colors.paper},
   brewStat:{width:'50%',minWidth:0,padding:12,alignItems:'flex-start',gap:5},
+  inventoryButton:{minHeight:50,borderRadius:15,borderWidth:1,borderColor:'#BFD9D7',backgroundColor:'#EFF7F5',paddingHorizontal:14,flexDirection:'row',alignItems:'center',gap:9},
+  inventoryButtonText:{flex:1,fontSize:14,lineHeight:21,fontWeight:'800',color:colors.teal},
   brewButton:{backgroundColor:colors.teal,borderRadius:15,minHeight:52,flexDirection:'row',alignItems:'center',justifyContent:'center',gap:10,padding:12},
   recommended:{backgroundColor:colors.paper,borderRadius:16,padding:14,flexDirection:'row',gap:14,alignItems:'center',borderWidth:1,borderColor:colors.line},
 });
