@@ -139,7 +139,7 @@ function Shell() {
     :tab==='roasters'?<RoasterDirectory key={locale} coffees={data?.coffees ?? []} open={item=>openDetail({type:'roaster',item})}/>
     :tab==='xbloom'?<XBLOOMHub key={locale} recipes={data?.recipes??[]} openRecipe={openRecipe} loading={refreshing} tools={()=>{setEquipmentCategory('xbloom');navigate('equipment');}}/>
     :tab==='recipes'?<RecipeCatalog key={locale} method={method} open={openRecipe}/>
-    :tab==='brewFlow'?<BrewMyCoffee key={(userId??'guest')+locale} userId={userId} coffees={data?.coffees??[]} login={()=>navigate('account')} browse={()=>navigate('beans')} openRecipe={openRecipe}/>
+    :tab==='brewFlow'?<BrewMyCoffee key={(userId??'guest')+locale} userId={userId} coffees={data?.coffees??[]} profile={data?.profile??{methods:[],flavors:[],roast:null,experience:null,gear:[],productIds:[],beanIds:[],successfulRecipeIds:[]}} login={()=>navigate('account')} browse={()=>navigate('beans')} openRecipe={openRecipe}/>
     :tab==='bags'?<MyBags key={(userId??'guest')+locale} userId={userId} coffees={data?.coffees??[]} savedIds={savedIds} recipes={data?.recipes??[]} openCoffee={openCoffee} openRecipe={openRecipe} login={()=>navigate('account')}/>
     :tab==='best'?<BestSetup key={(userId??'guest')+locale} userId={userId} recipes={data?.recipes??[]} coffees={data?.coffees??[]} login={()=>navigate('account')} openRecipe={openRecipe} openCoffee={openCoffee}/>
     :tab==='community'?<CommunityScreen key={(userId??'guest')+locale} userId={userId} recipes={data?.recipes??[]} coffees={data?.coffees??[]} login={()=>navigate('account')}/>
