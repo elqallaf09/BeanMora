@@ -42,7 +42,10 @@ export function MyBags({ userId, coffees, savedIds, recipes, openCoffee, openRec
   const stateFor=(row:InventoryRow):BagState=>{const storage=(row.storage_location??'').toLowerCase();return row.remaining_weight_grams===0?'finished':/(freez|frozen|فريزر|مجمد|مجمّد)/.test(storage)?'frozen':row.opened_at?'open':'new';};
   const brewsFor=(row:InventoryRow)=>brews.filter(log=>{
     const recipe=log.recipe_id?recipes.find(r=>r.id===log.recipe_id):null;
-    return row.roasted_product_id?recipe?.productId===row.roasted_product_id:(log.bean_id&&log.bean_id===row.legacy_bean_id);
+    const item=itemFor(row);
+    return row.roasted_product_id
+      ? recipe?.productId===row.roasted_product_id||Boolean(item?.beanId&&log.bean_id===item.beanId)
+      : Boolean(log.bean_id&&log.bean_id===row.legacy_bean_id);
   });
   const bestFor=(row:InventoryRow)=>[...brewsFor(row)].sort((a,b)=>{
     const score=(x:BrewRow)=>outcome(x.outcome_submission)==='excellent'?4:outcome(x.outcome_submission)==='good'?3:outcome(x.outcome_submission)==='needs_adjustment'?2:outcome(x.outcome_submission)==='poor'?1:0;
