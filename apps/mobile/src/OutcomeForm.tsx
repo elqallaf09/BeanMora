@@ -33,8 +33,8 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
         if (!payload) { setError(errors[locale].invalid); return; }
         pending.current = { id: randomUUID(), payload };
       }
+      const response = await saveOutcome(supabase, pending.current.id, pending.current.payload);
       const request = pending.current;
-      const response = await saveOutcome(supabase, request.id, request.payload);
       if (!response.ok) { setError(errors[locale][response.error]); return; }
       const warnings:string[]=[];
       const grind = grindSetting.trim();
