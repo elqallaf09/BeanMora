@@ -93,6 +93,20 @@ function Shell() {
       if(identity.current===owner)setSaved(current=>({owner,ids:exists?(current?.owner===owner?current.ids:[]).filter(id=>id!==beanId):Array.from(new Set([...(current?.owner===owner?current.ids:[]),beanId]))}));
     }catch{if(identity.current===owner)setMessage(ar?'تعذّر حفظ المفضلة. حاول مرة ثانية.':'Could not update favorites. Try again.');}finally{savePending.current.delete(key);}
   }
+  async function addToBags(item:CoffeeItem){
+    if(!userId||!supabase){navigate('account');return;}
+    const owner=userId;
+    try{
+      const {data:auth,error:authError}=await supabase.auth.getUser();
+      if(authError||auth.user?.id!==owner)throw authError??new Error('identity changed');
+      const payload=item.kind==='product'
+        ? {user_id:owner,roasted_product_id:item.id,legacy_bean_id:null}
+        : {user_id:owner,roasted_product_id:null,legacy_bean_id:item.beanId??item.id};
+      const {error}=await supabase.from('user_bean_inventory').insert(payload);
+      if(error)throw error;
+      if(identity.current===owner)setMessage(ar?'تمت إضافة الكيس إلى أكياسي.':'Added to My Bags.');
+    }catch{if(identity.current===owner)setMessage(ar?'تعذّرت إضافة الكيس إلى أكياسي.':'Could not add this coffee to My Bags.');}
+  }
   function showTools(category:string){setEquipmentCategory(category);navigate('equipment');}
   async function showNotifications(){
     if(!userId||!supabase){navigate('account');return;}
@@ -116,7 +130,7 @@ function Shell() {
     <ScreenTransition key={recording?'record':detail?detail.type+detail.item.id:tab}><KeyboardAvoidingView style={{flex:1}} behavior={Platform.OS==='ios'?'padding':undefined}>
     {!configured?<View style={styles.content}><Txt heading style={styles.title}>{t.setup}</Txt><Txt>{t.setupNote}</Txt><AppVersion/></View>
     :recording&&detail?.type==='recipe'&&userId?<OutcomeForm key={userId+detail.item.id} userId={userId} recipe={detail.item} measuredSeconds={measuredSeconds} done={()=>{navigate('forYou');refresh();}}/>
-    :detail?.type==='coffee'?<CoffeeDetail key={detail.item.id+locale} item={detail.item} recipes={data?.recipes??[]} openRecipe={openRecipe}/>
+    :detail?.type==='coffee'?<CoffeeDetail key={detail.item.id+locale} item={detail.item} recipes={data?.recipes??[]} openRecipe={openRecipe} addToBags={item=>void addToBags(item)}/>
     :detail?.type==='recipe'?<RecipeDetail recipe={detail.item} record={startRecord}/>
     :detail?.type==='equipment'?<EquipmentDetail key={detail.item.id+locale+(userId??'guest')} item={detail.item} recipes={data?.recipes??[]} userId={userId} login={()=>navigate('account')} openRecipe={openRecipe}/>
     :detail?.type==='roaster'?<RoasterDetail key={detail.item.id+locale} item={detail.item} coffees={data?.coffees??[]} recipes={data?.recipes??[]} openCoffee={openCoffee} openRecipe={openRecipe} saveCoffee={item=>void saveCoffee(item)} saved={savedIds} loading={refreshing}/>
@@ -124,7 +138,7 @@ function Shell() {
     :tab==='roasters'?<RoasterDirectory key={locale} coffees={data?.coffees ?? []} open={item=>openDetail({type:'roaster',item})}/>
     :tab==='xbloom'?<XBLOOMHub key={locale} recipes={data?.recipes??[]} openRecipe={openRecipe} loading={refreshing} tools={()=>{setEquipmentCategory('xbloom');navigate('equipment');}}/>
     :tab==='recipes'?<RecipeCatalog key={locale} method={method} open={openRecipe}/>
-    :tab==='bags'?<MyBags key={(userId??'guest')+locale} userId={userId} coffees={data?.coffees??[]} savedIds={savedIds} recipes={data?.recipes??[]} openCoffee={openCoffee} login={()=>navigate('account')}/>
+    :tab==='bags'?<MyBags key={(userId??'guest')+locale} userId={userId} coffees={data?.coffees??[]} savedIds={savedIds} recipes={data?.recipes??[]} openCoffee={openCoffee} openRecipe={openRecipe} login={()=>navigate('account')}/>
     :tab==='best'?<BestSetup key={(userId??'guest')+locale} userId={userId} recipes={data?.recipes??[]} coffees={data?.coffees??[]} login={()=>navigate('account')} openRecipe={openRecipe} openCoffee={openCoffee}/>
     :tab==='community'?<CommunityScreen key={(userId??'guest')+locale} userId={userId} recipes={data?.recipes??[]} coffees={data?.coffees??[]} login={()=>navigate('account')}/>
     :tab==='account'?<AccountScreen key={userId??'public'} session={userId?session:null} back={()=>navigate('home')}/>

@@ -22,7 +22,7 @@ import {
   type RoasterItem,
 } from "./catalog";
 import { searchText } from "./guards";
-import type { CoffeeItem, RecipeItem } from "./data";
+import { mapRecipe, RECIPE_FIELDS, type CoffeeItem, type RecipeItem, type RecipeRow } from "./data";
 import {
   CoffeeCard,
   CoffeePhoto,
@@ -428,11 +428,30 @@ export function EquipmentDetail({
   const locale = useContext(Language);
   const ar = locale === "ar";
   const g = guide(item, ar);
-  const related = recipes.filter(
+  const localRelated = recipes.filter(
     (r) =>
       r.equipment.some((e) => e.modelId === item.id) ||
       item.methods.includes(r.method),
   );
+  const [catalogRelated,setCatalogRelated]=useState<RecipeItem[]>([]);
+  const [catalogBusy,setCatalogBusy]=useState(false);
+  const validMethods=item.methods.filter(isMethod);
+  const methodKey=validMethods.join('|');
+  useEffect(()=>{
+    let active=true;
+    const client=supabase;
+    if(!client||!validMethods.length){setCatalogRelated([]);return;}
+    setCatalogBusy(true);
+    const run=async()=>{try{
+      const {data,error}=await client.from('recipes').select(RECIPE_FIELDS).eq('visibility','public').in('brew_method',validMethods).order('updated_at',{ascending:false}).limit(8);
+      if(!active)return;
+      if(error){setCatalogRelated([]);return;}
+      setCatalogRelated(((data??[]) as unknown as RecipeRow[]).flatMap(row=>{const mapped=mapRecipe(row,locale);return mapped?[mapped]:[];}));
+    }catch{if(active)setCatalogRelated([]);}finally{if(active)setCatalogBusy(false);}};
+    void run();
+    return()=>{active=false;};
+  },[item.id,methodKey,locale]);
+  const related=[...new Map([...localRelated,...catalogRelated].map(recipe=>[recipe.id,recipe])).values()];
   return (
     <ScrollView
       testID="equipment-detail-scroll"
@@ -529,7 +548,7 @@ export function EquipmentDetail({
           ar ? "وصفات مناسبة لطريقة الأداة" : "Recipes for this brew method"
         }
       />
-      {related.length ? (
+      {catalogBusy&&!related.length?<ActivityIndicator color={colors.teal}/>:related.length ? (
         related
           .slice(0, 8)
           .map((r) => (
