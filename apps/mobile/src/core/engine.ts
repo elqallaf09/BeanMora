@@ -5,7 +5,7 @@ export const FLAVORS = ["chocolate", "nutty", "fruity", "citrus", "floral", "car
 export type Flavor = (typeof FLAVORS)[number];
 export const ROASTS = ["light", "medium", "dark"] as const;
 export type Roast = (typeof ROASTS)[number];
-const EQUIPMENT_METHOD: Record<string, Method> = { v60_dripper: "v60", espresso_machine: "espresso", manual_espresso: "espresso", xbloom: "xbloom", aeropress: "aeropress", chemex: "chemex", french_press: "french_press", moka_pot: "moka_pot", origami: "origami", kalita_wave: "kalita_wave" };
+const EQUIPMENT_METHOD: Record<string, Method> = { v60_dripper: "v60", espresso_machine: "espresso", manual_espresso: "espresso", xbloom: "xbloom", aeropress: "aeropress", chemex: "chemex", french_press: "french_press", moka_pot: "moka_pot", origami: "origami", origami_dripper: "origami", kalita_wave: "kalita_wave", kalita_dripper: "kalita_wave", april: "april", orea: "orea", cold_brew: "cold_brew" };
 const ALIASES: Record<Flavor, readonly string[]> = {
   chocolate: ["chocolate", "cocoa", "cacao", "شوكولاتة", "شوكولاته", "كاكاو"],
   nutty: ["nutty", "nuts", "hazelnut", "almond", "مكسرات", "بندق", "لوز"],
@@ -26,13 +26,13 @@ export function isMethod(value: unknown): value is Method { return METHODS.inclu
 export function validChoice<T extends string>(value: unknown, choices: readonly T[]): T | undefined {
   return typeof value === "string" && choices.includes(value as T) ? value as T : undefined;
 }
-export interface Gear { category: string; modelId: string | null }
+export interface Gear { category: string; modelId: string | null; method?: Method }
 export interface Profile {
   methods: Method[]; flavors: string[]; roast: Roast | null; experience: string | null;
   gear: Gear[]; productIds: string[]; beanIds: string[]; successfulRecipeIds: string[];
 }
 export const emptyProfile = (): Profile => ({ methods: [], flavors: [], roast: null, experience: null, gear: [], productIds: [], beanIds: [], successfulRecipeIds: [] });
-export function ownedMethods(profile: Profile): Method[] { return [...new Set(profile.gear.map(g => EQUIPMENT_METHOD[g.category]).filter(isMethod))]; }
+export function ownedMethods(profile: Profile): Method[] { return [...new Set(profile.gear.map(g => g.method ?? EQUIPMENT_METHOD[g.category]).filter(isMethod))]; }
 export function hasPersonalSignals(profile: Profile): boolean {
   return Boolean(profile.methods.length || flavorGroups(profile.flavors).length || profile.roast || ownedMethods(profile).length || profile.productIds.length || profile.beanIds.length || profile.successfulRecipeIds.length);
 }
