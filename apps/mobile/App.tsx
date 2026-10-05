@@ -105,7 +105,7 @@ function Shell() {
         : {user_id:owner,roasted_product_id:null,legacy_bean_id:item.beanId??item.id};
       const {error}=await supabase.from('user_bean_inventory').insert(payload);
       if(error)throw error;
-      if(identity.current===owner)setMessage(ar?'تمت إضافة الكيس إلى أكياسي.':'Added to My Bags.');
+      if(identity.current===owner){setMessage(ar?'تمت إضافة الكيس إلى أكياسي. كمّل الوزن والتواريخ من صفحة أكياسي.':'Added to My Bags. Complete its weight and dates in My Bags.');navigate('bags');}
     }catch{if(identity.current===owner)setMessage(ar?'تعذّرت إضافة الكيس إلى أكياسي.':'Could not add this coffee to My Bags.');}
   }
   function showTools(category:string){setEquipmentCategory(category);navigate('equipment');}
