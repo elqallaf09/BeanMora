@@ -22,8 +22,8 @@ export function BrewMyCoffee({userId,coffees,login,browse,openRecipe}:{userId:st
 
   useEffect(()=>{let active=true;const client=supabase;if(!userId||!client){setInventory([]);return;}setBusy(true);setError('');
     const run=async()=>{try{
-      const {data,error}=await client.from('user_bean_inventory').select('id,roasted_product_id,legacy_bean_id,preferred_recipe_id,last_grind_setting,remaining_weight_grams,opened_at,updated_at').eq('user_id',userId).neq('remaining_weight_grams',0).order('opened_at',{ascending:false,nullsFirst:false}).order('updated_at',{ascending:false});
-      if(!active)return;if(error)throw error;const rows=(data??[]) as InventoryRow[];setInventory(rows);setSelectedId(current=>current&&rows.some(r=>r.id===current)?current:(rows[0]?.id??null));
+      const {data,error}=await client.from('user_bean_inventory').select('id,roasted_product_id,legacy_bean_id,preferred_recipe_id,last_grind_setting,remaining_weight_grams,opened_at,updated_at').eq('user_id',userId).order('opened_at',{ascending:false,nullsFirst:false}).order('updated_at',{ascending:false});
+      if(!active)return;if(error)throw error;const rows=((data??[]) as InventoryRow[]).filter(row=>row.remaining_weight_grams!==0);setInventory(rows);setSelectedId(current=>current&&rows.some(r=>r.id===current)?current:(rows[0]?.id??null));
     }catch{if(active)setError(ar?'تعذّر تحميل أكياسك.':'Could not load your bags.');}finally{if(active)setBusy(false);}};
     void run();return()=>{active=false;};
   },[userId,ar]);
@@ -41,6 +41,7 @@ export function BrewMyCoffee({userId,coffees,login,browse,openRecipe}:{userId:st
       if(selected.roasted_product_id) queries.push(client.from('recipes').select(`${RECIPE_FIELDS},serving_style`).eq('visibility','public').eq('roasted_product_id',selected.roasted_product_id).order('updated_at',{ascending:false}).limit(24));
       const beanId=coffee?.beanId??selected.legacy_bean_id;
       if(beanId) queries.push(client.from('recipes').select(`${RECIPE_FIELDS},serving_style`).eq('visibility','public').eq('bean_id',beanId).order('updated_at',{ascending:false}).limit(24));
+      if(selected.preferred_recipe_id) queries.push(client.from('recipes').select(`${RECIPE_FIELDS},serving_style`).eq('visibility','public').eq('id',selected.preferred_recipe_id).limit(1));
       const results=await Promise.all(queries);
       if(!active)return;
       const rows:Candidate[]=[];
