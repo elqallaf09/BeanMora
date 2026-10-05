@@ -48,14 +48,18 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
         try{
           const update = await supabase.from('brew_logs').update({ grind_setting: grind }).eq('id', request.id).eq('user_id', userId);
           if (update.error) throw update.error;
-          const inventoryQuery = recipe.productId
-            ? supabase.from('user_bean_inventory').update({ last_grind_setting: grind }).eq('user_id', userId).eq('roasted_product_id', recipe.productId)
+          const inventoryLookup = recipe.productId
+            ? supabase.from('user_bean_inventory').select('id').eq('user_id',userId).eq('roasted_product_id',recipe.productId).order('updated_at',{ascending:false}).limit(1).maybeSingle()
             : recipe.beanId
-              ? supabase.from('user_bean_inventory').update({ last_grind_setting: grind }).eq('user_id', userId).eq('legacy_bean_id', recipe.beanId)
+              ? supabase.from('user_bean_inventory').select('id').eq('user_id',userId).eq('legacy_bean_id',recipe.beanId).order('updated_at',{ascending:false}).limit(1).maybeSingle()
               : null;
-          if (inventoryQuery) {
-            const inventory = await inventoryQuery;
+          if (inventoryLookup) {
+            const inventory = await inventoryLookup;
             if (inventory.error) throw inventory.error;
+            if (inventory.data?.id) {
+              const sync = await supabase.from('user_bean_inventory').update({last_grind_setting:grind}).eq('id',inventory.data.id).eq('user_id',userId);
+              if(sync.error) throw sync.error;
+            }
           }
         }catch{warnings.push(locale==='ar'?'تم حفظ الكوب، لكن تعذّر تحديث درجة الطحن في المخزون.':'The brew was saved, but the grind setting could not be synced to inventory.');}
       }
