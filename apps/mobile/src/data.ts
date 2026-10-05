@@ -146,7 +146,7 @@ export async function loadData(db: SupabaseClient, locale: 'ar' | 'en', userId: 
   result.profile.roast = validChoice(pref?.preferred_roast_level, ROASTS) ?? null;
   const inferredGearMethod=(category:string,name:string):Method|undefined=>{
     const text=(name||'').toLowerCase();
-    const byName:/^$/ extends never ? never : Method|undefined =
+    const byName:Method|undefined =
       /moka/.test(text)?'moka_pot':
       /orea/.test(text)?'orea':
       /april/.test(text)?'april':
