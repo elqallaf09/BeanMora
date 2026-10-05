@@ -12,6 +12,7 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
   const [dose, setDose] = useState(recipe.dose === null ? '' : String(recipe.dose));
   const [water, setWater] = useState(recipe.water === null || recipe.waterUnit === 'ml' ? '' : String(recipe.water));
   const [seconds, setSeconds] = useState(measuredSeconds && Number.isInteger(measuredSeconds) && measuredSeconds > 0 ? String(measuredSeconds) : ''); const [outcome, setOutcome] = useState<Outcome | null>(null);
+  const [grindSetting, setGrindSetting] = useState(recipe.grindSetting ?? '');
   const [brewed, setBrewed] = useState(false); const [modified, setModified] = useState(false); const [share, setShare] = useState(false);
   const [nextGrind, setNextGrind] = useState<'finer' | 'same' | 'coarser' | null>(null);
   const [busy, setBusy] = useState(false); const [saved, setSaved] = useState(false); const [error, setError] = useState('');
@@ -32,8 +33,41 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
         if (!payload) { setError(errors[locale].invalid); return; }
         pending.current = { id: randomUUID(), payload };
       }
-      const response = await saveOutcome(supabase, pending.current.id, pending.current.payload);
+      const request = pending.current;
+      const response = await saveOutcome(supabase, request.id, request.payload);
       if (!response.ok) { setError(errors[locale][response.error]); return; }
+      const grind = grindSetting.trim();
+      if (grind) {
+        const update = await supabase.from('brew_logs').update({ grind_setting: grind }).eq('id', request.id).eq('user_id', userId);
+        if (update.error) throw update.error;
+        const inventoryQuery = recipe.productId
+          ? supabase.from('user_bean_inventory').update({ last_grind_setting: grind }).eq('user_id', userId).eq('roasted_product_id', recipe.productId)
+          : recipe.beanId
+            ? supabase.from('user_bean_inventory').update({ last_grind_setting: grind }).eq('user_id', userId).eq('legacy_bean_id', recipe.beanId)
+            : null;
+        if (inventoryQuery) {
+          const inventory = await inventoryQuery;
+          if (inventory.error) throw inventory.error;
+        }
+      }
+      if (share) {
+        const post = await supabase.from('posts').insert({
+          user_id: userId,
+          recipe_id: recipe.id,
+          brew_log_id: request.id,
+          bean_id: recipe.beanId,
+          brew_method: recipe.method,
+          dose_grams: request.payload.dose_grams,
+          water_grams: request.payload.water_grams,
+          actual_time_seconds: request.payload.actual_time_seconds,
+          outcome: request.payload.outcome,
+          body: null,
+          content_language: locale,
+          visibility: 'public',
+          is_hidden: false,
+        });
+        if (post.error) throw post.error;
+      }
       setSaved(true);
     } catch { setError(errors[locale].retry); }
     finally { inFlight.current = false; setBusy(false); }
@@ -44,10 +78,11 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
     <Field label={t.dose} value={dose} onChangeText={setDose} keyboardType="decimal-pad" editable={!locked} />
     <Field label={t.water} value={water} onChangeText={setWater} keyboardType="decimal-pad" editable={!locked} />
     <Field label={t.seconds} value={seconds} onChangeText={setSeconds} keyboardType="number-pad" editable={!locked} />
+    <Field label={locale==='ar'?'درجة الطحن الفعلية':'Actual grind setting'} value={grindSetting} onChangeText={setGrindSetting} editable={!locked} placeholder={locale==='ar'?'مثال: 5E أو 22 clicks':'e.g. 5E or 22 clicks'} />
     <Txt style={local.sectionLabel}>{t.outcome}</Txt><View style={local.outcomeGrid}>{OUTCOMES.map((o,index) => <Pressable key={o} accessibilityRole="button" accessibilityLabel={outcomes[locale][o]} accessibilityState={{selected:outcome===o,disabled:locked}} disabled={locked} onPress={()=>setOutcome(o)} style={[local.outcomeCard,outcome===o&&local.outcomeSelected]}><Txt style={local.outcomeEmoji}>{['◎','○','△','×'][index]}</Txt><Txt style={[local.outcomeText,outcome===o&&{color:'#FFF'}]}>{outcomes[locale][o]}</Txt></Pressable>)}</View><View style={local.coachCard}><Txt style={local.coachTitle}>{locale==='ar'?'المحاولة الياية':'Next attempt'}</Txt><Txt style={local.coachNote}>{locale==='ar'?'إذا بتغيّر الطحن، احفظ التعديل المقصود عشان نقارن النتيجة بالمحاولة الحالية.':'Save the grind change you plan to try so we can compare it with this cup.'}</Txt><View style={styles.row}><Action title={locale==='ar'?'أنعم':'Finer'} onPress={()=>setNextGrind('finer')} selected={nextGrind==='finer'} disabled={locked}/><Action title={locale==='ar'?'نفس الطحن':'Same'} onPress={()=>setNextGrind('same')} selected={nextGrind==='same'} disabled={locked}/><Action title={locale==='ar'?'أخشن':'Coarser'} onPress={()=>setNextGrind('coarser')} selected={nextGrind==='coarser'} disabled={locked}/></View></View>
     <Txt>{t.modified}</Txt><Switch accessibilityLabel={t.modified} value={modified} onValueChange={setModified} disabled={locked} />
     <Txt>{t.brewed}</Txt><Switch accessibilityLabel={t.brewed} value={brewed} onValueChange={setBrewed} disabled={locked} />
-    <Txt>{t.share}</Txt><Switch accessibilityLabel={t.share} value={share} onValueChange={setShare} disabled={locked} /><Txt style={styles.muted}>{t.shareNote}</Txt>
+    <Txt>{t.share}</Txt><Switch accessibilityLabel={t.share} value={share} onValueChange={setShare} disabled={locked} /><Txt style={styles.muted}>{share?(locale==='ar'?'بعد الحفظ راح ينشئ BeanMora منشور مجتمع تلقائي من نفس التجربة والمقادير.':'After saving, BeanMora will create a community post from this exact brew and its measurements.'):t.shareNote}</Txt>
     {error ? <Txt style={styles.error}>{error}</Txt> : null}
     {pending.current ? <Txt style={styles.warning}>{t.frozen}</Txt> : null}
     <Action title={busy ? t.saving : pending.current ? t.retry : t.save} onPress={() => void submit()} disabled={busy} selected />
