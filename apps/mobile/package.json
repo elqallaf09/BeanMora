@@ -14,7 +14,7 @@
     "eas-build-pre-install": "node scripts/check-build-config.mjs",
     "sync:core": "node scripts/sync-core.mjs",
     "typecheck": "tsc --noEmit",
-    "test": "node --test scripts/check-build-config.test.mjs && node scripts/sync-core.mjs --check && node scripts/check-mobile.mjs && node scripts/check-data.mjs && node scripts/check-brewing.mjs && node scripts/check-method-guides.mjs && node scripts/check-recipe-discovery.mjs && node scripts/check-coffee-recipes.mjs",
+    "test": "node --test scripts/check-build-config.test.mjs && node scripts/sync-core.mjs --check && node scripts/check-mobile.mjs && node scripts/check-data.mjs && node scripts/check-brewing.mjs && node scripts/check-brew-coach.mjs && node scripts/check-method-guides.mjs && node scripts/check-recipe-discovery.mjs && node scripts/check-coffee-recipes.mjs",
     "export": "expo export --platform all"
   },
   "dependencies": {
