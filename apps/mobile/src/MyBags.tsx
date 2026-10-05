@@ -30,7 +30,7 @@ export function MyBags({ userId, coffees, savedIds, recipes, openCoffee, openRec
   const load=async()=>{if(!userId||!supabase){setInventory([]);setBrews([]);return;}setBusy(true);setError('');
     try{
       const [i,b]=await Promise.all([
-        supabase.from('user_bean_inventory').select('id,roasted_product_id,legacy_bean_id,roast_date,opened_at,original_weight_grams,remaining_weight_grams,storage_location,preferred_recipe_id,last_grind_setting,brew_count,created_at,updated_at').eq('user_id',userId).order('updated_at',{ascending:false}),
+        supabase.from('user_bean_inventory').select('id,roasted_product_id,legacy_bean_id,roast_date,opened_at,original_weight_grams,remaining_weight_grams,storage_location,preferred_recipe_id,last_grind_setting,brew_count,created_at,updated_at').eq('user_id',userId).is('archived_at',null).order('updated_at',{ascending:false}),
         supabase.from('brew_logs').select('id,recipe_id,bean_id,dose_grams,water_grams,actual_time_seconds,grind_setting,taste_signal,outcome_submission,created_at').eq('user_id',userId).order('created_at',{ascending:false}).limit(150),
       ]);
       if(i.error||b.error)throw i.error||b.error;setInventory((i.data??[]) as InventoryRow[]);setBrews((b.data??[]) as BrewRow[]);
