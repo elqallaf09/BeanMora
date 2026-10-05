@@ -4,7 +4,7 @@ import { supabase } from './client';
 import { mapRecipe, RECIPE_FIELDS, type CoffeeItem, type RecipeItem, type RecipeRow } from './data';
 import { MethodPicker, CoffeePhoto } from './CoffeeScreens';
 import { Language, Txt, Icon, colors, styles } from './ui';
-import { isMethod, type Method } from './core/engine';
+import { isMethod, recommendRecipes, type Method, type Profile } from './core/engine';
 import { methods } from './copy';
 
 type InventoryRow={
@@ -14,7 +14,7 @@ type InventoryRow={
 type Candidate={recipe:RecipeItem;style:string|null;exact:boolean};
 type Serving='all'|'hot'|'iced'|'cold';
 
-export function BrewMyCoffee({userId,coffees,login,browse,openRecipe}:{userId:string|null;coffees:CoffeeItem[];login:()=>void;browse:()=>void;openRecipe:(r:RecipeItem)=>void}) {
+export function BrewMyCoffee({userId,coffees,profile,login,browse,openRecipe}:{userId:string|null;coffees:CoffeeItem[];profile:Profile;login:()=>void;browse:()=>void;openRecipe:(r:RecipeItem)=>void}) {
   const locale=useContext(Language);const ar=locale==='ar';
   const [inventory,setInventory]=useState<InventoryRow[]>([]);const [busy,setBusy]=useState(false);const [error,setError]=useState('');
   const [selectedId,setSelectedId]=useState<string|null>(null);const [method,setMethod]=useState<Method|undefined>();const [methodTouched,setMethodTouched]=useState(false);const [serving,setServing]=useState<Serving>('all');
@@ -65,8 +65,18 @@ export function BrewMyCoffee({userId,coffees,login,browse,openRecipe}:{userId:st
     void run();return()=>{active=false;};
   },[selectedId,coffee?.beanId,locale]);
 
-  const visible=candidates.filter(row=>(!method||row.recipe.method===method)&&(serving==='all'||row.style===serving));
+  const visibleBase=candidates.filter(row=>(!method||row.recipe.method===method)&&(serving==='all'||row.style===serving));
+  const personalizedRanks=new Map(recommendRecipes(visibleBase.map(row=>row.recipe),profile,method,24).map((row,index)=>[row.item.id,{rank:row.rank,reasons:row.reasons,index}]));
+  const visible=[...visibleBase].sort((a,b)=>{
+    const prefA=a.recipe.id===selected?.preferred_recipe_id?1:0,prefB=b.recipe.id===selected?.preferred_recipe_id?1:0;
+    if(prefA!==prefB)return prefB-prefA;
+    if(a.exact!==b.exact)return Number(b.exact)-Number(a.exact);
+    const rankA=personalizedRanks.get(a.recipe.id)?.rank??-999,rankB=personalizedRanks.get(b.recipe.id)?.rank??-999;
+    if(rankA!==rankB)return rankB-rankA;
+    return a.recipe.title.localeCompare(b.recipe.title);
+  });
   const recommended=visible[0]??null;
+  const recommendedReasons=recommended?personalizedRanks.get(recommended.recipe.id)?.reasons??[]:[];
 
   if(!userId)return <View style={s.center}><Icon name="play" size={40} color={colors.teal}/><Txt heading style={styles.title}>{ar?'حضّر قهوتي':'Brew my coffee'}</Txt><Txt style={[styles.muted,{textAlign:'center'}]}>{ar?'سجّل دخولك عشان نبدأ من الكيس اللي عندك ونرجع لأفضل إعداداتك.':'Sign in so BeanMora can start from a bag you own and your saved settings.'}</Txt><Pressable accessibilityRole="button" onPress={login} style={s.primary}><Txt style={s.primaryText}>{ar?'تسجيل الدخول':'Sign in'}</Txt></Pressable></View>;
 
@@ -86,7 +96,7 @@ export function BrewMyCoffee({userId,coffees,login,browse,openRecipe}:{userId:st
       ] as const).map(([id,label])=><Pressable key={id} accessibilityRole="button" accessibilityState={{selected:serving===id}} onPress={()=>setServing(id)} style={[s.serving,serving===id&&s.servingActive]}><Txt style={[s.servingText,serving===id&&{color:'#FFF'}]}>{label}</Txt></Pressable>)}</View>
 
       <Txt style={s.sectionTitle}>{ar?'4. أفضل نقطة بداية':'4. Best starting point'}</Txt>
-      {recipesBusy?<ActivityIndicator color={colors.teal}/>:recommended?<View style={s.recommend}><View style={s.recommendTop}><View style={s.recommendIcon}><Icon name={recommended.recipe.method} size={25} color={colors.teal}/></View><View style={{flex:1,gap:3}}><Txt style={s.recommendTitle}>{recommended.recipe.title}</Txt><Txt style={styles.muted}>{methods[locale][recommended.recipe.method]}{recommended.recipe.id===selected.preferred_recipe_id?(ar?' · أفضل وصفة محفوظة':' · Saved best recipe'):recommended.exact?(ar?' · مطابقة لهذا المنتج':' · Exact product match'):''}</Txt></View></View><View style={s.metrics}><Metric label={ar?'بن':'Dose'} value={recommended.recipe.dose?recommended.recipe.dose+' g':'—'}/><Metric label={ar?'ماء':'Water'} value={recommended.recipe.water?recommended.recipe.water+' g':'—'}/><Metric label={ar?'وقت':'Time'} value={recommended.recipe.seconds?Math.floor(recommended.recipe.seconds/60)+':'+String(recommended.recipe.seconds%60).padStart(2,'0'):'—'}/><Metric label={ar?'الطحنة السابقة':'Last grind'} value={selected.last_grind_setting??'—'}/></View><Pressable accessibilityRole="button" onPress={()=>openRecipe(recommended.recipe)} style={s.primary}><Txt style={s.primaryText}>{ar?'ابدأ بهذه الوصفة':'Start this recipe'}</Txt><Icon name="play" size={17} color="#FFF"/></Pressable></View>:<View style={s.empty}><Txt style={s.emptyTitle}>{ar?'ما لقينا وصفة مطابقة بهالشروط':'No exact recipe matches these choices'}</Txt><Txt style={styles.muted}>{ar?'جرّب طريقة تقديم ثانية أو افتح مكتبة الوصفات لهذا البن من صفحة البن.':'Try another serving style or open this coffee page to browse more recipes.'}</Txt></View>}
+      {recipesBusy?<ActivityIndicator color={colors.teal}/>:recommended?<View style={s.recommend}><View style={s.recommendTop}><View style={s.recommendIcon}><Icon name={recommended.recipe.method} size={25} color={colors.teal}/></View><View style={{flex:1,gap:3}}><Txt style={s.recommendTitle}>{recommended.recipe.title}</Txt><Txt style={styles.muted}>{methods[locale][recommended.recipe.method]}{recommended.recipe.id===selected.preferred_recipe_id?(ar?' · أفضل وصفة محفوظة':' · Saved best recipe'):recommended.exact?(ar?' · مطابقة لهذا المنتج':' · Exact product match'):recommendedReasons.includes('exactEquipment')?(ar?' · مطابقة لمعداتك':' · Matches your equipment'):recommendedReasons.includes('gearMethod')?(ar?' · مناسبة لطريقتك':' · Fits your brew gear'):''}</Txt></View></View><View style={s.metrics}><Metric label={ar?'بن':'Dose'} value={recommended.recipe.dose?recommended.recipe.dose+' g':'—'}/><Metric label={ar?'ماء':'Water'} value={recommended.recipe.water?recommended.recipe.water+' g':'—'}/><Metric label={ar?'وقت':'Time'} value={recommended.recipe.seconds?Math.floor(recommended.recipe.seconds/60)+':'+String(recommended.recipe.seconds%60).padStart(2,'0'):'—'}/><Metric label={ar?'الطحنة السابقة':'Last grind'} value={selected.last_grind_setting??'—'}/></View><Pressable accessibilityRole="button" onPress={()=>openRecipe(recommended.recipe)} style={s.primary}><Txt style={s.primaryText}>{ar?'ابدأ بهذه الوصفة':'Start this recipe'}</Txt><Icon name="play" size={17} color="#FFF"/></Pressable></View>:<View style={s.empty}><Txt style={s.emptyTitle}>{ar?'ما لقينا وصفة مطابقة بهالشروط':'No exact recipe matches these choices'}</Txt><Txt style={styles.muted}>{ar?'جرّب طريقة تقديم ثانية أو افتح مكتبة الوصفات لهذا البن من صفحة البن.':'Try another serving style or open this coffee page to browse more recipes.'}</Txt></View>}
 
       {visible.length>1?<View style={s.more}><Txt style={s.sectionTitle}>{ar?'بدائل مناسبة':'Other matching recipes'}</Txt>{visible.slice(1,6).map(row=><Pressable key={row.recipe.id} accessibilityRole="button" accessibilityLabel={row.recipe.title} onPress={()=>openRecipe(row.recipe)} style={s.recipeRow}><Icon name={row.recipe.method} size={20} color={colors.copper}/><View style={{flex:1}}><Txt numberOfLines={2} style={s.recipeTitle}>{row.recipe.title}</Txt><Txt style={styles.muted}>{methods[locale][row.recipe.method]}</Txt></View><Icon name="arrow" size={17}/></Pressable>)}</View>:null}
     </>:null}
