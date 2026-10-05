@@ -8,6 +8,7 @@ export interface RoastAgeYield {
   is_peak: boolean;
 }
 export interface ManualBrew {
+  applies_to_coffee_names?: string[];
   dose_min_grams?: number;
   dose_max_grams?: number;
   yield_grams?: number;
@@ -80,6 +81,7 @@ export function manualBrew(value: unknown): ManualBrew | undefined {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return;
   const row = value as Record<string, unknown>;
   const result: ManualBrew = {};
+  if (Array.isArray(row.applies_to_coffee_names)) result.applies_to_coffee_names = row.applies_to_coffee_names.filter((v): v is string => typeof v === 'string' && !!v.trim()).map(v => v.trim().slice(0, 160)).slice(0, 20);
   for (const key of ['dose_min_grams', 'dose_max_grams', 'time_min_seconds', 'time_max_seconds', 'yield_grams', 'yield_min_grams', 'yield_max_grams', 'yield_ml', 'yield_min_ml', 'yield_max_ml', 'water_min_grams', 'water_max_grams', 'water_min_ml', 'water_max_ml', 'ice_grams', 'ice_min_grams', 'ice_max_grams', 'milk_grams', 'milk_min_grams', 'milk_max_grams', 'milk_grams_per_single_shot', 'bypass_water_grams', 'pressure_bar'] as const) {
     const n = row[key];
     const limit = key.startsWith('dose') ? 1000 : key.startsWith('time') ? 172800 : key === 'pressure_bar' ? 20 : 20000;
@@ -163,6 +165,11 @@ export function temperatureLabel(recipe: RecipeItem, ar = false): string {
   if (m?.temperature_min_c !== undefined && m.temperature_max_c !== undefined) return `${m.temperature_min_c}–${m.temperature_max_c}°C`;
   const temperature = recipe.temperature ?? recipe.xBloom?.temp;
   if (temperature !== null && temperature !== undefined) return `${temperature}°C`;
+  const pourTemperatures = recipe.sourceBrew.pours?.flatMap(p => p.temperature != null && p.temperature > 0 ? [p.temperature] : []) ?? [];
+  if (pourTemperatures.length) {
+    const min = Math.min(...pourTemperatures), max = Math.max(...pourTemperatures);
+    return `${min === max ? min : `${min}–${max}`}°C${ar ? ' حسب الصبات' : ' across pours'}`;
+  }
   return (ar ? m?.temperature_note_ar || m?.temperature_note : m?.temperature_note) || '—';
 }
 export interface ManualRecipeFact { key: string; label: string; value: string; note?: string }

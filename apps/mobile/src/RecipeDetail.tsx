@@ -20,14 +20,14 @@ export function RecipeDetail({ recipe, record }: { recipe: RecipeItem; record: (
   const grindTranslations: Record<string, string> = { 'Medium-coarse': 'متوسط خشن', 'Medium-fine': 'متوسط ناعم', 'Like kosher salt': 'مثل الملح الخشن' };
   const grind = (ar ? manual?.grind_ar : undefined) || (ar && recipe.grindSetting ? grindTranslations[recipe.grindSetting] : undefined) || recipe.grindSetting;
   const temperature = temperatureLabel(recipe, ar);
-  const values: { icon: IconName; value: string; label: string }[] = [
+  const values = ([
     { icon: recipe.method, value: methods[locale][recipe.method], label: ar ? 'طريقة التحضير' : 'Brew method' },
     { icon: 'bean', value: doseLabel(recipe) === '—' && recipe.method === 'moka_pot' ? (ar ? 'سلة ممتلئة بلا كبس' : 'Full, loose basket') : doseLabel(recipe), label: t.dose },
     { icon: 'drop', value: waterLabel(recipe, ar), label: recipe.method === 'espresso' ? ar ? 'ناتج الإسبريسو' : 'Espresso yield' : ar ? 'ماء التحضير' : 'Brew water' },
     { icon: 'gear', value: grind || '—', label: ar ? 'إعداد الطحنة' : 'Grind setting' },
     { icon: 'temp', value: temperature, label: ar ? 'حرارة الماء' : 'Water temperature' },
     { icon: 'clock', value: timeLabel(recipe, ar) === '—' && recipe.method === 'moka_pot' ? (ar ? 'حسب انتهاء التدفق' : 'Until flow ends') : timeLabel(recipe, ar), label: ar ? 'الوقت الإرشادي' : 'Guide time' },
-  ];
+  ] satisfies { icon: IconName; value: string; label: string }[]).filter(fact => fact.value !== '—');
   const typeNames: Record<string, string> = ar ? { single_origin: 'منشأ واحد', blend: 'خلطة', decaf: 'منزوع الكافيين', arabica: 'أرابيكا', robusta: 'روبوستا' } : { single_origin: 'Single origin', blend: 'Blend', decaf: 'Decaf', arabica: 'Arabica', robusta: 'Robusta' };
   const provenance = [
     [ar ? 'صاحب الوصفة' : 'Recipe by', discovery?.creatorName || recipe.author],
@@ -54,7 +54,7 @@ export function RecipeDetail({ recipe, record }: { recipe: RecipeItem; record: (
     {recipe.method === 'xbloom' && recipe.xBloom ? <View style={styles.card}><Txt heading style={styles.subtitle}>xBloom</Txt><Txt>{ar ? 'ملف التحضير المتوافق' : 'Compatible brew profile'}: {recipe.xBloom.deviceModel}</Txt>{recipe.xBloom.grindSetting ? <Txt>{ar ? 'الطحنة' : 'Grind'}: {recipe.xBloom.grindSetting}</Txt> : null}{Array.isArray(recipe.xBloom.pours) ? recipe.xBloom.pours.map((p: any, i: number) => <Txt key={i}>{ar ? 'الصبة ' : 'Pour '}{i + 1}: {[p?.water_grams ?? p?.grams ?? p?.amount, p?.duration_seconds ?? p?.seconds].filter(v => v != null).join(' · ')}</Txt>) : null}</View> : null}
     <SourceBrewDetails recipe={recipe}/>
     <Txt heading style={styles.subtitle}>{t.instructions}</Txt>
-    {recipe.steps.length ? recipe.steps.map(step => <View key={step.number} style={styles.card}><Txt style={{ fontWeight: '700' }}>{step.number}. {step.title}</Txt><Txt>{step.description}</Txt></View>) : <Txt style={styles.warning}>{t.noSteps}</Txt>}
+    {recipe.steps.length ? recipe.steps.map(step => <View key={step.number} style={styles.card}><Txt style={{ fontWeight: '700' }}>{step.number}. {step.title}</Txt><Txt>{step.description}</Txt></View>) : recipe.sourceBrew.pours?.length ? <Txt style={styles.muted}>{ar?'اتبع ملف الصبات الموضح أعلاه، أو افتح الوصفة في تطبيق xBloom لتنفيذ إعدادات جهازك.':'Follow the pour program above, or open the recipe in xBloom to use your machine settings.'}</Txt> : <Txt style={styles.warning}>{t.noSteps}</Txt>}
     {recipe.videoUrl ? <SourceLink title={recipe.videoUrl.includes('youtube.com') ? (ar ? 'شاهد فيديو هذه الوصفة' : 'Watch this recipe video') : (ar ? 'فتح رابط الوصفة' : 'Open recipe link')} url={recipe.videoUrl}/> : null}
     {recipe.sources.length ? <View style={{ gap: 10 }}><Txt heading style={styles.subtitle}>{ar ? 'مصادر الوصفة' : 'Recipe sources'}</Txt>{recipe.sources.map(source => <View key={source.url} style={styles.card}><SourceLink title={source.url.includes('share-h5.xbloom.com') ? (ar ? 'فتح الوصفة في xBloom' : 'Open recipe in xBloom') : source.name} url={source.url}/>{source.verifiedAt ? <Txt style={styles.muted}>{ar ? 'آخر تحقق: ' : 'Last checked: '}{new Date(source.verifiedAt).toLocaleDateString(locale + '-u-nu-latn')}</Txt> : null}</View>)}</View> : null}
     <Action title={t.record} onPress={() => record()} selected/>

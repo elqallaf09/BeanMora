@@ -1,4 +1,5 @@
 import { test, expect, type Route } from '@playwright/test';
+import { openRecipeLibrary } from './navigation';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
@@ -110,7 +111,7 @@ for (const guide of guideCases) test(`${guide.method}: Arabic guide, source unit
     return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(data) });
   });
   await page.goto('/');
-  await page.getByRole('button', { name: 'تحضير', exact: true }).click();
+  await openRecipeLibrary(page, 'ar');
   await page.getByRole('button', { name: guide.label, exact: true }).click();
   const recipe = rows.find((r: any) => r.slug === guide.slug);
   await page.getByRole('button', { name: recipe.title_ar, exact: true }).click();
@@ -182,7 +183,7 @@ test('Moka: model-specific ranges, no scaling, unspecified fields remain written
     return route.fulfill({ status: 200, contentType: 'application/json', headers: { 'content-range': `0-${data.length - 1}/${data.length}` }, body: JSON.stringify(data) });
   });
   await page.goto('/');
-  await page.getByRole('button', { name: 'تحضير', exact: true }).click();
+  await openRecipeLibrary(page, 'ar');
   await page.getByRole('button', { name: 'موكا بوت', exact: true }).click();
   await page.getByRole('button', { name: 'بلو بوتل — موكا بوت 6 أكواب', exact: true }).click();
   await expect(page.getByText('20–22 g', { exact: true })).toBeVisible();
@@ -208,7 +209,7 @@ test('English preserves recipe instructions and source temperature ranges', asyn
   await page.goto('/');
   await page.getByRole('button', { name: 'تغيير اللغة، العربية', exact: true }).click();
   await page.getByRole('button', { name: 'English', exact: true }).click();
-  await page.getByRole('button', { name: 'Brew', exact: true }).click();
+  await openRecipeLibrary(page, 'en');
   await page.getByRole('button', { name: 'Blue Bottle — Chemex 600 g', exact: true }).click();
   await expect(page.getByText('36–46 g', { exact: true })).toBeVisible();
   await expect(page.getByText('93.3–98.9°C', { exact: true })).toBeVisible();
@@ -241,7 +242,7 @@ test('measured time reaches explicit outcome review without silently recording a
   await page.getByLabel('Password', { exact: true }).fill('isolated-fixture-password');
   await page.getByRole('button', { name: 'Sign in', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Sign out', exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Brew', exact: true }).click();
+  await openRecipeLibrary(page, 'en');
   await page.getByRole('button', { name: 'Equator Coffees — Chemex 45 g / 720 g', exact: true }).click();
   await page.getByLabel('Coffee dose to calculate (g)').fill('20');
   await page.getByRole('button', { name: 'Start brewing', exact: true }).click();
@@ -287,7 +288,7 @@ for (const locale of ['ar', 'en'] as const) {
       await page.getByRole('button', { name: 'تغيير اللغة، العربية', exact: true }).click();
       await page.getByRole('button', { name: 'English', exact: true }).click();
     }
-    await page.getByRole('button', { name: locale === 'ar' ? 'تحضير' : 'Brew', exact: true }).click();
+    await openRecipeLibrary(page, locale);
     for (const fixture of fixtures) {
       await page.getByRole('button', { name: locale === 'ar' ? fixture.title_ar : fixture.title, exact: true }).click();
       const facts = page.getByTestId('recipe-source-facts');

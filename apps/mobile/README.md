@@ -27,9 +27,10 @@ npm start
 
 - Reference-matched home, coffee detail and full-photo login screens, with bundled imagery, Arabic fonts, line icons and five-item navigation.
 - Responsive phone/tablet catalogs, a fully scrolling home page, coffee galleries and linked recipe quantities.
-- Cream, copper and teal branding, a shared native/app-icon master, a Quicksand wordmark, illustrated flavor notes and source-backed sensory scales. Missing sensory measurements stay unspecified.
+- Cream, copper and teal branding, a shared native/app-icon master, a Quicksand wordmark, illustrated flavor notes and source-backed sensory scales/descriptions. Unpublished metrics do not create empty bars or arbitrary ratings.
 - Independent equipment and roastery directories, model guides, roaster coffees and linked recipes. Members can write, edit, delete and report real equipment opinions; guests can browse.
-- A paginated recipe library and xBloom hub with search, official/community and Studio/Original filters, sharing links, source measurements and individual pours. Existing Origami and Kalita recipes are included.
+- A photo-led xBloom hub with 12 recipes per page, compact guide links, official/community and Studio/Original filters, sharing links, real source measurements and individual pours. Missing/broken xBloom covers use a bundled, labeled brewing illustration. Existing Origami and Kalita recipes are included.
+- Coffee detail prioritizes available linked recipes, reads xBloom dose/grind/per-pour temperatures, and offers sourced general brewing guides as clearly labeled starting points. A coffee without an exact xBloom recipe can open the recipe library.
 - Combined server-side discovery filters for flavor family/note, recipe creator, creator’s documented base country, recipe geography, title, hot/iced/cold serving, coffee type/name, roaster and coffee origin. Country fields have separate meanings; no creator nationality is inferred.
 - A reviewed international roaster batch with exact coffee/source matching, bilingual procedures or explicitly labelled published specifications, product photography and replayable provenance. Shared recipes are stored once and remain discoverable by each documented applicable coffee name.
 - Per-coffee recipe loading has its own pagination, request cancellation and retry state, so older linked recipes remain accessible beyond the home catalog’s initial page.
@@ -48,7 +49,7 @@ Native sessions persist using the Supabase storage adapter; web previews use bro
 
 ## Manual Android APK release
 
-Version 0.3.0 / Android versionCode 8 includes the refreshed brand, sourced sensory cards, combined recipe search, roaster recipes and repaired coffee photography. Updating source or exporting Metro bundles does not update a previously installed APK.
+Version 0.5.2 / Android versionCode 12 includes the refreshed xBloom hub, source-program measurements, honest sensory cards, inventory and general brew starters. Updating source or exporting Metro bundles does not update a previously installed APK.
 
 After the release PR is merged, open the existing BeanMora Expo project's **Builds** page and choose **Build from GitHub**. Use:
 
@@ -61,7 +62,7 @@ After the release PR is merged, open the existing BeanMora Expo project's **Buil
 | Environment from the build profile | `production` (the **Production** variables in Expo) |
 | Submit to store after build | Off |
 
-Start the build manually. When its status is **Finished**, check that the build details identify the intended release commit and version **0.3.0 (8)**, then download the **APK** from that build's artifact link. Open the APK on the Android phone to install it. The account and connection-setup screens should display **0.3.0** after installation; use the build details to verify versionCode **8**.
+Start the build manually. When its status is **Finished**, check that the build details identify the intended release commit and version **0.5.2 (12)**, then download the **APK** from that build's artifact link. Open the APK on the Android phone to install it. The account and connection-setup screens should display **0.5.2** after installation; use the build details to verify versionCode **12**.
 
 Both EAS profiles explicitly select `production` variables and the Android `latest` build image. Version numbers come from the checked-in app config (`cli.appVersionSource: local`). The `preview` profile produces an internally distributed APK; the `production` profile produces an app bundle for store distribution. The standalone preview APK runs without Expo Go or a development server.
 

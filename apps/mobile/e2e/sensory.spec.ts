@@ -26,7 +26,7 @@ const unknown = {
 };
 
 for (const { locale, width } of [{ locale: 'ar', width: 320 }, { locale: 'en', width: 768 }] as const) {
-  test(`${locale}: sourced acidity keeps 3/5, unknown is explicit, and the complete product photo fits`, async ({ page, context }) => {
+  test(`${locale}: sourced acidity keeps 3/5, unpublished metrics have no empty bars, and the complete product photo fits`, async ({ page, context }) => {
     await page.setViewportSize({ width, height: 960 });
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(error.message));
@@ -48,7 +48,8 @@ for (const { locale, width } of [{ locale: 'ar', width: 320 }, { locale: 'en', w
     await expect(profile).toBeVisible();
     await expect(profile.getByLabel(locale === 'ar' ? 'الحموضة: 3/5' : 'Acidity: 3/5', { exact: true })).toBeVisible();
     await expect(profile.getByLabel(locale === 'ar' ? 'الحلاوة: 4/5' : 'Sweetness: 4/5', { exact: true })).toBeVisible();
-    await expect(profile.getByLabel(locale === 'ar' ? 'القوام: غير محددة' : 'Body: Unspecified', { exact: true })).toBeVisible();
+    await expect(profile.getByLabel(locale === 'ar' ? /^القوام:/ : /^Body:/)).toHaveCount(0);
+    await expect(profile.getByText(locale === 'ar' ? 'غير محددة' : 'Unspecified', { exact: true })).toHaveCount(0);
     const image = page.getByTestId('coffee-product-photo');
     await expect(image).toHaveCount(1);
     await expect.poll(() => image.evaluate(element => Array.from(element.querySelectorAll('img')).some(img => img.complete && img.naturalWidth === 160 && img.naturalHeight === 400))).toBe(true);
@@ -66,7 +67,8 @@ for (const { locale, width } of [{ locale: 'ar', width: 320 }, { locale: 'en', w
     await popup.close();
     await page.getByRole('button', { name: locale === 'ar' ? 'رجوع' : 'Back', exact: true }).click();
     await page.getByRole('button', { name: locale === 'ar' ? unknown.name_ar : unknown.name_en, exact: true }).click();
-    await expect(profile.getByLabel(locale === 'ar' ? 'الحموضة: غير محددة' : 'Acidity: Unspecified', { exact: true })).toBeVisible();
+    await expect(profile.getByLabel(locale === 'ar' ? /^الحموضة:/ : /^Acidity:/)).toHaveCount(0);
+    await expect(profile.getByText(locale === 'ar' ? 'إيحاءات المحمصة؛ لم تنشر درجات رقمية لشدة النكهة.' : 'Roaster tasting notes; numerical intensity scores were not published.', { exact: true })).toBeVisible();
     await expect(profile.getByText('3/5', { exact: true })).toHaveCount(0);
     await expect(profile.getByRole('link')).toHaveCount(0);
     await expect(page.getByTestId('coffee-photo-unavailable')).toBeVisible();

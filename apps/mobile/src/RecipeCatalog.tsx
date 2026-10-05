@@ -8,6 +8,7 @@ import {
   Platform,
   Pressable,
   ScrollView,
+  StyleSheet,
   View,
   useWindowDimensions,
 } from "react-native";
@@ -21,7 +22,8 @@ import {
 import { MethodPicker, coffeeStyles } from "./CoffeeScreens";
 import { RecipeVisual } from './RecipeVisual';
 import { MethodGuide } from './MethodGuide';
-import { doseLabel, recipeTitle, timeLabel, waterLabel } from './manualBrew';
+import { recipeTitle } from './manualBrew';
+import { recipeQuickFacts } from './recipeQuickFacts';
 import { Action, Field, Icon, Language, Txt, colors, styles } from "./ui";
 import { FlavorIcon, FlavorNotes } from './SensoryProfile';
 import {
@@ -32,6 +34,9 @@ import {
 import { methods } from "./copy";
 import { FLAVORS, type Method } from "./core/engine";
 type DiscoveredRecipe = RecipeItem & { discovery: RecipeDiscovery };
+function FilterChip({ title, selected, onPress }: { title: string; selected: boolean; onPress: () => void }) {
+  return <Pressable accessibilityRole="button" accessibilityLabel={title} accessibilityState={{selected}} onPress={onPress} style={[catalogStyles.chip,selected&&catalogStyles.chipSelected]}><Txt style={{fontSize:12,lineHeight:19,fontWeight:'700',color:selected?'#FFF':colors.brown}}>{title}</Txt></Pressable>;
+}
 const flavorLabels = {
   chocolate: ['شوكولاتة', 'Chocolate'], nutty: ['مكسرات', 'Nutty'], fruity: ['فواكه', 'Fruity'],
   citrus: ['حمضيات', 'Citrus'], floral: ['زهور', 'Floral'], caramel: ['كراميل', 'Caramel'], spice: ['توابل', 'Spice'],
@@ -49,6 +54,8 @@ export function RecipeCatalog({
 }) {
   const locale = useContext(Language);
   const ar = locale === "ar";
+  const isXBloomHub = locked && initialMethod === 'xbloom';
+  const pageSize = isXBloomHub ? 12 : RECIPE_PAGE_SIZE;
   const { width } = useWindowDimensions();
   const [method, setMethod] = useState<Method | undefined>(initialMethod);
   const [search, setSearch] = useState("");
@@ -114,7 +121,7 @@ export function RecipeCatalog({
       return cancel;
     }
     const query = recipePageQuery(supabase, { query: debounced, method, source, model, filters }, page,
-      `${RECIPE_FIELDS},${RECIPE_DISCOVERY_FIELDS}`, controller.signal);
+      `${RECIPE_FIELDS},${RECIPE_DISCOVERY_FIELDS}`, controller.signal, pageSize);
     void (async () => {
       try {
         const result = await query;
@@ -139,8 +146,8 @@ export function RecipeCatalog({
         setTotal(result.count);
         setMore(
           result.count != null
-            ? (page + 1) * RECIPE_PAGE_SIZE < result.count
-            : mapped.length === RECIPE_PAGE_SIZE,
+            ? (page + 1) * pageSize < result.count
+            : (result.data?.length ?? 0) === pageSize,
         );
       } catch {
         if (current()) setError(true);
@@ -149,8 +156,8 @@ export function RecipeCatalog({
       }
     })();
     return cancel;
-  }, [locale, method, search, debounced, source, model, filters, page, revision]);
-  const columns = width >= 850 ? 4 : width >= 600 ? 3 : 2;
+  }, [locale, method, search, debounced, source, model, filters, page, revision, pageSize]);
+  const columns = width >= 850 ? isXBloomHub ? 3 : 4 : width >= 600 ? 3 : 2;
   const cardWidth = (Math.min(width, 1120) - 36 - (columns - 1) * 12) / columns;
   return (<>
     <FlatList
@@ -158,6 +165,7 @@ export function RecipeCatalog({
       key={columns}
       numColumns={columns}
       data={rows}
+      initialNumToRender={pageSize}
       keyExtractor={(r) => r.id}
       columnWrapperStyle={{ gap: 12 }}
       contentContainerStyle={[coffeeStyles.page, { gap: 12 }]}
@@ -168,9 +176,9 @@ export function RecipeCatalog({
         setRevision((v) => v + 1);
       }}
       ListHeaderComponent={
-        <View style={{ gap: 16, marginBottom: 8 }}>
+        <View style={{ gap: isXBloomHub ? 12 : 16, marginBottom: 8 }}>
           {header}
-          <Txt heading style={styles.title}>
+          <View style={{flexDirection:ar?'row-reverse':'row',justifyContent:'space-between',alignItems:'center',gap:12}}><Txt heading style={[styles.title,{flex:1}]}>
             {initialMethod === "xbloom"
               ? ar
                 ? "وصفات xBloom"
@@ -178,12 +186,11 @@ export function RecipeCatalog({
               : ar
                 ? "مكتبة الوصفات"
                 : "Recipe library"}
-          </Txt>
+          </Txt>{total !== null ? <View style={catalogStyles.count}><Txt style={{color:colors.teal,fontSize:14,lineHeight:22,fontWeight:'800',fontVariant:['tabular-nums']}}>{total.toLocaleString('en-US')}</Txt><Txt style={{fontSize:10,color:colors.muted}}>{ar?'وصفة':'recipes'}</Txt></View> : null}</View>
           <Txt style={styles.muted}>
             {ar
-              ? "ابحث في المكتبة كاملة، وافتح كل وصفة لتفاصيلها ومصدرها."
-              : "Search the full library and open a recipe for its details and sources."}
-            {total !== null ? ` · ${total}` : ""}
+              ? isXBloomHub ? "طحنة، حرارة وصبات — كل إعدادات كوبك في مكان واحد." : "ابحث في المكتبة كاملة، وافتح كل وصفة لتفاصيلها ومصدرها."
+              : isXBloomHub ? "Grind, temperature and pours, all ready to explore." : "Search the full library and open a recipe for its details and sources."}
           </Txt>
           {!locked ? (
             <MethodPicker
@@ -195,7 +202,8 @@ export function RecipeCatalog({
             />
           ) : null}
           <MethodGuide key={method ?? 'all'} method={method}/>
-          <Field
+          <View style={{flexDirection:ar?'row-reverse':'row',gap:10,alignItems:'flex-end'}}>
+          <View style={{flex:1}}><Field
             label={ar ? "ابحث عن وصفة" : "Find a recipe"}
             value={search}
             maxLength={160}
@@ -205,8 +213,7 @@ export function RecipeCatalog({
                 ? "وصفة، نكهة، صانع، بلد أو محمصة…"
                 : "Recipe, flavor, creator, country or roaster…"
             }
-          />
-          <View style={{ flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+          /></View>
             <Pressable
               accessibilityRole="button"
               accessibilityLabel={ar ? `تصفية الوصفات${filterCount ? `، ${filterCount} مفعلة` : ''}` : `Filter recipes${filterCount ? `, ${filterCount} active` : ''}`}
@@ -217,16 +224,20 @@ export function RecipeCatalog({
               <Txt style={{ fontWeight: '700', fontSize: 14 }}>{ar ? 'تصفية' : 'Filters'}</Txt>
               {filterCount > 0 ? <View style={{ backgroundColor: colors.brown, borderRadius: 20, minWidth: 23, paddingHorizontal: 6 }}><Txt style={{ color: '#FFF', textAlign: 'center', fontSize: 12 }}>{filterCount}</Txt></View> : null}
             </Pressable>
+          </View>
+          {hasSearch || filterCount > 0 ? <View style={{ flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
             {hasSearch ? <Pressable accessibilityRole="button" accessibilityLabel={ar ? 'مسح البحث والتصفية' : 'Clear search and filters'} onPress={resetSearch} style={{ minHeight: 44, justifyContent: 'center', paddingHorizontal: 4 }}><Txt style={{ color: colors.brown, fontSize: 13, textDecorationLine: 'underline' }}>{ar ? 'مسح الكل' : 'Clear all'}</Txt></Pressable> : null}
             {filterCount > 0 ? <Txt style={[styles.muted, { flex: 1, minWidth: 100 }]}>{ar ? 'تُطبق الشروط معًا على المكتبة كاملة.' : 'Filters combine across the full library.'}</Txt> : null}
-          </View>
-          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+          </View> : null}
+          <View style={{flexDirection:width>=600?ar?'row-reverse':'row':'column',gap:12}}>
+          <View style={[catalogStyles.filterGroup,width>=600&&{flex:1}]}>
+          <Txt style={catalogStyles.filterLabel}>{ar?'المصدر':'Source'}</Txt><View style={{ flexDirection: ar?'row-reverse':'row', flexWrap: "wrap", gap: 8 }}>
             {[
               ["all", ar ? "كل المصادر" : "All sources"],
               ["official", ar ? "رسمي" : "Official"],
               ["community", ar ? "مجتمعي" : "Community"],
             ].map(([id, title]) => (
-              <Action
+              <FilterChip
                 key={id}
                 title={title}
                 selected={source === id}
@@ -237,10 +248,11 @@ export function RecipeCatalog({
               />
             ))}
           </View>
+          </View>
           {initialMethod === "xbloom" || method === "xbloom" ? (
-            <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+            <View style={[catalogStyles.filterGroup,width>=600&&{flex:1}]}><Txt style={catalogStyles.filterLabel}>{ar?'موديل الجهاز':'Your machine'}</Txt><View style={{ flexDirection: ar?'row-reverse':'row', flexWrap: "wrap", gap: 8 }}>
               {["all", "Studio", "Original"].map((id) => (
-                <Action
+                <FilterChip
                   key={id}
                   title={
                     id === "all" ? (ar ? "كل الموديلات" : "All models") : id
@@ -253,7 +265,9 @@ export function RecipeCatalog({
                 />
               ))}
             </View>
+            </View>
           ) : null}
+          </View>
           {error && rows.length === 0 ? (
             <View style={styles.card}>
               <Txt style={styles.error}>
@@ -318,34 +332,31 @@ export function RecipeCatalog({
             styles.card,
             {
               width: cardWidth,
+              borderRadius: 20,
               padding: 0,
               overflow: "hidden",
               marginBottom: 0,
             },
           ]}
         >
-          <View style={{ height: 145 }}>
+          <View style={{ height: isXBloomHub ? Math.min(200,cardWidth*0.75) : 145 }}>
             <RecipeVisual recipe={item}/>
             {item.discovery.servingStyle ? <View style={{ position: 'absolute', top: 10, left: ar ? 10 : undefined, right: ar ? undefined : 10, backgroundColor: colors.paper, borderRadius: 99, paddingHorizontal: 10, paddingVertical: 2 }}><Txt style={{ fontSize: 11 }}>{item.discovery.servingStyle === 'hot' ? ar ? 'ساخن' : 'Hot' : item.discovery.servingStyle === 'iced' ? ar ? 'مثلّج' : 'Iced' : ar ? 'بارد' : 'Cold'}</Txt></View> : null}
           </View>
-          <View style={{ padding: 12, gap: 5 }}>
-            <Txt style={[styles.muted, { fontSize: 11 }]}>
-              {methods[locale][item.method]}
-            </Txt>
+          <View style={{ padding: width<400?10:15, gap: 10,flex:1 }}>
+            <View style={[catalogStyles.cardTop,ar&&{flexDirection:'row-reverse'}]}><Txt style={{fontSize:11,lineHeight:17,color:colors.teal,fontWeight:'700'}}>{item.method==='xbloom' ? item.sourceBrew.model || item.xBloom?.deviceModel || 'xBloom' : methods[locale][item.method]}</Txt><Txt style={{fontSize:10,lineHeight:17,color:colors.muted}}>{['official_manufacturer','official_roaster','verified_barista'].includes(item.recipeType)?ar?'رسمي':'Official':ar?'مجتمعي':'Community'}</Txt></View>
             <Txt
               numberOfLines={3}
-              style={{ fontSize: 15, fontWeight: "700", lineHeight: 23 }}
+              style={{ fontSize: width<400?14:17, fontWeight: "700", lineHeight: width<400?21:26,minHeight:width<400?42:52 }}
             >
               {recipeTitle(item.title, ar)}
             </Txt>
-            <Txt style={{ fontSize: 12 }}>
-              {recipeTitle(`${doseLabel(item)} · ${item.method === 'espresso' ? (ar ? 'ناتج ' : 'Yield ') : ''}${waterLabel(item, ar) !== '—' ? waterLabel(item, ar) : ar && item.method === 'moka_pot' ? 'أدنى صمام الأمان' : item.method === 'moka_pot' ? 'Below safety valve' : '—'}`, ar)}
-            </Txt>
-            <Txt style={[styles.muted, { writingDirection: /^\d/.test(timeLabel(item, ar)) ? 'ltr' : ar ? 'rtl' : 'ltr' }]}>{timeLabel(item, ar) !== '—' ? timeLabel(item, ar) : ar && item.method === 'moka_pot' ? 'حسب التدفق' : item.method === 'moka_pot' ? 'Follow flow' : '—'}</Txt>
-            <Txt numberOfLines={1} style={[styles.muted, { fontSize: 11 }]}>
+            <View testID="recipe-card-facts" style={catalogStyles.facts}>{recipeQuickFacts(item,ar).map(fact=><View key={fact.key} style={catalogStyles.fact}><View style={[catalogStyles.factLabel,ar&&{flexDirection:'row-reverse'}]}><Icon name={fact.icon} size={12} color={colors.muted}/><Txt style={{fontSize:10,lineHeight:16,color:colors.muted}}>{fact.label}</Txt></View><Txt numberOfLines={2} style={{fontSize:width<400?12:14,lineHeight:21,fontWeight:'700',writingDirection:/^\d/.test(fact.value)?'ltr':undefined}}>{fact.value}</Txt></View>)}</View>
+            <Txt numberOfLines={1} style={[styles.muted, { fontSize: 11,lineHeight:18 }]}>
               {item.discovery.creatorName || item.author || item.sources[0]?.name || ""}
             </Txt>
             <FlavorNotes notes={item.discovery.flavorNotes} compact max={2}/>
+            <View style={[catalogStyles.cardFooter,ar&&{flexDirection:'row-reverse'}]}><Txt style={{fontSize:11,lineHeight:18,fontWeight:'700',color:colors.teal}}>{ar?'تفاصيل التحضير':'View brew settings'}</Txt><Icon name="arrow" size={15} color={colors.teal}/></View>
           </View>
         </Pressable>
       )}
@@ -403,3 +414,13 @@ export function RecipeCatalog({
     </Modal>
   </>);
 }
+const catalogStyles = StyleSheet.create({
+  count:{backgroundColor:'#E9F1ED',borderRadius:14,paddingHorizontal:14,paddingVertical:7,alignItems:'center',gap:1},
+  filterGroup:{gap:7},filterLabel:{fontSize:11,lineHeight:17,color:colors.muted,fontWeight:'700'},
+  chip:{minHeight:44,borderRadius:13,borderWidth:1,borderColor:colors.line,paddingHorizontal:14,paddingVertical:8,justifyContent:'center',alignItems:'center',backgroundColor:colors.paper},
+  chipSelected:{backgroundColor:colors.teal,borderColor:colors.teal},
+  cardTop:{flexDirection:'row',justifyContent:'space-between',alignItems:'center',gap:6,flexWrap:'wrap'},
+  facts:{flexDirection:'row',flexWrap:'wrap',borderTopWidth:1,borderTopColor:colors.line,paddingTop:9,rowGap:7,columnGap:5},
+  fact:{width:'47%',gap:2},factLabel:{flexDirection:'row',alignItems:'center',gap:4},
+  cardFooter:{marginTop:'auto',paddingTop:7,borderTopWidth:1,borderTopColor:colors.line,flexDirection:'row',alignItems:'center',justifyContent:'space-between',gap:5},
+});

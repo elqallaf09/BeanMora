@@ -42,17 +42,19 @@ export function RoastLevel({ roast, score }: { roast?: string | null; score?: Se
 export function CoffeeSensory({ notes, sensory, roast }: { notes: string[]; sensory?: CoffeeSensoryData; roast?: string | null }) {
   const ar = useContext(Language) === 'ar';
   const labels: Record<SensoryKey, string> = ar ? { acidity: 'الحموضة', sweetness: 'الحلاوة', body: 'القوام', fermentation: 'التخمير' } : { acidity: 'Acidity', sweetness: 'Sweetness', body: 'Body', fermentation: 'Fermentation' };
-  const keys: SensoryKey[] = ['acidity', 'sweetness', 'body', ...(sensory?.fermentation ? ['fermentation' as const] : [])];
+  const keys: SensoryKey[] = (['acidity', 'sweetness', 'body', 'fermentation'] as const).filter(key => sensory?.[key] || sensory?.descriptions?.[key]);
+  if (!notes.length && !keys.length && !roast) return null;
   return <View testID="coffee-sensory" style={s.profile}>
     <Txt heading style={styles.subtitle}>{ar ? 'شخصية البن' : 'In the cup'}</Txt>
     <RoastLevel roast={roast} score={sensory?.roast}/>
-    <Txt style={s.sectionLabel}>{ar ? 'الإيحاءات' : 'Tasting notes'}</Txt>
-    {notes.length ? <FlavorNotes notes={notes} max={12}/> : <Txt style={styles.muted}>{ar ? 'لم تحدد المحمصة الإيحاءات.' : 'The roaster has not specified tasting notes.'}</Txt>}
-    <View style={s.scales}>{keys.map(key => {
+    {notes.length ? <><Txt style={s.sectionLabel}>{ar ? 'الإيحاءات' : 'Tasting notes'}</Txt><FlavorNotes notes={notes} max={12}/></> : null}
+    {keys.length ? <View style={s.scales}>{keys.map(key => {
       const metric = sensory?.[key];
-      return <View key={key} style={s.scaleRow}><View style={[s.scaleHeading, ar && { flexDirection: 'row-reverse' }]}><Txt style={s.scaleTitle}>{labels[key]}</Txt><Txt style={[s.scaleValue, !metric && { fontSize: 11 }]}>{metric ? `${metric.value}/${metric.max}` : ar ? 'غير محددة' : 'Unspecified'}</Txt></View><View accessibilityLabel={labels[key]+': '+(metric ? `${metric.value}/${metric.max}` : ar ? 'غير محددة' : 'Unspecified')} style={s.track}>{metric ? <View style={[s.trackFill, { width: `${metric.value / metric.max * 100}%`, alignSelf: ar ? 'flex-end' : 'flex-start' }]}/> : <View style={s.unknownTrack}/>}</View></View>;
-    })}</View>
-    {sensory?.sourceUrl && keys.some(key => sensory[key]) ? <Pressable accessibilityRole="link" onPress={() => void Linking.openURL(sensory.sourceUrl!)} style={s.source}><Txt style={s.sourceText}>{ar ? 'درجات المحمصة · عرض المصدر' : 'Roaster’s scale · View source'}</Txt><Icon name="arrow" color={colors.teal} size={14}/></Pressable> : <Txt style={s.caption}>{ar ? 'تظهر الدرجات عندما تنشرها المحمصة.' : 'Intensity appears when the roaster publishes it.'}</Txt>}
+      const description = sensory?.descriptions?.[key];
+      const value = metric ? `${metric.value}/${metric.max}` : ar ? description!.ar : description!.en;
+      return <View key={key} style={s.scaleRow}><View style={[s.scaleHeading, ar && { flexDirection: 'row-reverse' }]}><Txt style={s.scaleTitle}>{labels[key]}</Txt><Txt style={[s.scaleValue, !metric && { flexShrink: 1, textAlign: ar ? 'left' : 'right' }]}>{value}</Txt></View>{metric ? <View accessibilityLabel={labels[key]+': '+value} style={s.track}><View style={[s.trackFill, { width: `${metric.value / metric.max * 100}%`, alignSelf: ar ? 'flex-end' : 'flex-start' }]}/></View> : null}</View>;
+    })}</View> : <Txt style={s.caption}>{ar ? 'إيحاءات المحمصة؛ لم تنشر درجات رقمية لشدة النكهة.' : 'Roaster tasting notes; numerical intensity scores were not published.'}</Txt>}
+    {sensory?.sourceUrl && keys.length ? <Pressable accessibilityRole="link" onPress={() => void Linking.openURL(sensory.sourceUrl!)} style={s.source}><Txt style={s.sourceText}>{keys.some(key => sensory[key]) ? ar ? 'درجات المحمصة · عرض المصدر' : 'Roaster’s scale · View source' : ar ? 'وصف المحمصة · عرض المصدر' : 'Roaster’s description · View source'}</Txt><Icon name="arrow" color={colors.teal} size={14}/></Pressable> : null}
   </View>;
 }
 
@@ -66,10 +68,10 @@ const s = StyleSheet.create({
   roast: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 10 },
   sectionLabel: { fontSize: 13, color: colors.muted, marginTop: 3 },
   scales: { gap: 12, borderTopWidth: 1, borderTopColor: colors.line, paddingTop: 15, marginTop: 3 },
-  scaleRow: { gap: 6 }, scaleHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  scaleRow: { gap: 7 }, scaleHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 12 },
   scaleTitle: { fontSize: 13, fontWeight: '700' }, scaleValue: { color: colors.teal, fontSize: 13, fontVariant: ['tabular-nums'] },
   track: { height: 6, backgroundColor: '#EAE2D8', borderRadius: 8, overflow: 'hidden' },
-  trackFill: { height: 6, backgroundColor: colors.teal, borderRadius: 8 }, unknownTrack: { height: 6, backgroundColor: '#EFE8DF' },
+  trackFill: { height: 6, backgroundColor: colors.teal, borderRadius: 8 },
   source: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 6, minHeight: 36 },
   sourceText: { color: colors.teal, fontSize: 11 }, caption: { color: colors.muted, fontSize: 11, lineHeight: 18 },
 });

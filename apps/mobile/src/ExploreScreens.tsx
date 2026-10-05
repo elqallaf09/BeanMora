@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
+  Image,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -1269,31 +1270,32 @@ export function XBLOOMHub({
 }) {
   const locale = useContext(Language);
   const ar = locale === "ar";
+  const { width } = useWindowDimensions();
+  const [resourcesOpen, setResourcesOpen] = useState(false);
   return (
     <RecipeCatalog
       method="xbloom"
       locked
       open={openRecipe}
       header={
-        <View style={{ gap: 10 }}>
-          <View style={s.xbloomCompactHero}>
-            <View style={s.xbloomIcon}><Icon name="xbloom" size={30} color="#FFF" /></View>
-            <View style={{ flex: 1, gap: 3 }}>
-              <Txt heading style={s.xbloomTitle}>{ar ? "xBloom" : "xBloom"}</Txt>
-              <Txt style={s.xbloomSubtitle}>{ar ? "اختَر الوصفة والموديل وابدأ بسرعة." : "Pick a recipe and model, then start quickly."}</Txt>
+        <View style={{ gap: 12 }}>
+          <View testID="xbloom-hero" style={[s.xbloomHero, { flexDirection: ar ? 'row-reverse' : 'row' }]}>
+            <View style={[s.xbloomHeroCopy,{padding:width<600?16:26}]}>
+              <View style={s.xbloomBrand}><Icon name="xbloom" size={18} color="#DAB797"/><Txt style={s.xbloomBrandText}>xBloom</Txt></View>
+              <Txt heading style={[s.xbloomTitle,{fontSize:width<600?25:36,lineHeight:width<600?34:46}]}>{ar ? "كوبك، على ذوقك." : "Make it your cup."}</Txt>
+              <Txt style={s.xbloomSubtitle}>{ar ? "وصفات لموديلك، من الطحنة إلى آخر صبة." : "Recipes for your machine, from grind to final pour."}</Txt>
+              <Pressable accessibilityRole="button" accessibilityLabel={ar ? "أدوات xBloom" : "xBloom tools"} onPress={tools} style={s.xbloomToolsButton}>
+                <Icon name="gear" size={17} color="#FFF"/><Txt style={s.xbloomToolsText}>{width<600 ? ar ? "الأدوات" : "Tools" : ar ? "أدوات xBloom" : "xBloom tools"}</Txt><Icon name="arrow" size={16} color="#FFF"/>
+              </Pressable>
             </View>
-            <Pressable accessibilityRole="button" accessibilityLabel={ar ? "أدوات xBloom" : "xBloom tools"} onPress={tools} style={s.xbloomToolsButton}>
-              <Icon name="gear" size={19} color="#FFF"/><Txt style={s.xbloomToolsText}>{ar ? "الأدوات" : "Tools"}</Txt>
-            </Pressable>
+            <View style={[s.xbloomHeroPhoto,{width:width<600?'38%':'43%'}]}><Image testID="xbloom-hero-photo" source={require('../assets/brewing/filter-coffee.png')} resizeMode="cover" accessibilityLabel={ar?'صورة تحضير توضيحية من BeanMora':'Brewing illustration by BeanMora'} style={{width:'100%',height:'100%'}}/><View style={s.xbloomPhotoCaption}><Txt style={{color:'#FFF',fontSize:9,lineHeight:15}}>{ar?'صورة توضيحية':'Brewing illustration'}</Txt></View></View>
           </View>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.xbloomLinks}>
-            {XBLOOM_RESOURCES.map((r) => (
+          <Pressable accessibilityRole="button" accessibilityLabel={ar?'دليل الجهاز وروابط xBloom':'Machine guides and xBloom links'} accessibilityState={{expanded:resourcesOpen}} onPress={()=>setResourcesOpen(v=>!v)} style={s.xbloomResourcesToggle}><Icon name="globe" size={18} color={colors.teal}/><Txt style={{flex:1,color:colors.teal,fontSize:13,fontWeight:'700'}}>{ar?'دليل الجهاز وروابط xBloom':'Machine guides and xBloom links'}</Txt><Icon name={resourcesOpen?'back':'arrow'} size={16} color={colors.teal}/></Pressable>
+          {resourcesOpen ? <View style={s.xbloomLinks}>{XBLOOM_RESOURCES.map((r) => (
               <View key={r.url} style={s.xbloomLinkChip}>
                 <SourceLink title={ar ? r.ar : r.en} url={r.url} />
               </View>
-            ))}
-          </ScrollView>
-          <Txt style={s.editorial}>{ar ? "الوصفات الطويلة والتفاصيل تبقى داخل كل وصفة؛ الصفحة الرئيسية تعرض فقط ما تحتاجه للوصول السريع." : "Long instructions stay inside each recipe; this page only keeps the controls you need to get brewing quickly."}</Txt>
+            ))}</View> : null}
         </View>
       }
     />
@@ -1341,14 +1343,19 @@ const s = StyleSheet.create({
     borderRadius: 22,
     gap: 10,
   },
-  xbloomCompactHero:{backgroundColor:colors.brown,borderRadius:20,padding:14,flexDirection:"row",alignItems:"center",gap:11},
-  xbloomIcon:{width:46,height:46,borderRadius:14,backgroundColor:"#FFFFFF18",alignItems:"center",justifyContent:"center"},
-  xbloomTitle:{color:"#FFF",fontSize:22,lineHeight:28,fontWeight:"800"},
-  xbloomSubtitle:{color:"#EEDFD1",fontSize:11,lineHeight:17},
-  xbloomToolsButton:{minHeight:40,borderRadius:12,borderWidth:1,borderColor:"#FFFFFF35",paddingHorizontal:10,flexDirection:"row",alignItems:"center",gap:6},
-  xbloomToolsText:{color:"#FFF",fontSize:11,lineHeight:17,fontWeight:"800"},
-  xbloomLinks:{gap:8,paddingBottom:2},
-  xbloomLinkChip:{minHeight:42,maxWidth:230,borderRadius:14,backgroundColor:colors.paper,borderWidth:1,borderColor:colors.line,paddingHorizontal:10,justifyContent:"center"},
+  xbloomHero:{backgroundColor:colors.brown,borderRadius:24,overflow:'hidden',minHeight:200},
+  xbloomHeroCopy:{flex:1,gap:9,justifyContent:'center'},
+  xbloomBrand:{flexDirection:'row',alignItems:'center',gap:7},
+  xbloomBrandText:{color:'#DAB797',fontSize:13,lineHeight:20,fontWeight:'700',writingDirection:'ltr'},
+  xbloomHeroPhoto:{width:'43%',minHeight:200,backgroundColor:'#A48768'},
+  xbloomPhotoCaption:{position:'absolute',bottom:8,left:8,borderRadius:8,paddingHorizontal:7,backgroundColor:'#21170D88'},
+  xbloomTitle:{color:'#FFF',fontWeight:'800'},
+  xbloomSubtitle:{color:'#EEDFD1',fontSize:12,lineHeight:20},
+  xbloomToolsButton:{alignSelf:'flex-start',minHeight:44,borderRadius:12,backgroundColor:colors.teal,paddingHorizontal:12,flexDirection:'row',alignItems:'center',gap:7,marginTop:4},
+  xbloomToolsText:{color:'#FFF',fontSize:12,lineHeight:18,fontWeight:'700'},
+  xbloomResourcesToggle:{flexDirection:'row',alignItems:'center',gap:9,paddingHorizontal:12,minHeight:44,backgroundColor:'#ECF3EF',borderRadius:14},
+  xbloomLinks:{flexDirection:'row',flexWrap:'wrap',gap:8},
+  xbloomLinkChip:{minHeight:44,flexBasis:'46%',flexGrow:1,borderRadius:14,backgroundColor:colors.paper,borderWidth:1,borderColor:colors.line,paddingHorizontal:10,justifyContent:'center'},
   reviewSummary: {
     flexDirection: "row",
     alignItems: "center",

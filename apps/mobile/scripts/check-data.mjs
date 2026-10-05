@@ -6,7 +6,7 @@ import { pathToFileURL } from 'node:url';
 import ts from 'typescript';
 const root = new URL('../', import.meta.url);
 const temp = mkdtempSync(tmpdir() + '/beanmora-data-'); mkdirSync(temp + '/core');
-for (const file of ['data.ts','guards.ts','sourceBrew.ts','manualBrew.ts','sensory.ts','recipeDiscovery.ts','core/engine.ts']) {
+for (const file of ['data.ts','guards.ts','sourceBrew.ts','manualBrew.ts','sensory.ts','recipeDiscovery.ts','recipeQuickFacts.ts','brewStarter.ts','core/engine.ts']) {
   const source = readFileSync(new URL('src/' + file, root), 'utf8');
   const code = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.mjs'");
   writeFileSync(temp + '/' + file.replace('.ts','.mjs'), code);
@@ -14,6 +14,8 @@ for (const file of ['data.ts','guards.ts','sourceBrew.ts','manualBrew.ts','senso
 const { loadData, mapRecipe } = await import(pathToFileURL(temp + '/data.mjs').href);
 const { readSensory } = await import(pathToFileURL(temp + '/sensory.mjs').href);
 const { waterLabel, temperatureLabel } = await import(pathToFileURL(temp + '/manualBrew.mjs').href);
+const { recipeQuickFacts } = await import(pathToFileURL(temp + '/recipeQuickFacts.mjs').href);
+const { isGeneralBrewGuide } = await import(pathToFileURL(temp + '/brewStarter.mjs').href);
 function database(tables) {
   return { from(name) { const q = { select(){return q;},eq(){return q;},in(){return q;},or(){return q;},order(){return q;},limit(){return q;},then(done){return Promise.resolve({data:tables[name]??[],error:null}).then(done);} }; return q; } };
 }
@@ -81,4 +83,23 @@ test('recipe cover kind is used only for the exact provenance image, preserving 
   const row={id:'r',title:'Recipe',brew_method:'v60',visibility:'public',cover_image_url:'https://example.test/coffee.png',source_brew_parameters:{global_roasters_import:{photo_url:'https://example.test/coffee.png',photo_kind:'product_artwork'}}};
   assert.equal(mapRecipe(row,'en').coverKind,'product_artwork');
   assert.equal(mapRecipe({...row,cover_image_url:'https://example.test/existing-cover.jpg'},'en').coverKind,undefined);
+});
+test('xBloom source program supplies real dose, ml water, grind and per-pour temperatures without inventing a time',()=>{
+  const recipe=mapRecipe({id:'xb',title:'Source program',brew_method:'xbloom',visibility:'public',source_brew_parameters:{dose:15,water_ml:225,grind_size:60,pours:[{volume:50,temperature:88},{volume:70,temperature:87},{volume:75,temperature:87},{volume:30,temperature:85}]}},'en');
+  assert.equal(recipe.dose,15);assert.equal(recipe.waterUnit,'ml');assert.equal(recipe.grindSetting,'60');
+  assert.equal(temperatureLabel(recipe),'85–88°C across pours');assert.equal(recipe.seconds,null);
+  const facts=recipeQuickFacts(recipe);
+  assert.equal(facts.find(f=>f.key==='water').value,'225 ml');
+  assert.equal(facts.find(f=>f.key==='time'),undefined);assert.equal(facts.some(f=>f.value==='—'),false);
+  assert.equal(temperatureLabel({...recipe,temperature:92}),'92°C');
+});
+test('source descriptions remain qualitative and require a safe provenance link',()=>{
+  const profile=readSensory({source_url:'https://example.test/archive',body_description:'Full-bodied',body_description_ar:'ممتلئ'});
+  assert.deepEqual(profile.descriptions.body,{en:'Full-bodied',ar:'ممتلئ'});assert.equal(profile.body,undefined);
+  assert.equal(readSensory({body_description:'Full-bodied'}).descriptions,undefined);
+});
+test('general starters cannot relabel another coffee, a shared-coffee guide or an xBloom device profile',()=>{
+  const row={id:'general',title:'General guide',brew_method:'v60',visibility:'public',bean_id:null,roasted_product_id:null,recipe_type:'official_manufacturer',dose_grams:15,water_grams:250,steps:[{step_number:1,title:'Pour',description:'Follow the source'}],sources:[{source_url:'https://example.test/guide',source_name:'Publisher',data_confidence:'official'}]};
+  assert.equal(isGeneralBrewGuide(mapRecipe(row,'en')),true);
+  for(const extra of [{bean_id:'another-coffee'},{roasted_product_id:'another-product'},{source_coffee_name:'Specific coffee'},{source_brew_parameters:{manual:{applies_to_coffee_names:['Specific coffee']}}},{source_brew_parameters:{discovery:{applicable_coffee_names:['Specific coffee']}}},{brew_method:'xbloom'},{visibility:'private'},{sources:[]}]) assert.equal(isGeneralBrewGuide(mapRecipe({...row,...extra},'en')),false);
 });
