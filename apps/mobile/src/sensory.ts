@@ -59,11 +59,40 @@ const labels: Record<string, string> = {
   floral: 'زهور', jasmine: 'ياسمين', rose: 'ورد', hibiscus: 'كركديه', peach: 'خوخ', apricot: 'مشمش', mango: 'مانجو', 'stone fruit': 'فواكه ذات نواة',
   honey: 'عسل', caramel: 'كراميل', toffee: 'توفي', 'brown sugar': 'سكر بني', spice: 'توابل', cinnamon: 'قرفة', cardamom: 'هيل',
   berry: 'توت', berries: 'توت', raspberry: 'توت العليق', strawberry: 'فراولة', blueberry: 'توت أزرق', blackberry: 'توت أسود',
-  cherry: 'كرز', 'red apple': 'تفاح أحمر', 'green apple': 'تفاح أخضر', plum: 'برقوق', grape: 'عنب', raisin: 'زبيب', vanilla: 'فانيلا',
+  cherry: 'كرز', apple: 'تفاح', 'red apple': 'تفاح أحمر', 'green apple': 'تفاح أخضر', plum: 'برقوق', grape: 'عنب', grapes: 'عنب', raisin: 'زبيب', raisins: 'زبيب', vanilla: 'فانيلا',
+  lavender: 'لافندر', chamomile: 'بابونج', 'black tea': 'شاي أسود', 'yellow plum': 'برقوق أصفر', dates: 'تمر', cloves: 'قرنفل',
+  lychee: 'ليتشي', cantaloupe: 'شمام', pineapple: 'أناناس', mandarine: 'يوسفي', tangerine: 'يوسفي', pomegranate: 'رمان', 'dried fig': 'تين مجفف',
   'red berries': 'توت أحمر', 'red berry': 'توت أحمر', 'mixed berries': 'توت مشكّل', 'black berries': 'توت داكن',
   botanical: 'نباتية', 'sweet citrus': 'حمضيات حلوة', 'orange zest': 'قشر البرتقال', 'sugar cane': 'قصب السكر',
 };
 export function flavorLabel(note: string, ar: boolean): string {
   const clean = note.trim();
   return ar ? labels[clean.toLowerCase()] ?? clean : Object.entries(labels).find(([, value]) => normalize(value) === normalize(clean))?.[0] ?? clean;
+}
+
+/** Recover the publisher's written notes, never intensity scores or inferred flavors. */
+export function publishedFlavorNotes(direct: (string[] | undefined)[], descriptions: (string | null | undefined)[]): string[] {
+  const clean = (notes: string[]) => [...new Set(notes.map(note => note.trim()).filter(Boolean))].slice(0, 20);
+  for (const notes of direct) {
+    if (notes?.length) {
+      const values = clean(notes);
+      if (values.length) return values;
+    }
+  }
+  const split = (text: string) => clean(text.split(/[,،]|\s+and\s+/i));
+  for (const description of descriptions) {
+    if (!description) continue;
+    const labeled = description.match(/\b(?:(?:tasting|flavou?r)\s+)?notes(?:\s+(?:as stated(?: by [^:.;\n]{1,60})?|on the product page|per [^:.;\n]{1,60}))?\s*(?::|：|\bof\b|["“])\s*([^.;\n"”]+)/i)
+      ?? description.match(/\bflavou?r\s*[:：]\s*([^.;\n]+)/i)
+      ?? description.match(/(?:إيحاءات|ايحاءات|نكهات)(?:\s+(?:النكهة|النكهه|البن|القهوة))?\s*[:：]\s*([^.;\n]+)/);
+    if (labeled?.[1]) return split(labeled[1]);
+    // Several reviewed roasters open their description with a plain flavor list.
+    // Only accept a complete comma-separated list of recognizable flavor words.
+    const first = split(description.split(/[.;\n]/)[0]);
+    const leading = first.filter(note => !/\b(?:acidity|sweetness|body|fermentation)\b/i.test(note));
+    if (first.length > 1 && leading.length && leading.every(note => note.length <= 60
+      && !/\b(?:no|not|notes|coffee|roast|lot|origin|process|published|stated|altitude|intensity|scale)\b/i.test(note)
+      && (flavorArt(note) !== 'bean' || /vanilla|tea|chamomile|lavender|melon|lychee|mandarin|pineapple|date|raisin|sugar|winegum|\bfig\b|فانيلا|شاي|بابونج|لافندر|شمام|ليتشي|اناناس|أناناس|تمر|زبيب|سكر/i.test(note)))) return leading;
+  }
+  return [];
 }

@@ -1288,7 +1288,7 @@ export function XBLOOMHub({
                 <Icon name="gear" size={17} color="#FFF"/><Txt style={s.xbloomToolsText}>{width<600 ? ar ? "الأدوات" : "Tools" : ar ? "أدوات xBloom" : "xBloom tools"}</Txt><Icon name="arrow" size={16} color="#FFF"/>
               </Pressable>
             </View>
-            <View style={[s.xbloomHeroPhoto,{width:width<600?'38%':'43%'}]}><Image testID="xbloom-hero-photo" source={require('../assets/brewing/filter-coffee.png')} resizeMode="cover" accessibilityLabel={ar?'صورة تحضير توضيحية من BeanMora':'Brewing illustration by BeanMora'} style={{width:'100%',height:'100%'}}/><View style={s.xbloomPhotoCaption}><Txt style={{color:'#FFF',fontSize:9,lineHeight:15}}>{ar?'صورة توضيحية':'Brewing illustration'}</Txt></View></View>
+            <View style={[s.xbloomHeroPhoto,{width:width<600?'34%':'40%'}]}><Image testID="xbloom-hero-photo" source={require('../assets/brewing/filter-coffee.png')} resizeMode="cover" accessibilityLabel={ar?'صورة تحضير توضيحية من BeanMora':'Brewing illustration by BeanMora'} style={[StyleSheet.absoluteFill,{width:'100%',height:'100%'}]}/><View style={s.xbloomPhotoCaption}><Txt style={{color:'#FFF',fontSize:11,lineHeight:17}}>{ar?'صورة توضيحية':'Brewing illustration'}</Txt></View></View>
           </View>
           <Pressable accessibilityRole="button" accessibilityLabel={ar?'دليل الجهاز وروابط xBloom':'Machine guides and xBloom links'} accessibilityState={{expanded:resourcesOpen}} onPress={()=>setResourcesOpen(v=>!v)} style={s.xbloomResourcesToggle}><Icon name="globe" size={18} color={colors.teal}/><Txt style={{flex:1,color:colors.teal,fontSize:13,fontWeight:'700'}}>{ar?'دليل الجهاز وروابط xBloom':'Machine guides and xBloom links'}</Txt><Icon name={resourcesOpen?'back':'arrow'} size={16} color={colors.teal}/></Pressable>
           {resourcesOpen ? <View style={s.xbloomLinks}>{XBLOOM_RESOURCES.map((r) => (
@@ -1344,13 +1344,16 @@ const s = StyleSheet.create({
     gap: 10,
   },
   xbloomHero:{backgroundColor:colors.brown,borderRadius:24,overflow:'hidden',minHeight:200},
-  xbloomHeroCopy:{flex:1,gap:9,justifyContent:'center'},
+  xbloomHeroCopy:{flex:1,minWidth:0,gap:9,justifyContent:'center'},
   xbloomBrand:{flexDirection:'row',alignItems:'center',gap:7},
   xbloomBrandText:{color:'#DAB797',fontSize:13,lineHeight:20,fontWeight:'700',writingDirection:'ltr'},
-  xbloomHeroPhoto:{width:'43%',minHeight:200,backgroundColor:'#A48768'},
+  // An in-flow image with height:100% inside an auto-height Yoga row can
+  // contribute its intrinsic dimensions on Android. The image is absolute;
+  // the copy and this compact frame determine the hero's height instead.
+  xbloomHeroPhoto:{width:'40%',minHeight:200,flexShrink:0,backgroundColor:'#A48768'},
   xbloomPhotoCaption:{position:'absolute',bottom:8,left:8,borderRadius:8,paddingHorizontal:7,backgroundColor:'#21170D88'},
   xbloomTitle:{color:'#FFF',fontWeight:'800'},
-  xbloomSubtitle:{color:'#EEDFD1',fontSize:12,lineHeight:20},
+  xbloomSubtitle:{color:'#EEDFD1',fontSize:14,lineHeight:22},
   xbloomToolsButton:{alignSelf:'flex-start',minHeight:44,borderRadius:12,backgroundColor:colors.teal,paddingHorizontal:12,flexDirection:'row',alignItems:'center',gap:7,marginTop:4},
   xbloomToolsText:{color:'#FFF',fontSize:12,lineHeight:18,fontWeight:'700'},
   xbloomResourcesToggle:{flexDirection:'row',alignItems:'center',gap:9,paddingHorizontal:12,minHeight:44,backgroundColor:'#ECF3EF',borderRadius:14},

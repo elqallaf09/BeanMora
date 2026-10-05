@@ -3,7 +3,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { communityEvidence, emptyProfile, isMethod, ROASTS, validChoice, type Coffee, type Recipe, type Profile, type Method } from './core/engine';
 import { safeUrl } from './guards';
 import type { ManualPour } from './manualBrew';
-import { readSensory, type CoffeeSensoryData } from './sensory';
+import { publishedFlavorNotes, readSensory, type CoffeeSensoryData } from './sensory';
 import { readRecipeDiscovery, type RecipeDiscovery } from './recipeDiscovery';
 export type CoffeeImageKind = 'packaging' | 'product_artwork' | 'origin_photo' | 'unclassified';
 export interface CoffeeItem extends Coffee { roasterId: string | null; description: string; origin: string; process: string; variety?: string; roasterCountry?: string; sensory?: CoffeeSensoryData; sourceUrl: string | null; logoUrl: string | null; imageUrl: string | null; imageSourceUrl?: string | null; imageKind?: CoffeeImageKind; images: string[] }
@@ -38,13 +38,10 @@ interface OwnAttempt { recipe_id: string; outcome: string | null }
 interface Inventory { roasted_product_id: string | null; legacy_bean_id: string | null }
 const one = <T,>(v: T | T[] | null): T | null => Array.isArray(v) ? v[0] ?? null : v;
 const label = (v: Name | null, ar: boolean) => (ar ? v?.name_ar || v?.name_en : v?.name_en || v?.name_ar) ?? '';
-const inferredFlavors = (row: CoffeeRow): string[] => {
-  const direct = row.flavor_notes_on_bag ?? row.flavors?.map(f => f.flavor) ?? [];
-  if (direct.length) return direct;
-  const text = row.description_en ?? row.description_ar ?? row.short_description ?? '';
-  const m = text.match(/(?:tasting notes|flavor notes|notes)(?: per [^:]+)?:\s*([^.;]+)/i);
-  return m?.[1] ? m[1].split(/,| and /i).map(x => x.trim()).filter(Boolean).slice(0, 5) : [];
-};
+const inferredFlavors = (row: CoffeeRow): string[] => publishedFlavorNotes(
+  [row.flavor_notes_on_bag, row.flavors?.map(f => f.flavor)],
+  [row.description_en, row.description_ar, row.short_description],
+);
 const amount = (v: number | string | null): number | null => v !== null && Number.isFinite(Number(v)) && Number(v) > 0 ? Number(v) : null;
 const catalogDescription = (row: CoffeeRow, ar: boolean): string => {
   const text = (ar ? row.description_ar || row.description_en : row.description_en || row.description_ar) || row.short_description || '';
