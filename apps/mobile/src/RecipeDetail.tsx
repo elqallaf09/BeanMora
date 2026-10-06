@@ -32,9 +32,17 @@ import {
 export function RecipeDetail({
   recipe,
   record,
+  saved = false,
+  toggleSaved,
+  saving = false,
+  saveError = false,
 }: {
   recipe: RecipeItem;
   record: (seconds?: number) => void;
+  saved?: boolean;
+  toggleSaved?: () => void;
+  saving?: boolean;
+  saveError?: boolean;
 }) {
   const locale = useContext(Language);
   const ar = locale === 'ar';
@@ -173,6 +181,11 @@ export function RecipeDetail({
           max={8}
         />
       </View>
+      {toggleSaved ? <View style={{ gap: 6 }}>
+        <Action title={saved ? (ar ? 'إزالة الوصفة من المحفوظة' : 'Remove saved recipe') : (ar ? 'حفظ الوصفة على الجهاز' : 'Save recipe on device')}
+          onPress={toggleSaved} selected={saved} disabled={saving} />
+        {saveError ? <Txt style={styles.warning}>{ar ? 'تعذّر الحفظ. تحقّق من المساحة المتاحة وعدد الوصفات المحفوظة (حتى 50).' : 'Could not save. Check storage space and the saved recipe limit (50).'}</Txt> : null}
+      </View> : null}
       <View
         testID="recipe-source-facts"
         style={{

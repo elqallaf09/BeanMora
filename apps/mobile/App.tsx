@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   AppState,
@@ -22,8 +22,6 @@ import { useFonts } from 'expo-font';
 import type { Session } from '@supabase/supabase-js';
 import { configured, supabase } from './src/client';
 import {
-  loadData,
-  type Bundle,
   type CoffeeItem,
   type RecipeItem,
 } from './src/data';
@@ -52,6 +50,10 @@ import { RecipeCatalog } from './src/RecipeCatalog';
 import { OutcomeForm } from './src/OutcomeForm';
 import { AccountScreen, finishOAuth } from './src/AccountScreen';
 import { AppVersion } from './src/AppVersion';
+import { useCatalog } from './src/useCatalog';
+import { ScreenBoundary } from './src/ScreenBoundary';
+import { useRecipeShelf } from './src/useRecipeShelf';
+import { RecipeShelf } from './src/RecipeShelf';
 import { MyBags } from './src/MyBags';
 import { BestSetup } from './src/BestSetup';
 import { RoastLab } from './src/RoastLab';
@@ -82,6 +84,7 @@ type Tab =
   | 'home'
   | 'beans'
   | 'recipes'
+  | 'savedRecipes'
   | 'brewFlow'
   | 'forYou'
   | 'favorites'
@@ -98,7 +101,6 @@ type Detail =
   | { type: 'recipe'; item: RecipeItem }
   | { type: 'equipment'; item: EquipmentItem }
   | { type: 'roaster'; item: RoasterItem };
-type Loaded = Bundle & { owner: string | null; locale: Locale };
 
 function Shell() {
   const { width } = useWindowDimensions();
@@ -120,6 +122,7 @@ function Shell() {
   }, []);
   function changeLanguage(v: Locale) {
     languageChanged.current = true;
+    loginReturn.current = null;
     setLocale(v);
     setDetail(null);
     setParents([]);
@@ -140,9 +143,10 @@ function Shell() {
   const [equipmentCategory, setEquipmentCategory] = useState('all');
   const [recording, setRecording] = useState(false);
   const [measuredSeconds, setMeasuredSeconds] = useState<number>();
-  const [bundle, setBundle] = useState<Loaded | null>(null);
-  const [refreshing, setRefreshing] = useState(false);
   const [revision, setRevision] = useState(0);
+  const { data, refreshing } = useCatalog(locale, userId, revision);
+  const shelf = useRecipeShelf(userId, locale);
+  const loginReturn = useRef<{ tab: Tab; detail: Detail | null; parents: Detail[]; seconds?: number; record: boolean } | null>(null);
   const [visibleCount, setVisibleCount] = useState(30);
   const [saved, setSaved] = useState<{ owner: string; ids: string[] } | null>(
     null,
@@ -182,36 +186,15 @@ function Shell() {
     };
   }, []);
   useEffect(() => {
-    let active = true;
-    setRefreshing(true);
-    setBundle(null);
-    if (!supabase) {
-      setRefreshing(false);
-      return;
-    }
-    loadData(supabase, locale, userId)
-      .then((data) => {
-        if (active) setBundle({ ...data, owner: userId, locale });
-      })
-      .catch(() => {
-        if (active) setBundle(null);
-      })
-      .finally(() => {
-        if (active) setRefreshing(false);
-      });
-    return () => {
-      active = false;
-    };
-  }, [locale, userId, revision]);
-  // Never render another identity's personalized results or saves while its read is pending.
-  const data =
-    bundle?.owner === userId && bundle.locale === locale ? bundle : null;
+    if (userId && loginReturn.current) restoreLogin(true);
+  }, [userId]);
   useEffect(() => {
     if (data && userId) setSaved({ owner: userId, ids: data.savedBeanIds });
     else setSaved(null);
   }, [data, userId]);
   const savedIds = saved?.owner === userId ? saved.ids : [];
   function navigate(next: Tab) {
+    if (next !== 'account') loginReturn.current = null;
     setDetail(null);
     setParents([]);
     setRecording(false);
@@ -222,7 +205,8 @@ function Shell() {
     setPersonalityOnly(false);
   }
   function back() {
-    if (recording) setRecording(false);
+    if (tab === 'account' && loginReturn.current) restoreLogin(false);
+    else if (recording) setRecording(false);
     else if (parents.length) {
       setDetail(parents[parents.length - 1]);
       setParents((p) => p.slice(0, -1));
@@ -272,12 +256,8 @@ function Shell() {
         (!method || r.method === method) &&
         searchText([r.title, ...r.flavors].join(' ')).includes(filter),
     ) ?? [];
-  const rankedCoffee = data
-    ? recommendCoffees(data.coffees, data.profile, Date.now(), method)
-    : [];
-  const rankedRecipes = data
-    ? recommendRecipes(data.recipes, data.profile, method)
-    : [];
+  const rankedCoffee = useMemo(() => data ? recommendCoffees(data.coffees, data.profile, Date.now(), method) : [], [data, method]);
+  const rankedRecipes = useMemo(() => data ? recommendRecipes(data.recipes, data.profile, method) : [], [data, method]);
   const refresh = () => setRevision((n) => n + 1);
   const openDetail = (next: Detail) => {
     if (detail) setParents((p) => [...p, detail]);
@@ -289,12 +269,26 @@ function Shell() {
   function startRecord(seconds?: number) {
     setMeasuredSeconds(seconds);
     if (!userId) {
-      navigate('account');
+      requestLogin(true, seconds);
     } else setRecording(true);
+  }
+  function requestLogin(record = false, seconds?: number) {
+    loginReturn.current = { tab, detail, parents, record, seconds };
+    navigate('account');
+  }
+  function restoreLogin(loggedIn: boolean) {
+    const target = loginReturn.current;
+    loginReturn.current = null;
+    if (!target) return;
+    setTab(target.tab);
+    setDetail(target.detail);
+    setParents(target.parents);
+    setMeasuredSeconds(target.seconds);
+    setRecording(loggedIn && target.record && target.detail?.type === 'recipe');
   }
   async function saveCoffee(item: CoffeeItem) {
     if (!userId || !supabase) {
-      navigate('account');
+      requestLogin();
       return;
     }
     const beanId = item.beanId;
@@ -354,7 +348,7 @@ function Shell() {
   }
   async function addToBags(item: CoffeeItem) {
     if (!userId || !supabase) {
-      navigate('account');
+      requestLogin();
       return;
     }
     const owner = userId;
@@ -409,7 +403,7 @@ function Shell() {
   }
   async function showNotifications() {
     if (!userId || !supabase) {
-      navigate('account');
+      requestLogin();
       return;
     }
     setNotifications([t.loading]);
@@ -547,6 +541,11 @@ function Shell() {
                   icon: 'espresso' as const,
                 },
                 {
+                  id: 'savedRecipes' as const,
+                  label: ar ? 'وصفاتي المحفوظة' : 'Saved recipes',
+                  icon: 'heart' as const,
+                },
+                {
                   id: 'beans' as const,
                   label: ar ? 'البن والإيحاءات' : 'Coffee & taste',
                   icon: 'bean' as const,
@@ -611,11 +610,21 @@ function Shell() {
             </ScrollView>
           </View>
         ) : null}
+        {configured && !login && (data?.stale || (!data && !refreshing)) ? (
+          <View testID="catalog-connection-status" style={{ paddingHorizontal: 18, paddingVertical: 8, maxWidth: 1120, width: '100%', alignSelf: 'center', backgroundColor: '#F3E7D5', gap: 5 }}>
+            <Txt style={{ fontSize: 12, lineHeight: 19 }}>
+              {data?.savedAt ? (ar ? 'آخر بيانات متاحة: ' : 'Last available data: ') + new Date(data.savedAt).toLocaleString(locale + '-u-nu-latn') : t.partial}
+              {data?.savedAt ? (refreshing ? (ar ? ' · جارٍ التحديث' : ' · Updating') : (ar ? ' · تعذّر تحديث بعض البيانات' : ' · Some data could not update')) : ''}
+            </Txt>
+            {!refreshing ? <Action title={ar ? 'إعادة الاتصال' : 'Reconnect'} onPress={refresh} /> : null}
+          </View>
+        ) : null}
         <ScreenTransition
           key={
             recording ? 'record' : detail ? detail.type + detail.item.id : tab
           }
         >
+          <ScreenBoundary key={locale + (recording ? 'record' : detail ? detail.type + detail.item.id : tab)} locale={locale} home={() => navigate('home')}>
           <KeyboardAvoidingView
             style={{ flex: 1 }}
             behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -652,14 +661,14 @@ function Shell() {
                 }}
               />
             ) : detail?.type === 'recipe' ? (
-              <RecipeDetail recipe={detail.item} record={startRecord} />
+              <RecipeDetail recipe={detail.item} record={startRecord} saved={shelf.ids.includes(detail.item.id)} saving={shelf.busy} saveError={shelf.error} toggleSaved={() => void shelf.toggle(detail.item as RecipeItem)} />
             ) : detail?.type === 'equipment' ? (
               <EquipmentDetail
                 key={detail.item.id + locale + (userId ?? 'guest')}
                 item={detail.item}
                 recipes={data?.recipes ?? []}
                 userId={userId}
-                login={() => navigate('account')}
+                login={() => requestLogin()}
                 openRecipe={openRecipe}
               />
             ) : detail?.type === 'roaster' ? (
@@ -686,7 +695,7 @@ function Shell() {
                   (userId ?? 'guest') + locale + (roastId ?? '') + roastSection
                 }
                 userId={userId}
-                login={() => navigate('account')}
+                login={() => requestLogin()}
                 recipes={data?.recipes ?? []}
                 openRecipe={openRecipe}
                 initialId={roastId}
@@ -709,6 +718,8 @@ function Shell() {
                   navigate('equipment');
                 }}
               />
+            ) : tab === 'savedRecipes' ? (
+              <RecipeShelf recipes={shelf.recipes} loading={shelf.busy} error={shelf.error} open={openRecipe} />
             ) : tab === 'recipes' ? (
               <RecipeCatalog
                 key={locale + recipeEntry}
@@ -721,7 +732,7 @@ function Shell() {
                 userId={userId}
                 coffees={data?.coffees ?? []}
                 profile={data?.profile ?? emptyProfile()}
-                login={() => navigate('account')}
+                login={() => requestLogin()}
                 browse={() => navigate('beans')}
                 openRecipe={openRecipe}
               />
@@ -734,7 +745,7 @@ function Shell() {
                 recipes={data?.recipes ?? []}
                 openCoffee={openCoffee}
                 openRecipe={openRecipe}
-                login={() => navigate('account')}
+                login={() => requestLogin()}
               />
             ) : tab === 'best' ? (
               <BestSetup
@@ -742,7 +753,7 @@ function Shell() {
                 userId={userId}
                 recipes={data?.recipes ?? []}
                 coffees={data?.coffees ?? []}
-                login={() => navigate('account')}
+                login={() => requestLogin()}
                 openRecipe={openRecipe}
                 openCoffee={openCoffee}
               />
@@ -752,7 +763,7 @@ function Shell() {
                 userId={userId}
                 recipes={data?.recipes ?? []}
                 coffees={data?.coffees ?? []}
-                login={() => navigate('account')}
+                login={() => requestLogin()}
                 brew={() => navigate('brewFlow')}
                 browse={() => navigate('recipes')}
                 openRecipe={openRecipe}
@@ -764,7 +775,7 @@ function Shell() {
               <AccountScreen
                 key={userId ?? 'public'}
                 session={userId ? session : null}
-                back={() => navigate('home')}
+                back={back}
               />
             ) : tab === 'home' ? (
               <Home
@@ -968,6 +979,7 @@ function Shell() {
               />
             )}
           </KeyboardAvoidingView>
+          </ScreenBoundary>
         </ScreenTransition>
         {!detail && !login && configured ? (
           <View style={s.nav}>

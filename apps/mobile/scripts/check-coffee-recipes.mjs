@@ -348,3 +348,16 @@ test('an empty/error fallback retains existing matching recipes and switching th
     'English bilingual',
   );
 });
+
+test('bag filters remain scoped by coffee, include metadata fallback and bind a preferred ID inside that scope', async () => {
+  let request;
+  const db = database(async (url, init) => { request = { url: new URL(url), init }; return empty(); });
+  await coffeeRecipesPageQuery(db, coffee, 0, new AbortController().signal, { recipeId: 'preferred-id', method: 'v60', serving: 'iced' });
+  assert.deepEqual(JSON.parse(request.init.body), { p_bean_id: BEAN });
+  assert.equal(request.url.searchParams.get('id'), 'eq.preferred-id');
+  assert.equal(request.url.searchParams.get('brew_method'), 'eq.v60');
+  assert.equal(request.url.searchParams.get('or'), '(serving_style.eq.iced,and(or(serving_style.is.null,serving_style.not.in.(hot,iced,cold)),source_brew_parameters->discovery->>serving_style.eq.iced))');
+  assert.equal(request.url.searchParams.get('offset'), '0');
+  await coffeeRecipesPageQuery(db, coffee, 1, new AbortController().signal, { serving: 'iced),visibility.eq.private' });
+  assert.equal(request.url.searchParams.has('or'), false);
+});

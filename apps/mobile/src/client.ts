@@ -5,6 +5,7 @@ import { Platform } from 'react-native';
 import { isPublicKey } from './guards';
 
 const url = process.env.EXPO_PUBLIC_SUPABASE_URL ?? '';
+export const catalogScope = url;
 const key = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '';
 export const configured = /^https:\/\/[a-z0-9]+\.supabase\.co$/.test(url) && isPublicKey(key);
 export async function authProviderEnabled(provider: 'apple' | 'google') {

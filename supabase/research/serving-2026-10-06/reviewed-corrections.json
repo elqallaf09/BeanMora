@@ -1,0 +1,1562 @@
+[
+  {
+    "id": "83edfbe0-a406-4537-a69b-0b6f02815107",
+    "title": "5g Hot Coffee",
+    "title_ar": "5g حار قهوة",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "11887d04-9422-4da3-897e-e7dcaf948a34",
+    "title": "5g Iced Coffee",
+    "title_ar": "5g مثلّج قهوة",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "f0dc99a7-778e-4e34-8882-70b5edbbc1c5",
+    "title": "A71RJ 🇶🇦 Iced V60🪶",
+    "title_ar": "A71RJ 🇶🇦 مثلّج V60🪶",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "5090d843-b209-4a23-b675-e376551a3ff4",
+    "title": "AB Rung'eto Kiangoi #028 (Iced Filter)",
+    "title_ar": "AB رونغ'يتو كيانغوي #028 (مثلّج ترشيح)",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "28a303a3-07bb-4e77-b007-ca1c9201e9e0",
+    "title": "AB Rung'eto Kiangoi #028 (Iced Filter)",
+    "title_ar": "AB رونغ'يتو كيانغوي #028 (مثلّج ترشيح)",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "656bde14-d926-49ad-900e-071c46a4409d",
+    "title": "All Over Ice",
+    "title_ar": "الل ترشيح مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "62b9f168-bb7e-4a7f-9c40-0f808ddb178c",
+    "title": "All Over Ice",
+    "title_ar": "الل ترشيح مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "7095d196-1eb0-4d15-bfe9-45817af698b7",
+    "title": "Angel Wings Brew Over Ice",
+    "title_ar": "انغيل وينغس تحضير ترشيح مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "669d9086-cb00-4d45-87d4-1c79dd6b3f0b",
+    "title": "Angel Wings Brew Over Ice",
+    "title_ar": "انغيل وينغس تحضير ترشيح مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "61ffa1a3-355d-4ff8-88e1-dffbe8483470",
+    "title": "Bayu's hot filter 4 pours",
+    "title_ar": "بايو'س حار ترشيح 4 بورس",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "fe7317cc-613c-4f23-88a7-192199831368",
+    "title": "Benti Iced",
+    "title_ar": "بينتي مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "4be75676-aa24-4249-a5ce-3a6e1ca3ce8e",
+    "title": "Benti Iced",
+    "title_ar": "بينتي مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "9835673e-dd46-4c44-afdc-3bc92fe1c6b0",
+    "title": "Brazilian hot",
+    "title_ar": "برازيلي حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "9d4d3b81-58e4-4f46-a0e2-b54fb4a9236a",
+    "title": "Brew over ice",
+    "title_ar": "تحضير ترشيح مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "7234d50f-590b-44a5-b1e3-c83b53159a4c",
+    "title": "Brew Over Ice",
+    "title_ar": "تحضير ترشيح مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "494b7354-5243-42a9-9a37-62edb27cc74f",
+    "title": "Brew Over Ice",
+    "title_ar": "تحضير ترشيح مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "d8d401cb-9b0b-480e-b922-04fadfd8b610",
+    "title": "Brew(Hot)",
+    "title_ar": "تحضير(حار)",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "99985242-04c5-47f4-b0b8-a60ac6488e9a",
+    "title": "Choco HOT",
+    "title_ar": "تشوكو حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "a1859491-7532-44e9-a10e-6940ca62ac12",
+    "title": "Choco ICE",
+    "title_ar": "تشوكو مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "43279145-6679-45ab-add9-cdb60fa5cd8b",
+    "title": "Colombia Campo Hermoso Caturra Honey Passion Fruit Mossto CO Fermented / HOT",
+    "title_ar": "كولومبيا كامبو هيرموسو كاتورا عسلي باشن فاكهة موسستو كو مخمّر / حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "0202b133-71fa-422c-9d6d-ad7f2b422379",
+    "title": "Colombia Campo Hermoso Caturra Honey Passion Fruit Mossto CO Fermented / HOT",
+    "title_ar": "كولومبيا كامبو هيرموسو كاتورا عسلي باشن فاكهة موسستو كو مخمّر / حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "097ed092-23a5-4212-96c5-93cabd915681",
+    "title": "Colombia Campo Hermoso Caturra Honey Passion Fruit Mossto CO Fermented / ICE",
+    "title_ar": "كولومبيا كامبو هيرموسو كاتورا عسلي باشن فاكهة موسستو كو مخمّر / مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "bbf5f04c-3fba-49d9-befb-962781de794a",
+    "title": "Colombia Campo Hermoso Caturra Honey Passion Fruit Mossto CO Fermented / ICE",
+    "title_ar": "كولومبيا كامبو هيرموسو كاتورا عسلي باشن فاكهة موسستو كو مخمّر / مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "01224aaa-a50f-4952-9397-82958cc648ff",
+    "title": "Colombia Castillo Santa Barbara Anaerobic Natural (Hot)",
+    "title_ar": "كولومبيا كاستيللو سانتا باربارا لاهوائي طبيعي (حار)",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "ac7115d5-02bb-4065-b72b-299c0dae2e42",
+    "title": "Colombia Castillo Santa Barbara Anaerobic Natural (Hot)",
+    "title_ar": "كولومبيا كاستيللو سانتا باربارا لاهوائي طبيعي (حار)",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "f0d88328-e073-4074-9749-1da7dc73dc26",
+    "title": "Colombia Castillo Santa Barbara Anaerobic Natural (Iced)",
+    "title_ar": "كولومبيا كاستيللو سانتا باربارا لاهوائي طبيعي (مثلّج)",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "85c09efa-a534-4cfc-adc7-9e85bbcd32be",
+    "title": "Colombia Castillo Santa Barbara Anaerobic Natural (Iced)",
+    "title_ar": "كولومبيا كاستيللو سانتا باربارا لاهوائي طبيعي (مثلّج)",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "ea51932f-bf7e-472f-a915-3dab023dd698",
+    "title": "Colombia Hacienda El Obraje Geisha Washed / HOT",
+    "title_ar": "كولومبيا هاسييندا يل وبراجي غيشا مغسول / حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "a039e1b9-a94d-487a-a04b-24cd9fdd91ac",
+    "title": "Colombia Hacienda El Obraje Geisha Washed / HOT",
+    "title_ar": "كولومبيا هاسييندا يل وبراجي غيشا مغسول / حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "ad2e265d-007c-4921-b3cc-89c4c564533b",
+    "title": "Colombia Hacienda El Obraje Geisha Washed / ICE",
+    "title_ar": "كولومبيا هاسييندا يل وبراجي غيشا مغسول / مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "00e0f3b4-523c-4904-a943-f7e51e45de06",
+    "title": "Colombia Hacienda El Obraje Geisha Washed / ICE",
+    "title_ar": "كولومبيا هاسييندا يل وبراجي غيشا مغسول / مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "4e6de602-1b8b-4c73-9163-0a81c1b969a7",
+    "title": "Colombia Hacienda El Obraje Geisha Washed / ICE",
+    "title_ar": "كولومبيا هاسييندا يل وبراجي غيشا مغسول / مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "58a73776-9187-4492-8d06-23f371107441",
+    "title": "Costa Rica  Los Angeles Don Cayito Catuai White Honey / HOT",
+    "title_ar": "كوستاريكا  لوس انغيليس دون كاييتو كاتواي أبيض عسلي / حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "a8e27205-9892-49ee-a6de-f4efb6a89c88",
+    "title": "Costa Rica  Los Angeles Don Cayito Catuai White Honey / HOT",
+    "title_ar": "كوستاريكا  لوس انغيليس دون كاييتو كاتواي أبيض عسلي / حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "a1be17d5-1ed3-4d59-8b82-0465be97f191",
+    "title": "Costa Rica  Los Angeles Don Cayito Catuai White Honey / ICE",
+    "title_ar": "كوستاريكا  لوس انغيليس دون كاييتو كاتواي أبيض عسلي / مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "fc6d96d4-008c-4685-b006-857f8d6d6ac5",
+    "title": "Costa Rica  Los Angeles Don Cayito Catuai White Honey / ICE",
+    "title_ar": "كوستاريكا  لوس انغيليس دون كاييتو كاتواي أبيض عسلي / مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "1642a88a-8dcd-4a56-b5e2-b895af36383c",
+    "title": "Ecuador Yambamine Sidra Passion Flowers / HOT",
+    "title_ar": "الإكوادور يامباميني سيدرا باشن فلوويرس / حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "95f691f1-1725-4ebc-9412-eafad93a9395",
+    "title": "Ecuador Yambamine Sidra Passion Flowers / HOT",
+    "title_ar": "الإكوادور يامباميني سيدرا باشن فلوويرس / حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "d8c875ae-91a4-469a-9057-11dde05f1de4",
+    "title": "Ecuador Yambamine Sidra Passion Flowers / ICE",
+    "title_ar": "الإكوادور يامباميني سيدرا باشن فلوويرس / مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "c3db1681-ac62-4eb8-8f06-8dadf17d1087",
+    "title": "Ecuador Yambamine Sidra Passion Flowers / ICE",
+    "title_ar": "الإكوادور يامباميني سيدرا باشن فلوويرس / مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "a905dcce-8a7c-4e58-9b2d-3a8e2887ecd3",
+    "title": "Ecuador Yambamine Sidra Passion Flowers / ICE",
+    "title_ar": "الإكوادور يامباميني سيدرا باشن فلوويرس / مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "d7189c04-e65e-49b6-91a2-a92e2ddcd3a6",
+    "title": "Ecuador Yambamine Sidra Passion Flowers / ICE",
+    "title_ar": "الإكوادور يامباميني سيدرا باشن فلوويرس / مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "a2f392e6-95cd-4347-a92f-a7f6b0a85c8e",
+    "title": "EL Salvador Hot",
+    "title_ar": "السلفادور حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "71c220c2-0e86-41ee-9225-374ff53efd41",
+    "title": "EL Salvador Hot",
+    "title_ar": "السلفادور حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "b3731771-b6b8-477e-92cd-f8ae3dab9e10",
+    "title": "Equator Coffees — Cold Brew Concentrate",
+    "title_ar": "إكواتور كوفيز — مركّز كولد برو",
+    "brew_method": "cold_brew",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "cold",
+    "reason": "published_cold_brew_method"
+  },
+  {
+    "id": "ee35deb1-ee5a-4a73-8b14-4f6521ba30f9",
+    "title": "Ethiopia Dasaya Guji (Hot)",
+    "title_ar": "إثيوبيا داسايا غوجي (حار)",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "d66c96b6-2546-49bc-94b8-f21eef7a04a4",
+    "title": "Ethiopia Dasaya Guji (Hot)",
+    "title_ar": "إثيوبيا داسايا غوجي (حار)",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "fe29b737-6e4d-4000-8e84-3982d80271e8",
+    "title": "Ethiopia Dasaya Guji (Iced)",
+    "title_ar": "إثيوبيا داسايا غوجي (مثلّج)",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "0301d2b2-59a7-4f9f-b372-1c2c42266a52",
+    "title": "Ethiopia Dasaya Guji (Iced)",
+    "title_ar": "إثيوبيا داسايا غوجي (مثلّج)",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "b4db909e-dfd3-4abb-bef5-85ce91ab39f0",
+    "title": "Ethiopia Yirgacheffe Botabaa Selection #2 Washed G1 / HOT",
+    "title_ar": "إثيوبيا ييرغاتشيففي بوتابا سيليكتيون #2 مغسول G1 / حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "522f7a28-a7c8-4dae-b251-7ebf190028e0",
+    "title": "Ethiopia Yirgacheffe Botabaa Selection #2 Washed G1 / HOT",
+    "title_ar": "إثيوبيا ييرغاتشيففي بوتابا سيليكتيون #2 مغسول G1 / حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "49e93a58-a138-44c1-8e32-c647a355b944",
+    "title": "Ethiopia Yirgacheffe Botabaa Selection #2 Washed G1 / ICE",
+    "title_ar": "إثيوبيا ييرغاتشيففي بوتابا سيليكتيون #2 مغسول G1 / مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "02e443d1-b463-4ad1-a0b5-8282be874141",
+    "title": "Ethiopia Yirgacheffe Botabaa Selection #2 Washed G1 / ICE",
+    "title_ar": "إثيوبيا ييرغاتشيففي بوتابا سيليكتيون #2 مغسول G1 / مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "647f8086-3680-492a-b747-525a50250f9f",
+    "title": "ETHW011 Hot Brew",
+    "title_ar": "ETHW011 حار تحضير",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "ac103331-6085-4e5c-ba06-ffe6d4ab5e19",
+    "title": "ETHW011 Hot Brew",
+    "title_ar": "ETHW011 حار تحضير",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "bdb8307e-ce9f-49f1-a1b7-406990ad3756",
+    "title": "ETHW011 Iced Coffee",
+    "title_ar": "ETHW011 مثلّج قهوة",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "4f5a8305-4507-438e-839c-40a5663bc6ee",
+    "title": "FDC Iced",
+    "title_ar": "فدك مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "39c163bc-0a97-4854-8131-a6f417e8e11d",
+    "title": "FDC Iced",
+    "title_ar": "فدك مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "129f6f76-c6a3-4d16-a413-3d61c510df38",
+    "title": "Fluid - Kenya PB Ice Filter",
+    "title_ar": "فلويد - كينيا بب مثلّج ترشيح",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "9afb5971-edd9-443f-9a43-bfb31efef0a8",
+    "title": "Fluid - Kenya PB Ice Filter",
+    "title_ar": "فلويد - كينيا بب مثلّج ترشيح",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "796e5d15-e1fd-4da5-8538-24164c3dbf56",
+    "title": "Gaharo Iced",
+    "title_ar": "غاهارو مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "fa95fd52-d261-4984-b9d8-77d67769fb4b",
+    "title": "Gaharo Iced",
+    "title_ar": "غاهارو مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "cdedbde3-9c2b-47ee-a545-81d5b23ae117",
+    "title": "Gitwe Iced",
+    "title_ar": "غيتوي مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "27b4308d-dcb5-4e35-beed-b8cb2f228ecd",
+    "title": "Gitwe Iced",
+    "title_ar": "غيتوي مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "fe3159d2-be07-4de4-9b59-f68c6538b61a",
+    "title": "Guatemala El Socorro Red Bourbon Fully Washed / HOT",
+    "title_ar": "غواتيمالا يل سوكوررو أحمر بوربون كامل مغسول / حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "629a35af-0eb2-46fe-932a-2f2ff19c1427",
+    "title": "Guatemala El Socorro Red Bourbon Fully Washed / HOT",
+    "title_ar": "غواتيمالا يل سوكوررو أحمر بوربون كامل مغسول / حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "13e1d4cd-48f7-4dda-8f9a-4f985300102b",
+    "title": "Guatemala El Socorro Red Bourbon Fully Washed / ICE",
+    "title_ar": "غواتيمالا يل سوكوررو أحمر بوربون كامل مغسول / مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "f26bba89-9aed-40bb-89ae-234833379d7f",
+    "title": "Honduras Hot",
+    "title_ar": "هندوراس حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "4de8a5d5-056b-45ca-9b29-aa0c582b64b9",
+    "title": "Honduras Hot",
+    "title_ar": "هندوراس حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "03b12a21-cabb-4dba-9e93-ec2fef75042d",
+    "title": "HOT BLACK FOREST",
+    "title_ar": "حار أسود فوريست",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "ba91c798-5488-4e55-a317-e7263b5579e6",
+    "title": "Hot Brew",
+    "title_ar": "حار تحضير",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "9a5c8a34-be17-41d3-bfca-d07e002cba75",
+    "title": "HOT COFFEE",
+    "title_ar": "حار قهوة",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "7619c8b7-5b7e-4f13-abfe-f1f9b6df4f2e",
+    "title": "Hot drip by Ucup",
+    "title_ar": "حار دريب لدى وكوب",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "adc1c20c-8d09-47c1-99e7-3f3d1e61df86",
+    "title": "HOT ETHIOPIA HAMBELLA 2.0",
+    "title_ar": "حار إثيوبيا هامبيللا 2.0",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "1d9e834c-ad61-4824-904c-59a467ba6d3e",
+    "title": "Hunky Dory Iced",
+    "title_ar": "هونكي دوري مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "cde0a1ff-a97d-4645-a18e-ec7a5874d2ea",
+    "title": "Hunky Dory Iced",
+    "title_ar": "هونكي دوري مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "5f6eb449-1a6b-4659-a064-72c02e3a9aca",
+    "title": "ICE",
+    "title_ar": "مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "9777d930-ab78-4158-a9a9-43bbee369b61",
+    "title": "ice Aquiares Natural  Jeed",
+    "title_ar": "مثلّج اكوياريس طبيعي  جيد",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "b6abb8cc-557e-4a6a-8d7f-05ddefaf0983",
+    "title": "ice Benti Nenca Washed  Jeed",
+    "title_ar": "مثلّج بينتي نينكا مغسول  جيد",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "d197fe96-6489-4f1f-a381-c146cbd3d84a",
+    "title": "ICE BLACK FOREST",
+    "title_ar": "مثلّج أسود فوريست",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "2dc63516-25f5-4115-b4af-5e7d6d5ab9bf",
+    "title": "ice BOMBE Natural  Jeed",
+    "title_ar": "مثلّج بومب طبيعي  جيد",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "bd9a9fc6-dd3c-476a-9535-8f27c199dfdb",
+    "title": "Iced",
+    "title_ar": "مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "21f6e67f-de97-4ea2-90b7-18422beb6f00",
+    "title": "Iced",
+    "title_ar": "مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "97f15d4b-6655-48f1-8e3f-06f682ba5299",
+    "title": "Iced",
+    "title_ar": "مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "73dc5caa-d7a8-48f7-a766-f4bab8b67266",
+    "title": "Iced",
+    "title_ar": "مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "a72b6c5e-0e6c-44aa-9f84-bd3dfe1112fd",
+    "title": "Iced",
+    "title_ar": "مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "03ddd0ee-e476-4396-b5e5-7ea7039c97b7",
+    "title": "Iced",
+    "title_ar": "مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "f8114235-bb07-48b5-b896-7aa74434cdbf",
+    "title": "Iced 120g Hydro Natural",
+    "title_ar": "مثلّج 120g هيدرو طبيعي",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "1cc36ff4-28a2-47e9-9e6c-870482e9b439",
+    "title": "Iced Brew",
+    "title_ar": "مثلّج تحضير",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "ed735ab8-9d4c-48dc-b23b-889013c47b74",
+    "title": "Iced Coffee",
+    "title_ar": "مثلّج قهوة",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "fbe607b9-e4ea-4bd9-91f7-ab9ed7eecd98",
+    "title": "Iced Coffee",
+    "title_ar": "مثلّج قهوة",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "2e18c23a-c3e5-4e18-8c7a-21f15b2f1086",
+    "title": "ICED COFFEE",
+    "title_ar": "مثلّج قهوة",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "dd6838dc-dadb-44d2-80f0-538715fd7b0a",
+    "title": "Iced Coffee Recipe",
+    "title_ar": "مثلّج قهوة وصفة",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "d6375aef-5204-4645-ad7d-e7a41f394de8",
+    "title": "Iced Supernatural Gotiti",
+    "title_ar": "مثلّج سوبيرناتورال غوتيتي",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "bf7ed13a-9554-464e-881f-654ec5a2713a",
+    "title": "iced yirga halo bariti 100ice",
+    "title_ar": "مثلّج ييرغا هالو باريتي 100مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "8b189b8d-34b1-4971-99f0-cfc9700bb83e",
+    "title": "Illumination Blend Iced",
+    "title_ar": "يللوميناتيون خلطة مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "745ea4b4-81c3-41d9-940a-e0f4ca6b104a",
+    "title": "Illumination Blend Iced",
+    "title_ar": "يللوميناتيون خلطة مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "53cd906a-83c9-4479-a288-193a0e5a8183",
+    "title": "Inthanin Caramello HOT",
+    "title_ar": "ينثانين كاراميللو حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "8715f7d6-20aa-4a78-814a-41c54a70bae9",
+    "title": "Inthanin Caramello ICE",
+    "title_ar": "ينثانين كاراميللو مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "62640dff-55b9-4e84-9060-371aecaa071b",
+    "title": "Inthanin Ethiopia Konga HOT",
+    "title_ar": "ينثانين إثيوبيا كونغا حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "8b95df8c-e498-4f5d-a76c-fa2df4321b6c",
+    "title": "Inthanin Ethiopia Konga ICE",
+    "title_ar": "ينثانين إثيوبيا كونغا مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "d8ff8458-1319-4988-8241-e1140c9192fb",
+    "title": "Inthanin Mae Salong HOT",
+    "title_ar": "ينثانين ماي سالونغ حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "27ec765a-051d-4271-9009-bc23d31ea15c",
+    "title": "Inthanin Mae Salong ICE",
+    "title_ar": "ينثانين ماي سالونغ مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "b7e2a82e-5ac5-494b-952d-0c78e3a2b290",
+    "title": "Inthanin Pitsachio HOT",
+    "title_ar": "ينثانين بيتساتشيو حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "72b71c70-241c-41e7-a3eb-65e943763516",
+    "title": "Inthanin Pitsachio ICE",
+    "title_ar": "ينثانين بيتساتشيو مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "bbb319f8-2d40-4e87-816b-dd44a5680f51",
+    "title": "Inthanin Winery HOT",
+    "title_ar": "ينثانين وينيري حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "04121a7e-46cd-4dbb-8788-43b7d2576d39",
+    "title": "Inthanin Winery ICE",
+    "title_ar": "ينثانين وينيري مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "00a8aabc-8bf5-42f5-8684-87fed5953bc3",
+    "title": "Japanese iced",
+    "title_ar": "جابانيسي مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "e2e63a69-7e31-428d-baa4-b474b5e84934",
+    "title": "Japanese iced",
+    "title_ar": "جابانيسي مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "35d520ca-b3cb-4423-aa31-14cfe39a4678",
+    "title": "Kenya Iced",
+    "title_ar": "كينيا مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "b93ed846-57c6-4dc6-a00c-eed6e0cdf6c8",
+    "title": "Kenya Iced",
+    "title_ar": "كينيا مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "5aae0c24-74e3-4de4-8eda-e292879f40ff",
+    "title": "Kurasu — Cold Brew (2026 recipe)",
+    "title_ar": "كوراسو — كولد برو (وصفة 2026)",
+    "brew_method": "cold_brew",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "cold",
+    "reason": "published_cold_brew_method"
+  },
+  {
+    "id": "a487468d-9291-440f-8b67-016c3d7840c4",
+    "title": "Las Margaritas Washed Hot",
+    "title_ar": "لاس مارغاريتاس مغسول حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "16be7cf5-84f0-451c-a2a6-1fa2b4e40341",
+    "title": "Las Margaritas Washed Hot",
+    "title_ar": "لاس مارغاريتاس مغسول حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "fc1d95a6-7bf9-45b5-a96a-395dc1077fe0",
+    "title": "Lerida Iced",
+    "title_ar": "ليريدا مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "456c1437-136a-48ea-a3c8-df87b3c81a17",
+    "title": "Lerida Iced",
+    "title_ar": "ليريدا مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "db999c5e-0472-4214-9a72-98341626fe78",
+    "title": "New School Brew Over Ice",
+    "title_ar": "جديد سكول تحضير ترشيح مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "0d7af750-1728-479a-88e9-78bc9ef8571d",
+    "title": "New School Brew Over Ice",
+    "title_ar": "جديد سكول تحضير ترشيح مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "577f4060-7d8c-4cee-818a-f4b389f6681e",
+    "title": "New School Brew Over Ice",
+    "title_ar": "جديد سكول تحضير ترشيح مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "c6cc6a94-1b3d-475a-88f2-ad9f5a3ac052",
+    "title": "New School Brew Over Ice",
+    "title_ar": "جديد سكول تحضير ترشيح مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "f24dbdc6-ece8-4f3d-9725-695822cce1af",
+    "title": "No,11 Ice:Crystal Clear",
+    "title_ar": "رقم,11 مثلّج:كريستال كلير",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "510c30c4-a903-4325-a519-1f70a7b64af2",
+    "title": "No.8 Ice:Deep Bitter",
+    "title_ar": "نو.8 مثلّج:ديب بيتتير",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "7e44e229-7bcd-4f76-8405-49f7ea2252e8",
+    "title": "Onyx Southern Weather Iced",
+    "title_ar": "أونيكس سوثيرن ويثير مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "1a1fea93-f963-490c-8b0a-c4c08d74f3a6",
+    "title": "Onyx Southern Weather Iced",
+    "title_ar": "أونيكس سوثيرن ويثير مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "84abf04e-8c9a-4855-914a-8afa07c259fe",
+    "title": "Opus Iced",
+    "title_ar": "وبوس مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "64c20879-f139-43af-b2bf-bafedec8b9e3",
+    "title": "Opus Iced",
+    "title_ar": "وبوس مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "ab7b7c84-f665-4038-b230-d1fd8b68a5c2",
+    "title": "ORDR Brew over Ice",
+    "title_ar": "وردر تحضير ترشيح مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "72a09c21-1b24-453d-92ae-4891e9d2ea59",
+    "title": "ORDR Brew over Ice",
+    "title_ar": "وردر تحضير ترشيح مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "8d49879d-daee-4203-834b-851c395fb5b2",
+    "title": "ORDR Brew over Ice 2",
+    "title_ar": "وردر تحضير ترشيح مثلّج 2",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "f4654826-d259-4cb8-9bae-c6bdd41365b0",
+    "title": "Panama Finca Los Cenizos Geisha Cold Fermention Natural / HOT",
+    "title_ar": "بنما فينكا لوس كينيزوس غيشا بارد فيرمينتيون طبيعي / حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "28f813a0-f0ac-4297-99f5-8be040001fd9",
+    "title": "Panama Finca Los Cenizos Geisha Cold Fermention Natural / HOT",
+    "title_ar": "بنما فينكا لوس كينيزوس غيشا بارد فيرمينتيون طبيعي / حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "2a88915b-bc52-4839-8c75-1cc8c54849c4",
+    "title": "Panama Finca Los Cenizos Geisha Cold Fermention Natural / ICE",
+    "title_ar": "بنما فينكا لوس كينيزوس غيشا بارد فيرمينتيون طبيعي / مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "8cc58f44-d7cf-4fa2-82f2-22459f1c6753",
+    "title": "Panama Finca Los Cenizos Geisha Cold Fermention Natural / ICE",
+    "title_ar": "بنما فينكا لوس كينيزوس غيشا بارد فيرمينتيون طبيعي / مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "790b1fd9-9e40-4b29-9a58-241d73764863",
+    "title": "Peach Co-Ferment Brew Over Ice",
+    "title_ar": "خوخ كو-فيرمينت تحضير ترشيح مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "6ce7f841-cce2-4fb5-8a87-3ce5df922a82",
+    "title": "Peach Co-Ferment Brew Over Ice",
+    "title_ar": "خوخ كو-فيرمينت تحضير ترشيح مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "df732267-d0ac-4a09-b34c-d7c091f07b91",
+    "title": "Peru La Palma Geisha Washed / HOT",
+    "title_ar": "بيرو لا بالما غيشا مغسول / حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "bcc9fbde-aa3b-401f-bb84-b1b4cb95a26f",
+    "title": "Peru La Palma Geisha Washed / HOT",
+    "title_ar": "بيرو لا بالما غيشا مغسول / حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "d94cb7c2-fc85-4bab-b25d-951fa500bf99",
+    "title": "RAINBOW DASH HOT",
+    "title_ar": "قوس قزح داش حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "d74e41c5-3102-461f-b1a6-01c83843d0ca",
+    "title": "RAINBOW DASH HOT",
+    "title_ar": "قوس قزح داش حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "49ea5522-4fed-4f46-9495-00970d78f0e1",
+    "title": "RAINBOW DASH ICE",
+    "title_ar": "قوس قزح داش مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "7e537af4-9be8-44f2-bfe8-cd2b504e6ddf",
+    "title": "RAINBOW DASH ICE",
+    "title_ar": "قوس قزح داش مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "239828a7-d70f-404b-a820-75027793d430",
+    "title": "Special HOT",
+    "title_ar": "سبيكيال حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "2ed87fb0-7430-4a38-96a1-511533971392",
+    "title": "Special ICE",
+    "title_ar": "سبيكيال مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "bbbc4725-b729-4169-894d-b0a31644670f",
+    "title": "The Daily Iced",
+    "title_ar": "الـ دايلي مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "31bb5e12-634a-494a-8656-2e6821ebda88",
+    "title": "The Future Iced",
+    "title_ar": "الـ فيوتشر مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "9752f7ce-9f56-4d01-8716-dc6bc3bfb58e",
+    "title": "The Future Iced",
+    "title_ar": "الـ فيوتشر مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "2ba0fa69-08f4-4223-afc0-c09116ccea29",
+    "title": "Traditional Iced",
+    "title_ar": "تراديتيونال مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "85b5358d-92d6-4685-82ec-9cb6f99456e4",
+    "title": "Traditional Iced",
+    "title_ar": "تراديتيونال مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "8029b888-fb43-4ded-a393-5cf593207549",
+    "title": "Tropical Weather Iced",
+    "title_ar": "تروبيكال ويثير مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "a4b0eb6a-3472-43ff-995b-76138eb1682f",
+    "title": "Tropical Weather Iced",
+    "title_ar": "تروبيكال ويثير مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "9e7fad3e-7858-4233-9ba8-3c378f999f6e",
+    "title": "Very BERRY / HOT",
+    "title_ar": "فيري بيرري / حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "060d6a3e-5a23-4199-bf93-5100b798de92",
+    "title": "Very BERRY / HOT",
+    "title_ar": "فيري بيرري / حار",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "hot",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "db4d50eb-47b1-4323-80a2-e523d2ece516",
+    "title": "Very BERRY / ICE",
+    "title_ar": "فيري بيرري / مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "317441a1-1920-4142-a90d-12f0f70033cb",
+    "title": "Very BERRY / ICE",
+    "title_ar": "فيري بيرري / مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "3fff20ad-0f49-4760-820a-489573aa5728",
+    "title": "Yacuri Iced",
+    "title_ar": "ياكوري مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  },
+  {
+    "id": "5a1bee04-8a64-4fe8-ab8b-4f697d30f3cf",
+    "title": "Yacuri Iced",
+    "title_ar": "ياكوري مثلّج",
+    "brew_method": "xbloom",
+    "serving_style": "unknown",
+    "metadata_style": null,
+    "next": "iced",
+    "reason": "explicit_source_title"
+  }
+]

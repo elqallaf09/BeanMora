@@ -304,6 +304,19 @@ export function RecipeCatalog({
               />
             ) : null}
             <MethodGuide key={method ?? 'all'} method={method} />
+            <View testID="quick-serving-filters" style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8 }}>
+              {([['', ar ? 'الكل' : 'All'], ['hot', ar ? 'حار' : 'Hot'], ['iced', ar ? 'مثلّج' : 'Iced'], ['cold', ar ? 'بارد' : 'Cold']] as const).map(([id, label]) => (
+                <Pressable key={id} accessibilityRole="button" accessibilityLabel={ar ? `تقديم: ${label}` : `Serving: ${label}`}
+                  accessibilityState={{ selected: filters.servingStyle === id }}
+                  onPress={() => { invalidate(); setFilters(value => ({ ...value, servingStyle: id })); }}
+                  style={[catalogStyles.chip, filters.servingStyle === id && catalogStyles.chipSelected]}>
+                  <Txt style={{ fontSize: 13, fontWeight: '700', color: filters.servingStyle === id ? '#FFF' : colors.brown }}>{label}</Txt>
+                </Pressable>
+              ))}
+            </View>
+            {filters.servingStyle ? <Txt style={{ color: colors.muted, fontSize: 11, lineHeight: 17 }}>
+              {ar ? 'النتائج تطابق نوع التقديم المحدد. الوصفات غير المصنّفة تظهر في «الكل».' : 'Results match the selected serving style. Unclassified recipes appear in All.'}
+            </Txt> : null}
             <View
               style={{
                 flexDirection: ar ? 'row-reverse' : 'row',
