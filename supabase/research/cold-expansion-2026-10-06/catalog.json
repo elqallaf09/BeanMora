@@ -1,0 +1,370 @@
+{
+  "reviewed_at": "2026-10-06",
+  "roasters": [
+    {
+      "slug": "union-hand-roasted-coffee",
+      "name_en": "Union Hand-Roasted Coffee",
+      "name_ar": "يونيون هاند روستد كوفي",
+      "country": "GB",
+      "website_url": "https://unionroasted.com",
+      "source_url": "https://unionroasted.com/pages/about",
+      "description_en": "Coffee roaster based in East London.",
+      "description_ar": "محمصة قهوة مقرها شرق لندن."
+    },
+    {
+      "slug": "stumptown-coffee-roasters",
+      "name_en": "Stumptown Coffee Roasters",
+      "name_ar": "ستامبتاون كوفي روسترز",
+      "country": "US",
+      "website_url": "https://www.stumptowncoffee.com",
+      "source_url": "https://www.stumptowncoffee.com/pages/portland-division-cafe",
+      "description_en": "Coffee roaster founded in Portland, Oregon.",
+      "description_ar": "محمصة قهوة بدأت في بورتلاند، أوريغون."
+    },
+    {
+      "slug": "tim-wendelboe",
+      "name_en": "Tim Wendelboe",
+      "name_ar": "تيم ويندلبو",
+      "country": "NO",
+      "website_url": "https://timwendelboe.no",
+      "source_url": "https://timwendelboe.no/pages/copy-of-our-story",
+      "description_en": "Oslo coffee roaster with a focus on light roasts.",
+      "description_ar": "محمصة في أوسلو تركز على التحميص الفاتح."
+    }
+  ],
+  "recipes": [
+    {
+      "slug": "square-mile-choc-ice-cold-brew",
+      "roaster": "Square Mile Coffee Roasters",
+      "title": "Square Mile — Choc Ice Cold Brew",
+      "title_ar": "سكوير مايل — تشوك آيس كولد برو",
+      "method": "cold_brew",
+      "style": "cold",
+      "dose": null,
+      "water": null,
+      "seconds": null,
+      "grind": "Medium-coarse",
+      "source": "https://shop.squaremilecoffee.com/blogs/all/how-to-brew-choc-ice",
+      "country": "United Kingdom",
+      "country_ar": "المملكة المتحدة",
+      "source_parameters": {
+        "water_ml": 1000,
+        "manual": {
+          "dose_min_grams": 85,
+          "dose_max_grams": 95,
+          "time_note": "12–16 hours in the fridge after a 30-minute initial wait",
+          "time_note_ar": "12–16 ساعة في الثلاجة بعد انتظار أولي 30 دقيقة",
+          "grind_ar": "متوسطة إلى خشنة",
+          "notes": "The publisher recommends Choc Ice coffee.",
+          "notes_ar": "يقترح المصدر بن تشوك آيس."
+        },
+        "discovery": {
+          "roaster_name": "Square Mile Coffee Roasters",
+          "creator_name": "Square Mile Coffee Roasters",
+          "recipe_country": "United Kingdom",
+          "recipe_country_ar": "المملكة المتحدة",
+          "serving_style": "cold",
+          "source_urls": [
+            "https://shop.squaremilecoffee.com/blogs/all/how-to-brew-choc-ice"
+          ],
+          "serving_style_evidence": {
+            "classification": "published",
+            "basis": "publisher_cold_steep_or_refrigeration",
+            "reviewed_at": "2026-10-06"
+          }
+        }
+      },
+      "steps": [
+        {
+          "title": "Preparation",
+          "title_ar": "التحضير",
+          "description": "Wet 85–95 g coffee with 1 L filtered water; stir. After 30 minutes, break the crust. Cover and refrigerate 12–16 hours. Strain; serve over ice.",
+          "description_ar": "بلّل 85–95 g من البن بلتر ماء مفلتر وحرّك. بعد 30 دقيقة فكك القشرة، غطّ الوعاء وبرّده 12–16 ساعة. صفّه وقدّمه فوق الثلج."
+        }
+      ]
+    },
+    {
+      "slug": "square-mile-choc-ice-iced-aerocano",
+      "roaster": "Square Mile Coffee Roasters",
+      "title": "Square Mile — Iced Aerocano",
+      "title_ar": "سكوير مايل — آيروكانو مثلّج",
+      "method": "espresso",
+      "style": "iced",
+      "dose": null,
+      "water": null,
+      "seconds": null,
+      "grind": null,
+      "source": "https://shop.squaremilecoffee.com/blogs/all/how-to-brew-choc-ice",
+      "country": "United Kingdom",
+      "country_ar": "المملكة المتحدة",
+      "source_parameters": {
+        "manual": {
+          "ice_grams": 85,
+          "notes": "Double espresso; add 85–150 g water. Espresso dose and yield are unspecified.",
+          "notes_ar": "شوت إسبريسو مزدوج مع 85–150 g ماء؛ جرعة البن وناتج الشوت غير محددين."
+        },
+        "discovery": {
+          "roaster_name": "Square Mile Coffee Roasters",
+          "creator_name": "Square Mile Coffee Roasters",
+          "recipe_country": "United Kingdom",
+          "recipe_country_ar": "المملكة المتحدة",
+          "serving_style": "iced",
+          "source_urls": [
+            "https://shop.squaremilecoffee.com/blogs/all/how-to-brew-choc-ice"
+          ],
+          "serving_style_evidence": {
+            "classification": "published",
+            "basis": "publisher_serves_over_ice",
+            "reviewed_at": "2026-10-06"
+          }
+        }
+      },
+      "steps": [
+        {
+          "title": "Preparation",
+          "title_ar": "التحضير",
+          "description": "Combine a double espresso with 85 g ice and 85–150 g water. Steam 8–12 seconds until most ice melts, then pour over fresh ice.",
+          "description_ar": "اجمع شوتًا مزدوجًا مع 85 g ثلج و85–150 g ماء. بخّر 8–12 ثانية حتى يذوب أغلب الثلج ثم صبّه فوق ثلج جديد."
+        }
+      ]
+    },
+    {
+      "slug": "union-cold-brew-120g-1l",
+      "roaster": "Union Hand-Roasted Coffee",
+      "title": "Union — Cold Brew",
+      "title_ar": "يونيون — كولد برو",
+      "method": "cold_brew",
+      "style": "cold",
+      "dose": 120,
+      "water": null,
+      "seconds": null,
+      "grind": "Coarse",
+      "source": "https://unionroasted.com/blogs/cocktails-and-recipes/cold-brew",
+      "country": "United Kingdom",
+      "country_ar": "المملكة المتحدة",
+      "source_parameters": {
+        "water_ml": 1000,
+        "manual": {
+          "grind_ar": "خشنة",
+          "time_note": "18–24 hours refrigerated",
+          "time_note_ar": "18–24 ساعة في الثلاجة"
+        },
+        "discovery": {
+          "roaster_name": "Union Hand-Roasted Coffee",
+          "creator_name": "Union Hand-Roasted Coffee",
+          "recipe_country": "United Kingdom",
+          "recipe_country_ar": "المملكة المتحدة",
+          "serving_style": "cold",
+          "source_urls": [
+            "https://unionroasted.com/blogs/cocktails-and-recipes/cold-brew"
+          ],
+          "serving_style_evidence": {
+            "classification": "published",
+            "basis": "publisher_cold_steep_or_refrigeration",
+            "reviewed_at": "2026-10-06"
+          }
+        }
+      },
+      "steps": [
+        {
+          "title": "Preparation",
+          "title_ar": "التحضير",
+          "description": "Mix 120 g coarse coffee with 1 L cold water. Refrigerate 18–24 hours; strain through a sieve, then paper or muslin. Serve over ice.",
+          "description_ar": "اخلط 120 g بن خشن مع لتر ماء بارد. برّده 18–24 ساعة، ثم صفّه بمصفاة وبعدها بورق أو قماش ترشيح. قدّمه فوق الثلج."
+        }
+      ]
+    },
+    {
+      "slug": "union-iced-v60",
+      "roaster": "Union Hand-Roasted Coffee",
+      "title": "Union — Iced V60",
+      "title_ar": "يونيون — V60 مثلّج",
+      "method": "v60",
+      "style": "iced",
+      "dose": 15,
+      "water": 250,
+      "seconds": 150,
+      "grind": "Medium-fine",
+      "source": "https://unionroasted.com/blogs/latest/how-to-make-iced-coffee-at-home",
+      "country": "United Kingdom",
+      "country_ar": "المملكة المتحدة",
+      "source_parameters": {
+        "manual": {
+          "grind_ar": "متوسطة إلى ناعمة",
+          "notes": "Five ice cubes; their weight and individual pour timings are unspecified.",
+          "notes_ar": "خمس مكعبات ثلج؛ وزنها وتوقيت كل صبة غير محددين."
+        },
+        "discovery": {
+          "roaster_name": "Union Hand-Roasted Coffee",
+          "creator_name": "Union Hand-Roasted Coffee",
+          "recipe_country": "United Kingdom",
+          "recipe_country_ar": "المملكة المتحدة",
+          "serving_style": "iced",
+          "source_urls": [
+            "https://unionroasted.com/blogs/latest/how-to-make-iced-coffee-at-home"
+          ],
+          "serving_style_evidence": {
+            "classification": "published",
+            "basis": "publisher_serves_over_ice",
+            "reviewed_at": "2026-10-06"
+          }
+        }
+      },
+      "steps": [
+        {
+          "title": "Preparation",
+          "title_ar": "التحضير",
+          "description": "Place five ice cubes in the serving vessel. Brew 15 g medium-fine coffee with 250 g water through V60 over the ice; target 2½ minutes.",
+          "description_ar": "ضع خمس مكعبات ثلج في وعاء التقديم. حضّر 15 g بن بطحنة متوسطة إلى ناعمة مع 250 g ماء عبر V60 فوق الثلج؛ الوقت المستهدف دقيقتان ونصف."
+        }
+      ]
+    },
+    {
+      "slug": "union-iced-aeropress",
+      "roaster": "Union Hand-Roasted Coffee",
+      "title": "Union — Iced AeroPress",
+      "title_ar": "يونيون — إيروبريس مثلّج",
+      "method": "aeropress",
+      "style": "iced",
+      "dose": 20,
+      "water": 100,
+      "seconds": 90,
+      "grind": "Medium-fine",
+      "source": "https://unionroasted.com/blogs/latest/how-to-make-iced-coffee-at-home",
+      "country": "United Kingdom",
+      "country_ar": "المملكة المتحدة",
+      "source_parameters": {
+        "manual": {
+          "grind_ar": "متوسطة إلى ناعمة",
+          "notes": "Five ice cubes; optional 25 ml milk. Ice weight is unspecified.",
+          "notes_ar": "خمس مكعبات ثلج؛ اختياريًا 25 ml حليب. وزن الثلج غير محدد."
+        },
+        "discovery": {
+          "roaster_name": "Union Hand-Roasted Coffee",
+          "creator_name": "Union Hand-Roasted Coffee",
+          "recipe_country": "United Kingdom",
+          "recipe_country_ar": "المملكة المتحدة",
+          "serving_style": "iced",
+          "source_urls": [
+            "https://unionroasted.com/blogs/latest/how-to-make-iced-coffee-at-home"
+          ],
+          "serving_style_evidence": {
+            "classification": "published",
+            "basis": "publisher_serves_over_ice",
+            "reviewed_at": "2026-10-06"
+          }
+        }
+      },
+      "steps": [
+        {
+          "title": "Preparation",
+          "title_ar": "التحضير",
+          "description": "Use the inverted AeroPress: steep 20 g medium-fine coffee in 100 g water for 90 seconds. Swirl, then press onto five ice cubes.",
+          "description_ar": "بالإيروبريس المقلوب، انقع 20 g بن بطحنة متوسطة إلى ناعمة في 100 g ماء مدة 90 ثانية. حرّك بالدوران ثم اضغط فوق خمس مكعبات ثلج."
+        }
+      ]
+    },
+    {
+      "slug": "stumptown-filtron-cold-brew",
+      "roaster": "Stumptown Coffee Roasters",
+      "title": "Stumptown — Filtron Cold Brew",
+      "title_ar": "ستامبتاون — كولد برو فيلترون",
+      "method": "cold_brew",
+      "style": "cold",
+      "dose": 340.19,
+      "water": null,
+      "seconds": 57600,
+      "grind": "Coarse",
+      "source": "https://www.stumptowncoffee.com/pages/brew-guide-filtron",
+      "country": "United States",
+      "country_ar": "الولايات المتحدة",
+      "source_parameters": {
+        "water_ml": 1656.12,
+        "original_units": {
+          "coffee_ounces": 12,
+          "water_us_fluid_ounces": 56,
+          "coffee_grams_per_ounce": 28.349523125,
+          "water_ml_per_us_fluid_ounce": 29.5735295625
+        },
+        "manual": {
+          "model": "Filtron",
+          "grind_ar": "خشنة",
+          "time_note": "12–24 hours; publisher recommends 16 hours",
+          "time_note_ar": "12–24 ساعة؛ يوصي المصدر بـ16 ساعة",
+          "source_ratio_text": "1 concentrate : 2 water (serving dilution)",
+          "notes": "Converted from 12 oz coffee and 56 US fl oz water; decanter capacity is not brew water.",
+          "notes_ar": "محول من 12 oz بن و56 أونصة سائلة أمريكية ماء؛ سعة إبريق التقديم ليست ماء التحضير."
+        },
+        "discovery": {
+          "roaster_name": "Stumptown Coffee Roasters",
+          "creator_name": "Stumptown Coffee Roasters",
+          "recipe_country": "United States",
+          "recipe_country_ar": "الولايات المتحدة",
+          "serving_style": "cold",
+          "source_urls": [
+            "https://www.stumptowncoffee.com/pages/brew-guide-filtron"
+          ],
+          "serving_style_evidence": {
+            "classification": "published",
+            "basis": "publisher_cold_steep_or_refrigeration",
+            "reviewed_at": "2026-10-06"
+          }
+        }
+      },
+      "steps": [
+        {
+          "title": "Preparation",
+          "title_ar": "التحضير",
+          "description": "Install the stopper and rinsed filter pad. Add coarse coffee, then the guard and water. Refrigerate 12–24 hours; 16 recommended. Drain 30–45 minutes. Dilute one part concentrate with two parts water; serve over ice.",
+          "description_ar": "ركّب السدادة وفلتر القماش المغسول. أضف البن الخشن ثم الحاجز والماء. برّده 12–24 ساعة، والمقترح 16 ساعة. اتركه يتصفى 30–45 دقيقة. خفّف جزءًا من المركز بجزأين ماء وقدّمه فوق الثلج."
+        }
+      ]
+    },
+    {
+      "slug": "tim-wendelboe-chilled-v60",
+      "roaster": "Tim Wendelboe",
+      "title": "Tim Wendelboe — Chilled V60",
+      "title_ar": "تيم ويندلبو — V60 مبرد",
+      "method": "v60",
+      "style": "cold",
+      "dose": 30,
+      "water": 500,
+      "seconds": 180,
+      "grind": null,
+      "source": "https://timwendelboe.no/pages/how-to-make-iced-coffee",
+      "country": "Norway",
+      "country_ar": "النرويج",
+      "source_parameters": {
+        "manual": {
+          "temperature_note": "Hot water; no numerical temperature provided",
+          "temperature_note_ar": "ماء ساخن؛ لا يحدد المصدر درجة رقمية",
+          "notes": "Optional 6 g sugar or honey. Chill after brewing; ice surrounds the serving bottle.",
+          "notes_ar": "اختياريًا 6 g سكر أو عسل. يبرد بعد التحضير؛ الثلج يحيط بزجاجة التقديم."
+        },
+        "discovery": {
+          "roaster_name": "Tim Wendelboe",
+          "creator_name": "Tim Wendelboe",
+          "recipe_country": "Norway",
+          "recipe_country_ar": "النرويج",
+          "serving_style": "cold",
+          "source_urls": [
+            "https://timwendelboe.no/pages/how-to-make-iced-coffee"
+          ],
+          "serving_style_evidence": {
+            "classification": "published",
+            "basis": "publisher_cold_steep_or_refrigeration",
+            "reviewed_at": "2026-10-06"
+          }
+        }
+      },
+      "steps": [
+        {
+          "title": "Preparation",
+          "title_ar": "التحضير",
+          "description": "Rinse the V60 filter; add 30 g coffee. Start with about 60 g hot water and stir. Shortly afterward reach 200 g; stir, then continue to 500 g over about three minutes. Transfer to metal and refrigerate. Serve chilled; keep the bottle on ice.",
+          "description_ar": "اشطف فلتر V60 وأضف 30 g بن. ابدأ بنحو 60 g ماء ساخن وحرّك، ثم ارفع الإجمالي إلى 200 g وحرّك، وأكمل حتى 500 g خلال نحو ثلاث دقائق. انقل القهوة إلى وعاء معدني وبرّدها. قدّمها باردة وحافظ على الزجاجة فوق الثلج."
+        }
+      ]
+    }
+  ]
+}

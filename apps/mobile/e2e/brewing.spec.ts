@@ -33,7 +33,7 @@ function discoveryPage(route: Route, fixtures: DiscoveryFixture[], coffees: Disc
     const metadata = row.source_brew_parameters?.discovery ?? {};
     const coffee = coffees.find(item => item.id === row.bean_id && item.requires_review === false && item.is_published === true);
     const style = [row.serving_style, metadata.serving_style].find(value => ['hot', 'iced', 'cold'].includes(value)) ?? '';
-    if (params.p_serving_style && style !== params.p_serving_style) return false;
+    if (params.p_serving_style && !(params.p_serving_style === 'cold_or_iced' ? ['cold', 'iced'].includes(style) : style === params.p_serving_style)) return false;
     const terms: Record<string, string> = {
       p_recipe_name: join(row.title, row.title_ar),
       p_creator_name: join(row.source_author_name, metadata.creator_name, metadata.creator_name_ar),
@@ -208,7 +208,6 @@ test('English preserves recipe instructions and source temperature ranges', asyn
     return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(path.endsWith('/recipes') ? rows : []) });
   });
   await page.goto('/');
-  await page.getByRole('button', { name: 'تغيير اللغة، العربية', exact: true }).click();
   await page.getByRole('button', { name: 'English', exact: true }).click();
   await openRecipeLibrary(page, 'en');
   await page.getByRole('button', { name: 'Blue Bottle — Chemex 600 g', exact: true }).click();
@@ -236,7 +235,6 @@ test('measured time reaches explicit outcome review without silently recording a
     await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(data) });
   });
   await page.goto('/');
-  await page.getByRole('button', { name: 'تغيير اللغة، العربية', exact: true }).click();
   await page.getByRole('button', { name: 'English', exact: true }).click();
   await page.getByRole('button', { name: 'Account', exact: true }).click();
   await page.getByLabel('Email', { exact: true }).fill(user.email);
@@ -286,7 +284,6 @@ for (const locale of ['ar', 'en'] as const) {
     });
     await page.goto('/');
     if (locale === 'en') {
-      await page.getByRole('button', { name: 'تغيير اللغة، العربية', exact: true }).click();
       await page.getByRole('button', { name: 'English', exact: true }).click();
     }
     await openRecipeLibrary(page, locale);

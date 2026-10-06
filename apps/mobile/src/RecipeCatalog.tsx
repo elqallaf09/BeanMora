@@ -18,6 +18,7 @@ import {
   mapRecipe,
   RECIPE_FIELDS,
   type RecipeItem,
+  type CoffeeItem,
   type RecipeRow,
 } from './data';
 import { MethodPicker, coffeeStyles } from './CoffeeScreens';
@@ -86,11 +87,19 @@ export function RecipeCatalog({
   method: initialMethod,
   header,
   locked = false,
+  coffee,
+  backToCoffee,
+  universal = false,
+  searchResults,
 }: {
   open: (r: RecipeItem) => void;
   method?: Method;
   header?: ReactNode;
   locked?: boolean;
+  coffee?: CoffeeItem;
+  backToCoffee?: () => void;
+  universal?: boolean;
+  searchResults?: (query: string) => ReactNode;
 }) {
   const locale = useContext(Language);
   const ar = locale === 'ar';
@@ -171,7 +180,7 @@ export function RecipeCatalog({
     }
     const query = recipePageQuery(
       supabase,
-      { query: debounced, method, source, model, filters },
+      { query: debounced, method, source, model, filters, coffee },
       page,
       `${RECIPE_FIELDS},${RECIPE_DISCOVERY_FIELDS}`,
       controller.signal,
@@ -217,6 +226,8 @@ export function RecipeCatalog({
     return cancel;
   }, [
     locale,
+    coffee?.id,
+    coffee?.kind,
     method,
     search,
     debounced,
@@ -249,6 +260,27 @@ export function RecipeCatalog({
         ListHeaderComponent={
           <View style={{ gap: isXBloomHub ? 12 : 16, marginBottom: 8 }}>
             {header}
+            {coffee ? (
+              <View
+                testID="recipe-coffee-context"
+                style={[styles.card, { backgroundColor: '#EDF5F1', gap: 6 }]}
+              >
+                <Txt style={{ fontWeight: '700', color: colors.teal }}>
+                  {coffee.name}
+                </Txt>
+                <Txt style={styles.muted}>
+                  {ar
+                    ? 'الوصفات مرتبطة بهذا البن. تغيير الفلاتر يبقي نفس البن محددًا.'
+                    : 'Recipes are linked to this coffee. Changing filters keeps this coffee selected.'}
+                </Txt>
+                {backToCoffee ? (
+                  <Action
+                    title={ar ? 'رجوع إلى البن' : 'Back to coffee'}
+                    onPress={backToCoffee}
+                  />
+                ) : null}
+              </View>
+            ) : null}
             <View
               style={{
                 flexDirection: ar ? 'row-reverse' : 'row',
@@ -258,13 +290,17 @@ export function RecipeCatalog({
               }}
             >
               <Txt heading style={[styles.title, { flex: 1 }]}>
-                {initialMethod === 'xbloom'
+                {universal
                   ? ar
-                    ? 'وصفات xBloom'
-                    : 'xBloom recipes'
-                  : ar
-                    ? 'مكتبة الوصفات'
-                    : 'Recipe library'}
+                    ? 'ابحث عن كوبك القادم'
+                    : 'Find your next cup'
+                  : initialMethod === 'xbloom'
+                    ? ar
+                      ? 'وصفات xBloom'
+                      : 'xBloom recipes'
+                    : ar
+                      ? 'مكتبة الوصفات'
+                      : 'Recipe library'}
               </Txt>
               {total !== null ? (
                 <View style={catalogStyles.count}>
@@ -286,13 +322,17 @@ export function RecipeCatalog({
               ) : null}
             </View>
             <Txt style={styles.muted}>
-              {ar
-                ? isXBloomHub
-                  ? 'طحنة، حرارة وصبات — كل إعدادات كوبك في مكان واحد.'
-                  : 'ابحث في المكتبة كاملة، وافتح كل وصفة لتفاصيلها ومصدرها.'
-                : isXBloomHub
-                  ? 'Grind, temperature and pours, all ready to explore.'
-                  : 'Search the full library and open a recipe for its details and sources.'}
+              {universal
+                ? ar
+                  ? 'البن، الإيحاءات، المحامص والوصفات — بحث واحد بالعربي والإنجليزي.'
+                  : 'Coffees, tasting notes, roasters and recipes. One search in Arabic and English.'
+                : ar
+                  ? isXBloomHub
+                    ? 'طحنة، حرارة وصبات — كل إعدادات كوبك في مكان واحد.'
+                    : 'ابحث في المكتبة كاملة، وافتح كل وصفة لتفاصيلها ومصدرها.'
+                  : isXBloomHub
+                    ? 'Grind, temperature and pours, all ready to explore.'
+                    : 'Search the full library and open a recipe for its details and sources.'}
             </Txt>
             {!locked ? (
               <MethodPicker
@@ -304,19 +344,59 @@ export function RecipeCatalog({
               />
             ) : null}
             <MethodGuide key={method ?? 'all'} method={method} />
-            <View testID="quick-serving-filters" style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8 }}>
-              {([['', ar ? 'الكل' : 'All'], ['hot', ar ? 'حار' : 'Hot'], ['iced', ar ? 'مثلّج' : 'Iced'], ['cold', ar ? 'بارد' : 'Cold']] as const).map(([id, label]) => (
-                <Pressable key={id} accessibilityRole="button" accessibilityLabel={ar ? `تقديم: ${label}` : `Serving: ${label}`}
+            <View
+              testID="quick-serving-filters"
+              style={{
+                flexDirection: ar ? 'row-reverse' : 'row',
+                flexWrap: 'wrap',
+                gap: 8,
+              }}
+            >
+              {(
+                [
+                  ['', ar ? 'الكل' : 'All'],
+                  ['hot', ar ? 'حار' : 'Hot'],
+                  ['cold_or_iced', ar ? 'بارد ومثلّج' : 'Cold & iced'],
+                ] as const
+              ).map(([id, label]) => (
+                <Pressable
+                  key={id}
+                  accessibilityRole="button"
+                  accessibilityLabel={
+                    ar ? `تقديم: ${label}` : `Serving: ${label}`
+                  }
                   accessibilityState={{ selected: filters.servingStyle === id }}
-                  onPress={() => { invalidate(); setFilters(value => ({ ...value, servingStyle: id })); }}
-                  style={[catalogStyles.chip, filters.servingStyle === id && catalogStyles.chipSelected]}>
-                  <Txt style={{ fontSize: 13, fontWeight: '700', color: filters.servingStyle === id ? '#FFF' : colors.brown }}>{label}</Txt>
+                  onPress={() => {
+                    invalidate();
+                    setFilters((value) => ({ ...value, servingStyle: id }));
+                  }}
+                  style={[
+                    catalogStyles.chip,
+                    filters.servingStyle === id && catalogStyles.chipSelected,
+                  ]}
+                >
+                  <Txt
+                    style={{
+                      fontSize: 13,
+                      fontWeight: '700',
+                      color:
+                        filters.servingStyle === id ? '#FFF' : colors.brown,
+                    }}
+                  >
+                    {label}
+                  </Txt>
                 </Pressable>
               ))}
             </View>
-            {filters.servingStyle ? <Txt style={{ color: colors.muted, fontSize: 11, lineHeight: 17 }}>
-              {ar ? 'النتائج تطابق نوع التقديم المحدد. الوصفات غير المصنّفة تظهر في «الكل».' : 'Results match the selected serving style. Unclassified recipes appear in All.'}
-            </Txt> : null}
+            {filters.servingStyle ? (
+              <Txt
+                style={{ color: colors.muted, fontSize: 11, lineHeight: 17 }}
+              >
+                {ar
+                  ? 'تشمل النتائج التصنيف المنشور والتقديم المقترح حسب طريقة التحضير. التصنيف المقترح موضّح على الوصفة.'
+                  : 'Results include published serving styles and suggestions based on preparation. Suggested styles are labelled on the recipe.'}
+              </Txt>
+            ) : null}
             <View
               style={{
                 flexDirection: ar ? 'row-reverse' : 'row',
@@ -326,7 +406,15 @@ export function RecipeCatalog({
             >
               <View style={{ flex: 1 }}>
                 <Field
-                  label={ar ? 'ابحث عن وصفة' : 'Find a recipe'}
+                  label={
+                    universal
+                      ? ar
+                        ? 'البحث الشامل'
+                        : 'Search everything'
+                      : ar
+                        ? 'ابحث عن وصفة'
+                        : 'Find a recipe'
+                  }
                   value={search}
                   maxLength={160}
                   onChangeText={(value) => {
@@ -387,6 +475,7 @@ export function RecipeCatalog({
                 ) : null}
               </Pressable>
             </View>
+            {searchResults?.(debounced)}
             {hasSearch || filterCount > 0 ? (
               <View
                 style={{
@@ -617,6 +706,11 @@ export function RecipeCatalog({
                         : ar
                           ? 'بارد'
                           : 'Cold'}
+                    {item.discovery.servingStyleInferred
+                      ? ar
+                        ? ' · مقترح'
+                        : ' · Suggested'
+                      : ''}
                   </Txt>
                 </View>
               ) : null}
@@ -901,8 +995,7 @@ export function RecipeCatalog({
                     [
                       ['', ar ? 'كل الأنواع' : 'Any serving'],
                       ['hot', ar ? 'ساخن' : 'Hot'],
-                      ['iced', ar ? 'مثلّج' : 'Iced'],
-                      ['cold', ar ? 'بارد' : 'Cold'],
+                      ['cold_or_iced', ar ? 'بارد ومثلّج' : 'Cold & iced'],
                     ] as const
                   ).map(([id, title]) => (
                     <Action

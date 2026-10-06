@@ -34,7 +34,6 @@ for (const { locale, width, height } of [
   });
   await page.goto('/');
   if (locale === 'en') {
-    await page.getByRole('button', { name: 'تغيير اللغة، العربية', exact: true }).click();
     await page.getByRole('button', { name: 'English', exact: true }).click();
   }
   const browse = page.getByRole('button', { name: locale === 'ar' ? 'البن والإيحاءات' : 'Coffee & taste', exact: true });

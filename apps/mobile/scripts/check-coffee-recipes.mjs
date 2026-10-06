@@ -361,3 +361,12 @@ test('bag filters remain scoped by coffee, include metadata fallback and bind a 
   await coffeeRecipesPageQuery(db, coffee, 1, new AbortController().signal, { serving: 'iced),visibility.eq.private' });
   assert.equal(request.url.searchParams.has('or'), false);
 });
+
+test('combined cold and iced coffee filter includes both base styles and metadata fallback before paging', async () => {
+  let request;
+  const db = database(async (url, init) => { request = { url:new URL(url), init }; return empty(); });
+  await coffeeRecipesPageQuery(db, coffee, 1, undefined, {method:'xbloom',serving:'cold_or_iced'});
+  assert.equal(request.url.searchParams.get('or'), '(serving_style.in.(iced,cold),and(or(serving_style.is.null,serving_style.not.in.(hot,iced,cold)),source_brew_parameters->discovery->>serving_style.in.(iced,cold)))');
+  assert.equal(request.url.searchParams.get('offset'), '30');
+  assert.deepEqual(JSON.parse(request.init.body),{p_bean_id:BEAN});
+});

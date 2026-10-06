@@ -2,6 +2,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 const pairs = [
   ['../../../src/lib/recommendations/engine.ts', '../src/core/engine.ts'],
   ['../../../src/lib/brewing/outcome.ts', '../src/core/outcome.ts'],
+  ['../../../src/lib/search/deepSearch.ts', '../src/core/deepSearch.ts'],
 ];
 for (const [source, destination] of pairs) {
   const sourceUrl = new URL(source, import.meta.url);

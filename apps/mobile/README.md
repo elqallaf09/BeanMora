@@ -49,9 +49,11 @@ Native sessions persist using the Supabase storage adapter; web previews use bro
 
 ## Manual Android APK release
 
-Version 0.5.6 / Android versionCode 16 fixes serving filters and catalog startup/recovery. Quick Hot/Iced/Cold controls combine with every search criterion and paginate on the server. Brew My Coffee uses the verified coffee-scoped RPC and filters before pagination, including a metadata fallback; archived bags are excluded. The public catalog opens from a last-good local snapshot while live public/account reads start in parallel. Successful empty responses replace old data. Public recipe amounts and steps can be saved on this device (up to 50 recipes) and opened offline, separately for a guest and each account. Login returns to the chosen recipe/review without writing a brew automatically. Arabic decimal bag weights stay exact. Page recovery and Android backup/unused-permission configuration are included. All 0.5.5 roast, equipment comparison, Arabic catalog and source-backed brewing features remain available.
+Version 0.5.7 / Android versionCode 17 applies the selected Model 01 language pill, displays coffee previews before recipe/account requests finish, and reuses public requests for five minutes across language/account changes. Public and account data remain separate. Foreground return after five minutes refreshes the catalog automatically; quick returns reuse it. Press/screen/language animation respects Reduce Motion and uses the native driver on installed Android/iOS.
 
-The serving/search migration is already applied to BeanMora; its finite, reviewed source evidence is in ../../supabase/research/serving-2026-10-06/. Unclassified recipes remain in All rather than being guessed from brew-water temperature. The same iced database query measured 308.769 ms before and 9.146 ms after the fast path; this is SQL execution time, not a physical-device startup or network benchmark. See [release validation](../../docs/RELEASE-0.5.6.md).
+Coffee → Explore xBloom now carries an exact coffee ID through filters and pagination. Cold and iced share one filter in the library and Brew My Coffee. The header Search and home Explore now search coffee notes, related roasters and the full recipe library together. Arabic/English retrieval aliases include strawberry / فراولة; every typed word remains an AND condition and punctuation stays literal.
+
+The database changes are already applied: all 2,875 historical unknown public styles are classified (2,829 are explicitly labelled suggestions), with three added roasters and seven official cold guides. An automatically maintained public search index measured the same strawberry query at 42.516 ms instead of 2,299.254 ms; these are database execution measurements, not a physical-device startup benchmark. Source records are in ../../supabase/research/serving-completion-2026-10-06/ and ../../supabase/research/cold-expansion-2026-10-06/. See [release validation](../../docs/RELEASE-0.5.7.md).
 
 Updating source or exporting Metro bundles does not update a previously installed APK.
 
@@ -66,7 +68,7 @@ After the release PR is merged, open the existing BeanMora Expo project's **Buil
 | Environment from the build profile | `production` (the **Production** variables in Expo) |
 | Submit to store after build | Off |
 
-Start the build manually. When its status is **Finished**, check that the build details identify the intended release commit and version **0.5.6 (16)**, then download the **APK** from that build's artifact link. Open the APK on the Android phone to install it. The account and connection-setup screens should display **0.5.6** after installation; use the build details to verify versionCode **16**.
+Start the build manually. When its status is **Finished**, check that the build details identify the intended release commit and version **0.5.7 (17)**, then download the **APK** from that build's artifact link. Open the APK on the Android phone to install it. The account and connection-setup screens should display **0.5.7** after installation; use the build details to verify versionCode **17**.
 
 Both EAS profiles explicitly select `production` variables and the Android `latest` build image. Version numbers come from the checked-in app config (`cli.appVersionSource: local`). The `preview` profile produces an internally distributed APK; the `production` profile produces an app bundle for store distribution. The standalone preview APK runs without Expo Go or a development server.
 

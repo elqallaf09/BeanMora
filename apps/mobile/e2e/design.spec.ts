@@ -30,7 +30,7 @@ function discoveryPage(route: Route, fixtures: DiscoveryFixture[], coffees: Disc
     const metadata = row.source_brew_parameters?.discovery ?? {};
     const coffee = coffees.find(item => item.id === row.bean_id && item.requires_review === false && item.is_published === true);
     const style = [row.serving_style, metadata.serving_style].find(value => ['hot', 'iced', 'cold'].includes(value)) ?? '';
-    if (params.p_serving_style && style !== params.p_serving_style) return false;
+    if (params.p_serving_style && !(params.p_serving_style === 'cold_or_iced' ? ['cold', 'iced'].includes(style) : style === params.p_serving_style)) return false;
     const terms: Record<string, string> = {
       p_recipe_name: join(row.title, row.title_ar),
       p_creator_name: join(row.source_author_name, metadata.creator_name, metadata.creator_name_ar),
@@ -112,66 +112,30 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
     await page.goto('/');
     await expect(page.getByRole('heading',{name:'اكتشف عالم القهوة.'})).toBeVisible();
     const language = page.getByTestId('language-switcher');
-    const picker = page.getByTestId('language-picker');
-    const openLanguage = async () => {
-      await language.click();
-      await expect(picker).toBeVisible();
-      // Measure and interact after the native-web modal finishes opening.
-      await picker.evaluate(async element => {
-        const animations: Animation[] = [];
-        for (let current: Element | null = element; current; current = current.parentElement) {
-          animations.push(...current.getAnimations());
-        }
-        await Promise.all(animations.map(animation => animation.finished.catch(() => {})));
-      });
-      // RN Web enables the modal's keyboard handler in its onShow callback.
-      await expect(page.locator('[aria-modal="true"]')).toHaveAttribute('role', 'dialog');
-    };
-    const trigger = await language.boundingBox();
-    expect(trigger!.width).toBe(44);
-    expect(trigger!.height).toBe(44);
-    await openLanguage();
-    await expect(page.getByRole('heading', { name: 'لغة التطبيق', exact: true })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'لغة التطبيق · App language', exact: true })).toHaveCount(0);
-    await expect(page.getByRole('button', { name: 'العربية', exact: true })).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.getByRole('button', { name: 'English', exact: true })).toHaveAttribute('aria-pressed', 'false');
-    const bounds = await picker.boundingBox();
-    expect(bounds!.x).toBeGreaterThanOrEqual(0);
-    expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(viewport.width);
-    if (viewport.width < 700) {
-      expect(bounds!.y + bounds!.height).toBeCloseTo(viewport.height, 0);
-    } else {
-      expect(bounds!.width).toBe(300);
-      expect(bounds!.y).toBeCloseTo(trigger!.y + trigger!.height + 10, 0);
+    const arabic = page.getByRole('button', { name: 'العربية', exact: true });
+    const english = page.getByRole('button', { name: 'English', exact: true });
+    await expect(arabic).toHaveAttribute('aria-pressed', 'true');
+    await expect(english).toHaveAttribute('aria-pressed', 'false');
+    for (const option of [arabic, english]) {
+      const bounds = await option.boundingBox();
+      expect(bounds!.width).toBeGreaterThanOrEqual(44);
+      expect(bounds!.height).toBeGreaterThanOrEqual(44);
+      expect(bounds!.x).toBeGreaterThanOrEqual(0);
+      expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(viewport.width);
     }
     await page.screenshot({ path: info.outputPath(`language-ar-${viewport.width}.png`) });
     if (viewport.width === 768) {
-      await page.setViewportSize({ width: 390, height: 844 });
-      await expect(picker).toHaveCount(0);
-      await openLanguage();
-      const phonePicker = await picker.boundingBox();
-      expect(phonePicker!.y + phonePicker!.height).toBeCloseTo(844, 0);
+      await page.setViewportSize({ width: 320, height: 740 });
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       await page.setViewportSize(viewport);
-      await expect(picker).toHaveCount(0);
-      await openLanguage();
     }
-    await page.getByRole('button', { name: 'English', exact: true }).click();
-    await expect(picker).toHaveCount(0);
-    await expect(language).toHaveAttribute('aria-label', 'Change language, English');
-    await openLanguage();
-    await expect(page.getByRole('heading', { name: 'App language', exact: true })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'English', exact: true })).toHaveAttribute('aria-pressed', 'true');
-    await page.getByRole('button', { name: 'Close', exact: true }).click();
-    await expect(picker).toHaveCount(0);
+    await english.click();
+    await expect(english).toHaveAttribute('aria-pressed', 'true');
+    await expect(arabic).toHaveAttribute('aria-pressed', 'false');
     await page.reload();
-    await expect(language).toHaveAttribute('aria-label', 'Change language, English');
-    await openLanguage();
-    await page.getByRole('button', { name: 'العربية', exact: true }).click();
-    await expect(picker).toHaveCount(0);
-    await expect(page.getByRole('heading',{name:'اكتشف عالم القهوة.'})).toBeVisible();
-    await openLanguage();
-    await page.getByTestId('language-backdrop').click({ position: { x: viewport.width - 4, y: 4 } });
-    await expect(picker).toHaveCount(0);
+    await expect(english).toHaveAttribute('aria-pressed', 'true');
+    await arabic.click();
+    await expect(page.getByRole('heading', { name: 'اكتشف عالم القهوة.' })).toBeVisible();
     await expect(page.getByRole('button',{name:beans[0].name_ar,exact:true})).toBeVisible();
     await expect(page.getByTestId('coffee-photo-unavailable').first()).toBeVisible();
     const card=await page.getByRole('button',{name:beans[0].name_ar,exact:true}).boundingBox();
@@ -187,18 +151,12 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
     await page.getByTestId('home-scroll').evaluate(el=>{el.scrollTop=0;});
     await page.getByRole('button',{name:beans[0].name_ar,exact:true}).click();
     await expect(page.getByRole('heading',{name:beans[0].name_ar})).toBeVisible();
-    await openLanguage();
-    await expect(picker).toBeVisible();
-    const detailPicker = await picker.boundingBox();
-    expect(detailPicker!.x).toBeGreaterThanOrEqual(0);
-    expect(detailPicker!.x + detailPicker!.width).toBeLessThanOrEqual(viewport.width);
-    await page.getByRole('button', { name: 'العربية', exact: true }).click();
-    await expect(picker).toHaveCount(0);
-    // Choosing the current language must preserve the open coffee details.
-    await expect(page.getByRole('heading',{name:beans[0].name_ar})).toBeVisible();
-    await openLanguage();
-    await page.keyboard.press('Escape');
-    await expect(picker).toHaveCount(0);
+    const detailPill = await language.boundingBox();
+    expect(detailPill!.x).toBeGreaterThanOrEqual(0);
+    expect(detailPill!.x + detailPill!.width).toBeLessThanOrEqual(viewport.width);
+    await arabic.click();
+    // Choosing the current language preserves the open coffee details.
+    await expect(page.getByRole('heading', { name: beans[0].name_ar })).toBeVisible();
     await expect(page.getByText('18 g',{exact:true})).toBeVisible();
     await expect(page.getByText('288 g',{exact:true})).toBeVisible();
     await expect(page.getByText('92°C',{exact:true})).toBeVisible();

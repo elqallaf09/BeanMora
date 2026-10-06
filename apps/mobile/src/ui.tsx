@@ -452,13 +452,15 @@ export function Leaf({
 export function Brand({
   light = false,
   large = false,
+  compact = false,
 }: {
   light?: boolean;
   large?: boolean;
+  compact?: boolean;
 }) {
   const ar = useContext(Language) === 'ar';
   const ink = light ? '#FFFDF7' : '#140E0B';
-  const height = large ? 90 : 46;
+  const height = large ? 90 : compact ? 30 : 46;
   return (
     <View
       testID="beanmora-brand"
@@ -481,9 +483,9 @@ export function Brand({
           style={{
             fontFamily: 'Quicksand',
             color: ink,
-            fontSize: large ? 39 : 22,
+            fontSize: large ? 39 : compact ? 17 : 22,
             fontWeight: '500',
-            lineHeight: large ? 49 : 28,
+            lineHeight: large ? 49 : compact ? 22 : 28,
             letterSpacing: -0.6,
             writingDirection: 'ltr',
           }}

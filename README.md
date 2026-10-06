@@ -18,7 +18,7 @@ next-intl (ar/en) · Vitest (unit) · Playwright (E2E) · PWA manifest.
 
 ## Android app
 
-The React Native app is in `apps/mobile`. Version **0.5.6 / Android versionCode 16**
+The React Native app is in `apps/mobile`. Version **0.5.7 / Android versionCode 17**
 is configured for a manually built preview APK in the existing Expo project.
 See the [manual APK build and installation guide](apps/mobile/README.md#manual-android-apk-release).
 

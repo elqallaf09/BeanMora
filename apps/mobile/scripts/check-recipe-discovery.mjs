@@ -22,6 +22,7 @@ for (const file of [
   'recipeDiscovery.ts',
   'guards.ts',
   'core/engine.ts',
+  'core/deepSearch.ts',
 ]) {
   const source = readFileSync(
     new URL('../src/' + file, import.meta.url),
@@ -383,4 +384,37 @@ test('RPC errors remain errors so the catalog can retry without treating them as
   );
   assert.equal(result.data, null);
   assert.equal(result.error.message, 'Isolated request failed');
+});
+
+const { matchesDeepSearch, deepSearchText, matchesIndexedSearch } = await import(pathToFileURL(temp + '/core/deepSearch.mjs').href);
+test('deep search translates factual notes, combines every word and keeps punctuation literal', () => {
+  for (const term of ['فراولة','فَرَاوْلَة','فراوله','strawberry','strawberries']) {
+    assert.equal(matchesDeepSearch('BOMBE strawberries, peach', term), true);
+    assert.equal(matchesDeepSearch('BOMBE chocolate, peach', term), false);
+  }
+  assert.equal(matchesDeepSearch('strawberry notes from Ethiopia', 'فراولة اثيوبيا'), true);
+  assert.equal(matchesDeepSearch('strawberry notes from Ethiopia', 'فراولة كولومبيا'), false);
+  assert.equal(matchesDeepSearch('iced coffee', 'بارد'), true);
+  assert.equal(matchesDeepSearch('cold coffee', 'مثلّج'), true);
+  assert.equal(matchesDeepSearch('hot coffee', 'مثلّج'), false);
+  assert.equal(matchesIndexedSearch(deepSearchText('fraise'), 'فراوله'), true);
+  for (const literal of ['%','_',"') OR true --", 'javascript:']) assert.equal(matchesDeepSearch('strawberry coffee', literal), false);
+});
+test('coffee context binds an exact ID in v2 before pagination; the global endpoint stays backward compatible', async () => {
+  const calls = [];
+  const db = createClient('https://isolated.example.test', 'fixture-key', { auth: { persistSession: false }, global: { fetch: async (url, init) => {
+    calls.push({url: new URL(url), body: JSON.parse(init.body)});
+    return new Response('[]',{status:200, headers:{'content-type':'application/json','content-range':'*/0'}});
+  } } });
+  const criteria = { ...search({servingStyle:'cold_or_iced'}), coffee:{kind:'bean',id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'}, method:'xbloom' };
+  await recipePageQuery(db, criteria, 2, 'id');
+  assert.equal(calls[0].url.pathname, '/rest/v1/rpc/search_public_recipes_v2');
+  assert.equal(calls[0].body.p_bean_id, criteria.coffee.id);
+  assert.equal(calls[0].body.p_product_id, undefined);
+  assert.equal(calls[0].body.p_serving_style, 'cold_or_iced');
+  assert.equal(calls[0].url.searchParams.get('offset'), '60');
+  assert.equal(calls[0].url.searchParams.has('or'), false);
+  await recipePageQuery(db, { ...criteria, coffee:undefined }, 0, 'id');
+  assert.equal(calls[1].url.pathname, '/rest/v1/rpc/search_public_recipes');
+  assert.equal(Object.keys(calls[1].body).length, 16);
 });

@@ -36,6 +36,7 @@ for (const file of [
 const { loadData, mapRecipe } = await import(
   pathToFileURL(temp + '/data.mjs').href
 );
+
 const { sourceBrew } = await import(
   pathToFileURL(temp + '/sourceBrew.mjs').href
 );
@@ -683,4 +684,90 @@ test('device storage budgets count Arabic and emoji UTF-8 bytes, not only charac
   assert.equal(storageFits('ع'.repeat(760_000)), false);
   assert.equal(storageFits('☕'.repeat(510_000)), false);
   assert.equal(storageFits('😀'.repeat(380_000)), false);
+});
+
+function controlledDatabase(rows, gates = new Map(), counts = new Map()) {
+  return {
+    from(name) {
+      const filters = {};
+      const query = {
+        select() { return query; }, in() { return query; }, is() { return query; },
+        or() { return query; }, order() { return query; }, limit() { return query; },
+        eq(key, value) { filters[key] = value; return query; },
+        then(done, reject) {
+          counts.set(name, (counts.get(name) ?? 0) + 1);
+          return Promise.resolve(gates.get(name)).then(() => ({
+            data: typeof rows[name] === 'function' ? rows[name](filters) : rows[name] ?? [],
+            error: null,
+          })).then(done, reject);
+        },
+      };
+      return query;
+    },
+  };
+}
+test('coffee previews render before recipes/account reads; locale changes share public work and isolate owners', async () => {
+  let releaseRecipes, releasePersonal;
+  const recipeGate = new Promise(resolve => { releaseRecipes = resolve; });
+  const personalGate = new Promise(resolve => { releasePersonal = resolve; });
+  const counts = new Map();
+  const db = controlledDatabase({
+    beans: [{ ...base, name_ar: 'بن سريع', name_en: 'Quick coffee' }],
+    user_preferences: filters => [{ preferred_flavors: [filters.user_id], preferred_brew_methods: [] }],
+    bean_saves: filters => [{ bean_id: filters.user_id + '-saved' }],
+  }, new Map([['recipes', recipeGate], ['user_preferences', personalGate]]), counts);
+  const stages = [];
+  let coffeeReady, publicReady;
+  const firstCoffee = new Promise(resolve => { coffeeReady = resolve; });
+  const firstPublic = new Promise(resolve => { publicReady = resolve; });
+  const en = loadData(db, 'en', 'owner-a', undefined, {
+    onPublicReady: (bundle, complete) => {
+      stages.push({ bundle, complete });
+      if (complete) publicReady(); else coffeeReady();
+    },
+  });
+  const ar = loadData(db, 'ar', 'owner-b');
+  try {
+    await firstCoffee;
+    assert.equal(stages[0].bundle.coffees[0].name, 'Quick coffee');
+    assert.deepEqual(stages[0].bundle.profile.flavors, []);
+    assert.deepEqual(stages[0].bundle.savedBeanIds, []);
+    assert.equal(counts.get('beans'), 1);
+    assert.equal(counts.get('recipes'), 2); // Global + coffee-linked reads, shared by both locales.
+    releaseRecipes();
+    await firstPublic;
+    assert.deepEqual(stages.at(-1).bundle.profile.flavors, []);
+    releasePersonal();
+    const [english, arabic] = await Promise.all([en, ar]);
+    assert.equal(arabic.coffees[0].name, 'بن سريع');
+    assert.deepEqual(english.profile.flavors, ['owner-a']);
+    assert.deepEqual(arabic.profile.flavors, ['owner-b']);
+    assert.deepEqual(english.savedBeanIds, ['owner-a-saved']);
+    assert.deepEqual(arabic.savedBeanIds, ['owner-b-saved']);
+    const guest = await loadData(db, 'en', null);
+    assert.deepEqual(guest.profile.flavors, []);
+    assert.deepEqual(guest.savedBeanIds, []);
+    assert.equal(counts.get('beans'), 1);
+    await loadData(db, 'en', null, undefined, { publicRevision: 1 });
+    assert.equal(counts.get('beans'), 2); // Explicit refresh bypasses a fresh shared result.
+  } finally { releaseRecipes(); releasePersonal(); }
+});
+test('public memory snapshots expire and failed reads retry without caching account data', async context => {
+  let clock = 1_000_000;
+  context.mock.method(Date, 'now', () => clock);
+  const counts = new Map();
+  let beanRows = [{ ...base }];
+  const db = controlledDatabase({ beans: () => beanRows }, new Map(), counts);
+  await loadData(db, 'en', null);
+  clock += 300_001;
+  await loadData(db, 'ar', null);
+  assert.equal(counts.get('beans'), 2);
+  beanRows = null;
+  const failed = await loadData(db, 'en', null, undefined, { publicRevision: 2 });
+  assert.equal(failed.failures.beans, true);
+  beanRows = [{ ...base }];
+  const restored = await loadData(db, 'en', null, undefined, { publicRevision: 2 });
+  assert.equal(restored.failures.beans, false);
+  assert.equal(restored.coffees.length, 1);
+  assert.equal(counts.get('beans'), 4);
 });

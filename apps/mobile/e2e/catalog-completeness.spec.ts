@@ -23,6 +23,10 @@ for (const width of [320,1536]) test(`xBloom covers, source facts, short paginat
   await page.route('https://mobilefixture.supabase.co/**',async route=>{
     const url=new URL(route.request().url());let data:unknown[]=[];
     if(url.pathname.endsWith('/beans')) data=[bean];
+    if(url.pathname.endsWith('/rpc/search_public_recipes_v2')) {
+      expect(route.request().postDataJSON().p_bean_id).toBe(bean.id);
+      return route.fulfill({status:200,contentType:'application/json',headers:{'content-range':'*/0','access-control-expose-headers':'content-range'},body:'[]'});
+    }
     if(url.pathname.endsWith('/rpc/search_public_recipes')){
       const limit=Number(url.searchParams.get('limit'));expect(limit).toBe(12);
       const offset=Number(url.searchParams.get('offset')||0);pages.push(offset);data=recipes.slice(offset,offset+limit);
@@ -52,7 +56,8 @@ for (const width of [320,1536]) test(`xBloom covers, source facts, short paginat
   await expect(page.getByRole('button',{name:'استكشف وصفات xBloom',exact:true})).toBeEnabled();
   await expect(page.getByText('—',{exact:true})).toHaveCount(0);
   await page.getByRole('button',{name:'استكشف وصفات xBloom',exact:true}).click();
-  await expect(page.getByTestId('xbloom-hero')).toBeVisible();expect(errors).toEqual([]);
+  await expect(page.getByTestId('recipe-coffee-context')).toContainText(bean.name_ar);
+  await expect(page.getByRole('button',{name:recipes[0].title_ar,exact:true})).toHaveCount(0);expect(errors).toEqual([]);
 });
 
 test('a sourced general starter is usable and remains clearly separated from an exact coffee recipe',async({page})=>{
@@ -92,7 +97,6 @@ test('an owned bag keeps the xBloom source water unit and present facts in Brew 
     return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(data)});
   });
   await page.goto('/');
-  await page.getByRole('button',{name:'تغيير اللغة، العربية',exact:true}).click();
   await page.getByRole('button',{name:'English',exact:true}).click();
   await page.getByRole('button',{name:'Account',exact:true}).click();
   await page.getByLabel('Email',{exact:true}).fill(user.email);

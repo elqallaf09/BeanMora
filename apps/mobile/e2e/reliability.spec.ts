@@ -18,11 +18,56 @@ async function reply(route: Route, data: unknown, status = 200, total?: number) 
   }, body: JSON.stringify(data) });
 }
 async function chooseEnglish(page: Page) {
-  await page.getByRole('button', { name: 'تغيير اللغة، العربية', exact: true }).click();
   await page.getByRole('button', { name: 'English', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Close language selection', includeHidden: true, exact: true })).toHaveCount(0);
 }
 function normalize(text: string) { return text.normalize('NFKD').replace(/\p{M}/gu, '').replace(/ة/g, 'ه').toLowerCase(); }
+
+test('coffee cards appear while recipe reads are delayed and language changes do not repeat catalog requests', async ({ page }) => {
+  let release = () => {};
+  const gate = new Promise<void>(resolve => { release = resolve; });
+  const calls: string[] = [];
+  await page.route('https://mobilefixture.supabase.co/**', async route => {
+    const path = new URL(route.request().url()).pathname;
+    if (['beans', 'roasted_products', 'recipes', 'xbloom_recipe_profiles'].some(table => path.endsWith('/' + table))) calls.push(path);
+    if (path.endsWith('/recipes') || path.endsWith('/xbloom_recipe_profiles')) await gate;
+    try { await reply(route, path.endsWith('/beans') ? [bean] : path.endsWith('/recipes') ? [records[0]] : []); } catch {}
+  });
+  try {
+    await page.goto('/');
+    await expect(page.getByRole('button', { name: bean.name_ar, exact: true })).toBeVisible();
+    await expect.poll(() => calls.length).toBe(5);
+    await page.getByRole('button', { name: 'English', exact: true }).click();
+    await expect(page.getByRole('button', { name: bean.name_en, exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'العربية', exact: true }).click();
+    await expect(page.getByRole('button', { name: bean.name_ar, exact: true })).toBeVisible();
+    expect(calls).toHaveLength(5);
+    release();
+    await expect.poll(() => page.evaluate(() => Object.keys(localStorage).filter(k => k.startsWith('beanmora-public-catalog-v1:')).length)).toBe(1);
+    await page.getByRole('button', { name: 'English', exact: true }).click();
+    await expect(page.getByRole('button', { name: bean.name_en, exact: true })).toBeVisible();
+    expect(calls).toHaveLength(5);
+  } finally { release(); }
+});
+
+test('suggested serving style is labelled in results and recipe detail', async ({ page }) => {
+  const suggested = { ...records[0], source_brew_parameters: { discovery: {
+    serving_style: 'hot', serving_style_evidence: { classification: 'inferred' },
+  } } };
+  await page.route('https://mobilefixture.supabase.co/**', route => {
+    const path = new URL(route.request().url()).pathname;
+    return reply(route, path.endsWith('/beans') ? [bean] : path.endsWith('/recipes') || path.endsWith('/rpc/search_public_recipes') ? [suggested] : [], 200);
+  });
+  await page.goto('/');
+  await chooseEnglish(page);
+  await openRecipeLibrary(page, 'en');
+  await page.getByRole('button', { name: 'Serving: Hot', exact: true }).click();
+  await expect(page.getByText('Hot · Suggested', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: suggested.title, exact: true }).click();
+  await expect(page.getByText('Serving style is suggested from the preparation method; the publisher did not specify it.', { exact: true })).toBeVisible();
+  await expect(page.getByText('18 g', { exact: true })).toBeVisible();
+  await expect(page.getByText('288 g', { exact: true })).toBeVisible();
+});
 
 for (const { locale, width } of [{ locale: 'ar', width: 320 }, { locale: 'en', width: 768 }] as const) {
   test(`${locale}: quick serving filters combine with text and reset pagination`, async ({ page }, info) => {
@@ -33,7 +78,7 @@ for (const { locale, width } of [{ locale: 'ar', width: 320 }, { locale: 'en', w
       if (url.pathname.endsWith('/rpc/search_public_recipes')) {
         const args = route.request().postDataJSON(); const offset = Number(url.searchParams.get('offset') ?? 0);
         calls.push({ style: args.p_serving_style, query: args.p_query, offset });
-        const matching = records.filter(row => (!args.p_serving_style || row.serving_style === args.p_serving_style)
+        const matching = records.filter(row => (!args.p_serving_style || (args.p_serving_style === 'cold_or_iced' ? ['iced', 'cold'].includes(row.serving_style) : row.serving_style === args.p_serving_style))
           && (!args.p_query || normalize(row.title + ' ' + row.title_ar).includes(normalize(args.p_query))));
         return reply(route, matching.slice(offset, offset + 30), 200, matching.length);
       }
@@ -44,7 +89,7 @@ for (const { locale, width } of [{ locale: 'ar', width: 320 }, { locale: 'en', w
     const ar = locale === 'ar';
     await page.getByRole('button', { name: ar ? 'المزيد من الوصفات' : 'More recipes', exact: true }).click();
     await expect.poll(() => calls.at(-1)?.offset).toBe(30);
-    for (const [style, label, index] of [['hot', ar ? 'حار' : 'Hot', 0], ['iced', ar ? 'مثلّج' : 'Iced', 100], ['cold', ar ? 'بارد' : 'Cold', 101]] as const) {
+    for (const [style, label, index] of [['hot', ar ? 'حار' : 'Hot', 0], ['cold_or_iced', ar ? 'بارد ومثلّج' : 'Cold & iced', 100]] as const) {
       await page.getByRole('button', { name: ar ? `تقديم: ${label}` : `Serving: ${label}`, exact: true }).click();
       await expect.poll(() => calls.at(-1)).toEqual({ style, query: null, offset: 0 });
       await expect(page.getByRole('button', { name: ar ? `وصفة بومب ${index}` : `BOMBE recipe ${index}`, exact: true })).toBeVisible();
@@ -52,11 +97,11 @@ for (const { locale, width } of [{ locale: 'ar', width: 320 }, { locale: 'en', w
     }
     await page.getByLabel(ar ? 'ابحث عن وصفة' : 'Find a recipe', { exact: true }).fill(ar ? 'بُومب' : 'BOMBE');
     await expect.poll(() => calls.at(-1)?.query).toBe(ar ? 'بُومب' : 'BOMBE');
-    expect(calls.at(-1)?.style).toBe('cold');
+    expect(calls.at(-1)?.style).toBe('cold_or_iced');
     await expect(page.getByRole('button', { name: ar ? 'وصفة بومب 101' : 'BOMBE recipe 101', exact: true })).toBeVisible();
-    await page.getByRole('button', { name: ar ? 'تقديم: مثلّج' : 'Serving: Iced', exact: true }).click();
+    await page.getByRole('button', { name: ar ? 'تقديم: بارد ومثلّج' : 'Serving: Cold & iced', exact: true }).click();
     await expect(page.getByRole('button', { name: ar ? 'وصفة بومب 100' : 'BOMBE recipe 100', exact: true })).toBeVisible();
-    await expect(page.getByRole('button', { name: ar ? 'وصفة بومب 101' : 'BOMBE recipe 101', exact: true })).toHaveCount(0);
+    await expect(page.getByRole('button', { name: ar ? 'وصفة بومب 101' : 'BOMBE recipe 101', exact: true })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: info.outputPath(`serving-${locale}-${width}.png`) });
   });
@@ -69,7 +114,7 @@ test('a superseded serving request cannot overwrite the latest choice', async ({
     if (path.endsWith('/rpc/search_public_recipes')) {
       const style = route.request().postDataJSON().p_serving_style;
       if (style === 'hot') { hotStarted = true; await gate; try { await reply(route, [records[0]], 200, 1); } catch {} return; }
-      return reply(route, [style === 'iced' ? records[42] : records[0]], 200, 1);
+      return reply(route, [style === 'cold_or_iced' ? records[42] : records[0]], 200, 1);
     }
     return reply(route, path.endsWith('/recipes') ? [records[0]] : []);
   });
@@ -77,7 +122,7 @@ test('a superseded serving request cannot overwrite the latest choice', async ({
     await page.goto('/'); await openRecipeLibrary(page, 'ar');
     await page.getByRole('button', { name: 'تقديم: حار', exact: true }).click();
     await expect.poll(() => hotStarted).toBe(true);
-    await page.getByRole('button', { name: 'تقديم: مثلّج', exact: true }).click();
+    await page.getByRole('button', { name: 'تقديم: بارد ومثلّج', exact: true }).click();
     await expect(page.getByRole('button', { name: 'وصفة بومب 100', exact: true })).toBeVisible();
     release();
     await expect(page.getByRole('button', { name: 'وصفة بومب 0', exact: true })).toHaveCount(0);
@@ -173,10 +218,10 @@ test('bag serving filters find a recipe beyond page one and Arabic decimal weigh
     }
     if (path.endsWith('/rpc/recipes_for_coffee')) {
       expect(route.request().postDataJSON()).toEqual({ p_bean_id: bean.id }); calls.push(url);
-      const style = url.searchParams.get('or')?.match(/serving_style.eq.(hot|iced|cold)/)?.[1];
+      const style = url.searchParams.get('or')?.includes('serving_style.in.(iced,cold)') ? 'cold_or_iced' : url.searchParams.get('or')?.match(/serving_style.eq.(hot|iced|cold)/)?.[1];
       const method = url.searchParams.get('brew_method')?.replace(/^eq\./, '');
       const offset = Number(url.searchParams.get('offset') ?? 0);
-      const matching = bagRecords.filter(row => (!style || (['hot', 'iced', 'cold'].includes(row.serving_style) ? row.serving_style : row.source_brew_parameters.discovery.serving_style) === style) && (!method || row.brew_method === method));
+      const matching = bagRecords.filter(row => { const serving = ['hot', 'iced', 'cold'].includes(row.serving_style) ? row.serving_style : row.source_brew_parameters.discovery.serving_style; return (!style || (style === 'cold_or_iced' ? ['iced','cold'].includes(serving) : serving === style)) && (!method || row.brew_method === method); });
       return reply(route, matching.slice(offset, offset + 30), 200, matching.length);
     }
     return reply(route, path.endsWith('/beans') ? [bean] : path.endsWith('/recipes') ? [records[0]] : []);
@@ -184,11 +229,10 @@ test('bag serving filters find a recipe beyond page one and Arabic decimal weigh
   await page.goto('/'); await page.getByRole('button', { name: 'حسابي', exact: true }).click(); await signIn(page);
   await expect(page.getByRole('button', { name: 'تسجيل الخروج', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'تحضير', exact: true }).click();
-  await page.getByRole('button', { name: 'مثلّج', exact: true }).click();
+  await page.getByRole('button', { name: 'بارد ومثلّج', exact: true }).click();
   await expect(page.getByText('وصفة بومب 100', { exact: true })).toBeVisible();
   await expect(page.getByText('وصفة بومب 0', { exact: true })).toHaveCount(0);
   expect(calls.at(-1)?.searchParams.get('offset')).toBe('0');
-  await page.getByRole('button', { name: 'بارد', exact: true }).click();
   await expect(page.getByText('وصفة بومب 101', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'الرئيسية', exact: true }).click();
   await page.getByRole('button', { name: /^أكياسي —/ }).click();

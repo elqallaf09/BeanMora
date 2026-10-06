@@ -1,8 +1,17 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { supabase } from './client';
-import { mapRecipe, RECIPE_FIELDS, type CoffeeItem, type RecipeItem, type RecipeRow } from './data';
-import { RECIPE_DISCOVERY_FIELDS, type RecipeDiscoveryRow } from './recipeDiscovery';
+import {
+  mapRecipe,
+  RECIPE_FIELDS,
+  type CoffeeItem,
+  type RecipeItem,
+  type RecipeRow,
+} from './data';
+import {
+  RECIPE_DISCOVERY_FIELDS,
+  type RecipeDiscoveryRow,
+} from './recipeDiscovery';
 import type { Method } from './core/engine';
 
 type CoffeeScope = Pick<CoffeeItem, 'kind' | 'id' | 'beanId'>;
@@ -10,70 +19,142 @@ type ScopedRecipeRow = RecipeRow & RecipeDiscoveryRow;
 const PAGE_SIZE = 30;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const usesScopedRpc = (coffee: CoffeeScope) => UUID.test(coffee.id);
-const sameId = (left: string | null, right: string | null) => left === right || Boolean(left && right
-  && UUID.test(left) && UUID.test(right) && left.toLowerCase() === right.toLowerCase());
-const matches = (coffee: CoffeeScope, beanId: string | null, productId: string | null) => coffee.kind === 'product'
-  ? sameId(productId, coffee.id) || Boolean(coffee.beanId && sameId(beanId, coffee.beanId))
-  : sameId(beanId, coffee.id);
-type PageFilters = { recipeId?: string; method?: Method; serving?: 'hot' | 'iced' | 'cold' };
+const sameId = (left: string | null, right: string | null) =>
+  left === right ||
+  Boolean(
+    left &&
+    right &&
+    UUID.test(left) &&
+    UUID.test(right) &&
+    left.toLowerCase() === right.toLowerCase(),
+  );
+const matches = (
+  coffee: CoffeeScope,
+  beanId: string | null,
+  productId: string | null,
+) =>
+  coffee.kind === 'product'
+    ? sameId(productId, coffee.id) ||
+      Boolean(coffee.beanId && sameId(beanId, coffee.beanId))
+    : sameId(beanId, coffee.id);
+type PageFilters = {
+  recipeId?: string;
+  method?: Method;
+  serving?: 'hot' | 'iced' | 'cold' | 'cold_or_iced';
+};
 
 /** Public FK or verified shared association, scoped by bound IDs and paginated on the server. */
-export function coffeeRecipesPageQuery(db: Pick<SupabaseClient, 'from' | 'rpc'>, coffee: CoffeeScope, page: number, signal: AbortSignal, filters: PageFilters = {}) {
+export function coffeeRecipesPageQuery(
+  db: Pick<SupabaseClient, 'from' | 'rpc'>,
+  coffee: CoffeeScope,
+  page: number,
+  signal: AbortSignal,
+  filters: PageFilters = {},
+) {
   const fields = `${RECIPE_FIELDS},${RECIPE_DISCOVERY_FIELDS},updated_at`;
   let query;
   if (usesScopedRpc(coffee)) {
     // The RPC resolves canonical coffee names, the reviewed roaster and a
     // product's real legacy bean. Translated labels and caller-supplied legacy
     // IDs cannot broaden a verified shared association.
-    const params = coffee.kind === 'product' ? { p_product_id: coffee.id } : { p_bean_id: coffee.id };
-    let scoped = db.rpc('recipes_for_coffee', params, { count: 'exact' }).eq('visibility', 'public');
+    const params =
+      coffee.kind === 'product'
+        ? { p_product_id: coffee.id }
+        : { p_bean_id: coffee.id };
+    let scoped = db
+      .rpc('recipes_for_coffee', params, { count: 'exact' })
+      .eq('visibility', 'public');
     if (filters.recipeId) scoped = scoped.eq('id', filters.recipeId);
     if (filters.method) scoped = scoped.eq('brew_method', filters.method);
-    if (filters.serving && ['hot', 'iced', 'cold'].includes(filters.serving)) {
+    if (
+      filters.serving &&
+      ['hot', 'iced', 'cold', 'cold_or_iced'].includes(filters.serving)
+    ) {
       // Only a closed enum enters this expression. A known column wins over metadata.
       const style = filters.serving;
-      scoped = scoped.or(`serving_style.eq.${style},and(or(serving_style.is.null,serving_style.not.in.(hot,iced,cold)),source_brew_parameters->discovery->>serving_style.eq.${style})`);
+      const predicate =
+        style === 'cold_or_iced'
+          ? 'serving_style.in.(iced,cold),and(or(serving_style.is.null,serving_style.not.in.(hot,iced,cold)),source_brew_parameters->discovery->>serving_style.in.(iced,cold))'
+          : `serving_style.eq.${style},and(or(serving_style.is.null,serving_style.not.in.(hot,iced,cold)),source_brew_parameters->discovery->>serving_style.eq.${style})`;
+      scoped = scoped.or(predicate);
     }
     query = scoped.select(fields);
   } else {
     // Fixture/unknown IDs stay literal .eq() values, never PostgREST .or() syntax.
-    query = db.from('recipes').select(fields, { count: 'exact' })
-      .eq(coffee.kind === 'product' ? 'roasted_product_id' : 'bean_id', coffee.id).eq('visibility', 'public');
+    query = db
+      .from('recipes')
+      .select(fields, { count: 'exact' })
+      .eq(
+        coffee.kind === 'product' ? 'roasted_product_id' : 'bean_id',
+        coffee.id,
+      )
+      .eq('visibility', 'public');
     if (filters.recipeId) query = query.eq('id', filters.recipeId);
     if (filters.method) query = query.eq('brew_method', filters.method);
-    if (filters.serving && ['hot', 'iced', 'cold'].includes(filters.serving)) {
+    if (
+      filters.serving &&
+      ['hot', 'iced', 'cold', 'cold_or_iced'].includes(filters.serving)
+    ) {
       const style = filters.serving;
-      query = query.or(`serving_style.eq.${style},and(or(serving_style.is.null,serving_style.not.in.(hot,iced,cold)),source_brew_parameters->discovery->>serving_style.eq.${style})`);
+      const predicate =
+        style === 'cold_or_iced'
+          ? 'serving_style.in.(iced,cold),and(or(serving_style.is.null,serving_style.not.in.(hot,iced,cold)),source_brew_parameters->discovery->>serving_style.in.(iced,cold))'
+          : `serving_style.eq.${style},and(or(serving_style.is.null,serving_style.not.in.(hot,iced,cold)),source_brew_parameters->discovery->>serving_style.eq.${style})`;
+      query = query.or(predicate);
     }
   }
   const offset = Math.max(0, Math.floor(page)) * PAGE_SIZE;
-  return query.order('updated_at', { ascending: false }).order('id')
-    .range(offset, offset + PAGE_SIZE - 1).abortSignal(signal);
+  return query
+    .order('updated_at', { ascending: false })
+    .order('id')
+    .range(offset, offset + PAGE_SIZE - 1)
+    .abortSignal(signal);
 }
 
 function mergePrefetched(...groups: RecipeItem[][]): RecipeItem[] {
   const byId = new Map<string, RecipeItem>();
-  for (const group of groups) for (const item of group) {
-    if (!item.public) continue;
-    const profile = item.xBloom ?? byId.get(item.id)?.xBloom ?? null;
-    byId.set(item.id, profile === item.xBloom ? item : { ...item, xBloom: profile });
-  }
+  for (const group of groups)
+    for (const item of group) {
+      if (!item.public) continue;
+      const profile = item.xBloom ?? byId.get(item.id)?.xBloom ?? null;
+      byId.set(
+        item.id,
+        profile === item.xBloom ? item : { ...item, xBloom: profile },
+      );
+    }
   return [...byId.values()];
 }
 
 /** Only a scoped RPC may authorize a shared row whose primary FK names another coffee. */
-export function mergeCoffeeRecipes(coffee: CoffeeScope, initial: RecipeItem[], rows: ScopedRecipeRow[], locale: 'ar' | 'en', serverScoped = false): RecipeItem[] {
+export function mergeCoffeeRecipes(
+  coffee: CoffeeScope,
+  initial: RecipeItem[],
+  rows: ScopedRecipeRow[],
+  locale: 'ar' | 'en',
+  serverScoped = false,
+): RecipeItem[] {
   // Keep profile lookup by recipe ID even when a shared recipe's prefetched FK
   // refers to its first coffee. Unmatched prefetched rows never enter the output.
-  const prefetched = new Map(mergePrefetched(initial).map(item => [item.id, item]));
+  const prefetched = new Map(
+    mergePrefetched(initial).map((item) => [item.id, item]),
+  );
   const loaded = new Map<string, RecipeItem>();
   for (const row of rows) {
-    if (row.visibility !== 'public' || !serverScoped && !matches(coffee, row.bean_id, row.roasted_product_id)) continue;
-    const mapped = mapRecipe(row, locale, prefetched.get(row.id)?.xBloom ?? null);
+    if (
+      row.visibility !== 'public' ||
+      (!serverScoped && !matches(coffee, row.bean_id, row.roasted_product_id))
+    )
+      continue;
+    const mapped = mapRecipe(
+      row,
+      locale,
+      prefetched.get(row.id)?.xBloom ?? null,
+    );
     if (mapped) loaded.set(mapped.id, mapped);
   }
   for (const item of prefetched.values()) {
-    if (!loaded.has(item.id) && matches(coffee, item.beanId, item.productId)) loaded.set(item.id, item);
+    if (!loaded.has(item.id) && matches(coffee, item.beanId, item.productId))
+      loaded.set(item.id, item);
   }
   return [...loaded.values()];
 }
@@ -96,8 +177,15 @@ export interface CoffeeRecipesResult {
   retry: () => void;
 }
 
-export function useCoffeeRecipes(item: CoffeeItem, initial: RecipeItem[], locale: 'ar' | 'en'): CoffeeRecipesResult {
-  const coffee = useMemo(() => ({ kind: item.kind, id: item.id, beanId: item.beanId }), [item.kind, item.id, item.beanId]);
+export function useCoffeeRecipes(
+  item: CoffeeItem,
+  initial: RecipeItem[],
+  locale: 'ar' | 'en',
+): CoffeeRecipesResult {
+  const coffee = useMemo(
+    () => ({ kind: item.kind, id: item.id, beanId: item.beanId }),
+    [item.kind, item.id, item.beanId],
+  );
   const scope = JSON.stringify([coffee.kind, coffee.id, coffee.beanId]);
   const request = JSON.stringify([scope, locale]);
   const latestInitial = useRef(initial);
@@ -105,9 +193,17 @@ export function useCoffeeRecipes(item: CoffeeItem, initial: RecipeItem[], locale
   latestInitial.current = initial;
   // Invalidate even before effect cleanup if a response resolves during a context change.
   latestRequest.current = request;
-  const actions = useRef<{ loadMore: () => void; retry: () => void } | null>(null);
+  const actions = useRef<{ loadMore: () => void; retry: () => void } | null>(
+    null,
+  );
   const [state, setState] = useState<RecipeState>(() => ({
-    scope, request, prefetched: mergePrefetched(initial), rows: [], busy: true, error: false, more: false,
+    scope,
+    request,
+    prefetched: mergePrefetched(initial),
+    rows: [],
+    busy: true,
+    error: false,
+    more: false,
   }));
 
   useEffect(() => {
@@ -119,49 +215,99 @@ export function useCoffeeRecipes(item: CoffeeItem, initial: RecipeItem[], locale
     let controller: AbortController | null = null;
     const current = () => active && latestRequest.current === request;
 
-    setState(previous => current() ? {
-      scope, request,
-      prefetched: mergePrefetched(previous.scope === scope ? previous.prefetched : [], latestInitial.current),
-      rows: previous.scope === scope ? previous.rows : [],
-      busy: true, error: false, more: false,
-    } : previous);
+    setState((previous) =>
+      current()
+        ? {
+            scope,
+            request,
+            prefetched: mergePrefetched(
+              previous.scope === scope ? previous.prefetched : [],
+              latestInitial.current,
+            ),
+            rows: previous.scope === scope ? previous.rows : [],
+            busy: true,
+            error: false,
+            more: false,
+          }
+        : previous,
+    );
 
     const loadPage = async (page: number) => {
       if (!current() || inFlight) return;
       inFlight = true;
       failed = false;
       controller = new AbortController();
-      setState(previous => current() ? { ...previous, busy: true, error: false } : previous);
+      setState((previous) =>
+        current() ? { ...previous, busy: true, error: false } : previous,
+      );
       try {
         if (!supabase) throw new Error('Coffee recipe connection unavailable');
-        const result = await coffeeRecipesPageQuery(supabase, coffee, page, controller.signal);
+        const result = await coffeeRecipesPageQuery(
+          supabase,
+          coffee,
+          page,
+          controller.signal,
+        );
         if (!current()) return;
-        if (result.error || !Array.isArray(result.data)) throw new Error('Coffee recipe page unavailable');
+        if (result.error || !Array.isArray(result.data))
+          throw new Error('Coffee recipe page unavailable');
         const rows = result.data as unknown as ScopedRecipeRow[];
         // Count raw server rows, including methods this client cannot yet display.
-        hasMore = result.count != null ? (page + 1) * PAGE_SIZE < result.count : rows.length === PAGE_SIZE;
+        hasMore =
+          result.count != null
+            ? (page + 1) * PAGE_SIZE < result.count
+            : rows.length === PAGE_SIZE;
         nextPage = page + 1;
-        setState(previous => current() ? {
-          scope, request,
-          prefetched: mergePrefetched(previous.prefetched, latestInitial.current),
-          rows: page === 0 ? rows : [...new Map([...previous.rows, ...rows].map(row => [row.id, row])).values()],
-          busy: true, error: false, more: hasMore,
-        } : previous);
+        setState((previous) =>
+          current()
+            ? {
+                scope,
+                request,
+                prefetched: mergePrefetched(
+                  previous.prefetched,
+                  latestInitial.current,
+                ),
+                rows:
+                  page === 0
+                    ? rows
+                    : [
+                        ...new Map(
+                          [...previous.rows, ...rows].map((row) => [
+                            row.id,
+                            row,
+                          ]),
+                        ).values(),
+                      ],
+                busy: true,
+                error: false,
+                more: hasMore,
+              }
+            : previous,
+        );
       } catch {
         if (current()) {
           failed = true;
           // Also retain page zero if an explicit refresh fails after pagination.
           nextPage = page;
-          setState(previous => current() ? { ...previous, error: true } : previous);
+          setState((previous) =>
+            current() ? { ...previous, error: true } : previous,
+          );
         }
       } finally {
         inFlight = false;
-        if (current()) setState(previous => current() ? { ...previous, busy: false } : previous);
+        if (current())
+          setState((previous) =>
+            current() ? { ...previous, busy: false } : previous,
+          );
       }
     };
     const handlers = {
-      loadMore: () => { if (hasMore) void loadPage(nextPage); },
-      retry: () => { void loadPage(failed ? nextPage : 0); },
+      loadMore: () => {
+        if (hasMore) void loadPage(nextPage);
+      },
+      retry: () => {
+        void loadPage(failed ? nextPage : 0);
+      },
     };
     actions.current = handlers;
     void loadPage(0);
@@ -173,11 +319,26 @@ export function useCoffeeRecipes(item: CoffeeItem, initial: RecipeItem[], locale
     // initial can be an inline .filter() result; it must not restart pagination.
   }, [coffee, scope, request, locale]);
 
-  const recipes = useMemo(() => mergeCoffeeRecipes(coffee,
-    mergePrefetched(state.scope === scope ? state.prefetched : [], initial),
-    state.scope === scope ? state.rows : [], locale, usesScopedRpc(coffee)), [coffee, state, scope, initial, locale]);
+  const recipes = useMemo(
+    () =>
+      mergeCoffeeRecipes(
+        coffee,
+        mergePrefetched(state.scope === scope ? state.prefetched : [], initial),
+        state.scope === scope ? state.rows : [],
+        locale,
+        usesScopedRpc(coffee),
+      ),
+    [coffee, state, scope, initial, locale],
+  );
   const sameRequest = state.request === request;
   const loadMore = useCallback(() => actions.current?.loadMore(), []);
   const retry = useCallback(() => actions.current?.retry(), []);
-  return { recipes, busy: !sameRequest || state.busy, error: sameRequest && state.error, more: sameRequest && state.more, loadMore, retry };
+  return {
+    recipes,
+    busy: !sameRequest || state.busy,
+    error: sameRequest && state.error,
+    more: sameRequest && state.more,
+    loadMore,
+    retry,
+  };
 }
