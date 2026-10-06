@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { deleteCurrentAccount } from '../account-deletion';
-import { createOAuthCallbackHandler } from '../../../apps/mobile/src/oauthCallback';
+import { createOAuthCallbackHandler } from '../native-oauth-callback';
 
 const owner = '11111111-1111-4111-8111-111111111111';
 function fixture() {

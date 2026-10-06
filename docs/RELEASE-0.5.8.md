@@ -43,7 +43,9 @@ The live authorization endpoint also reached Google’s official account chooser
 with the native redirect and minimal email/profile scopes. No real account
 was signed into the app during that configuration check.
 No OAuth secret, scope, user account or Site URL was changed. Apple remains
-disabled pending Apple Developer renewal and its provider credentials.
+disabled pending its provider credentials. The owner confirmed Apple Developer
+renewal during this release; signing credentials and Apple login setup still
+need verification.
 
 Applied forward-only migrations:
 
@@ -63,7 +65,7 @@ or catalog record behind. Typechecks, lint, mobile checks and Metro exports
 cover the changed code; Expo Doctor passes 21/21.
 
 App Store acceptance is not established by Google or account deletion alone.
-Before iOS submission: renew Apple Developer, configure an equivalent
+Before iOS submission: verify signing credentials, configure an equivalent
 privacy-preserving login (normally Sign in with Apple), implement Apple token
 revocation for that provider's account-deletion flow, verify actual iPhone
 sign-in/deletion and privacy-policy links, and produce a signed EAS build.
