@@ -5,39 +5,48 @@ import {
   useRef,
   useState,
   type ReactNode,
-} from "react";
-import { AccessibilityInfo, Animated, Easing, Platform } from "react-native";
-const ReducedMotion = createContext(false);
+} from 'react';
+import { AccessibilityInfo, Animated, Easing, Platform } from 'react-native';
+const ReducedMotion = createContext(true);
 export function MotionProvider({ children }: { children: ReactNode }) {
-  const [reduced, setReduced] = useState(false);
+  const [reduced, setReduced] = useState(true);
   useEffect(() => {
     let active = true;
     void AccessibilityInfo.isReduceMotionEnabled().then((v) => {
       if (active) setReduced(v);
     });
     const event = AccessibilityInfo.addEventListener(
-      "reduceMotionChanged",
+      'reduceMotionChanged',
       setReduced,
     );
     return () => {
       active = false;
-      event.remove();
+      event?.remove();
     };
   }, []);
   return (
     <ReducedMotion.Provider value={reduced}>{children}</ReducedMotion.Provider>
   );
 }
+export const useReducedMotion = () => useContext(ReducedMotion);
 export function usePressMotion() {
   const reduced = useContext(ReducedMotion);
   const scale = useRef(new Animated.Value(1)).current;
+  useEffect(() => {
+    if (reduced) {
+      scale.stopAnimation();
+      scale.setValue(1);
+    }
+    return () => scale.stopAnimation();
+  }, [scale, reduced]);
   const animate = (value: number) => {
     if (reduced) return;
     Animated.spring(scale, {
       toValue: value,
-      useNativeDriver: Platform.OS !== "web",
+      useNativeDriver: Platform.OS !== 'web',
       speed: 35,
       bounciness: 3,
+      isInteraction: false,
     }).start();
   };
   return {
@@ -57,8 +66,9 @@ export function ScreenTransition({ children }: { children: ReactNode }) {
     const a = Animated.timing(progress, {
       toValue: 1,
       duration: 190,
+      isInteraction: false,
       easing: Easing.out(Easing.cubic),
-      useNativeDriver: Platform.OS !== "web",
+      useNativeDriver: Platform.OS !== 'web',
     });
     a.start();
     return () => a.stop();

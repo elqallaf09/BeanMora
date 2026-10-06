@@ -37,6 +37,15 @@ test('registry tarballs use HTTPS and integrity metadata', () => {
 });
 const nextRequire = createRequire(require.resolve('next/package.json'));
 const postcss = nextRequire('postcss');
+test('Next image tooling decodes SVG using the patched librsvg binary', async () => {
+  const sharp = nextRequire('sharp');
+  const version = sharp.versions.rsvg.split('.').map(Number);
+  assert.ok(version[0] > 2 || (version[0] === 2 && (version[1] > 63 || (version[1] === 63 && version[2] >= 2))), `Unpatched librsvg ${sharp.versions.rsvg}`);
+  const image = await sharp(Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="2" height="2"><rect width="2" height="2" fill="red"/></svg>')).png().toBuffer();
+  const { data, info } = await sharp(image).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  assert.deepEqual([info.width, info.height, info.channels], [2, 2, 4]);
+  assert.deepEqual([...data.subarray(0, 4)], [255, 0, 0, 255]);
+});
 test('indexed source maps with huge offsets finish without blocking and preserve the generated code', () => {
   const script = `
     const assert = require('node:assert/strict');

@@ -26,7 +26,6 @@ async function reply(route: Route, rows: unknown[], total = rows.length) {
 async function openLibrary(page: Page, locale: 'ar' | 'en') {
   await page.goto('/');
   if (locale === 'en') {
-    await page.getByRole('button', { name: 'تغيير اللغة، العربية', exact: true }).click();
     await page.getByRole('button', { name: 'English', exact: true }).click();
     // Modal fade-out restores focus to its opener. Finish that transition
     // before navigating and typing into another control.

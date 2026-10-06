@@ -17,6 +17,7 @@ export interface EquipmentItem {
   confidence: string;
 }
 export interface RoasterItem {
+  searchDocument?: string;
   id: string;
   slug: string;
   name: string;
@@ -317,6 +318,15 @@ export async function loadRoasters(
   return reviewedRows(data ?? []).map((row) => ({
     id: row.id,
     slug: row.slug,
+    searchDocument: [
+      row.name_ar,
+      row.name_en,
+      row.description_ar,
+      row.description_en,
+      row.country,
+    ]
+      .filter(Boolean)
+      .join(' '),
     name:
       (locale === 'ar'
         ? row.name_ar || catalogName(row.name_en, locale)

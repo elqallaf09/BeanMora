@@ -1,3 +1,5 @@
+import { matchesDeepSearch } from './core/deepSearch';
+import { coffeeSearchDocument } from './searchIndex';
 import { useContext, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -1206,14 +1208,16 @@ function EquipmentReviews({
 export function RoasterDirectory({
   open,
   coffees = [],
+  initialSearch = '',
 }: {
   open: (r: RoasterItem) => void;
   coffees?: CoffeeItem[];
+  initialSearch?: string;
 }) {
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const [rows, setRows] = useState<RoasterItem[]>([]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(initialSearch);
   const [country, setCountry] = useState('all');
   const [busy, setBusy] = useState(true);
   const [error, setError] = useState(false);
@@ -1240,9 +1244,18 @@ export function RoasterDirectory({
   const visible = rows.filter(
     (r) =>
       (country === 'all' || country === r.country) &&
-      searchText(
-        [r.name, r.description, countryLabel(r.country, locale)].join(' '),
-      ).includes(searchText(search)),
+      matchesDeepSearch(
+        [
+          r.searchDocument,
+          r.name,
+          r.description,
+          countryLabel(r.country, locale),
+          ...coffees
+            .filter((c) => c.roasterId === r.id)
+            .map(coffeeSearchDocument),
+        ].join(' '),
+        search,
+      ),
   );
   return (
     <ScrollView

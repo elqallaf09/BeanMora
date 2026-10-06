@@ -25,6 +25,7 @@ export type CoffeeImageKind =
 export interface CoffeeItem extends Coffee {
   roasterId: string | null;
   description: string;
+  searchDocument?: string;
   origin: string;
   process: string;
   variety?: string;
@@ -79,7 +80,13 @@ export interface Bundle {
   recipeTotal: number;
   warnings: boolean;
   limited: boolean;
-  failures?: { beans: boolean; products: boolean; recipes: boolean; profiles: boolean; personal: boolean };
+  failures?: {
+    beans: boolean;
+    products: boolean;
+    recipes: boolean;
+    profiles: boolean;
+    personal: boolean;
+  };
 }
 interface Name {
   name_ar?: string | null;
@@ -358,85 +365,24 @@ export function mapRecipe(
       })),
   };
 }
-export async function loadData(
-  db: SupabaseClient,
-  locale: 'ar' | 'en',
-  userId: string | null,
-  method?: Method,
-): Promise<Bundle> {
-  const personalReads = userId ? Promise.all([
-    read<{
-      preferred_brew_methods: string[];
-      preferred_flavors: string[];
-      preferred_roast_level: string | null;
-    }>(
-      db
-        .from('user_preferences')
-        .select(
-          'preferred_brew_methods,preferred_flavors,preferred_roast_level',
-        )
-        .eq('user_id', userId)
-        .limit(1),
-    ),
-    read<{
-      category: string;
-      equipment_model_id: string | null;
-      custom_name: string | null;
-      model: { name?: string | null } | { name?: string | null }[] | null;
-    }>(
-      db
-        .from('user_equipment')
-        .select(
-          'category,equipment_model_id,custom_name,model:equipment_models(name)',
-        )
-        .eq('user_id', userId)
-        .order('id')
-        .limit(201),
-    ),
-    read<Inventory>(
-      db
-        .from('user_bean_inventory')
-        .select('roasted_product_id,legacy_bean_id')
-        .eq('user_id', userId)
-        .is('archived_at', null)
-        .or('remaining_weight_grams.is.null,remaining_weight_grams.gt.0')
-        .order('id')
-        .limit(201),
-    ),
-    read<OwnAttempt>(
-      db
-        .from('recipe_attempts')
-        .select('recipe_id,outcome')
-        .eq('user_id', userId)
-        .in('status', [
-          'tried',
-          'brewed_as_written',
-          'brewed_with_modifications',
-        ])
-        .order('created_at', { ascending: false })
-        .order('id')
-        .limit(201),
-    ),
-    read<{ bean_id: string }>(
-      db
-        .from('bean_saves')
-        .select('bean_id')
-        .eq('user_id', userId)
-        .order('created_at', { ascending: false })
-        .limit(1001),
-      1000,
-    ),
-  ]) : null;
-  const ar = locale === 'ar';
-  const result: Bundle = {
-    coffees: [],
-    recipes: [],
-    savedBeanIds: [],
-    profile: emptyProfile(),
-    recipeTotal: 0,
-    warnings: false,
-    limited: false,
-  };
+type PublicReads = {
+  revision: number;
+  createdAt: number;
+  coffees: Promise<
+    [
+      Awaited<ReturnType<typeof read<CoffeeRow>>>,
+      Awaited<ReturnType<typeof read<CoffeeRow>>>,
+    ]
+  >;
+  all: ReturnType<typeof startPublicReads>['all'];
+};
+const publicCatalogReads = new WeakMap<
+  SupabaseClient,
+  Map<string, PublicReads>
+>();
+const PUBLIC_CATALOG_FRESH_MS = 5 * 60_000;
+// Public rows only: language and account changes reuse the same in-flight reads.
+function startPublicReads(db: SupabaseClient, method?: Method) {
   const fields =
     'id,slug,roaster_id,name_ar,name_en,requires_review,roast_level,last_verified_at,suitable_for_v60,suitable_for_espresso,suitable_for_xbloom,source_url,image_url,image_source_url,image_usage_status,image_kind,sensory_profile,roaster:roasters(name_ar,name_en,logo_url,country)';
   let beans = db
@@ -462,7 +408,7 @@ export async function loadData(
     products = products.eq(`suitable_for_${method}`, true);
   }
   if (method) recipes = recipes.eq('brew_method', method);
-  const [b, p, r, xb, linked] = await Promise.all([
+  const requests = [
     read<CoffeeRow>(
       beans.order('updated_at', { ascending: false }).order('id').limit(1001),
       1000,
@@ -491,82 +437,248 @@ export async function loadData(
         .limit(201),
     ),
     read<RecipeRow>(
-        db
-          .from('recipes')
-          .select(RECIPE_FIELDS)
-          .eq('visibility', 'public')
-          .or('bean_id.not.is.null,roasted_product_id.not.is.null')
-          .order('updated_at', { ascending: false })
-          .limit(201),
-      ),
-  ]);
+      db
+        .from('recipes')
+        .select(RECIPE_FIELDS)
+        .eq('visibility', 'public')
+        .or('bean_id.not.is.null,roasted_product_id.not.is.null')
+        .order('updated_at', { ascending: false })
+        .limit(201),
+    ),
+  ] as const;
+  return {
+    coffees: Promise.all([requests[0], requests[1]]),
+    all: Promise.all(requests),
+  };
+}
+function getPublicReads(
+  db: SupabaseClient,
+  method: Method | undefined,
+  revision: number,
+): PublicReads {
+  let byMethod = publicCatalogReads.get(db);
+  if (!byMethod) {
+    byMethod = new Map();
+    publicCatalogReads.set(db, byMethod);
+  }
+  const key = method ?? 'all';
+  const previous = byMethod.get(key);
+  if (
+    previous?.revision === revision &&
+    Date.now() - previous.createdAt < PUBLIC_CATALOG_FRESH_MS
+  )
+    return previous;
+  const reads = startPublicReads(db, method);
+  const entry = { ...reads, revision, createdAt: Date.now() };
+  byMethod.set(key, entry);
+  void entry.all.then((results) => {
+    if (results.some((result) => result.failed) && byMethod.get(key) === entry)
+      byMethod.delete(key);
+  });
+  return entry;
+}
+
+function mapCoffee(
+  row: CoffeeRow,
+  kind: Coffee['kind'],
+  ar: boolean,
+): CoffeeItem {
+  const images = [
+    ...new Set(
+      (row.images ?? [])
+        .filter(
+          (i) =>
+            i.image_usage_status === 'rights_confirmed' ||
+            (i.image_usage_status === 'source_linked' &&
+              safeUrl(row.source_url)),
+        )
+        .sort((a, b) => a.position - b.position)
+        .flatMap((i) => {
+          const url = safeUrl(i.url ?? i.image_source_url);
+          return url ? [url] : [];
+        }),
+    ),
+  ];
+  const direct =
+    row.image_usage_status === 'rights_confirmed' ||
+    (row.image_usage_status === 'source_linked' && safeUrl(row.source_url))
+      ? safeUrl(row.image_url)
+      : null;
+  if (direct && !images.includes(direct)) images.unshift(direct);
+  return {
+    id: row.id,
+    slug: row.slug,
+    kind,
+    name: label(row, ar),
+    roaster: label(one(row.roaster), ar),
+    roasterId: row.roaster_id ?? null,
+    beanId: kind === 'bean' ? row.id : (row.legacy_bean_id ?? null),
+    reviewed: row.requires_review === false,
+    published: kind === 'product' || row.is_published === true,
+    methods: (['v60', 'espresso', 'xbloom'] as const).filter(
+      (m) => row[`suitable_for_${m}`],
+    ),
+    flavors: inferredFlavors(row),
+    roast: row.roast_level,
+    status: row.status ?? null,
+    verifiedAt: row.last_verified_at,
+    description: catalogDescription(row, ar),
+    searchDocument: [
+      row.name_ar,
+      row.name_en,
+      row.description_ar,
+      row.description_en,
+      row.short_description,
+      one(row.roaster)?.name_ar,
+      one(row.roaster)?.name_en,
+      ...inferredFlavors(row),
+    ]
+      .filter(Boolean)
+      .join(' '),
+    origin: row.origin_country ?? one(row.lot ?? null)?.origin_country ?? '',
+    process: row.process ?? one(row.lot ?? null)?.process ?? '',
+    variety: row.varietal ?? one(row.lot ?? null)?.varietal ?? '',
+    roasterCountry: one(row.roaster)?.country ?? '',
+    sensory: readSensory(row.sensory_profile),
+    sourceUrl: safeUrl(row.source_url),
+    logoUrl: safeUrl(one(row.roaster)?.logo_url),
+    imageUrl: images[0] ?? null,
+    imageSourceUrl: safeUrl(row.image_source_url),
+    imageKind:
+      validChoice(row.image_kind, [
+        'packaging',
+        'product_artwork',
+        'origin_photo',
+        'unclassified',
+      ] as const) ?? 'unclassified',
+    images,
+  };
+}
+
+export async function loadData(
+  db: SupabaseClient,
+  locale: 'ar' | 'en',
+  userId: string | null,
+  method?: Method,
+  options: {
+    publicRevision?: number;
+    onPublicReady?: (bundle: Bundle, complete: boolean) => void;
+  } = {},
+): Promise<Bundle> {
+  const personalReads = userId
+    ? Promise.all([
+        read<{
+          preferred_brew_methods: string[];
+          preferred_flavors: string[];
+          preferred_roast_level: string | null;
+        }>(
+          db
+            .from('user_preferences')
+            .select(
+              'preferred_brew_methods,preferred_flavors,preferred_roast_level',
+            )
+            .eq('user_id', userId)
+            .limit(1),
+        ),
+        read<{
+          category: string;
+          equipment_model_id: string | null;
+          custom_name: string | null;
+          model: { name?: string | null } | { name?: string | null }[] | null;
+        }>(
+          db
+            .from('user_equipment')
+            .select(
+              'category,equipment_model_id,custom_name,model:equipment_models(name)',
+            )
+            .eq('user_id', userId)
+            .order('id')
+            .limit(201),
+        ),
+        read<Inventory>(
+          db
+            .from('user_bean_inventory')
+            .select('roasted_product_id,legacy_bean_id')
+            .eq('user_id', userId)
+            .is('archived_at', null)
+            .or('remaining_weight_grams.is.null,remaining_weight_grams.gt.0')
+            .order('id')
+            .limit(201),
+        ),
+        read<OwnAttempt>(
+          db
+            .from('recipe_attempts')
+            .select('recipe_id,outcome')
+            .eq('user_id', userId)
+            .in('status', [
+              'tried',
+              'brewed_as_written',
+              'brewed_with_modifications',
+            ])
+            .order('created_at', { ascending: false })
+            .order('id')
+            .limit(201),
+        ),
+        read<{ bean_id: string }>(
+          db
+            .from('bean_saves')
+            .select('bean_id')
+            .eq('user_id', userId)
+            .order('created_at', { ascending: false })
+            .limit(1001),
+          1000,
+        ),
+      ])
+    : null;
+  const ar = locale === 'ar';
+  const result: Bundle = {
+    coffees: [],
+    recipes: [],
+    savedBeanIds: [],
+    profile: emptyProfile(),
+    recipeTotal: 0,
+    warnings: false,
+    limited: false,
+  };
+  const publicReads = getPublicReads(db, method, options.publicRevision ?? 0);
+  if (options.onPublicReady)
+    void publicReads.coffees
+      .then(([b, p]) => {
+        options.onPublicReady?.(
+          {
+            ...result,
+            coffees: [
+              ...p.rows.map((row) => mapCoffee(row, 'product', ar)),
+              ...b.rows.map((row) => mapCoffee(row, 'bean', ar)),
+            ],
+            warnings: b.failed || p.failed,
+            limited: b.limited || p.limited,
+            failures: {
+              beans: b.failed,
+              products: p.failed,
+              recipes: false,
+              profiles: false,
+              personal: false,
+            },
+          },
+          false,
+        );
+      })
+      .catch(() => {});
+  const [b, p, r, xb, linked] = await publicReads.all;
   result.warnings = [b, p, r, xb].some((x) => x.failed);
-  result.failures = { beans: b.failed, products: p.failed, recipes: r.failed, profiles: xb.failed, personal: false };
+  result.failures = {
+    beans: b.failed,
+    products: p.failed,
+    recipes: r.failed,
+    profiles: xb.failed,
+    personal: false,
+  };
   result.limited = [b, p, r, xb].some((x) => x.limited);
   const xbByRecipe = new Map(xb.rows.map((x) => [x.recipe_id, x]));
-  const coffee = (row: CoffeeRow, kind: Coffee['kind']): CoffeeItem => {
-    const images = [
-      ...new Set(
-        (row.images ?? [])
-          .filter(
-            (i) =>
-              i.image_usage_status === 'rights_confirmed' ||
-              (i.image_usage_status === 'source_linked' &&
-                safeUrl(row.source_url)),
-          )
-          .sort((a, b) => a.position - b.position)
-          .flatMap((i) => {
-            const url = safeUrl(i.url ?? i.image_source_url);
-            return url ? [url] : [];
-          }),
-      ),
-    ];
-    const direct =
-      row.image_usage_status === 'rights_confirmed' ||
-      (row.image_usage_status === 'source_linked' && safeUrl(row.source_url))
-        ? safeUrl(row.image_url)
-        : null;
-    if (direct && !images.includes(direct)) images.unshift(direct);
-    return {
-      id: row.id,
-      slug: row.slug,
-      kind,
-      name: label(row, ar),
-      roaster: label(one(row.roaster), ar),
-      roasterId: row.roaster_id ?? null,
-      beanId: kind === 'bean' ? row.id : (row.legacy_bean_id ?? null),
-      reviewed: row.requires_review === false,
-      published: kind === 'product' || row.is_published === true,
-      methods: (['v60', 'espresso', 'xbloom'] as const).filter(
-        (m) => row[`suitable_for_${m}`],
-      ),
-      flavors: inferredFlavors(row),
-      roast: row.roast_level,
-      status: row.status ?? null,
-      verifiedAt: row.last_verified_at,
-      description: catalogDescription(row, ar),
-      origin: row.origin_country ?? one(row.lot ?? null)?.origin_country ?? '',
-      process: row.process ?? one(row.lot ?? null)?.process ?? '',
-      variety: row.varietal ?? one(row.lot ?? null)?.varietal ?? '',
-      roasterCountry: one(row.roaster)?.country ?? '',
-      sensory: readSensory(row.sensory_profile),
-      sourceUrl: safeUrl(row.source_url),
-      logoUrl: safeUrl(one(row.roaster)?.logo_url),
-      imageUrl: images[0] ?? null,
-      imageSourceUrl: safeUrl(row.image_source_url),
-      imageKind:
-        validChoice(row.image_kind, [
-          'packaging',
-          'product_artwork',
-          'origin_photo',
-          'unclassified',
-        ] as const) ?? 'unclassified',
-      images,
-    };
-  };
   result.coffees = [
-    ...p.rows.map((x) => coffee(x, 'product')),
-    ...b.rows.map((x) => coffee(x, 'bean')),
+    ...p.rows.map((x) => mapCoffee(x, 'product', ar)),
+    ...b.rows.map((x) => mapCoffee(x, 'bean', ar)),
   ];
   result.recipeTotal = r.total ?? r.rows.length;
   // Keep linked coffee recipes available even when the global catalog is much larger.
@@ -597,27 +709,44 @@ export async function loadData(
     );
     return mapped ? [mapped] : [];
   });
-  // The legacy suitability columns cover three methods. Exact public recipe
-  // links also expose a coffee's documented April, Orea and other brew methods.
-  for (const coffee of result.coffees) {
-    const linkedMethods = result.recipes
-      .filter(
-        (recipe) =>
-          recipe.public &&
-          (coffee.kind === 'product'
-            ? recipe.productId === coffee.id ||
-              Boolean(coffee.beanId && recipe.beanId === coffee.beanId)
-            : recipe.beanId === coffee.id),
-      )
-      .map((recipe) => recipe.method);
-    coffee.methods = [...new Set([...coffee.methods, ...linkedMethods])];
+  // Index recipe methods once instead of scanning every recipe for every coffee.
+  const beanMethods = new Map<string, Set<Method>>();
+  const productMethods = new Map<string, Set<Method>>();
+  for (const recipe of result.recipes) {
+    if (!recipe.public) continue;
+    for (const [id, index] of [
+      [recipe.beanId, beanMethods],
+      [recipe.productId, productMethods],
+    ] as const) {
+      if (!id) continue;
+      const methods = index.get(id) ?? new Set<Method>();
+      methods.add(recipe.method);
+      index.set(id, methods);
+    }
   }
+  for (const coffee of result.coffees) {
+    coffee.methods = [
+      ...new Set([
+        ...coffee.methods,
+        ...(beanMethods.get(coffee.beanId ?? coffee.id) ?? []),
+        ...(coffee.kind === 'product'
+          ? (productMethods.get(coffee.id) ?? [])
+          : []),
+      ]),
+    ];
+  }
+  options.onPublicReady?.(
+    { ...result, profile: emptyProfile(), savedBeanIds: [] },
+    true,
+  );
   if (!userId) return result;
   const [prefs, gear, inventory, attempts, saves] = await personalReads!;
   result.warnings ||= [prefs, gear, inventory, attempts, saves].some(
     (x) => x.failed,
   );
-  result.failures.personal = [prefs, gear, inventory, attempts, saves].some((x) => x.failed);
+  result.failures.personal = [prefs, gear, inventory, attempts, saves].some(
+    (x) => x.failed,
+  );
   result.limited ||= [gear, inventory, attempts, saves].some((x) => x.limited);
   result.savedBeanIds = saves.rows.map((s) => s.bean_id);
   const pref = prefs.rows[0];

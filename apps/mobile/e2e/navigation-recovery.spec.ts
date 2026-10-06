@@ -35,7 +35,6 @@ for (const {width,height,locale} of [
   });
   await page.goto('/');
   if(locale==='en'){
-    await page.getByRole('button',{name:'تغيير اللغة، العربية',exact:true}).click();
     await page.getByRole('button',{name:'English',exact:true}).click();
   }
   const home=locale==='ar'?'الرئيسية':'Home';

@@ -40,7 +40,6 @@ for (const { locale, width } of [{ locale: 'ar', width: 320 }, { locale: 'en', w
     });
     await page.goto('/');
     if (locale === 'en') {
-      await page.getByRole('button', { name: 'تغيير اللغة، العربية', exact: true }).click();
       await page.getByRole('button', { name: 'English', exact: true }).click();
     }
     await page.getByRole('button', { name: locale === 'ar' ? scored.name_ar : scored.name_en, exact: true }).click();

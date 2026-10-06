@@ -93,7 +93,7 @@ function discoveryPage(
         [row.serving_style, metadata.serving_style].find((value) =>
           ['hot', 'iced', 'cold'].includes(value),
         ) ?? '';
-      if (params.p_serving_style && style !== params.p_serving_style)
+      if (params.p_serving_style && !(params.p_serving_style === 'cold_or_iced' ? ['cold', 'iced'].includes(style) : style === params.p_serving_style))
         return false;
       const terms: Record<string, string> = {
         p_recipe_name: join(row.title, row.title_ar),
@@ -337,9 +337,6 @@ const recipes = Array.from({ length: 64 }, (_, i) => ({
 }));
 
 async function english(page: Page) {
-  await page
-    .getByRole('button', { name: 'تغيير اللغة، العربية', exact: true })
-    .click();
   await page.getByRole('button', { name: 'English', exact: true }).click();
 }
 async function response(
@@ -435,7 +432,7 @@ for (const width of [320, 768]) {
     await page.reload();
     await expect(
       page.getByRole('button', {
-        name: 'Change language, English',
+        name: 'English',
         exact: true,
       }),
     ).toBeVisible();

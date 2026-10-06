@@ -1,5 +1,7 @@
+import { usePressMotion } from './Motion';
 import { useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import {
+  Animated,
   Image,
   ImageBackground,
   Pressable,
@@ -242,12 +244,15 @@ export function CoffeeCard({
   save: () => void;
 }) {
   const ar = useContext(Language) === 'ar';
+  const motion = usePressMotion();
   return (
-    <View style={[s.coffeeCard, { width }]}>
+    <Animated.View style={[s.coffeeCard, { width }, motion.style]}>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={item.name}
         onPress={open}
+        onPressIn={motion.pressIn}
+        onPressOut={motion.pressOut}
         style={{ flex: 1 }}
       >
         <View
@@ -303,7 +308,7 @@ export function CoffeeCard({
           size={20}
         />
       </View>
-    </View>
+    </Animated.View>
   );
 }
 export function Home({

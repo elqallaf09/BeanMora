@@ -8,6 +8,7 @@ export const RECIPE_DISCOVERY_FIELDS =
   'serving_style,source_coffee_name,source_roaster_name,source_origin_country,source_varietal,source_tasting_notes';
 export type RecipeSourceFilter = 'all' | 'official' | 'community';
 export type ServingStyle = '' | 'hot' | 'iced' | 'cold';
+export type ServingFilter = ServingStyle | 'cold_or_iced';
 export interface RecipeDiscoveryFilters {
   flavorNote: string;
   flavorFamily: Flavor | '';
@@ -15,7 +16,7 @@ export interface RecipeDiscoveryFilters {
   creatorCountry: string;
   recipeCountry: string;
   recipeName: string;
-  servingStyle: ServingStyle;
+  servingStyle: ServingFilter;
   coffeeType: string;
   coffeeName: string;
   coffeeOrigin: string;
@@ -46,6 +47,7 @@ export interface RecipeSearch {
   source: RecipeSourceFilter;
   model: string;
   filters: RecipeDiscoveryFilters;
+  coffee?: { kind: 'bean' | 'product'; id: string };
 }
 const parameter = (value: string | undefined) =>
   value?.trim().slice(0, 160) || null;
@@ -54,6 +56,12 @@ export function recipeSearchParams(search: RecipeSearch) {
   // Values stay bound JSON parameters, including quotes, %, _ and commas.
   // A text search must never become a PostgREST expression.
   return {
+    ...(search.coffee
+      ? {
+          [search.coffee.kind === 'product' ? 'p_product_id' : 'p_bean_id']:
+            search.coffee.id,
+        }
+      : {}),
     p_query: parameter(search.query),
     p_method: parameter(search.method),
     p_source: search.source === 'all' ? null : search.source,
@@ -112,9 +120,13 @@ export function recipePageQuery(
       : RECIPE_PAGE_SIZE;
   const offset = Math.max(0, Math.floor(page)) * pageSize;
   return db
-    .rpc('search_public_recipes', recipeSearchParams(search), {
-      count: 'exact',
-    })
+    .rpc(
+      search.coffee ? 'search_public_recipes_v2' : 'search_public_recipes',
+      recipeSearchParams(search),
+      {
+        count: 'exact',
+      },
+    )
     .select(selectWithRecipeSortKeys(fields))
     .order('updated_at', { ascending: false })
     .order('id')
@@ -145,6 +157,7 @@ export interface RecipeDiscovery {
   flavorNotes: string[];
   flavorFamilies: Flavor[];
   servingStyle: ServingStyle;
+  servingStyleInferred?: boolean;
   sourceUrls: string[];
 }
 const object = (value: unknown): Record<string, unknown> =>
@@ -232,6 +245,8 @@ export function readRecipeDiscovery(
     ]),
     servingStyle:
       knownStyle(row.serving_style) || knownStyle(metadata.serving_style),
+    servingStyleInferred:
+      object(metadata.serving_style_evidence).classification === 'inferred',
     sourceUrls: strings(metadata.source_urls).flatMap((value) => {
       const url = safeUrl(value);
       return url ? [url] : [];

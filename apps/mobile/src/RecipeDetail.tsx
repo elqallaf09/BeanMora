@@ -165,10 +165,14 @@ export function RecipeDetail({
                     : ar
                       ? 'بارد'
                       : 'Cold'}
+                {discovery.servingStyleInferred ? (ar ? ' · مقترح' : ' · Suggested') : ''}
               </Txt>
             </View>
           ) : null}
         </View>
+        {discovery?.servingStyleInferred ? <Txt style={{ fontSize: 12, color: colors.muted }}>
+          {ar ? 'نوع التقديم مقترح حسب طريقة التحضير؛ لم يحدده صاحب الوصفة.' : 'Serving style is suggested from the preparation method; the publisher did not specify it.'}
+        </Txt> : null}
         <Txt heading style={[styles.title, { fontSize: 24, lineHeight: 32 }]}>
           {recipeTitle(recipe.title, ar)}
         </Txt>
