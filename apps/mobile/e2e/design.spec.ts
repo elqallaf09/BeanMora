@@ -98,7 +98,7 @@ const beans = Array.from({ length: 8 }, (_, i) => ({
 }));
 const recipe={id:'11111111-1111-4111-8111-111111111111',title:'Design brew',title_ar:'وصفة اختبار التصميم',brew_method:'xbloom',visibility:'public',bean_id:beans[0].id,roasted_product_id:null,flavor_notes:['chocolate'],dose_grams:18,water_grams:288,water_temp_c:92,total_time_seconds:150,steps:[],equipment:[]};
 for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,height:1024},{width:1536,height:1024}]) {
-  test('reference layout, complete scroll and detail at '+viewport.width,async({page})=>{
+  test('reference layout, complete scroll and detail at '+viewport.width,async({page}, info)=>{
     await page.setViewportSize(viewport);
     const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
     await page.route('https://mobilefixture.supabase.co/**',route=>{
@@ -111,6 +111,67 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
     await page.route('https://photo-fixture.test/**',route=>route.abort());
     await page.goto('/');
     await expect(page.getByRole('heading',{name:'اكتشف عالم القهوة.'})).toBeVisible();
+    const language = page.getByTestId('language-switcher');
+    const picker = page.getByTestId('language-picker');
+    const openLanguage = async () => {
+      await language.click();
+      await expect(picker).toBeVisible();
+      // Measure and interact after the native-web modal finishes opening.
+      await picker.evaluate(async element => {
+        const animations: Animation[] = [];
+        for (let current: Element | null = element; current; current = current.parentElement) {
+          animations.push(...current.getAnimations());
+        }
+        await Promise.all(animations.map(animation => animation.finished.catch(() => {})));
+      });
+      // RN Web enables the modal's keyboard handler in its onShow callback.
+      await expect(page.locator('[aria-modal="true"]')).toHaveAttribute('role', 'dialog');
+    };
+    const trigger = await language.boundingBox();
+    expect(trigger!.width).toBe(44);
+    expect(trigger!.height).toBe(44);
+    await openLanguage();
+    await expect(page.getByRole('heading', { name: 'لغة التطبيق', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'لغة التطبيق · App language', exact: true })).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'العربية', exact: true })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByRole('button', { name: 'English', exact: true })).toHaveAttribute('aria-pressed', 'false');
+    const bounds = await picker.boundingBox();
+    expect(bounds!.x).toBeGreaterThanOrEqual(0);
+    expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(viewport.width);
+    if (viewport.width < 700) {
+      expect(bounds!.y + bounds!.height).toBeCloseTo(viewport.height, 0);
+    } else {
+      expect(bounds!.width).toBe(300);
+      expect(bounds!.y).toBeCloseTo(trigger!.y + trigger!.height + 10, 0);
+    }
+    await page.screenshot({ path: info.outputPath(`language-ar-${viewport.width}.png`) });
+    if (viewport.width === 768) {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await expect(picker).toHaveCount(0);
+      await openLanguage();
+      const phonePicker = await picker.boundingBox();
+      expect(phonePicker!.y + phonePicker!.height).toBeCloseTo(844, 0);
+      await page.setViewportSize(viewport);
+      await expect(picker).toHaveCount(0);
+      await openLanguage();
+    }
+    await page.getByRole('button', { name: 'English', exact: true }).click();
+    await expect(picker).toHaveCount(0);
+    await expect(language).toHaveAttribute('aria-label', 'Change language, English');
+    await openLanguage();
+    await expect(page.getByRole('heading', { name: 'App language', exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'English', exact: true })).toHaveAttribute('aria-pressed', 'true');
+    await page.getByRole('button', { name: 'Close', exact: true }).click();
+    await expect(picker).toHaveCount(0);
+    await page.reload();
+    await expect(language).toHaveAttribute('aria-label', 'Change language, English');
+    await openLanguage();
+    await page.getByRole('button', { name: 'العربية', exact: true }).click();
+    await expect(picker).toHaveCount(0);
+    await expect(page.getByRole('heading',{name:'اكتشف عالم القهوة.'})).toBeVisible();
+    await openLanguage();
+    await page.getByTestId('language-backdrop').click({ position: { x: viewport.width - 4, y: 4 } });
+    await expect(picker).toHaveCount(0);
     await expect(page.getByRole('button',{name:beans[0].name_ar,exact:true})).toBeVisible();
     await expect(page.getByTestId('coffee-photo-unavailable').first()).toBeVisible();
     const card=await page.getByRole('button',{name:beans[0].name_ar,exact:true}).boundingBox();
@@ -126,6 +187,18 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
     await page.getByTestId('home-scroll').evaluate(el=>{el.scrollTop=0;});
     await page.getByRole('button',{name:beans[0].name_ar,exact:true}).click();
     await expect(page.getByRole('heading',{name:beans[0].name_ar})).toBeVisible();
+    await openLanguage();
+    await expect(picker).toBeVisible();
+    const detailPicker = await picker.boundingBox();
+    expect(detailPicker!.x).toBeGreaterThanOrEqual(0);
+    expect(detailPicker!.x + detailPicker!.width).toBeLessThanOrEqual(viewport.width);
+    await page.getByRole('button', { name: 'العربية', exact: true }).click();
+    await expect(picker).toHaveCount(0);
+    // Choosing the current language must preserve the open coffee details.
+    await expect(page.getByRole('heading',{name:beans[0].name_ar})).toBeVisible();
+    await openLanguage();
+    await page.keyboard.press('Escape');
+    await expect(picker).toHaveCount(0);
     await expect(page.getByText('18 g',{exact:true})).toBeVisible();
     await expect(page.getByText('288 g',{exact:true})).toBeVisible();
     await expect(page.getByText('92°C',{exact:true})).toBeVisible();
