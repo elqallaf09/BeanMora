@@ -11,7 +11,7 @@ test('Brew My Coffee starts from persistent inventory',()=>{
 });
 test('Brew My Coffee preserves the saved preferred recipe',()=>{
   assert.match(source,/selected\.preferred_recipe_id/);
-  assert.match(source,/\.eq\('id',selected\.preferred_recipe_id\)/);
+  assert.match(source,/recipeId:selected\.preferred_recipe_id/);
 });
 test('Brew My Coffee combines coffee methods with linked recipe methods',()=>{
   assert.match(source,/coffee\?\.methods/);

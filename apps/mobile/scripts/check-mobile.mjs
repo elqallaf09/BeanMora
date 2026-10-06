@@ -44,7 +44,7 @@ test('outcomes remain opt-in and same-request retries use the shared RPC', () =>
   assert.match(form, /user.id !== userId/); assert.match(form, /setSaved\(true\)/);
   assert.match(get('src/core/outcome.ts'), /data !== requestId/);
 });
-test('identity changes cannot display the previous account recommendations', () => assert.match(get('App.tsx'), /bundle\?\.owner === userId/));
+test('identity changes cannot display the previous account recommendations', () => assert.match(get('src/useCatalog.ts'), /bundle\?\.owner === owner/));
 test('mobile and Next TypeScript trees stay isolated', () => {
   const config = JSON.parse(readFileSync(new URL('../../../tsconfig.json', import.meta.url), 'utf8'));
   assert.ok(config.exclude.includes('apps/mobile'));

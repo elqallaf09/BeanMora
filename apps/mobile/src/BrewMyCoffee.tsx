@@ -1,9 +1,10 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Pressable, RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 import { supabase } from './client';
-import { mapRecipe, RECIPE_FIELDS, type CoffeeItem, type RecipeItem, type RecipeRow } from './data';
+import { mapRecipe, type CoffeeItem, type RecipeItem, type RecipeRow } from './data';
 import { MethodPicker, CoffeePhoto } from './CoffeeScreens';
-import { Language, Txt, Icon, colors, styles } from './ui';
+import { Action, Language, Txt, Icon, colors, styles } from './ui';
+import { coffeeRecipesPageQuery } from './useCoffeeRecipes';
 import { isMethod, recommendRecipes, type Method, type Profile } from './core/engine';
 import { methods } from './copy';
 import { recipeQuickFacts } from './recipeQuickFacts';
@@ -17,40 +18,48 @@ type Serving='all'|'hot'|'iced'|'cold';
 
 export function BrewMyCoffee({userId,coffees,profile,login,browse,openRecipe}:{userId:string|null;coffees:CoffeeItem[];profile:Profile;login:()=>void;browse:()=>void;openRecipe:(r:RecipeItem)=>void}) {
   const locale=useContext(Language);const ar=locale==='ar';
-  const [inventory,setInventory]=useState<InventoryRow[]>([]);const [busy,setBusy]=useState(false);const [error,setError]=useState('');
+  const [inventoryState,setInventory]=useState<{owner:string|null;rows:InventoryRow[]}>({owner:userId,rows:[]});const [busy,setBusy]=useState(false);const [error,setError]=useState('');
+  const inventory=inventoryState.owner===userId?inventoryState.rows:[];
   const [selectedId,setSelectedId]=useState<string|null>(null);const [method,setMethod]=useState<Method|undefined>();const [methodTouched,setMethodTouched]=useState(false);const [serving,setServing]=useState<Serving>('all');
   const [candidates,setCandidates]=useState<Candidate[]>([]);const [recipesBusy,setRecipesBusy]=useState(false);
+  const [revision,setRevision]=useState(0);
+  const [recipePage,setRecipePage]=useState(0);const [moreRecipes,setMoreRecipes]=useState(false);
+  const [discoveredMethods,setDiscoveredMethods]=useState<Method[]>([]);
+  const [methodsReady,setMethodsReady]=useState(false);
 
-  useEffect(()=>{let active=true;const client=supabase;if(!userId||!client){setInventory([]);return;}setBusy(true);setError('');
+  useEffect(()=>{let active=true;const controller=new AbortController();const client=supabase;if(!userId||!client){setInventory({owner:userId,rows:[]});setBusy(false);return;}setBusy(true);setError('');
     const run=async()=>{try{
-      const {data,error}=await client.from('user_bean_inventory').select('id,roasted_product_id,legacy_bean_id,preferred_recipe_id,last_grind_setting,remaining_weight_grams,opened_at,updated_at').eq('user_id',userId).order('opened_at',{ascending:false,nullsFirst:false}).order('updated_at',{ascending:false});
-      if(!active)return;if(error)throw error;const rows=((data??[]) as InventoryRow[]).filter(row=>row.remaining_weight_grams!==0);setInventory(rows);setSelectedId(current=>current&&rows.some(r=>r.id===current)?current:(rows[0]?.id??null));
+      const {data,error}=await client.from('user_bean_inventory').select('id,roasted_product_id,legacy_bean_id,preferred_recipe_id,last_grind_setting,remaining_weight_grams,opened_at,updated_at').eq('user_id',userId).is('archived_at',null).order('opened_at',{ascending:false,nullsFirst:false}).order('updated_at',{ascending:false}).limit(200).abortSignal(controller.signal);
+      if(!active)return;if(error)throw error;const rows=((data??[]) as InventoryRow[]).filter(row=>row.remaining_weight_grams!==0);setInventory({owner:userId,rows});setSelectedId(current=>current&&rows.some(r=>r.id===current)?current:(rows[0]?.id??null));
     }catch{if(active)setError(ar?'تعذّر تحميل أكياسك.':'Could not load your bags.');}finally{if(active)setBusy(false);}};
-    void run();return()=>{active=false;};
-  },[userId,ar]);
+    void run();return()=>{active=false;controller.abort();};
+  },[userId,ar,revision]);
 
   const selected=inventory.find(row=>row.id===selectedId)??null;
   const coffeeFor=(row:InventoryRow|null)=>row?coffees.find(c=>row.roasted_product_id?c.kind==='product'&&c.id===row.roasted_product_id:(c.beanId??c.id)===row.legacy_bean_id)??null:null;
   const coffee=coffeeFor(selected);
-  const availableMethods=useMemo(()=>[...new Set([...(coffee?.methods??[]),...candidates.map(row=>row.recipe.method)].filter(isMethod))],[coffee,candidates]);
+  const availableMethods=useMemo(()=>[...new Set([...(coffee?.methods??[]),...discoveredMethods,...candidates.map(row=>row.recipe.method)].filter(isMethod))],[coffee,candidates,discoveredMethods]);
 
-  useEffect(()=>{if(!availableMethods.length){setMethod(undefined);return;}const preferred=(candidates.find(row=>row.recipe.id===selected?.preferred_recipe_id)??candidates[0])?.recipe.method;if(!methodTouched&&preferred&&availableMethods.includes(preferred)){setMethod(preferred);return;}setMethod(current=>current&&availableMethods.includes(current)?current:availableMethods[0]);},[selectedId,availableMethods.join('|'),selected?.preferred_recipe_id,methodTouched,candidates]);
+  useEffect(()=>{if(!availableMethods.length){setMethod(undefined);return;}if(!methodTouched&&!methodsReady)return;const preferred=(candidates.find(row=>row.recipe.id===selected?.preferred_recipe_id)??candidates[0])?.recipe.method;if(!methodTouched&&preferred&&availableMethods.includes(preferred)){setMethod(preferred);return;}setMethod(current=>current&&availableMethods.includes(current)?current:availableMethods[0]);},[selectedId,availableMethods.join('|'),selected?.preferred_recipe_id,methodTouched,methodsReady,candidates]);
 
-  useEffect(()=>{let active=true;const client=supabase;if(!selected||!client){setCandidates([]);return;}setRecipesBusy(true);setError('');
+  useEffect(()=>{setRecipePage(0);setDiscoveredMethods([]);setMethodsReady(false);},[selectedId,userId]);
+  useEffect(()=>{setRecipePage(0);},[method,serving,locale,revision]);
+  useEffect(()=>{let active=true;const controller=new AbortController();const client=supabase;if(recipePage===0)setCandidates([]);setMoreRecipes(false);if(!selected||!client){setRecipesBusy(false);return;}setRecipesBusy(true);setError('');
     const run=async()=>{try{
       const queries:PromiseLike<{data:unknown;error:unknown}>[]=[];
-      if(selected.roasted_product_id) queries.push(client.from('recipes').select(`${RECIPE_FIELDS},serving_style`).eq('visibility','public').eq('roasted_product_id',selected.roasted_product_id).order('updated_at',{ascending:false}).limit(24));
-      const beanId=coffee?.beanId??selected.legacy_bean_id;
-      if(beanId) queries.push(client.from('recipes').select(`${RECIPE_FIELDS},serving_style`).eq('visibility','public').eq('bean_id',beanId).order('updated_at',{ascending:false}).limit(24));
-      if(selected.preferred_recipe_id) queries.push(client.from('recipes').select(`${RECIPE_FIELDS},serving_style`).eq('visibility','public').eq('id',selected.preferred_recipe_id).limit(1));
+      const scope={id:selected.roasted_product_id??selected.legacy_bean_id??'',kind:selected.roasted_product_id?'product' as const:'bean' as const,beanId:coffee?.beanId??selected.legacy_bean_id};
+      const filter={method,serving:serving==='all'?undefined:serving};
+      queries.push(coffeeRecipesPageQuery(client,scope,recipePage,controller.signal,filter));
+      if(recipePage===0&&selected.preferred_recipe_id) queries.push(coffeeRecipesPageQuery(client,scope,0,controller.signal,{...filter,recipeId:selected.preferred_recipe_id}));
       const results=await Promise.all(queries);
       if(!active)return;
       const rows:Candidate[]=[];
+      if(results.some(result=>result.error))setError(ar?'تعذّر تحديث بعض الوصفات. أعد المحاولة.':'Some recipes could not update. Try again.');
       for(const result of results){
         if(result.error)continue;
         for(const raw of (result.data??[]) as (RecipeRow & {serving_style?:string|null})[]){
           const recipe=mapRecipe(raw,locale);if(!recipe)continue;
-          rows.push({recipe,style:raw.serving_style??null,exact:Boolean(selected.roasted_product_id&&recipe.productId===selected.roasted_product_id)});
+          rows.push({recipe,style:recipe.discovery?.servingStyle??null,exact:Boolean(selected.roasted_product_id&&recipe.productId===selected.roasted_product_id)});
         }
       }
       const dedup=[...new Map(rows.map(row=>[row.recipe.id,row])).values()];
@@ -61,10 +70,14 @@ export function BrewMyCoffee({userId,coffees,profile,login,browse,openRecipe}:{u
         if(a.recipe.incomplete!==b.recipe.incomplete)return Number(a.recipe.incomplete)-Number(b.recipe.incomplete);
         return a.recipe.title.localeCompare(b.recipe.title);
       });
-      setCandidates(dedup);
+      setCandidates(previous=>recipePage===0?dedup:[...new Map([...previous,...dedup].map(row=>[row.recipe.id,row])).values()]);
+      setDiscoveredMethods(previous=>[...new Set([...previous,...dedup.map(row=>row.recipe.method)])]);
+      const first=results[0] as {data:unknown[]|null;error:unknown;count?:number|null};
+      if(recipePage===0&&!first.error)setMethodsReady(true);
+      setMoreRecipes(!first.error&&(first.count!=null?(recipePage+1)*30<first.count:(first.data?.length??0)===30));
     }catch{if(active)setError(ar?'تعذّر تحميل وصفات هذا الكيس.':'Could not load recipes for this bag.');}finally{if(active)setRecipesBusy(false);}};
-    void run();return()=>{active=false;};
-  },[selectedId,coffee?.beanId,locale]);
+    void run();return()=>{active=false;controller.abort();};
+  },[selectedId,userId,coffee?.beanId,selected?.preferred_recipe_id,locale,revision,method,serving,recipePage]);
 
   const visibleBase=candidates.filter(row=>(!method||row.recipe.method===method)&&(serving==='all'||row.style===serving));
   const personalizedRanks=new Map(recommendRecipes(visibleBase.map(row=>row.recipe),profile,method,24).map((row,index)=>[row.item.id,{rank:row.rank,reasons:row.reasons,index}]));
@@ -81,7 +94,7 @@ export function BrewMyCoffee({userId,coffees,profile,login,browse,openRecipe}:{u
 
   if(!userId)return <View style={s.center}><Icon name="play" size={40} color={colors.teal}/><Txt heading style={styles.title}>{ar?'حضّر قهوتي':'Brew my coffee'}</Txt><Txt style={[styles.muted,{textAlign:'center'}]}>{ar?'سجّل دخولك عشان نبدأ من الكيس اللي عندك ونرجع لأفضل إعداداتك.':'Sign in so BeanMora can start from a bag you own and your saved settings.'}</Txt><Pressable accessibilityRole="button" onPress={login} style={s.primary}><Txt style={s.primaryText}>{ar?'تسجيل الدخول':'Sign in'}</Txt></Pressable></View>;
 
-  return <ScrollView contentContainerStyle={s.page}>
+  return <ScrollView contentContainerStyle={s.page} refreshControl={<RefreshControl refreshing={busy} onRefresh={()=>setRevision(v=>v+1)} tintColor={colors.teal}/> }>
     <View style={s.header}><View style={{flex:1}}><Txt heading style={styles.title}>{ar?'حضّر قهوتي':'Brew my coffee'}</Txt><Txt style={styles.muted}>{ar?'اختَر كيسك، وبعدها نضيق الخيارات للوصفات المرتبطة فعليًا بنفس البن.':'Choose your bag, then BeanMora narrows the list to recipes actually linked to that coffee.'}</Txt></View><View style={s.headerIcon}><Icon name="play" size={26} color={colors.teal}/></View></View>
 
     {busy?<ActivityIndicator color={colors.teal}/>:inventory.length?<><Txt style={s.sectionTitle}>{ar?'1. اختَر الكيس':'1. Choose your bag'}</Txt><ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.bags}>{inventory.map(row=>{const item=coffeeFor(row);if(!item)return null;const active=row.id===selectedId;return <Pressable key={row.id} accessibilityRole="button" accessibilityState={{selected:active}} onPress={()=>{setSelectedId(row.id);setServing('all');setMethod(undefined);setMethodTouched(false);}} style={[s.bagCard,active&&s.bagCardActive]}><View style={s.bagPhoto}><CoffeePhoto uri={item.imageUrl} uris={item.images} kind={item.imageKind}/></View><Txt numberOfLines={2} style={[s.bagName,active&&{color:'#FFF'}]}>{item.name}</Txt><Txt numberOfLines={1} style={[s.bagMeta,active&&{color:'#E8F5F3'}]}>{row.remaining_weight_grams!==null?row.remaining_weight_grams+' g':ar?'الوزن غير محدد':'Weight not set'}</Txt></Pressable>})}</ScrollView></>:<View style={s.empty}><Txt style={s.emptyTitle}>{ar?'أكياسي فاضية':'My Bags is empty'}</Txt><Txt style={styles.muted}>{ar?'أضف كيسًا من صفحة البن أولًا، وبعدها نقدر نبني التحضير عليه.':'Add a bag from a coffee page first, then BeanMora can build your brew around it.'}</Txt><Pressable accessibilityRole="button" onPress={browse} style={s.secondary}><Txt style={s.secondaryText}>{ar?'اكتشف البن':'Discover coffee'}</Txt><Icon name="search" size={17} color={colors.brown}/></Pressable></View>}
@@ -89,19 +102,20 @@ export function BrewMyCoffee({userId,coffees,profile,login,browse,openRecipe}:{u
     {selected&&coffee?<><View style={s.selectedCard}><View style={s.selectedPhoto}><CoffeePhoto uri={coffee.imageUrl} uris={coffee.images} kind={coffee.imageKind}/></View><View style={{flex:1,gap:3}}><Txt style={s.selectedName}>{coffee.name}</Txt><Txt style={styles.muted}>{coffee.roaster}</Txt>{selected.last_grind_setting?<Txt style={s.savedSetting}>{ar?'آخر طحنة: ':'Last grind: '}{selected.last_grind_setting}</Txt>:null}</View></View>
 
       <Txt style={s.sectionTitle}>{ar?'2. طريقة التحضير':'2. Brew method'}</Txt>
-      {availableMethods.length?<MethodPicker value={method} onChange={m=>{if(m){setMethod(m);setMethodTouched(true);}}} allowed={availableMethods} all={false}/>:<Txt style={styles.muted}>{ar?'ما عندنا طريقة تحضير مرتبطة بهالبن للحين.':'No brew method is linked to this coffee yet.'}</Txt>}
+      {availableMethods.length?<MethodPicker value={method} onChange={m=>{if(m){setRecipePage(0);setMethod(m);setMethodTouched(true);}}} allowed={availableMethods} all={false}/>:<Txt style={styles.muted}>{ar?'ما عندنا طريقة تحضير مرتبطة بهالبن للحين.':'No brew method is linked to this coffee yet.'}</Txt>}
 
       <Txt style={s.sectionTitle}>{ar?'3. التقديم':'3. Serving style'}</Txt>
       <View style={s.servingRow}>{([
         ['all',ar?'الكل':'Any'],['hot',ar?'حار':'Hot'],['iced',ar?'مثلّج':'Iced'],['cold',ar?'بارد':'Cold']
-      ] as const).map(([id,label])=><Pressable key={id} accessibilityRole="button" accessibilityState={{selected:serving===id}} onPress={()=>setServing(id)} style={[s.serving,serving===id&&s.servingActive]}><Txt style={[s.servingText,serving===id&&{color:'#FFF'}]}>{label}</Txt></Pressable>)}</View>
+      ] as const).map(([id,label])=><Pressable key={id} accessibilityRole="button" accessibilityState={{selected:serving===id}} onPress={()=>{setRecipePage(0);setServing(id);}} style={[s.serving,serving===id&&s.servingActive]}><Txt style={[s.servingText,serving===id&&{color:'#FFF'}]}>{label}</Txt></Pressable>)}</View>
 
       <Txt style={s.sectionTitle}>{ar?'4. أفضل نقطة بداية':'4. Best starting point'}</Txt>
       {recipesBusy?<ActivityIndicator color={colors.teal}/>:recommended?<View style={s.recommend}><View style={s.recommendTop}><View style={s.recommendIcon}><Icon name={recommended.recipe.method} size={25} color={colors.teal}/></View><View style={{flex:1,gap:3}}><Txt style={s.recommendTitle}>{recommended.recipe.title}</Txt><Txt style={styles.muted}>{methods[locale][recommended.recipe.method]}{recommended.recipe.id===selected.preferred_recipe_id?(ar?' · أفضل وصفة محفوظة':' · Saved best recipe'):recommended.exact?(ar?' · مطابقة لهذا المنتج':' · Exact product match'):recommendedReasons.includes('exactEquipment')?(ar?' · مطابقة لمعداتك':' · Matches your equipment'):recommendedReasons.includes('gearMethod')?(ar?' · مناسبة لطريقتك':' · Fits your brew gear'):''}</Txt></View></View><View testID="bag-brew-facts" style={s.metrics}>{recipeQuickFacts(recommended.recipe,ar).map(fact=><Metric key={fact.key} label={fact.label} value={fact.value}/>)}</View><Pressable accessibilityRole="button" onPress={()=>openRecipe(recommended.recipe)} style={s.primary}><Txt style={s.primaryText}>{ar?'ابدأ بهذه الوصفة':'Start this recipe'}</Txt><Icon name="play" size={17} color="#FFF"/></Pressable></View>:<View style={s.empty}><Txt style={s.emptyTitle}>{ar?'ما لقينا وصفة مطابقة بهالشروط':'No exact recipe matches these choices'}</Txt><Txt style={styles.muted}>{ar?'جرّب طريقة تقديم ثانية أو افتح مكتبة الوصفات لهذا البن من صفحة البن.':'Try another serving style or open this coffee page to browse more recipes.'}</Txt></View>}
 
-      {visible.length>1?<View style={s.more}><Txt style={s.sectionTitle}>{ar?'بدائل مناسبة':'Other matching recipes'}</Txt>{visible.slice(1,6).map(row=><Pressable key={row.recipe.id} accessibilityRole="button" accessibilityLabel={row.recipe.title} onPress={()=>openRecipe(row.recipe)} style={s.recipeRow}><Icon name={row.recipe.method} size={20} color={colors.copper}/><View style={{flex:1}}><Txt numberOfLines={2} style={s.recipeTitle}>{row.recipe.title}</Txt><Txt style={styles.muted}>{methods[locale][row.recipe.method]}</Txt></View><Icon name="arrow" size={17}/></Pressable>)}</View>:null}
+      {visible.length>1?<View style={s.more}><Txt style={s.sectionTitle}>{ar?'بدائل مناسبة':'Other matching recipes'}</Txt>{visible.slice(1).map(row=><Pressable key={row.recipe.id} accessibilityRole="button" accessibilityLabel={row.recipe.title} onPress={()=>openRecipe(row.recipe)} style={s.recipeRow}><Icon name={row.recipe.method} size={20} color={colors.copper}/><View style={{flex:1}}><Txt numberOfLines={2} style={s.recipeTitle}>{row.recipe.title}</Txt><Txt style={styles.muted}>{methods[locale][row.recipe.method]}</Txt></View><Icon name="arrow" size={17}/></Pressable>)}</View>:null}
+      {moreRecipes?<Action title={ar?'المزيد من الوصفات المطابقة':'More matching recipes'} onPress={()=>setRecipePage(p=>p+1)} disabled={recipesBusy}/>:null}
     </>:null}
-    {error?<Txt style={styles.warning}>{error}</Txt>:null}
+    {error?<View style={{gap:8}}><Txt style={styles.warning}>{error}</Txt><Action title={ar?'إعادة المحاولة':'Try again'} onPress={()=>setRevision(v=>v+1)} disabled={busy||recipesBusy}/></View>:null}
   </ScrollView>;
 }
 function Metric({label,value}:{label:string;value:string}){return <View style={s.metric}><Txt style={s.metricValue}>{value}</Txt><Txt style={s.metricLabel}>{label}</Txt></View>}

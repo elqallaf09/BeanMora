@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
 
 const require = createRequire(import.meta.url);
 const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
@@ -36,6 +37,25 @@ test('registry tarballs use HTTPS and integrity metadata', () => {
 });
 const nextRequire = createRequire(require.resolve('next/package.json'));
 const postcss = nextRequire('postcss');
+test('indexed source maps with huge offsets finish without blocking and preserve the generated code', () => {
+  const script = `
+    const assert = require('node:assert/strict');
+    const { SourceMapConsumer, SourceNode } = require(${JSON.stringify(require.resolve('source-map-js'))});
+    const indexed = line => ({version:3, sections:[{
+      offset:{line,column:0}, map:{version:3,sources:['input.js'],sourcesContent:['source code'],names:[],mappings:'AAAA'}
+    }]});
+    assert.throws(() => new SourceMapConsumer(indexed(1e9)), /Section offset line/);
+    const map = new SourceMapConsumer(indexed(1e6));
+    process.stdout.write(SourceNode.fromStringWithSourceMap('const x = 1;', map).toString());
+  `;
+  const child = spawnSync(process.execPath, ['-e', script], {encoding:'utf8', timeout:2000});
+  assert.equal(child.status, 0, child.error?.message || child.stderr);
+  assert.equal(child.stdout, 'const x = 1;');
+  const mobileLock = JSON.parse(readFileSync(new URL('../apps/mobile/package-lock.json', import.meta.url), 'utf8'));
+  for (const tree of [lock, mobileLock]) for (const [path, entry] of Object.entries(tree.packages)) {
+    if (path.endsWith('/source-map-js')) assert.equal(entry.version, '1.2.2');
+  }
+});
 test('Next resolves the narrowly overridden patched PostCSS version', () => {
   assert.equal(nextRequire('postcss/package.json').version, '8.5.23');
   assert.equal(pkg.overrides.next.postcss, '8.5.23');

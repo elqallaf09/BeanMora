@@ -19,6 +19,7 @@ for (const file of [
   'recipeDiscovery.ts',
   'recipeQuickFacts.ts',
   'brewStarter.ts',
+  'catalogCache.ts',
   'core/engine.ts',
 ]) {
   const source = readFileSync(new URL('src/' + file, root), 'utf8');
@@ -73,6 +74,7 @@ const { recipeQuickFacts } = await import(
 const { isGeneralBrewGuide } = await import(
   pathToFileURL(temp + '/brewStarter.mjs').href
 );
+const { encodeCatalog, decodeCatalog, mergeCatalog, CACHE_MAX_AGE, storageFits } = await import(pathToFileURL(temp + '/catalogCache.mjs').href);
 function database(tables) {
   return {
     from(name) {
@@ -641,4 +643,44 @@ test('general starters cannot relabel another coffee, a shared-coffee guide or a
       isGeneralBrewGuide(mapRecipe({ ...row, ...extra }, 'en')),
       false,
     );
+});
+
+test('public cache survives offline reads without storing an account profile or saved IDs', async () => {
+  const bundle = await loadData(database({ beans: [base] }), 'en', null);
+  bundle.profile.flavors = ['chocolate'];
+  bundle.savedBeanIds = ['private-saved-id'];
+  const encoded = encodeCatalog(bundle, 'project-a', 'en', 1000);
+  assert.ok(encoded);
+  assert.equal(encoded.includes('private-saved-id'), false);
+  assert.equal(Object.hasOwn(JSON.parse(encoded).data, 'profile'), false);
+  const restored = decodeCatalog(encoded, 'project-a', 'en', 1001);
+  assert.equal(restored.data.coffees[0].name, 'Real coffee');
+  assert.deepEqual(restored.data.savedBeanIds, []);
+  assert.deepEqual(restored.data.profile.flavors, []);
+});
+test('public cache rejects a different project, language, future timestamp, expired or malformed content', async () => {
+  const bundle = await loadData(database({ beans: [base] }), 'en', null);
+  const encoded = encodeCatalog(bundle, 'project-a', 'en', 1000);
+  for (const [project, locale, now] of [['project-b', 'en', 1001], ['project-a', 'ar', 1001], ['project-a', 'en', 999], ['project-a', 'en', 1001 + CACHE_MAX_AGE]]) {
+    assert.equal(decodeCatalog(encoded, project, locale, now), null);
+  }
+  for (const corrupt of ['{', JSON.stringify({ ...JSON.parse(encoded), data: { ...bundle, coffees: [null] } }), JSON.stringify({ ...JSON.parse(encoded), data: { ...bundle, recipes: [{ public: false }] } })]) {
+    assert.equal(decodeCatalog(corrupt, 'project-a', 'en', 1001), null);
+  }
+});
+test('failed public sections retain last-good data; successful empty reads remove old rows', async () => {
+  const old = await loadData(database({ beans: [base] }), 'en', null);
+  const empty = await loadData(database({}), 'en', null);
+  const partial = { ...empty, failures: { beans: true, products: false, recipes: false, profiles: false, personal: false }, warnings: true };
+  assert.equal(mergeCatalog(partial, old).coffees[0].id, base.id);
+  assert.equal(encodeCatalog(partial, 'project', 'en', Date.now()), null);
+  assert.deepEqual(mergeCatalog(empty, old).coffees, []);
+  assert.deepEqual(mergeCatalog(empty, old).recipes, []);
+});
+
+test('device storage budgets count Arabic and emoji UTF-8 bytes, not only character count', () => {
+  assert.equal(storageFits('a'.repeat(760_000)), true);
+  assert.equal(storageFits('ع'.repeat(760_000)), false);
+  assert.equal(storageFits('☕'.repeat(510_000)), false);
+  assert.equal(storageFits('😀'.repeat(380_000)), false);
 });

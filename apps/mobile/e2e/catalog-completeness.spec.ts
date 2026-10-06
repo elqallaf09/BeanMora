@@ -76,12 +76,18 @@ test('an owned bag keeps the xBloom source water unit and present facts in Brew 
   const token=`${encode({alg:'HS256',typ:'JWT'})}.${encode({sub:user.id,role:'authenticated',exp:Math.floor(Date.now()/1000)+3600})}.isolated_test_signature`;
   const recipe={...recipes[0],bean_id:bean.id};
   const bag={id:'66666666-6666-4666-8666-666666666666',user_id:user.id,legacy_bean_id:bean.id,roasted_product_id:null,remaining_weight_grams:250,last_grind_setting:null,preferred_recipe_id:null,opened_at:'2026-10-01T00:00:00Z',updated_at:'2026-10-01T00:00:00Z'};
+  const scopedMethods:(string|null)[]=[];
   await page.route('https://mobilefixture.supabase.co/**',route=>{
-    const path=new URL(route.request().url()).pathname;let data:unknown=[];
+    const url=new URL(route.request().url());const path=url.pathname;let data:unknown=[];
     if(path.endsWith('/token'))data={access_token:token,token_type:'bearer',expires_in:3600,refresh_token:'isolated_refresh_fixture',user};
     else if(path.endsWith('/user'))data=user;
     else if(path.endsWith('/beans'))data=[bean];
     else if(path.endsWith('/recipes'))data=[recipe];
+    else if(path.endsWith('/rpc/recipes_for_coffee')){
+      expect(route.request().postDataJSON()).toEqual({p_bean_id:bean.id});
+      const selectedMethod=url.searchParams.get('brew_method');scopedMethods.push(selectedMethod);
+      data=!selectedMethod||selectedMethod==='eq.xbloom'?[recipe]:[];
+    }
     else if(path.endsWith('/user_bean_inventory'))data=[bag];
     return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(data)});
   });
@@ -99,6 +105,7 @@ test('an owned bag keeps the xBloom source water unit and present facts in Brew 
   await expect(facts).toContainText('85–88°C');await expect(facts).toContainText('60');
   await expect(facts.getByText('225 g',{exact:true})).toHaveCount(0);
   await expect(facts.getByText('—',{exact:true})).toHaveCount(0);
+  expect(scopedMethods[0]).toBeNull();
   await page.getByRole('button',{name:'V60',exact:true}).click();
   await expect(page.getByText('No exact recipe matches these choices',{exact:true})).toBeVisible();
   await page.getByRole('button',{name:'xBloom',exact:true}).last().click();

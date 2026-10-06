@@ -79,6 +79,7 @@ export interface Bundle {
   recipeTotal: number;
   warnings: boolean;
   limited: boolean;
+  failures?: { beans: boolean; products: boolean; recipes: boolean; profiles: boolean; personal: boolean };
 }
 interface Name {
   name_ar?: string | null;
@@ -363,6 +364,69 @@ export async function loadData(
   userId: string | null,
   method?: Method,
 ): Promise<Bundle> {
+  const personalReads = userId ? Promise.all([
+    read<{
+      preferred_brew_methods: string[];
+      preferred_flavors: string[];
+      preferred_roast_level: string | null;
+    }>(
+      db
+        .from('user_preferences')
+        .select(
+          'preferred_brew_methods,preferred_flavors,preferred_roast_level',
+        )
+        .eq('user_id', userId)
+        .limit(1),
+    ),
+    read<{
+      category: string;
+      equipment_model_id: string | null;
+      custom_name: string | null;
+      model: { name?: string | null } | { name?: string | null }[] | null;
+    }>(
+      db
+        .from('user_equipment')
+        .select(
+          'category,equipment_model_id,custom_name,model:equipment_models(name)',
+        )
+        .eq('user_id', userId)
+        .order('id')
+        .limit(201),
+    ),
+    read<Inventory>(
+      db
+        .from('user_bean_inventory')
+        .select('roasted_product_id,legacy_bean_id')
+        .eq('user_id', userId)
+        .is('archived_at', null)
+        .or('remaining_weight_grams.is.null,remaining_weight_grams.gt.0')
+        .order('id')
+        .limit(201),
+    ),
+    read<OwnAttempt>(
+      db
+        .from('recipe_attempts')
+        .select('recipe_id,outcome')
+        .eq('user_id', userId)
+        .in('status', [
+          'tried',
+          'brewed_as_written',
+          'brewed_with_modifications',
+        ])
+        .order('created_at', { ascending: false })
+        .order('id')
+        .limit(201),
+    ),
+    read<{ bean_id: string }>(
+      db
+        .from('bean_saves')
+        .select('bean_id')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+        .limit(1001),
+      1000,
+    ),
+  ]) : null;
   const ar = locale === 'ar';
   const result: Bundle = {
     coffees: [],
@@ -398,7 +462,7 @@ export async function loadData(
     products = products.eq(`suitable_for_${method}`, true);
   }
   if (method) recipes = recipes.eq('brew_method', method);
-  const [b, p, r, xb] = await Promise.all([
+  const [b, p, r, xb, linked] = await Promise.all([
     read<CoffeeRow>(
       beans.order('updated_at', { ascending: false }).order('id').limit(1001),
       1000,
@@ -426,8 +490,18 @@ export async function loadData(
         .eq('compatibility_status', 'compatible')
         .limit(201),
     ),
+    read<RecipeRow>(
+        db
+          .from('recipes')
+          .select(RECIPE_FIELDS)
+          .eq('visibility', 'public')
+          .or('bean_id.not.is.null,roasted_product_id.not.is.null')
+          .order('updated_at', { ascending: false })
+          .limit(201),
+      ),
   ]);
   result.warnings = [b, p, r, xb].some((x) => x.failed);
+  result.failures = { beans: b.failed, products: p.failed, recipes: r.failed, profiles: xb.failed, personal: false };
   result.limited = [b, p, r, xb].some((x) => x.limited);
   const xbByRecipe = new Map(xb.rows.map((x) => [x.recipe_id, x]));
   const coffee = (row: CoffeeRow, kind: Coffee['kind']): CoffeeItem => {
@@ -496,18 +570,9 @@ export async function loadData(
   ];
   result.recipeTotal = r.total ?? r.rows.length;
   // Keep linked coffee recipes available even when the global catalog is much larger.
-  const linked = result.coffees.length
-    ? await read<RecipeRow>(
-        db
-          .from('recipes')
-          .select(RECIPE_FIELDS)
-          .eq('visibility', 'public')
-          .or('bean_id.not.is.null,roasted_product_id.not.is.null')
-          .order('updated_at', { ascending: false })
-          .limit(201),
-      )
-    : { rows: [], failed: false, limited: false };
+
   result.warnings ||= linked.failed;
+  result.failures.recipes ||= linked.failed;
   result.limited ||= linked.limited;
   const recipeRows = [
     ...new Map(
@@ -548,72 +613,11 @@ export async function loadData(
     coffee.methods = [...new Set([...coffee.methods, ...linkedMethods])];
   }
   if (!userId) return result;
-  const [prefs, gear, inventory, attempts, saves] = await Promise.all([
-    read<{
-      preferred_brew_methods: string[];
-      preferred_flavors: string[];
-      preferred_roast_level: string | null;
-    }>(
-      db
-        .from('user_preferences')
-        .select(
-          'preferred_brew_methods,preferred_flavors,preferred_roast_level',
-        )
-        .eq('user_id', userId)
-        .limit(1),
-    ),
-    read<{
-      category: string;
-      equipment_model_id: string | null;
-      custom_name: string | null;
-      model: { name?: string | null } | { name?: string | null }[] | null;
-    }>(
-      db
-        .from('user_equipment')
-        .select(
-          'category,equipment_model_id,custom_name,model:equipment_models(name)',
-        )
-        .eq('user_id', userId)
-        .order('id')
-        .limit(201),
-    ),
-    read<Inventory>(
-      db
-        .from('user_bean_inventory')
-        .select('roasted_product_id,legacy_bean_id')
-        .eq('user_id', userId)
-        .is('archived_at', null)
-        .or('remaining_weight_grams.is.null,remaining_weight_grams.gt.0')
-        .order('id')
-        .limit(201),
-    ),
-    read<OwnAttempt>(
-      db
-        .from('recipe_attempts')
-        .select('recipe_id,outcome')
-        .eq('user_id', userId)
-        .in('status', [
-          'tried',
-          'brewed_as_written',
-          'brewed_with_modifications',
-        ])
-        .order('created_at', { ascending: false })
-        .order('id')
-        .limit(201),
-    ),
-    read<{ bean_id: string }>(
-      db
-        .from('bean_saves')
-        .select('bean_id')
-        .eq('user_id', userId)
-        .order('created_at', { ascending: false })
-        .limit(1001),
-      1000,
-    ),
-  ]);
+  const [prefs, gear, inventory, attempts, saves] = await personalReads!;
   result.warnings ||= [prefs, gear, inventory, attempts, saves].some(
     (x) => x.failed,
   );
+  result.failures.personal = [prefs, gear, inventory, attempts, saves].some((x) => x.failed);
   result.limited ||= [gear, inventory, attempts, saves].some((x) => x.limited);
   result.savedBeanIds = saves.rows.map((s) => s.bean_id);
   const pref = prefs.rows[0];

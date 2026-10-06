@@ -3,6 +3,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { supabase } from './client';
 import { mapRecipe, RECIPE_FIELDS, type CoffeeItem, type RecipeItem, type RecipeRow } from './data';
 import { RECIPE_DISCOVERY_FIELDS, type RecipeDiscoveryRow } from './recipeDiscovery';
+import type { Method } from './core/engine';
 
 type CoffeeScope = Pick<CoffeeItem, 'kind' | 'id' | 'beanId'>;
 type ScopedRecipeRow = RecipeRow & RecipeDiscoveryRow;
@@ -14,9 +15,10 @@ const sameId = (left: string | null, right: string | null) => left === right || 
 const matches = (coffee: CoffeeScope, beanId: string | null, productId: string | null) => coffee.kind === 'product'
   ? sameId(productId, coffee.id) || Boolean(coffee.beanId && sameId(beanId, coffee.beanId))
   : sameId(beanId, coffee.id);
+type PageFilters = { recipeId?: string; method?: Method; serving?: 'hot' | 'iced' | 'cold' };
 
 /** Public FK or verified shared association, scoped by bound IDs and paginated on the server. */
-export function coffeeRecipesPageQuery(db: Pick<SupabaseClient, 'from' | 'rpc'>, coffee: CoffeeScope, page: number, signal: AbortSignal) {
+export function coffeeRecipesPageQuery(db: Pick<SupabaseClient, 'from' | 'rpc'>, coffee: CoffeeScope, page: number, signal: AbortSignal, filters: PageFilters = {}) {
   const fields = `${RECIPE_FIELDS},${RECIPE_DISCOVERY_FIELDS},updated_at`;
   let query;
   if (usesScopedRpc(coffee)) {
@@ -24,11 +26,25 @@ export function coffeeRecipesPageQuery(db: Pick<SupabaseClient, 'from' | 'rpc'>,
     // product's real legacy bean. Translated labels and caller-supplied legacy
     // IDs cannot broaden a verified shared association.
     const params = coffee.kind === 'product' ? { p_product_id: coffee.id } : { p_bean_id: coffee.id };
-    query = db.rpc('recipes_for_coffee', params, { count: 'exact' }).eq('visibility', 'public').select(fields);
+    let scoped = db.rpc('recipes_for_coffee', params, { count: 'exact' }).eq('visibility', 'public');
+    if (filters.recipeId) scoped = scoped.eq('id', filters.recipeId);
+    if (filters.method) scoped = scoped.eq('brew_method', filters.method);
+    if (filters.serving && ['hot', 'iced', 'cold'].includes(filters.serving)) {
+      // Only a closed enum enters this expression. A known column wins over metadata.
+      const style = filters.serving;
+      scoped = scoped.or(`serving_style.eq.${style},and(or(serving_style.is.null,serving_style.not.in.(hot,iced,cold)),source_brew_parameters->discovery->>serving_style.eq.${style})`);
+    }
+    query = scoped.select(fields);
   } else {
     // Fixture/unknown IDs stay literal .eq() values, never PostgREST .or() syntax.
     query = db.from('recipes').select(fields, { count: 'exact' })
       .eq(coffee.kind === 'product' ? 'roasted_product_id' : 'bean_id', coffee.id).eq('visibility', 'public');
+    if (filters.recipeId) query = query.eq('id', filters.recipeId);
+    if (filters.method) query = query.eq('brew_method', filters.method);
+    if (filters.serving && ['hot', 'iced', 'cold'].includes(filters.serving)) {
+      const style = filters.serving;
+      query = query.or(`serving_style.eq.${style},and(or(serving_style.is.null,serving_style.not.in.(hot,iced,cold)),source_brew_parameters->discovery->>serving_style.eq.${style})`);
+    }
   }
   const offset = Math.max(0, Math.floor(page)) * PAGE_SIZE;
   return query.order('updated_at', { ascending: false }).order('id')
