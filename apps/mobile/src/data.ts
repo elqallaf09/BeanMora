@@ -381,6 +381,9 @@ const publicCatalogReads = new WeakMap<
   Map<string, PublicReads>
 >();
 const PUBLIC_CATALOG_FRESH_MS = 5 * 60_000;
+export function invalidatePublicCatalog(db: SupabaseClient) {
+  publicCatalogReads.delete(db);
+}
 // Public rows only: language and account changes reuse the same in-flight reads.
 function startPublicReads(db: SupabaseClient, method?: Method) {
   const fields =

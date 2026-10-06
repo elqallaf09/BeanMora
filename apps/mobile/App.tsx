@@ -883,6 +883,17 @@ function Shell() {
                   key={userId ?? 'public'}
                   session={userId ? session : null}
                   back={back}
+                  onDeleted={(localCleanupFailed) => {
+                    loginReturn.current = null;
+                    setSession(null);
+                    setSaved(null);
+                    setNotifications(null);
+                    setRevision((value) => value + 1);
+                    navigate('home');
+                    setMessage(localCleanupFailed
+                      ? (ar ? 'حُذف الحساب. تعذّر مسح بعض البيانات من الجهاز؛ امسح بيانات التطبيق من إعدادات الجهاز.' : 'Account deleted. Some device data could not be cleared; clear app data in your device settings.')
+                      : (ar ? 'تم حذف حسابك وبياناته.' : 'Your account and its data were deleted.'));
+                  }}
                 />
               ) : tab === 'home' ? (
                 <Home

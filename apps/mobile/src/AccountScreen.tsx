@@ -1,8 +1,9 @@
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   ImageBackground,
   KeyboardAvoidingView,
-  Linking,
+  Modal,
   Platform,
   Pressable,
   ScrollView,
@@ -12,7 +13,20 @@ import {
 } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import type { Session } from '@supabase/supabase-js';
-import { supabase, authProviderEnabled } from './client';
+import {
+  supabase,
+  authProviderEnabled,
+  catalogScope,
+  clearDeletedSession,
+} from './client';
+import { deleteCurrentAccount } from './core/account-deletion';
+import {
+  createOAuthCallbackHandler,
+  nativeAuthRedirect,
+} from './oauthCallback';
+import { catalogCacheKey } from './catalogCache';
+import { recipeShelfKey } from './useRecipeShelf';
+import { invalidatePublicCatalog } from './data';
 import { artwork } from './CoffeeScreens';
 import { AppVersion } from './AppVersion';
 import {
@@ -28,25 +42,17 @@ import {
 } from './ui';
 
 WebBrowser.maybeCompleteAuthSession();
-const exchangedCodes = new Set<string>();
-export async function finishOAuth(url: string) {
-  if (!supabase || !url.startsWith('beanmora://auth')) return;
-  const code = new URL(url).searchParams.get('code');
-  if (code && !exchangedCodes.has(code)) {
-    exchangedCodes.add(code);
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
-    if (error) {
-      exchangedCodes.delete(code);
-      throw error;
-    }
-  }
-}
+export const finishOAuth = supabase
+  ? createOAuthCallbackHandler(supabase.auth)
+  : async () => {};
 export function AccountScreen({
   session,
   back,
+  onDeleted,
 }: {
   session: Session | null;
   back: () => void;
+  onDeleted: (localCleanupFailed: boolean) => void;
 }) {
   const t = useCopy();
   const ar = useContext(Language) === 'ar';
@@ -57,19 +63,83 @@ export function AccountScreen({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState('');
+  const [deleteError, setDeleteError] = useState('');
+  const [appleEnabled, setAppleEnabled] = useState(false);
   const inFlight = useRef(false);
   const emailRef = useRef<TextInput>(null);
+  useEffect(() => {
+    let active = true;
+    if (!session && supabase)
+      void authProviderEnabled('apple')
+        .then((enabled) => {
+          if (active) setAppleEnabled(enabled);
+        })
+        .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [session]);
+  async function deleteAccount() {
+    if (
+      !supabase ||
+      !session ||
+      inFlight.current ||
+      confirmDelete.trim() !== (ar ? 'حذف' : 'DELETE')
+    )
+      return;
+    inFlight.current = true;
+    setBusy(true);
+    setDeleteError('');
+    try {
+      const owner = await deleteCurrentAccount(supabase);
+      invalidatePublicCatalog(supabase);
+      let localCleanupFailed = false;
+      try {
+        await AsyncStorage.multiRemove([
+          recipeShelfKey(catalogScope, owner),
+          'beanmora-roast-draft:' + owner,
+          catalogCacheKey(catalogScope, 'ar'),
+          catalogCacheKey(catalogScope, 'en'),
+        ]);
+      } catch {
+        localCleanupFailed = true;
+      }
+      try {
+        await clearDeletedSession();
+      } catch {
+        localCleanupFailed = true;
+      }
+      onDeleted(localCleanupFailed);
+    } catch {
+      setDeleteError(
+        ar
+          ? 'لم يتأكد حذف الحساب. تحقق من الاتصال وأعد المحاولة. قد تكون بعض الملفات حُذفت بالفعل.'
+          : 'Account deletion was not confirmed. Check your connection and retry. Some uploaded files may already have been removed.',
+      );
+    } finally {
+      inFlight.current = false;
+      setBusy(false);
+    }
+  }
   function authError(message: string) {
     const lower = message.toLowerCase();
-    return lower.includes('invalid login')
-      ? t.invalidCredentials
-      : lower.includes('not confirmed')
-        ? t.emailNotConfirmed
-        : lower.includes('network') || lower.includes('fetch')
-          ? t.networkError
-          : ar
-            ? t.authError
-            : message || t.authError;
+    return lower.startsWith('oauth_') ||
+      lower.includes('code verifier') ||
+      lower.includes('pkce')
+      ? ar
+        ? 'تعذّر إكمال تسجيل الدخول. حاول مرة ثانية.'
+        : 'Could not complete sign-in. Please try again.'
+      : lower.includes('invalid login')
+        ? t.invalidCredentials
+        : lower.includes('not confirmed')
+          ? t.emailNotConfirmed
+          : lower.includes('network') || lower.includes('fetch')
+            ? t.networkError
+            : ar
+              ? t.authError
+              : message || t.authError;
   }
   async function request(action: () => Promise<void>) {
     if (!supabase || inFlight.current) return;
@@ -158,10 +228,16 @@ export function AccountScreen({
         return;
       }
       const redirectTo =
-        Platform.OS === 'web' ? window.location.origin : 'beanmora://auth';
+        Platform.OS === 'web' ? window.location.origin : nativeAuthRedirect;
       const { data, error } = await supabase!.auth.signInWithOAuth({
         provider,
-        options: { redirectTo, skipBrowserRedirect: true },
+        options: {
+          redirectTo,
+          skipBrowserRedirect: true,
+          ...(provider === 'google'
+            ? { queryParams: { prompt: 'select_account' } }
+            : {}),
+        },
       });
       if (error) throw error;
       if (!data.url) throw new Error(t.authError);
@@ -201,6 +277,132 @@ export function AccountScreen({
           />
           {error ? <Txt style={styles.error}>{error}</Txt> : null}
         </View>
+        <View style={[styles.card, { gap: 12 }]}>
+          <Txt heading>{ar ? 'حسابك وبياناتك' : 'Your account and data'}</Txt>
+          <Txt style={styles.muted}>
+            {ar
+              ? 'تقدر تحذف حسابك وبياناته نهائيًا من هنا، بما فيها وصفاتك وتجارب التحضير والمفضلة والمخزون والملفات المرفوعة.'
+              : 'Permanently delete your account, recipes, brew history, favorites, inventory and uploaded files here.'}
+          </Txt>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={
+              ar ? 'حذف الحساب والبيانات' : 'Delete account and data'
+            }
+            disabled={busy}
+            onPress={() => {
+              setConfirmDelete('');
+              setDeleteError('');
+              setDeleteOpen(true);
+            }}
+            style={s.deleteButton}
+          >
+            <Txt style={s.deleteText}>
+              {ar ? 'حذف الحساب والبيانات' : 'Delete account and data'}
+            </Txt>
+          </Pressable>
+        </View>
+        <Modal
+          visible={deleteOpen}
+          transparent
+          animationType="fade"
+          onRequestClose={() => {
+            if (!busy) setDeleteOpen(false);
+          }}
+        >
+          <View style={s.modalShade}>
+            <View
+              style={s.deletePanel}
+              accessibilityViewIsModal
+              testID="delete-account-dialog"
+            >
+              <Txt heading style={{ fontSize: 22 }}>
+                {ar
+                  ? 'حذف الحساب نهائيًا؟'
+                  : 'Permanently delete your account?'}
+              </Txt>
+              <Txt>
+                {ar
+                  ? 'هذا يحذف حسابك وجميع بياناتك المرتبطة به. لا يمكن التراجع، وقد تُحذف الملفات قبل اكتمال العملية.'
+                  : 'This removes your account and its associated data. It cannot be undone. Uploaded files may be removed before the process completes.'}
+              </Txt>
+              <Txt style={styles.muted}>
+                {ar ? 'اكتب حذف للتأكيد' : 'Type DELETE to confirm'}
+              </Txt>
+              <TextInput
+                accessibilityLabel={
+                  ar ? 'تأكيد حذف الحساب' : 'Confirm account deletion'
+                }
+                value={confirmDelete}
+                onChangeText={setConfirmDelete}
+                autoCapitalize="none"
+                autoCorrect={false}
+                editable={!busy}
+                style={[
+                  s.field,
+                  {
+                    padding: 12,
+                    color: colors.ink,
+                    textAlign: ar ? 'right' : 'left',
+                  },
+                ]}
+              />
+              {deleteError ? (
+                <View
+                  accessibilityRole="alert"
+                  accessibilityLiveRegion="polite"
+                >
+                  <Txt style={styles.error}>{deleteError}</Txt>
+                </View>
+              ) : null}
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={
+                  busy
+                    ? ar
+                      ? 'جارٍ حذف الحساب…'
+                      : 'Deleting account…'
+                    : ar
+                      ? 'احذف حسابي نهائيًا'
+                      : 'Permanently delete my account'
+                }
+                accessibilityState={{
+                  disabled:
+                    busy || confirmDelete.trim() !== (ar ? 'حذف' : 'DELETE'),
+                }}
+                disabled={
+                  busy || confirmDelete.trim() !== (ar ? 'حذف' : 'DELETE')
+                }
+                onPress={() => void deleteAccount()}
+                style={[
+                  s.deleteButton,
+                  {
+                    backgroundColor: '#9C342B',
+                    opacity:
+                      busy || confirmDelete.trim() !== (ar ? 'حذف' : 'DELETE')
+                        ? 0.45
+                        : 1,
+                  },
+                ]}
+              >
+                <Txt style={[s.deleteText, { color: '#FFF' }]}>
+                  {busy
+                    ? ar
+                      ? 'جارٍ حذف الحساب…'
+                      : 'Deleting account…'
+                    : ar
+                      ? 'احذف حسابي نهائيًا'
+                      : 'Permanently delete my account'}
+                </Txt>
+              </Pressable>
+              <Action
+                title={ar ? 'إلغاء' : 'Cancel'}
+                onPress={() => setDeleteOpen(false)}
+                disabled={busy}
+              />
+            </View>
+          </View>
+        </Modal>
         <AppVersion />
       </ScrollView>
     );
@@ -376,28 +578,36 @@ export function AccountScreen({
               <View style={s.rule} />
             </View>
             <View style={s.social}>
-              {(['apple', 'google', 'mail'] as const).map((provider) => (
+              {(appleEnabled
+                ? (['google', 'apple'] as const)
+                : (['google'] as const)
+              ).map((provider) => (
                 <Pressable
                   key={provider}
                   accessibilityRole="button"
                   accessibilityLabel={
-                    provider === 'mail'
+                    provider === 'apple'
                       ? ar
-                        ? 'الدخول بالبريد الإلكتروني'
-                        : 'Use email'
-                      : provider === 'apple'
-                        ? 'Apple'
-                        : 'Google'
+                        ? 'تابع باستخدام Apple'
+                        : 'Continue with Apple'
+                      : ar
+                        ? 'تابع باستخدام Google'
+                        : 'Continue with Google'
                   }
                   disabled={busy}
-                  onPress={() =>
-                    provider === 'mail'
-                      ? emailRef.current?.focus()
-                      : void social(provider)
-                  }
+                  onPress={() => void social(provider)}
                   style={s.socialButton}
                 >
                   <Icon name={provider} size={25} />
+                  <Txt style={{ fontSize: 14, fontWeight: '700' }}>
+                    {provider === 'google'
+                      ? ar
+                        ? 'تابع باستخدام Google'
+                        : 'Continue with Google'
+                      : ar
+                        ? 'تابع باستخدام Apple'
+                        : 'Continue with Apple'}
+                  </Txt>
                 </Pressable>
               ))}
             </View>
@@ -422,6 +632,32 @@ export function AccountScreen({
   );
 }
 const s = StyleSheet.create({
+  deleteButton: {
+    minHeight: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#D4AAA4',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  deleteText: { color: '#9C342B', fontWeight: '700', textAlign: 'center' },
+  modalShade: {
+    flex: 1,
+    backgroundColor: 'rgba(17,9,3,0.55)',
+    justifyContent: 'center',
+    padding: 22,
+  },
+  deletePanel: {
+    width: '100%',
+    maxWidth: 480,
+    alignSelf: 'center',
+    padding: 22,
+    gap: 16,
+    borderRadius: 24,
+    backgroundColor: colors.paper,
+  },
   shade: {
     position: 'absolute',
     top: 0,
@@ -503,10 +739,11 @@ const s = StyleSheet.create({
     marginVertical: 12,
   },
   rule: { flex: 1, height: 1, backgroundColor: '#D6CCBD' },
-  social: { flexDirection: 'row', gap: 10 },
+  social: { gap: 10 },
   socialButton: {
-    flex: 1,
-    height: 49,
+    flexDirection: 'row',
+    gap: 12,
+    minHeight: 52,
     borderWidth: 1,
     borderColor: colors.line,
     borderRadius: 14,

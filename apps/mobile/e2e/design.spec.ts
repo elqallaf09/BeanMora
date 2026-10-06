@@ -103,6 +103,7 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
     const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
     await page.route('https://mobilefixture.supabase.co/**',route=>{
       const path=new URL(route.request().url()).pathname;
+      if (path.endsWith('/auth/v1/settings')) return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({external:{google:true,apple:true}})});
       if (path.endsWith('/rpc/search_public_recipes')) return replyDiscovery(route, [recipe], beans);
       if (path.endsWith('/rpc/recipes_for_coffee')) return replyCoffeeRecipes(route, [recipe]);
       return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(path.endsWith('/beans')?beans:path.endsWith('/recipes')?[recipe]:path.endsWith('/equipment_models')?[{id:'44444444-4444-4444-8444-444444444444',name:'Isolated scale model',category:'scale',requires_review:false,source_url:null,specifications:{catalog:{schema_version:1,name_ar:'ميزان اختبار معزول'}}}]:[])});
@@ -169,8 +170,8 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
     await page.getByRole('button',{name:'حسابي',exact:true}).click();
     await expect(page.getByRole('heading',{name:'مرحباً بك مجدداً'})).toBeVisible();
     await expect(page.getByLabel('البريد الإلكتروني',{exact:true})).toBeVisible();
-    await expect(page.getByRole('button',{name:'Apple',exact:true})).toBeVisible();
-    await expect(page.getByRole('button',{name:'Google',exact:true})).toBeVisible();
+    await expect(page.getByRole('button',{name:'تابع باستخدام Apple',exact:true})).toBeVisible();
+    await expect(page.getByRole('button',{name:'تابع باستخدام Google',exact:true})).toBeVisible();
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
     expect(errors).toEqual([]);
   });

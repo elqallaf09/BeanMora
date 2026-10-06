@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Download, LogOut, Trash2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { deleteCurrentAccount } from "@/lib/account-deletion";
 import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -150,17 +151,20 @@ export function DeleteAccountDialog() {
   const [open, setOpen] = useState(false);
   const [confirmText, setConfirmText] = useState("");
   const [pending, setPending] = useState(false);
+  const [error, setError] = useState("");
 
   async function handleDelete() {
+    if (pending || confirmText !== "DELETE") return;
     setPending(true);
+    setError("");
     try {
       const supabase = createClient();
-      const { error } = await supabase.rpc("delete_own_account");
-      if (!error) {
-        await supabase.auth.signOut();
-        router.push("/");
-        router.refresh();
-      }
+      await deleteCurrentAccount(supabase);
+      await supabase.auth.signOut({ scope: "local" });
+      router.push("/");
+      router.refresh();
+    } catch {
+      setError(t("deleteAccountFailed"));
     } finally {
       setPending(false);
     }
@@ -168,25 +172,26 @@ export function DeleteAccountDialog() {
 
   return (
     <>
-      <Button type="button" variant="destructive" onClick={() => setOpen(true)} className="gap-2">
+      <Button type="button" variant="destructive" onClick={() => { setConfirmText(""); setError(""); setOpen(true); }} className="gap-2">
         <Trash2 className="h-4 w-4" aria-hidden />
         {t("deleteAccount")}
       </Button>
 
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog open={open} onOpenChange={(next) => { if (!pending) setOpen(next); }}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t("deleteAccount")}</DialogTitle>
           </DialogHeader>
           <p className="text-sm text-[var(--color-muted-text)]">{t("deleteAccountHint")}</p>
+          {error ? <p role="alert" className="text-sm text-red-700">{error}</p> : null}
           <div>
             <label htmlFor="confirm-delete" className="mb-1 block text-xs font-medium text-[var(--color-dark-text)]">
               {t("deleteAccountConfirm")}
             </label>
-            <Input id="confirm-delete" value={confirmText} onChange={(e) => setConfirmText(e.target.value)} />
+            <Input id="confirm-delete" value={confirmText} onChange={(e) => setConfirmText(e.target.value)} disabled={pending} />
           </div>
           <DialogFooter>
-            <Button type="button" variant="ghost" onClick={() => setOpen(false)}>
+            <Button type="button" variant="ghost" onClick={() => setOpen(false)} disabled={pending}>
               {t("cancel")}
             </Button>
             <Button type="button" variant="destructive" disabled={confirmText !== "DELETE" || pending} onClick={handleDelete}>
