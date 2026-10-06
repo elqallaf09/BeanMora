@@ -102,6 +102,28 @@ recovery, local recipe save/remove, storage failure, login return, late-page
 bag recipes and exact Arabic decimal weights.
 Browser/Metro/prebuild checks do not establish physical Android or iOS behavior.
 
+## Follow-up: text search with serving filters
+
+The 6 October follow-up moves the rich-search serving predicate onto the base
+recipe rows, before the metadata/source/coffee joins. It keeps the same RPC
+signature, RLS and literal all-word matching, and does not reclassify recipes.
+The Supabase-generated migration version is `20261006115727`.
+
+The same anon query for `BOMBE` plus `iced`, ordered by updated time and ID,
+returned the same one recipe: database execution measured 358.640 ms before,
+54.142 ms in the rolled-back candidate, and 74.614 ms after application.
+These are individual database measurements, not a device startup benchmark.
+`supabase/tests/serving_search.sql` passed after application, covering exact
+Hot/Iced/Cold counts, Arabic text, combined criteria, literal input and caller RLS.
+Live REST checks before this follow-up also returned only the selected style
+(188 Hot, 109 Iced, 3 Cold), including Arabic terms. Unclassified recipes remain
+available under All; missing serving data is not guessed from water temperature.
+
+The APK uploaded in this session is 0.5.5 (15). The server search improvement is immediate,
+but the 0.5.6 (16) cache, quick serving chips and language-picker changes require
+a new APK because the inspected artifact has Expo updates disabled. Installed
+device performance has not been verified in this environment.
+
 ## Build the updated APK
 
 After this release reaches main, use the existing BeanMora Expo project:
