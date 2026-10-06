@@ -72,6 +72,11 @@ combined serving counts, literal all-word matching, coffee scope and caller RLS.
 recipe/coffee/flavor/source refresh, removed facts, republishing and privileges.
 Both passed against the live project.
 
+The legacy `serving_search.sql` regression also passes after the search-index
+change. A final live snapshot contains 3,183 public recipes, 3,183 indexed
+documents, 145 cold/iced recipes and zero unclassified serving values; the
+additional hot recipe is outside this content batch.
+
 Supabase advisors were reviewed. No maintenance function is client executable;
 no new search-index-specific security/performance finding was reported.
 Existing project-wide extension-placement and intentional public-policy
@@ -88,6 +93,11 @@ search results, cache isolation, foreground automation, Reduce Motion, offline
 recovery, saving and login return. Isolated Android prebuild passes with version
 0.5.7 (17), backup disabled and the existing permission-removal directives.
 These browser/bundle/prebuild checks do not establish physical-device behavior.
+
+Root image tooling is locked to sharp 0.35.5 and its patched libvips binaries
+for GHSA-wq5f-xc86-pv6w. A security regression checks the loaded librsvg version
+and decodes a trusted SVG into the expected PNG pixels. Advisory:
+https://github.com/advisories/GHSA-wq5f-xc86-pv6w
 
 No signed native APK or physical Android/iOS execution was performed here.
 The previously inspected APK is 0.5.5 (15) with Expo updates disabled. Server
