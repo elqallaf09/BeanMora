@@ -161,10 +161,17 @@ for(const [path,arabic,english] of [
   ['/recipes/aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa','وصفة اختبار اللغة','Locale test recipe'],
   ['/equipment/aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa','طاحونة اختبار اللغة','Locale test grinder'],
 ]) test(`language switch retains ${path}, query and fragment`,async({page})=>{
-  await guest(page,'ar');await page.waitForLoadState('networkidle');
   const suffix=path+'?source=locale-test#details';
   const active=new Set<import("@playwright/test").Request>();page.on('request',r=>active.add(r));page.on('requestfinished',r=>active.delete(r));page.on('requestfailed',r=>active.delete(r));
-  await page.goto('/ar'+suffix);await expect(page.getByRole('heading',{name:arabic,exact:true})).toBeVisible();
+  // Land directly through the real login redirect. Unloading /home with goto
+  // races its deferred RSC prefetches in WebKit, unrelated to locale switching.
+  // These credentials are accepted only by the isolated loopback auth fixture.
+  await page.goto('/ar/login?next='+encodeURIComponent(suffix));
+  await page.getByLabel(ar.auth.emailLabel,{exact:true}).fill('fixture@example.test');
+  await page.getByLabel(ar.auth.passwordLabel,{exact:true}).fill('fixture_password');
+  await page.getByRole('button',{name:ar.auth.loginButton,exact:true}).click();
+  await expect(page).toHaveURL('http://127.0.0.1:3000/ar'+suffix);
+  await expect(page.getByRole('heading',{name:arabic,exact:true})).toBeVisible();
   if(path.startsWith('/beans/')) await expect(page.getByText('Bilingual coffee comment fixture',{exact:true})).toBeVisible();
   await expect.poll(()=>[...active].map(r=>r.url())).toEqual([]);
   await page.getByRole('button',{name:ar.language.switch,exact:true}).click();await expect(page).toHaveURL('http://127.0.0.1:3000/en'+suffix);await expect(page.getByRole('heading',{name:english,exact:true})).toBeVisible();await noOverflow(page);
