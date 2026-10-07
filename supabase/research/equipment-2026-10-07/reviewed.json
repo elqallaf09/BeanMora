@@ -1,0 +1,1506 @@
+{
+  "models": [
+    {
+      "name": "Profitec GO 2.0",
+      "name_ar": "بروفيتك جو 2.0",
+      "brand": "Profitec",
+      "category": "espresso_machine",
+      "source_url": "https://www.profitec-espresso.com/en/products/go-2-0",
+      "image_url": "https://www.profitec-espresso.com/media/pages/produkte/go-2-0/647f15925a-1781790302/go-red-on.jpg",
+      "facts": {
+        "boiler": [
+          "غلاية نحاس واحدة 0.3 لتر",
+          "Single 0.3 L brass boiler"
+        ],
+        "temperature": [
+          "تحكم PID",
+          "PID control"
+        ],
+        "water_tank": [
+          "2.8 لتر",
+          "2.8 L"
+        ],
+        "weight": [
+          "12 كجم",
+          "12 kg"
+        ]
+      },
+      "description_ar": "ماكينة مدمجة بغلاية واحدة وتحكم حراري ومؤقت تحضير.",
+      "description_en": "Compact single-boiler machine with temperature control and a shot timer.",
+      "id": "374cbf02-1ae8-5de9-9285-496e6632fae3",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.profitec-espresso.com/en/products/go-2-0"
+    },
+    {
+      "name": "Profitec PRO 300",
+      "name_ar": "بروفيتك برو 300",
+      "brand": "Profitec",
+      "category": "espresso_machine",
+      "source_url": "https://www.profitec-espresso.com/en/products/pro300",
+      "image_url": "https://www.profitec-espresso.com/media/pages/produkte/pro300/74803bf3bd-1767956163/pro_300-frontal.jpg",
+      "facts": {
+        "boiler": [
+          "قهوة 0.3 لتر؛ بخار 0.75 لتر",
+          "0.3 L brew; 0.75 L steam"
+        ],
+        "temperature": [
+          "PID لغلاية القهوة",
+          "Brew-boiler PID"
+        ],
+        "water_tank": [
+          "2.8 لتر",
+          "2.8 L"
+        ]
+      },
+      "description_ar": "غلايتان منفصلتان للقهوة والبخار في هيكل مدمج.",
+      "description_en": "Compact machine with separate coffee and steam boilers.",
+      "id": "2fb3a504-23ba-5896-aa4b-d1c452f20ac2",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.profitec-espresso.com/en/products/pro300"
+    },
+    {
+      "name": "Profitec MOVE 2.0",
+      "name_ar": "بروفيتك موف 2.0",
+      "brand": "Profitec",
+      "category": "espresso_machine",
+      "source_url": "https://www.profitec-espresso.com/en/products/move-2-0",
+      "image_url": "https://www.profitec-espresso.com/media/pages/produkte/move-2-0/3a25d8c160-1787297111/move-schwarz-frontal.jpg",
+      "facts": {
+        "boiler": [
+          "قهوة 0.27 لتر؛ بخار 0.7 لتر",
+          "0.27 L brew; 0.7 L steam"
+        ],
+        "dosing": [
+          "إيقاف حسب الوزن مع ميزان متوافق",
+          "Brew-by-weight with a compatible scale"
+        ],
+        "connection": [
+          "بلوتوث وتطبيق Make Coffee Yours",
+          "Bluetooth and Make Coffee Yours app"
+        ],
+        "water_tank": [
+          "2.8 لتر",
+          "2.8 L"
+        ]
+      },
+      "description_ar": "ماكينة بغلايتين تدعم التحكم بالوزن عند توصيل ميزان متوافق.",
+      "description_en": "Dual-boiler machine supporting weight-based stopping with a compatible scale.",
+      "id": "b0db4df9-14f2-590d-9638-a0f349eda725",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.profitec-espresso.com/en/products/move-2-0"
+    },
+    {
+      "name": "Profitec PRO 400",
+      "name_ar": "بروفيتك برو 400",
+      "brand": "Profitec",
+      "category": "espresso_machine",
+      "source_url": "https://www.profitec-espresso.com/en/products/pro-400",
+      "image_url": "https://www.profitec-espresso.com/media/pages/produkte/pro-400/cb7136acb8-1650631673/pro-400.jpg",
+      "facts": {
+        "boiler": [
+          "مبادل حراري؛ غلاية 1.6 لتر",
+          "Heat exchanger; 1.6 L boiler"
+        ],
+        "temperature": [
+          "ثلاث درجات محددة بتحكم PID",
+          "Three PID-controlled temperature presets"
+        ],
+        "preinfusion": [
+          "قابل للتفعيل والإيقاف",
+          "Switchable"
+        ],
+        "water_tank": [
+          "2.8 لتر",
+          "2.8 L"
+        ]
+      },
+      "description_ar": "ماكينة مبادل حراري مع اختيار درجة الحرارة والترطيب المسبق.",
+      "description_en": "Heat-exchanger machine with temperature presets and pre-infusion control.",
+      "id": "67efa50d-c6a9-5305-b0de-32a6c3267e97",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.profitec-espresso.com/en/products/pro-400"
+    },
+    {
+      "name": "Profitec JUMP",
+      "name_ar": "بروفيتك جامب",
+      "brand": "Profitec",
+      "category": "espresso_machine",
+      "source_url": "https://www.profitec-espresso.com/en/products/jump",
+      "image_url": "https://www.profitec-espresso.com/media/pages/produkte/jump/2abd82051f-1718691813/profitec-jump.jpg",
+      "facts": {
+        "boiler": [
+          "مبادل حراري؛ غلاية 1.6 لتر",
+          "Heat exchanger; 1.6 L boiler"
+        ],
+        "temperature": [
+          "ثلاث درجات محددة بتحكم PID",
+          "Three PID-controlled temperature presets"
+        ],
+        "timer": [
+          "عداد زمن التحضير",
+          "Shot timer"
+        ],
+        "water_tank": [
+          "2.8 لتر",
+          "2.8 L"
+        ]
+      },
+      "description_ar": "ماكينة مبادل حراري مع شاشة ومؤقت ومقابض خشب الجوز.",
+      "description_en": "Heat-exchanger machine with a display, shot timer and walnut handles.",
+      "id": "885081d4-67c6-5a8d-9a66-fc51a40de205",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.profitec-espresso.com/en/products/jump"
+    },
+    {
+      "name": "Profitec RIDE",
+      "name_ar": "بروفيتك رايد",
+      "brand": "Profitec",
+      "category": "espresso_machine",
+      "source_url": "https://www.profitec-espresso.com/en/products/ride",
+      "image_url": "https://www.profitec-espresso.com/media/pages/produkte/ride/9901449118-1751979127/ride-overview.jpg",
+      "facts": {
+        "boiler": [
+          "قهوة 0.75 لتر؛ بخار 1 لتر",
+          "0.75 L brew; 1 L steam"
+        ],
+        "heating": [
+          "تسخين الغلايتين معًا",
+          "Simultaneous boiler heating"
+        ],
+        "temperature": [
+          "PID مستقل لكل غلاية",
+          "Separate PID settings for both boilers"
+        ],
+        "water_tank": [
+          "2.8 لتر",
+          "2.8 L"
+        ]
+      },
+      "description_ar": "غلايتان بتسخين متزامن وتحكم مستقل بدرجات الحرارة.",
+      "description_en": "Dual boilers with simultaneous heating and separate temperature settings.",
+      "id": "46b22acf-0066-5922-98dd-7f9efae09d87",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.profitec-espresso.com/en/products/ride"
+    },
+    {
+      "name": "Profitec DRIVE",
+      "name_ar": "بروفيتك درايف",
+      "brand": "Profitec",
+      "category": "espresso_machine",
+      "source_url": "https://www.profitec-espresso.com/en/products/drive",
+      "image_url": "https://www.profitec-espresso.com/media/pages/produkte/drive/af3a010052-1778596856/drive-black-frontal.jpg",
+      "facts": {
+        "boiler": [
+          "قهوة 0.75 لتر؛ بخار 2 لتر",
+          "0.75 L brew; 2 L steam"
+        ],
+        "flow_control": [
+          "صمام مدمج للتحكم بتدفق الماء",
+          "Integrated water-flow valve"
+        ],
+        "operation": [
+          "مضخة دوارة",
+          "Rotary pump"
+        ],
+        "connection": [
+          "خزان أو توصيل ماء مباشر",
+          "Tank or plumbed water supply"
+        ]
+      },
+      "description_ar": "ماكينة بغلايتين ومضخة دوارة وصمام لضبط تدفق الماء.",
+      "description_en": "Dual-boiler machine with a rotary pump and flow-control valve.",
+      "id": "05c8f69a-df20-5824-b967-0ff673c85450",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.profitec-espresso.com/en/products/drive"
+    },
+    {
+      "name": "Profitec PRO 800",
+      "name_ar": "بروفيتك برو 800",
+      "brand": "Profitec",
+      "category": "espresso_machine",
+      "source_url": "https://www.profitec-espresso.com/en/products/pro800",
+      "image_url": "https://www.profitec-espresso.com/media/pages/produkte/pro800/6709beaec0-1644417297/pro_800.jpg",
+      "facts": {
+        "operation": [
+          "ذراع يدوي بنظام ديبر",
+          "Manual lever with dipper system"
+        ],
+        "boiler": [
+          "نحاس 3.5 لتر",
+          "3.5 L copper"
+        ],
+        "temperature": [
+          "تحكم PID",
+          "PID control"
+        ],
+        "weight": [
+          "35.5 كجم",
+          "35.5 kg"
+        ]
+      },
+      "description_ar": "ماكينة ذراع يدوية بغلاية كبيرة وتحكم حراري.",
+      "description_en": "Lever espresso machine with a large boiler and temperature control.",
+      "id": "fed48b95-b447-55e4-a5af-ecbd95268404",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.profitec-espresso.com/en/products/pro800"
+    },
+    {
+      "name": "Profitec TWIST A54",
+      "name_ar": "بروفيتك تويست A54",
+      "brand": "Profitec",
+      "category": "grinder",
+      "source_url": "https://www.profitec-espresso.com/en/products/twist-a54",
+      "image_url": "https://www.profitec-espresso.com/media/pages/produkte/twist-a54/de25ecf98e-1709222061/twist-a54-frontal-web.jpg",
+      "facts": {
+        "burr": [
+          "فولاذ، 54 مم",
+          "54 mm steel"
+        ],
+        "adjustment": [
+          "بدون درجات ثابتة",
+          "Stepless"
+        ],
+        "capacity": [
+          "حاوية بن 250 جم",
+          "250 g bean hopper"
+        ],
+        "dosing": [
+          "ثلاث جرعات قابلة للبرمجة",
+          "Three programmable doses"
+        ]
+      },
+      "description_ar": "طاحونة كهربائية بضبط مستمر ومقادير طحن قابلة للبرمجة.",
+      "description_en": "Electric grinder with stepless adjustment and programmable doses.",
+      "id": "c1b6e9df-836d-59e7-9e98-a7871fc6fe06",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.profitec-espresso.com/en/products/twist-a54"
+    },
+    {
+      "name": "Profitec TWIST SD54",
+      "name_ar": "بروفيتك تويست SD54",
+      "brand": "Profitec",
+      "category": "grinder",
+      "source_url": "https://www.profitec-espresso.com/en/products/twist-sd54",
+      "image_url": "https://www.profitec-espresso.com/media/pages/produkte/twist-sd54/335676a891-1787828407/twist-sd54-frontal.jpg",
+      "facts": {
+        "burr": [
+          "فولاذ، 54 مم",
+          "54 mm steel"
+        ],
+        "adjustment": [
+          "بدون درجات ثابتة",
+          "Stepless"
+        ],
+        "dosing": [
+          "جرعة واحدة مع منفاخ وكوب مغناطيسي",
+          "Single dose with bellows and magnetic cup"
+        ],
+        "motor_power": [
+          "235 واط",
+          "235 W"
+        ]
+      },
+      "description_ar": "طاحونة جرعة واحدة مع منفاخ لإخراج بقايا الطحن.",
+      "description_en": "Single-dose grinder with bellows for clearing retained grounds.",
+      "id": "95bd91f1-884d-58c6-bf04-adbeb47f8107",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.profitec-espresso.com/en/products/twist-sd54"
+    },
+    {
+      "name": "Profitec Magnetic Dosing Funnel 58 mm",
+      "name_ar": "بروفيتك قمع جرعات مغناطيسي 58 مم",
+      "brand": "Profitec",
+      "category": "distribution_tool",
+      "source_url": "https://www.profitec-espresso.com/en/products/funnel",
+      "image_url": "https://www.profitec-espresso.com/media/pages/produkte/funnel/bfb45c1462-1734079477/ac500048-00-funnel.jpg",
+      "facts": {
+        "sizes": [
+          "58 مم",
+          "58 mm"
+        ],
+        "operation": [
+          "تثبيت مغناطيسي",
+          "Magnetic attachment"
+        ]
+      },
+      "description_ar": "قمع يساعد على إبقاء البن داخل حامل الفلتر أثناء الطحن.",
+      "description_en": "Dosing funnel to contain grounds while grinding into a portafilter.",
+      "id": "39aa1f06-05a3-53e4-9514-a807034c7e70",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.profitec-espresso.com/en/products/funnel"
+    },
+    {
+      "name": "Profitec Walnut WDT Tool",
+      "name_ar": "بروفيتك أداة توزيع WDT بمقبض جوز",
+      "brand": "Profitec",
+      "category": "distribution_tool",
+      "source_url": "https://www.profitec-espresso.com/en/products/wdt-tool",
+      "image_url": "https://www.profitec-espresso.com/media/pages/produkte/wdt-tool/b5e2119ff4-1766147656/wdt-tool.jpg",
+      "facts": {
+        "use": [
+          "تفكيك تكتلات البن المطحون",
+          "Breaking up ground-coffee clumps"
+        ],
+        "handle": [
+          "خشب الجوز",
+          "Walnut"
+        ]
+      },
+      "description_ar": "أداة إبر لتوزيع البن المطحون قبل الكبس.",
+      "description_en": "Needle tool for distributing ground coffee before tamping.",
+      "id": "e6e083d7-7b8f-56fa-b879-c19ce9fb9118",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.profitec-espresso.com/en/products/wdt-tool"
+    },
+    {
+      "name": "Profitec American Walnut Tamper 58.5 mm",
+      "name_ar": "بروفيتك مكبس جوز أمريكي 58.5 مم",
+      "brand": "Profitec",
+      "category": "distribution_tool",
+      "source_url": "https://www.profitec-espresso.com/en/products/tamper-american-walnut",
+      "image_url": "https://www.profitec-espresso.com/media/pages/produkte/tamper-nussholz/a793bb97f8-1734082709/ac500047-00-tamper-walnut.jpg",
+      "facts": {
+        "sizes": [
+          "58.5 مم",
+          "58.5 mm"
+        ],
+        "handle": [
+          "خشب الجوز الأمريكي",
+          "American walnut"
+        ]
+      },
+      "description_ar": "مكبس إسبريسو بمقبض خشبي وقطر 58.5 مم.",
+      "description_en": "Espresso tamper with a wooden handle and 58.5 mm base.",
+      "id": "2b03e10a-b4fe-5a33-a454-9a0dd695fe7f",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.profitec-espresso.com/en/products/tamper-american-walnut"
+    },
+    {
+      "name": "Profitec Milk Pitcher 550 ml",
+      "name_ar": "بروفيتك إبريق حليب 550 مل",
+      "brand": "Profitec",
+      "category": "other",
+      "source_url": "https://www.profitec-espresso.com/en/products/milk-pitcher",
+      "image_url": "https://www.profitec-espresso.com/media/pages/produkte/milchkaennchen/a2a6777a5f-1733993268/milk-pitcher-black.jpg",
+      "facts": {
+        "capacity": [
+          "550 مل",
+          "550 ml"
+        ],
+        "guidance": [
+          "تدريج قياس داخلي",
+          "Internal measuring scale"
+        ]
+      },
+      "description_ar": "إبريق تبخير وصب حليب مع تدريج داخلي.",
+      "description_en": "Milk steaming and pouring pitcher with internal markings.",
+      "id": "11433bc2-6cba-52b0-b609-4e92c138a74a",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.profitec-espresso.com/en/products/milk-pitcher"
+    },
+    {
+      "name": "Profitec Knock Box Drawer",
+      "name_ar": "بروفيتك درج تفريغ البن",
+      "brand": "Profitec",
+      "category": "other",
+      "source_url": "https://www.profitec-espresso.com/en/products/knock-box-drawer",
+      "image_url": "https://www.profitec-espresso.com/media/pages/produkte/sudschublade/5977c7d509-1734074484/sudschublade-schwarz-schmal-geschlossen.jpg",
+      "facts": {
+        "dimensions": [
+          "160 × 315 × 72 مم؛ عرض × عمق × ارتفاع",
+          "160 × 315 × 72 mm; W × D × H"
+        ],
+        "included": [
+          "قضيب طرق مغطى بالسيليكون قابل للإزالة",
+          "Removable silicone-covered knock bar"
+        ]
+      },
+      "description_ar": "درج لتفريغ أقراص الإسبريسو مع مساحة لطاحونة فوقه.",
+      "description_en": "Espresso-puck drawer designed to sit below a grinder.",
+      "id": "3a31e8b8-3ace-5c53-8338-e492d380f1c6",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.profitec-espresso.com/en/products/knock-box-drawer"
+    },
+    {
+      "name": "Profitec Bottomless Portafilter AC500049-01",
+      "name_ar": "بروفيتك بورتافلتر مكشوف AC500049-01",
+      "brand": "Profitec",
+      "category": "other",
+      "source_url": "https://www.profitec-espresso.com/en/products/filtertraeger-bodenlos",
+      "image_url": "https://www.profitec-espresso.com/media/pages/produkte/filtertraeger-bodenlos/0e99e10707-1721904806/pr5805-bodenloser-filtertraeger-seitlich.jpg",
+      "facts": {
+        "included": [
+          "سلة فلتر 21 جم",
+          "21 g filter basket"
+        ],
+        "operation": [
+          "حامل فلتر مكشوف قابل للتحويل بفوهات سيليكون منفصلة",
+          "Bottomless; accepts separately sold silicone spouts"
+        ]
+      },
+      "description_ar": "حامل فلتر مكشوف من بروفيتك مع سلة 21 جم.",
+      "description_en": "Profitec bottomless portafilter supplied with a 21 g basket.",
+      "id": "51f41cad-6733-5b41-93e7-088537639dee",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.profitec-espresso.com/en/products/filtertraeger-bodenlos"
+    },
+    {
+      "name": "Rocket Appartamento TCA",
+      "name_ar": "روكيت أبارتامنتو TCA",
+      "brand": "Rocket Espresso",
+      "category": "espresso_machine",
+      "source_url": "https://rocket-espresso.com/products/domestic-models/appartamento-tca",
+      "image_url": "https://cdn.sanity.io/images/zhlpxy7s/production/1d117e49210df7f16402d40ca4a24d93d1a0f6e4-1500x1259.webp?q=65&auto=format",
+      "facts": {
+        "boiler": [
+          "مبادل حراري؛ 1.8 لتر",
+          "Heat exchanger; 1.8 L"
+        ],
+        "water_tank": [
+          "1.9 لتر",
+          "1.9 L"
+        ],
+        "weight": [
+          "22 كجم",
+          "22 kg"
+        ]
+      },
+      "description_ar": "ماكينة مبادل حراري مع إمكانية ضبط الحرارة.",
+      "description_en": "Heat-exchanger machine with temperature adjustment.",
+      "id": "fea74677-952e-5897-9bf3-a93eb2c9226e",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://rocket-espresso.com/products/domestic-models/appartamento-tca"
+    },
+    {
+      "name": "Rocket R58 TUNE",
+      "name_ar": "روكيت R58 تيون",
+      "brand": "Rocket Espresso",
+      "category": "espresso_machine",
+      "source_url": "https://rocket-espresso.com/products/domestic-models/r58tune",
+      "image_url": "https://cdn.sanity.io/images/zhlpxy7s/production/cfb5698ed6183cd087ebea5a664c110e0963c8f2-2797x2797.png?q=65&auto=format",
+      "facts": {
+        "boiler": [
+          "قهوة 0.58 لتر؛ بخار 1.8 لتر",
+          "0.58 L brew; 1.8 L steam"
+        ],
+        "temperature": [
+          "تحكم PID مستقل للغلايتين",
+          "Independent dual-boiler PID"
+        ],
+        "water_tank": [
+          "1.9 لتر أو توصيل مباشر",
+          "1.9 L tank or direct plumbing"
+        ]
+      },
+      "description_ar": "ماكينة بغلايتين مع ضبط مرحلتي بداية ونهاية الاستخلاص.",
+      "description_en": "Dual-boiler machine with timed control over the start and finish of extraction.",
+      "id": "b45ccfc4-4fee-56d4-a034-bd56d15424dc",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://rocket-espresso.com/products/domestic-models/r58tune"
+    },
+    {
+      "name": "Rocket Bicocca",
+      "name_ar": "روكيت بيكوكا",
+      "brand": "Rocket Espresso",
+      "category": "espresso_machine",
+      "source_url": "https://rocket-espresso.com/products/domestic-models/bicocca",
+      "image_url": "https://cdn.sanity.io/images/zhlpxy7s/production/7f0de21dde43147cb00835d9a09cbf0e364cae32-1500x1259.webp?q=65&auto=format",
+      "facts": {
+        "boiler": [
+          "قهوة 0.5 لتر؛ بخار 1.5 لتر",
+          "0.5 L brew; 1.5 L steam"
+        ],
+        "display": [
+          "شاشة لمس 3.5 بوصة",
+          "3.5-inch touchscreen"
+        ],
+        "operation": [
+          "مضخة دوارة",
+          "Rotary pump"
+        ],
+        "water_tank": [
+          "1.8 لتر أو توصيل مباشر",
+          "1.8 L tank or direct plumbing"
+        ]
+      },
+      "description_ar": "ماكينة بغلايتين ورأس مسخن كهربائيًا وشاشة لمس.",
+      "description_en": "Dual-boiler espresso machine with an actively heated group and touchscreen.",
+      "id": "b17dfbd6-82b7-5c22-9db7-d55e33aa91bf",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://rocket-espresso.com/products/domestic-models/bicocca"
+    },
+    {
+      "name": "Rocket Giotto FAST",
+      "name_ar": "روكيت جيوتو FAST",
+      "brand": "Rocket Espresso",
+      "category": "espresso_machine",
+      "source_url": "https://rocket-espresso.com/products/domestic-models/giotto-fast",
+      "image_url": "https://cdn.sanity.io/images/zhlpxy7s/production/6ac865681249ee37d8b62e0754e3210463d3e0a2-1500x1259.webp?q=65&auto=format",
+      "facts": {
+        "boiler": [
+          "مبادل حراري؛ 1.8 لتر",
+          "Heat exchanger; 1.8 L"
+        ],
+        "display": [
+          "OLED",
+          "OLED"
+        ],
+        "water_tank": [
+          "1.8 لتر",
+          "1.8 L"
+        ],
+        "operation": [
+          "نسخة R بمضخة دوارة؛ نسخة V بمضخة اهتزازية",
+          "R version: rotary pump; V version: vibration pump"
+        ]
+      },
+      "description_ar": "سلسلة جيوتو ذات التسخين السريع؛ نوع المضخة يعتمد على نسخة R أو V.",
+      "description_en": "Fast-heating Giotto family; pump type depends on the R or V variant.",
+      "id": "f1225f84-52a8-5cd7-bf0e-d4ecfca71737",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://rocket-espresso.com/products/domestic-models/giotto-fast"
+    },
+    {
+      "name": "Rocket Mozzafiato FAST",
+      "name_ar": "روكيت موتزافياتو FAST",
+      "brand": "Rocket Espresso",
+      "category": "espresso_machine",
+      "source_url": "https://rocket-espresso.com/products/domestic-models/mozzafiato-fast",
+      "image_url": "https://cdn.sanity.io/images/zhlpxy7s/production/6a2c930f4fd355998241b26221880db1bac0f031-1500x1259.webp?q=65&auto=format",
+      "facts": {
+        "boiler": [
+          "مبادل حراري؛ 1.8 لتر",
+          "Heat exchanger; 1.8 L"
+        ],
+        "display": [
+          "OLED",
+          "OLED"
+        ],
+        "water_tank": [
+          "1.8 لتر",
+          "1.8 L"
+        ],
+        "operation": [
+          "نسخة R بمضخة دوارة؛ نسخة V بمضخة اهتزازية",
+          "R version: rotary pump; V version: vibration pump"
+        ]
+      },
+      "description_ar": "سلسلة موتزافياتو ذات التسخين السريع؛ نوع المضخة يعتمد على النسخة.",
+      "description_en": "Fast-heating Mozzafiato family with pump type dependent on the variant.",
+      "id": "4cca71a9-c068-51a8-99ca-cd210140a3db",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://rocket-espresso.com/products/domestic-models/mozzafiato-fast"
+    },
+    {
+      "name": "Rocket R NINE ONE",
+      "name_ar": "روكيت آر ناين ون",
+      "brand": "Rocket Espresso",
+      "category": "espresso_machine",
+      "source_url": "https://rocket-espresso.com/products/domestic-models/r-nine-one",
+      "image_url": "https://cdn.sanity.io/images/zhlpxy7s/production/0ba814ff28c6a2c0054b3e22a966d4ab69031ef0-1500x1259.webp?q=65&auto=format",
+      "facts": {
+        "boiler": [
+          "قهوة 1.9 لتر؛ بخار 3.6 لتر",
+          "1.9 L brew; 3.6 L steam"
+        ],
+        "programs": [
+          "خمسة برامج ضغط مسبقة أو تحكم يدوي",
+          "Five pressure presets or manual control"
+        ],
+        "connection": [
+          "خزان أو توصيل مباشر",
+          "Tank or direct plumbing"
+        ],
+        "weight": [
+          "47.4 كجم",
+          "47.4 kg"
+        ]
+      },
+      "description_ar": "ماكينة برأس مشبع وتحكم بمنحنى الضغط.",
+      "description_en": "Saturated-group espresso machine with pressure profiling.",
+      "id": "db0e6663-04fb-529a-8c3d-e02f910109d6",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://rocket-espresso.com/products/domestic-models/r-nine-one"
+    },
+    {
+      "name": "Gemilai Ele One G3828A",
+      "name_ar": "جيميلاي إيلي ون G3828A",
+      "brand": "Gemilai",
+      "category": "espresso_machine",
+      "source_url": "https://www.gemilai.com/products/ele-one-g3828a-espresso-machine",
+      "image_url": "https://www.gemilai.com/cdn/shop/files/ele-one-g3828a-espresso-machine-fr-4396606.png?v=1785793148",
+      "facts": {
+        "grinder": [
+          "مسطحة 60 مم؛ 30 إعدادًا",
+          "60 mm flat burrs; 30 settings"
+        ],
+        "heating": [
+          "ثرموبلوكان ومضختان",
+          "Dual thermoblocks and pumps"
+        ],
+        "water_tank": [
+          "2 لتر",
+          "2 L"
+        ],
+        "voltage": [
+          "المصدر الأمريكي: 120 فولت، 60 هرتز",
+          "US source: 120 V, 60 Hz"
+        ]
+      },
+      "description_ar": "ماكينة بطاحونة مدمجة ونظامي تسخين ودعم تحضير بارد.",
+      "description_en": "Integrated-grinder machine with dual heating systems and cold-brew support.",
+      "id": "319b22c2-4cc4-589b-94b8-0e9e338feddd",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.gemilai.com/products/ele-one-g3828a-espresso-machine"
+    },
+    {
+      "name": "Gemilai Whale G3038A",
+      "name_ar": "جيميلاي ويل G3038A",
+      "brand": "Gemilai",
+      "category": "espresso_machine",
+      "source_url": "https://www.gemilai.com/products/g3038a-espresso-machine",
+      "image_url": "https://www.gemilai.com/cdn/shop/files/whale-g3038a-home-barista-bundle-3299482.png?v=1790102023",
+      "facts": {
+        "boiler": [
+          "مبادل حراري 2 لتر",
+          "2 L heat exchanger"
+        ],
+        "temperature": [
+          "تحكم PID",
+          "PID control"
+        ],
+        "water_tank": [
+          "1.5 لتر",
+          "1.5 L"
+        ],
+        "voltage": [
+          "المصدر الأمريكي: 120 فولت، 60 هرتز",
+          "US source: 120 V, 60 Hz"
+        ]
+      },
+      "description_ar": "ماكينة E61 بمبادل حراري وضبط ضغط قبل وأثناء الاستخلاص.",
+      "description_en": "E61 heat-exchanger machine with pressure adjustment before and during extraction.",
+      "id": "e60bd8f9-d4ac-5f9f-a50e-8c2a53990627",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.gemilai.com/products/g3038a-espresso-machine"
+    },
+    {
+      "name": "Gemilai Ele G3028A",
+      "name_ar": "جيميلاي إيلي G3028A",
+      "brand": "Gemilai",
+      "category": "espresso_machine",
+      "source_url": "https://www.gemilai.com/products/g3028a-espresso-machine",
+      "image_url": "https://www.gemilai.com/cdn/shop/files/ele-g3028a-espresso-machine-1233190.png?v=1790102035",
+      "facts": {
+        "boiler": [
+          "غلاية قهوة 550 مل وثرموبلوك للبخار",
+          "550 ml brew boiler and steam thermoblock"
+        ],
+        "steam": [
+          "يدوي أو تلقائي بحساس حرارة",
+          "Manual or automatic with temperature sensing"
+        ],
+        "water_tank": [
+          "1.7 لتر",
+          "1.7 L"
+        ],
+        "voltage": [
+          "المصدر الأمريكي: 120 فولت، 60 هرتز",
+          "US source: 120 V, 60 Hz"
+        ]
+      },
+      "description_ar": "ماكينة بنظامي تسخين وتبخير حليب تلقائي حسب الحرارة.",
+      "description_en": "Separate brew and steam heating with temperature-controlled automatic milk steaming.",
+      "id": "f4ee3cf1-82a5-5652-9e9e-36ce2d664874",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.gemilai.com/products/g3028a-espresso-machine"
+    },
+    {
+      "name": "Gemilai Owl G3006A",
+      "name_ar": "جيميلاي أول G3006A",
+      "brand": "Gemilai",
+      "category": "espresso_machine",
+      "source_url": "https://www.gemilai.com/products/g3006a-espresso-machine",
+      "image_url": "https://www.gemilai.com/cdn/shop/files/owl-g3006a-espresso-machine-with-hot-cold-dual-brew-2345911.png?v=1790102032",
+      "facts": {
+        "heating": [
+          "ثرموبلوك ورأس حراري متوازن",
+          "Thermoblock and thermal-balance group"
+        ],
+        "temperature": [
+          "تحكم PID مزدوج",
+          "Dual PID control"
+        ],
+        "water_tank": [
+          "1.7 لتر",
+          "1.7 L"
+        ],
+        "voltage": [
+          "المصدر الأمريكي: 120 فولت، 60 هرتز",
+          "US source: 120 V, 60 Hz"
+        ]
+      },
+      "description_ar": "ماكينة مدمجة مع شاشة لمس وتحضير ساخن وبارد.",
+      "description_en": "Compact touchscreen espresso machine with hot and cold brewing.",
+      "id": "dbb7b8b2-537e-50ba-b145-6f593da410ac",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.gemilai.com/products/g3006a-espresso-machine"
+    },
+    {
+      "name": "Gemilai Owl G3006",
+      "name_ar": "جيميلاي أول G3006",
+      "brand": "Gemilai",
+      "category": "espresso_machine",
+      "source_url": "https://www.gemilai.com/products/g3006-espresso-machine",
+      "image_url": "https://www.gemilai.com/cdn/shop/files/owl-g3006-espresso-machine-9828796.png?v=1790102041",
+      "facts": {
+        "heating": [
+          "ثرموبلوك",
+          "Thermoblock"
+        ],
+        "temperature": [
+          "تحكم PID",
+          "PID control"
+        ],
+        "water_tank": [
+          "1.7 لتر",
+          "1.7 L"
+        ],
+        "voltage": [
+          "المصدر الأمريكي: 120 فولت، 60 هرتز",
+          "US source: 120 V, 60 Hz"
+        ]
+      },
+      "description_ar": "ماكينة إسبريسو مدمجة مع شاشة لمس وتبخير يدوي.",
+      "description_en": "Compact touchscreen espresso machine with manual steam control.",
+      "id": "f7d2182f-f51e-5639-897e-debfe12dec6b",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.gemilai.com/products/g3006-espresso-machine"
+    },
+    {
+      "name": "Gemilai Molight G9010D",
+      "name_ar": "جيميلاي مولّايت G9010D",
+      "brand": "Gemilai",
+      "category": "grinder",
+      "source_url": "https://www.gemilai.com/products/molight-g9010d-coffee-grinder",
+      "image_url": "https://www.gemilai.com/cdn/shop/files/molight-g9010d-coffee-grinder-upgraded-3848487.png?v=1789190300",
+      "facts": {
+        "burr": [
+          "مخروطية فولاذية 48 مم",
+          "48 mm steel conical"
+        ],
+        "adjustment": [
+          "ضبط مستمر مع تدريج 60 علامة",
+          "Stepless adjustment with a 60-mark scale"
+        ],
+        "capacity": [
+          "حاوية بن 80 جم",
+          "80 g bean hopper"
+        ],
+        "dosing": [
+          "مؤقت أو يدوي",
+          "Timed or manual"
+        ]
+      },
+      "description_ar": "طاحونة كهربائية بضبط مستمر ومؤقت على شاشة لمس.",
+      "description_en": "Electric stepless grinder with a touchscreen timer.",
+      "id": "25fa9ae0-59d0-5306-bf55-17fccbcadd15",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.gemilai.com/products/molight-g9010d-coffee-grinder"
+    },
+    {
+      "name": "Gemilai Milk Pitcher 450 ml",
+      "name_ar": "جيميلاي إبريق حليب 450 مل",
+      "brand": "Gemilai",
+      "category": "other",
+      "source_url": "https://www.gemilai.com/products/milk-frothing-pitcher-450ml-15oz",
+      "image_url": "https://www.gemilai.com/cdn/shop/files/milk-frothing-pitcher-450ml15oz-9106989.png?v=1772618774",
+      "facts": {
+        "capacity": [
+          "450 مل",
+          "450 ml"
+        ],
+        "material": [
+          "ستانلس ستيل 304",
+          "304 stainless steel"
+        ],
+        "guidance": [
+          "علامات قياس داخلية",
+          "Internal measurement markings"
+        ]
+      },
+      "description_ar": "إبريق لتبخير الحليب وصب اللاتيه آرت.",
+      "description_en": "Milk steaming pitcher for latte-art pouring.",
+      "id": "6231f6d4-491d-5163-a31c-694be95c54e8",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.gemilai.com/products/milk-frothing-pitcher-450ml-15oz"
+    },
+    {
+      "name": "Gemilai GA1202A Coffee Scale",
+      "name_ar": "جيميلاي ميزان قهوة GA1202A",
+      "brand": "Gemilai",
+      "category": "scale",
+      "source_url": "https://www.gemilai.com/products/ga1202a-coffee-scale-with-timer-espresso-scale-with-auto-tare",
+      "image_url": "https://www.gemilai.com/cdn/shop/files/coffee-scale-with-timer-espresso-scale-with-auto-tare-4663993.png?v=1772618772",
+      "facts": {
+        "timer": [
+          "مؤقت مدمج",
+          "Built-in timer"
+        ],
+        "operation": [
+          "تصفير تلقائي",
+          "Automatic tare"
+        ]
+      },
+      "description_ar": "ميزان قهوة بمؤقت وتصفير تلقائي وفق صفحة الشركة.",
+      "description_en": "Coffee scale with a timer and automatic tare listed by the manufacturer.",
+      "id": "2e76e021-6490-50cf-86cb-91d0a86449f8",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.gemilai.com/products/ga1202a-coffee-scale-with-timer-espresso-scale-with-auto-tare"
+    },
+    {
+      "name": "Gemilai GA0351A Coffee Distributor 58 mm",
+      "name_ar": "جيميلاي موزع قهوة GA0351A بمقاس 58 مم",
+      "brand": "Gemilai",
+      "category": "distribution_tool",
+      "source_url": "https://www.gemilai.com/products/ga0351a-58mm-coffee-distributor",
+      "image_url": "https://www.gemilai.com/cdn/shop/files/58mm-coffee-distributor-3894167.png?v=1772618773",
+      "facts": {
+        "sizes": [
+          "58 مم",
+          "58 mm"
+        ],
+        "use": [
+          "توزيع سطح البن قبل الكبس",
+          "Leveling grounds before tamping"
+        ]
+      },
+      "description_ar": "أداة توزيع بن بقطر 58 مم.",
+      "description_en": "58 mm coffee distribution tool.",
+      "id": "48bd421c-22f2-53b3-b750-63b63b672110",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.gemilai.com/products/ga0351a-58mm-coffee-distributor"
+    },
+    {
+      "name": "Meraki Espresso Machine",
+      "name_ar": "ماكينة ميراكي إسبريسو",
+      "brand": "Meraki",
+      "category": "espresso_machine",
+      "source_url": "https://www.merakitech.com/products/meraki-espresso-machine",
+      "image_url": "https://www.merakitech.com/cdn/shop/files/Black_Meraki_espresso_machine_01_1.jpg?v=1790761331",
+      "facts": {
+        "boiler": [
+          "قهوة 350 مل؛ بخار 550 مل",
+          "350 ml brew; 550 ml steam"
+        ],
+        "operation": [
+          "مضخة دوارة 9 بار",
+          "9 bar rotary pump"
+        ],
+        "grinder": [
+          "مدمجة، 45 إعدادًا",
+          "Integrated, 45 settings"
+        ],
+        "dosing": [
+          "ميزانان للجرعة والمشروب",
+          "Built-in dose and yield scales"
+        ],
+        "portafilter": [
+          "58 مم",
+          "58 mm"
+        ]
+      },
+      "description_ar": "ماكينة بغلايتين وطاحونة وميزانين مدمجين.",
+      "description_en": "Dual-boiler machine with an integrated grinder and two scales.",
+      "id": "651f8a15-1ee7-5583-b878-9d898ca055c6",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.merakitech.com/products/meraki-espresso-machine"
+    },
+    {
+      "name": "Stone Espresso",
+      "name_ar": "ستون إسبريسو",
+      "brand": "Stone Espresso",
+      "category": "espresso_machine",
+      "source_url": "https://www.stone-espresso.com/specifications",
+      "image_url": "https://www.stone-espresso.com/images/slider/stone_plus_all.png",
+      "facts": {
+        "boiler": [
+          "1.5 لتر؛ حجرة بخار 0.8 لتر",
+          "1.5 L; 0.8 L steam chamber"
+        ],
+        "water_tank": [
+          "1.2 لتر",
+          "1.2 L"
+        ],
+        "dimensions": [
+          "225 × 440 × 355 مم؛ عرض × عمق × ارتفاع",
+          "225 × 440 × 355 mm; W × D × H"
+        ],
+        "weight": [
+          "20.5 كجم",
+          "20.5 kg"
+        ]
+      },
+      "description_ar": "ماكينة إسبريسو منزلية بعرض 22.5 سم وألواح جانبية قابلة للتخصيص.",
+      "description_en": "Home espresso machine with a 22.5 cm width and customizable side panels.",
+      "id": "d7db0661-fe6d-5501-9372-276ebb1ad5e5",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.stone-espresso.com/"
+    },
+    {
+      "name": "Mahlkönig X54 Allround Home Grinder",
+      "name_ar": "مالكونيق X54",
+      "brand": "Mahlkönig",
+      "category": "grinder",
+      "source_url": "https://www.mahlkoenig.com/products/x54-allround-home-grinder",
+      "image_url": "https://www.mahlkoenig.com/cdn/shop/files/Mahlkoenig_X54_Allround_Home_Grinder_black_front_main_1200x1200.webp?v=1765319034",
+      "facts": {
+        "burr": [
+          "فولاذ خاص 54 مم",
+          "54 mm special steel"
+        ],
+        "adjustment": [
+          "بدون درجات ثابتة",
+          "Stepless"
+        ],
+        "capacity": [
+          "حاوية بن نحو 250 جم",
+          "Approx. 250 g hopper"
+        ],
+        "dosing": [
+          "أربعة مؤقتات ووضع يدوي",
+          "Four timed presets and manual mode"
+        ]
+      },
+      "description_ar": "طاحونة منزلية قابلة لضبط الطحن للإسبريسو والتحضير المرشح.",
+      "description_en": "Home grinder adjustable for espresso and filter brewing.",
+      "id": "f820e064-8023-4fcf-b140-5c9fae1e7977",
+      "existing": true,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.mahlkoenig.com/products/x54-allround-home-grinder"
+    },
+    {
+      "name": "Mahlkönig X64 SD",
+      "name_ar": "مالكونيق X64 SD",
+      "brand": "Mahlkönig",
+      "category": "grinder",
+      "source_url": "https://www.mahlkoenig.com/products/x64-sd-single-dose-home-grinder",
+      "image_url": "https://www.mahlkoenig.com/cdn/shop/files/Mahlkonig-X64-SD-Black-Front-Side-sq_1200x1200.webp?v=1768603085",
+      "facts": {
+        "burr": [
+          "فولاذ خاص 64 مم",
+          "64 mm special steel"
+        ],
+        "adjustment": [
+          "بدون درجات ثابتة",
+          "Stepless"
+        ],
+        "dosing": [
+          "جرعة واحدة",
+          "Single dose"
+        ],
+        "capacity": [
+          "30 جم قياسيًا؛ 100 جم مع الامتداد؛ 80 جم مع المنفاخ",
+          "30 g standard; 100 g extension; 80 g bellows"
+        ]
+      },
+      "description_ar": "طاحونة جرعة واحدة للإسبريسو والقهوة المرشحة مع ملحقات حاوية مختلفة.",
+      "description_en": "Single-dose espresso and filter grinder with interchangeable hopper attachments.",
+      "id": "82675941-d67b-5a5e-a665-ec172589aeb6",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.mahlkoenig.com/products/x64-sd-single-dose-home-grinder"
+    },
+    {
+      "name": "Fellow Aiden Precision Coffee Maker",
+      "name_ar": "فيلو آيدن",
+      "brand": "Fellow",
+      "category": "other",
+      "source_url": "https://fellowproducts.com/products/aiden-precision-coffee-maker",
+      "image_url": "https://fellowproducts.com/cdn/shop/files/Web_PDP_Aiden_Black_1.png?v=1773352095",
+      "facts": {
+        "capacity": [
+          "حتى 1.5 لتر",
+          "Up to 1.5 L"
+        ],
+        "filter": [
+          "مخروطي Melitta #2 أو سلة 8–12 كوبًا",
+          "Melitta #2 cone or 8–12 cup basket"
+        ]
+      },
+      "description_ar": "جهاز قهوة مرشحة للتحضير الفردي أو الدفعات.",
+      "description_en": "Filter coffee maker for single servings or batch brewing.",
+      "id": "f028a0f4-4739-48a4-aeed-35cc7ee17e88",
+      "existing": true,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://fellowproducts.com/products/aiden-precision-coffee-maker"
+    },
+    {
+      "name": "Varia VS3 Grinder",
+      "name_ar": "فاريا VS3",
+      "brand": "Varia Brewing",
+      "category": "grinder",
+      "source_url": "https://www.variabrewing.com/products/varia-vs3-grinder",
+      "image_url": "https://www.variabrewing.com/cdn/shop/files/VS3_HERO_S_SCAJ-01.png?v=1721200004",
+      "facts": {
+        "burr": [
+          "مخروطية 48 مم",
+          "48 mm conical"
+        ],
+        "adjustment": [
+          "بدون درجات ثابتة",
+          "Stepless"
+        ],
+        "capacity": [
+          "30 جم",
+          "30 g"
+        ],
+        "motor_power": [
+          "100 واط",
+          "100 W"
+        ]
+      },
+      "description_ar": "طاحونة جرعة واحدة للإسبريسو والقهوة المرشحة.",
+      "description_en": "Single-dose grinder for espresso and filter coffee.",
+      "id": "7cfe4649-911e-47b0-9556-4c384544db10",
+      "existing": true,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.variabrewing.com/products/varia-vs3-grinder"
+    },
+    {
+      "name": "Cafelat Robot",
+      "name_ar": "كافيلات روبوت",
+      "brand": "Cafelat",
+      "category": "espresso_machine",
+      "source_url": "https://www.cafelat.com/robot.html",
+      "image_url": "https://www.cafelat.com/uploads/1/5/3/6/15367184/published/robot-w-mark.jpg?1539687336",
+      "facts": {
+        "operation": [
+          "ذراع يدوي دون كهرباء",
+          "Manual lever, no electricity"
+        ],
+        "portafilter": [
+          "سلة 58 مم",
+          "58 mm basket"
+        ],
+        "heats_water": [
+          "لا؛ يحتاج ماء ساخنًا من غلاية",
+          "No; add hot water from a kettle"
+        ]
+      },
+      "description_ar": "ماكينة إسبريسو يدوية تحتاج بنًا مطحونًا وماء ساخنًا.",
+      "description_en": "Manual espresso maker using ground coffee and externally heated water.",
+      "id": "5d4babfd-d53b-4f51-923c-11d2780e2b58",
+      "existing": true,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://www.cafelat.com/robot.html"
+    },
+    {
+      "name": "1Zpresso ZP6 Special",
+      "name_ar": "ون زبريسو ZP6 سبيشل",
+      "brand": "1Zpresso",
+      "category": "grinder",
+      "source_url": "https://1zpresso.coffee/product/zp6-special/",
+      "image_url": "https://1zpresso.coffee/wp-content/uploads/2023/05/zp6s-si-cy.jpg",
+      "facts": {
+        "burr": [
+          "سداسية 48 مم",
+          "48 mm hexagonal"
+        ],
+        "adjustment": [
+          "90 نقرة؛ 22 ميكرون لكل نقرة",
+          "90 clicks; 22 microns per click"
+        ],
+        "capacity": [
+          "30–35 جم",
+          "30–35 g"
+        ],
+        "focus": [
+          "قهوة مرشحة",
+          "Filter coffee"
+        ]
+      },
+      "description_ar": "طاحونة يدوية مخصصة للقهوة المرشحة بضبط خارجي.",
+      "description_en": "Manual filter-coffee grinder with external adjustment.",
+      "id": "b8a22786-9a55-5b43-9164-cf7ac1ba537b",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://1zpresso.coffee/product/zp6-special/"
+    },
+    {
+      "name": "1Zpresso X-Ultra",
+      "name_ar": "ون زبريسو إكس ألترا",
+      "brand": "1Zpresso",
+      "category": "grinder",
+      "source_url": "https://1zpresso.coffee/x/",
+      "image_url": "https://i0.wp.com/1zpresso.coffee/wp-content/uploads/2023/07/XU-1.jpg?fit=671%2C1024&ssl=1",
+      "facts": {
+        "burr": [
+          "سباعية الأضلاع",
+          "Heptagonal"
+        ],
+        "adjustment": [
+          "خارجي؛ 12.5 ميكرون لكل نقرة",
+          "External; 12.5 microns per click"
+        ],
+        "dosing": [
+          "كوب تجميع مغناطيسي",
+          "Magnetic catch cup"
+        ],
+        "handle": [
+          "قابل للطي",
+          "Foldable"
+        ]
+      },
+      "description_ar": "طاحونة يدوية بضبط خارجي ومقبض قابل للطي.",
+      "description_en": "Hand grinder with external adjustment and a folding handle.",
+      "id": "dfb89fd2-1557-5e54-ab69-16bcc1687d4c",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://1zpresso.coffee/x/"
+    },
+    {
+      "name": "Flair 2GO",
+      "name_ar": "فلير 2GO",
+      "brand": "Flair Espresso",
+      "category": "espresso_machine",
+      "source_url": "https://flairespresso.com/products/flair-2go",
+      "image_url": "https://flairespresso.com/cdn/shop/files/flair_2go_black_hero_whitebg.jpg?crop=center&height=1200&v=1783440946&width=1200",
+      "facts": {
+        "operation": [
+          "ذراع يدوي قابل للطي",
+          "Folding manual lever"
+        ],
+        "coffee_capacity": [
+          "12–18 جم",
+          "12–18 g"
+        ],
+        "capacity": [
+          "ماء 60 مل",
+          "60 ml water"
+        ],
+        "included": [
+          "حقيبة ومقياس ضغط",
+          "Case and pressure gauge"
+        ]
+      },
+      "description_ar": "ماكينة ذراع قابلة للطي والسفر؛ تحتاج ماء ساخنًا خارجيًا.",
+      "description_en": "Folding travel lever machine requiring externally heated water.",
+      "id": "2a522958-1285-53ac-a83f-78a548e5f708",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://flairespresso.com/products/flair-2go"
+    },
+    {
+      "name": "Flair Classic",
+      "name_ar": "فلير كلاسيك",
+      "brand": "Flair Espresso",
+      "category": "espresso_machine",
+      "source_url": "https://flairespresso.com/products/the-flair-classic",
+      "image_url": "https://flairespresso.com/cdn/shop/files/flair_classic_shopify_hero.jpg?crop=center&height=1200&v=1781893589&width=1200",
+      "facts": {
+        "operation": [
+          "ذراع يدوي",
+          "Manual lever"
+        ],
+        "included": [
+          "مقياس ضغط وفلتران للتحكم بالتدفق والتحضير المكشوف",
+          "Pressure gauge, flow-control and bottomless portafilters"
+        ],
+        "heats_water": [
+          "لا؛ يحتاج ماء ساخنًا خارجيًا",
+          "No; requires externally heated water"
+        ]
+      },
+      "description_ar": "ماكينة إسبريسو يدوية مع مقياس ضغط وخياري فلتر.",
+      "description_en": "Manual espresso machine with a pressure gauge and two portafilter options.",
+      "id": "82d58691-d483-5fe3-a2eb-d53000764ba2",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://flairespresso.com/products/the-flair-classic"
+    },
+    {
+      "name": "Flair 49 PRO",
+      "name_ar": "فلير 49 برو",
+      "brand": "Flair Espresso",
+      "category": "espresso_machine",
+      "source_url": "https://flairespresso.com/products/flair-49-pro",
+      "image_url": "https://flairespresso.com/cdn/shop/files/flair_49_pro__shopify_white_sized.jpg?crop=center&height=1200&v=1779988642&width=1200",
+      "facts": {
+        "portafilter": [
+          "49 مم",
+          "49 mm"
+        ],
+        "coffee_capacity": [
+          "12–20 جم",
+          "12–20 g"
+        ],
+        "operation": [
+          "ذراع يدوي دون إلكترونيات",
+          "Manual lever without electronics"
+        ],
+        "included": [
+          "سلة مضغوطة وسلة مكشوفة",
+          "Pressurized and bottomless baskets"
+        ]
+      },
+      "description_ar": "ماكينة ذراع يدوية بفلتر 49 مم وسلتين لمستويات خبرة مختلفة.",
+      "description_en": "Manual lever machine with a 49 mm portafilter and two basket options.",
+      "id": "a79e7a7d-0207-554e-94fb-029488c2aa1b",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://flairespresso.com/products/flair-49-pro"
+    },
+    {
+      "name": "Flair 58 Plus 2",
+      "name_ar": "فلير 58 بلس 2",
+      "brand": "Flair Espresso",
+      "category": "espresso_machine",
+      "source_url": "https://flairespresso.com/products/flair-58-plus-2",
+      "image_url": "https://flairespresso.com/cdn/shop/files/flair_58_plus_2_side_shopify.jpg?crop=center&height=1200&v=1779987558&width=1200",
+      "facts": {
+        "portafilter": [
+          "58 مم",
+          "58 mm"
+        ],
+        "coffee_capacity": [
+          "16–20 جم بالسلال المرفقة",
+          "16–20 g with included baskets"
+        ],
+        "heating": [
+          "تسخين مسبق للرأس بثلاث درجات",
+          "Three-setting group preheater"
+        ],
+        "capacity": [
+          "ماء 90 مل",
+          "90 ml water"
+        ]
+      },
+      "description_ar": "ماكينة ذراع بتحكم تسخين مسبق مدمج في القاعدة؛ تستخدم ماء غلاية خارجيًا.",
+      "description_en": "Lever machine with an integrated group preheater; uses water heated in a separate kettle.",
+      "id": "ba4aa1bb-1a52-57b9-911e-3d52cc6d36af",
+      "existing": false,
+      "verified_at": "2026-10-07T00:00:00Z",
+      "image_source_url": "https://flairespresso.com/products/flair-58-plus-2"
+    }
+  ],
+  "photo_corrections": [
+    {
+      "id": "bb0c52ba-1493-45d0-84e7-081896f42886",
+      "name": "Aillio Bullet R2",
+      "image_url": "https://us.aillio.com/cdn/shop/files/R2_lef_side_001.jpg?v=1785314090",
+      "image_source_url": "https://us.aillio.com/products/bullet-r2"
+    },
+    {
+      "id": "9df26239-686e-4d37-9501-a573c120df7d",
+      "name": "Aillio Bullet R2 Pro",
+      "image_url": "https://us.aillio.com/cdn/shop/files/R2_Pro_lef_side_v002.jpg?v=1785279940",
+      "image_source_url": "https://us.aillio.com/products/bullet-r2-pro"
+    }
+  ],
+  "brand_links": [
+    {
+      "id": "22c4a6af-a5ea-4978-97c4-d4abea8c4fc0",
+      "name": "AeroPress Original",
+      "brand": "AeroPress"
+    },
+    {
+      "id": "a8310cd1-a13b-4f5d-8c1a-1f5adb287661",
+      "name": "TIMEMORE Sculptor 078S",
+      "brand": "Timemore"
+    },
+    {
+      "id": "7476c676-c376-4a07-bd8d-6bc47ebb8539",
+      "name": "1Zpresso K-Ultra",
+      "brand": "1Zpresso"
+    },
+    {
+      "id": "076fbfc8-e0ae-4c5a-a638-bdfc1fa8e141",
+      "name": "1Zpresso J-Ultra",
+      "brand": "1Zpresso"
+    },
+    {
+      "id": "78ff8737-facd-4c8b-b2ce-3bb10df2204f",
+      "name": "Niche Duo",
+      "brand": "Niche Coffee"
+    },
+    {
+      "id": "00705a28-09d7-441a-8284-2559b2ae1032",
+      "name": "Breville Bambino Plus",
+      "brand": "Breville"
+    },
+    {
+      "id": "cf978e70-c14b-4f11-8277-3869f9531b07",
+      "name": "Breville Bambino",
+      "brand": "Breville"
+    },
+    {
+      "id": "19aa0ed8-8674-4ed2-89c7-5fd1caa80f48",
+      "name": "Breville Dual Boiler",
+      "brand": "Breville"
+    },
+    {
+      "id": "fb92db0e-d193-4f72-9ef0-8b037401fe7f",
+      "name": "Breville Barista Pro",
+      "brand": "Breville"
+    },
+    {
+      "id": "2f919777-4cd4-4103-99e6-1f37afa6c2a0",
+      "name": "Rancilio Silvia Pro X",
+      "brand": "Rancilio"
+    },
+    {
+      "id": "9e4bc8b7-b13c-4092-8ee0-af25590b7186",
+      "name": "Wacaco Picopresso",
+      "brand": "Wacaco"
+    },
+    {
+      "id": "a0082be3-7f6f-4324-add1-64c0b8239969",
+      "name": "Acaia Lunar 2021",
+      "brand": "Acaia"
+    },
+    {
+      "id": "101f33e4-4e98-4571-9461-9d10f635df1b",
+      "name": "Fellow Tally Pro",
+      "brand": "Fellow"
+    },
+    {
+      "id": "11b43de9-7c94-45d2-be26-e677b211ee59",
+      "name": "Fellow Corvo EKG Pro",
+      "brand": "Fellow"
+    },
+    {
+      "id": "aa2b06a7-fed6-4647-8255-8c5a56df96d9",
+      "name": "Hario Switch 02",
+      "brand": "Hario"
+    },
+    {
+      "id": "8723b97c-e70a-4265-a274-7e10660eb75d",
+      "name": "AeroPress Go",
+      "brand": "AeroPress"
+    },
+    {
+      "id": "a12c1910-68b3-41af-b62a-fa3b88d4a685",
+      "name": "AeroPress XL",
+      "brand": "AeroPress"
+    },
+    {
+      "id": "ff81238c-269d-4f53-aa9c-a6351dd7b5ec",
+      "name": "Chemex Classic 3-Cup",
+      "brand": "Chemex"
+    },
+    {
+      "id": "d2990b5f-0b29-42a0-9999-6c9ec6ff1d60",
+      "name": "CAFEC Abaca Filters",
+      "brand": "CAFEC"
+    },
+    {
+      "id": "fa891833-a7bc-4f16-9a70-b37ca70156ea",
+      "name": "Fellow Atmos 1.2L",
+      "brand": "Fellow"
+    },
+    {
+      "id": "7c0daba2-baa3-40bb-9012-62f885c41576",
+      "name": "Fellow Prismo",
+      "brand": "Fellow"
+    },
+    {
+      "id": "4f63cfbb-8a89-41db-9330-2310b37d6c8d",
+      "name": "Normcore V4 Tamper",
+      "brand": "Normcore"
+    },
+    {
+      "id": "eb71b554-2203-4605-8a7c-596d6e519fcb",
+      "name": "Weber Blind Shaker",
+      "brand": "Weber Workshops"
+    },
+    {
+      "id": "df589836-8f8c-4fee-8eb9-ed1c7f17e69d",
+      "name": "Subminimal NanoFoamer PRO",
+      "brand": "Subminimal"
+    },
+    {
+      "id": "cc1b7700-4763-4a5c-aedc-3398dbe05b7a",
+      "name": "LELIT Bianca",
+      "brand": "Lelit"
+    },
+    {
+      "id": "70a9da90-3cf4-4312-b0a4-aff10b332b6d",
+      "name": "April Plastic Brewer",
+      "brand": "April Coffee"
+    },
+    {
+      "id": "ceac6873-4cd0-4b02-8e2a-cdd92554ed34",
+      "name": "Melodrip",
+      "brand": "Melodrip"
+    },
+    {
+      "id": "bb0c52ba-1493-45d0-84e7-081896f42886",
+      "name": "Aillio Bullet R2",
+      "brand": "Aillio"
+    },
+    {
+      "id": "9df26239-686e-4d37-9501-a573c120df7d",
+      "name": "Aillio Bullet R2 Pro",
+      "brand": "Aillio"
+    },
+    {
+      "id": "deccd566-494d-4ddd-8cb6-8269d88adaf2",
+      "name": "IKAWA Pro 100",
+      "brand": "IKAWA"
+    },
+    {
+      "id": "e309f5a2-e504-400f-91c2-de8be8b7accf",
+      "name": "TIMEMORE Black Mirror Basic 2",
+      "brand": "Timemore"
+    },
+    {
+      "id": "7adf649d-cc48-4ec5-b98b-c46450eb56e2",
+      "name": "Hario V60 02 Paper Filters",
+      "brand": "Hario"
+    },
+    {
+      "id": "2da7607f-a5ea-4c98-a2cd-ec287d9b2923",
+      "name": "La Marzocco Linea Micra",
+      "brand": "La Marzocco"
+    },
+    {
+      "id": "ee95e379-ed28-4a5f-9164-46587318517a",
+      "name": "OREA V4",
+      "brand": "Orea"
+    }
+  ]
+}

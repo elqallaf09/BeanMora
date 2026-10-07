@@ -29,8 +29,17 @@ export function CatalogPhoto({
         />
       ) : (
         <>
-          <Icon name={icon} size={48} color={colors.brown} />
-          <Txt style={s.caption}>
+          <Icon
+            name={icon}
+            size={height <= 100 ? 28 : 48}
+            color={colors.brown}
+          />
+          <Txt
+            style={[
+              s.caption,
+              height <= 100 && { fontSize: 9, lineHeight: 14 },
+            ]}
+          >
             {ar ? "صورة الموديل غير متوفرة" : "Model photo unavailable"}
           </Txt>
         </>

@@ -1,8 +1,9 @@
 import { matchesDeepSearch } from './core/deepSearch';
 import { coffeeSearchDocument } from './searchIndex';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
+  FlatList,
   Image,
   Modal,
   BackHandler,
@@ -166,6 +167,9 @@ export function EquipmentDirectory({
   const [revision, setRevision] = useState(0);
   const [filter, setFilter] = useState(category);
   const [search, setSearch] = useState('');
+  const [brand, setBrand] = useState('all');
+  const [pulling, setPulling] = useState(false);
+  const list = useRef<FlatList<EquipmentItem>>(null);
   const [selection, setSelection] = useState<string[]>([]);
   const [comparison, setComparison] = useState(false);
   const selected = rows.filter((row) => selection.includes(row.id));
@@ -190,8 +194,11 @@ export function EquipmentDirectory({
     let active = true;
     setBusy(true);
     setError(false);
-    if (supabase)
-      void loadEquipment(supabase, locale)
+    if (!supabase) {
+      setBusy(false);
+      setError(true);
+    } else
+      void loadEquipment(supabase, locale, revision > 0)
         .then((v) => {
           if (active) setRows(v);
         })
@@ -199,144 +206,267 @@ export function EquipmentDirectory({
           if (active) setError(true);
         })
         .finally(() => {
-          if (active) setBusy(false);
+          if (active) {
+            setBusy(false);
+            setPulling(false);
+          }
         });
     return () => {
       active = false;
     };
   }, [revision, locale]);
   const kinds = ['all', ...new Set(rows.map(equipmentKind))];
+  const brands = useMemo(
+    () =>
+      [
+        ...new Set(
+          rows
+            .map((row) => row.brand)
+            .filter((value): value is string => !!value),
+        ),
+      ].sort(),
+    [rows],
+  );
   const visible = rows.filter(
     (row) =>
       (filter === 'all' || equipmentKind(row) === filter) &&
+      (brand === 'all' || row.brand === brand) &&
       searchText(
         [
           row.name,
           row.originalName ?? '',
+          row.brand ?? '',
           categoryLabel(equipmentKind(row), locale),
         ].join(' '),
       ).includes(searchText(search)),
   );
-  const cols = width >= 850 ? 3 : width >= 600 ? 2 : 1;
+  const cols = width >= 1000 ? 3 : width >= 700 ? 2 : 1;
   const cardWidth = (Math.min(width, 1120) - 36 - (cols - 1) * 12) / cols;
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView
+      <FlatList
+        ref={list}
+        key={cols}
         testID="equipment-scroll"
-        contentContainerStyle={coffeeStyles.page}
-        refreshControl={
-          <RefreshControl
-            refreshing={busy}
-            onRefresh={() => setRevision((r) => r + 1)}
-          />
-        }
-      >
-        <Txt style={s.eyebrow}>
-          {ar ? 'بين مورا · الأجهزة والأدوات' : 'BEANMORA · GEAR'}
-        </Txt>
-        <Txt heading style={styles.title}>
-          {ar ? 'أدوات القهوة' : 'Coffee equipment'}
-        </Txt>
-        <Txt style={styles.muted}>
-          {ar
-            ? 'اختر جهازين أو ثلاثة للمقارنة، وتعرّف على المواصفات وتجارب الأعضاء.'
-            : 'Compare two or three tools, explore specifications and read member experiences.'}
-        </Txt>
-        <Field
-          label={ar ? 'ابحث عن أداة' : 'Find equipment'}
-          value={search}
-          onChangeText={setSearch}
-          placeholder={
-            ar ? 'موكا بوت، ميزان، طاحونة…' : 'Moka, scale, grinder…'
-          }
-        />
-        <Chips
-          items={kinds.map((id) => ({ id, name: categoryLabel(id, locale) }))}
-          value={filter}
-          set={setFilter}
-        />
-        <Txt style={styles.muted}>
-          {ar
-            ? `${rows.length} موديلًا · المقارنة متاحة بين جهازين أو ثلاثة`
-            : `${rows.length} models · compare two or three`}
-        </Txt>
-        <View style={s.grid}>
-          {visible.map((item) => (
-            <View
-              key={item.id}
-              testID={'equipment-card-' + item.id}
-              style={[
-                styles.card,
-                { width: cardWidth, marginBottom: 0, gap: 10 },
-              ]}
-            >
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={item.name}
-                onPress={() => open(item)}
-                style={{ gap: 10 }}
-              >
-                <View style={s.cardTop}>
-                  <View style={{ width: 100 }}>
-                    <CatalogPhoto
-                      uri={item.imageUrl}
-                      height={100}
-                      icon={
-                        equipmentKind(item) === 'moka_pot'
-                          ? 'moka_pot'
-                          : equipmentKind(item) === 'xbloom'
-                            ? 'xbloom'
-                            : 'gear'
-                      }
-                    />
-                  </View>
-                  <View style={{ flex: 1, gap: 6 }}>
-                    <Txt style={s.eyebrow}>
-                      {categoryLabel(equipmentKind(item), locale)}
-                    </Txt>
-                    <Txt style={s.cardName}>{item.name}</Txt>
-                  </View>
-                  <Icon name="arrow" size={18} />
-                </View>
-                <Txt numberOfLines={2} style={styles.muted}>
-                  {item.description ||
-                    (ar
-                      ? 'افتح التفاصيل وتجارب المشتركين.'
-                      : 'Explore details and member reviews.')}
-                </Txt>
-                <Txt style={s.linkText}>
-                  {ar
-                    ? 'المميزات · السلبيات · الآراء'
-                    : 'Strengths · Tradeoffs · Reviews'}
-                </Txt>
-              </Pressable>
-              <Action
-                title={
-                  selection.includes(item.id)
-                    ? ar
-                      ? 'إزالة من المقارنة'
-                      : 'Remove from comparison'
-                    : ar
-                      ? 'أضف للمقارنة'
-                      : 'Add to comparison'
-                }
-                selected={selection.includes(item.id)}
-                disabled={!selection.includes(item.id) && selection.length >= 3}
-                onPress={() => toggle(item.id)}
+        data={visible}
+        keyExtractor={(item) => item.id}
+        numColumns={cols}
+        columnWrapperStyle={cols > 1 ? { gap: 12 } : undefined}
+        contentContainerStyle={[coffeeStyles.page, { gap: 12 }]}
+        keyboardShouldPersistTaps="handled"
+        initialNumToRender={6}
+        maxToRenderPerBatch={6}
+        windowSize={5}
+        removeClippedSubviews={false}
+        refreshing={busy && pulling}
+        onRefresh={() => {
+          setPulling(true);
+          setRevision((r) => r + 1);
+        }}
+        ListHeaderComponent={
+          <View style={{ gap: 12, paddingBottom: 4 }}>
+            <Txt style={s.eyebrow}>
+              {ar ? 'بين مورا · الأجهزة والأدوات' : 'BEANMORA · GEAR'}
+            </Txt>
+            <Txt heading style={styles.title}>
+              {ar ? 'المكاين والأدوات' : 'Machines & tools'}
+            </Txt>
+            <Txt style={styles.muted}>
+              {ar
+                ? 'اختر جهازين أو ثلاثة للمقارنة، وتعرّف على المواصفات وتجارب الأعضاء.'
+                : 'Compare two or three tools, explore specifications and read member experiences.'}
+            </Txt>
+            <Field
+              label={ar ? 'ابحث عن أداة' : 'Find equipment'}
+              value={search}
+              onChangeText={setSearch}
+              placeholder={
+                ar ? 'موكا بوت، ميزان، طاحونة…' : 'Moka, scale, grinder…'
+              }
+            />
+            <Chips
+              items={kinds.map((id) => ({
+                id,
+                name: categoryLabel(id, locale),
+              }))}
+              value={filter}
+              set={(value) => {
+                setFilter(value);
+                list.current?.scrollToOffset({
+                  offset: 0,
+                  animated: false,
+                });
+              }}
+            />
+            {brands.length > 1 ? (
+              <Chips
+                items={[
+                  { id: 'all', name: ar ? 'كل الشركات' : 'All brands' },
+                  ...brands.map((id) => ({ id, name: id })),
+                ]}
+                value={brand}
+                set={(value) => {
+                  setBrand(value);
+                  list.current?.scrollToOffset({
+                    offset: 0,
+                    animated: false,
+                  });
+                }}
               />
+            ) : null}
+            <View
+              style={{
+                flexDirection: ar ? 'row-reverse' : 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 8,
+              }}
+            >
+              <Txt style={{ fontSize: 12, color: colors.muted }}>
+                {ar
+                  ? `${visible.length} من ${rows.length} موديلًا`
+                  : `${visible.length} of ${rows.length} models`}
+              </Txt>
+              {busy ? (
+                <ActivityIndicator size="small" color={colors.teal} />
+              ) : null}
+              {search || filter !== 'all' || brand !== 'all' ? (
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={
+                    ar ? 'مسح فلاتر الأدوات' : 'Clear equipment filters'
+                  }
+                  onPress={() => {
+                    setSearch('');
+                    setFilter('all');
+                    setBrand('all');
+                  }}
+                  style={{ minHeight: 44, justifyContent: 'center' }}
+                >
+                  <Txt
+                    style={{
+                      color: colors.teal,
+                      fontSize: 12,
+                      fontWeight: '700',
+                    }}
+                  >
+                    {ar ? 'مسح الفلاتر' : 'Clear filters'}
+                  </Txt>
+                </Pressable>
+              ) : null}
             </View>
-          ))}
-        </View>
-        {!visible.length ? (
+          </View>
+        }
+        renderItem={({ item }) => (
+          <View
+            testID={'equipment-card-' + item.id}
+            style={[
+              styles.card,
+              { width: cardWidth, padding: 12, marginBottom: 0, gap: 8 },
+            ]}
+          >
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={item.name}
+              onPress={() => open(item)}
+              style={{ gap: 8 }}
+            >
+              <View
+                style={[
+                  s.cardTop,
+                  { flexDirection: ar ? 'row-reverse' : 'row', gap: 10 },
+                ]}
+              >
+                <View style={{ width: 82 }}>
+                  <CatalogPhoto
+                    uri={item.imageUrl}
+                    height={82}
+                    icon={
+                      equipmentKind(item) === 'moka_pot'
+                        ? 'moka_pot'
+                        : equipmentKind(item) === 'xbloom'
+                          ? 'xbloom'
+                          : 'gear'
+                    }
+                  />
+                </View>
+                <View style={{ flex: 1, minWidth: 0, gap: 3 }}>
+                  <Txt
+                    numberOfLines={1}
+                    style={{
+                      fontSize: 11,
+                      lineHeight: 18,
+                      color: colors.muted,
+                    }}
+                  >
+                    {categoryLabel(equipmentKind(item), locale)}
+                  </Txt>
+                  <Txt
+                    numberOfLines={2}
+                    style={{
+                      fontSize: 16,
+                      fontWeight: '700',
+                      lineHeight: 24,
+                    }}
+                  >
+                    {item.name}
+                  </Txt>
+                </View>
+                <Icon name="arrow" size={18} />
+              </View>
+              <Txt
+                numberOfLines={2}
+                style={{
+                  fontSize: 12,
+                  lineHeight: 20,
+                  color: colors.muted,
+                }}
+              >
+                {reviewedFacts(item, locale)
+                  .slice(0, 2)
+                  .map((fact) => `${fact.label}: ${fact.value}`)
+                  .join(' · ') ||
+                  item.description ||
+                  (ar
+                    ? 'التفاصيل وتجارب الأعضاء'
+                    : 'Details and member experiences')}
+              </Txt>
+            </Pressable>
+            <Action
+              title={
+                selection.includes(item.id)
+                  ? ar
+                    ? 'إزالة من المقارنة'
+                    : 'Remove from comparison'
+                  : ar
+                    ? 'أضف للمقارنة'
+                    : 'Add to comparison'
+              }
+              selected={selection.includes(item.id)}
+              disabled={
+                !selection.includes(item.id) && selection.length >= 3
+              }
+              onPress={() => toggle(item.id)}
+            />
+          </View>
+        )}
+        ListEmptyComponent={
           <Empty
             busy={busy}
             error={error}
             retry={() => setRevision((r) => r + 1)}
           />
-        ) : error ? (
-          <Empty busy={false} error retry={() => setRevision((r) => r + 1)} />
-        ) : null}
-      </ScrollView>
+        }
+        ListFooterComponent={
+          error && visible.length ? (
+            <Empty
+              busy={false}
+              error
+              retry={() => setRevision((r) => r + 1)}
+            />
+          ) : null
+        }
+      />
       {selected.length ? (
         <View
           style={{
@@ -350,7 +480,9 @@ export function EquipmentDirectory({
           <Txt style={{ fontSize: 12 }}>
             {selected.map((item) => item.name).join(' · ')}
           </Txt>
-          <View style={{ flexDirection: ar ? 'row-reverse' : 'row', gap: 8 }}>
+          <View
+            style={{ flexDirection: ar ? 'row-reverse' : 'row', gap: 8 }}
+          >
             <Action
               title={
                 ar
@@ -396,7 +528,9 @@ export function EquipmentDirectory({
           <EquipmentCompare
             items={selected}
             remove={(id) => {
-              setSelection((values) => values.filter((value) => value !== id));
+              setSelection((values) =>
+                values.filter((value) => value !== id),
+              );
               if (selected.length <= 2) setComparison(false);
             }}
             open={(item) => {

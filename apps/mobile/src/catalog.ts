@@ -7,6 +7,7 @@ export interface EquipmentItem {
   id: string;
   name: string;
   originalName?: string;
+  brand?: string;
   category: string;
   description: string;
   methods: string[];
@@ -245,14 +246,38 @@ export function reviewedRows<T extends { requires_review?: boolean }>(
 ): T[] {
   return rows.filter((row) => row.requires_review === false);
 }
-export async function loadEquipment(
+const equipmentCache = new WeakMap<
+  SupabaseClient,
+  Map<Locale, { at: number; request: Promise<EquipmentItem[]> }>
+>();
+export function loadEquipment(
+  db: SupabaseClient,
+  locale: Locale = 'en',
+  refresh = false,
+): Promise<EquipmentItem[]> {
+  let cache = equipmentCache.get(db);
+  if (!cache) {
+    cache = new Map();
+    equipmentCache.set(db, cache);
+  }
+  const previous = cache.get(locale);
+  if (!refresh && previous && Date.now() - previous.at < 5 * 60_000)
+    return previous.request;
+  const request = readEquipment(db, locale).catch((error) => {
+    if (cache.get(locale)?.request === request) cache.delete(locale);
+    throw error;
+  });
+  cache.set(locale, { at: Date.now(), request });
+  return request;
+}
+async function readEquipment(
   db: SupabaseClient,
   locale: Locale = 'en',
 ): Promise<EquipmentItem[]> {
   const { data, error } = await db
     .from('equipment_models')
     .select(
-      'id,name,category,description,notes,specifications,suitable_brew_methods,source_url,official_url,image_url,image_usage_status,last_verified_at,data_confidence,requires_review',
+      'id,name,category,description,notes,specifications,suitable_brew_methods,source_url,official_url,image_url,image_usage_status,last_verified_at,data_confidence,requires_review,brand:equipment_brands(name)',
     )
     .eq('requires_review', false)
     .order('name')
@@ -268,6 +293,11 @@ export async function loadEquipment(
         }
       | undefined;
     const translated = c?.schema_version === 1;
+    const brand = (
+      Array.isArray(row.brand) ? row.brand[0] : row.brand
+    ) as {
+      name?: string;
+    } | null;
     return {
       id: row.id,
       name:
@@ -275,6 +305,7 @@ export async function loadEquipment(
           ? c.name_ar
           : catalogName(row.name, locale),
       originalName: row.name,
+      brand: brand?.name ?? '',
       category: row.category,
       description:
         locale === 'ar'
@@ -294,7 +325,8 @@ export async function loadEquipment(
       sourceUrl: safeUrl(row.source_url) || safeUrl(row.official_url),
       imageUrl:
         row.image_usage_status === 'rights_confirmed' ||
-        (row.image_usage_status === 'source_linked' && safeUrl(row.source_url))
+        (row.image_usage_status === 'source_linked' &&
+          safeUrl(row.source_url))
           ? safeUrl(row.image_url)
           : null,
       verifiedAt: row.last_verified_at,

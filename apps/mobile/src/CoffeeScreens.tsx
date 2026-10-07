@@ -257,7 +257,9 @@ export function CoffeeCard({
       >
         <View
           style={{
-            height: Math.max(120, Math.min(185, width * 0.8)),
+            height: item.imageUrl || item.images.length
+              ? Math.max(120, Math.min(185, width * 0.8))
+              : 86,
             overflow: 'hidden',
             borderRadius: 13,
           }}
@@ -347,6 +349,10 @@ export function Home({
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const { width } = useWindowDimensions();
+  const [pulling, setPulling] = useState(false);
+  useEffect(() => {
+    if (!refreshing) setPulling(false);
+  }, [refreshing]);
   const available = Math.min(width, 1120) - 36;
   // Preserve readable cards on portrait tablets instead of squeezing four in.
   const cols = available >= 1000 ? 4 : available >= 720 ? 3 : 2;
@@ -433,8 +439,11 @@ export function Home({
       showsVerticalScrollIndicator={false}
       refreshControl={
         <RefreshControl
-          refreshing={refreshing}
-          onRefresh={refresh}
+          refreshing={refreshing && pulling}
+          onRefresh={() => {
+            setPulling(true);
+            refresh();
+          }}
           tintColor={colors.brown}
         />
       }
