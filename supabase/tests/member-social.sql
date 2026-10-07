@@ -30,6 +30,15 @@ begin
  assert jsonb_array_length(j->'recipes')=1,'approved follower saw a private recipe';
  assert j::text not like '%secret equipment note%' and j::text not like '%secret favorite note%' and j::text not like '%secret storage%' and j::text not like '%remaining_weight_grams%','private inventory details leaked';
  assert exists(select 1 from storage.objects where bucket_id='profile-gallery' and name=v_owner_id::text||'/'||v_photo_id::text||'.png'),'approved follower cannot read linked photo';
+ -- An old accepted follow must not grant access to an anonymous or missing-claim session.
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',v_viewer_id,'is_anonymous',true)::text,true);
+ j:=public.get_member_profile(username_value);assert not(j->>'can_view')::boolean,'historical anonymous follow unlocked private profile';
+ assert not(j?'photos') and not(j?'equipment'),'anonymous accepted follower received private sections';
+ assert not exists(select 1 from storage.objects where bucket_id='profile-gallery' and name=v_owner_id::text||'/'||v_photo_id::text||'.png'),'anonymous accepted follower read private photo';
+ assert not exists(select 1 from public.recipes where id=v_pub_id),'anonymous accepted follower read private-account recipe';
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',v_viewer_id)::text,true);
+ j:=public.get_member_profile(username_value);assert not(j->>'can_view')::boolean,'missing membership claim unlocked private profile';
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',v_viewer_id,'is_anonymous',false)::text,true);
  assert not exists(select 1 from public.search_member_profiles('',0) where id=v_guest_id),'anonymous session listed as a member';
  assert exists(select 1 from public.search_member_profiles(username_value,0) where id=v_owner_id),'private identity not searchable';
  perform set_config('request.jwt.claims',jsonb_build_object('sub',v_owner_id,'is_anonymous',false)::text,true);delete from public.follows where id=v_follow_id;
