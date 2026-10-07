@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { Pressable, View, useWindowDimensions } from 'react-native';
-import { supabase } from './client';
+import { publicSupabase as supabase } from './client';
 import { loadRoasters, countryLabel, type RoasterItem } from './catalog';
 import type { CoffeeItem, RecipeItem } from './data';
 import { matchesDeepSearch, matchesIndexedSearch } from './core/deepSearch';

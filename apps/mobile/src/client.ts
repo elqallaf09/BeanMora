@@ -3,6 +3,8 @@ import { createClient } from '@supabase/supabase-js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
 import { isPublicKey } from './guards';
+import { boundedFetch } from './requestDeadline';
+import appConfig from '../app.json';
 
 const url = process.env.EXPO_PUBLIC_SUPABASE_URL ?? '';
 export const catalogScope = url;
@@ -15,7 +17,7 @@ export async function authProviderEnabled(provider: 'apple' | 'google') {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 12000);
   try {
-    const response = await fetch(url + '/auth/v1/settings', {
+    const response = await boundedFetch(url + '/auth/v1/settings', {
       headers: { apikey: key },
       signal: controller.signal,
     });
@@ -27,19 +29,8 @@ export async function authProviderEnabled(provider: 'apple' | 'google') {
   }
 }
 
-// Shared transport deadline; public reads must never acquire the member auth lock.
-const boundedFetch: typeof fetch = async (input, init) => {
-  const controller = new AbortController();
-  const abort = () => controller.abort();
-  if (init?.signal?.aborted) abort();
-  init?.signal?.addEventListener('abort', abort);
-  const timer = setTimeout(abort, 12000);
-  try {
-    return await fetch(input, { ...init, signal: controller.signal });
-  } finally {
-    clearTimeout(timer);
-    init?.signal?.removeEventListener('abort', abort);
-  }
+const requestHeaders = {
+  'X-Client-Info': `beanmora-mobile/${appConfig.expo.version} ${Platform.OS}/${Platform.OS === 'ios' ? appConfig.expo.ios.buildNumber : appConfig.expo.android.versionCode}`,
 };
 
 // The SDK skips its auth client when accessToken is supplied. Returning null
@@ -47,7 +38,7 @@ const boundedFetch: typeof fetch = async (input, init) => {
 export const publicSupabase = configured
   ? createClient(url, key, {
       accessToken: async () => null,
-      global: { fetch: boundedFetch },
+      global: { fetch: boundedFetch, headers: requestHeaders },
     })
   : null;
 
@@ -61,7 +52,7 @@ export const supabase = configured
         detectSessionInUrl: Platform.OS === 'web',
         flowType: 'pkce',
       },
-      global: { fetch: boundedFetch },
+      global: { fetch: boundedFetch, headers: requestHeaders },
     })
   : null;
 

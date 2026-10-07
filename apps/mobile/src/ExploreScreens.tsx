@@ -48,7 +48,7 @@ import { RecipeCatalog } from './RecipeCatalog';
 import { CatalogPhoto } from './CatalogPhoto';
 import { MethodGuide } from './MethodGuide';
 import { SourceLink } from './SourceLink';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { EquipmentCompare } from './EquipmentCompare';
 import { Disclosure } from './Disclosure';
 import { categoryGuide } from './equipmentGuides';
@@ -511,34 +511,37 @@ export function EquipmentDirectory({
         visible={comparison}
         animationType="slide"
         onRequestClose={() => setComparison(false)}
+        presentationStyle="fullScreen"
       >
-        <SafeAreaView style={{ flex: 1, backgroundColor: colors.cream }}>
-          <View
-            style={{
-              padding: 12,
-              borderBottomWidth: 1,
-              borderColor: colors.line,
-            }}
-          >
-            <Action
-              title={ar ? 'إغلاق المقارنة' : 'Close comparison'}
-              onPress={() => setComparison(false)}
+        <SafeAreaProvider>
+          <SafeAreaView style={{ flex: 1, backgroundColor: colors.cream }}>
+            <View
+              style={{
+                padding: 12,
+                borderBottomWidth: 1,
+                borderColor: colors.line,
+              }}
+            >
+              <Action
+                title={ar ? 'إغلاق المقارنة' : 'Close comparison'}
+                onPress={() => setComparison(false)}
+              />
+            </View>
+            <EquipmentCompare
+              items={selected}
+              remove={(id) => {
+                setSelection((values) =>
+                  values.filter((value) => value !== id),
+                );
+                if (selected.length <= 2) setComparison(false);
+              }}
+              open={(item) => {
+                setComparison(false);
+                open(item);
+              }}
             />
-          </View>
-          <EquipmentCompare
-            items={selected}
-            remove={(id) => {
-              setSelection((values) =>
-                values.filter((value) => value !== id),
-              );
-              if (selected.length <= 2) setComparison(false);
-            }}
-            open={(item) => {
-              setComparison(false);
-              open(item);
-            }}
-          />
-        </SafeAreaView>
+          </SafeAreaView>
+        </SafeAreaProvider>
       </Modal>
     </View>
   );

@@ -10,6 +10,7 @@ import {
   mergeCatalog,
 } from './catalogCache';
 import type { Locale } from './copy';
+import { withDeadline } from './requestDeadline';
 import { emptyProfile } from './core/engine';
 
 type Loaded = Bundle & {
@@ -69,7 +70,7 @@ export function useCatalog(
       setRefreshing(false);
       return;
     }
-    const cached = AsyncStorage.getItem(key)
+    const cached = withDeadline(() => AsyncStorage.getItem(key), { timeoutMs: 2000 })
       .then((raw) => decodeCatalog(raw, catalogScope, locale))
       .catch(() => null);
     void cached
