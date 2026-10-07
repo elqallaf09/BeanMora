@@ -24,7 +24,8 @@ export function CatalogComments({
     [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
     [revision, setRevision] = useState(0),
-    [locked, setLocked] = useState(false);
+    [locked, setLocked] = useState(false),
+    [expanded, setExpanded] = useState(false);
   const attempt = useRef<{ id: string; body: string } | null>(null);
   useEffect(() => {
     let active = true;
@@ -92,7 +93,8 @@ export function CatalogComments({
   }
   return (
     <View style={[styles.card, { padding: 15, gap: 10 }]}>
-      <Txt heading>{ar ? "التعليقات" : "Comments"}</Txt>
+      <Action title={ar ? "التعليقات" : "Comments"} onPress={() => setExpanded(v => !v)} selected={expanded} />
+      {expanded ? <>
       {rows.map((c) => (
         <View key={c.id} style={{ gap: 5, paddingVertical: 8 }}>
           <Txt style={{ fontWeight: "700" }}>
@@ -128,6 +130,7 @@ export function CatalogComments({
         disabled={busy}
         onPress={() => void send()}
       />
+      </> : null}
     </View>
   );
 }

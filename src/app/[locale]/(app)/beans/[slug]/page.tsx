@@ -304,7 +304,7 @@ export default async function BeanDetailPage({
               <Link href={`/recipes/create?bean=${bean.id}`}>{t("bean.addRecipe")}</Link>
             </Button>
             <Button asChild variant="ghost" size="sm" className="text-[var(--color-muted-text)]">
-              <Link href={`/beans/${bean.slug}/report`}>
+              <Link href={`/beans/${bean.slug}/report`} prefetch={false}>
                 <Flag className="h-3.5 w-3.5" aria-hidden />
                 {t("bean.reportIncorrect")}
               </Link>

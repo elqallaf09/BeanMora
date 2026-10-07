@@ -12,6 +12,8 @@ The base social migration `20261007145444_member_profiles_privacy_and_gallery.sq
 
 Local focused native browser tests passed for username search, pending private follow requests, hidden collections, owner-bound privacy updates, request approval and coffee-corner image upload. Web/native typechecks and lint passed. These fixture tests do not establish live database authorization correctness. No new IPA, APK, TestFlight submission or store publication is claimed by this extension.
 
+Final local regression evidence: web Chromium desktop/mobile suite 26 passed; native full run 83 passed and 2 compact-layout failures. The expanded comment form caused those two layout regressions; comments now expand on demand, and all three affected viewport cases passed on rerun without raising height limits. Next production build, native typecheck, Expo exports and unit/behavior suites passed. Local WebKit remains unavailable; CI must verify it. The old coffee `/beans/[slug]/report` link has no corresponding route in source; its speculative prefetch is disabled, but the reporting destination remains an existing unresolved issue.
+
 ## Requested behavior
 
 1. Switching language preserves the selected coffee, equipment or recipe and the native detail/back stack. Web switching retains the entity path, query and fragment. Bilingual cached entities use a new cache version so older payloads do not retain stale language.
