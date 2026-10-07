@@ -45,7 +45,6 @@ import { LanguageSwitcher } from './src/LanguageSwitcher';
 import { MotionProvider, ScreenTransition } from './src/Motion';
 import { RecipeDetail } from './src/RecipeDetail';
 import { MethodGuide } from './src/MethodGuide';
-import { RecipeCatalog } from './src/RecipeCatalog';
 import { OutcomeForm } from './src/OutcomeForm';
 import { AccountScreen, finishOAuth } from './src/AccountScreen';
 import { AppVersion } from './src/AppVersion';
@@ -53,6 +52,10 @@ import { useCatalog } from './src/useCatalog';
 import { ScreenBoundary } from './src/ScreenBoundary';
 import { useRecipeShelf } from './src/useRecipeShelf';
 import { RecipeShelf } from './src/RecipeShelf';
+import { MemberRecipes } from './src/MemberRecipes';
+import { CapsuleCatalog } from './src/CapsuleCatalog';
+import { ContributionForm } from './src/ContributionForm';
+import { MyEquipment } from './src/MyEquipment';
 import { MyBags } from './src/MyBags';
 import { BestSetup } from './src/BestSetup';
 import { RoastLab } from './src/RoastLab';
@@ -80,6 +83,11 @@ import {
 } from './src/ui';
 
 type Tab =
+  | 'myRecipes'
+  | 'capsules'
+  | 'myEquipment'
+  | 'addRecipe'
+  | 'addBean'
   | 'home'
   | 'beans'
   | 'search'
@@ -122,16 +130,14 @@ function Shell() {
   }, []);
   function changeLanguage(v: Locale) {
     languageChanged.current = true;
-    loginReturn.current = null;
     setLocale(v);
-    setDetail(null);
-    setParents([]);
-    setRecording(false);
     void AsyncStorage.setItem('beanmora-language', v).catch(() => {});
   }
   const [session, setSession] = useState<Session | null>(null);
   const [passwordRecovery, setPasswordRecovery] = useState(false);
   const userId = session && !session.user.is_anonymous ? session.user.id : null;
+  const [libraryMenu,setLibraryMenu]=useState(false);
+  const [equipmentToAdd,setEquipmentToAdd]=useState<EquipmentItem|null>(null);
   const [tab, setTab] = useState<Tab>('home');
   const [method, setMethod] = useState<Method>();
   const [search, setSearch] = useState('');
@@ -140,7 +146,13 @@ function Shell() {
   const [recipeEntry, setRecipeEntry] = useState(0);
   const [recipeCoffee, setRecipeCoffee] = useState<CoffeeItem | null>(null);
   const [personalityOnly, setPersonalityOnly] = useState(false);
-  const [detail, setDetail] = useState<Detail | null>(null);
+  const [detailSnapshot, setDetail] = useState<Detail | null>(null);
+  // A locale change updates the selected entity in place, including back-stack
+  // entries and recipes loaded outside the first catalog page.
+  const detail = useMemo(() => detailSnapshot ? ({
+    ...detailSnapshot,
+    item: { ...detailSnapshot.item, ...detailSnapshot.item.localeContent?.[locale] },
+  } as Detail) : null, [detailSnapshot, locale]);
   const [parents, setParents] = useState<Detail[]>([]);
   const [equipmentCategory, setEquipmentCategory] = useState('all');
   const [recording, setRecording] = useState(false);
@@ -496,16 +508,9 @@ function Shell() {
     <>
       {!login && !detail && configured ? (
         <View testID="library-navigation" style={s.libraryNav}>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={{ flexGrow: 0, width: '100%' }}
-            contentContainerStyle={[
-              s.libraryNavContent,
-              { minWidth: Math.min(width, 1120) - 36 },
-            ]}
-          >
+          <View style={[s.libraryNavContent,{flexDirection:ar?'row-reverse':'row',flexWrap:'wrap'}]}>
             {[
+              {id:'capsules' as const,label:ar?'الكبسولات':'Capsules',icon:'espresso' as const},
               {
                 id: 'recipes' as const,
                 label: ar ? 'مكتبة الوصفات' : 'Recipe library',
@@ -541,7 +546,7 @@ function Shell() {
                 label: ar ? 'مختبر التحميص' : 'Roast Lab',
                 icon: 'temp' as const,
               },
-            ].map((item) => (
+            ].filter(item=>item.id!=='roastLab').map((item) => (
               <Pressable
                 key={item.id}
                 accessibilityRole="button"
@@ -549,10 +554,6 @@ function Shell() {
                 accessibilityState={{ selected: tab === item.id }}
                 onPress={() => {
                   if (item.id === 'equipment') setEquipmentCategory('all');
-                  if (item.id === 'roastLab') {
-                    setRoastId(null);
-                    setRoastSection('own');
-                  }
                   if (item.id === 'recipes' || item.id === 'beans')
                     setMethod(undefined);
                   navigate(item.id);
@@ -564,12 +565,12 @@ function Shell() {
               >
                 <Icon
                   name={item.icon}
-                  size={18}
+                  size={14}
                   color={tab === item.id ? '#FFF' : colors.brown}
                 />
                 <Txt
                   style={{
-                    fontSize: 13,
+                    fontSize: 11,
                     fontWeight: '700',
                     color: tab === item.id ? '#FFF' : colors.brown,
                   }}
@@ -578,7 +579,14 @@ function Shell() {
                 </Txt>
               </Pressable>
             ))}
-          </ScrollView>
+            <Pressable accessibilityRole="button" accessibilityLabel={ar?'المزيد':'More'} onPress={()=>setLibraryMenu(true)} style={s.libraryButton}><Icon name="plus" size={14}/><Txt style={{fontSize:11,fontWeight:'700'}}>{ar?'المزيد':'More'}</Txt></Pressable>
+            <Modal transparent visible={libraryMenu} animationType="fade" onRequestClose={()=>setLibraryMenu(false)}><View style={{flex:1,justifyContent:'center',padding:24,backgroundColor:'#0008'}}><ScrollView contentContainerStyle={{padding:18,gap:10}} style={{maxHeight:'85%',backgroundColor:colors.paper,borderRadius:20}}>
+              <Txt heading style={styles.subtitle}>{ar?'مكتبتي وإضافاتي':'My library and contributions'}</Txt>
+              {([{id:'addRecipe',ar:'إضافة وصفة',en:'Add recipe'},{id:'addBean',ar:'إضافة بن',en:'Add coffee'},{id:'myRecipes',ar:'وصفاتي المضافة',en:'My submitted recipes'},{id:'myEquipment',ar:'معداتـي',en:'My equipment'},{id:'bags',ar:'أكياسي',en:'My bags'},{id:'roastLab',ar:'مختبر التحميص',en:'Roast Lab'}] as const).map(item=><Action key={item.id} title={item[locale]} onPress={()=>{setLibraryMenu(false);if(item.id==='myEquipment')setEquipmentToAdd(null);if(item.id==='roastLab'){setRoastId(null);setRoastSection('own');}navigate(item.id);}}/>)}
+              <Action title={ar?'إغلاق':'Close'} onPress={()=>setLibraryMenu(false)}/>
+            </ScrollView></View></Modal>
+
+          </View>
         </View>
       ) : null}
       {configured && !login && (data?.stale || (!data && !refreshing)) ? (
@@ -704,7 +712,6 @@ function Shell() {
         >
           <ScreenBoundary
             key={
-              locale +
               (recording
                 ? 'record'
                 : detail
@@ -739,7 +746,7 @@ function Shell() {
                 />
               ) : detail?.type === 'coffee' ? (
                 <CoffeeDetail
-                  key={detail.item.id + locale}
+                  key={detail.item.id}
                   item={detail.item}
                   recipes={data?.recipes ?? []}
                   openRecipe={openRecipe}
@@ -763,8 +770,9 @@ function Shell() {
                 />
               ) : detail?.type === 'equipment' ? (
                 <EquipmentDetail
-                  key={detail.item.id + locale + (userId ?? 'guest')}
+                  key={detail.item.id + (userId ?? 'guest')}
                   item={detail.item}
+                  myEquipment={()=>{setEquipmentToAdd(detail.item as EquipmentItem);navigate('myEquipment');}}
                   recipes={data?.recipes ?? []}
                   userId={userId}
                   login={() => requestLogin()}
@@ -772,7 +780,7 @@ function Shell() {
                 />
               ) : detail?.type === 'roaster' ? (
                 <RoasterDetail
-                  key={detail.item.id + locale}
+                  key={detail.item.id}
                   item={detail.item}
                   coffees={data?.coffees ?? []}
                   recipes={data?.recipes ?? []}
@@ -782,9 +790,13 @@ function Shell() {
                   saved={savedIds}
                   loading={refreshing}
                 />
+              ) : tab === 'myRecipes' ? (<MemberRecipes key={userId??'guest'} userId={userId} login={()=>requestLogin()} open={openRecipe} create={()=>navigate('addRecipe')}/>) : tab === 'capsules' ? (<CapsuleCatalog/>) : tab === 'addRecipe' || tab === 'addBean' ? (
+                <ContributionForm key={(userId??'guest')+tab} kind={tab==='addBean'?'bean':'recipe'} userId={userId} login={()=>requestLogin()} done={()=>{setRevision(n=>n+1);navigate(tab==='addBean'?'bags':'myRecipes');}}/>
+              ) : tab === 'myEquipment' ? (
+                <MyEquipment key={userId??'guest'} userId={userId} login={()=>requestLogin()} initialItem={equipmentToAdd} browse={()=>{setEquipmentCategory('all');navigate('equipment');}}/>
               ) : tab === 'equipment' ? (
                 <EquipmentDirectory
-                  key={locale + equipmentCategory}
+                  key={equipmentCategory}
                   category={equipmentCategory}
                   open={(item) => openDetail({ type: 'equipment', item })}
                 />
@@ -805,15 +817,13 @@ function Shell() {
                 />
               ) : tab === 'roasters' ? (
                 <RoasterDirectory
-                  key={locale}
-                  coffees={data?.coffees ?? []}
+                                    coffees={data?.coffees ?? []}
                   initialSearch={search}
                   open={(item) => openDetail({ type: 'roaster', item })}
                 />
               ) : tab === 'xbloom' ? (
                 <XBLOOMHub
-                  key={locale}
-                  recipes={data?.recipes ?? []}
+                                    recipes={data?.recipes ?? []}
                   openRecipe={openRecipe}
                   loading={refreshing}
                   tools={() => {
@@ -830,8 +840,7 @@ function Shell() {
                 />
               ) : tab === 'search' ? (
                 <SearchScreen
-                  key={locale}
-                  coffees={data?.coffees ?? []}
+                                    coffees={data?.coffees ?? []}
                   savedIds={savedIds}
                   saveCoffee={(item) => void saveCoffee(item)}
                   openCoffee={openCoffee}
@@ -848,32 +857,16 @@ function Shell() {
                   }}
                 />
               ) : tab === 'recipes' ? (
-                <RecipeCatalog
-                  key={locale + recipeEntry + (recipeCoffee?.id ?? '')}
-                  method={method}
-                  open={openRecipe}
-                  coffee={
-                    data?.coffees.find(
-                      (c) =>
-                        c.kind === recipeCoffee?.kind &&
-                        c.id === recipeCoffee?.id,
-                    ) ??
-                    recipeCoffee ??
-                    undefined
-                  }
-                  locked={Boolean(recipeCoffee)}
-                  backToCoffee={
-                    recipeCoffee
-                      ? () => {
-                          openCoffee(recipeCoffee);
-                          setRecipeCoffee(null);
-                        }
-                      : undefined
-                  }
+                <SearchScreen key={recipeEntry + (recipeCoffee?.id ?? '')}
+                  coffees={data?.coffees??[]} savedIds={savedIds} saveCoffee={item=>void saveCoffee(item)}
+                  openCoffee={openCoffee} openRecipe={openRecipe} openRoaster={item=>openDetail({type:'roaster',item})}
+                  browseCoffees={query=>{setMethod(undefined);navigate('beans');setSearch(query);}}
+                  browseRoasters={query=>{navigate('roasters');setSearch(query);}}
+                  recipeOptions={{method,coffee:data?.coffees.find(c=>c.kind===recipeCoffee?.kind&&c.id===recipeCoffee?.id)??recipeCoffee??undefined,locked:Boolean(recipeCoffee),backToCoffee:recipeCoffee?()=>{openCoffee(recipeCoffee);setRecipeCoffee(null);}:undefined}}
                 />
               ) : tab === 'brewFlow' ? (
                 <BrewMyCoffee
-                  key={(userId ?? 'guest') + locale}
+                  key={userId ?? 'guest'}
                   userId={userId}
                   coffees={data?.coffees ?? []}
                   profile={data?.profile ?? emptyProfile()}
@@ -883,7 +876,7 @@ function Shell() {
                 />
               ) : tab === 'bags' ? (
                 <MyBags
-                  key={(userId ?? 'guest') + locale}
+                  key={userId ?? 'guest'}
                   userId={userId}
                   coffees={data?.coffees ?? []}
                   savedIds={savedIds}
@@ -894,7 +887,7 @@ function Shell() {
                 />
               ) : tab === 'best' ? (
                 <BestSetup
-                  key={(userId ?? 'guest') + locale}
+                  key={userId ?? 'guest'}
                   userId={userId}
                   recipes={data?.recipes ?? []}
                   coffees={data?.coffees ?? []}
@@ -904,7 +897,7 @@ function Shell() {
                 />
               ) : tab === 'community' ? (
                 <CommunityScreen
-                  key={(userId ?? 'guest') + locale}
+                  key={userId ?? 'guest'}
                   userId={userId}
                   recipes={data?.recipes ?? []}
                   coffees={data?.coffees ?? []}
@@ -1268,19 +1261,19 @@ const s = StyleSheet.create({
     width: '100%',
     maxWidth: 1120,
     alignSelf: 'center',
-    height: 62,
+    minHeight: 62,
     flexGrow: 0,
     flexShrink: 0,
     paddingHorizontal: 18,
     paddingBottom: 10,
   },
-  libraryNavContent: { flexDirection: 'row', gap: 8, paddingVertical: 2 },
+  libraryNavContent: { width:'100%', flexDirection: 'row', gap: 6, paddingVertical: 2 },
   libraryButton: {
     flexGrow: 1,
-    flexBasis: 130,
+    flexBasis: '22%',
     flexShrink: 0,
-    minWidth: 130,
-    paddingHorizontal: 10,
+    minWidth: 60,
+    paddingHorizontal: 4,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

@@ -1,3 +1,4 @@
+import { localizedRecipeTitle } from '@/lib/localized';
 import { getLocale, getTranslations } from "next-intl/server";
 import { ExternalLink, Flag, MapPin, Mountain, Plus, Sprout } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -17,10 +18,10 @@ export const dynamic = "force-dynamic";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyRow = any;
 
-function toRecipeCard(r: AnyRow): RecipeCardData {
+function toRecipeCard(r: AnyRow, locale: string): RecipeCardData {
   return {
     id: r.id,
-    title: r.title,
+    title: localizedRecipeTitle(r,locale),
     authorName: r.user?.name ?? r.user?.username ?? null,
     beanName: null,
     ratio: r.dose_grams && r.water_grams ? `1:${Math.round(r.water_grams / r.dose_grams)}` : null,
@@ -45,7 +46,7 @@ export default async function BeanDetailPage({
   const { data: beanRaw } = await supabase
     .from("beans")
     .select(
-      "id, slug, name_ar, name_en, description_ar, description_en, origin_country, origin_region, farm, varietal, process, altitude_meters, roast_level, roast_date, harvest_season, acidity_level, body_level, sweetness_level, bag_weight_grams, suitable_for_v60, suitable_for_espresso, suitable_for_xbloom, source_name, source_url, data_confidence, last_verified_at, roaster:roasters(name_ar, name_en, slug, logo_url), flavors:bean_flavor_notes(flavor), images:bean_images(url, position, image_usage_status)",
+      "id, slug, name_ar, name_en, description_ar, description_en, origin_country, origin_region, farm, varietal, process, altitude_meters, roast_level, roast_date, harvest_season, acidity_level, body_level, sweetness_level, bag_weight_grams, suitable_for_v60, suitable_for_espresso, suitable_for_xbloom, source_name, source_url, roaster_website_url, image_url, image_usage_status, data_confidence, last_verified_at, roaster:roasters(name_ar, name_en, slug, logo_url), flavors:bean_flavor_notes(flavor), images:bean_images(url, position, image_usage_status)",
     )
     .eq("slug", slug)
     .maybeSingle();
@@ -74,7 +75,7 @@ export default async function BeanDetailPage({
   }
 
   const recipeSelect =
-    "id, title, brew_method, dose_grams, water_grams, difficulty, user:profiles(name, username)";
+    "id, title, title_ar, brew_method, dose_grams, water_grams, difficulty, user:profiles(name, username)";
 
   const [{ data: v60Recipes }, { data: espressoRecipes }, { data: xbloomRecipes }, { data: myRecipes }, { data: relatedBeans }] =
     await Promise.all([
@@ -137,7 +138,7 @@ export default async function BeanDetailPage({
       <div className="texture-grain relative isolate min-h-[440px] overflow-hidden sm:min-h-[520px]">
         <div className="absolute inset-0 -z-20">
           <EditorialMedia
-            src={heroImage?.url}
+            src={heroImage?.url || (["rights_confirmed","source_linked"].includes(bean.image_usage_status) ? bean.image_url : null)}
             alt={name}
             seed={bean.id}
             artKind="scene"
@@ -326,7 +327,7 @@ export default async function BeanDetailPage({
             ) : (
               <HorizontalCarousel>
                 {group.recipes.map((r: AnyRow) => (
-                  <RecipeCard key={r.id} recipe={toRecipeCard(r)} isAuthenticated={Boolean(user)} />
+                  <RecipeCard key={r.id} recipe={toRecipeCard(r, locale)} isAuthenticated={Boolean(user)} />
                 ))}
               </HorizontalCarousel>
             )}
@@ -358,6 +359,7 @@ export default async function BeanDetailPage({
           </section>
         ) : null}
 
+        {bean.roaster_website_url?<p className="px-4 py-3 text-sm"><a href={bean.roaster_website_url} target="_blank" rel="noopener noreferrer" className="underline">{locale==='ar'?'موقع المحمصة':'Roaster website'}</a></p>:null}
         {bean.source_name || bean.last_verified_at ? (
           <p className="mt-8 flex flex-wrap items-center gap-1.5 text-xs text-[var(--color-muted-text)]">
             {bean.source_name ? (

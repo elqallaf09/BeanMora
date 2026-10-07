@@ -58,7 +58,7 @@ test('universal Arabic strawberry search finds coffee notes, matching roasters a
   const results=page.getByTestId('universal-search-results');
   await expect(results.getByRole('button',{name:bean.name_ar,exact:true})).toBeVisible();
   await expect(results.getByRole('button',{name:roaster.name_ar,exact:true})).toBeVisible();
-  await expect(results.getByText('لديها بن بإيحاءات تطابق بحثك',{exact:true})).toBeVisible();
+  await expect(results.getByText('لديها بن يطابق بحثك',{exact:true})).toBeVisible();
   await expect(page.getByRole('button',{name:'وصفة البن 12',exact:true})).toBeVisible();
   await page.screenshot({path:info.outputPath('universal-strawberry.png'),fullPage:true});
   await page.getByRole('button',{name:'عرض كل نتائج البن',exact:true}).click();
@@ -74,7 +74,7 @@ test('foreground automation refreshes once after five minutes and reuses the cat
     return reply(route,path.endsWith('/beans')?[bean]:[]);
   });
   await page.goto('/');await expect.poll(()=>reads).toBe(5);
-  await expect.poll(()=>page.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith('beanmora-public-catalog-v1:')).length)).toBe(1);
+  await expect.poll(()=>page.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith('beanmora-public-catalog-v2:')).length)).toBe(1);
   const visibility=async(state:string)=>page.evaluate(state=>{Object.defineProperty(document,'visibilityState',{value:state,configurable:true});document.dispatchEvent(new Event('visibilitychange'));},state);
   await visibility('hidden');await visibility('visible');expect(reads).toBe(5);
   await visibility('hidden');await page.clock.fastForward(300_001);await visibility('visible');

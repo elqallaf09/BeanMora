@@ -1,9 +1,12 @@
+import { factLabels } from './core/equipment-facts';
+export { factLabels } from './core/equipment-facts';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Locale } from './copy';
 import { safeUrl } from './guards';
 import { catalogName } from './localizedContent';
 
 export interface EquipmentItem {
+  localeContent?: Record<Locale, { name: string; description: string }>;
   id: string;
   name: string;
   originalName?: string;
@@ -18,6 +21,7 @@ export interface EquipmentItem {
   confidence: string;
 }
 export interface RoasterItem {
+  localeContent?: Record<Locale, { name: string; description: string }>;
   searchDocument?: string;
   id: string;
   slug: string;
@@ -165,59 +169,6 @@ export const categoryLabel = (kind: string, locale: Locale) =>
   categoryNames[kind]?.[locale === 'ar' ? 0 : 1] ??
   catalogName(kind.replaceAll('_', ' '), locale);
 
-export const factLabels: Record<string, [string, string]> = {
-  operation: ['التشغيل', 'Operation'],
-  focus: ['الاستخدام', 'Designed for'],
-  capacity: ['السعة المنشورة', 'Published capacity'],
-  coffee_capacity: ['كمية البن', 'Coffee capacity'],
-  burr_type: ['نوع التروس', 'Burr type'],
-  burr_diameter: ['قطر التروس', 'Burr diameter'],
-  burr: ['التروس', 'Burrs'],
-  burr_options: ['خيارات التروس', 'Burr options'],
-  adjustment: ['ضبط الطحنة', 'Grind adjustment'],
-  dosing: ['الجرعات', 'Dosing'],
-  grinder: ['الطاحونة المدمجة', 'Integrated grinder'],
-  heating: ['نظام التسخين', 'Heating system'],
-  boiler: ['الغلايات', 'Boilers'],
-  portafilter: ['البورتافلتر', 'Portafilter'],
-  steam: ['تبخير الحليب', 'Milk steaming'],
-  water_tank: ['خزان الماء', 'Water tank'],
-  brew_pressure: ['ضغط الاستخلاص', 'Extraction pressure'],
-  max_pump_pressure: ['الحد الأقصى للمضخة', 'Maximum pump pressure'],
-  pressure_gauge: ['مقياس الضغط', 'Pressure gauge'],
-  preinfusion: ['النقع الأولي', 'Pre-infusion'],
-  flow_control: ['التحكم بالتدفق', 'Flow control'],
-  heats_water: ['يسخّن الماء', 'Heats water'],
-  readability: ['دقة القراءة', 'Readability'],
-  timer: ['المؤقت', 'Timer'],
-  guidance: ['مساعدة التحضير', 'Brew assistance'],
-  display: ['الشاشة', 'Display'],
-  connection: ['الاتصال والشحن', 'Connectivity and charging'],
-  dimensions: ['الأبعاد', 'Dimensions'],
-  weight: ['الوزن', 'Weight'],
-  material: ['الخامة', 'Material'],
-  filter: ['الفلتر', 'Filter'],
-  compatibility: ['التوافق', 'Compatibility'],
-  spout: ['المصب', 'Spout'],
-  temperature: ['الحرارة', 'Temperature'],
-  hold: ['حفظ الحرارة', 'Temperature hold'],
-  motor_power: ['القدرة الكهربائية', 'Electrical power'],
-  voltage: ['الجهد', 'Voltage'],
-  drum_speed: ['سرعة الأسطوانة', 'Drum speed'],
-  battery: ['البطارية', 'Battery'],
-  made_in: ['الصناعة', 'Made in'],
-  included: ['المرفقات', 'Included'],
-  care: ['العناية', 'Care'],
-  sieves: ['شبكات المنخل', 'Sieves'],
-  springs: ['الزنبركات', 'Springs'],
-  sizes: ['المقاسات', 'Sizes'],
-  programs: ['البرامج', 'Programs'],
-  bottoms: ['قواعد التحضير', 'Brewer bottoms'],
-  own_beans: ['حبوبك الخاصة', 'Your own beans'],
-  handle: ['المقبض', 'Handle'],
-  use: ['الاستخدام', 'Use'],
-  region: ['إصدار السوق', 'Market version'],
-};
 export function reviewedFacts(
   item: Pick<EquipmentItem, 'specifications'>,
   locale: Locale,
@@ -300,6 +251,10 @@ async function readEquipment(
     } | null;
     return {
       id: row.id,
+      localeContent: {
+        ar: { name: translated && c.name_ar ? c.name_ar : catalogName(row.name, 'ar'), description: translated && c.description_ar ? c.description_ar : '' },
+        en: { name: row.name, description: translated && c.description_en ? c.description_en : row.description || row.notes || '' },
+      },
       name:
         locale === 'ar' && translated && c.name_ar
           ? c.name_ar
@@ -350,6 +305,10 @@ export async function loadRoasters(
   return reviewedRows(data ?? []).map((row) => ({
     id: row.id,
     slug: row.slug,
+    localeContent: {
+      ar: { name: row.name_ar || catalogName(row.name_en, 'ar'), description: row.description_ar || '' },
+      en: { name: row.name_en || row.name_ar, description: row.description_en || '' },
+    },
     searchDocument: [
       row.name_ar,
       row.name_en,

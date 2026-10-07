@@ -8,12 +8,12 @@ const root = new URL('../', import.meta.url);
 const temp = mkdtempSync(tmpdir() + '/beanmora-data-');
 mkdirSync(temp + '/core');
 for (const file of [
-  'data.ts',
+  'core/content-media.ts', 'data.ts',
   'guards.ts',
   'sourceBrew.ts',
   'manualBrew.ts',
   'sensory.ts',
-  'localizedContent.ts',
+  'core/catalog-names.ts', 'core/catalog-foreign-titles.ts', 'localizedContent.ts',
   'foreignTitles.ts',
   'copy.ts',
   'recipeDiscovery.ts',
@@ -30,7 +30,7 @@ for (const file of [
         module: ts.ModuleKind.ESNext,
       },
     })
-    .outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.mjs'");
+    .outputText.replace(/from (["'])(\.\/[^"']+)\1/g, "from '$2.mjs'");
   writeFileSync(temp + '/' + file.replace('.ts', '.mjs'), code);
 }
 const { loadData, mapRecipe } = await import(

@@ -25,7 +25,8 @@ export default async function EspressoHubPage() {
       ? supabase
           .from("user_equipment")
           .select("id, category, custom_name, is_default, equipment_model:equipment_models(name, brand:equipment_brands(name))")
-          .eq("user_id", user.id)
+          .is('archived_at', null)
+            .eq("user_id", user.id)
           .in("category", ["espresso_machine", "grinder"])
           .eq("is_default", true)
       : Promise.resolve({ data: [] }),

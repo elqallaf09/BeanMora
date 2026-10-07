@@ -1,3 +1,4 @@
+import { localizedRecipeTitle } from '@/lib/localized';
 import { getLocale, getTranslations } from "next-intl/server";
 import { Lock, Plus, Sparkles, Smartphone } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -170,7 +171,7 @@ export default async function XBloomHubPage() {
                   </div>
                   <div className="mt-3">
                     <XBloomRecipeActions
-                      settings={{ title: r.title, doseGrams: dose, waterGrams: water, grindSetting: grind, waterTempC: temp }}
+                      settings={{ title: localizedRecipeTitle(r,locale), doseGrams: dose, waterGrams: water, grindSetting: grind, waterTempC: temp }}
                     />
                   </div>
                 </div>

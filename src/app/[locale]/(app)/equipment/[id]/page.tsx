@@ -1,3 +1,5 @@
+import { factLabels } from '@/lib/equipment-facts';
+import { localizedRecipeTitle } from '@/lib/localized';
 import { getLocale, getTranslations } from "next-intl/server";
 import { ExternalLink, Wrench } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -36,7 +38,7 @@ export default async function EquipmentDetailPage({
     )
     .eq("id", id)
     .maybeSingle();
-  const equipment = eqRaw as AnyRow;
+  const equipment = eqRaw ? {...eqRaw, name:locale==='ar'?eqRaw.specifications?.catalog?.name_ar||eqRaw.name:eqRaw.name,description:locale==='ar'?eqRaw.specifications?.catalog?.description_ar||'':eqRaw.specifications?.catalog?.description_en||eqRaw.description} as AnyRow : null;
 
   if (!equipment) {
     return (
@@ -61,7 +63,7 @@ export default async function EquipmentDetailPage({
   const { data: linkedRaw } = await supabase
     .from("recipe_equipment")
     .select(
-      "recipe:recipes(id, title, brew_method, dose_grams, water_grams, difficulty, visibility, user:profiles(name, username), bean:beans(id, slug, name_ar, name_en, origin_country, origin_region, process, roast_level, suitable_for_v60, suitable_for_espresso, suitable_for_xbloom, flavors:bean_flavor_notes(flavor), images:bean_images(url, position)))",
+      "recipe:recipes(id, title, title_ar, brew_method, dose_grams, water_grams, difficulty, visibility, user:profiles(name, username), bean:beans(id, slug, name_ar, name_en, origin_country, origin_region, process, roast_level, suitable_for_v60, suitable_for_espresso, suitable_for_xbloom, flavors:bean_flavor_notes(flavor), images:bean_images(url, position)))",
     )
     .eq("equipment_model_id", id)
     .limit(12);
@@ -80,14 +82,15 @@ export default async function EquipmentDetailPage({
   const image = equipment.image_usage_status === "rights_confirmed" ? equipment.image_url : null;
   const brandName = equipment.brand?.name ?? null;
   const specs = (equipment.specifications ?? {}) as Record<string, unknown>;
-  const specEntries = Object.entries(specs).filter(([key, v]) => key !== "catalog" && v !== null && v !== undefined && v !== "");
+  const catalog=specs.catalog as {facts?:Record<string,[string,string]>}|undefined;
+  const specEntries = catalog?.facts ? Object.entries(catalog.facts).flatMap(([key,value])=>Array.isArray(value)&&value.length===2&&factLabels[key] ? [[factLabels[key][locale==='ar'?0:1],value[locale==='ar'?0:1]]] : []) : Object.entries(specs).filter(([key,v])=>key!=='catalog'&&v!=null&&typeof v!=='object'&&(locale!=='ar'||Boolean(factLabels[key]))).map(([key,v])=>[factLabels[key]?.[locale==='ar'?0:1]??key.replace(/_/g,' '),String(v)]);
   const methods = (equipment.suitable_brew_methods ?? []) as string[];
   const compatLabels = { v60: t("nav.v60"), espresso: t("nav.espresso"), xbloom: t("nav.xbloom") };
 
   function toRecipeCard(r: AnyRow): RecipeCardData {
     return {
       id: r.id,
-      title: r.title,
+      title: localizedRecipeTitle(r,locale),
       authorName: r.user?.name ?? r.user?.username ?? null,
       beanName: r.bean ? localizedField(r.bean, "name", locale) : null,
       ratio: r.dose_grams && r.water_grams ? `1:${Math.round(r.water_grams / r.dose_grams)}` : null,

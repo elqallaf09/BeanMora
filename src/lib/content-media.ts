@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-const buckets = new Set(['post-media', 'recipe-images', 'recipe-videos']);
+const buckets = new Set(['post-media', 'recipe-images', 'recipe-videos', 'member-media']);
 /** Match this project's Storage only. Never send arbitrary URLs to a signer. */
 export function contentMediaPath(
   value: string | null | undefined,

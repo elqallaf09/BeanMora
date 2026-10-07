@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, type ComponentProps } from 'react';
 import { Pressable, View, useWindowDimensions } from 'react-native';
 import { publicSupabase as supabase } from './client';
 import { loadRoasters, countryLabel, type RoasterItem } from './catalog';
@@ -10,6 +10,7 @@ import { RecipeCatalog } from './RecipeCatalog';
 import { Action, Language, Txt, colors, styles } from './ui';
 
 export function SearchScreen({
+  recipeOptions,
   coffees,
   openCoffee,
   openRecipe,
@@ -19,6 +20,7 @@ export function SearchScreen({
   savedIds,
   saveCoffee,
 }: {
+  recipeOptions?: Omit<ComponentProps<typeof RecipeCatalog>,'open'|'searchResults'>;
   coffees: CoffeeItem[];
   savedIds: string[];
   saveCoffee: (coffee: CoffeeItem) => void;
@@ -58,6 +60,7 @@ export function SearchScreen({
     };
   }, [locale, revision]);
   const renderResults = (query: string) => {
+    if(recipeOptions && (!query.trim() || recipeOptions.locked))return null;
     const matches = coffees.filter(
       (coffee) =>
         coffee.published &&
@@ -133,7 +136,7 @@ export function SearchScreen({
               {query.trim() && matchedRoasters.has(r.id) ? (
                 <Txt style={{ color: colors.teal, fontSize: 12 }}>
                   {ar
-                    ? 'لديها بن بإيحاءات تطابق بحثك'
+                    ? 'لديها بن يطابق بحثك'
                     : 'Has coffee matching your search'}
                 </Txt>
               ) : null}
@@ -165,6 +168,6 @@ export function SearchScreen({
     );
   };
   return (
-    <RecipeCatalog universal open={openRecipe} searchResults={renderResults} />
+    <RecipeCatalog universal={!recipeOptions} {...recipeOptions} open={openRecipe} searchResults={renderResults} />
   );
 }

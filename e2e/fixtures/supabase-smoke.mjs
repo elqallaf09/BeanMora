@@ -11,13 +11,19 @@ const server = createServer((req,res) => {
   res.setHeader('Access-Control-Allow-Headers','authorization,apikey,content-type,x-client-info,x-supabase-api-version');
   res.setHeader('Access-Control-Allow-Methods','GET,HEAD,POST,OPTIONS');
   if(req.method==='OPTIONS'){res.writeHead(204);res.end();return;}
-  const path=new URL(req.url,'http://127.0.0.1:54329').pathname;
+  const requestUrl=new URL(req.url,'http://127.0.0.1:54329');
+  const path=requestUrl.pathname;
   if(path==='/health'){res.end('{}');return;}
   if(['/auth/v1/signup','/auth/v1/token'].includes(path) && req.method==='POST') {
     // Simulates isolated guest/password auth only. No real user, catalog item or brew is created.
     res.end(JSON.stringify({access_token,token_type:'bearer',expires_in:3600,refresh_token:'test-only-refresh',user}));return;
   }
   if(path==='/auth/v1/user' && req.headers.authorization===`Bearer ${access_token}`){res.end(JSON.stringify(user));return;}
+  if(['/rest/v1/rpc/search_public_beans','/rest/v1/rpc/search_public_recipes'].includes(path) && req.method==='POST'){res.setHeader('Content-Range','*/0');res.end('[]');return;}
+  const detailId='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+  const selected=requestUrl.searchParams.get('id')===`eq.${detailId}`;
+  const detail=path==='/rest/v1/beans' && requestUrl.searchParams.get('slug')==='eq.locale-fixture' ? {id:detailId,slug:'locale-fixture',name_ar:'بن اختبار اللغة',name_en:'Locale test coffee',description_ar:'وصف البن بالعربية',description_en:'English coffee description',roaster:null,flavors:[],images:[]} : selected && path==='/rest/v1/recipes' ? {id:detailId,title:'Locale test recipe',title_ar:'وصفة اختبار اللغة',brew_method:'v60',recipe_type:'community',visibility:'public',dose_grams:15,water_grams:250,created_at:'2026-01-01',flavor_notes:[],steps:[{id:detailId,step_number:1,title:'Bloom',title_ar:'التزهير',description:'Pour water',description_ar:'صب الماء'}],equipment:[],sources:[],pours:[]} : selected && path==='/rest/v1/equipment_models' ? {id:detailId,name:'Locale test grinder',category:'grinder',specifications:{catalog:{name_ar:'طاحونة اختبار اللغة',description_ar:'وصف الطاحونة بالعربية',description_en:'English grinder description'}},suitable_brew_methods:[]} : null;
+  if(detail && req.method==='GET'){res.setHeader('Content-Range','0-0/1');res.end(JSON.stringify(req.headers.accept?.includes('application/vnd.pgrst.object+json')?detail:[detail]));return;}
   if(path.startsWith('/rest/v1/') && ['GET','HEAD'].includes(req.method)){
     res.setHeader('Content-Range','*/0');
     res.end(req.headers.accept?.includes('application/vnd.pgrst.object+json')?'null':'[]');return;

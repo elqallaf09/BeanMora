@@ -21,12 +21,12 @@ after(() => rmSync(temp, { recursive: true, force: true }));
 writeFileSync(temp + '/client.mjs', 'export const supabase = null; export const publicSupabase = null;\n');
 for (const file of [
   'useCoffeeRecipes.ts',
-  'data.ts',
+  'core/content-media.ts', 'data.ts',
   'guards.ts',
   'sourceBrew.ts',
   'manualBrew.ts',
   'sensory.ts',
-  'localizedContent.ts',
+  'core/catalog-names.ts', 'core/catalog-foreign-titles.ts', 'localizedContent.ts',
   'foreignTitles.ts',
   'copy.ts',
   'recipeDiscovery.ts',
@@ -43,7 +43,7 @@ for (const file of [
         module: ts.ModuleKind.ESNext,
       },
     })
-    .outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.mjs'")
+    .outputText.replace(/from (["'])(\.\/[^"']+)\1/g, "from '$2.mjs'")
     .replace(
       /from 'react'/g,
       `from '${pathToFileURL(require.resolve('react')).href}'`,

@@ -1,3 +1,4 @@
+import { localizedRecipeTitle } from '@/lib/localized';
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link, redirect } from "@/i18n/navigation";
 import { Bookmark, Coffee, FolderHeart, Users } from "lucide-react";
@@ -51,7 +52,7 @@ export default async function SavedPage({
   if (activeTab === "recipes") {
     const { data } = await supabase
       .from("recipe_saves")
-      .select("recipe:recipes!inner(id, title, brew_method, dose_grams, water_grams)")
+      .select("recipe:recipes!inner(id, title, title_ar, brew_method, dose_grams, water_grams)")
       .eq("user_id", user!.id)
       .order("created_at", { ascending: false });
     const recipes: AnyRow[] = (((data ?? []).map((s: AnyRow) => s.recipe).filter(Boolean)) ?? []);
@@ -64,7 +65,7 @@ export default async function SavedPage({
           {recipes.map((r) => {
             const card: RecipeCardData = {
               id: r.id,
-              title: r.title,
+              title: localizedRecipeTitle(r,locale),
               ratio: r.dose_grams && r.water_grams ? `1:${Math.round(r.water_grams / r.dose_grams)}` : null,
               brewTimeLabel: r.total_time_seconds
                 ? `${Math.floor(r.total_time_seconds / 60)}:${String(r.total_time_seconds % 60).padStart(2, "0")}`

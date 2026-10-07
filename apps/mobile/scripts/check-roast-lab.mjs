@@ -16,11 +16,11 @@ after(() => rmSync(temp, { recursive: true, force: true }));
 for (const file of [
   'roastLab.ts',
   'guards.ts',
-  'localizedContent.ts',
+  'core/catalog-names.ts', 'core/catalog-foreign-titles.ts', 'localizedContent.ts',
   'foreignTitles.ts',
   'copy.ts',
   'core/engine.ts',
-  'catalog.ts',
+  'core/equipment-facts.ts', 'catalog.ts',
 ]) {
   const source = readFileSync(
     new URL('../src/' + file, import.meta.url),

@@ -2,12 +2,13 @@
 
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
-import { Bookmark, Settings, Wrench } from "lucide-react";
+import { Bookmark, Settings, Wrench, Coffee } from "lucide-react";
 import { primaryNavItems } from "./nav-items";
 import { cn } from "@/lib/utils";
 import { BeanMoraLogo } from "@/components/layout/logo";
 
 const secondaryNavItems = [
+  { href: "/capsules", labelKey: "nav.capsules", icon: Coffee },
   { href: "/saved", labelKey: "nav.saved", icon: Bookmark },
   { href: "/gear", labelKey: "nav.gear", icon: Wrench },
   { href: "/settings", labelKey: "nav.settings", icon: Settings },

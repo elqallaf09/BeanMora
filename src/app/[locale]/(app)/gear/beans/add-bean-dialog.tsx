@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Plus } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,6 +16,8 @@ type AnyRow = any;
 export function AddBeanDialog() {
   const t = useTranslations("myBeans");
   const router = useRouter();
+  const ar=useLocale()==='ar';
+  const [error,setError]=useState(false);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [matches, setMatches] = useState<AnyRow[]>([]);
@@ -36,35 +38,24 @@ export function AddBeanDialog() {
     const { data } = await supabase
       .from("beans")
       .select("id, slug, name_ar, name_en")
-      .or(`name_en.ilike.%${value}%,name_ar.ilike.%${value}%`)
+      .ilike(ar?'name_ar':'name_en', `%${value.replace(/[%_]/g,'')}%`)
       .limit(6);
     setMatches(data ?? []);
   }
 
   async function handleSave() {
-    setSaving(true);
+    setSaving(true);setError(false);
     try {
       const supabase = createClient();
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user||user.is_anonymous) throw new Error('MEMBER_REQUIRED');
 
-      let beanId = selected?.id;
-      if (!beanId) {
-        const name = query.trim();
-        if (!name) return;
-        const slug = `${name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}-${Date.now().toString(36)}`;
-        const { data: newBean } = await supabase
-          .from("beans")
-          .insert({ slug, name_ar: name, name_en: name, created_by: user.id, is_published: false })
-          .select("id")
-          .single();
-        beanId = newBean?.id;
-      }
-      if (!beanId) return;
+      const beanId=selected?.id;
+      if(!beanId)throw new Error('SELECT_BEAN');
 
-      await supabase.from("user_bean_inventory").insert({
+      const {error:saveError}=await supabase.from("user_bean_inventory").insert({
         user_id: user.id,
         legacy_bean_id: beanId,
         roast_date: roastDate || null,
@@ -73,13 +64,14 @@ export function AddBeanDialog() {
         notes: notes || null,
       });
 
+      if(saveError)throw saveError;
       setOpen(false);
       setQuery("");
       setMatches([]);
       setSelected(null);
       setNotes("");
       router.refresh();
-    } finally {
+    } catch { setError(true); } finally {
       setSaving(false);
     }
   }
@@ -145,8 +137,9 @@ export function AddBeanDialog() {
             </div>
           </div>
 
+          {error?<p role="alert">{ar?'تعذّرت الإضافة. تحقق من حسابك والبيانات.':'Could not add. Check your account and details.'}</p>:null}<Button asChild variant="outline"><Link href="/beans/create">{ar?'إضافة بن جديد مع التفاصيل والصورة':'Add new coffee with details and photo'}</Link></Button>
           <DialogFooter>
-            <Button type="button" onClick={handleSave} disabled={saving || !query.trim()} variant="accent">
+            <Button type="button" onClick={handleSave} disabled={saving || !selected} variant="accent">
               {t("save")}
             </Button>
           </DialogFooter>

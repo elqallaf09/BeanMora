@@ -108,7 +108,8 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
       supabase
         .from("user_equipment")
         .select("id, category, custom_name, is_default, equipment_model:equipment_models(name, image_url, brand:equipment_brands(name))")
-        .eq("user_id", profile.id)
+        .is('archived_at', null)
+            .eq("user_id", profile.id)
         .limit(6),
       supabase.from("brew_logs").select("id", { count: "exact", head: true }).eq("user_id", profile.id),
       supabase.from("user_bean_inventory").select("id", { count: "exact", head: true }).eq("user_id", profile.id),

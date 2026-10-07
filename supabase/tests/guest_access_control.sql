@@ -81,8 +81,7 @@ begin
   end;
   assert v_error_caught, 'FAIL: guest was able to insert a PUBLIC recipe';
 
-  -- 2. Guest CAN still create their own DRAFT recipe (session-owned
-  -- scratch space — see migration 18's header comment).
+  -- 2. Member contributions now require a registered account, including drafts.
   v_error_caught := false;
   begin
     insert into public.recipes (user_id, title, brew_method, recipe_type, visibility)
@@ -90,7 +89,7 @@ begin
   exception when insufficient_privilege then
     v_error_caught := true;
   end;
-  assert not v_error_caught, 'FAIL: guest could not create their own DRAFT recipe (should be allowed)';
+  assert v_error_caught, 'FAIL: anonymous guest could create a DRAFT recipe; registered membership is now required';
 
   -- 3. Guest cannot add a public recipe review.
   v_error_caught := false;

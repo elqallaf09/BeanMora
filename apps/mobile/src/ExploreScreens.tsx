@@ -75,20 +75,17 @@ function Chips({
   set: (id: string) => void;
 }) {
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{ gap: 8, paddingVertical: 2 }}
-    >
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, paddingVertical: 2 }}>
       {items.map((item) => (
         <Action
+          compact
           key={item.id}
           title={item.name}
           onPress={() => set(item.id)}
           selected={value === item.id}
         />
       ))}
-    </ScrollView>
+    </View>
   );
 }
 function Empty({
@@ -697,12 +694,14 @@ export function EquipmentDetail({
   userId,
   login,
   openRecipe,
+  myEquipment,
 }: {
   item: EquipmentItem;
   recipes: RecipeItem[];
   userId: string | null;
   login: () => void;
   openRecipe: (r: RecipeItem) => void;
+  myEquipment: () => void;
 }) {
   const locale = useContext(Language);
   const ar = locale === 'ar';
@@ -820,6 +819,7 @@ export function EquipmentDetail({
         </Txt>
         <Txt>{g.care}</Txt>
       </View>
+      <Action selected title={ar?'إضافة إلى معداتي':'Add to my equipment'} onPress={myEquipment}/>
       {item.description ? (
         <View style={styles.card}>
           <Txt heading style={styles.subtitle}>

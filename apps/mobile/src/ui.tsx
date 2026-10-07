@@ -9,6 +9,7 @@ import {
   View,
   type StyleProp,
   type TextInputProps,
+  type TextProps,
   type TextStyle,
 } from 'react-native';
 import Svg, { Path, Circle, Rect, Ellipse } from 'react-native-svg';
@@ -33,17 +34,19 @@ export function Txt({
   style,
   heading = false,
   numberOfLines,
+  accessibilityRole,
 }: {
   children: ReactNode;
   style?: StyleProp<TextStyle>;
   heading?: boolean;
   numberOfLines?: number;
+  accessibilityRole?: TextProps['accessibilityRole'];
 }) {
   const rtl = useContext(Language) === 'ar';
   const weight = StyleSheet.flatten(style)?.fontWeight;
   return (
     <Text
-      accessibilityRole={heading ? 'header' : undefined}
+      accessibilityRole={accessibilityRole ?? (heading ? 'header' : undefined)}
       numberOfLines={numberOfLines}
       style={[
         styles.text,

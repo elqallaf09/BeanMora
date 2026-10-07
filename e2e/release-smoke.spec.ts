@@ -135,3 +135,16 @@ test('legal pages are public, bilingual and fit the viewport', async ({ page }) 
     await page.waitForLoadState('networkidle');
   }
 });
+
+
+for(const [path,arabic,english] of [
+  ['/beans/locale-fixture','بن اختبار اللغة','Locale test coffee'],
+  ['/recipes/aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa','وصفة اختبار اللغة','Locale test recipe'],
+  ['/equipment/aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa','طاحونة اختبار اللغة','Locale test grinder'],
+]) test(`language switch retains ${path}, query and fragment`,async({page})=>{
+  await guest(page,'ar');await page.waitForLoadState('networkidle');
+  const suffix=path+'?source=locale-test#details';
+  await page.goto('/ar'+suffix);await expect(page.getByRole('heading',{name:arabic,exact:true})).toBeVisible();
+  await page.getByRole('button',{name:ar.language.switch,exact:true}).click();await expect(page).toHaveURL('http://127.0.0.1:3000/en'+suffix);await expect(page.getByRole('heading',{name:english,exact:true})).toBeVisible();await noOverflow(page);
+  await page.getByRole('button',{name:en.language.switch,exact:true}).click();await expect(page).toHaveURL('http://127.0.0.1:3000/ar'+suffix);await expect(page.getByRole('heading',{name:arabic,exact:true})).toBeVisible();
+});

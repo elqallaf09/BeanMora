@@ -1,3 +1,4 @@
+import { catalogName } from "./catalog-names";
 /**
  * BeanMora content tables store bilingual columns as `<field>_ar` /
  * `<field>_en` pairs (beans.name_ar/name_en, roasters.name_ar/name_en, ...)
@@ -16,5 +17,20 @@ export function localizedField<T extends Record<string, unknown>>(
   const primary = row[`${field}_${locale}`];
   const fallbackLocale = locale === "ar" ? "en" : "ar";
   const fallback = row[`${field}_${fallbackLocale}`];
-  return (typeof primary === "string" && primary) || (typeof fallback === "string" && fallback) || "";
+  const result =
+    (typeof primary === "string" && primary) ||
+    (typeof fallback === "string" && fallback) ||
+    "";
+  return field === "name" && locale === "ar"
+    ? catalogName(result, "ar")
+    : result;
+}
+
+export function localizedRecipeTitle(
+  row: { title: string; title_ar?: string | null },
+  locale: string,
+) {
+  return locale === "ar"
+    ? row.title_ar || catalogName(row.title, "ar")
+    : row.title;
 }

@@ -16,7 +16,7 @@ if (!snapshotPath || !outputPath)
 const temp = mkdtempSync(tmpdir() + '/beanmora-locales-');
 mkdirSync(temp + '/core');
 for (const file of [
-  'localizedContent.ts',
+  'core/catalog-names.ts', 'core/catalog-foreign-titles.ts', 'localizedContent.ts',
   'foreignTitles.ts',
   'copy.ts',
   'core/engine.ts',

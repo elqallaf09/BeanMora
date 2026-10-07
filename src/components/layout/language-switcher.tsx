@@ -1,30 +1,23 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { useParams } from "next/navigation";
 import { Languages } from "lucide-react";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 
-/**
- * Persists the choice both client-side (cookie via next-intl's router,
- * picked up on next request) and — when signed in — to profiles.language
- * so it follows the user across devices. The profile write is fire-and-forget
- * from wherever this is rendered inside an authenticated shell.
- */
+/** Keep the current entity, query and fragment; next-intl persists the locale cookie. */
 export function LanguageSwitcher() {
   const locale = useLocale();
   const t = useTranslations("language");
   const router = useRouter();
   const pathname = usePathname();
-  const params = useParams();
 
   function switchTo(nextLocale: "ar" | "en") {
-    router.replace(
-      // @ts-expect-error -- params shape depends on the current route
-      { pathname, params },
-      { locale: nextLocale },
-    );
+    // Preserve the exact entity path, filters and anchor during a locale switch.
+    router.replace(pathname + window.location.search + window.location.hash, {
+      locale: nextLocale,
+      scroll: false,
+    });
   }
 
   const next = locale === "ar" ? "en" : "ar";

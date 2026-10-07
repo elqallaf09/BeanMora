@@ -517,6 +517,7 @@ test('Arabic Roast Lab saves actual Arabic-number measurements, retries the same
   await expect(
     page.getByRole('button', { name: 'تسجيل الخروج', exact: true }),
   ).toBeVisible();
+  await page.getByRole('button', { name: 'المزيد', exact: true }).click();
   await page
     .getByRole('button', { name: 'مختبر التحميص', exact: true })
     .click();
@@ -661,6 +662,7 @@ test('Arabic Roast Lab saves actual Arabic-number measurements, retries the same
     )
     .toBe(true);
   await page.reload();
+  await page.getByRole('button', { name: 'المزيد', exact: true }).click();
   await page
     .getByRole('button', { name: 'مختبر التحميص', exact: true })
     .click();

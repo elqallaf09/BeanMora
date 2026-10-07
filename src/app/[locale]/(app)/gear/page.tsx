@@ -3,6 +3,7 @@ import { Wrench } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { EquipmentCard } from "@/components/coffee/cards";
 import { RichEmptyState, ErrorCard } from "@/components/coffee/empty-states";
+import { RemoveOwnedButton } from "@/components/coffee/remove-owned-button";
 import { AddEquipmentDialog } from "./add-equipment-dialog";
 
 export const dynamic = "force-dynamic";
@@ -21,7 +22,8 @@ export default async function MyGearPage() {
   const { data: equipmentRaw, error } = await supabase
     .from("user_equipment")
     .select("id, category, custom_name, is_default, equipment_model:equipment_models(name, image_url, brand:equipment_brands(name))")
-    .order("created_at", { ascending: false });
+    .is('archived_at', null)
+            .order("created_at", { ascending: false });
 
   const equipment = ((equipmentRaw ?? []) as AnyRow[]);
 
@@ -39,8 +41,7 @@ export default async function MyGearPage() {
       ) : (
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {equipment.map((eq) => (
-            <EquipmentCard
-              key={eq.id}
+            <div key={eq.id} className="space-y-2"><EquipmentCard
               id={eq.id}
               name={eq.equipment_model?.name ?? eq.custom_name ?? "—"}
               brand={eq.equipment_model?.brand?.name}
@@ -48,7 +49,7 @@ export default async function MyGearPage() {
               imageUrl={eq.equipment_model?.image_url}
               isDefault={eq.is_default}
               defaultLabel={t("myGear.default")}
-            />
+            /><RemoveOwnedButton id={eq.id} table="user_equipment"/></div>
           ))}
         </div>
       )}

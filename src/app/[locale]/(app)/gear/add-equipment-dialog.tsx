@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Plus } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "@/i18n/navigation";
@@ -38,6 +38,8 @@ function categoryKey(c: string) {
 export function AddEquipmentDialog() {
   const t = useTranslations("myGear");
   const router = useRouter();
+  const ar=useLocale()==='ar';
+  const [error,setError]=useState(false);
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState<(typeof CATEGORIES)[number]>("grinder");
   const [query, setQuery] = useState("");
@@ -64,15 +66,15 @@ export function AddEquipmentDialog() {
   }
 
   async function handleSave() {
-    setSaving(true);
+    setSaving(true);setError(false);
     try {
       const supabase = createClient();
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user||user.is_anonymous) throw new Error('MEMBER_REQUIRED');
 
-      await supabase.from("user_equipment").insert({
+      const {error:saveError}=await supabase.from("user_equipment").insert({
         user_id: user.id,
         category,
         equipment_model_id: selected?.id ?? null,
@@ -80,12 +82,13 @@ export function AddEquipmentDialog() {
         is_default: makeDefault,
       });
 
+      if(saveError)throw saveError;
       setOpen(false);
       setQuery("");
       setMatches([]);
       setSelected(null);
       router.refresh();
-    } finally {
+    } catch {setError(true);} finally {
       setSaving(false);
     }
   }
@@ -155,7 +158,7 @@ export function AddEquipmentDialog() {
             </label>
           </div>
 
-          <DialogFooter>
+          {error?<p role="alert">{ar?'تعذّرت إضافة المعدة. تحقق من حسابك وحاول مرة أخرى.':'Could not add equipment. Check your account and retry.'}</p>:null}<DialogFooter>
             <Button type="button" onClick={handleSave} disabled={saving || !query.trim()} variant="accent">
               {t("addEquipment")}
             </Button>
