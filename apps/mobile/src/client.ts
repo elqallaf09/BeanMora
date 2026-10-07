@@ -27,6 +27,30 @@ export async function authProviderEnabled(provider: 'apple' | 'google') {
   }
 }
 
+// Shared transport deadline; public reads must never acquire the member auth lock.
+const boundedFetch: typeof fetch = async (input, init) => {
+  const controller = new AbortController();
+  const abort = () => controller.abort();
+  if (init?.signal?.aborted) abort();
+  init?.signal?.addEventListener('abort', abort);
+  const timer = setTimeout(abort, 12000);
+  try {
+    return await fetch(input, { ...init, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+    init?.signal?.removeEventListener('abort', abort);
+  }
+};
+
+// The SDK skips its auth client when accessToken is supplied. Returning null
+// uses the public key and existing anon policies, without session recovery.
+export const publicSupabase = configured
+  ? createClient(url, key, {
+      accessToken: async () => null,
+      global: { fetch: boundedFetch },
+    })
+  : null;
+
 export const supabase = configured
   ? createClient(url, key, {
       auth: {
@@ -37,21 +61,7 @@ export const supabase = configured
         detectSessionInUrl: Platform.OS === 'web',
         flowType: 'pkce',
       },
-      global: {
-        fetch: async (input, init) => {
-          const controller = new AbortController();
-          const abort = () => controller.abort();
-          if (init?.signal?.aborted) abort();
-          init?.signal?.addEventListener('abort', abort);
-          const timer = setTimeout(abort, 12000);
-          try {
-            return await fetch(input, { ...init, signal: controller.signal });
-          } finally {
-            clearTimeout(timer);
-            init?.signal?.removeEventListener('abort', abort);
-          }
-        },
-      },
+      global: { fetch: boundedFetch },
     })
   : null;
 

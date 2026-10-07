@@ -14,7 +14,7 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native';
-import { supabase } from './client';
+import { supabase, publicSupabase } from './client';
 import {
   countryLabel,
   categoryLabel,
@@ -194,11 +194,11 @@ export function EquipmentDirectory({
     let active = true;
     setBusy(true);
     setError(false);
-    if (!supabase) {
+    if (!publicSupabase) {
       setBusy(false);
       setError(true);
     } else
-      void loadEquipment(supabase, locale, revision > 0)
+      void loadEquipment(publicSupabase, locale, revision > 0)
         .then((v) => {
           if (active) setRows(v);
         })
@@ -715,7 +715,7 @@ export function EquipmentDetail({
   const methodKey = validMethods.join('|');
   useEffect(() => {
     let active = true;
-    const client = supabase;
+    const client = publicSupabase;
     if (!client || !validMethods.length) {
       setCatalogRelated([]);
       return;
@@ -1360,8 +1360,8 @@ export function RoasterDirectory({
     let active = true;
     setBusy(true);
     setError(false);
-    if (supabase)
-      void loadRoasters(supabase, locale)
+    if (publicSupabase)
+      void loadRoasters(publicSupabase, locale)
         .then((r) => {
           if (active) setRows(r);
         })

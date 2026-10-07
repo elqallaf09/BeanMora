@@ -771,3 +771,26 @@ test('public memory snapshots expire and failed reads retry without caching acco
   assert.equal(restored.coffees.length, 1);
   assert.equal(counts.get('beans'), 4);
 });
+
+test('public reads use an independent client while member data stays owner scoped', async () => {
+  const publicCounts = new Map(), memberCounts = new Map();
+  const publicDb = controlledDatabase({ beans: [{ ...base }] }, new Map(), publicCounts);
+  const memberDb = controlledDatabase({ bean_saves: filters => [{ bean_id: filters.user_id + '-saved' }] }, new Map(), memberCounts);
+  const result = await loadData(memberDb, 'en', 'owner-a', undefined, { publicDb });
+  assert.equal(result.coffees.length, 1);
+  assert.deepEqual(result.savedBeanIds, ['owner-a-saved']);
+  assert.equal(memberCounts.has('beans'), false);
+  assert.equal(publicCounts.has('bean_saves'), false);
+});
+
+test('a never-settling read finishes as a recoverable failure within the deadline', async context => {
+  context.mock.timers.enable({ apis: ['setTimeout'] });
+  const gate = new Promise(() => {});
+  const db = controlledDatabase({}, new Map([['beans', gate]]), new Map());
+  const loading = loadData(db, 'en', null);
+  context.mock.timers.tick(12000);
+  const result = await loading;
+  assert.equal(result.failures.beans, true);
+  assert.equal(result.warnings, true);
+  assert.deepEqual(result.coffees, []);
+});

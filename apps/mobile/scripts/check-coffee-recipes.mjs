@@ -18,7 +18,7 @@ const temp = mkdtempSync(tmpdir() + '/beanmora-coffee-recipes-');
 mkdirSync(temp + '/core');
 after(() => rmSync(temp, { recursive: true, force: true }));
 // Import pure query/merge helpers without loading native modules or production configuration.
-writeFileSync(temp + '/client.mjs', 'export const supabase = null;\n');
+writeFileSync(temp + '/client.mjs', 'export const supabase = null; export const publicSupabase = null;\n');
 for (const file of [
   'useCoffeeRecipes.ts',
   'data.ts',

@@ -225,7 +225,13 @@ const catalogDescription = (row: CoffeeRow, ar: boolean): string => {
     .trim();
 };
 async function read<T>(
-  query: PromiseLike<{ data: unknown; error: unknown; count?: number | null }>,
+  query: PromiseLike<{
+    data: unknown;
+    error: unknown;
+    count?: number | null;
+  }> & {
+    abortSignal?: (signal: AbortSignal) => unknown;
+  },
   limit = 200,
 ): Promise<{
   rows: T[];
@@ -233,8 +239,19 @@ async function read<T>(
   limited: boolean;
   total: number | null;
 }> {
+  const controller = new AbortController();
+  let timer: ReturnType<typeof setTimeout> | undefined;
   try {
-    const { data, error, count } = await query;
+    query.abortSignal?.(controller.signal);
+    // Includes session-lock acquisition and response-body decoding, which occur
+    // outside the fetch transport's deadline. A failed read preserves the cache.
+    const deadline = new Promise<never>((_, reject) => {
+      timer = setTimeout(() => {
+        controller.abort();
+        reject(new Error('Catalog read timed out'));
+      }, 12000);
+    });
+    const { data, error, count } = await Promise.race([query, deadline]);
     if (error || !Array.isArray(data))
       return { rows: [], failed: true, limited: false, total: null };
     return {
@@ -245,6 +262,8 @@ async function read<T>(
     };
   } catch {
     return { rows: [], failed: true, limited: false, total: null };
+  } finally {
+    clearTimeout(timer);
   }
 }
 export function mapRecipe(
@@ -508,6 +527,7 @@ function mapCoffee(
       ? safeUrl(row.image_url)
       : null;
   if (direct && !images.includes(direct)) images.unshift(direct);
+  const flavors = inferredFlavors(row);
   return {
     id: row.id,
     slug: row.slug,
@@ -521,7 +541,7 @@ function mapCoffee(
     methods: (['v60', 'espresso', 'xbloom'] as const).filter(
       (m) => row[`suitable_for_${m}`],
     ),
-    flavors: inferredFlavors(row),
+    flavors,
     roast: row.roast_level,
     status: row.status ?? null,
     verifiedAt: row.last_verified_at,
@@ -534,7 +554,7 @@ function mapCoffee(
       row.short_description,
       one(row.roaster)?.name_ar,
       one(row.roaster)?.name_en,
-      ...inferredFlavors(row),
+      ...flavors,
     ]
       .filter(Boolean)
       .join(' '),
@@ -565,6 +585,7 @@ export async function loadData(
   method?: Method,
   options: {
     publicRevision?: number;
+    publicDb?: SupabaseClient;
     onPublicReady?: (bundle: Bundle, complete: boolean) => void;
   } = {},
 ): Promise<Bundle> {
@@ -643,17 +664,22 @@ export async function loadData(
     warnings: false,
     limited: false,
   };
-  const publicReads = getPublicReads(db, method, options.publicRevision ?? 0);
+  const publicReads = getPublicReads(
+    options.publicDb ?? db,
+    method,
+    options.publicRevision ?? 0,
+  );
+  const mappedCoffees = publicReads.coffees.then(([b, p]) => [
+    ...p.rows.map((row) => mapCoffee(row, 'product', ar)),
+    ...b.rows.map((row) => mapCoffee(row, 'bean', ar)),
+  ]);
   if (options.onPublicReady)
     void publicReads.coffees
-      .then(([b, p]) => {
+      .then(async ([b, p]) => {
         options.onPublicReady?.(
           {
             ...result,
-            coffees: [
-              ...p.rows.map((row) => mapCoffee(row, 'product', ar)),
-              ...b.rows.map((row) => mapCoffee(row, 'bean', ar)),
-            ],
+            coffees: await mappedCoffees,
             warnings: b.failed || p.failed,
             limited: b.limited || p.limited,
             failures: {
@@ -679,10 +705,7 @@ export async function loadData(
   };
   result.limited = [b, p, r, xb].some((x) => x.limited);
   const xbByRecipe = new Map(xb.rows.map((x) => [x.recipe_id, x]));
-  result.coffees = [
-    ...p.rows.map((x) => mapCoffee(x, 'product', ar)),
-    ...b.rows.map((x) => mapCoffee(x, 'bean', ar)),
-  ];
+  result.coffees = await mappedCoffees;
   result.recipeTotal = r.total ?? r.rows.length;
   // Keep linked coffee recipes available even when the global catalog is much larger.
 

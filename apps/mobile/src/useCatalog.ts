@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useRef, useState } from 'react';
 import { AppState } from 'react-native';
 import { loadData, type Bundle } from './data';
-import { supabase, catalogScope } from './client';
+import { supabase, publicSupabase, catalogScope } from './client';
 import {
   catalogCacheKey,
   decodeCatalog,
@@ -97,6 +97,7 @@ export function useCatalog(
       .catch(() => {});
     void loadData(supabase, locale, owner, undefined, {
       publicRevision: revision + automaticRevision,
+      publicDb: publicSupabase ?? undefined,
       onPublicReady: (next, complete) => {
         if (!active) return;
         // A failed live section must not replace the last-good disk snapshot.

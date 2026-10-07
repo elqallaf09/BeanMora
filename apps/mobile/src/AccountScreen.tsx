@@ -15,6 +15,7 @@ import * as WebBrowser from 'expo-web-browser';
 import type { Session } from '@supabase/supabase-js';
 import {
   supabase,
+  publicSupabase,
   authProviderEnabled,
   catalogScope,
   clearDeletedSession,
@@ -98,6 +99,7 @@ export function AccountScreen({
     try {
       const owner = await deleteCurrentAccount(supabase);
       invalidatePublicCatalog(supabase);
+      if (publicSupabase) invalidatePublicCatalog(publicSupabase);
       let localCleanupFailed = false;
       try {
         await AsyncStorage.multiRemove([

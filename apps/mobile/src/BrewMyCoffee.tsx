@@ -7,7 +7,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import { supabase } from './client';
+import { supabase, publicSupabase } from './client';
 import {
   mapRecipe,
   type CoffeeItem,
@@ -187,7 +187,7 @@ export function BrewMyCoffee({
   useEffect(() => {
     let active = true;
     const controller = new AbortController();
-    const client = supabase;
+    const client = publicSupabase;
     if (recipePage === 0) setCandidates([]);
     setMoreRecipes(false);
     if (!selected || !client) {
