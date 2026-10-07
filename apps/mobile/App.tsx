@@ -29,9 +29,8 @@ import {
   type Method,
 } from './src/core/engine';
 import { copy, caveats, reasons, type Locale } from './src/copy';
-import { searchText } from './src/guards';
-import { matchesDeepSearch } from './src/core/deepSearch';
-import { coffeeSearchDocument } from './src/searchIndex';
+import { matchesIndexedSearch } from './src/core/deepSearch';
+import { indexedCoffeeSearchDocument } from './src/searchIndex';
 import { SearchScreen } from './src/SearchScreen';
 import { flavorLabel, hasCompletePersonality } from './src/sensory';
 import type { EquipmentItem, RoasterItem } from './src/catalog';
@@ -237,40 +236,42 @@ function Shell() {
     return () => listener.remove();
   }, [recording, detail, parents, tab, recipeCoffee]);
   useEffect(() => setVisibleCount(30), [tab, method, search, personalityOnly]);
-  const filter = searchText(search);
-  const matchesMethod = (c: CoffeeItem) =>
-    !method ||
-    c.methods.includes(method) ||
-    !!data?.recipes.some(
-      (r) =>
-        r.method === method &&
-        (r.productId === c.id || r.beanId === (c.beanId ?? c.id)),
+  // Navigation must not rebuild the search index or scan recipes per coffee.
+  const coffees = useMemo(() => {
+    const linkedBeans = new Set<string>();
+    const linkedProducts = new Set<string>();
+    if (method)
+      for (const recipe of data?.recipes ?? []) {
+        if (recipe.method !== method) continue;
+        if (recipe.beanId) linkedBeans.add(recipe.beanId);
+        if (recipe.productId) linkedProducts.add(recipe.productId);
+      }
+    const query = search.trim();
+    return (data?.coffees ?? []).filter(
+      (coffee) =>
+        coffee.reviewed &&
+        coffee.published &&
+        (!method ||
+          coffee.methods.includes(method) ||
+          linkedProducts.has(coffee.id) ||
+          linkedBeans.has(coffee.beanId ?? coffee.id)) &&
+        (!query ||
+          matchesIndexedSearch(indexedCoffeeSearchDocument(coffee), query)),
     );
-  const coffees =
-    data?.coffees.filter(
-      (c) =>
-        c.reviewed &&
-        c.published &&
-        matchesMethod(c) &&
-        matchesDeepSearch(coffeeSearchDocument(c), search),
-    ) ?? [];
-  const recipes =
-    data?.recipes.filter(
-      (r) =>
-        r.public &&
-        (!method || r.method === method) &&
-        searchText([r.title, ...r.flavors].join(' ')).includes(filter),
-    ) ?? [];
+  }, [data?.coffees, data?.recipes, method, search]);
   const rankedCoffee = useMemo(
     () =>
-      data
+      data && tab === 'forYou'
         ? recommendCoffees(data.coffees, data.profile, Date.now(), method)
         : [],
-    [data, method],
+    [data?.coffees, data?.profile, method, tab === 'forYou'],
   );
   const rankedRecipes = useMemo(
-    () => (data ? recommendRecipes(data.recipes, data.profile, method) : []),
-    [data, method],
+    () =>
+      data && tab === 'forYou'
+        ? recommendRecipes(data.recipes, data.profile, method)
+        : [],
+    [data?.recipes, data?.profile, method, tab === 'forYou'],
   );
   const refresh = () => setRevision((n) => n + 1);
   const openDetail = (next: Detail) => {

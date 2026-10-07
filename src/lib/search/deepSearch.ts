@@ -47,22 +47,24 @@ export function normalizeSearch(value: string): string {
     .replace(/\s+/g, " ")
     .trim();
 }
+const normalizedVocabulary = searchVocabulary.map(group => group.map(normalizeSearch));
 export function deepSearchText(value: string): string {
   const original = normalizeSearch(value);
   const words = new Set(original.split(/[^\p{L}\p{N}]+/u));
-  const extra = searchVocabulary
+  const extra = normalizedVocabulary
     .filter((group) =>
       group.some((alias) => {
-        const term = normalizeSearch(alias);
+        const term = alias;
         return term.includes(" ") || !/[\p{L}\p{N}]/u.test(term)
           ? original.includes(term)
           : words.has(term);
       }),
     )
-    .flatMap((group) => [...group].map(normalizeSearch));
+    .flatMap((group) => group);
   return [original, ...extra].join(" ");
 }
 export function matchesDeepSearch(value: string, query: string): boolean {
+  if (!query.trim()) return true;
   return matchesIndexedSearch(deepSearchText(value), query);
 }
 export function matchesIndexedSearch(indexed: string, query: string): boolean {

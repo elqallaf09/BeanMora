@@ -1,14 +1,10 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Pressable, View, useWindowDimensions } from 'react-native';
 import { supabase } from './client';
 import { loadRoasters, countryLabel, type RoasterItem } from './catalog';
 import type { CoffeeItem, RecipeItem } from './data';
-import {
-  deepSearchText,
-  matchesDeepSearch,
-  matchesIndexedSearch,
-} from './core/deepSearch';
-import { coffeeSearchDocument } from './searchIndex';
+import { matchesDeepSearch, matchesIndexedSearch } from './core/deepSearch';
+import { indexedCoffeeSearchDocument } from './searchIndex';
 import { CoffeeCard, SectionTitle } from './CoffeeScreens';
 import { RecipeCatalog } from './RecipeCatalog';
 import { Action, Language, Txt, colors, styles } from './ui';
@@ -61,21 +57,14 @@ export function SearchScreen({
       active = false;
     };
   }, [locale, revision]);
-  // Compile the public catalog once, instead of translating every note on each keystroke.
-  const indexed = useMemo(
-    () =>
-      coffees
-        .filter((c) => c.published && c.reviewed)
-        .map((coffee) => ({
-          coffee,
-          text: deepSearchText(coffeeSearchDocument(coffee)),
-        })),
-    [coffees],
-  );
   const renderResults = (query: string) => {
-    const matches = indexed
-      .filter((row) => matchesIndexedSearch(row.text, query))
-      .map((row) => row.coffee);
+    const matches = coffees.filter(
+      (coffee) =>
+        coffee.published &&
+        coffee.reviewed &&
+        (!query.trim() ||
+          matchesIndexedSearch(indexedCoffeeSearchDocument(coffee), query)),
+    );
     const matchedRoasters = new Set(matches.map((c) => c.roasterId));
     const roasterMatches = roasters.filter(
       (r) =>

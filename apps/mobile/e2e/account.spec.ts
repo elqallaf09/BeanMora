@@ -117,3 +117,42 @@ test('a disabled Google provider explains the problem without a broken redirect'
   await expect(page.getByText('تسجيل Google غير مفعّل حالياً. يمكنك الدخول بالبريد الإلكتروني.', { exact: true })).toBeVisible();
   expect(authorize).toBe(0);
 });
+
+for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup validates before sending and guest browsing remains prominent`, async ({ page }, info) => {
+  let signups = 0;
+  await page.route(project + '/**', route => {
+    const path = new URL(route.request().url()).pathname;
+    if (path.endsWith('/signup')) {
+      signups++;
+      expect(route.request().postDataJSON().email).toBe('new@example.test');
+      return reply(route, { user: { ...user, email: 'new@example.test' }, session: null });
+    }
+    return reply(route, path.endsWith('/settings') ? { external: { google: true, apple: false } } : []);
+  });
+  await openAccount(page, ar);
+  const guest = page.getByTestId('guest-browse');
+  await expect(guest).toBeInViewport();
+  expect((await guest.boundingBox())!.height).toBeGreaterThanOrEqual(64);
+  await page.getByRole('button', { name: ar ? 'إنشاء حساب' : 'Create account', exact: true }).first().click();
+  await expect(page.getByRole('heading', { name: ar ? 'ابدأ رحلتك مع القهوة' : 'Your coffee journey starts here' })).toBeVisible();
+  await expect(page.getByRole('button', { name: ar ? 'نسيت كلمة المرور؟' : 'Forgot password?' })).toHaveCount(0);
+  const submit = page.getByRole('button', { name: ar ? 'إنشاء حساب' : 'Create account', exact: true }).last();
+  await expect(submit).toBeDisabled();
+  await page.getByLabel(ar ? 'البريد الإلكتروني' : 'Email', { exact: true }).fill('not-an-email');
+  await page.getByLabel(ar ? 'كلمة المرور' : 'Password', { exact: true }).fill('fixture-password');
+  await page.getByLabel(ar ? 'تأكيد كلمة المرور' : 'Confirm password', { exact: true }).fill('mismatch');
+  await submit.click();
+  await expect(page.getByRole('alert')).toContainText(ar ? 'بريدًا إلكترونيًا صحيحًا' : 'valid email');
+  await page.getByLabel(ar ? 'البريد الإلكتروني' : 'Email', { exact: true }).fill('new@example.test');
+  await submit.click();
+  await expect(page.getByRole('alert')).toContainText(ar ? 'غير متطابقتين' : 'do not match');
+  expect(signups).toBe(0);
+  await page.getByLabel(ar ? 'تأكيد كلمة المرور' : 'Confirm password', { exact: true }).fill('fixture-password');
+  await submit.click();
+  await expect(page.getByText(ar ? 'راجع بريدك الإلكتروني لتأكيد حسابك.' : 'Check your email to confirm your account.', { exact: true })).toBeVisible();
+  expect(signups).toBe(1);
+  await guest.scrollIntoViewIfNeeded();
+  await page.screenshot({ path: info.outputPath(`signup-${ar ? 'ar' : 'en'}.png`) });
+  await guest.click();
+  await expect(page.getByRole('heading', { name: ar ? 'اكتشف عالم القهوة.' : 'Discover the world of coffee.' })).toBeVisible();
+});

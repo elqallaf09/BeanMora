@@ -58,6 +58,7 @@ export function AccountScreen({
   const ar = useContext(Language) === 'ar';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmation, setConfirmation] = useState('');
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [show, setShow] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -69,6 +70,8 @@ export function AccountScreen({
   const [appleEnabled, setAppleEnabled] = useState(false);
   const inFlight = useRef(false);
   const emailRef = useRef<TextInput>(null);
+  const passwordRef = useRef<TextInput>(null);
+  const confirmationRef = useRef<TextInput>(null);
   useEffect(() => {
     let active = true;
     if (!session && supabase)
@@ -163,6 +166,15 @@ export function AccountScreen({
         if (error) throw error;
         return;
       }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+        setError(
+          ar
+            ? 'أدخل بريدًا إلكترونيًا صحيحًا.'
+            : 'Enter a valid email address.',
+        );
+        emailRef.current?.focus();
+        return;
+      }
       if (mode === 'signup') {
         if (password.length < 8) {
           setError(
@@ -170,6 +182,13 @@ export function AccountScreen({
               ? 'كلمة المرور يجب أن تكون 8 أحرف على الأقل.'
               : 'Use at least 8 characters for your password.',
           );
+          return;
+        }
+        if (password !== confirmation) {
+          setError(
+            ar ? 'كلمتا المرور غير متطابقتين.' : 'The passwords do not match.',
+          );
+          confirmationRef.current?.focus();
           return;
         }
         const { data, error } = await supabase!.auth.signUp({
@@ -192,6 +211,7 @@ export function AccountScreen({
         if (!data.session) throw new Error(t.authError);
       }
       setPassword('');
+      setConfirmation('');
     });
   }
   async function resetPassword() {
@@ -434,14 +454,52 @@ export function AccountScreen({
           <View style={s.intro}>
             <Brand light large />
             <Txt heading style={s.welcome}>
-              {ar ? 'مرحباً بك مجدداً' : 'Welcome back'}
+              {mode === 'signup'
+                ? ar
+                  ? 'ابدأ رحلتك مع القهوة'
+                  : 'Your coffee journey starts here'
+                : ar
+                  ? 'مرحباً بك مجدداً'
+                  : 'Welcome back'}
             </Txt>
             <Txt style={s.tagline}>
-              {ar
-                ? 'سجل دخولك لمتابعة وصفاتك وحفظ\nحبوبك المفضلة.'
-                : 'Sign in to follow recipes and save\nyour favorite beans.'}
+              {mode === 'signup'
+                ? ar
+                  ? 'احفظ وصفاتك، رتّب أكياسك، وتابع تجارب التحضير.'
+                  : 'Save recipes, organize your coffees, and track your brews.'
+                : ar
+                  ? 'سجّل دخولك لمتابعة وصفاتك وحبوبك المفضلة.'
+                  : 'Sign in to follow recipes and save your favorite beans.'}
             </Txt>
           </View>
+          <Pressable
+            testID="guest-browse"
+            accessibilityRole="button"
+            accessibilityLabel={t.guest}
+            onPress={back}
+            style={({ pressed }) => [
+              s.guest,
+              {
+                opacity: pressed ? 0.8 : 1,
+                flexDirection: ar ? 'row-reverse' : 'row',
+              },
+            ]}
+          >
+            <View style={s.guestIcon}>
+              <Icon name="search" size={23} color={colors.teal} />
+            </View>
+            <View style={{ flex: 1, gap: 3 }}>
+              <Txt style={s.guestTitle}>{t.guest}</Txt>
+              <Txt style={s.guestNote}>
+                {ar
+                  ? 'استكشف البن والوصفات مباشرة'
+                  : 'Explore coffees and recipes right away'}
+              </Txt>
+            </View>
+            <Txt style={{ color: colors.teal, fontSize: 24 }}>
+              {ar ? '←' : '→'}
+            </Txt>
+          </Pressable>
           <View style={s.panel}>
             <View style={s.segment}>
               {(['signup', 'login'] as const).map((value) => (
@@ -458,10 +516,13 @@ export function AccountScreen({
                         : 'Create account'
                   }
                   accessibilityState={{ selected: mode === value }}
+                  disabled={busy}
                   onPress={() => {
                     setMode(value);
                     setError('');
                     setNotice('');
+                    setConfirmation('');
+                    setShow(false);
                   }}
                   style={[
                     s.segmentButton,
@@ -485,6 +546,7 @@ export function AccountScreen({
                 </Pressable>
               ))}
             </View>
+            <Txt style={s.label}>{t.email}</Txt>
             <View style={s.field}>
               <Icon name="user" size={21} color={colors.muted} />
               <TextInput
@@ -498,6 +560,9 @@ export function AccountScreen({
                 autoCapitalize="none"
                 autoCorrect={false}
                 autoComplete="email"
+                textContentType="emailAddress"
+                returnKeyType="next"
+                onSubmitEditing={() => passwordRef.current?.focus()}
                 editable={!busy}
                 style={[
                   s.input,
@@ -508,9 +573,11 @@ export function AccountScreen({
                 ]}
               />
             </View>
+            <Txt style={s.label}>{t.password}</Txt>
             <View style={s.field}>
               <Icon name="lock" size={21} color={colors.muted} />
               <TextInput
+                ref={passwordRef}
                 accessibilityLabel={t.password}
                 placeholder={t.password}
                 placeholderTextColor={colors.muted}
@@ -522,8 +589,14 @@ export function AccountScreen({
                 autoComplete={
                   mode === 'login' ? 'current-password' : 'new-password'
                 }
+                textContentType={mode === 'signup' ? 'newPassword' : 'password'}
+                returnKeyType={mode === 'signup' ? 'next' : 'go'}
                 editable={!busy}
-                onSubmitEditing={() => void authenticate()}
+                onSubmitEditing={() =>
+                  mode === 'signup'
+                    ? confirmationRef.current?.focus()
+                    : void authenticate()
+                }
                 style={[
                   s.input,
                   {
@@ -532,43 +605,105 @@ export function AccountScreen({
                   },
                 ]}
               />
-              {password ? (
+              {
                 <IconButton
                   name="eye"
                   label={show ? t.hide : t.show}
                   size={18}
                   onPress={() => setShow((v) => !v)}
                 />
-              ) : null}
+              }
             </View>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={ar ? 'نسيت كلمة المرور؟' : 'Forgot password?'}
-              onPress={() => void resetPassword()}
-              disabled={busy}
-              style={{
-                alignSelf: 'flex-end',
-                minHeight: 36,
-                justifyContent: 'center',
-              }}
-            >
-              <Txt style={{ fontSize: 13, color: colors.muted }}>
-                {ar ? 'نسيت كلمة المرور؟' : 'Forgot password?'}
-              </Txt>
-            </Pressable>
-            {error ? <Txt style={styles.error}>{error}</Txt> : null}
-            {notice ? <Txt style={styles.success}>{notice}</Txt> : null}
+            {mode === 'signup' ? (
+              <>
+                <Txt style={s.fieldHint}>
+                  {ar
+                    ? 'استخدم 8 أحرف على الأقل.'
+                    : 'Use at least 8 characters.'}
+                </Txt>
+                <Txt style={s.label}>
+                  {ar ? 'تأكيد كلمة المرور' : 'Confirm password'}
+                </Txt>
+                <View style={s.field}>
+                  <Icon name="lock" size={21} color={colors.muted} />
+                  <TextInput
+                    ref={confirmationRef}
+                    accessibilityLabel={
+                      ar ? 'تأكيد كلمة المرور' : 'Confirm password'
+                    }
+                    placeholder={
+                      ar ? 'أعد كتابة كلمة المرور' : 'Re-enter your password'
+                    }
+                    placeholderTextColor={colors.muted}
+                    value={confirmation}
+                    onChangeText={setConfirmation}
+                    secureTextEntry={!show}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    autoComplete="new-password"
+                    textContentType="newPassword"
+                    returnKeyType="go"
+                    editable={!busy}
+                    onSubmitEditing={() => void authenticate()}
+                    style={[
+                      s.input,
+                      {
+                        textAlign: ar ? 'right' : 'left',
+                        fontFamily: ar ? 'Tajawal-Regular' : undefined,
+                      },
+                    ]}
+                  />
+                </View>
+              </>
+            ) : (
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={
+                  ar ? 'نسيت كلمة المرور؟' : 'Forgot password?'
+                }
+                onPress={() => void resetPassword()}
+                disabled={busy}
+                style={{
+                  alignSelf: 'flex-end',
+                  minHeight: 36,
+                  justifyContent: 'center',
+                }}
+              >
+                <Txt style={{ fontSize: 13, color: colors.muted }}>
+                  {ar ? 'نسيت كلمة المرور؟' : 'Forgot password?'}
+                </Txt>
+              </Pressable>
+            )}
+            {error ? (
+              <View accessibilityRole="alert">
+                <Txt style={styles.error}>{error}</Txt>
+              </View>
+            ) : null}
+            {notice ? (
+              <View accessibilityLiveRegion="polite">
+                <Txt style={[styles.success, s.notice]}>{notice}</Txt>
+              </View>
+            ) : null}
             <Action
               title={
-                mode === 'login'
-                  ? t.login
-                  : ar
-                    ? 'إنشاء حساب'
-                    : 'Create account'
+                busy
+                  ? ar
+                    ? 'جارٍ المتابعة…'
+                    : 'Please wait…'
+                  : mode === 'login'
+                    ? t.login
+                    : ar
+                      ? 'إنشاء حساب'
+                      : 'Create account'
               }
               onPress={() => void authenticate()}
               selected
-              disabled={busy || !email.trim() || !password}
+              disabled={
+                busy ||
+                !email.trim() ||
+                !password ||
+                (mode === 'signup' && !confirmation)
+              }
             />
             <View style={s.divider}>
               <View style={s.rule} />
@@ -616,14 +751,6 @@ export function AccountScreen({
                 ? 'بمتابعتك، أنت توافق على شروط الاستخدام\nوسياسة الخصوصية.'
                 : 'By continuing, you agree to the terms of use\nand privacy policy.'}
             </Txt>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={t.guest}
-              onPress={back}
-              style={{ alignSelf: 'center', padding: 4 }}
-            >
-              <Txt style={{ fontSize: 12, color: colors.muted }}>{t.guest}</Txt>
-            </Pressable>
           </View>
           <AppVersion light />
         </ScrollView>
@@ -632,6 +759,39 @@ export function AccountScreen({
   );
 }
 const s = StyleSheet.create({
+  guest: {
+    alignItems: 'center',
+    gap: 12,
+    minHeight: 76,
+    padding: 16,
+    borderRadius: 20,
+    backgroundColor: colors.paper,
+    borderWidth: 1,
+    borderColor: '#C9DED6',
+  },
+  guestIcon: {
+    width: 42,
+    height: 42,
+    borderRadius: 14,
+    backgroundColor: '#E6EFEB',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  guestTitle: {
+    fontSize: 17,
+    lineHeight: 25,
+    fontWeight: '700',
+    color: colors.teal,
+  },
+  guestNote: { fontSize: 13, lineHeight: 20, color: colors.muted },
+  label: { fontSize: 14, fontWeight: '700', marginTop: 4 },
+  fieldHint: { fontSize: 13, lineHeight: 20, color: colors.muted },
+  notice: {
+    padding: 12,
+    borderRadius: 12,
+    backgroundColor: '#E6EFEB',
+    lineHeight: 24,
+  },
   deleteButton: {
     minHeight: 48,
     justifyContent: 'center',
@@ -676,7 +836,7 @@ const s = StyleSheet.create({
     paddingTop: 65,
     paddingBottom: 40,
     justifyContent: 'center',
-    gap: 28,
+    gap: 20,
   },
   intro: { alignItems: 'center', gap: 14 },
   welcome: {
@@ -707,7 +867,7 @@ const s = StyleSheet.create({
   },
   segmentButton: {
     flex: 1,
-    minHeight: 39,
+    minHeight: 44,
     borderRadius: 999,
     alignItems: 'center',
     justifyContent: 'center',
