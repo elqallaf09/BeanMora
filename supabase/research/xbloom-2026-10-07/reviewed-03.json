@@ -1,0 +1,2160 @@
+[
+  {
+    "url": "https://share-h5.xbloom.com/?id=kB91xPjMtjaNPWlGDoR8hg%3D%3D",
+    "slug": "xbloom-shared-936b7f5e799989ef6230d5c4",
+    "title": "الجبل الاسود | Black Mountain",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 49.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 36.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 13,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 74.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 22,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 19,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:30Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "الجبل الأسود - البرازيل",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%A7%D9%84%D8%AC%D8%A8%D9%84-%D8%A7%D9%84%D8%A3%D8%B3%D9%88%D8%AF-%D8%A7%D9%84%D8%A8%D8%B1%D8%A7%D8%B2%D9%8A%D9%84-%D9%85%D8%AC%D9%81%D9%81-250g-1",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:30Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=cH7ozjVpzrY8As%2BMrPUkrQ%3D%3D",
+    "slug": "xbloom-shared-123a22acf58b9275bd661426",
+    "title": "SILVER | سيلفر",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 47.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 13,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 75.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 70.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 18,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 85.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:30Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "سيلفر - السلفادور",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%B3%D9%8A%D9%84%D9%81%D8%B1-%D8%A7%D9%84%D8%B3%D9%84%D9%81%D8%A7%D8%AF%D9%88%D8%B1-%D8%B9%D8%B3%D9%84%D9%8A-250g",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:30Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=fCtei4GqjDZEfbVAgW7CoQ%3D%3D",
+    "slug": "xbloom-shared-21a7321eca6908513f69b02b",
+    "title": "شيلشلي | CHELCHELE",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 63.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 13,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 70.0,
+        "temperature": 94.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 23,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 94.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 21,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 94.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:35Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "شيلشلي - إثيوبيا",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%B4%D9%8A%D9%84%D8%B4%D9%84%D9%8A-%D8%A3%D8%AB%D9%8A%D9%88%D8%A8%D9%8A-%D9%85%D8%AC%D9%81%D9%81-250g",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:35Z"
+      },
+      {
+        "url": "https://therecipedrop.ae/?open=6abfeec764ea01397cbd3925",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:16:49Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=BjNuwXOtQds%2FJ%2BYqXiaRuw%3D%3D",
+    "slug": "xbloom-shared-0aa6908860866b9669f700ef",
+    "title": "اياناا | EYNAA",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 57.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 36.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 12,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 74.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 23,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 21,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 23,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:36Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "إياناا - إثيوبيا",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%A5%D9%8A%D8%A7%D9%86%D8%A7%D8%A7-%D8%A3%D8%AB%D9%8A%D9%88%D8%A8%D9%8A%D8%A7-%D9%84%D8%A7%D9%87%D9%88%D8%A7%D8%A6%D9%8A-250-%D8%AC%D8%B1%D8%A7%D9%85",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:36Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=mXSoDnEvA8l83KDXJVfBlw%3D%3D",
+    "slug": "xbloom-shared-578ece1c4e882963584d27bb",
+    "title": "زبيدة | Zubaida",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 56.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 36.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 13,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 74.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 24,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 22,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:36Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "زبيدة - اليمن",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%B2%D8%A8%D9%8A%D8%AF%D8%A9-%D8%A7%D9%84%D9%8A%D9%85%D9%86-%D9%85%D8%AC%D9%81%D9%81250-%D8%AC%D8%B1%D8%A7%D9%85",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:36Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=rpn4xZp6XR8RzcU5JbMQUg%3D%3D",
+    "slug": "xbloom-shared-26f35b71cda08d9d8e834de9",
+    "title": "سُلاف | SULAF",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 60.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 45.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 12,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 60.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 17,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 60.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 14,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 60.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 0,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 45.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:41Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "سلاف - اليمن",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%B3%D9%88%D9%84%D8%A7%D9%81-%D8%A7%D9%84%D9%8A%D9%85%D9%86-%D8%AA%D8%AE%D9%85%D9%8A%D8%B1-%D8%A8%D9%84%D8%A7%D9%83-%D9%86%D8%A7%D9%8A%D8%AA-250-%D8%AC%D8%B1%D8%A7%D9%85",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:41Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=ivcsT5z8PcyvOy9808c51g%3D%3D",
+    "slug": "xbloom-shared-60ceb2eb34ef01ad01d145b6",
+    "title": "فكتوريا | Victoria",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 56.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 21,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 90.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 19,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:41Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "فكتورياا - أوغندا",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D9%81%D9%83%D8%AA%D9%88%D8%B1%D9%8A%D8%A7%D8%A7-%D8%A3%D9%88%D8%BA%D9%86%D8%AF%D8%A7",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:41Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=T4Azug98x6kI4mjCKPeYlQ%3D%3D",
+    "slug": "xbloom-shared-89bbf5d9b292d468d928c5c7",
+    "title": "سولانا | SOLANA",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 53.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 21,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 90.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 19,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 60.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:41Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "سولاناا - إثيوبيا",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%B3%D9%88%D9%84%D8%A7%D9%86%D8%A7%D8%A7-%D8%A5%D8%AB%D9%8A%D9%88%D8%A8%D9%8A%D8%A7",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:41Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=SB%2BYDv8Zo%2BO8sBg2UQD9zA%3D%3D",
+    "slug": "xbloom-shared-43cf2d663188f471fce384c3",
+    "title": "راؤول|RAUL",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 56.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 72.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 21,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 19,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 83.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:47Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "راؤول - غواتيمالا",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%B1%D8%A7%D8%A4%D9%88%D9%84-%D8%BA%D9%88%D8%A7%D8%AA%D9%8A%D9%85%D8%A7%D9%84%D8%A7",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:47Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=6bD7SQYk9eWA%2FJjXu1ukRQ%3D%3D",
+    "slug": "xbloom-shared-0aea54e068bf64626a69a2c8",
+    "title": "RIO |  ريوو",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 59.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 36.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 13,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 74.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 22,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 19,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:47Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "ريوو - البرازيل",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%B1%D9%8A%D9%88%D9%88-%D8%A7%D9%84%D8%A8%D8%B1%D8%A7%D8%B2%D9%8A%D9%84-250",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:47Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=laBJL4b7esvZ2okRbJxrdA%3D%3D",
+    "slug": "xbloom-shared-256851191ed0404bdf154c07",
+    "title": "ALTURA | التوراا",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 59.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 25,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 14,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:47Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "ألتوراا - كولومبيا",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%A3%D9%84%D8%AA%D9%88%D8%B1%D8%A7%D8%A7-%D9%83%D9%88%D9%84%D9%88%D9%85%D8%A8%D9%8A%D8%A7-%D8%AA%D8%AC%D9%81%D9%8A%D9%81-%D9%85%D8%B7%D9%88%D9%84-250-%D8%AC%D8%B1%D8%A7%D9%85",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:47Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=qkl50%2B%2Fc8aPs%2F7zHbM5i8g%3D%3D",
+    "slug": "xbloom-shared-4f5f6ef16a2eca9e30c471f9",
+    "title": "KITKAT | كيت كات",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 57.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 12,
+        "pattern_code": 3,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 70.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 25,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 89.0,
+        "flow_rate": 3.1,
+        "pause_seconds": 22,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 85.0,
+        "temperature": 88.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 10,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:52Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "كيت كات - البرازيل",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D9%83%D9%8A%D8%AA-%D9%83%D8%A7%D8%AA-%D8%A7%D9%84%D8%A8%D8%B1%D8%A7%D8%B2%D9%8A%D9%84-%D8%A7%D9%86%D9%81%D9%8A%D9%88%D8%AC%D9%86-250g",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:52Z"
+      },
+      {
+        "url": "https://therecipedrop.ae/?open=6a8969b68b74a228cb83852b",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:21:35Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=sAwotVX6E%2BuX4dBdFIX32g%3D%3D",
+    "slug": "xbloom-shared-540900d2d225cf01b2b9ea88",
+    "title": "دي كاف | Decaf",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 49.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 36.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 12,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 79.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 21,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 19,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 89.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 10,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:52Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "دي كاف - كولومبيا",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%AF%D9%8A-%D9%83%D8%A7%D9%81-%D9%83%D9%88%D9%84%D9%88%D9%85%D8%A8%D9%8A%D8%A7-%D9%85%D8%AC%D9%81%D9%81-g250",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:52Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=7208Np8SPGEnYgwMhKXNDw%3D%3D",
+    "slug": "xbloom-shared-0538317906b9eac7a4288ef5",
+    "title": "9009",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 57.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 16,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 75.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 22,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:52Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "9009 - اليمن",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/9009",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:52Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=CubgESPAOSfvDZR68xoHFw%3D%3D",
+    "slug": "xbloom-shared-330f13c79ebf5c6a31d8140d",
+    "title": "قوجي | Guji بلاك نايت",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 52.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 35.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 13,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 22,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 17,
+        "pattern_code": 3,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 80.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:59Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "قوجي - إثيوبيا",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D9%82%D9%88%D8%AC%D9%8A-%D8%A7%D8%AB%D9%8A%D9%88%D8%A8%D9%8A%D8%A7-%D9%85%D8%B9%D8%A7%D9%84%D8%AC%D8%A9-%D8%AE%D8%A7%D8%B5%D8%A9-250g",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:59Z"
+      },
+      {
+        "url": "https://therecipedrop.ae/?open=6a896a0d170d070fe5a995b0",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:21:35Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=DXac30GBPdT6WY366f8Jug%3D%3D",
+    "slug": "xbloom-shared-39b6916ae710939c2dbcae6b",
+    "title": "ازوراا | Azora",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 48.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 36.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 13,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 21,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 77.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 77.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:59Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "ازوراا - أوغندا",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%A7%D9%88%D8%B2%D9%88%D8%B1%D8%A7-%D8%A7%D9%88%D8%BA%D9%86%D8%AF%D8%A7-%D9%85%D8%AC%D9%81%D9%81-250-%D8%AC%D8%B1%D8%A7%D9%85",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:59Z"
+      },
+      {
+        "url": "https://therecipedrop.ae/?open=6a8c7f41883e50e170732cba",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:21:11Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=dIY507YdMtkkYleP2un1dQ%3D%3D",
+    "slug": "xbloom-shared-b2f04fa8db2ef72e4721f555",
+    "title": "بومبي | BOMBI",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 62.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 36.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 14,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 84.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 24,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 22,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 7,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:59Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "بومبي - إثيوبيا",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%A8%D9%88%D9%85%D8%A8%D9%8A-%D8%A7%D8%AB%D9%8A%D9%88%D8%A8%D9%8A-%D9%85%D8%AC%D9%81%D9%81-250g",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:59Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=H4G5cVI8UGlIC5dRhsmViQ%3D%3D",
+    "slug": "xbloom-shared-3485fb5456f8ae49632814c0",
+    "title": "94",
+    "author": "Black Knight",
+    "dose": 15.0,
+    "water_ml": 225.0,
+    "poured_water_ml": 225.0,
+    "ratio": 15.0,
+    "grind_size": 54.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 30.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 76.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 21,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 76.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 19,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 43.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:25:05Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "محصول 94",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D9%85%D8%AD%D8%B5%D9%88%D9%84-94-%D9%85%D8%B2%D9%8A%D8%AC-250-%D8%AC%D8%B1%D8%A7%D9%85",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:25:05Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=JuEKXtkSxv6jlcUUuAlHkA%3D%3D",
+    "slug": "xbloom-shared-e54c32c10bb0ddbe4715439a",
+    "title": "العدين | AL-UDAIN",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 58.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 30.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 13,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 80.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 21,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 21,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:25:05Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "العدين - اليمن",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%A7%D9%84%D8%B9%D8%AF%D9%8A%D9%86-%D8%A7%D9%84%D9%8A%D9%85%D9%86-%D9%85%D8%AC%D9%81%D9%81%D8%A9-250-%D8%AC%D8%B1%D8%A7%D9%85",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:25:05Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=0MCzi67u0zcYsYZF2YuSSw%3D%3D",
+    "slug": "xbloom-shared-31c119b1ec5868488e83a6ef",
+    "title": "Cali | كالي",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 53.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 36.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 13,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 64.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 85.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 85.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:25:05Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "كالي - كولومبيا",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D9%83%D8%A7%D9%84%D9%8A-%D9%83%D9%88%D9%84%D9%88%D9%85%D8%A8%D9%8A%D8%A7-%D8%B9%D8%B3%D9%84%D9%8A-250-%D8%AC%D8%B1%D8%A7%D9%85",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:25:05Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=9wmECyVnZFqwhn1i0FJ8Hg%3D%3D",
+    "slug": "xbloom-shared-b81c6fbaef4278f5015ef173",
+    "title": "Haraz | حراز",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 52.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 36.0,
+        "temperature": 90.0,
+        "flow_rate": 3.3,
+        "pause_seconds": 14,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 74.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 24,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 16,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 88.0,
+        "flow_rate": 3.3,
+        "pause_seconds": 10,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:25:11Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "وديان حراز - اليمن",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D9%88%D8%AF%D9%8A%D8%A7%D9%86-%D8%AD%D8%B1%D8%A7%D8%B2-%D8%A7%D9%84%D9%8A%D9%85%D9%86-%D9%84%D8%A7%D9%87%D9%88%D8%A7%D8%A6%D9%8A-250-%D8%AC%D8%B1%D8%A7%D9%85",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:25:11Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=Uu0ACau5nTR%2FU9GMy7OY8w%3D%3D",
+    "slug": "xbloom-shared-4f41d9cba119c29e0d8b6cd1",
+    "title": "فييلا | Villa",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 49.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 36.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 12,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 84.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 21,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 18,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:25:11Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "فييلا - كولومبيا",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D9%81%D9%8A%D9%8A%D9%84%D8%A7-%D9%83%D9%88%D9%84%D9%88%D9%85%D8%A8%D9%8A%D8%A7-%D9%85%D8%AC%D9%81%D9%81-250g",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:25:11Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=cQPu1VVb8xB0e9O0bfC%2FJQ%3D%3D",
+    "slug": "xbloom-shared-c1bf01dcb9347fb05c5d84eb",
+    "title": "رونالدو | RONALDO",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 56.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 14,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 75.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 23,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 21,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 4,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:25:11Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "رونالدو - كولومبيا",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%B1%D9%88%D9%86%D8%A7%D9%84%D8%AF%D9%88-%D9%83%D9%88%D9%84%D9%85%D8%A8%D9%8A-%D9%84%D8%A7%D9%87%D9%88%D8%A7%D8%A6%D9%8A-250g",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:25:11Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=1KbLiWqAnoJuM%2FV3zlEGdQ%3D%3D",
+    "slug": "xbloom-shared-1bb32d8eeb4e5c01b162f8aa",
+    "title": "شمام | Melon",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 58.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 12,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 70.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 23,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 22,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:25:16Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "شمام - كولومبيا",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%B4%D9%85%D8%A7%D9%85-%D9%83%D9%88%D9%84%D9%88%D9%85%D8%A8%D9%8A%D8%A7-%D8%A5%D9%86%D9%81%D9%8A%D9%88%D8%AC%D9%86-250-%D8%AC%D8%B1%D8%A7%D9%85",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:25:16Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=ZjUPbYzS7irSECD6VQ22qA%3D%3D",
+    "slug": "xbloom-shared-3c68cba1508bf9dd4763a298",
+    "title": "اناناس | Pineapple",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 49.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 36.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 12,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 84.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 22,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 19,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:25:16Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "اناناس - كولومبيا",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%A7%D9%86%D8%A7%D9%86%D8%A7%D8%B3-%D9%83%D9%88%D9%84%D9%88%D9%85%D8%A8%D9%8A%D8%A7-%D8%A5%D9%86%D9%81%D9%8A%D9%88%D8%AC%D9%86-250-%D8%AC%D8%B1%D8%A7%D9%85",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:25:16Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=gsv4T8xB%2BH%2F7hqmHjGaaaw%3D%3D",
+    "slug": "xbloom-shared-000f006783679008cc09e26d",
+    "title": "بوشان | Baoshan",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 45.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 70.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 40.0,
+        "temperature": 89.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 88.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 17,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 88.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 10,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:25:23Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "بوشان - الصين",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%A8%D9%88%D8%B4%D8%A7%D9%86-%D8%A7%D9%84%D8%B5%D9%8A%D9%86-%D9%84%D8%A7%D9%87%D9%88%D8%A7%D8%A6%D9%8A-250g",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:25:23Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=%2BrOY3p3Gbpwp7zOsD%2FbVVQ%3D%3D",
+    "slug": "xbloom-shared-70ae91cff7a10dc088aa39a6",
+    "title": "سولوو | sulu",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 48.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 36.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 13,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 78.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 78.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 78.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:25:23Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "سولوو - السلفادور",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%AA%D9%8A%D9%83%D8%A7%D8%A8%D8%A7%D8%A7-%D8%A7%D9%84%D8%B3%D9%84%D9%81%D8%A7%D8%AF%D9%88%D8%B1-%D9%84%D8%A7%D9%87%D9%88%D8%A7%D8%A6%D9%8A-250g",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:25:23Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=OpDGSeJmcIiE8bWoksPhJw%3D%3D",
+    "slug": "xbloom-shared-b7f9c582c1413d47b0fe6b32",
+    "title": "حصن ذروان | Dhurwan Fort",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 47.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 36.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 12,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 79.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 22,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 19,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:25:23Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "حصن ذروان - اليمن",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%AD%D8%B5%D9%86-%D8%B0%D8%B1%D9%88%D8%A7%D9%86-%D8%A7%D9%84%D9%8A%D9%85%D9%86-%D9%84%D8%A7-%D9%87%D9%88%D8%A7%D8%A6%D9%8A-250g",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:25:23Z"
+      },
+      {
+        "url": "https://therecipedrop.ae/?open=6a8c7f41883e50e170732cb8",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:21:10Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=GjgbzHPijl8brG%2B7qo830g%3D%3D",
+    "slug": "xbloom-shared-461d92c88eb68a0bedcbafd1",
+    "title": "مارياا | Maria",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 53.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 45.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 12,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 65.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 21,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 19,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 85.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:25:29Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "مارياا - كوستاريكا",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D9%85%D8%A7%D8%B1%D9%8A%D8%A7%D8%A7-%D9%83%D9%88%D8%B3%D8%AA%D8%A7%D8%B1%D9%8A%D9%83%D8%A7-%D9%85%D8%AC%D9%81%D9%81-g250",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:25:29Z"
+      },
+      {
+        "url": "https://therecipedrop.ae/?open=6a8c7f41883e50e170732cbb",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:21:05Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=H2vsSg4AFOJ%2Buc98BAQLeg%3D%3D",
+    "slug": "xbloom-shared-01d7a064e8c82b853a63647a",
+    "title": "Erina | إريناا",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 63.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 36.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 14,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 84.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 22,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 70.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:25:29Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "إريناا - إندونيسيا",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%A5%D8%B1%D9%8A%D9%86%D8%A7%D8%A7-%D8%A3%D9%86%D8%AF%D9%88%D9%86%D9%8A%D8%B3%D9%8A-%D9%85%D8%AC%D9%81%D9%81-250g",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:25:29Z"
+      },
+      {
+        "url": "https://therecipedrop.ae/?open=6a8c7f41883e50e170732cb9",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:21:11Z"
+      }
+    ]
+  }
+]

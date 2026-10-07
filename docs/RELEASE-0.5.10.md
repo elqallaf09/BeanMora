@@ -13,3 +13,7 @@ Includes 0.5.9's compact tablet header/language switcher, scrolling home categor
 - Account, OAuth, deletion, multilingual deep search and refresh regression checks passed. New signup checks cover invalid email, mismatched passwords, no premature request, confirmation notice and guest exit in Arabic/English.
 - Reproduction fixture: 1,000 public coffees, Chromium at 4x CPU slowdown. The same account-navigation test measured 2362 / 808 / 875 ms before and 438 / 178 / 167 ms after. It includes pointer dispatch and visibility polling; these are controlled browser measurements, not an iPhone/iPad speed guarantee. The regression ceiling is 1 second.
 - Physical iPhone/MetaPad verification remains required after installing the new build.
+
+## Requested recipe sources
+
+Published 264 new xBloom recipes and enriched source attribution for six existing recipes. The reviewed set contains 56 Roots recipes, 36 Black Knight recipes and 186 unique Recipe Drop recipes (eight shared between publishers). Four links with missing pour steps were excluded. The public catalog now contains 3,448 recipes; all 270 reviewed recipes have source links and steps. Reviewed facts and a bounded, repeatable data replay live in `supabase/research/xbloom-2026-10-07/`.

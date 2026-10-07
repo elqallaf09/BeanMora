@@ -1,0 +1,25 @@
+{
+  "sources": {
+    "roots": {
+      "checked": 58,
+      "usable": 56
+    },
+    "black": {
+      "checked": 37,
+      "usable": 36
+    },
+    "drop": {
+      "checked": 194,
+      "usable": 193,
+      "unique_usable": 186
+    }
+  },
+  "usable_source_entries": 285,
+  "unique_recipes": 270,
+  "already_present": 6,
+  "new_recipes": 264,
+  "excluded_incomplete_links": 4,
+  "verified_public_catalog_total": 3448,
+  "verified_public_reviewed": 270,
+  "verified_missing_steps": 0
+}
