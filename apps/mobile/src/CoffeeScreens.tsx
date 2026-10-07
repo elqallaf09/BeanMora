@@ -1,3 +1,4 @@
+import {CatalogComments} from './CatalogComments';
 import { usePressMotion } from './Motion';
 import { useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import {
@@ -30,6 +31,7 @@ import { useCoffeeRecipes } from './useCoffeeRecipes';
 import { SourceLink } from './SourceLink';
 import { useBrewStarter } from './useBrewStarter';
 import { recipeQuickFacts } from './recipeQuickFacts';
+import { useContentMedia } from './useContentMedia';
 import { catalogPhotoSource } from './catalogPhotoSource';
 
 export const artwork = {
@@ -89,7 +91,7 @@ export function CoffeePhoto({
   ];
   const identity = candidates.join('|');
   useEffect(() => setAttempt(0), [identity]);
-  const current = candidates[attempt];
+  const current = useContentMedia(candidates[attempt] ?? null);
   const label =
     kind === 'origin_photo'
       ? ar
@@ -125,18 +127,9 @@ export function CoffeePhoto({
         </>
       ) : (
         (fallback ?? (
-          <View testID="coffee-photo-unavailable" style={s.photoPlaceholder}>
-            <Icon name="bean" size={detail ? 52 : 32} color={colors.copper} />
-            <Txt
-              style={{
-                fontSize: detail ? 13 : 10,
-                lineHeight: 18,
-                color: colors.muted,
-                textAlign: 'center',
-              }}
-            >
-              {ar ? 'صورة البن غير متوفرة' : 'Product photo unavailable'}
-            </Txt>
+          <View testID="coffee-photo-unavailable" style={[s.photoPlaceholder, { width: '100%', height: '100%' }]}>
+            <Image source={artwork.bag} accessibilityLabel={ar ? 'صورة توضيحية للبن' : 'Illustrative coffee image'} resizeMode="cover" style={StyleSheet.absoluteFill} />
+            <View style={[s.photoNote, { bottom: 6 }]}><Txt style={{ fontSize: 10, lineHeight: 16, color: '#FFF' }}>{ar ? 'صورة توضيحية' : 'Illustrative image'}</Txt></View>
           </View>
         ))
       )}
@@ -188,11 +181,7 @@ export function MethodPicker({
   const locale = useContext(Language);
   const items = all ? [undefined, ...allowed] : [...allowed];
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={s.methodRail}
-    >
+    <View testID="method-picker" style={[s.methodRail, { flexDirection: 'row', flexWrap: 'wrap', gap: 6 }]}>
       {items.map((m) => {
         const title = m ? methods[locale][m] : locale === 'ar' ? 'الكل' : 'All';
         const active = value === m;
@@ -205,17 +194,17 @@ export function MethodPicker({
             }
             accessibilityState={{ selected: active }}
             onPress={() => onChange(m)}
-            style={[s.method, active && s.methodActive]}
+            style={[s.method, { width: '23%', minWidth: 64, minHeight: 60, paddingHorizontal: 3, paddingVertical: 7 }, active && s.methodActive]}
           >
             <Icon
               name={m ?? 'bean'}
-              size={27}
+              size={20}
               color={active ? '#FFF' : colors.ink}
             />
             <Txt
               numberOfLines={1}
               style={{
-                fontSize: 12,
+                fontSize: 11,
                 lineHeight: 20,
                 fontWeight: '700',
                 color: active ? '#FFF' : colors.ink,
@@ -227,7 +216,7 @@ export function MethodPicker({
           </Pressable>
         );
       })}
-    </ScrollView>
+    </View>
   );
 }
 export function CoffeeCard({
@@ -866,6 +855,8 @@ export function CoffeeDetail({
       {item.description ? (
         <Txt style={{ fontSize: 14, lineHeight: 27 }}>{item.description}</Txt>
       ) : null}
+      {item.details?<View style={{gap:6}}>{[[ar?'المنطقة':'Region',item.details.region],[ar?'المزرعة':'Farm',item.details.farm],[ar?'الارتفاع':'Altitude',item.details.altitude?item.details.altitude+(ar?' متر':' m'):null],[ar?'وزن الكيس':'Bag weight',item.details.weight?item.details.weight+(ar?' غ':' g'):null],[ar?'تاريخ التحميص':'Roast date',item.details.roastDate]].filter(([,value])=>value).map(([label,value])=><Txt key={label}>{label}: {value}</Txt>)}</View>:null}
+      {item.roasterSite?<SourceLink title={ar?'موقع المحمصة':'Roaster website'} url={item.roasterSite}/>:null}
       {item.variety ? (
         <View style={styles.metaPill}>
           <Txt style={styles.metaText}>
@@ -1104,6 +1095,7 @@ export function CoffeeDetail({
           url={item.imageSourceUrl}
         />
       ) : null}
+      <CatalogComments key={item.kind+item.id} kind={item.kind==='product'?'product':'bean'} id={item.id}/>
     </ScrollView>
   );
 }

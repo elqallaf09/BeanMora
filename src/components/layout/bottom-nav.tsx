@@ -1,4 +1,5 @@
 "use client";
+import { BeanMoraLogo } from "./logo";
 
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -33,7 +34,7 @@ export function BottomNav() {
                   : "text-white/60 hover:text-white",
               )}
             >
-              <Icon className="h-[18px] w-[18px]" aria-hidden />
+              {item.href==="/community"?<BeanMoraLogo className="h-5 w-5"/>:<Icon className="h-[18px] w-[18px]" aria-hidden />}
               <span className="max-w-full truncate px-0.5">{t(item.labelKey)}</span>
             </Link>
           );

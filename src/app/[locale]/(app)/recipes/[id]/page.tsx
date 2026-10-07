@@ -2,7 +2,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Clock, Coffee, Droplets, ExternalLink, Flame, Play, Scale, Star, Wrench } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { localizedField } from "@/lib/localized";
+import { localizedField, localizedRecipeTitle } from "@/lib/localized";
 import { difficultyLabel, brewMethodLabelKey, dataConfidenceLabel } from "@/lib/catalog-labels";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -37,7 +37,7 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
   const { data: recipeRaw } = await supabase
     .from("recipes")
     .select(
-      "id, title, brew_method, dose_grams, water_grams, ratio, water_temp_c, grinder_setting, total_time_seconds, pour_style, difficulty, flavor_notes, notes, recipe_type, is_incomplete_source, created_at, user:profiles(name, username, avatar_url), bean:beans(id, slug, name_ar, name_en), steps:recipe_steps(id, step_number, title, description, duration_seconds), pours:recipe_pours(id, pour_number, water_grams, start_at_seconds, is_bloom), equipment:recipe_equipment(id, category, notes, equipment_model:equipment_models(name, brand:equipment_brands(name))), sources:recipe_sources(source_name, source_url, data_confidence, last_verified_at)",
+      "id, title, title_ar, cover_image_url, brew_method, dose_grams, water_grams, ratio, water_temp_c, grinder_setting, total_time_seconds, pour_style, difficulty, flavor_notes, notes, notes_ar, recipe_type, is_incomplete_source, created_at, user:profiles(name, username, avatar_url), bean:beans(id, slug, name_ar, name_en), steps:recipe_steps(id, step_number, title, title_ar, description, description_ar, duration_seconds), pours:recipe_pours(id, pour_number, water_grams, start_at_seconds, is_bloom), equipment:recipe_equipment(id, category, notes, equipment_model:equipment_models(name, brand:equipment_brands(name))), sources:recipe_sources(source_name, source_url, data_confidence, last_verified_at)",
     )
     .eq("id", id)
     .maybeSingle();
@@ -45,7 +45,7 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
   // supabase-js can't infer embedded relation cardinality from real FKs, so
   // many-to-one embeds (user:profiles(...), bean:beans(...)) get typed as
   // arrays even though PostgREST returns a single object here.
-  const recipe = recipeRaw as AnyRow;
+  const recipe = recipeRaw ? {...recipeRaw, title: localizedRecipeTitle(recipeRaw,locale), notes: locale==='ar' ? recipeRaw.notes_ar||recipeRaw.notes : recipeRaw.notes, steps:(recipeRaw.steps??[]).map((s:AnyRow)=>({...s,title:locale==='ar'?s.title_ar||s.title:s.title,description:locale==='ar'?s.description_ar||s.description:s.description}))} as AnyRow : null;
 
   if (!recipe) {
     return (

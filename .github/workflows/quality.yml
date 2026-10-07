@@ -12,6 +12,9 @@ concurrency:
 jobs:
   application:
     runs-on: ubuntu-latest
+    # Match @playwright/test exactly; avoid apt/CDN installs stalling release checks.
+    container:
+      image: mcr.microsoft.com/playwright:v1.55.1-noble
     timeout-minutes: 20
     env:
       NEXT_TELEMETRY_DISABLED: '1'
@@ -43,8 +46,8 @@ jobs:
         run: npm run lint
       - name: Next.js production build
         run: npm run build
-      - name: Install browser engines
-        run: npx playwright install --with-deps chromium webkit
+      - name: Verify preinstalled browser engines
+        run: node -e "const fs=require('node:fs'); const {chromium,webkit}=require('@playwright/test'); for (const browser of [chromium,webkit]) fs.accessSync(browser.executablePath(),fs.constants.X_OK)"
       - name: Isolated bilingual release browser tests
         run: npx playwright test --config=playwright.smoke.config.ts
       - name: Preserve browser diagnostics

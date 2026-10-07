@@ -1,3 +1,5 @@
+import { localizedRecipeTitle } from '@/lib/localized';
+import { Link } from '@/i18n/navigation';
 import { getLocale, getTranslations } from "next-intl/server";
 import { Compass, Coffee, Sparkles, Users, Wrench } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
@@ -64,21 +66,15 @@ export default async function DiscoverPage({
     m === "v60" ? "suitable_for_v60" : m === "espresso" ? "suitable_for_espresso" : "suitable_for_xbloom";
 
   let results: AnyRow[] = [];
+  let relatedBeans: AnyRow[] = [];
   let resultsError: string | null = null;
 
   if (category === "beans") {
-    let query = supabase
-      .from("beans")
-      .select(
-        "id, slug, name_ar, name_en, origin_country, origin_region, process, roast_level, suitable_for_v60, suitable_for_espresso, suitable_for_xbloom, roaster:roasters(name_ar, name_en), flavors:bean_flavor_notes(flavor), images:bean_images(url, position)",
-      )
-      .eq("is_published", true);
-    if (q) query = query.or(`name_en.ilike.%${q}%,name_ar.ilike.%${q}%,origin_country.ilike.%${q}%`);
-    if (process) query = query.eq("process", process);
-    if (roast) query = query.eq("roast_level", roast);
-    if (method) query = query.eq(compatColumn(method), true);
-    query = query.order(sort === "name" ? "name_en" : "created_at", { ascending: sort === "name" }).limit(24);
-    const { data, error } = await query;
+    let query=supabase.rpc('search_public_beans',{p_query:q});
+    if(process)query=query.eq('process',process);
+    if(roast)query=query.eq('roast_level',roast);
+    if(method)query=query.eq(compatColumn(method),true);
+    const {data,error}=await query.select("id,slug,name_ar,name_en,origin_country,origin_region,process,roast_level,image_url,image_usage_status,suitable_for_v60,suitable_for_espresso,suitable_for_xbloom,roaster:roasters(name_ar,name_en),flavors:bean_flavor_notes(flavor),images:bean_images(url,position)").order(sort==='name'?'name_en':'created_at',{ascending:sort==='name'}).limit(24);
     results = data ?? [];
     resultsError = error?.message ? t("errors.supabase") : null;
   } else if (category === "roasters") {
@@ -93,31 +89,20 @@ export default async function DiscoverPage({
     const { redirect } = await import("@/i18n/navigation");
     redirect({ href: `/products${q ? `?q=${encodeURIComponent(q)}` : ""}`, locale });
   } else if (category === "recipes") {
-    let query = supabase
-      .from("recipes")
-      .select(
-        "id, title, brew_method, dose_grams, water_grams, total_time_seconds, difficulty, created_at, user:profiles(name, username), bean:beans(name_ar, name_en)",
-      )
-      .eq("visibility", "public");
-    // "18g" / "18" style searches match the dose exactly (a real, common way
-    // brewers look a recipe up) in addition to the normal title search —
-    // whichever the query looks like.
-    const doseMatch = q.trim().match(/^(\d+(?:\.\d+)?)\s*g?$/i);
-    if (doseMatch) {
-      query = query.eq("dose_grams", Number(doseMatch[1]));
-    } else if (q) {
-      query = query.ilike("title", `%${q}%`);
+    const doseMatch=q.trim().match(/^(\d+(?:\.\d+)?)\s*g?$/i);
+    let query = supabase.rpc('search_public_recipes',{p_query:doseMatch?'':q,p_method:method||null});
+    if(doseMatch)query=query.eq('dose_grams',Number(doseMatch[1]));
+    const {data,error}=await query.select("id,title,title_ar,brew_method,dose_grams,water_grams,total_time_seconds,difficulty,created_at,user:profiles(name,username),bean:beans(name_ar,name_en)").order(sort==='name'?'title':'created_at',{ascending:sort==='name'}).limit(24);
+    results=data??[];resultsError=error?t('errors.supabase'):null;
+    if(q.trim()){
+      const related=await supabase.rpc('search_public_beans',{p_query:q}).select('id,slug,name_ar,name_en,roaster:roasters(slug,name_ar,name_en)').limit(6);
+      relatedBeans=related.data??[];
     }
-    if (method) query = query.eq("brew_method", method);
-    query = query.order(sort === "name" ? "title" : "created_at", { ascending: sort === "name" }).limit(24);
-    const { data, error } = await query;
-    results = data ?? [];
-    resultsError = error?.message ? t("errors.supabase") : null;
   } else if (category === "equipment") {
     let query = supabase
       .from("equipment_models")
       .select(
-        "id, name, category, image_url, description, official_url, data_confidence, brand:equipment_brands(name)",
+        "id, name, category, image_url, description, specifications, official_url, data_confidence, brand:equipment_brands(name)",
       );
     if (q) query = query.or(`name.ilike.%${q}%,category.ilike.%${q}%`);
     if (equipmentCategory) query = query.eq("category", equipmentCategory);
@@ -143,7 +128,7 @@ export default async function DiscoverPage({
   let featured: { newBeans: AnyRow[]; bestV60: AnyRow[]; bestEspresso: AnyRow[]; xbloomCompat: AnyRow[] } | null = null;
   if (category === "beans" && !hasFilters) {
     const beanSelect =
-      "id, slug, name_ar, name_en, origin_country, origin_region, process, roast_level, suitable_for_v60, suitable_for_espresso, suitable_for_xbloom, roaster:roasters(name_ar, name_en), flavors:bean_flavor_notes(flavor), images:bean_images(url, position)";
+      "id, slug, name_ar, name_en, origin_country, origin_region, process, roast_level, image_url, image_usage_status, suitable_for_v60, suitable_for_espresso, suitable_for_xbloom, roaster:roasters(name_ar, name_en), flavors:bean_flavor_notes(flavor), images:bean_images(url, position)";
     const [newBeans, bestV60, bestEspresso, xbloomCompat] = await Promise.all([
       supabase.from("beans").select(beanSelect).eq("is_published", true).order("created_at", { ascending: false }).limit(8),
       supabase.from("beans").select(beanSelect).eq("is_published", true).eq("suitable_for_v60", true).order("created_at", { ascending: false }).limit(8),
@@ -171,7 +156,7 @@ export default async function DiscoverPage({
       roastLevelLabel: roastLabel(t, b.roast_level),
       flavors: (b.flavors ?? []).map((f: AnyRow) => f.flavor),
       compatible: { v60: b.suitable_for_v60, espresso: b.suitable_for_espresso, xbloom: b.suitable_for_xbloom },
-      imageUrl: b.images?.[0]?.url ?? null,
+      imageUrl: b.images?.[0]?.url ?? (["rights_confirmed", "source_linked"].includes(b.image_usage_status) ? b.image_url : null),
       rating: b.rating ?? null,
       price: typeof b.priceKwd === "number" ? `${b.priceKwd.toFixed(2)} KWD` : null,
     };
@@ -180,7 +165,7 @@ export default async function DiscoverPage({
   function toRecipeCard(r: AnyRow): RecipeCardData {
     return {
       id: r.id,
-      title: r.title,
+      title: localizedRecipeTitle(r,locale),
       authorName: r.user?.name ?? r.user?.username ?? null,
       beanName: r.bean ? localizedField(r.bean, "name", locale) : null,
       ratio: r.dose_grams && r.water_grams ? `1:${Math.round(r.water_grams / r.dose_grams)}` : null,
@@ -203,6 +188,7 @@ export default async function DiscoverPage({
         <h1 className="type-headline mt-2.5 text-[var(--color-espresso)]">{t("nav.discover")}</h1>
       </header>
 
+      <div className="mb-4 flex flex-wrap gap-3 text-sm"><Link className="rounded-xl border px-3 py-3" href="/capsules">{t("nav.capsules")}</Link><Link className="rounded-xl border px-3 py-3" href="/beans/create">{locale==='ar'?'إضافة بن':'Add coffee'}</Link><Link className="rounded-xl border px-3 py-3" href="/recipes/mine">{locale==='ar'?'وصفاتي المضافة':'My submitted recipes'}</Link><Link className="rounded-xl border px-3 py-3" href="/recipes/create">{locale==='ar'?'إضافة وصفة':'Add recipe'}</Link></div>
       <DiscoverToolbar
         category={category}
         initialQuery={q}
@@ -239,6 +225,7 @@ export default async function DiscoverPage({
         </section>
       ) : null}
 
+      {relatedBeans.length?<section className="mt-6 space-y-3"><h2 className="font-bold">{locale==='ar'?'بن ومحامص مرتبطة بالبحث':'Related coffees and roasters'}</h2><div className="grid gap-3 sm:grid-cols-2">{relatedBeans.map(b=><div key={b.id} className="space-y-2 rounded-xl border p-4"><Link className="block py-2 font-bold" href={`/beans/${b.slug}`}>{localizedField(b,'name',locale)}</Link>{b.roaster?<Link className="block py-2 text-sm underline" href={`/roasters/${b.roaster.slug}`}>{localizedField(b.roaster,'name',locale)}</Link>:null}</div>)}</div>{!results.length?<p className="text-sm">{locale==='ar'?'وجدنا البن أو المحمصة، لكن لا توجد وصفة مطابقة منشورة ضمن هذه الفلاتر.':'Coffee or roaster found, but no published recipe matches these filters.'}</p>:null}</section>:null}
       <div className="mt-6">
         {q ? (
           <p className="mb-3 text-sm text-[var(--color-muted-text)]">{t("discover.resultsFor", { query: q })}</p>
@@ -323,7 +310,7 @@ export default async function DiscoverPage({
               <EquipmentCard
                 key={eq.id}
                 id={eq.id}
-                name={eq.name}
+                name={locale==='ar'?eq.specifications?.catalog?.name_ar||eq.name:eq.name}
                 brand={eq.brand?.name}
                 categoryLabel={equipmentCategoryLabel(t, eq.category) ?? eq.category}
                 imageUrl={eq.image_url}

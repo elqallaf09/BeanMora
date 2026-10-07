@@ -1,5 +1,7 @@
 /** Shared literal search vocabulary; expands retrieval terms without changing coffee facts. */
 export const searchVocabulary: readonly (readonly string[])[] = [
+  ["rawi", "rawee", "راوي", "راوى"],
+  ["jebla", "jabla", "جبلة", "جبله"],
   [
     "strawberry",
     "strawberries",

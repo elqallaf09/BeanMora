@@ -68,7 +68,8 @@
     "settings": "Settings",
     "notifications": "Notifications",
     "admin": "Admin",
-    "logout": "Log out"
+    "logout": "Log out",
+    "capsules": "Capsules"
   },
   "language": {
     "switch": "Language",

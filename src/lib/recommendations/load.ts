@@ -76,7 +76,7 @@ export async function loadRecommendations(locale: string, method?: Method): Prom
     const [preferences, experience, gear, inventory, ownAttempts] = await Promise.all([
       rows<PrefRow>(supabase.from("user_preferences").select("preferred_brew_methods,preferred_flavors,preferred_roast_level").eq("user_id", user.id).limit(1)),
       rows<{ experience_level: string | null }>(supabase.from("profiles").select("experience_level").eq("id", user.id).limit(1)),
-      rows<GearRow>(supabase.from("user_equipment").select("category,equipment_model_id").eq("user_id", user.id).order("id").limit(201)),
+      rows<GearRow>(supabase.from("user_equipment").select("category,equipment_model_id").is('archived_at', null).eq("user_id", user.id).order("id").limit(201)),
       rows<InventoryRow>(supabase.from("user_bean_inventory").select("roasted_product_id,legacy_bean_id").eq("user_id", user.id).is("archived_at", null).or("remaining_weight_grams.is.null,remaining_weight_grams.gt.0").order("id").limit(201)),
       // Private outcomes affect only the owner profile. Never require public consent here.
       rows<AttemptRow>(supabase.from("recipe_attempts").select("id,recipe_id,user_id,status,outcome,created_at").eq("user_id", user.id).not("brew_log_id", "is", null).in("status", ["tried", "brewed_as_written", "brewed_with_modifications"]).order("created_at", { ascending: false }).order("id").limit(201)),

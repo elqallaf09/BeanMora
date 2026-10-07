@@ -324,7 +324,8 @@ export function RoastLab({
             ? db
                 .from('user_equipment')
                 .select('id,custom_name,model:equipment_models(name)')
-                .eq('user_id', userId)
+                .is('archived_at', null)
+            .eq('user_id', userId)
                 .eq('category', 'roaster')
             : Promise.resolve({ data: [], error: null }),
           loadEquipment(db, locale),

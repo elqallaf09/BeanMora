@@ -1,7 +1,7 @@
 import type { Bundle, CoffeeItem, RecipeItem } from './data';
 import { emptyProfile, isMethod } from './core/engine';
 
-export const CACHE_VERSION = 1;
+export const CACHE_VERSION = 2;
 export const CACHE_MAX_AGE = 7 * 86400000;
 export const MAX_STORAGE_BYTES = 1_500_000;
 /** Bound serialized payloads by bytes; Arabic and emoji use multiple bytes. */
@@ -17,7 +17,7 @@ export function storageFits(value: string): boolean {
 }
 type Locale = 'ar' | 'en';
 export type PublicCatalog = Pick<Bundle, 'coffees' | 'recipes' | 'recipeTotal' | 'limited'>;
-export const catalogCacheKey = (project: string, locale: Locale) => `beanmora-public-catalog-v1:${project}:${locale}`;
+export const catalogCacheKey = (project: string, locale: Locale) => `beanmora-public-catalog-v2:${project}:${locale}`;
 
 export function validCoffee(value: unknown): value is CoffeeItem {
   if (!value || typeof value !== 'object') return false;

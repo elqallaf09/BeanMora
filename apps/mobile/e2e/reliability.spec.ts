@@ -43,7 +43,7 @@ test('coffee cards appear while recipe reads are delayed and language changes do
     await expect(page.getByRole('button', { name: bean.name_ar, exact: true })).toBeVisible();
     expect(calls).toHaveLength(5);
     release();
-    await expect.poll(() => page.evaluate(() => Object.keys(localStorage).filter(k => k.startsWith('beanmora-public-catalog-v1:')).length)).toBe(1);
+    await expect.poll(() => page.evaluate(() => Object.keys(localStorage).filter(k => k.startsWith('beanmora-public-catalog-v2:')).length)).toBe(1);
     await page.getByRole('button', { name: 'English', exact: true }).click();
     await expect(page.getByRole('button', { name: bean.name_en, exact: true })).toBeVisible();
     expect(calls).toHaveLength(5);
@@ -138,7 +138,7 @@ test('last-good catalog opens offline and a successful empty reconnect removes o
   });
   await page.goto('/');
   await expect(page.getByRole('button', { name: bean.name_ar, exact: true })).toBeVisible();
-  await expect.poll(() => page.evaluate(() => Object.keys(localStorage).filter(k => k.startsWith('beanmora-public-catalog-v1:')).length)).toBe(1);
+  await expect.poll(() => page.evaluate(() => Object.keys(localStorage).filter(k => k.startsWith('beanmora-public-catalog-v2:')).length)).toBe(1);
   phase = 'offline'; await page.reload();
   await expect(page.getByRole('button', { name: bean.name_ar, exact: true })).toBeVisible();
   await expect(page.getByTestId('catalog-connection-status')).toContainText('آخر بيانات متاحة');
@@ -237,12 +237,12 @@ test('bag serving filters find a recipe beyond page one and Arabic decimal weigh
   await page.getByRole('button', { name: 'الرئيسية', exact: true }).click();
   await page.getByRole('button', { name: /^أكياسي —/ }).click();
   await page.getByRole('button', { name: 'تعديل بيانات الكيس', exact: true }).click();
-  await page.getByLabel('وزن الكيس الأصلي (g)', { exact: true }).fill('٢٥٠٫٥');
-  await page.getByLabel('الكمية المتبقية (g)', { exact: true }).fill('٣٠٠');
+  await page.getByLabel('وزن الكيس الأصلي (غرام)', { exact: true }).fill('٢٥٠٫٥');
+  await page.getByLabel('الكمية المتبقية (غرام)', { exact: true }).fill('٣٠٠');
   await page.getByRole('button', { name: 'حفظ', exact: true }).click();
   await expect(page.getByText('أدخل وزنًا صحيحًا؛ المتبقي لا يتجاوز وزن الكيس الأصلي.', { exact: true })).toBeVisible();
   expect(writes).toHaveLength(0);
-  await page.getByLabel('الكمية المتبقية (g)', { exact: true }).fill('١٨٫٥');
+  await page.getByLabel('الكمية المتبقية (غرام)', { exact: true }).fill('١٨٫٥');
   await page.getByRole('button', { name: 'حفظ', exact: true }).click();
   await expect.poll(() => writes.length).toBe(1);
   expect(writes[0].original_weight_grams).toBe(250.5);

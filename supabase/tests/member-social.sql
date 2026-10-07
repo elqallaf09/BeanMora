@@ -1,0 +1,50 @@
+-- Rollback-only privacy/approval/projection checks; no real accounts are changed.
+begin;
+do $$
+declare v_owner_id uuid:=gen_random_uuid(); v_viewer_id uuid:=gen_random_uuid(); v_guest_id uuid:=gen_random_uuid(); v_pub_id uuid:=gen_random_uuid(); v_priv_id uuid:=gen_random_uuid(); v_photo_id uuid:=gen_random_uuid(); v_bag_id uuid; username_value text:='social_'||substr(replace(gen_random_uuid()::text,'-',''),1,12); j jsonb; v_follow_id uuid; blocked boolean;
+begin
+ insert into auth.users(id,email,is_anonymous,raw_user_meta_data) values(v_owner_id,'social-owner-'||v_owner_id||'@example.invalid',false,jsonb_build_object('username',username_value,'name','Social Owner')), (v_viewer_id,'social-viewer-'||v_viewer_id||'@example.invalid',false,'{}'),(v_guest_id,null,true,'{}');
+ insert into public.user_equipment(user_id,category,custom_name,notes) values(v_owner_id,'grinder','Private test grinder','secret equipment note');
+ insert into public.recipes(id,user_id,title,brew_method,recipe_type,visibility) values(v_pub_id,v_owner_id,'Public member recipe','v60','community','public'),(v_priv_id,v_owner_id,'Private member recipe','v60','personal','private');
+ insert into public.recipe_saves(user_id,recipe_id,notes) values(v_owner_id,v_pub_id,'secret favorite note');
+ select id into v_bag_id from public.beans where is_published and not requires_review limit 1;
+ insert into public.user_bean_inventory(user_id,legacy_bean_id,remaining_weight_grams,storage_location) values(v_owner_id,v_bag_id,123,'secret storage');
+ insert into storage.objects(bucket_id,name) values('profile-gallery',v_owner_id::text||'/'||v_photo_id::text||'.png');
+ insert into public.profile_photos(id,user_id,kind,image_path,caption) values(v_photo_id,v_owner_id,'corner',v_owner_id::text||'/'||v_photo_id::text||'.png','My test corner');
+ set local role anon;perform set_config('request.jwt.claims','{}',true);
+ j:=public.get_member_profile(username_value);assert (j->>'can_view')::boolean;assert not(j?'equipment'),'collection became public without opt-in';assert jsonb_array_length(j->'recipes')=1,'private recipe leaked';
+ set local role authenticated;perform set_config('request.jwt.claims',jsonb_build_object('sub',v_owner_id,'is_anonymous',false)::text,true);
+ update public.profiles set is_private=true,share_collection=true where id=v_owner_id;
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',v_viewer_id,'is_anonymous',false)::text,true);
+ j:=public.get_member_profile(username_value);assert not (j->>'can_view')::boolean;assert not(j?'photos') and not(j?'equipment') and not(j?'recipes'),'private profile sections leaked';
+ assert not exists(select 1 from storage.objects where bucket_id='profile-gallery' and name=v_owner_id::text||'/'||v_photo_id::text||'.png'),'private gallery storage leaked';
+ assert not exists(select 1 from public.recipes where id=v_pub_id),'private account community recipe leaked through direct REST';
+ insert into public.follows(follower_id,following_id,status) values(v_viewer_id,v_owner_id,'accepted') returning id into v_follow_id;
+ assert (select status='pending' from public.follows where id=v_follow_id),'requester self-approved insert';
+ blocked:=false;begin update public.follows set status='accepted' where id=v_follow_id;exception when insufficient_privilege then blocked:=true;end;
+ assert not exists(select 1 from public.follows where id=v_follow_id and status='accepted'),'requester approved their own request';
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',v_owner_id,'is_anonymous',false)::text,true);
+ update public.follows set status='accepted' where id=v_follow_id;
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',v_viewer_id,'is_anonymous',false)::text,true);
+ j:=public.get_member_profile(username_value);assert (j->>'can_view')::boolean;assert jsonb_array_length(j->'equipment')=1 and jsonb_array_length(j->'beans')=1 and jsonb_array_length(j->'favorites')=1;
+ assert jsonb_array_length(j->'recipes')=1,'approved follower saw a private recipe';
+ assert j::text not like '%secret equipment note%' and j::text not like '%secret favorite note%' and j::text not like '%secret storage%' and j::text not like '%remaining_weight_grams%','private inventory details leaked';
+ assert exists(select 1 from storage.objects where bucket_id='profile-gallery' and name=v_owner_id::text||'/'||v_photo_id::text||'.png'),'approved follower cannot read linked photo';
+ -- An old accepted follow must not grant access to an anonymous or missing-claim session.
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',v_viewer_id,'is_anonymous',true)::text,true);
+ j:=public.get_member_profile(username_value);assert not(j->>'can_view')::boolean,'historical anonymous follow unlocked private profile';
+ assert not(j?'photos') and not(j?'equipment'),'anonymous accepted follower received private sections';
+ assert not exists(select 1 from storage.objects where bucket_id='profile-gallery' and name=v_owner_id::text||'/'||v_photo_id::text||'.png'),'anonymous accepted follower read private photo';
+ assert not exists(select 1 from public.recipes where id=v_pub_id),'anonymous accepted follower read private-account recipe';
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',v_viewer_id)::text,true);
+ j:=public.get_member_profile(username_value);assert not(j->>'can_view')::boolean,'missing membership claim unlocked private profile';
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',v_viewer_id,'is_anonymous',false)::text,true);
+ assert not exists(select 1 from public.search_member_profiles('',0) where id=v_guest_id),'anonymous session listed as a member';
+ assert exists(select 1 from public.search_member_profiles(username_value,0) where id=v_owner_id),'private identity not searchable';
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',v_owner_id,'is_anonymous',false)::text,true);delete from public.follows where id=v_follow_id;
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',v_viewer_id,'is_anonymous',false)::text,true);j:=public.get_member_profile(username_value);assert not(j->>'can_view')::boolean,'removed follower retained access';
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',v_guest_id,'is_anonymous',true)::text,true);blocked:=false;begin insert into public.follows(follower_id,following_id) values(v_guest_id,v_owner_id);exception when insufficient_privilege then blocked:=true;end;assert blocked,'guest followed an account';
+ blocked:=false;begin insert into public.coffee_comments(user_id,bean_id,body) values(v_guest_id,v_bag_id,'Guest comment');exception when insufficient_privilege then blocked:=true;end;assert blocked,'guest posted a coffee comment';
+ reset role;
+end $$;
+rollback;

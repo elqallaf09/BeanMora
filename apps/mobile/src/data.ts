@@ -12,6 +12,7 @@ import {
   type Profile,
   type Method,
 } from './core/engine';
+import { contentMediaPath } from './core/content-media';
 import { safeUrl } from './guards';
 import type { ManualPour } from './manualBrew';
 import {
@@ -23,6 +24,9 @@ import { readRecipeDiscovery, type RecipeDiscovery } from './recipeDiscovery';
 export type CoffeeImageKind =
   'packaging' | 'product_artwork' | 'origin_photo' | 'unclassified';
 export interface CoffeeItem extends Coffee {
+  localeContent?: Record<'ar' | 'en', { name: string; roaster: string; description: string }>;
+  roasterSite?: string | null;
+  details?: {region:string|null;farm:string|null;altitude:number|null;weight:number|null;roastDate:string|null};
   roasterId: string | null;
   description: string;
   searchDocument?: string;
@@ -46,6 +50,7 @@ export interface RecipeSource {
 }
 export type { SourceBrew } from './sourceBrew';
 export interface RecipeItem extends Recipe {
+  localeContent?: Record<'ar' | 'en', Pick<RecipeItem, 'title' | 'notes' | 'author' | 'steps' | 'discovery'>>;
   originalTitle?: string;
   pours: ManualPour[];
   waterUnit: 'g' | 'ml';
@@ -94,7 +99,9 @@ interface Name {
   logo_url?: string | null;
   country?: string | null;
 }
-interface CoffeeRow extends Name {
+export interface CoffeeRow extends Name {
+  source_name?: string | null;
+  roaster_website_url?:string|null;origin_region?:string|null;farm?:string|null;altitude_meters?:number|null;bag_weight_grams?:number|null;roast_date?:string|null;
   id: string;
   slug: string;
   roaster_id?: string | null;
@@ -270,6 +277,7 @@ export function mapRecipe(
   row: RecipeRow,
   locale: 'ar' | 'en',
   profile: RecipeItem['xBloom'] = null,
+  includeTranslations = true,
 ): RecipeItem | null {
   if (!isMethod(row.brew_method)) return null;
   const ar = locale === 'ar';
@@ -281,8 +289,8 @@ export function mapRecipe(
     rawMedia && typeof rawMedia === 'object' && !Array.isArray(rawMedia)
       ? (rawMedia as Record<string, unknown>)
       : {};
-  const coverUrl = safeUrl(row.cover_image_url);
-  return {
+  const coverUrl = contentMediaPath(row.cover_image_url, '') ? row.cover_image_url ?? null : safeUrl(row.cover_image_url);
+  const result: RecipeItem = {
     id: row.id,
     originalTitle: row.title,
     title:
@@ -383,6 +391,13 @@ export function mapRecipe(
         ),
       })),
   };
+  if (includeTranslations) {
+    const otherLocale = locale === 'ar' ? 'en' : 'ar';
+    const other = mapRecipe(row, otherLocale, profile, false)!;
+    const content = (r: RecipeItem) => ({ title: r.title, notes: r.notes, author: r.author, steps: r.steps, discovery: r.discovery });
+    result.localeContent = locale === 'ar' ? { ar: content(result), en: content(other) } : { ar: content(other), en: content(result) };
+  }
+  return result;
 }
 type PublicReads = {
   revision: number;
@@ -410,7 +425,7 @@ function startPublicReads(db: SupabaseClient, method?: Method) {
   let beans = db
     .from('beans')
     .select(
-      `${fields},is_published,origin_country,process,varietal,description_ar,description_en,flavors:bean_flavor_notes(flavor),images:bean_images(url,position,image_usage_status)`,
+      `${fields},source_name,roaster_website_url,origin_region,farm,altitude_meters,bag_weight_grams,roast_date,is_published,origin_country,process,varietal,description_ar,description_en,flavors:bean_flavor_notes(flavor),images:bean_images(url,position,image_usage_status)`,
     )
     .eq('requires_review', false)
     .eq('is_published', true);
@@ -500,7 +515,7 @@ function getPublicReads(
   return entry;
 }
 
-function mapCoffee(
+export function mapCoffee(
   row: CoffeeRow,
   kind: Coffee['kind'],
   ar: boolean,
@@ -524,7 +539,7 @@ function mapCoffee(
   const direct =
     row.image_usage_status === 'rights_confirmed' ||
     (row.image_usage_status === 'source_linked' && safeUrl(row.source_url))
-      ? safeUrl(row.image_url)
+      ? (contentMediaPath(row.image_url, '') ? row.image_url ?? null : safeUrl(row.image_url))
       : null;
   if (direct && !images.includes(direct)) images.unshift(direct);
   const flavors = inferredFlavors(row);
@@ -532,9 +547,15 @@ function mapCoffee(
     id: row.id,
     slug: row.slug,
     kind,
+    localeContent: {
+      ar: { name: label(row, true), roaster: (label(one(row.roaster), true) || row.source_name || ''), description: catalogDescription(row, true) },
+      en: { name: label(row, false), roaster: (label(one(row.roaster), false) || row.source_name || ''), description: catalogDescription(row, false) },
+    },
     name: label(row, ar),
-    roaster: label(one(row.roaster), ar),
+    roaster: label(one(row.roaster), ar) || row.source_name || '',
     roasterId: row.roaster_id ?? null,
+    roasterSite:safeUrl(row.roaster_website_url),
+    details:{region:row.origin_region??null,farm:row.farm??null,altitude:row.altitude_meters??null,weight:row.bag_weight_grams??null,roastDate:row.roast_date??null},
     beanId: kind === 'bean' ? row.id : (row.legacy_bean_id ?? null),
     reviewed: row.requires_review === false,
     published: kind === 'product' || row.is_published === true,
@@ -615,6 +636,7 @@ export async function loadData(
             .select(
               'category,equipment_model_id,custom_name,model:equipment_models(name)',
             )
+            .is('archived_at', null)
             .eq('user_id', userId)
             .order('id')
             .limit(201),

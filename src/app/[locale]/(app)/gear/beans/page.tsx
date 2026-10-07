@@ -20,7 +20,7 @@ export default async function MyBeansPage() {
   const { data: itemsRaw, error } = await supabase
     .from("user_bean_inventory")
     .select(
-      "id, roast_date, opened_at, original_weight_grams, remaining_weight_grams, storage_location, brew_count, last_grind_setting, archived_at, bean:beans(id, slug, name_ar, name_en, roaster:roasters(name_ar, name_en)), preferred_recipe:recipes(title)",
+      "id, roast_date, opened_at, original_weight_grams, remaining_weight_grams, storage_location, brew_count, last_grind_setting, archived_at, bean:beans(id, slug, name_ar, name_en, image_url, source_name, roaster:roasters(name_ar, name_en)), preferred_recipe:recipes(title,title_ar)",
     )
     .is("archived_at", null)
     .order("created_at", { ascending: false });
@@ -42,7 +42,7 @@ export default async function MyBeansPage() {
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {items.map((item) => {
             const name = item.bean ? localizedField(item.bean, "name", locale) : "—";
-            const roasterName = item.bean?.roaster ? localizedField(item.bean.roaster, "name", locale) : null;
+            const roasterName = item.bean?.roaster ? localizedField(item.bean.roaster, "name", locale) : item.bean?.source_name;
             const daysSinceRoast = item.roast_date
               ? Math.floor((Date.now() - new Date(item.roast_date).getTime()) / 86_400_000)
               : null;
@@ -54,7 +54,7 @@ export default async function MyBeansPage() {
             return (
               <div key={item.id} className="flex gap-3 rounded-2xl border border-[var(--color-border,#ece1d3)] bg-[var(--color-surface,#fff)] p-3">
                 <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-[var(--color-cream)]">
-                  <ImageWithFallback src={null} alt={name} fallbackSeed={item.id} fill sizes="80px" />
+                  <ImageWithFallback src={item.bean?.image_url} alt={name} fallbackSeed={item.id} fill sizes="80px" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="line-clamp-1 font-bold text-[var(--color-espresso)]">{name}</p>

@@ -66,7 +66,7 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: deletion requires con
   fail = false; await confirm.click();
   await expect(page.getByText(ar ? 'تم حذف حسابك وبياناته.' : 'Your account and its data were deleted.', { exact: true })).toBeVisible();
   expect(deleted).toBe(true); expect(calls).toBe(2);
-  expect(paths).toHaveLength(12); expect(paths.every(path => path === user.id)).toBe(true);
+  expect(paths).toHaveLength(16); expect(paths.every(path => path === user.id)).toBe(true);
   const stored = await page.evaluate(({ ownShelf, ownDraft, guestShelf }) => ({ ownShelf: localStorage.getItem(ownShelf),
     ownDraft: localStorage.getItem(ownDraft), guestShelf: localStorage.getItem(guestShelf), session: localStorage.getItem('sb-mobilefixture-auth-token') }), { ownShelf, ownDraft, guestShelf });
   expect(stored).toEqual({ ownShelf: null, ownDraft: null, guestShelf: 'isolated guest shelf', session: null });

@@ -16,7 +16,7 @@ const temp = mkdtempSync(tmpdir() + '/beanmora-discovery-');
 mkdirSync(temp + '/core');
 after(() => rmSync(temp, { recursive: true, force: true }));
 for (const file of [
-  'localizedContent.ts',
+  'core/catalog-names.ts', 'core/catalog-foreign-titles.ts', 'localizedContent.ts',
   'foreignTitles.ts',
   'copy.ts',
   'recipeDiscovery.ts',
@@ -35,7 +35,7 @@ for (const file of [
         module: ts.ModuleKind.ESNext,
       },
     })
-    .outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.mjs'");
+    .outputText.replace(/from (["'])(\.\/[^"']+)\1/g, "from '$2.mjs'");
   writeFileSync(temp + '/' + file.replace('.ts', '.mjs'), output);
 }
 const {

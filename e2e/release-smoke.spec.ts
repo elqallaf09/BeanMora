@@ -7,6 +7,25 @@ import recAr from '../messages/recommendations/ar.json';
 import recEn from '../messages/recommendations/en.json';
 
 const errors = new WeakMap<Page, string[]>();
+test('public member directory finds usernames and opens a private identity without exposing collections', async ({page}) => {
+  const member={id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',name:'Private Barista',username:'barista',avatar_url:null,is_private:true};
+  const queries:string[]=[];
+  await page.route('**/rest/v1/rpc/search_member_profiles',async route=>{
+    queries.push(route.request().postDataJSON().p_query);
+    await route.fulfill({contentType:'application/json',body:JSON.stringify([member])});
+  });
+  await page.route('**/rest/v1/rpc/get_member_profile',route=>route.fulfill({contentType:'application/json',body:JSON.stringify({profile:member,is_owner:false,can_view:false,relationship:null,follower_count:0,following_count:0})}));
+  await page.goto('/en/members');
+  await page.getByRole('textbox',{name:'Search by name or username',exact:true}).fill('@barista');
+  await expect.poll(()=>queries.at(-1)).toBe('barista');
+  await page.getByRole('link').filter({hasText:'Private Barista'}).click();
+  await expect(page).toHaveURL('http://127.0.0.1:3000/en/members/barista');
+  await expect(page.getByText('@barista',{exact:true})).toBeVisible();
+  await expect(page.getByText('This account is private. Request to follow to view details after approval.',{exact:true})).toBeVisible();
+  await expect(page.getByText('Hand grinder',{exact:true})).toHaveCount(0);
+  await expect(page.getByRole('button',{name:'Favorite recipes',exact:true})).toHaveCount(0);
+  await noOverflow(page);
+});
 test.beforeEach(async ({ page, context }) => {
   errors.set(page, []);
   page.on('pageerror', error => errors.get(page)!.push(error.message));
@@ -134,4 +153,31 @@ test('legal pages are public, bilingual and fit the viewport', async ({ page }) 
     await noOverflow(page);
     await page.waitForLoadState('networkidle');
   }
+});
+
+
+for(const [path,arabic,english] of [
+  ['/beans/locale-fixture','بن اختبار اللغة','Locale test coffee'],
+  ['/recipes/aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa','وصفة اختبار اللغة','Locale test recipe'],
+  ['/equipment/aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa','طاحونة اختبار اللغة','Locale test grinder'],
+]) test(`language switch retains ${path}, query and fragment`,async({page})=>{
+  const suffix=path+'?source=locale-test#details';
+  const active=new Set<import("@playwright/test").Request>();page.on('request',r=>active.add(r));page.on('requestfinished',r=>active.delete(r));page.on('requestfailed',r=>active.delete(r));
+  // Land directly through the real login redirect. Unloading /home with goto
+  // races its deferred RSC prefetches in WebKit, unrelated to locale switching.
+  // These credentials are accepted only by the isolated loopback auth fixture.
+  await page.goto('/ar/login?next='+encodeURIComponent(suffix));
+  await page.getByLabel(ar.auth.emailLabel,{exact:true}).fill('fixture@example.test');
+  await page.getByLabel(ar.auth.passwordLabel,{exact:true}).fill('fixture_password');
+  await page.getByRole('button',{name:ar.auth.loginButton,exact:true}).click();
+  await expect(page).toHaveURL('http://127.0.0.1:3000/ar'+suffix);
+  await expect(page.getByRole('heading',{name:arabic,exact:true})).toBeVisible();
+  if(path.startsWith('/beans/')) await expect(page.getByText('Bilingual coffee comment fixture',{exact:true})).toBeVisible();
+  await expect.poll(()=>[...active].map(r=>r.url())).toEqual([]);
+  await page.getByRole('button',{name:ar.language.switch,exact:true}).click();await expect(page).toHaveURL('http://127.0.0.1:3000/en'+suffix);await expect(page.getByRole('heading',{name:english,exact:true})).toBeVisible();await noOverflow(page);
+  if(path.startsWith('/beans/')) await expect(page.getByText('Bilingual coffee comment fixture',{exact:true})).toBeVisible();
+  await expect.poll(()=>[...active].map(r=>r.url())).toEqual([]);
+  await page.getByRole('button',{name:en.language.switch,exact:true}).click();await expect(page).toHaveURL('http://127.0.0.1:3000/ar'+suffix);await expect(page.getByRole('heading',{name:arabic,exact:true})).toBeVisible();
+  if(path.startsWith('/beans/')) await expect(page.getByText('Bilingual coffee comment fixture',{exact:true})).toBeVisible();
+  await expect.poll(()=>[...active].map(r=>r.url())).toEqual([]);
 });
