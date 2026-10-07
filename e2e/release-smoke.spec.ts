@@ -104,7 +104,7 @@ for (const locale of ['ar', 'en'] as const) {
   });
 }
 
-test("login refuses executable next parameters and public legal pages are available", async ({
+test("login refuses executable next parameters", async ({
   page,
 }) => {
   const attack =
@@ -117,6 +117,11 @@ test("login refuses executable next parameters and public legal pages are availa
   expect(await page.locator("html").getAttribute("data-audit-executed")).toBe(
     null,
   );
+  // Finish home prefetches before unloading WebKit; retain every pageerror check.
+  await page.waitForLoadState('networkidle');
+});
+
+test('legal pages are public, bilingual and fit the viewport', async ({ page }) => {
   for (const route of [
     "/en/privacy",
     "/ar/privacy",
@@ -127,5 +132,6 @@ test("login refuses executable next parameters and public legal pages are availa
     expect(response?.status()).toBe(200);
     await expect(page.locator("h1")).toBeVisible();
     await noOverflow(page);
+    await page.waitForLoadState('networkidle');
   }
 });
