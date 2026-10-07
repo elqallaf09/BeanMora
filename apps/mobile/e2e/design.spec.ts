@@ -97,7 +97,7 @@ const beans = Array.from({ length: 8 }, (_, i) => ({
   images:[{url:'https://photo-fixture.test/coffee.jpg',position:0,image_usage_status:'rights_confirmed'}],
 }));
 const recipe={id:'11111111-1111-4111-8111-111111111111',title:'Design brew',title_ar:'وصفة اختبار التصميم',brew_method:'xbloom',visibility:'public',bean_id:beans[0].id,roasted_product_id:null,flavor_notes:['chocolate'],dose_grams:18,water_grams:288,water_temp_c:92,total_time_seconds:150,steps:[],equipment:[]};
-for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,height:1024},{width:1536,height:1024}]) {
+for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,height:1024},{width:1024,height:600},{width:1536,height:1024}]) {
   test('reference layout, complete scroll and detail at '+viewport.width,async({page}, info)=>{
     await page.setViewportSize(viewport);
     const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
@@ -113,6 +113,19 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
     await page.goto('/');
     await expect(page.getByRole('heading',{name:'اكتشف عالم القهوة.'})).toBeVisible();
     const language = page.getByTestId('language-switcher');
+    const header = await page.getByTestId('app-header').boundingBox();
+    const pill = await language.boundingBox();
+    const scroll = await page.getByTestId('home-scroll').boundingBox();
+    expect(header!.height).toBeLessThanOrEqual(76);
+    expect(pill!.width).toBeLessThanOrEqual(120);
+    expect(pill!.height).toBeLessThanOrEqual(56);
+    expect(scroll!.height).toBeGreaterThan(viewport.height * 0.65);
+    expect(scroll!.y).toBeLessThanOrEqual(80);
+    for (const label of ['البحث', 'فتح حسابي']) {
+      const action = await page.getByRole('button', { name: label, exact: true }).boundingBox();
+      expect(action!.x).toBeGreaterThanOrEqual(pill!.x + pill!.width);
+      expect(action!.x + action!.width).toBeLessThanOrEqual(viewport.width);
+    }
     const arabic = page.getByRole('button', { name: 'العربية', exact: true });
     const english = page.getByRole('button', { name: 'English', exact: true });
     await expect(arabic).toHaveAttribute('aria-pressed', 'true');
@@ -145,6 +158,11 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
     const home=page.getByTestId('home-scroll');
     await home.evaluate(el=>{el.scrollTop=el.scrollHeight;});
+    // Only the compact app bar stays above the page; categories scroll away.
+    await expect(page.getByTestId('library-navigation')).not.toBeInViewport();
+    await expect(language).toBeInViewport();
+    await expect(page.getByTestId('bottom-navigation')).toBeInViewport();
+    await page.screenshot({ path: info.outputPath(`home-scrolled-${viewport.width}.png`) });
     await expect(page.getByRole('button',{name:'ميزان القهوة',exact:true})).toBeVisible();
     await page.getByRole('button',{name:'ميزان القهوة',exact:true}).click();
     await expect(page.getByText('ميزان اختبار معزول',{exact:true})).toBeVisible();
