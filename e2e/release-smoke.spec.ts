@@ -144,7 +144,10 @@ for(const [path,arabic,english] of [
 ]) test(`language switch retains ${path}, query and fragment`,async({page})=>{
   await guest(page,'ar');await page.waitForLoadState('networkidle');
   const suffix=path+'?source=locale-test#details';
+  const active=new Set();page.on('request',r=>active.add(r));page.on('requestfinished',r=>active.delete(r));page.on('requestfailed',r=>active.delete(r));
   await page.goto('/ar'+suffix);await expect(page.getByRole('heading',{name:arabic,exact:true})).toBeVisible();
+  await expect.poll(()=>active.size).toBe(0);
   await page.getByRole('button',{name:ar.language.switch,exact:true}).click();await expect(page).toHaveURL('http://127.0.0.1:3000/en'+suffix);await expect(page.getByRole('heading',{name:english,exact:true})).toBeVisible();await noOverflow(page);
+  await expect.poll(()=>active.size).toBe(0);
   await page.getByRole('button',{name:en.language.switch,exact:true}).click();await expect(page).toHaveURL('http://127.0.0.1:3000/ar'+suffix);await expect(page.getByRole('heading',{name:arabic,exact:true})).toBeVisible();
 });

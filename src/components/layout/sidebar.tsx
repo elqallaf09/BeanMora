@@ -33,7 +33,7 @@ export function Sidebar() {
             : "text-[var(--color-dark-text)] hover:bg-[var(--color-cream)]",
         )}
       >
-        <Icon className="h-4.5 w-4.5" aria-hidden />
+        {item.href==="/community"?<BeanMoraLogo className="h-5 w-5"/>:<Icon className="h-4.5 w-4.5" aria-hidden />}
         <span>{t(item.labelKey)}</span>
       </Link>
     );

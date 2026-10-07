@@ -2,6 +2,16 @@
 
 Date: 2026-10-07. iOS build 9; Android versionCode 25.
 
+## Member profiles and community extension
+
+Implemented in web and native source: searchable registered-member directory, public username routes, equipment/coffee/recipes/account favorites/comments, follower and following lists, private accounts with owner-approved follow requests, and extraction/coffee-corner photos. Community navigation uses the application brand. Existing device-only recipe saves remain distinct from the new account favorites.
+
+Equipment, coffee and favorites are shared only after the owner enables collection sharing. Private account contents require an accepted follower or the owner; name and username remain searchable. Gallery media stays in a private bucket and is signed only after authorization. Directory pages load 24 members at a time; profile sections currently show the latest 100 entries. Manual/automatic equipment details use available reviewed catalog facts.
+
+The base social migration `20261007145444_member_profiles_privacy_and_gallery.sql` was applied. The forward migration `20261007152000_require_member_for_private_profile_access.sql` is NOT confirmed applied: it prevents historical anonymous follow rows from unlocking private profiles. The rollback-only `supabase/tests/member-social.sql` is NOT confirmed passing. Its first run exposed a test-variable ambiguity, which was fixed; subsequent Supabase connector calls stalled and were aborted. Do not release or merge this extension until the forward migration and database privacy tests complete successfully.
+
+Local focused native browser tests passed for username search, pending private follow requests, hidden collections, owner-bound privacy updates, request approval and coffee-corner image upload. Web/native typechecks and lint passed. These fixture tests do not establish live database authorization correctness. No new IPA, APK, TestFlight submission or store publication is claimed by this extension.
+
 ## Requested behavior
 
 1. Switching language preserves the selected coffee, equipment or recipe and the native detail/back stack. Web switching retains the entity path, query and fragment. Bilingual cached entities use a new cache version so older payloads do not retain stale language.

@@ -8,7 +8,7 @@ const accountBuckets = [
   'recipe-videos',
   'roaster-logos',
   'post-media',
-  'member-media',
+  'member-media', 'profile-gallery',
 ];
 
 /** Remove Storage files through its API, then atomically delete only the caller. */

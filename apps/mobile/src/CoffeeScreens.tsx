@@ -1,3 +1,4 @@
+import {CatalogComments} from './CatalogComments';
 import { usePressMotion } from './Motion';
 import { useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import {
@@ -1094,6 +1095,7 @@ export function CoffeeDetail({
           url={item.imageSourceUrl}
         />
       ) : null}
+      <CatalogComments key={item.kind+item.id} kind={item.kind==='product'?'product':'bean'} id={item.id}/>
     </ScrollView>
   );
 }

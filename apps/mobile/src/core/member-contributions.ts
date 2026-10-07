@@ -333,12 +333,13 @@ export async function uploadContributionImage(
   owner: string,
   id: string,
   bytes: Uint8Array,
+  bucket: "member-media" | "profile-gallery" = "member-media",
 ) {
   await requireMember(client, owner);
   const type = contributionImage(bytes);
   const path = `${owner}/${id}.${type.extension}`;
   const { error } = await client.storage
-    .from("member-media")
+    .from(bucket)
     .upload(path, bytes.buffer as ArrayBuffer, {
       contentType: type.mime,
       upsert: false,

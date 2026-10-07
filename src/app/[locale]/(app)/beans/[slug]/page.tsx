@@ -1,3 +1,4 @@
+import {CoffeeComments} from '@/components/members/coffee-comments';
 import { localizedRecipeTitle } from '@/lib/localized';
 import { getLocale, getTranslations } from "next-intl/server";
 import { ExternalLink, Flag, MapPin, Mountain, Plus, Sprout } from "lucide-react";
@@ -389,6 +390,7 @@ export default async function BeanDetailPage({
           </p>
         ) : null}
       </div>
+        <CoffeeComments id={bean.id}/>
       </div>
     </div>
   );

@@ -1,5 +1,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 const pairs = [
+  ['../../../src/lib/catalog-comments.ts', '../src/core/catalog-comments.ts'],
+  ['../../../src/lib/member-social.ts', '../src/core/member-social.ts'],
   ['../../../src/lib/equipment-facts.ts', '../src/core/equipment-facts.ts'],
   ['../../../src/lib/catalog-names.ts', '../src/core/catalog-names.ts'],
   ['../../../src/lib/catalog-foreign-titles.ts', '../src/core/catalog-foreign-titles.ts'],

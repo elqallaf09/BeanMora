@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   ImageBackground,
@@ -53,12 +53,14 @@ export const finishOAuth = supabase
   : async () => {};
 export function AccountScreen({
   session,
+  profileContent,
   back,
   onDeleted,
   recovery = false,
   onRecovered = () => {},
 }: {
   session: Session | null;
+  profileContent?: ReactNode;
   back: () => void;
   onDeleted: (localCleanupFailed: boolean) => void;
   recovery?: boolean;
@@ -309,8 +311,8 @@ export function AccountScreen({
           </Txt>
           <Txt style={styles.muted}>{session.user.email}</Txt>
         </View>
+        {profileContent}
         <View style={styles.card}>
-          <Txt>{t.profileNote}</Txt>
           <LegalLinks />
           <Action
             title={t.logout}

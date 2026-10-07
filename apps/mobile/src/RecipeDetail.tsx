@@ -1,3 +1,4 @@
+import {CatalogComments,AccountFavorite} from './CatalogComments';
 import { useContext } from 'react';
 import { ScrollView, View, useWindowDimensions } from 'react-native';
 import type { RecipeItem } from './data';
@@ -342,6 +343,8 @@ export function RecipeDetail({
       <Disclosure title={ar ? 'دليل طريقة التحضير' : 'Brew method guide'}>
         <MethodGuide method={recipe.method} showPhoto={false} />
       </Disclosure>
+      <AccountFavorite recipeId={recipe.id}/>
+      <CatalogComments key={recipe.id} kind="recipe" id={recipe.id}/>
       <Action title={t.record} onPress={() => record()} selected />
     </ScrollView>
   );

@@ -5,6 +5,7 @@ import {
   AppState,
   BackHandler,
   FlatList,
+  Image,
   KeyboardAvoidingView,
   Linking,
   Modal,
@@ -21,7 +22,9 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
 import type { Session } from '@supabase/supabase-js';
 import { configured, supabase } from './src/client';
-import { type CoffeeItem, type RecipeItem } from './src/data';
+import { mapCoffee, mapRecipe, RECIPE_FIELDS, type CoffeeRow, type RecipeRow, type CoffeeItem, type RecipeItem } from './src/data';
+import { MemberDirectory, MemberProfile } from './src/MemberProfile';
+import {loadEquipment} from './src/catalog';
 import {
   emptyProfile,
   recommendCoffees,
@@ -83,6 +86,8 @@ import {
 } from './src/ui';
 
 type Tab =
+  | 'members'
+  | 'memberProfile'
   | 'myRecipes'
   | 'capsules'
   | 'myEquipment'
@@ -175,6 +180,7 @@ function Shell() {
   const savePending = useRef(new Set<string>());
   const identity = useRef(userId);
   identity.current = userId;
+  const [memberUsername,setMemberUsername]=useState('');
   const [message, setMessage] = useState('');
   const [notifications, setNotifications] = useState<string[] | null>(null);
   const [fontsLoaded, fontError] = useFonts({
@@ -484,6 +490,13 @@ function Shell() {
       ),
     );
   }
+  const showMember=(username:string)=>{setMemberUsername(username);navigate('memberProfile');};
+  const manageMember=(kind:'bags'|'equipment'|'recipes')=>{if(kind==='equipment')setEquipmentToAdd(null);navigate(kind==='bags'?'bags':kind==='equipment'?'myEquipment':'addRecipe');};
+  const openMemberItem=async(kind:'recipe'|'bean'|'product'|'equipment',id:string)=>{if(!supabase)return;const owner=identity.current;try{
+    if(kind==='equipment'){const item=(await loadEquipment(supabase,locale)).find(e=>e.id===id);if(item&&owner===identity.current)setDetail({type:'equipment',item});return;}
+    const table=kind==='recipe'?'recipes':kind==='bean'?'beans':'roasted_products';const {data:row,error}=await supabase.from(table).select(kind==='recipe'?RECIPE_FIELDS:'*').eq('id',id).single();if(error||!row)throw error;if(owner!==identity.current)return;
+    if(kind==='recipe'){const item=mapRecipe(row as unknown as RecipeRow,locale);if(item)openRecipe(item);}else openCoffee(mapCoffee(row as unknown as CoffeeRow,kind,ar));
+  }catch{setMessage(ar?'هذا المحتوى غير متاح للعرض الآن.':'This content is not available now.');}};
   const login = tab === 'account' && !userId && !detail;
   const nav: { tab: Tab; icon: IconName; label: string }[] = [
     { tab: 'home', icon: 'home', label: ar ? 'الرئيسية' : 'Home' },
@@ -895,7 +908,7 @@ function Shell() {
                   openRecipe={openRecipe}
                   openCoffee={openCoffee}
                 />
-              ) : tab === 'community' ? (
+              ) : tab === 'members' ? (<MemberDirectory open={showMember}/>) : tab === 'memberProfile' ? (<ScrollView contentContainerStyle={{padding:18,gap:14}}><Action title={ar?'حسابات المجتمع':'Community accounts'} onPress={()=>navigate('members')}/><MemberProfile key={(userId??'guest')+memberUsername} userId={userId} username={memberUsername} openMember={showMember} openItem={(kind,id)=>void openMemberItem(kind,id)} manage={manageMember} login={()=>requestLogin()}/></ScrollView>) : tab === 'community' ? (
                 <CommunityScreen
                   key={userId ?? 'guest'}
                   userId={userId}
@@ -908,11 +921,14 @@ function Shell() {
                   openCoffee={openCoffee}
                   roast={(id) => showRoasts(id ?? null, 'public')}
                   tools={() => showTools('all')}
+                  members={()=>navigate('members')}
+                  openMember={showMember}
                 />
               ) : tab === 'account' ? (
                 <AccountScreen
                   key={userId ?? 'public'}
                   session={userId ? session : null}
+                  profileContent={userId?<MemberProfile userId={userId} openMember={showMember} openItem={(kind,id)=>void openMemberItem(kind,id)} manage={manageMember} login={()=>requestLogin()}/>:null}
                   recovery={passwordRecovery}
                   onRecovered={() => {
                     setPasswordRecovery(false);
@@ -1162,12 +1178,12 @@ function Shell() {
                   onPress={() => navigate(item.tab)}
                   style={s.navItem}
                 >
-                  <Icon
+                  {item.tab==='community'?<Image source={require('./assets/brand/mark.png')} accessibilityLabel="BeanMora logo" resizeMode="contain" style={{height:25,width:25}}/>:<Icon
                     name={item.icon}
                     filled={tab === item.tab}
                     color={tab === item.tab ? colors.brown : colors.muted}
                     size={23}
-                  />
+                  />}
                   <Txt
                     style={{
                       fontSize: 13,

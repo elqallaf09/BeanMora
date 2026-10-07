@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 import { Users } from "lucide-react";
 
 import { Link } from "@/i18n/navigation";
@@ -35,6 +35,7 @@ export default async function CommunityPage({
   const { tab } = await searchParams;
   const activeTab = tab === "following" ? "following" : "explore";
   const t = await getTranslations();
+  const locale=await getLocale();
   const supabase = await createClient();
 
   const {
@@ -42,7 +43,7 @@ export default async function CommunityPage({
   } = await supabase.auth.getUser();
 
   const [{ data: myFollows }, { data: myLikes }] = await Promise.all([
-    user ? supabase.from("follows").select("following_id").eq("follower_id", user.id) : Promise.resolve({ data: [] }),
+    user ? supabase.from("follows").select("following_id").eq("follower_id", user.id).eq("status", "accepted") : Promise.resolve({ data: [] }),
     user ? supabase.from("post_likes").select("post_id").eq("user_id", user.id) : Promise.resolve({ data: [] }),
   ]);
 
@@ -59,7 +60,7 @@ export default async function CommunityPage({
   }
   const { data: postsRaw } = await query.order("created_at", { ascending: false }).limit(20);
 
-  const posts = ((postsRaw ?? []) as AnyRow[]);
+  const posts = ((activeTab === "following" && followingIds.length === 0 ? [] : postsRaw ?? []) as AnyRow[]);
 
   // Distinct authors, used for the "brewers to follow" rail at the top.
   const authors = Array.from(
@@ -89,6 +90,8 @@ export default async function CommunityPage({
           </Link>
         ))}
       </div>
+
+      <Link href="/members" className="mb-5 block rounded-xl border bg-white p-4 font-bold">{locale==='ar'?'حسابات المجتمع — ابحث بالاسم أو اسم المستخدم':'Community accounts — search name or username'}</Link>
 
       {/* Brewers rail — story-style avatars */}
       {authors.length > 0 ? (

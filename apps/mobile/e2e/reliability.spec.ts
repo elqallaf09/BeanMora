@@ -237,12 +237,12 @@ test('bag serving filters find a recipe beyond page one and Arabic decimal weigh
   await page.getByRole('button', { name: 'الرئيسية', exact: true }).click();
   await page.getByRole('button', { name: /^أكياسي —/ }).click();
   await page.getByRole('button', { name: 'تعديل بيانات الكيس', exact: true }).click();
-  await page.getByLabel('وزن الكيس الأصلي (g)', { exact: true }).fill('٢٥٠٫٥');
-  await page.getByLabel('الكمية المتبقية (g)', { exact: true }).fill('٣٠٠');
+  await page.getByLabel('وزن الكيس الأصلي (غرام)', { exact: true }).fill('٢٥٠٫٥');
+  await page.getByLabel('الكمية المتبقية (غرام)', { exact: true }).fill('٣٠٠');
   await page.getByRole('button', { name: 'حفظ', exact: true }).click();
   await expect(page.getByText('أدخل وزنًا صحيحًا؛ المتبقي لا يتجاوز وزن الكيس الأصلي.', { exact: true })).toBeVisible();
   expect(writes).toHaveLength(0);
-  await page.getByLabel('الكمية المتبقية (g)', { exact: true }).fill('١٨٫٥');
+  await page.getByLabel('الكمية المتبقية (غرام)', { exact: true }).fill('١٨٫٥');
   await page.getByRole('button', { name: 'حفظ', exact: true }).click();
   await expect.poll(() => writes.length).toBe(1);
   expect(writes[0].original_weight_grams).toBe(250.5);

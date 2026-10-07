@@ -109,6 +109,8 @@ export function CommunityScreen({
   openCoffee,
   roast,
   tools,
+  members,
+  openMember,
 }: {
   userId: string | null;
   recipes: RecipeItem[];
@@ -120,6 +122,8 @@ export function CommunityScreen({
   openCoffee: (c: CoffeeItem) => void;
   roast: (id?: string) => void;
   tools: () => void;
+  members: () => void;
+  openMember:(username:string)=>void;
 }) {
   const locale = useContext(Language);
   const ar = locale === 'ar';
@@ -458,7 +462,7 @@ export function CommunityScreen({
                 : 'Brew, adjust and share what you learned. Your cup can inspire someone else’s next brew.'}
             </Txt>
           </View>
-          <Icon name="globe" size={width < 400 ? 34 : 48} color="#DDB791" />
+          <Image source={require('../assets/brand/mark.png')} accessibilityLabel="BeanMora logo" resizeMode="contain" style={{height:48,width:34}}/>
         </View>
         <View style={styles.row}>
           <Action
@@ -467,6 +471,7 @@ export function CommunityScreen({
             selected
           />
           <Action title={ar ? 'ابدأ تحضيرك' : 'Start brewing'} onPress={brew} />
+          <Action title={ar?'حسابات المجتمع':'Community accounts'} onPress={members}/>
         </View>
       </View>
       {message ? (
@@ -715,6 +720,7 @@ export function CommunityScreen({
                       </Txt>
                     </View>
                     <View style={{ flex: 1 }}>
+                      {member?.username?<Action compact title={'@'+member.username} onPress={()=>openMember(member.username)}/>:null}
                       <Txt style={s.cardTitle}>
                         {member?.name ??
                           member?.username ??

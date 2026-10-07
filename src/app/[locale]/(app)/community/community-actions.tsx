@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Heart, MoreHorizontal, Share2 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
 import { GuestUpgradeDialog } from "@/components/shared/guest-upgrade-dialog";
 import { cn } from "@/lib/utils";
+import {changeMemberFollow} from "@/lib/member-social";
 
 export function PostLikeButton({
   postId,
@@ -74,49 +75,11 @@ export function FollowButton({
   initialFollowing: boolean;
   isAuthenticated: boolean;
 }) {
-  const t = useTranslations("community");
-  const [following, setFollowing] = useState(initialFollowing);
-  const [dialogOpen, setDialogOpen] = useState(false);
-
-  async function toggle() {
-    if (!isAuthenticated) {
-      setDialogOpen(true);
-      return;
-    }
-    const next = !following;
-    setFollowing(next);
-
-    const supabase = createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) return;
-
-    if (next) {
-      await supabase.from("follows").insert({ follower_id: user.id, following_id: targetUserId });
-    } else {
-      await supabase.from("follows").delete().eq("follower_id", user.id).eq("following_id", targetUserId);
-    }
-  }
-
-  return (
-    <>
-      <button
-        type="button"
-        onClick={toggle}
-        aria-pressed={following}
-        className={cn(
-          "shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold transition-colors",
-          following
-            ? "bg-[var(--color-cream)] text-[var(--color-muted-text)]"
-            : "bg-[var(--color-teal)]/10 text-[var(--color-teal-dark)]",
-        )}
-      >
-        {following ? t("following") : t("follow")}
-      </button>
-      <GuestUpgradeDialog open={dialogOpen} onOpenChange={setDialogOpen} />
-    </>
-  );
+  const t=useTranslations("community"),ar=useLocale()==='ar';
+  const[state,setState]=useState<'pending'|'accepted'|null>(initialFollowing?'accepted':null),[busy,setBusy]=useState(false),[error,setError]=useState(false),[dialogOpen,setDialogOpen]=useState(false);
+  useEffect(()=>{let active=true;const db=createClient();void(async()=>{const{data}=await db.auth.getUser();if(!data.user||data.user.is_anonymous)return;const{data:row}=await db.from('follows').select('status').eq('follower_id',data.user.id).eq('following_id',targetUserId).maybeSingle();if(active)setState(row?.status??null);})().catch(()=>{if(active)setError(true);});return()=>{active=false;};},[targetUserId]);
+  async function toggle(){if(busy)return;if(!isAuthenticated){setDialogOpen(true);return;}setBusy(true);setError(false);try{const db=createClient();const{data}=await db.auth.getUser();if(!data.user||data.user.is_anonymous){setDialogOpen(true);return;}setState(await changeMemberFollow(db,data.user.id,targetUserId,state));}catch{setError(true);}finally{setBusy(false);}}
+  return <span className="inline-flex flex-col gap-1"><button type="button" disabled={busy} onClick={()=>void toggle()} aria-pressed={state==='accepted'} className="min-h-11 rounded-full px-3 text-xs font-semibold text-[var(--color-teal-dark)]">{state==='pending'?(ar?'إلغاء طلب المتابعة':'Cancel follow request'):state==='accepted'?t('following'):t('follow')}</button>{error?<span role="alert" className="text-xs text-red-700">{ar?'تعذّر تأكيد المتابعة.':'Could not confirm following.'}</span>:null}<GuestUpgradeDialog open={dialogOpen} onOpenChange={setDialogOpen}/></span>;
 }
 
 export function PostMoreMenu({ postId }: { postId: string }) {
