@@ -1,6 +1,6 @@
 # BeanMora 0.5.14 — audit remediation
 
-Date: 2026-10-07. Android versionCode 24; iOS buildNumber 7.
+Date: 2026-10-07. Android versionCode 24; iOS buildNumber 8.
 
 ## Security and account behavior
 
@@ -36,7 +36,7 @@ Primary sources checked 2026-10-07:
 
 ## Dependencies and release checks
 
-Expo is pinned to 57.0.26 with an explicit SecureStore native plugin. Patched `shell-quote` removes the critical audit finding. CI no longer ignores dependency-audit failures or Expo compatibility drift. The audit fails on new moderate/high/critical advisories, unavailable audit data and expired exceptions.
+Expo is pinned to 57.0.27 with an explicit SecureStore native plugin. Patched `shell-quote` removes the critical audit finding. CI no longer ignores dependency-audit failures or Expo compatibility drift. The audit fails on new moderate/high/critical advisories, unavailable audit data and expired exceptions.
 
 Two upstream tooling advisories still lack a published fixed version at the review date: `braces` GHSA-vfj7-8cjw-p6xm and `node-forge` GHSA-86w9-cpqp-85rv. Their dependency chains account for 16 high-severity affected-package entries. They are **mitigated, not fixed**. Exact exceptions expire on 2026-10-21; never extend them automatically. Keep build inputs trusted and development servers private, and install vendor fixes when available.
 
