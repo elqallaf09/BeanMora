@@ -1,0 +1,18 @@
+[
+  {
+    "package": "braces",
+    "url": "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm",
+    "range": "<=3.0.3",
+    "expires": "2026-10-21T00:00:00Z",
+    "owner": "BeanMora maintainers",
+    "reason": "No patched registry release at 2026-10-07. Metro/build tooling parses repository paths, not user recipe/search input. Keep build inputs trusted, do not expose a development server publicly, and recheck the vendor release before expiry. This is a mitigation, not an upstream fix."
+  },
+  {
+    "package": "node-forge",
+    "url": "https://github.com/advisories/GHSA-86w9-cpqp-85rv",
+    "range": "<=1.4.0",
+    "expires": "2026-10-21T00:00:00Z",
+    "owner": "BeanMora maintainers",
+    "reason": "No patched registry release at 2026-10-07. Expo tooling dependency; application authentication and TLS do not call forge RSA verification. Retain trusted build/signing inputs and recheck upstream before expiry. Not a claim of a patched dependency."
+  }
+]

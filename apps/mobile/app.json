@@ -3,7 +3,7 @@
     "name": "BeanMora",
     "slug": "beanmora-mobile",
     "owner": "elqallaf09",
-    "version": "0.5.7",
+    "version": "0.5.14",
     "scheme": "beanmora",
     "orientation": "default",
     "userInterfaceStyle": "light",
@@ -14,11 +14,12 @@
       "bundleIdentifier": "com.beanmora.mobile",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
-      }
+      },
+      "buildNumber": "8"
     },
     "android": {
       "package": "com.beanmora.mobile",
-      "versionCode": 17,
+      "versionCode": 24,
       "icon": "./assets/brand/icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/brand/adaptive-foreground.png",
@@ -40,6 +41,9 @@
       "eas": {
         "projectId": "a3785113-b993-49fa-9986-e3dc96d63115"
       }
-    }
+    },
+    "plugins": [
+      "expo-secure-store"
+    ]
   }
 }

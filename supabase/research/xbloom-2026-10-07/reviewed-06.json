@@ -1,0 +1,2103 @@
+[
+  {
+    "url": "https://share-h5.xbloom.com/?id=qEWc3CXsWxSOurX7WGw%2FXA%3D%3D",
+    "slug": "xbloom-shared-b7b0d1b871ff6ee130cb431c",
+    "title": "Tobacco Limited Edition - South Roastery",
+    "author": "The Recipe Drop",
+    "dose": 15.0,
+    "water_ml": 255.0,
+    "poured_water_ml": 255.0,
+    "ratio": 17.0,
+    "grind_size": 55.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 45.0,
+        "temperature": 88.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 55.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 0,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 55.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 0,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 0,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:17:51Z",
+    "official": false,
+    "origin": [
+      "Colombia & Brazil"
+    ],
+    "process": [
+      "Honey and vanilla-infused (Colombia), Natural (Brazil)"
+    ],
+    "flavors": [
+      "Roasted Cacao, Tobacco, Spices, Pecan Nuts"
+    ],
+    "roaster": "South Roastery",
+    "coffee": "Tobacco Limited Edition",
+    "serving_style": "hot",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6ab17fa07fee169c16906833",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:17:51Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=BuKtkXz9uGgJwIprK1%2B%2F4w%3D%3D",
+    "slug": "xbloom-shared-520b9a3a31a3e7ae060efb89",
+    "title": "Ethiopia Hamasho Village Asefa Dukamo Station Washed Archers Lot - Archers",
+    "author": "The Recipe Drop",
+    "dose": 15.0,
+    "water_ml": 240.0,
+    "poured_water_ml": 240.0,
+    "ratio": 16.0,
+    "grind_size": 54.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 45.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 32,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 65.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 65.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 65.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 0,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:17:58Z",
+    "official": false,
+    "origin": [
+      "Hamasho Village, Sidama, Bensa"
+    ],
+    "process": [
+      "Washed"
+    ],
+    "flavors": [
+      "lemongrass, pear, white florals, sugarcane, papaya"
+    ],
+    "roaster": "Archers",
+    "coffee": "Ethiopia Hamasho Village Asefa Dukamo Station Washed Archers Lot",
+    "serving_style": "hot",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6ab1457fa8a4013a2abe6c92",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:17:58Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=xnFH5AwbeLzdJX8ds7ys6A%3D%3D",
+    "slug": "xbloom-shared-20de8bc90823b6436e149653",
+    "title": "25g + 185g ice.. TIK",
+    "author": "Sultan",
+    "dose": 25.0,
+    "water_ml": 187.0,
+    "poured_water_ml": 187.0,
+    "ratio": 7.5,
+    "grind_size": 47.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 57.0,
+        "temperature": 85.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 70.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 60.0,
+        "temperature": 85.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 30,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:17:58Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight",
+    "coffee": "Chelchele",
+    "serving_style": "iced",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6ab11d3f57a33b54e7f9658c",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:17:58Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=q7X63wvtHE5YRVfdB2AKpg%3D%3D",
+    "slug": "xbloom-shared-e539941a489af579571b2dce",
+    "title": "Guji Hambela - Al Gahwa Al Arabiya",
+    "author": "The Recipe Drop",
+    "dose": 15.0,
+    "water_ml": 240.0,
+    "poured_water_ml": 240.0,
+    "ratio": 16.0,
+    "grind_size": 54.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 45.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 32,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 75.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 70.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 50.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 0,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:17:58Z",
+    "official": false,
+    "origin": [
+      "Ethiopia"
+    ],
+    "process": [
+      "Natural"
+    ],
+    "flavors": [
+      "Floral Aroma, Stone Fruit, Red Berries, Jasmine, Ripe White Grapes, Well Balanced"
+    ],
+    "roaster": "Al Gahwa Al Arabiya",
+    "coffee": "Guji Hambela",
+    "serving_style": "hot",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6ab09c2cbb2a48d90cdf72f5",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:17:58Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=54jvIUmdeNG0QaWnbRIjHg%3D%3D",
+    "slug": "xbloom-shared-eb07edfa5b070fb3d6d985ea",
+    "title": "chado 🌴",
+    "author": "mmm",
+    "dose": 15.0,
+    "water_ml": 150.0,
+    "poured_water_ml": 150.0,
+    "ratio": 10.0,
+    "grind_size": 40.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 30.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 50.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 13,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 40.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 17,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 30.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:04Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "CHADO",
+    "coffee": "Saffron - زعفران",
+    "serving_style": "hot",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aaef7ac813dbf05b8714d6d",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:04Z"
+      },
+      {
+        "url": "https://therecipedrop.ae/?open=6aaef5d0eef2c6022ee7ad4a",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:04Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=6ZiSnYXbWhpp7pvE2zbRgA%3D%3D",
+    "slug": "xbloom-shared-ed7969557a99899d5f5ef465",
+    "title": "Cold V60 - 200ml 180 ice",
+    "author": "Fahad Alkaabi",
+    "dose": 25.0,
+    "water_ml": 200.0,
+    "poured_water_ml": 200.0,
+    "ratio": 8.0,
+    "grind_size": 60.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 60.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 30,
+        "pattern_code": 3,
+        "vibration_before": 1,
+        "vibration_after": 2
+      },
+      {
+        "volume": 30.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 35.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 35.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 40.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:04Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Bones Coffee Company",
+    "coffee": "Cinnamon Roll",
+    "serving_style": "iced",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aacf902f9624d9eae5eb3e4",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:04Z"
+      },
+      {
+        "url": "https://therecipedrop.ae/?open=6aaa5d90b89a0b1e8bc9ce16",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:33Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=4Zb%2Fidwifi2UFE0PwV1yBQ%3D%3D",
+    "slug": "xbloom-shared-85e332da21f539ed14e0d05e",
+    "title": "Two Blends - Two Blends",
+    "author": "The Recipe Drop",
+    "dose": 15.0,
+    "water_ml": 150.0,
+    "poured_water_ml": 150.0,
+    "ratio": 10.0,
+    "grind_size": 52.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 45.0,
+        "temperature": 92.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 30,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 55.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 50.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 0,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:10Z",
+    "official": false,
+    "origin": [
+      "Unknown"
+    ],
+    "process": [
+      "Unknown"
+    ],
+    "flavors": [
+      "smooth, balanced profile with notes that are comforting, familiar, and easy to enjoy every day"
+    ],
+    "roaster": "Two Blends",
+    "coffee": "Two Blends",
+    "serving_style": "cold",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aac24c8a6b0a94340f52cc9",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:10Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=l020kl2glk%2BwBB%2FmRCiuuA%3D%3D",
+    "slug": "xbloom-shared-b99b431c77312d4ef4e48479",
+    "title": "THE USUAL 🍺",
+    "author": "Neyadi",
+    "dose": 20.0,
+    "water_ml": 160.0,
+    "poured_water_ml": 160.0,
+    "ratio": 8.0,
+    "grind_size": 60.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 90.0,
+        "temperature": 70.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 30.0,
+        "temperature": 70.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 40.0,
+        "temperature": 70.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:10Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "CANTATA",
+    "coffee": "TROPICAL FRUITS",
+    "serving_style": "cold",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aabc4357338122f72491e52",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:10Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=SMW%2FL6ybr%2FctSGYGoBSstw%3D%3D",
+    "slug": "xbloom-shared-554d8c7e973bede286ec5357",
+    "title": "Vimto - OYM",
+    "author": "The Recipe Drop",
+    "dose": 18.0,
+    "water_ml": 144.0,
+    "poured_water_ml": 144.0,
+    "ratio": 8.0,
+    "grind_size": 56.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 45.0,
+        "temperature": 88.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 35,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 25,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 49.0,
+        "temperature": 88.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 20,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:10Z",
+    "official": false,
+    "origin": [
+      "Colombia"
+    ],
+    "process": [
+      "Honey Infusion (عسلي إنفيوجن)"
+    ],
+    "flavors": [
+      "Vimto, Berries, Sweetness"
+    ],
+    "roaster": "OYW",
+    "coffee": "Vimto",
+    "serving_style": "cold",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aabb970f2b5558b76765cde",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:10Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=2vQblaDfVD5wjSDdDDby3g%3D%3D",
+    "slug": "xbloom-shared-e5cf2ca2d17ea9045a20f75f",
+    "title": "Strawberry CheeseCake",
+    "author": "Fs",
+    "dose": 15.0,
+    "water_ml": 225.0,
+    "poured_water_ml": 225.0,
+    "ratio": 15.0,
+    "grind_size": 52.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 44.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 2
+      },
+      {
+        "volume": 57.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 8,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 68.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 8,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 56.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 8,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:16Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Tweny Two Origins",
+    "coffee": "Strawberry Cheesecake ",
+    "serving_style": "hot",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aaaaf6fc8b0399a6356e86a",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:16Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=dj2bauFl6A6z9kAV1VgXgw%3D%3D",
+    "slug": "xbloom-shared-85f3aa91bd6e10fb0e78a862",
+    "title": "TwenyTwo Origins Iced",
+    "author": "Fs",
+    "dose": 15.0,
+    "water_ml": 150.0,
+    "poured_water_ml": 150.0,
+    "ratio": 10.0,
+    "grind_size": 52.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 50.0,
+        "temperature": 84.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 50.0,
+        "temperature": 84.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:21Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Tweny Two Origins",
+    "coffee": "Strawberry Cheesecake",
+    "serving_style": "iced",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aaaaf26df246607772eb38a",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:21Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=i%2FoWj8znq0pLoGlTrCUiOw%3D%3D",
+    "slug": "xbloom-shared-c5d7d080bbf5067155a2257b",
+    "title": "وصفة 18g محاصيل لا هوائية",
+    "author": "Nawaf",
+    "dose": 18.0,
+    "water_ml": 234.0,
+    "poured_water_ml": 234.0,
+    "ratio": 13.0,
+    "grind_size": 70.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 60.0,
+        "temperature": 86.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 95.0,
+        "temperature": 86.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 18,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 79.0,
+        "temperature": 86.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:21Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "وصفات نواف",
+    "coffee": "للمحاصيل اللاهوائية ",
+    "serving_style": "hot",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aaa9c7f3bc6bd7c5ea546ba",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:21Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=GwLtN7t%2F7FvmLXrO9Lx6zQ%3D%3D",
+    "slug": "xbloom-shared-deabe49b65cdc545e4d40af0",
+    "title": "nawaf",
+    "author": "Nawaf",
+    "dose": 17.0,
+    "water_ml": 255.0,
+    "poured_water_ml": 255.0,
+    "ratio": 15.0,
+    "grind_size": 68.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 35.0,
+        "temperature": 89.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 13,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 40.0,
+        "temperature": 89.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 40.0,
+        "temperature": 88.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 40.0,
+        "temperature": 88.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 35.0,
+        "temperature": 88.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 35.0,
+        "temperature": 88.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 30.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:21Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "وصفات نواف",
+    "coffee": "وصفة 17غ ",
+    "serving_style": "hot",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aaa9c5966d30552a1867f8a",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:21Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=NA9GcQql2Fe9bAoTg%2FLrQQ%3D%3D",
+    "slug": "xbloom-shared-d1de787fbb0a236a08f3f07d",
+    "title": "Coffee of The Day",
+    "author": "Nawaf",
+    "dose": 15.0,
+    "water_ml": 225.0,
+    "poured_water_ml": 225.0,
+    "ratio": 15.0,
+    "grind_size": 62.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 45.0,
+        "temperature": 90.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 15,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 60.0,
+        "temperature": 90.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 14,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 60.0,
+        "temperature": 90.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 60.0,
+        "temperature": 90.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:27Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "وصفات نواف",
+    "coffee": "قهوة اليوم",
+    "serving_style": "hot",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aaa9a4a4181fbec131d69b6",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:27Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=xD4gNqcaFbYZ9wDWVTr9Iw%3D%3D",
+    "slug": "xbloom-shared-901b3bf4d5fa3bd954ad34c1",
+    "title": "وصفتي المعتادة",
+    "author": "Nawaf",
+    "dose": 15.0,
+    "water_ml": 247.0,
+    "poured_water_ml": 247.0,
+    "ratio": 16.5,
+    "grind_size": 63.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 60.0,
+        "temperature": 80.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 32,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 85.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 102.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 0,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:27Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "وصفات نواف",
+    "coffee": "وصفة 15غ",
+    "serving_style": "hot",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aaa99fe1c2d25abce50a31f",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:27Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=BMdwYmhQRmp8FXPvgX54mQ%3D%3D",
+    "slug": "xbloom-shared-9e6fb44d3028fc6980626c4f",
+    "title": "شاي",
+    "author": "Nawaf",
+    "dose": 5.0,
+    "water_ml": 180.0,
+    "poured_water_ml": 180.0,
+    "ratio": 15.0,
+    "grind_size": 50.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "TEA",
+    "pours": [
+      {
+        "volume": 90.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 360,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 90.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 360,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:27Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "وصفات نواف",
+    "coffee": "اي شاي",
+    "serving_style": "hot",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aaa9932dc97413e86bf69d2",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:27Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=0J9%2B4gIr3pkdnIPhMOk4Ew%3D%3D",
+    "slug": "xbloom-shared-21ae4a78689b26448b0adfdf",
+    "title": "وصفة نواف 40g بارد",
+    "author": "Nawaf",
+    "dose": 20.0,
+    "water_ml": 300.0,
+    "poured_water_ml": 300.0,
+    "ratio": 15.0,
+    "grind_size": 70.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 80.0,
+        "temperature": 92.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 60.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 60.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 13,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 60.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 13,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 40.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 13,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:33Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "وصفات نواف",
+    "coffee": "اي بن 20 قرام",
+    "serving_style": "cold",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aaa98c80e951c7e36c2df30",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:33Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=6AUHVx4S8jpd0DQ9TJ77LA%3D%3D",
+    "slug": "xbloom-shared-1f8f13b9f308ef7cb3a52e52",
+    "title": "ELLE ICE 200",
+    "author": "KHA",
+    "dose": 20.0,
+    "water_ml": 190.0,
+    "poured_water_ml": 190.0,
+    "ratio": 9.5,
+    "grind_size": 51.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 89.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 25,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 60.0,
+        "temperature": 89.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 45.0,
+        "temperature": 89.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 15,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 45.0,
+        "temperature": 89.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 5,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:33Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Elle De Cafe",
+    "coffee": "Coconut Tobacco",
+    "serving_style": "iced",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aa869ae388e4144e6080453",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:33Z"
+      },
+      {
+        "url": "https://therecipedrop.ae/?open=6aa86804f48d3f285e7ab767",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:38Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=yKRx%2BbxKPn0CS9ZoZefTqw%3D%3D",
+    "slug": "xbloom-shared-67b18e9b3fb5b3863d10d13d",
+    "title": "🍒🍰 Tiramisu Crisis - ice 150g",
+    "author": "CROPÉ",
+    "dose": 20.0,
+    "water_ml": 170.0,
+    "poured_water_ml": 170.0,
+    "ratio": 8.5,
+    "grind_size": 59.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 30,
+        "pattern_code": 1,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 45.0,
+        "temperature": 90.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 40.0,
+        "temperature": 89.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 10,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 45.0,
+        "temperature": 89.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 0,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:38Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "FACTORY",
+    "coffee": "TIRAMISU CRISIS",
+    "serving_style": "iced",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aa813da6960dadd1fa0c414",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:38Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=hdHLlB4ijPWnIHCmMw8zDQ%3D%3D",
+    "slug": "xbloom-shared-72ed4f583c2d29bb7c99ab39",
+    "title": "🍑 Peach Sochu -ice 150g",
+    "author": "CROPÉ",
+    "dose": 20.0,
+    "water_ml": 170.0,
+    "poured_water_ml": 170.0,
+    "ratio": 8.5,
+    "grind_size": 60.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 89.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 30,
+        "pattern_code": 1,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 45.0,
+        "temperature": 89.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 12,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 45.0,
+        "temperature": 88.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 8,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 40.0,
+        "temperature": 88.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 0,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:38Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "monster COFFEE ROASTERS",
+    "coffee": "PEACH SOCHU",
+    "serving_style": "iced",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aa81221aa9baae7d97c8442",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:38Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=fHnTna%2F%2Bu71pG2c1ImuCxQ%3D%3D",
+    "slug": "xbloom-shared-5437e736776719e1f128c48e",
+    "title": "South Roastery Strawberry Hot",
+    "author": "jayson",
+    "dose": 15.0,
+    "water_ml": 225.0,
+    "poured_water_ml": 225.0,
+    "ratio": 15.0,
+    "grind_size": 30.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 45.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 25,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 89.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 91.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 29,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:44Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "South",
+    "coffee": "Strawberry ",
+    "serving_style": "hot",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aa7f5352100946a2adbf96d",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:44Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=lx06RzOK63DGYjTyWYns7w%3D%3D",
+    "slug": "xbloom-shared-7301f36c3f93f691f5a43a74",
+    "title": "Baristro recipe",
+    "author": "Fatema",
+    "dose": 15.0,
+    "water_ml": 135.0,
+    "poured_water_ml": 135.0,
+    "ratio": 9.0,
+    "grind_size": 36.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 20.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 25.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 45.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 45.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:44Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "THE BARISTRO",
+    "coffee": "Strawberry Cheesecake Signature Blend",
+    "serving_style": "cold",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aa7de560494b04a213d767f",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:44Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=MRsgGee3VXVyAAYj8OmemQ%3D%3D",
+    "slug": "xbloom-shared-43381cc781bbb042c0eb04ba",
+    "title": "classic",
+    "author": "Mohammed ",
+    "dose": 20.0,
+    "water_ml": 150.0,
+    "poured_water_ml": 150.0,
+    "ratio": 7.5,
+    "grind_size": 48.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 2
+      },
+      {
+        "volume": 50.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 60.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:44Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Bones Coffee Company",
+    "coffee": "Cinnamon Roll",
+    "serving_style": "cold",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aa7d7b860e1f04bca29eed1",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:44Z"
+      },
+      {
+        "url": "https://therecipedrop.ae/?open=6aa7d71d54ae8da1b24d75a2",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:49Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=gAGUODpZmNUOeuLOhXvdVg%3D%3D",
+    "slug": "xbloom-shared-ec1e44ce86bb3af4ed9c0f6c",
+    "title": "120 ice🍮",
+    "author": "Yaz",
+    "dose": 20.0,
+    "water_ml": 200.0,
+    "poured_water_ml": 200.0,
+    "ratio": 10.0,
+    "grind_size": 55.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 40,
+        "pattern_code": 1,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 70.0,
+        "temperature": 93.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 93.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:49Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "The Morning Minister",
+    "coffee": "Creme Brulee Martini",
+    "serving_style": "iced",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aa7cc26177e30f98e6ac2b2",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:49Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=%2FagkrCENSBW%2FLE5BWBRvGA%3D%3D",
+    "slug": "xbloom-shared-d22862b4d1487ac014b224ef",
+    "title": "Hasil coconut-ice95",
+    "author": "El3azy22",
+    "dose": 18.0,
+    "water_ml": 180.0,
+    "poured_water_ml": 180.0,
+    "ratio": 10.0,
+    "grind_size": 40.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 45.0,
+        "temperature": 92.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 25,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 91.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 60.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 0,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:49Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Hasil Roastery",
+    "coffee": "Coconut",
+    "serving_style": "cold",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aa71f8886fbbbe6002cae86",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:49Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=%2FLpgdmjFpU6Y%2BZLFrjH%2B3w%3D%3D",
+    "slug": "xbloom-shared-80515a77aae18f4b698a30db",
+    "title": "Hasil lavender -ice 110",
+    "author": "El3azy22",
+    "dose": 20.0,
+    "water_ml": 190.0,
+    "poured_water_ml": 190.0,
+    "ratio": 9.5,
+    "grind_size": 50.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 92.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 30,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 91.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 70.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 0,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:54Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Hasil Roastery",
+    "coffee": "Lavender",
+    "serving_style": "iced",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aa71ecdda8fbe276b6237e3",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:54Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=ZzkwjsXUBFAgr3HJSBY%2BBQ%3D%3D",
+    "slug": "xbloom-shared-7a0f515f3c7434f064b41e48",
+    "title": "Huila - Unknown",
+    "author": "The Recipe Drop",
+    "dose": 20.0,
+    "water_ml": 160.0,
+    "poured_water_ml": 160.0,
+    "ratio": 8.0,
+    "grind_size": 52.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 91.0,
+        "flow_rate": 3.3,
+        "pause_seconds": 35,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 60.0,
+        "temperature": 90.0,
+        "flow_rate": 3.3,
+        "pause_seconds": 15,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 50.0,
+        "temperature": 89.0,
+        "flow_rate": 3.3,
+        "pause_seconds": 10,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:54Z",
+    "official": false,
+    "origin": [
+      "Huila"
+    ],
+    "process": [
+      "Washed"
+    ],
+    "flavors": [
+      "Chocolate, Caramel, Brown Sugar, Citrus"
+    ],
+    "roaster": "جيشا",
+    "coffee": "Huila",
+    "serving_style": "cold",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aa4d68a7988fcc2e66362ea",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:54Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=6DfOPaDaPnHuLG%2Fxbz2vCw%3D%3D",
+    "slug": "xbloom-shared-6087e43721fef44a9fbd0a09",
+    "title": "Iced any beans - MIX",
+    "author": "The Recipe Drop",
+    "dose": 15.0,
+    "water_ml": 165.0,
+    "poured_water_ml": 165.0,
+    "ratio": 11.0,
+    "grind_size": 40.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 90.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 2
+      },
+      {
+        "volume": 30.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 30.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 30.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 35.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 0,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:54Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "MIX",
+    "coffee": "Iced any beans",
+    "serving_style": "iced",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6aa15d65edb3a377564b82c9",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:54Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=IxTPLdCjWr2GKT%2Biu1y8DQ%3D%3D",
+    "slug": "xbloom-shared-c5e7de0aafb0f48bbfa0b7c2",
+    "title": "HOT Tetsu Kasuya “ sweety “",
+    "author": "The Recipe Drop",
+    "dose": 20.0,
+    "water_ml": 300.0,
+    "poured_water_ml": 300.0,
+    "ratio": 15.0,
+    "grind_size": 50.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 30.0,
+        "temperature": 92.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 1,
+        "vibration_after": 2
+      },
+      {
+        "volume": 90.0,
+        "temperature": 92.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 60.0,
+        "temperature": 92.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 60.0,
+        "temperature": 92.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 60.0,
+        "temperature": 92.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 5,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:59Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Any Roaster",
+    "coffee": "Natural / Anaerobic (Any Medium Roast)",
+    "serving_style": "hot",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6a9c7320cdf9158c891a4899",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:59Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=DjDIlk7yOdyBYVnW0I84Sg%3D%3D",
+    "slug": "xbloom-shared-27b15b9cf2b58f631ae2572e",
+    "title": "ICED VANILLA BLEND 75g 🧊",
+    "author": "The Recipe Drop",
+    "dose": 15.0,
+    "water_ml": 165.0,
+    "poured_water_ml": 165.0,
+    "ratio": 11.0,
+    "grind_size": 62.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 45.0,
+        "temperature": 92.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 40,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 50.0,
+        "temperature": 92.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 25,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 40.0,
+        "temperature": 92.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 15,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 30.0,
+        "temperature": 92.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 0,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:18:59Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "The Baristro",
+    "coffee": "Vanilla Blend",
+    "serving_style": "iced",
+    "official_roaster": false,
+    "provenance": [
+      {
+        "url": "https://therecipedrop.ae/?open=6a9c6286c6ac1f02b1ddeea6",
+        "name": "The Recipe Drop",
+        "type": "user_submitted",
+        "confidence": "community_submitted",
+        "checked_at": "2026-10-07T05:18:59Z"
+      }
+    ]
+  }
+]

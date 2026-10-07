@@ -29,9 +29,8 @@ import {
   type Method,
 } from './src/core/engine';
 import { copy, caveats, reasons, type Locale } from './src/copy';
-import { searchText } from './src/guards';
-import { matchesDeepSearch } from './src/core/deepSearch';
-import { coffeeSearchDocument } from './src/searchIndex';
+import { matchesIndexedSearch } from './src/core/deepSearch';
+import { indexedCoffeeSearchDocument } from './src/searchIndex';
 import { SearchScreen } from './src/SearchScreen';
 import { flavorLabel, hasCompletePersonality } from './src/sensory';
 import type { EquipmentItem, RoasterItem } from './src/catalog';
@@ -131,6 +130,7 @@ function Shell() {
     void AsyncStorage.setItem('beanmora-language', v).catch(() => {});
   }
   const [session, setSession] = useState<Session | null>(null);
+  const [passwordRecovery, setPasswordRecovery] = useState(false);
   const userId = session && !session.user.is_anonymous ? session.user.id : null;
   const [tab, setTab] = useState<Tab>('home');
   const [method, setMethod] = useState<Method>();
@@ -156,9 +156,10 @@ function Shell() {
     record: boolean;
   } | null>(null);
   const [visibleCount, setVisibleCount] = useState(30);
-  const [saved, setSaved] = useState<{ owner: string; ids: string[] } | null>(
-    null,
-  );
+  const [saved, setSaved] = useState<{
+    owner: string;
+    ids: string[];
+  } | null>(null);
   const savePending = useRef(new Set<string>());
   const identity = useRef(userId);
   identity.current = userId;
@@ -171,9 +172,31 @@ function Shell() {
   });
   useEffect(() => {
     if (!supabase) return;
+    const showRecovery = () => {
+      loginReturn.current = null;
+      setPasswordRecovery(true);
+      setDetail(null);
+      setParents([]);
+      setRecording(false);
+      setTab('account');
+    };
+    const handleCallback = async (url: string) => {
+      const result = await finishOAuth(url);
+      if (result === 'recovery') showRecovery();
+      if (result && Platform.OS === 'web') {
+        const clean = new URL(window.location.href);
+        clean.searchParams.delete('code');
+        window.history.replaceState(window.history.state, '', clean.toString());
+      }
+    };
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, value) => setSession(value));
+    } = supabase.auth.onAuthStateChange((event, value) => {
+      setSession(value);
+      if (event === 'PASSWORD_RECOVERY') {
+        showRecovery();
+      } else if (event === 'SIGNED_OUT') setPasswordRecovery(false);
+    });
     const apply = (state: string) => {
       if (state === 'active') supabase?.auth.startAutoRefresh();
       else supabase?.auth.stopAutoRefresh();
@@ -181,10 +204,10 @@ function Shell() {
     apply(AppState.currentState);
     const listener = AppState.addEventListener('change', apply);
     const callback = Linking.addEventListener('url', (event) => {
-      void finishOAuth(event.url).catch(() => setMessage(t.authError));
+      void handleCallback(event.url).catch(() => setMessage(t.authError));
     });
     void Linking.getInitialURL()
-      .then((url) => (url ? finishOAuth(url) : undefined))
+      .then((url) => (url ? handleCallback(url) : undefined))
       .catch(() => setMessage(t.authError));
     return () => {
       subscription.unsubscribe();
@@ -236,40 +259,42 @@ function Shell() {
     return () => listener.remove();
   }, [recording, detail, parents, tab, recipeCoffee]);
   useEffect(() => setVisibleCount(30), [tab, method, search, personalityOnly]);
-  const filter = searchText(search);
-  const matchesMethod = (c: CoffeeItem) =>
-    !method ||
-    c.methods.includes(method) ||
-    !!data?.recipes.some(
-      (r) =>
-        r.method === method &&
-        (r.productId === c.id || r.beanId === (c.beanId ?? c.id)),
+  // Navigation must not rebuild the search index or scan recipes per coffee.
+  const coffees = useMemo(() => {
+    const linkedBeans = new Set<string>();
+    const linkedProducts = new Set<string>();
+    if (method)
+      for (const recipe of data?.recipes ?? []) {
+        if (recipe.method !== method) continue;
+        if (recipe.beanId) linkedBeans.add(recipe.beanId);
+        if (recipe.productId) linkedProducts.add(recipe.productId);
+      }
+    const query = search.trim();
+    return (data?.coffees ?? []).filter(
+      (coffee) =>
+        coffee.reviewed &&
+        coffee.published &&
+        (!method ||
+          coffee.methods.includes(method) ||
+          linkedProducts.has(coffee.id) ||
+          linkedBeans.has(coffee.beanId ?? coffee.id)) &&
+        (!query ||
+          matchesIndexedSearch(indexedCoffeeSearchDocument(coffee), query)),
     );
-  const coffees =
-    data?.coffees.filter(
-      (c) =>
-        c.reviewed &&
-        c.published &&
-        matchesMethod(c) &&
-        matchesDeepSearch(coffeeSearchDocument(c), search),
-    ) ?? [];
-  const recipes =
-    data?.recipes.filter(
-      (r) =>
-        r.public &&
-        (!method || r.method === method) &&
-        searchText([r.title, ...r.flavors].join(' ')).includes(filter),
-    ) ?? [];
+  }, [data?.coffees, data?.recipes, method, search]);
   const rankedCoffee = useMemo(
     () =>
-      data
+      data && tab === 'forYou'
         ? recommendCoffees(data.coffees, data.profile, Date.now(), method)
         : [],
-    [data, method],
+    [data?.coffees, data?.profile, method, tab === 'forYou'],
   );
   const rankedRecipes = useMemo(
-    () => (data ? recommendRecipes(data.recipes, data.profile, method) : []),
-    [data, method],
+    () =>
+      data && tab === 'forYou'
+        ? recommendRecipes(data.recipes, data.profile, method)
+        : [],
+    [data?.recipes, data?.profile, method, tab === 'forYou'],
   );
   const refresh = () => setRevision((n) => n + 1);
   const openDetail = (next: Detail) => {
@@ -452,7 +477,11 @@ function Shell() {
     { tab: 'home', icon: 'home', label: ar ? 'الرئيسية' : 'Home' },
     { tab: 'beans', icon: 'search', label: ar ? 'اكتشف' : 'Discover' },
     { tab: 'brewFlow', icon: 'plus', label: ar ? 'تحضير' : 'Brew' },
-    { tab: 'community', icon: 'globe', label: ar ? 'المجتمع' : 'Community' },
+    {
+      tab: 'community',
+      icon: 'globe',
+      label: ar ? 'المجتمع' : 'Community',
+    },
     { tab: 'account', icon: 'user', label: t.account },
   ];
   const columns = width >= 850 ? 4 : width >= 600 ? 3 : 2;
@@ -461,6 +490,134 @@ function Shell() {
     (c) =>
       (tab !== 'favorites' || savedIds.includes(c.beanId ?? c.id)) &&
       (!personalityOnly || hasCompletePersonality(c.flavors, c.sensory)),
+  );
+  const homeActive = tab === 'home' && !detail && !recording;
+  const screenIntro = (
+    <>
+      {!login && !detail && configured ? (
+        <View testID="library-navigation" style={s.libraryNav}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={{ flexGrow: 0, width: '100%' }}
+            contentContainerStyle={[
+              s.libraryNavContent,
+              { minWidth: Math.min(width, 1120) - 36 },
+            ]}
+          >
+            {[
+              {
+                id: 'recipes' as const,
+                label: ar ? 'مكتبة الوصفات' : 'Recipe library',
+                icon: 'espresso' as const,
+              },
+              {
+                id: 'savedRecipes' as const,
+                label: ar ? 'وصفاتي المحفوظة' : 'Saved recipes',
+                icon: 'heart' as const,
+              },
+              {
+                id: 'beans' as const,
+                label: ar ? 'البن والإيحاءات' : 'Coffee & taste',
+                icon: 'bean' as const,
+              },
+              {
+                id: 'xbloom' as const,
+                label: 'xBloom',
+                icon: 'xbloom' as const,
+              },
+              {
+                id: 'roasters' as const,
+                label: ar ? 'المحامص' : 'Roasteries',
+                icon: 'bean' as const,
+              },
+              {
+                id: 'equipment' as const,
+                label: ar ? 'أدوات القهوة' : 'Equipment',
+                icon: 'gear' as const,
+              },
+              {
+                id: 'roastLab' as const,
+                label: ar ? 'مختبر التحميص' : 'Roast Lab',
+                icon: 'temp' as const,
+              },
+            ].map((item) => (
+              <Pressable
+                key={item.id}
+                accessibilityRole="button"
+                accessibilityLabel={item.label}
+                accessibilityState={{ selected: tab === item.id }}
+                onPress={() => {
+                  if (item.id === 'equipment') setEquipmentCategory('all');
+                  if (item.id === 'roastLab') {
+                    setRoastId(null);
+                    setRoastSection('own');
+                  }
+                  if (item.id === 'recipes' || item.id === 'beans')
+                    setMethod(undefined);
+                  navigate(item.id);
+                }}
+                style={[
+                  s.libraryButton,
+                  tab === item.id && { backgroundColor: colors.brown },
+                ]}
+              >
+                <Icon
+                  name={item.icon}
+                  size={18}
+                  color={tab === item.id ? '#FFF' : colors.brown}
+                />
+                <Txt
+                  style={{
+                    fontSize: 13,
+                    fontWeight: '700',
+                    color: tab === item.id ? '#FFF' : colors.brown,
+                  }}
+                >
+                  {item.label}
+                </Txt>
+              </Pressable>
+            ))}
+          </ScrollView>
+        </View>
+      ) : null}
+      {configured && !login && (data?.stale || (!data && !refreshing)) ? (
+        <View
+          testID="catalog-connection-status"
+          style={{
+            paddingHorizontal: 18,
+            paddingVertical: 8,
+            maxWidth: 1120,
+            width: '100%',
+            alignSelf: 'center',
+            backgroundColor: '#F3E7D5',
+            gap: 5,
+          }}
+        >
+          <Txt style={{ fontSize: 12, lineHeight: 19 }}>
+            {data?.savedAt
+              ? (ar ? 'آخر بيانات متاحة: ' : 'Last available data: ') +
+                new Date(data.savedAt).toLocaleString(locale + '-u-nu-latn')
+              : t.partial}
+            {data?.savedAt
+              ? refreshing
+                ? ar
+                  ? ' · جارٍ التحديث'
+                  : ' · Updating'
+                : ar
+                  ? ' · تعذّر تحديث بعض البيانات'
+                  : ' · Some data could not update'
+              : ''}
+          </Txt>
+          {!refreshing ? (
+            <Action
+              title={ar ? 'إعادة الاتصال' : 'Reconnect'}
+              onPress={refresh}
+            />
+          ) : null}
+        </View>
+      ) : null}
+    </>
   );
   if (!fontsLoaded && !fontError)
     return (
@@ -481,7 +638,10 @@ function Shell() {
       >
         <StatusBar barStyle={login ? 'light-content' : 'dark-content'} />
         {!login ? (
-          <View style={[s.header, width < 360 && { paddingHorizontal: 10 }]}>
+          <View
+            testID="app-header"
+            style={[s.header, width < 360 && { paddingHorizontal: 10 }]}
+          >
             {detail ? (
               <>
                 <IconButton name="back" label={t.back} onPress={back} />
@@ -510,16 +670,16 @@ function Shell() {
             ) : (
               <>
                 <LanguageSwitcher change={changeLanguage} />
-                <Brand compact={width < 400} />
-                <View
-                  style={[s.headerActions, { width: width < 500 ? 80 : 150 }]}
-                >
+                <View style={s.headerBrand}>
+                  <Brand compact={width < 600} />
+                </View>
+                <View style={s.headerActions}>
                   <IconButton
                     name="search"
                     label={ar ? 'البحث' : 'Search'}
                     onPress={() => navigate('search')}
                   />
-                  {width >= 400 ? (
+                  {width >= 600 ? (
                     <IconButton
                       name="bell"
                       label={ar ? 'التنبيهات' : 'Notifications'}
@@ -536,129 +696,7 @@ function Shell() {
             )}
           </View>
         ) : null}
-        {!login && !detail && configured ? (
-          <View style={s.libraryNav}>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={{ flexGrow: 0, width: '100%' }}
-              contentContainerStyle={[
-                s.libraryNavContent,
-                { minWidth: Math.min(width, 1120) - 36 },
-              ]}
-            >
-              {[
-                {
-                  id: 'recipes' as const,
-                  label: ar ? 'مكتبة الوصفات' : 'Recipe library',
-                  icon: 'espresso' as const,
-                },
-                {
-                  id: 'savedRecipes' as const,
-                  label: ar ? 'وصفاتي المحفوظة' : 'Saved recipes',
-                  icon: 'heart' as const,
-                },
-                {
-                  id: 'beans' as const,
-                  label: ar ? 'البن والإيحاءات' : 'Coffee & taste',
-                  icon: 'bean' as const,
-                },
-                {
-                  id: 'xbloom' as const,
-                  label: 'xBloom',
-                  icon: 'xbloom' as const,
-                },
-                {
-                  id: 'roasters' as const,
-                  label: ar ? 'المحامص' : 'Roasteries',
-                  icon: 'bean' as const,
-                },
-                {
-                  id: 'equipment' as const,
-                  label: ar ? 'أدوات القهوة' : 'Equipment',
-                  icon: 'gear' as const,
-                },
-                {
-                  id: 'roastLab' as const,
-                  label: ar ? 'مختبر التحميص' : 'Roast Lab',
-                  icon: 'temp' as const,
-                },
-              ].map((item) => (
-                <Pressable
-                  key={item.id}
-                  accessibilityRole="button"
-                  accessibilityLabel={item.label}
-                  accessibilityState={{ selected: tab === item.id }}
-                  onPress={() => {
-                    if (item.id === 'equipment') setEquipmentCategory('all');
-                    if (item.id === 'roastLab') {
-                      setRoastId(null);
-                      setRoastSection('own');
-                    }
-                    if (item.id === 'recipes' || item.id === 'beans')
-                      setMethod(undefined);
-                    navigate(item.id);
-                  }}
-                  style={[
-                    s.libraryButton,
-                    tab === item.id && { backgroundColor: colors.brown },
-                  ]}
-                >
-                  <Icon
-                    name={item.icon}
-                    size={18}
-                    color={tab === item.id ? '#FFF' : colors.brown}
-                  />
-                  <Txt
-                    style={{
-                      fontSize: 13,
-                      fontWeight: '700',
-                      color: tab === item.id ? '#FFF' : colors.brown,
-                    }}
-                  >
-                    {item.label}
-                  </Txt>
-                </Pressable>
-              ))}
-            </ScrollView>
-          </View>
-        ) : null}
-        {configured && !login && (data?.stale || (!data && !refreshing)) ? (
-          <View
-            testID="catalog-connection-status"
-            style={{
-              paddingHorizontal: 18,
-              paddingVertical: 8,
-              maxWidth: 1120,
-              width: '100%',
-              alignSelf: 'center',
-              backgroundColor: '#F3E7D5',
-              gap: 5,
-            }}
-          >
-            <Txt style={{ fontSize: 12, lineHeight: 19 }}>
-              {data?.savedAt
-                ? (ar ? 'آخر بيانات متاحة: ' : 'Last available data: ') +
-                  new Date(data.savedAt).toLocaleString(locale + '-u-nu-latn')
-                : t.partial}
-              {data?.savedAt
-                ? refreshing
-                  ? ar
-                    ? ' · جارٍ التحديث'
-                    : ' · Updating'
-                  : ar
-                    ? ' · تعذّر تحديث بعض البيانات'
-                    : ' · Some data could not update'
-                : ''}
-            </Txt>
-            {!refreshing ? (
-              <Action
-                title={ar ? 'إعادة الاتصال' : 'Reconnect'}
-                onPress={refresh}
-              />
-            ) : null}
-          </View>
-        ) : null}
+        {!homeActive ? screenIntro : null}
         <ScreenTransition
           key={
             recording ? 'record' : detail ? detail.type + detail.item.id : tab
@@ -882,10 +920,35 @@ function Shell() {
                 <AccountScreen
                   key={userId ?? 'public'}
                   session={userId ? session : null}
+                  recovery={passwordRecovery}
+                  onRecovered={() => {
+                    setPasswordRecovery(false);
+                    setMessage(
+                      ar ? 'تم تحديث كلمة المرور.' : 'Password updated.',
+                    );
+                  }}
                   back={back}
+                  onDeleted={(localCleanupFailed) => {
+                    loginReturn.current = null;
+                    setSession(null);
+                    setSaved(null);
+                    setNotifications(null);
+                    setRevision((value) => value + 1);
+                    navigate('home');
+                    setMessage(
+                      localCleanupFailed
+                        ? ar
+                          ? 'حُذف الحساب. تعذّر مسح بعض البيانات من الجهاز؛ امسح بيانات التطبيق من إعدادات الجهاز.'
+                          : 'Account deleted. Some device data could not be cleared; clear app data in your device settings.'
+                        : ar
+                          ? 'تم حذف حسابك وبياناته.'
+                          : 'Your account and its data were deleted.',
+                    );
+                  }}
                 />
               ) : tab === 'home' ? (
                 <Home
+                  intro={screenIntro}
                   data={data}
                   coffees={coffees}
                   method={method}
@@ -1095,7 +1158,7 @@ function Shell() {
           </ScreenBoundary>
         </ScreenTransition>
         {!detail && !login && configured ? (
-          <View style={s.nav}>
+          <View testID="bottom-navigation" style={s.nav}>
             <View style={s.navInner}>
               {nav.map((item) => (
                 <Pressable
@@ -1114,7 +1177,7 @@ function Shell() {
                   />
                   <Txt
                     style={{
-                      fontSize: 11,
+                      fontSize: 13,
                       lineHeight: 20,
                       fontWeight: tab === item.tab ? '700' : '400',
                       color: tab === item.tab ? colors.brown : colors.muted,
@@ -1192,7 +1255,9 @@ const s = StyleSheet.create({
     width: '100%',
     maxWidth: 1120,
     alignSelf: 'center',
-    minHeight: 92,
+    height: 68,
+    flexGrow: 0,
+    flexShrink: 0,
     paddingHorizontal: 18,
     paddingVertical: 8,
     flexDirection: 'row',
@@ -1204,6 +1269,8 @@ const s = StyleSheet.create({
     maxWidth: 1120,
     alignSelf: 'center',
     height: 62,
+    flexGrow: 0,
+    flexShrink: 0,
     paddingHorizontal: 18,
     paddingBottom: 10,
   },
@@ -1226,21 +1293,24 @@ const s = StyleSheet.create({
   },
   headerActions: {
     flexDirection: 'row',
+    flexShrink: 0,
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
+  headerBrand: { flex: 1, minWidth: 0, alignItems: 'center' },
   catalogTabs: { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
   nav: {
+    flexShrink: 0,
     borderTopWidth: 1,
     borderColor: colors.line,
     backgroundColor: colors.paper,
   },
   navInner: {
     width: '100%',
-    maxWidth: 1120,
+    maxWidth: 780,
     alignSelf: 'center',
     flexDirection: 'row',
-    paddingVertical: 10,
+    paddingVertical: 8,
     paddingHorizontal: 14,
   },
   navItem: {

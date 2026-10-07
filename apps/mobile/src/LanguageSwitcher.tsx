@@ -8,8 +8,8 @@ import { useReducedMotion } from './Motion';
 export function LanguageSwitcher({ change }: { change: (v: Locale) => void }) {
   const locale = useContext(Language);
   const reduced = useReducedMotion();
-  const [segmentWidth, setSegmentWidth] = useState(44);
-  const position = useRef(new Animated.Value(locale === 'ar' ? 0 : 44)).current;
+  const [segmentWidth, setSegmentWidth] = useState(48);
+  const position = useRef(new Animated.Value(locale === 'ar' ? 0 : 48)).current;
   useEffect(() => {
     const target = locale === 'ar' ? 0 : segmentWidth;
     if (reduced) {
@@ -69,8 +69,14 @@ export function LanguageSwitcher({ change }: { change: (v: Locale) => void }) {
 }
 const s = StyleSheet.create({
   pill: {
+    // Explicit bounds keep the control independent of window size and
+    // prevent header expansion during native layout remeasurement.
+    width: 104,
+    height: 52,
     flexDirection: 'row',
     direction: 'ltr',
+    alignSelf: 'center',
+    flexGrow: 0,
     flexShrink: 0,
     padding: 3,
     borderRadius: 999,
@@ -80,8 +86,9 @@ const s = StyleSheet.create({
     boxShadow: '0 2px 6px rgba(68, 39, 19, 0.08)',
   },
   option: {
-    minWidth: 44,
-    flex: 1,
+    width: 48,
+    flexGrow: 0,
+    flexShrink: 0,
     minHeight: 44,
     paddingHorizontal: 7,
     alignItems: 'center',

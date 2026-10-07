@@ -29,24 +29,14 @@ jobs:
           node-version: '22'
       - run: npm install --global npm@11.19.1 --ignore-scripts
       - run: npm ci
-      - name: Dependency audit (runtime report)
-        run: npm audit --omit=dev --audit-level=high || true
-      - name: Explain Expo transitive audit advisories
-        run: echo "Expo CLI currently pulls node-forge through tooling; do not force-downgrade Expo to satisfy npm audit."
+      - name: Enforce dependency audit with expiring tooling exceptions
+        run: node scripts/audit-dependencies.mjs
       - name: Patched Xcode tooling compatibility
         run: node scripts/check-tooling.cjs
       - run: npm run typecheck
       - run: npm test
       - name: Expo dependency compatibility
-        run: |
-          EXPECTED=$(npx expo install --check 2>&1) || {
-            echo "$EXPECTED"
-            if echo "$EXPECTED" | grep -q "expo@57.0.24 - expected version: ~57.0.26"; then
-              echo "Expo patch drift only; EAS SDK remains 57. Continue validation until lockfile is refreshed."
-            else
-              exit 1
-            fi
-          }
+        run: npx expo install --check
       - run: npx expo-doctor@1.20.4
       - name: Bundle iOS, Android and web
         run: npm run export

@@ -37,7 +37,11 @@ export function EquipmentCompare({
       ),
     }))
     .filter((row) => !differences || new Set(row.values).size > 1);
-  const col = Math.max(158, Math.min(260, (width - 130) / items.length));
+  const compact = width < 600;
+  const col = compact
+    ? (width - 38) / Math.max(1, items.length)
+    : Math.max(158, Math.min(260, (width - 130) / Math.max(1, items.length)));
+  const labelWidth = compact ? '100%' : 118;
   return (
     <ScrollView
       testID="equipment-comparison"
@@ -49,7 +53,7 @@ export function EquipmentCompare({
         alignSelf: 'center',
       }}
     >
-      <Txt heading style={styles.title}>
+      <Txt heading style={[styles.title, compact && { fontSize: 22 }]}>
         {ar ? 'مقارنة الأجهزة والأدوات' : 'Equipment comparison'}
       </Txt>
       <Txt style={styles.muted}>
@@ -65,11 +69,13 @@ export function EquipmentCompare({
         }}
       >
         <Action
+          compact={compact}
           title={ar ? 'كل المواصفات' : 'All specifications'}
           selected={!differences}
           onPress={() => setDifferences(false)}
         />
         <Action
+          compact={compact}
           title={ar ? 'الفروق فقط' : 'Differences only'}
           selected={differences}
           onPress={() => setDifferences(true)}
@@ -85,9 +91,11 @@ export function EquipmentCompare({
       <ScrollView
         ref={tableScroll}
         horizontal
-        showsHorizontalScrollIndicator
+        scrollEnabled={!compact}
+        showsHorizontalScrollIndicator={!compact}
         onContentSizeChange={() => {
-          if (ar) tableScroll.current?.scrollToEnd({ animated: false });
+          if (ar && !compact)
+            tableScroll.current?.scrollToEnd({ animated: false });
         }}
         contentContainerStyle={{ flexDirection: ar ? 'row-reverse' : 'row' }}
       >
@@ -97,16 +105,23 @@ export function EquipmentCompare({
             borderColor: colors.line,
             borderRadius: 16,
             overflow: 'hidden',
-            width: 118 + col * items.length,
+            width: (compact ? 2 : 118) + col * items.length,
           }}
         >
           <View
             style={{
               flexDirection: ar ? 'row-reverse' : 'row',
+              flexWrap: compact ? 'wrap' : 'nowrap',
               backgroundColor: colors.paper,
             }}
           >
-            <View style={{ width: 118, padding: 10, justifyContent: 'center' }}>
+            <View
+              style={{
+                width: labelWidth,
+                padding: 10,
+                justifyContent: 'center',
+              }}
+            >
               <Txt style={{ fontSize: 12, fontWeight: '700' }}>
                 {ar ? 'الموديل' : 'Model'}
               </Txt>
@@ -124,17 +139,32 @@ export function EquipmentCompare({
               >
                 <CatalogPhoto
                   uri={item.imageUrl}
-                  height={92}
+                  height={compact ? 70 : 92}
                   icon={item.category === 'xbloom' ? 'xbloom' : 'gear'}
                 />
-                <Txt heading style={{ fontSize: 15, fontWeight: '700' }}>
+                <Txt
+                  heading
+                  style={{
+                    fontSize: compact ? 13 : 15,
+                    lineHeight: compact ? 19 : 23,
+                    fontWeight: '700',
+                  }}
+                >
                   {item.name}
                 </Txt>
                 <Txt style={{ fontSize: 11, color: colors.muted }}>
                   {categoryLabel(equipmentKind(item), locale)}
                 </Txt>
                 <Action
-                  title={(ar ? 'إزالة: ' : 'Remove: ') + item.name}
+                  compact={compact}
+                  accessibilityLabel={(ar ? 'إزالة: ' : 'Remove: ') + item.name}
+                  title={
+                    compact
+                      ? ar
+                        ? 'إزالة'
+                        : 'Remove'
+                      : (ar ? 'إزالة: ' : 'Remove: ') + item.name
+                  }
                   onPress={() => remove(item.id)}
                 />
               </View>
@@ -145,13 +175,18 @@ export function EquipmentCompare({
               key={row.key}
               style={{
                 flexDirection: ar ? 'row-reverse' : 'row',
+                flexWrap: compact ? 'wrap' : 'nowrap',
                 backgroundColor: index % 2 ? '#F5EEE5' : colors.paper,
                 borderTopWidth: 1,
                 borderColor: colors.line,
               }}
             >
               <View
-                style={{ width: 118, padding: 10, justifyContent: 'center' }}
+                style={{
+                  width: labelWidth,
+                  padding: 10,
+                  justifyContent: 'center',
+                }}
               >
                 <Txt style={{ fontSize: 12, fontWeight: '700' }}>
                   {row.label}
@@ -187,12 +222,13 @@ export function EquipmentCompare({
           <View
             style={{
               flexDirection: ar ? 'row-reverse' : 'row',
+              flexWrap: compact ? 'wrap' : 'nowrap',
               borderTopWidth: 1,
               borderColor: colors.line,
               backgroundColor: colors.paper,
             }}
           >
-            <View style={{ width: 118, padding: 10 }}>
+            <View style={{ width: labelWidth, padding: 10 }}>
               <Txt style={{ fontSize: 12, fontWeight: '700' }}>
                 {ar ? 'المصدر والتفاصيل' : 'Source and details'}
               </Txt>
@@ -210,6 +246,7 @@ export function EquipmentCompare({
               >
                 {item.sourceUrl ? (
                   <SourceLink
+                    compact={compact}
                     title={ar ? 'مصدر الشركة' : 'Manufacturer source'}
                     url={item.sourceUrl}
                   />
@@ -223,7 +260,17 @@ export function EquipmentCompare({
                   </Txt>
                 ) : null}
                 <Action
-                  title={(ar ? 'تفاصيل: ' : 'Details: ') + item.name}
+                  compact={compact}
+                  accessibilityLabel={
+                    (ar ? 'تفاصيل: ' : 'Details: ') + item.name
+                  }
+                  title={
+                    compact
+                      ? ar
+                        ? 'التفاصيل'
+                        : 'Details'
+                      : (ar ? 'تفاصيل: ' : 'Details: ') + item.name
+                  }
                   selected
                   onPress={() => open(item)}
                 />

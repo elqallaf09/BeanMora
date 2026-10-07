@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { safeNextPath } from "@/lib/safe-next-path";
 
 /**
  * Google OAuth (and any other PKCE-flow provider) callback.
@@ -36,11 +37,6 @@ function isSupportedLocale(value: string): value is SupportedLocale {
  * could turn this into an open redirect — falling back to the locale
  * home page instead.
  */
-function sanitizeNextPath(next: string | null, fallback: string): string {
-  if (!next) return fallback;
-  if (!next.startsWith("/") || next.startsWith("//")) return fallback;
-  return next;
-}
 
 export async function GET(
   request: NextRequest,
@@ -51,13 +47,15 @@ export async function GET(
   // reach here via a hand-crafted URL (every real redirectTo we issue
   // hardcodes a valid locale) — fall back to the default locale for the
   // failure redirect rather than 500ing.
-  const locale: SupportedLocale = isSupportedLocale(rawLocale) ? rawLocale : "ar";
+  const locale: SupportedLocale = isSupportedLocale(rawLocale)
+    ? rawLocale
+    : "ar";
 
   const { searchParams, origin } = new URL(request.url);
   // 2. Read the Supabase authorization code.
   const code = searchParams.get("code");
   // 4. Validate `next` as a same-origin relative path.
-  const nextPath = sanitizeNextPath(searchParams.get("next"), `/${locale}/home`);
+  const nextPath = safeNextPath(searchParams.get("next"), `/${locale}/home`);
 
   const failureUrl = new URL(`/${locale}/login`, origin);
   failureUrl.searchParams.set("error", "google_oauth_failed");

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { supabase } from './client';
+import { publicSupabase as supabase } from './client';
 import {
   mapRecipe,
   RECIPE_FIELDS,

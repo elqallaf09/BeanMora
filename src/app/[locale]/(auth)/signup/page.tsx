@@ -9,6 +9,7 @@ import { useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { safeNextPath } from "@/lib/safe-next-path";
 import { isGuestUser } from "@/lib/guest";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -52,7 +53,11 @@ export default function SignupPage() {
     setLoading(true);
     try {
       const supabase = createClient();
-      const emailRedirectTo = `${window.location.origin}/${locale}${searchParams.get("next") ?? "/onboarding"}`;
+      const next = safeNextPath(
+        searchParams.get("next"),
+        `/${locale}/onboarding`,
+      );
+      const emailRedirectTo = `${window.location.origin}/${locale}/api/auth/callback?next=${encodeURIComponent(next)}`;
 
       // A guest (anonymous) session upgrades in place — we link the email
       // and password onto the SAME auth.uid() via updateUser(), never
@@ -71,7 +76,11 @@ export default function SignupPage() {
           {
             email: values.email,
             password: values.password,
-            data: { name: values.name, username: values.username, language: locale },
+            data: {
+              name: values.name,
+              username: values.username,
+              language: locale,
+            },
           },
           { emailRedirectTo },
         );
@@ -87,7 +96,11 @@ export default function SignupPage() {
         // real name/username the guest just chose.
         const { error: profileError } = await supabase
           .from("profiles")
-          .update({ name: values.name, username: values.username, language: locale })
+          .update({
+            name: values.name,
+            username: values.username,
+            language: locale,
+          })
           .eq("id", currentUser!.id);
         if (profileError) {
           setServerError(profileError.message);
@@ -133,7 +146,9 @@ export default function SignupPage() {
           <CardTitle>{t("auth.confirmEmailTitle")}</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-[var(--color-muted-text)]">{t("auth.confirmEmailSent")}</p>
+          <p className="text-sm text-[var(--color-muted-text)]">
+            {t("auth.confirmEmailSent")}
+          </p>
         </CardContent>
       </Card>
     );
@@ -145,40 +160,81 @@ export default function SignupPage() {
         <CardTitle>{t("auth.signupTitle")}</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-4"
+          noValidate
+        >
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="name">{t("auth.nameLabel")}</Label>
             <Input id="name" autoComplete="name" {...register("name")} />
-            {errors.name ? <p className="text-xs text-[var(--color-error)]">{errors.name.message}</p> : null}
+            {errors.name ? (
+              <p className="text-xs text-[var(--color-error)]">
+                {errors.name.message}
+              </p>
+            ) : null}
           </div>
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="username">{t("auth.usernameLabel")}</Label>
-            <Input id="username" autoComplete="username" {...register("username")} />
+            <Input
+              id="username"
+              autoComplete="username"
+              {...register("username")}
+            />
             {errors.username ? (
-              <p className="text-xs text-[var(--color-error)]">{errors.username.message}</p>
+              <p className="text-xs text-[var(--color-error)]">
+                {errors.username.message}
+              </p>
             ) : null}
           </div>
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="email">{t("auth.emailLabel")}</Label>
-            <Input id="email" type="email" autoComplete="email" {...register("email")} />
-            {errors.email ? <p className="text-xs text-[var(--color-error)]">{errors.email.message}</p> : null}
+            <Input
+              id="email"
+              type="email"
+              autoComplete="email"
+              {...register("email")}
+            />
+            {errors.email ? (
+              <p className="text-xs text-[var(--color-error)]">
+                {errors.email.message}
+              </p>
+            ) : null}
           </div>
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="password">{t("auth.passwordLabel")}</Label>
-            <PasswordInput id="password" autoComplete="new-password" {...register("password")} />
+            <PasswordInput
+              id="password"
+              autoComplete="new-password"
+              {...register("password")}
+            />
             {errors.password ? (
-              <p className="text-xs text-[var(--color-error)]">{errors.password.message}</p>
+              <p className="text-xs text-[var(--color-error)]">
+                {errors.password.message}
+              </p>
             ) : null}
           </div>
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="confirmPassword">{t("auth.confirmPasswordLabel")}</Label>
-            <PasswordInput id="confirmPassword" autoComplete="new-password" {...register("confirmPassword")} />
+            <Label htmlFor="confirmPassword">
+              {t("auth.confirmPasswordLabel")}
+            </Label>
+            <PasswordInput
+              id="confirmPassword"
+              autoComplete="new-password"
+              {...register("confirmPassword")}
+            />
             {errors.confirmPassword ? (
-              <p className="text-xs text-[var(--color-error)]">{errors.confirmPassword.message}</p>
+              <p className="text-xs text-[var(--color-error)]">
+                {errors.confirmPassword.message}
+              </p>
             ) : null}
           </div>
 
-          {serverError ? <p role="alert" className="text-sm text-[var(--color-error)]">{serverError}</p> : null}
+          {serverError ? (
+            <p role="alert" className="text-sm text-[var(--color-error)]">
+              {serverError}
+            </p>
+          ) : null}
 
           <Button type="submit" disabled={loading}>
             {loading ? t("common.loading") : t("auth.signupButton")}

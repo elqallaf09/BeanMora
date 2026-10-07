@@ -13,8 +13,8 @@ const server = createServer((req,res) => {
   if(req.method==='OPTIONS'){res.writeHead(204);res.end();return;}
   const path=new URL(req.url,'http://127.0.0.1:54329').pathname;
   if(path==='/health'){res.end('{}');return;}
-  if(path==='/auth/v1/signup' && req.method==='POST') {
-    // Simulates guest auth only. No real user, catalog item or brew is created.
+  if(['/auth/v1/signup','/auth/v1/token'].includes(path) && req.method==='POST') {
+    // Simulates isolated guest/password auth only. No real user, catalog item or brew is created.
     res.end(JSON.stringify({access_token,token_type:'bearer',expires_in:3600,refresh_token:'test-only-refresh',user}));return;
   }
   if(path==='/auth/v1/user' && req.headers.authorization===`Bearer ${access_token}`){res.end(JSON.stringify(user));return;}

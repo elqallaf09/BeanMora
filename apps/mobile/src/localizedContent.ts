@@ -331,6 +331,19 @@ const letters: Record<string, string> = {
   y: 'ي',
   z: 'ز',
 };
+// Compile Unicode name matchers once, rather than hundreds of times per screen.
+const nameMatchers = Object.entries(names)
+  .sort((a, b) => b[0].length - a[0].length)
+  .map(([name, translated]) => ({
+    pattern: new RegExp(
+      '(^|[^\\p{L}\\p{N}])' +
+        name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') +
+        '(?=$|[^\\p{L}\\p{N}])',
+      'giu',
+    ),
+    translated,
+  }));
+
 export function catalogName(
   text: string | null | undefined,
   locale: Locale,
@@ -339,18 +352,8 @@ export function catalogName(
   if (arabicRecipeTitles[text]) return arabicRecipeTitles[text];
   if (names[text]) return names[text];
   let value = text;
-  for (const [name, translated] of Object.entries(names).sort(
-    (a, b) => b[0].length - a[0].length,
-  ))
-    value = value.replace(
-      new RegExp(
-        '(^|[^\\p{L}\\p{N}])' +
-          name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') +
-          '(?=$|[^\\p{L}\\p{N}])',
-        'giu',
-      ),
-      (_, prefix) => prefix + translated,
-    );
+  for (const { pattern, translated } of nameMatchers)
+    value = value.replace(pattern, (_, prefix) => prefix + translated);
   return value.replace(/[A-Za-z][A-Za-zÀ-ž0-9'’.-]*/g, (token) => {
     if (
       /^(xBloom|V60|OREA|PID|USB|RPM|C40|J|K|SL|CMN|AA|AB|EA|MQ|CGLE|AG|PP|RFID|COE|AN|AW|W|F|BoC|M2M|C)$/i.test(

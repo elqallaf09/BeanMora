@@ -1,0 +1,1985 @@
+[
+  {
+    "url": "https://share-h5.xbloom.com/?id=JfNgxjt5uKCquiIRTVgsyQ%3D%3D",
+    "slug": "xbloom-shared-ac1aaa4f27a0223c06fee367",
+    "title": "HOT YAMAN ANS",
+    "author": "Roots Roastery",
+    "dose": 15.0,
+    "water_ml": 225.0,
+    "poured_water_ml": 225.0,
+    "ratio": 15.0,
+    "grind_size": 48.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 89.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 70.0,
+        "temperature": 88.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 14,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 70.0,
+        "temperature": 87.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 14,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 35.0,
+        "temperature": 86.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 2,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:08Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "Yemen – Anas – Anaerobic",
+    "serving_style": "hot",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/yemen-atarah-anaerobic-%d9%86%d8%b3%d8%ae%d8%a9/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:08Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=daUethy5V4chSsN7zYSaUQ%3D%3D",
+    "slug": "xbloom-shared-5b4da9ddb3c797b92a38e676",
+    "title": "ICE COLOMBIA CAUCA 2",
+    "author": "Roots Roastery",
+    "dose": 21.0,
+    "water_ml": 157.0,
+    "poured_water_ml": 157.0,
+    "ratio": 7.5,
+    "grind_size": 60.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 18,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 53.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 54.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:08Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "Colombia Cauca natural",
+    "serving_style": "iced",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/colombia-cauca-natural/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:08Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=69bQNKNswQfcps%2BEvJTqWw%3D%3D",
+    "slug": "xbloom-shared-fdbb60c7f9a734669fe0dea9",
+    "title": "HOT COLOMBIA CAUCA",
+    "author": "Roots Roastery",
+    "dose": 15.0,
+    "water_ml": 225.0,
+    "poured_water_ml": 225.0,
+    "ratio": 15.0,
+    "grind_size": 52.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 88.0,
+        "flow_rate": 3.3,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 75.0,
+        "temperature": 87.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 17,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 70.0,
+        "temperature": 86.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 40.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:08Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "Colombia Cauca natural",
+    "serving_style": "hot",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/colombia-cauca-natural/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:08Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=xXAtPIz98c5dNAf%2BEeu7wg%3D%3D",
+    "slug": "xbloom-shared-11f2612a5311fec13c0e58c6",
+    "title": "HOT ETHIOPIA HAMBELLA 2.0",
+    "author": "Roots Roastery",
+    "dose": 15.0,
+    "water_ml": 225.0,
+    "poured_water_ml": 225.0,
+    "ratio": 15.0,
+    "grind_size": 61.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 45.0,
+        "temperature": 88.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 13,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 70.0,
+        "temperature": 86.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 70.0,
+        "temperature": 87.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 40.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 2,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:18Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "ethiopia hambella",
+    "serving_style": "hot",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/ethiopia-hambella/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:18Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=FFWlVsmMLl9Xwz5az4yjzA%3D%3D",
+    "slug": "xbloom-shared-067ab6dcd9210380e4e94abc",
+    "title": "ICE COCOA CARAMEL 🍫",
+    "author": "Roots Roastery",
+    "dose": 22.0,
+    "water_ml": 154.0,
+    "poured_water_ml": 154.0,
+    "ratio": 7.0,
+    "grind_size": 65.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 50.0,
+        "temperature": 86.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 54.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 0,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:18Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "cocoa caramel blend",
+    "serving_style": "iced",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/cocoa-caramel-blend/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:18Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=LBw77zStWx5SdEKqjLBgxA%3D%3D",
+    "slug": "xbloom-shared-7b8696398644632a8e3bf2bd",
+    "title": "HOT COCOA CARAMEL",
+    "author": "Roots Roastery",
+    "dose": 15.0,
+    "water_ml": 225.0,
+    "poured_water_ml": 225.0,
+    "ratio": 15.0,
+    "grind_size": 60.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 70.0,
+        "temperature": 87.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 87.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 30.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:24Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "cocoa caramel blend",
+    "serving_style": "hot",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/cocoa-caramel-blend/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:24Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=PAcnUwiRzMlBaNF4DsW%2BYw%3D%3D",
+    "slug": "xbloom-shared-df46abd289b0bdbe0834c78c",
+    "title": "ICE EXCELCO",
+    "author": "Roots Roastery",
+    "dose": 22.0,
+    "water_ml": 154.0,
+    "poured_water_ml": 154.0,
+    "ratio": 7.0,
+    "grind_size": 65.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 50.0,
+        "temperature": 86.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 14,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 54.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 4,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:24Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "Colombia excelso",
+    "serving_style": "iced",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/colombia-excelso/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:24Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=wc%2B7xaN8b8CTOyyLwT0SqA%3D%3D",
+    "slug": "xbloom-shared-825e51db0a3d89c894a2deef",
+    "title": "HOT EXCELSO",
+    "author": "Roots Roastery",
+    "dose": 15.0,
+    "water_ml": 225.0,
+    "poured_water_ml": 225.0,
+    "ratio": 15.0,
+    "grind_size": 60.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 70.0,
+        "temperature": 87.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 14,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 70.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 14,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 35.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 3,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:24Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "Colombia excelso",
+    "serving_style": "hot",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/colombia-excelso/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:24Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=yL3bEK8vr0iRrXGWzNpZOA%3D%3D",
+    "slug": "xbloom-shared-fee87040aa41477759a0efff",
+    "title": "ICE BRAZIL DIAMOND",
+    "author": "Roots Roastery",
+    "dose": 22.0,
+    "water_ml": 154.0,
+    "poured_water_ml": 154.0,
+    "ratio": 7.0,
+    "grind_size": 65.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 16,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 50.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 17,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 54.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:31Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "Brazil Diamond",
+    "serving_style": "iced",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/brazil-diamond/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:31Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=wl46YtVl%2BS1cgmt5SlGoGQ%3D%3D",
+    "slug": "xbloom-shared-5146323f7e2cba6d9ac514e7",
+    "title": "HOT BRAZIL DIAMOND 💎",
+    "author": "Roots Roastery",
+    "dose": 15.0,
+    "water_ml": 225.0,
+    "poured_water_ml": 225.0,
+    "ratio": 15.0,
+    "grind_size": 60.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 70.0,
+        "temperature": 87.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 30.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:31Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "Brazil Diamond",
+    "serving_style": "hot",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/brazil-diamond/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:31Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=f857yo7k%2B4xdVbrTAP3Cqw%3D%3D",
+    "slug": "xbloom-shared-bccdb452caa4567ba4ab084e",
+    "title": "ICE WATERMELON 2",
+    "author": "Roots Roastery",
+    "dose": 21.0,
+    "water_ml": 157.0,
+    "poured_water_ml": 157.0,
+    "ratio": 7.5,
+    "grind_size": 75.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 16,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 54.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 8,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 53.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 4,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:32Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "Colombia Watermelon",
+    "serving_style": "iced",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/colombia-watermelon/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:32Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=B0TpNMKfUQ85gIYNk9qmhQ%3D%3D",
+    "slug": "xbloom-shared-3e14a3ac1c4405f386e6d9e6",
+    "title": "Geisha Colombia Ice",
+    "author": "Roots Roastery",
+    "dose": 21.0,
+    "water_ml": 157.0,
+    "poured_water_ml": 157.0,
+    "ratio": 7.5,
+    "grind_size": 62.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 18,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 53.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 8,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 54.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 6,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:37Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "Colombia Giesha",
+    "serving_style": "iced",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/geisha-colombia/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:37Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=VYpu8FuuPVoyBSIOqumNug%3D%3D",
+    "slug": "xbloom-shared-2b8761f3f98f50bd276c96c3",
+    "title": "EHTIOPIA GOTITI SUPER NATURAL",
+    "author": "Roots Roastery",
+    "dose": 22.0,
+    "water_ml": 154.0,
+    "poured_water_ml": 154.0,
+    "ratio": 7.0,
+    "grind_size": 74.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 50.0,
+        "temperature": 87.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 54.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:37Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "ethiopia gotiti super natural",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/ethiopia-gotiti-super-natural-anaerobic/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:37Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=5UqIk7bsrMuH%2BB43oAkgZw%3D%3D",
+    "slug": "xbloom-shared-63c981bfb0373b9c9ae1cfd4",
+    "title": "HOT ETHIOPIA GOTITI SUPER",
+    "author": "Roots Roastery",
+    "dose": 15.0,
+    "water_ml": 225.0,
+    "poured_water_ml": 225.0,
+    "ratio": 15.0,
+    "grind_size": 71.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "XPOD",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 70.0,
+        "temperature": 87.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 8,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 70.0,
+        "temperature": 87.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 35.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:37Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "ethiopia gotiti super natural",
+    "serving_style": "hot",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/ethiopia-gotiti-super-natural-anaerobic/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:37Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=btMul1rbPyEdMWWMKMPVVQ%3D%3D",
+    "slug": "xbloom-shared-0f149fafb9d00db213b544a3",
+    "title": "ICE COSTA RICA",
+    "author": "Roots Roastery",
+    "dose": 22.0,
+    "water_ml": 154.0,
+    "poured_water_ml": 154.0,
+    "ratio": 7.0,
+    "grind_size": 68.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 50.0,
+        "temperature": 87.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 54.0,
+        "temperature": 86.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:43Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "costa rica Rio",
+    "serving_style": "iced",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/yemen-atarah-anaerobic-%d9%86%d8%b3%d8%ae%d8%a9-%d9%86%d8%b3%d8%ae%d8%a9/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:43Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=eNzZA0xL0TEvkjX0uzfEJA%3D%3D",
+    "slug": "xbloom-shared-ac9793bc340f4920c49b4ba1",
+    "title": "HOT COSTA RICA 🇨🇷",
+    "author": "Roots Roastery",
+    "dose": 15.0,
+    "water_ml": 225.0,
+    "poured_water_ml": 225.0,
+    "ratio": 15.0,
+    "grind_size": 65.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 45.0,
+        "temperature": 88.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 14,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 70.0,
+        "temperature": 87.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 13,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 70.0,
+        "temperature": 87.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 11,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 40.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 2,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:43Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "costa rica Rio",
+    "serving_style": "hot",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/yemen-atarah-anaerobic-%d9%86%d8%b3%d8%ae%d8%a9-%d9%86%d8%b3%d8%ae%d8%a9/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:43Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=uKjK%2BRMcf6eVEtOj4twKXQ%3D%3D",
+    "slug": "xbloom-shared-e16387bb8519baf80f2663ee",
+    "title": "ICE YEMEN ATARAH",
+    "author": "Roots Roastery",
+    "dose": 21.0,
+    "water_ml": 157.0,
+    "poured_water_ml": 157.0,
+    "ratio": 7.5,
+    "grind_size": 68.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 16,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 8,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 57.0,
+        "temperature": 87.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 6,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:43Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "yemen atarah anearobic",
+    "serving_style": "iced",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/yemen-atarah/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:43Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=0tv66hj2UZe5DhEp5OOZ5Q%3D%3D",
+    "slug": "xbloom-shared-abf2616d40fe564899cdd284",
+    "title": "HOT YEMEN ATARAH",
+    "author": "Roots Roastery",
+    "dose": 15.0,
+    "water_ml": 225.0,
+    "poured_water_ml": 225.0,
+    "ratio": 15.0,
+    "grind_size": 58.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 35.0,
+        "temperature": 90.0,
+        "flow_rate": 3.1,
+        "pause_seconds": 16,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 75.0,
+        "temperature": 89.0,
+        "flow_rate": 3.0,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 88.0,
+        "flow_rate": 3.1,
+        "pause_seconds": 26,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 40.0,
+        "temperature": 85.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 0,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:49Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "yemen atarah anearobic",
+    "serving_style": "hot",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/yemen-atarah/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:49Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=iB4%2FGQrsZjRuX3vDoDaRNw%3D%3D",
+    "slug": "xbloom-shared-96d2c800c00a12433e29c0b1",
+    "title": "HOT COLOMBIA CHERRY",
+    "author": "Roots Roastery",
+    "dose": 15.0,
+    "water_ml": 225.0,
+    "poured_water_ml": 225.0,
+    "ratio": 15.0,
+    "grind_size": 47.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 30.0,
+        "temperature": 91.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 16,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 20.0,
+        "temperature": 89.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 16,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 95.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:49Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "Colombia cherry",
+    "serving_style": "hot",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/colombia-raspberry-250-gm-%d9%86%d8%b3%d8%ae%d8%a9/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:49Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=7VS0o8vpfExOyHKfj04OOw%3D%3D",
+    "slug": "xbloom-shared-9d73eb81ea2912b7b4212f17",
+    "title": "ICE UGANDA MAMA BETTY👵",
+    "author": "Roots Roastery",
+    "dose": 21.0,
+    "water_ml": 147.0,
+    "poured_water_ml": 147.0,
+    "ratio": 7.0,
+    "grind_size": 60.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 90.0,
+        "flow_rate": 3.3,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 50.0,
+        "temperature": 87.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 47.0,
+        "temperature": 87.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:57Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "uganda mama betty",
+    "serving_style": "iced",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/uganda/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:57Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=Wgq6XXPjuT5e4KCc66VLrw%3D%3D",
+    "slug": "xbloom-shared-9d5aa2e9ee0936ab828bd6e1",
+    "title": "HOT UGANDA MAMA BETTY",
+    "author": "Roots Roastery",
+    "dose": 15.0,
+    "water_ml": 225.0,
+    "poured_water_ml": 225.0,
+    "ratio": 15.0,
+    "grind_size": 50.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 35.0,
+        "temperature": 88.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 70.0,
+        "temperature": 87.0,
+        "flow_rate": 3.3,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 70.0,
+        "temperature": 85.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 50.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:57Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "uganda mama betty",
+    "serving_style": "hot",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/uganda/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:57Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=ZZSfqUtVAeNr%2B61zJ1sxmQ%3D%3D",
+    "slug": "xbloom-shared-96e5ac7cd17ae33d60187814",
+    "title": "ICE BRAZIL WAFER 🍫",
+    "author": "Roots Roastery",
+    "dose": 22.0,
+    "water_ml": 154.0,
+    "poured_water_ml": 154.0,
+    "ratio": 7.0,
+    "grind_size": 63.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.2,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 50.0,
+        "temperature": 87.0,
+        "flow_rate": 3.3,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 54.0,
+        "temperature": 87.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 0,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:22:57Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "brazil wafer",
+    "serving_style": "iced",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/colombia-mangosteen-%d9%86%d8%b3%d8%ae%d8%a9/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:22:57Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=18rCWrdFAtgZDt5DRl7bNA%3D%3D",
+    "slug": "xbloom-shared-8f2d4a1a0b1298658fc28776",
+    "title": "HOT BRAZIL WAFER",
+    "author": "Roots Roastery",
+    "dose": 15.0,
+    "water_ml": 225.0,
+    "poured_water_ml": 225.0,
+    "ratio": 15.0,
+    "grind_size": 55.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 88.0,
+        "flow_rate": 3.3,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 75.0,
+        "temperature": 87.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 16,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 70.0,
+        "temperature": 86.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 16,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 40.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 0,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:23:04Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "brazil wafer",
+    "serving_style": "hot",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/colombia-mangosteen-%d9%86%d8%b3%d8%ae%d8%a9/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:23:04Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=%2B1oZpc6Hgnr5c0BLbwP9uw%3D%3D",
+    "slug": "xbloom-shared-ed780cda614cb1d82164cb13",
+    "title": "Decaf Colombia Ice",
+    "author": "Roots Roastery",
+    "dose": 20.0,
+    "water_ml": 150.0,
+    "poured_water_ml": 150.0,
+    "ratio": 7.5,
+    "grind_size": 63.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 18,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 8,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      },
+      {
+        "volume": 50.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 6,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:23:04Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "Colombia DECAF – TUMBAGA SUGARCANE",
+    "serving_style": "iced",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/colombia-decaf/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:23:04Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=4wVdXu3QOrJajUcdltcFjQ%3D%3D",
+    "slug": "xbloom-shared-f6bf1ec6b4087ede3f9cd61a",
+    "title": "ICE SARCHIMOR",
+    "author": "Roots Roastery",
+    "dose": 23.0,
+    "water_ml": 149.0,
+    "poured_water_ml": 149.0,
+    "ratio": 6.5,
+    "grind_size": 62.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 92.0,
+        "flow_rate": 3.1,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 50.0,
+        "temperature": 90.0,
+        "flow_rate": 3.1,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 49.0,
+        "temperature": 85.0,
+        "flow_rate": 3.4,
+        "pause_seconds": 5,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:23:04Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "Salvador Sarchimor",
+    "serving_style": "iced",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/salvador-sarchimor/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:23:04Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=H5VgFoit19bBBqLhOoCbfQ%3D%3D",
+    "slug": "xbloom-shared-51b90ce71ee4a133a730e007",
+    "title": "HOT SARCHIMOR",
+    "author": "Roots Roastery",
+    "dose": 15.0,
+    "water_ml": 225.0,
+    "poured_water_ml": 225.0,
+    "ratio": 15.0,
+    "grind_size": 59.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OTHER",
+    "pours": [
+      {
+        "volume": 50.0,
+        "temperature": 89.0,
+        "flow_rate": 3.3,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 70.0,
+        "temperature": 87.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 15,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 70.0,
+        "temperature": 87.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 12,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 35.0,
+        "temperature": 85.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 1,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:23:13Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Roots Roastery",
+    "coffee": "Salvador Sarchimor",
+    "serving_style": "hot",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://rootsroastery.net/en/product/salvador-sarchimor/",
+        "name": "Roots Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:23:13Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=RpMyqQJB8R1tkOiR%2Fgestg%3D%3D",
+    "slug": "xbloom-shared-84923fad0ee5bc186ee19599",
+    "title": "اكسيلسو هويلا | كولومبي مغسول",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 50.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 45.0,
+        "temperature": 88.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 12,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 75.0,
+        "temperature": 87.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 25,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 87.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 22,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 87.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:19Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "إكسيلسو - كولومبيا",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D9%83%D9%88%D9%84%D9%88%D9%85%D8%A8%D9%8A%D8%A7-%D8%A7%D9%83%D8%B3%D9%8A%D9%84%D8%B3%D9%88-%D9%85%D8%BA%D8%B3%D9%88%D9%84-250g",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:19Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=cm37XrHTaGEraoqVLRymsg%3D%3D",
+    "slug": "xbloom-shared-a7ffefcf6c52c877a00e94e2",
+    "title": "MASSAR |  مسار",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 60.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 45.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 12,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 55.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 17,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 100.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 14,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 70.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 0,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:19Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "مسار - اليمن",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/masar-yemen-slow-dried-coffee-250g",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:19Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=r83YRpEfyXlHciwbnWTZ9A%3D%3D",
+    "slug": "xbloom-shared-99fde6b227363f9f126a4b34",
+    "title": "ميلوراا | Milora",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 56.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 40.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 14,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 70.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 21,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 89.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 10,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 2
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:19Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "ميلوراا - كوستاريكا",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D9%85%D9%8A%D9%84%D9%88%D8%B1%D8%A7-%D9%83%D9%88%D8%B3%D8%AA%D8%A7%D8%B1%D9%8A%D9%83%D8%A7-%D8%B9%D8%B3%D9%84%D9%8A-250-%D8%AC%D8%B1%D8%A7%D9%85",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:19Z"
+      }
+    ]
+  },
+  {
+    "url": "https://share-h5.xbloom.com/?id=ob6EdOmgq2dqhsrIZea3lw%3D%3D",
+    "slug": "xbloom-shared-1cfaf01afff7a23806c59c88",
+    "title": "ادهم | ADHAM",
+    "author": "Black Knight",
+    "dose": 18.0,
+    "water_ml": 270.0,
+    "poured_water_ml": 270.0,
+    "ratio": 15.0,
+    "grind_size": 57.0,
+    "rpm": null,
+    "source_model_code": 1,
+    "cup_type": "OMNI",
+    "pours": [
+      {
+        "volume": 36.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 13,
+        "pattern_code": 2,
+        "vibration_before": 1,
+        "vibration_after": 1
+      },
+      {
+        "volume": 79.0,
+        "temperature": 91.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 20,
+        "pattern_code": 2,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 80.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 22,
+        "pattern_code": 3,
+        "vibration_before": 2,
+        "vibration_after": 2
+      },
+      {
+        "volume": 75.0,
+        "temperature": 90.0,
+        "flow_rate": 3.5,
+        "pause_seconds": 5,
+        "pattern_code": 1,
+        "vibration_before": 2,
+        "vibration_after": 1
+      }
+    ],
+    "checked_at": "2026-10-07T05:24:30Z",
+    "official": false,
+    "origin": [],
+    "process": [],
+    "flavors": [],
+    "roaster": "Black Knight Roastery",
+    "coffee": "أدهم",
+    "serving_style": "unknown",
+    "official_roaster": true,
+    "provenance": [
+      {
+        "url": "https://b-k.coffee/products/%D8%A3%D8%AF%D9%87%D9%85-%D9%85%D8%B2%D9%8A%D8%AC-250g",
+        "name": "Black Knight Roastery",
+        "type": "official_product_page",
+        "confidence": "official",
+        "checked_at": "2026-10-07T05:24:30Z"
+      }
+    ]
+  }
+]

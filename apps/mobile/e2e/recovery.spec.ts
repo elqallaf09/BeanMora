@@ -277,7 +277,7 @@ for (const width of [320, 768, 1536])
     expect(errors).toEqual([]);
   });
 
-for (const width of [320, 1536])
+for (const width of [320, 390, 1536])
   test(`Arabic equipment comparison supports two and three models with reviewed differences at ${width}`, async ({
     page,
   }) => {
@@ -341,6 +341,22 @@ for (const width of [320, 1536])
     ).toBeDisabled();
     await page.getByRole('button', { name: 'قارن (3/3)', exact: true }).click();
     await expect(table.getByRole('button', { name: /^إزالة:/ })).toHaveCount(3);
+    if (width < 600) {
+      await expect.poll(async () => {
+        const box = await page.getByRole('button', { name: 'إغلاق المقارنة', exact: true }).boundingBox();
+        return box!.y;
+      }).toBeLessThan(80);
+      const buttonRows: number[] = [];
+      for (const button of await table.getByRole('button', { name: /^إزالة:/ }).all()) {
+        const rect = await button.boundingBox();
+        expect(rect!.x).toBeGreaterThanOrEqual(0);
+        expect(rect!.x + rect!.width).toBeLessThanOrEqual(width);
+        expect(rect!.height).toBeGreaterThanOrEqual(44);
+        buttonRows.push(rect!.y);
+      }
+      expect(Math.max(...buttonRows) - Math.min(...buttonRows)).toBeLessThan(30);
+      await page.screenshot({ path: `test-results/comparison-${width}.png` });
+    }
     await table
       .getByRole('button', { name: 'إزالة: طاحونة الاختبار 2', exact: true })
       .click();

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { Method } from './core/engine';
-import { supabase } from './client';
+import { publicSupabase as supabase } from './client';
 import { mapRecipe, RECIPE_FIELDS, type RecipeItem, type RecipeRow } from './data';
 import { RECIPE_DISCOVERY_FIELDS } from './recipeDiscovery';
 import { isGeneralBrewGuide } from './brewStarter';

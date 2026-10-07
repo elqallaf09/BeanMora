@@ -13,7 +13,7 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native';
-import { supabase } from './client';
+import { publicSupabase as supabase } from './client';
 import {
   mapRecipe,
   RECIPE_FIELDS,

@@ -69,18 +69,22 @@ export function Action({
   onPress,
   disabled = false,
   selected = false,
+  compact = false,
+  accessibilityLabel,
 }: {
   title: string;
   onPress: () => void;
   disabled?: boolean;
   selected?: boolean;
+  compact?: boolean;
+  accessibilityLabel?: string;
 }) {
   const motion = usePressMotion();
   return (
     <Animated.View style={motion.style}>
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel={title}
+        accessibilityLabel={accessibilityLabel ?? title}
         accessibilityState={{ disabled, selected }}
         onPress={onPress}
         onPressIn={motion.pressIn}
@@ -88,6 +92,7 @@ export function Action({
         disabled={disabled}
         style={({ pressed }) => [
           styles.button,
+          compact && { minHeight: 44, paddingHorizontal: 6, paddingVertical: 8, borderRadius: 12 },
           selected && styles.selected,
           (pressed || disabled) && { opacity: 0.55 },
         ]}
@@ -97,6 +102,7 @@ export function Action({
             color: selected ? '#FFFFFF' : colors.brown,
             fontWeight: '700',
             textAlign: 'center',
+            ...(compact ? { fontSize: 12, lineHeight: 18 } : {}),
           }}
         >
           {title}

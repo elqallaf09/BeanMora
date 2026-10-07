@@ -257,7 +257,9 @@ export function CoffeeCard({
       >
         <View
           style={{
-            height: Math.max(120, Math.min(185, width * 0.8)),
+            height: item.imageUrl || item.images.length
+              ? Math.max(120, Math.min(185, width * 0.8))
+              : 86,
             overflow: 'hidden',
             borderRadius: 13,
           }}
@@ -312,6 +314,7 @@ export function CoffeeCard({
   );
 }
 export function Home({
+  intro,
   data,
   coffees,
   method,
@@ -327,6 +330,7 @@ export function Home({
   refresh,
   refreshing,
 }: {
+  intro?: ReactNode;
   data: Bundle | null;
   coffees: CoffeeItem[];
   method?: Method;
@@ -345,8 +349,13 @@ export function Home({
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const { width } = useWindowDimensions();
+  const [pulling, setPulling] = useState(false);
+  useEffect(() => {
+    if (!refreshing) setPulling(false);
+  }, [refreshing]);
   const available = Math.min(width, 1120) - 36;
-  const cols = available >= 600 ? 4 : 2;
+  // Preserve readable cards on portrait tablets instead of squeezing four in.
+  const cols = available >= 1000 ? 4 : available >= 720 ? 3 : 2;
   const cardWidth = (available - (cols - 1) * 12) / cols;
   const stats: {
     icon: IconName;
@@ -430,282 +439,302 @@ export function Home({
       showsVerticalScrollIndicator={false}
       refreshControl={
         <RefreshControl
-          refreshing={refreshing}
-          onRefresh={refresh}
+          refreshing={refreshing && pulling}
+          onRefresh={() => {
+            setPulling(true);
+            refresh();
+          }}
           tintColor={colors.brown}
         />
       }
-      contentContainerStyle={s.page}
+      style={{ flex: 1, minHeight: 0 }}
+      contentContainerStyle={s.homeContent}
     >
-      <ImageBackground
-        testID="home-hero"
-        source={artwork.hero}
-        style={[
-          s.hero,
-          {
-            minHeight: Math.max(180, Math.min(280, available / 3.1)),
-            paddingVertical: width < 500 ? 22 : 18,
-          },
-        ]}
-        imageStyle={{ borderRadius: 18, width: '100%', height: '100%' }}
-      >
-        <View style={s.heroShade} />
-        <View
+      {intro}
+      <View style={s.page}>
+        <ImageBackground
+          testID="home-hero"
+          source={artwork.hero}
           style={[
-            s.heroCopy,
+            s.hero,
             {
-              width: width < 500 ? '72%' : '55%',
-              paddingHorizontal: width < 500 ? 16 : 25,
+              minHeight: Math.max(180, Math.min(280, available / 3.1)),
+              paddingVertical: width < 500 ? 22 : 18,
             },
           ]}
+          imageStyle={{ borderRadius: 18, width: '100%', height: '100%' }}
         >
-          <Txt
-            heading
+          <View style={s.heroShade} />
+          <View
             style={[
-              s.heroTitle,
+              s.heroCopy,
               {
-                fontSize: width < 500 ? 24 : 34,
-                lineHeight: width < 500 ? 34 : 45,
+                width: width < 500 ? '72%' : '55%',
+                paddingHorizontal: width < 500 ? 16 : 25,
               },
             ]}
           >
-            {ar ? 'اكتشف عالم القهوة.' : 'Discover the world of coffee.'}
-          </Txt>
-          <Txt style={s.heroDescription}>
-            {ar
-              ? 'من الحبوب إلى الكوب، تجربة أفضل كل يوم.'
-              : 'From bean to cup, a better experience every day.'}
-          </Txt>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={ar ? 'استكشف الآن' : 'Explore now'}
-            onPress={browse}
-            style={s.heroButton}
-          >
             <Txt
-              style={{
-                color: '#FFF',
-                fontSize: 14,
-                fontWeight: '700',
-                flexShrink: 1,
-                textAlign: 'center',
-              }}
+              heading
+              style={[
+                s.heroTitle,
+                {
+                  fontSize: width < 500 ? 24 : 34,
+                  lineHeight: width < 500 ? 34 : 45,
+                },
+              ]}
             >
-              {ar ? 'استكشف الآن' : 'Explore now'}
+              {ar ? 'اكتشف عالم القهوة.' : 'Discover the world of coffee.'}
             </Txt>
-            <Icon name="arrow" color="#FFF" size={17} />
-          </Pressable>
-        </View>
-        {width >= 650 ? (
-          <Txt style={s.heroSignature}>
-            More{'\n'}Than{'\n'}Coffee
-          </Txt>
-        ) : null}
-      </ImageBackground>
-      <View style={s.stats}>
-        {stats.map((stat) => (
-          <View
-            key={stat.icon}
-            style={[s.stat, width < 500 && { paddingHorizontal: 6 }]}
-          >
-            {width >= 600 ? (
-              <View style={s.statIcon}>
-                <Icon name={stat.icon} size={23} />
-              </View>
-            ) : null}
-            <View style={{ flex: 1 }}>
-              <Txt style={s.statNumber}>{stat.value}</Txt>
-              <Txt numberOfLines={1} style={s.statTitle}>
-                {stat.title}
+            <Txt style={s.heroDescription}>
+              {ar
+                ? 'من الحبوب إلى الكوب، تجربة أفضل كل يوم.'
+                : 'From bean to cup, a better experience every day.'}
+            </Txt>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={ar ? 'استكشف الآن' : 'Explore now'}
+              onPress={browse}
+              style={s.heroButton}
+            >
+              <Txt
+                style={{
+                  color: '#FFF',
+                  fontSize: 14,
+                  fontWeight: '700',
+                  flexShrink: 1,
+                  textAlign: 'center',
+                }}
+              >
+                {ar ? 'استكشف الآن' : 'Explore now'}
               </Txt>
+              <Icon name="arrow" color="#FFF" size={17} />
+            </Pressable>
+          </View>
+          {width >= 650 ? (
+            <Txt style={s.heroSignature}>
+              More{'\n'}Than{'\n'}Coffee
+            </Txt>
+          ) : null}
+        </ImageBackground>
+        <View style={s.stats}>
+          {stats.map((stat) => (
+            <View
+              key={stat.icon}
+              style={[s.stat, width < 500 && { paddingHorizontal: 6 }]}
+            >
               {width >= 600 ? (
-                <Txt numberOfLines={1} style={s.statNote}>
-                  {stat.note}
-                </Txt>
+                <View style={s.statIcon}>
+                  <Icon name={stat.icon} size={23} />
+                </View>
               ) : null}
+              <View style={{ flex: 1 }}>
+                <Txt style={s.statNumber}>{stat.value}</Txt>
+                <Txt numberOfLines={2} style={s.statTitle}>
+                  {stat.title}
+                </Txt>
+                {width >= 600 ? (
+                  <Txt numberOfLines={1} style={s.statNote}>
+                    {stat.note}
+                  </Txt>
+                ) : null}
+              </View>
+            </View>
+          ))}
+        </View>
+        <View style={s.journeyWrap}>
+          <View style={s.journeyHeader}>
+            <View style={{ flex: 1 }}>
+              <Txt heading style={s.journeyTitle}>
+                {ar ? 'رحلتك مع القهوة' : 'Your coffee journey'}
+              </Txt>
+              <Txt style={s.journeyIntro}>
+                {ar
+                  ? 'ابدأ من البن الذي عندك، ثم ارجع لأفضل نتيجة وصلت لها.'
+                  : 'Start with the coffee you have, then return to your best result.'}
+              </Txt>
+            </View>
+            <View style={s.journeyBadge}>
+              <Icon name="bean" size={22} color={colors.copper} />
             </View>
           </View>
-        ))}
-      </View>
-      <View style={s.journeyWrap}>
-        <View style={s.journeyHeader}>
-          <View style={{ flex: 1 }}>
-            <Txt heading style={s.journeyTitle}>
-              {ar ? 'رحلتك مع القهوة' : 'Your coffee journey'}
-            </Txt>
-            <Txt style={s.journeyIntro}>
-              {ar
-                ? 'ابدأ من البن الذي عندك، ثم ارجع لأفضل نتيجة وصلت لها.'
-                : 'Start with the coffee you have, then return to your best result.'}
-            </Txt>
-          </View>
-          <View style={s.journeyBadge}>
-            <Icon name="bean" size={22} color={colors.copper} />
-          </View>
-        </View>
-        <View style={s.journeyGrid}>
-          {journey.map((item) => (
-            <Pressable
-              key={item.title}
-              accessibilityRole="button"
-              accessibilityLabel={item.title + ' — ' + item.note}
-              onPress={item.press}
-              style={[s.journeyCard, item.accent && s.journeyCardAccent]}
-            >
-              <View
+          <View style={s.journeyGrid}>
+            {journey.map((item) => (
+              <Pressable
+                key={item.title}
+                accessibilityRole="button"
+                accessibilityLabel={item.title + ' — ' + item.note}
+                onPress={item.press}
                 style={[
-                  s.journeyIcon,
-                  item.accent && { backgroundColor: '#FFFFFF24' },
+                  s.journeyCard,
+                  available < 340 && { width: '100%' },
+                  item.accent && s.journeyCardAccent,
                 ]}
               >
-                <Icon
-                  name={item.icon}
-                  size={23}
-                  color={item.accent ? '#FFF' : colors.copper}
-                  filled={item.icon === 'star'}
-                />
-              </View>
-              <View style={{ flex: 1, gap: 3 }}>
-                <Txt
-                  style={[s.journeyCardTitle, item.accent && { color: '#FFF' }]}
-                >
-                  {item.title}
-                </Txt>
-                <Txt
+                <View
                   style={[
-                    s.journeyCardNote,
-                    item.accent && { color: '#F8EEE5' },
+                    s.journeyIcon,
+                    item.accent && { backgroundColor: '#FFFFFF24' },
                   ]}
                 >
-                  {item.note}
-                </Txt>
-              </View>
-              <Icon
-                name="arrow"
-                size={18}
-                color={item.accent ? '#FFF' : colors.teal}
-              />
-            </Pressable>
-          ))}
+                  <Icon
+                    name={item.icon}
+                    size={23}
+                    color={item.accent ? '#FFF' : colors.copper}
+                    filled={item.icon === 'star'}
+                  />
+                </View>
+                <View style={{ flex: 1, gap: 3 }}>
+                  <Txt
+                    style={[
+                      s.journeyCardTitle,
+                      item.accent && { color: '#FFF' },
+                    ]}
+                  >
+                    {item.title}
+                  </Txt>
+                  <Txt
+                    style={[
+                      s.journeyCardNote,
+                      item.accent && { color: '#F8EEE5' },
+                    ]}
+                  >
+                    {item.note}
+                  </Txt>
+                </View>
+                <Icon
+                  name="arrow"
+                  size={18}
+                  color={item.accent ? '#FFF' : colors.teal}
+                />
+              </Pressable>
+            ))}
+          </View>
         </View>
-      </View>
-      <View style={s.section}>
-        <SectionTitle
-          title={ar ? 'اختر طريقة التحضير' : 'Choose your brew method'}
-          onPress={brew}
-        />
-        <MethodPicker value={method} onChange={setMethod} />
-      </View>
-      <View style={s.section}>
-        <SectionTitle
-          title={ar ? 'أحدث الحبوب' : 'Latest beans'}
-          onPress={browse}
-        />
-        {refreshing && !data ? (
-          <View style={s.grid}>
-            {Array.from({ length: cols }, (_, i) => (
-              <View key={i} style={[s.skeleton, { width: cardWidth }]}>
-                <View style={s.skeletonPhoto} />
-                <View style={s.skeletonText} />
-              </View>
+        <View style={s.section}>
+          <SectionTitle
+            title={ar ? 'اختر طريقة التحضير' : 'Choose your brew method'}
+            onPress={brew}
+          />
+          <MethodPicker value={method} onChange={setMethod} />
+        </View>
+        <View style={s.section}>
+          <SectionTitle
+            title={ar ? 'أحدث الحبوب' : 'Latest beans'}
+            onPress={browse}
+          />
+          {refreshing && !data ? (
+            <View style={s.grid}>
+              {Array.from({ length: cols }, (_, i) => (
+                <View key={i} style={[s.skeleton, { width: cardWidth }]}>
+                  <View style={s.skeletonPhoto} />
+                  <View style={s.skeletonText} />
+                </View>
+              ))}
+            </View>
+          ) : coffees.length ? (
+            <View style={s.grid}>
+              {coffees.slice(0, 4).map((c) => (
+                <CoffeeCard
+                  key={c.kind + c.id}
+                  item={c}
+                  width={cardWidth}
+                  saved={saved.includes(c.beanId ?? c.id)}
+                  open={() => openCoffee(c)}
+                  save={() => save(c)}
+                />
+              ))}
+            </View>
+          ) : (
+            <Txt style={styles.muted}>
+              {ar
+                ? 'لا توجد حبوب مطابقة لطريقة التحضير.'
+                : 'No coffees match this brew method.'}
+            </Txt>
+          )}
+        </View>
+        <View style={s.section}>
+          <SectionTitle
+            title={ar ? 'أدوات وتوصيات' : 'Tools and recommendations'}
+            onPress={() => tools('all')}
+          />
+          <View style={s.tools}>
+            {[
+              {
+                title: 'xBloom',
+                description: ar
+                  ? 'تحكم كامل في الوصفة'
+                  : 'A recipe for every cup',
+                image: artwork.xbloom,
+                press: () => tools('xbloom'),
+              },
+              {
+                title: ar ? 'طاحونة القهوة' : 'Coffee grinder',
+                description: ar
+                  ? 'طحن مثالي كل مرة'
+                  : 'Find your perfect grind',
+                image: artwork.grinder,
+                press: () => tools('grinder'),
+              },
+              {
+                title: ar ? 'ميزان القهوة' : 'Coffee scale',
+                description: ar
+                  ? 'دقة تصنع الفرق'
+                  : 'Precision makes the difference',
+                image: artwork.scale,
+                press: () => tools('scale'),
+              },
+            ].map((tool) => (
+              <Pressable
+                key={tool.title}
+                accessibilityRole="button"
+                accessibilityLabel={tool.title}
+                onPress={tool.press}
+                style={[s.tool, width < 600 && { minWidth: 145 }]}
+              >
+                <Image
+                  source={tool.image}
+                  resizeMode="contain"
+                  style={s.toolImage}
+                />
+                <View style={s.toolCopy}>
+                  <Txt
+                    numberOfLines={1}
+                    style={{ fontSize: 15, fontWeight: '700' }}
+                  >
+                    {tool.title}
+                  </Txt>
+                  <Txt
+                    style={{
+                      fontSize: 13,
+                      color: colors.muted,
+                      lineHeight: 21,
+                    }}
+                  >
+                    {tool.description}
+                  </Txt>
+                  <Txt
+                    style={{
+                      fontSize: 12,
+                      marginTop: 8,
+                      textDecorationLine: 'underline',
+                    }}
+                  >
+                    {ar ? 'عرض الآن' : 'View now'}
+                  </Txt>
+                </View>
+              </Pressable>
             ))}
           </View>
-        ) : coffees.length ? (
-          <View style={s.grid}>
-            {coffees.slice(0, 4).map((c) => (
-              <CoffeeCard
-                key={c.kind + c.id}
-                item={c}
-                width={cardWidth}
-                saved={saved.includes(c.beanId ?? c.id)}
-                open={() => openCoffee(c)}
-                save={() => save(c)}
-              />
-            ))}
-          </View>
-        ) : (
-          <Txt style={styles.muted}>
+        </View>
+        {data?.warnings ? (
+          <Txt style={styles.warning}>
             {ar
-              ? 'لا توجد حبوب مطابقة لطريقة التحضير.'
-              : 'No coffees match this brew method.'}
+              ? 'تعذّر تحميل بعض البيانات. اسحب لتحديثها.'
+              : 'Some data could not be loaded. Pull to refresh.'}
           </Txt>
-        )}
+        ) : null}
       </View>
-      <View style={s.section}>
-        <SectionTitle
-          title={ar ? 'أدوات وتوصيات' : 'Tools and recommendations'}
-          onPress={() => tools('all')}
-        />
-        <View style={s.tools}>
-          {[
-            {
-              title: 'xBloom',
-              description: ar
-                ? 'تحكم كامل في الوصفة'
-                : 'A recipe for every cup',
-              image: artwork.xbloom,
-              press: () => tools('xbloom'),
-            },
-            {
-              title: ar ? 'طاحونة القهوة' : 'Coffee grinder',
-              description: ar ? 'طحن مثالي كل مرة' : 'Find your perfect grind',
-              image: artwork.grinder,
-              press: () => tools('grinder'),
-            },
-            {
-              title: ar ? 'ميزان القهوة' : 'Coffee scale',
-              description: ar
-                ? 'دقة تصنع الفرق'
-                : 'Precision makes the difference',
-              image: artwork.scale,
-              press: () => tools('scale'),
-            },
-          ].map((tool) => (
-            <Pressable
-              key={tool.title}
-              accessibilityRole="button"
-              accessibilityLabel={tool.title}
-              onPress={tool.press}
-              style={[s.tool, width < 600 && { minWidth: 145 }]}
-            >
-              <Image
-                source={tool.image}
-                resizeMode="contain"
-                style={s.toolImage}
-              />
-              <View style={s.toolCopy}>
-                <Txt
-                  numberOfLines={1}
-                  style={{ fontSize: 15, fontWeight: '700' }}
-                >
-                  {tool.title}
-                </Txt>
-                <Txt
-                  style={{ fontSize: 11, color: colors.muted, lineHeight: 18 }}
-                >
-                  {tool.description}
-                </Txt>
-                <Txt
-                  style={{
-                    fontSize: 12,
-                    marginTop: 8,
-                    textDecorationLine: 'underline',
-                  }}
-                >
-                  {ar ? 'عرض الآن' : 'View now'}
-                </Txt>
-              </View>
-            </Pressable>
-          ))}
-        </View>
-      </View>
-      {data?.warnings ? (
-        <Txt style={styles.warning}>
-          {ar
-            ? 'تعذّر تحميل بعض البيانات. اسحب لتحديثها.'
-            : 'Some data could not be loaded. Pull to refresh.'}
-        </Txt>
-      ) : null}
     </ScrollView>
   );
 }
@@ -792,7 +821,9 @@ export function CoffeeDetail({
                 onPress={() => setPhoto(i)}
                 style={[
                   s.dot,
-                  { backgroundColor: i === photo ? colors.teal : '#C8BBB0' },
+                  {
+                    backgroundColor: i === photo ? colors.teal : '#C8BBB0',
+                  },
                 ]}
               />
             ))}
@@ -1077,6 +1108,7 @@ export function CoffeeDetail({
   );
 }
 const s = StyleSheet.create({
+  homeContent: { paddingTop: 4 },
   page: {
     width: '100%',
     maxWidth: 1120,
@@ -1100,7 +1132,12 @@ const s = StyleSheet.create({
     right: 0,
     backgroundColor: 'rgba(22,12,6,0.2)',
   },
-  heroCopy: { paddingHorizontal: 25, gap: 7, alignItems: 'center', zIndex: 1 },
+  heroCopy: {
+    paddingHorizontal: 25,
+    gap: 7,
+    alignItems: 'center',
+    zIndex: 1,
+  },
   heroTitle: { color: '#FFF', fontWeight: '700', textAlign: 'center' },
   heroDescription: {
     color: '#FFFDF7',
@@ -1165,14 +1202,14 @@ const s = StyleSheet.create({
     writingDirection: 'ltr',
   },
   statTitle: {
-    fontSize: 12,
-    lineHeight: 19,
+    fontSize: 13,
+    lineHeight: 20,
     fontWeight: '700',
     textAlign: 'center',
   },
   statNote: {
-    fontSize: 10,
-    lineHeight: 17,
+    fontSize: 12,
+    lineHeight: 19,
     color: colors.muted,
     textAlign: 'center',
   },
@@ -1213,7 +1250,10 @@ const s = StyleSheet.create({
     gap: 9,
     justifyContent: 'space-between',
   },
-  journeyCardAccent: { backgroundColor: colors.teal, borderColor: colors.teal },
+  journeyCardAccent: {
+    backgroundColor: colors.teal,
+    borderColor: colors.teal,
+  },
   journeyIcon: {
     width: 38,
     height: 38,
@@ -1223,7 +1263,7 @@ const s = StyleSheet.create({
     justifyContent: 'center',
   },
   journeyCardTitle: { fontSize: 15, lineHeight: 22, fontWeight: '800' },
-  journeyCardNote: { fontSize: 10.5, lineHeight: 16, color: colors.muted },
+  journeyCardNote: { fontSize: 13, lineHeight: 21, color: colors.muted },
   section: { gap: 10 },
   sectionHeading: {
     flexDirection: 'row',
@@ -1249,7 +1289,10 @@ const s = StyleSheet.create({
     justifyContent: 'center',
     gap: 8,
   },
-  methodActive: { backgroundColor: colors.brown, borderColor: colors.brown },
+  methodActive: {
+    backgroundColor: colors.brown,
+    borderColor: colors.brown,
+  },
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -1264,7 +1307,12 @@ const s = StyleSheet.create({
     overflow: 'hidden',
     minWidth: 0,
   },
-  photo: { flex: 1, width: '100%', height: '100%', backgroundColor: '#F9F5EC' },
+  photo: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#F9F5EC',
+  },
   photoPlaceholder: {
     flex: 1,
     alignItems: 'center',
@@ -1283,12 +1331,12 @@ const s = StyleSheet.create({
   },
   coffeeCopy: { paddingHorizontal: 9, paddingTop: 8, gap: 4 },
   coffeeName: {
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: 15,
+    lineHeight: 23,
     fontWeight: '700',
     textAlign: 'left',
     writingDirection: 'auto',
-    minHeight: 40,
+    minHeight: 46,
   },
   coffeeFlavors: { fontSize: 11, lineHeight: 18, color: colors.muted },
   coffeeFooter: {
@@ -1327,7 +1375,11 @@ const s = StyleSheet.create({
     padding: 8,
     gap: 10,
   },
-  skeletonPhoto: { height: 104, borderRadius: 12, backgroundColor: '#E6DFD1' },
+  skeletonPhoto: {
+    height: 104,
+    borderRadius: 12,
+    backgroundColor: '#E6DFD1',
+  },
   skeletonText: {
     height: 18,
     borderRadius: 6,
