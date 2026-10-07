@@ -156,3 +156,99 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup validates befo
   await guest.click();
   await expect(page.getByRole('heading', { name: ar ? 'اكتشف عالم القهوة.' : 'Discover the world of coffee.' })).toBeVisible();
 });
+
+for (const ar of [true, false])
+  test(`${ar ? 'ar' : 'en'}: recovery validates, retries failed password update and opens legal policies`, async ({
+    page,
+  }) => {
+    let recovery = false;
+    let updates = 0;
+    let fail = true;
+    await page.route(project + '/**', (route) => {
+      const url = new URL(route.request().url());
+      const path = url.pathname;
+      if (path.endsWith('/settings'))
+        return reply(route, { external: { google: true, apple: false } });
+      if (path.endsWith('/recover')) {
+        recovery = true;
+        expect(url.searchParams.get('redirect_to')).toBe(
+          'http://127.0.0.1:8088',
+        );
+        expect(route.request().postDataJSON().code_challenge).toBeTruthy();
+        return reply(route, {});
+      }
+      if (path.endsWith('/token')) return reply(route, session);
+      if (path.endsWith('/user') && route.request().method() === 'PUT') {
+        updates++;
+        expect(route.request().postDataJSON().password).toBe(
+          'new_fixture_password',
+        );
+        return reply(
+          route,
+          fail ? { message: 'isolated update failure' } : user,
+          fail ? 503 : 200,
+        );
+      }
+      if (path.endsWith('/user')) return reply(route, user);
+      return reply(route, []);
+    });
+    await openAccount(page, ar);
+    await page
+      .getByRole('button', {
+        name: ar ? 'سياسة الخصوصية' : 'Privacy policy',
+        exact: true,
+      })
+      .click();
+    await expect(
+      page.getByRole('heading', {
+        name: ar ? 'سياسة الخصوصية' : 'Privacy policy',
+        exact: true,
+      }),
+    ).toBeVisible();
+    await page
+      .getByRole('button', { name: ar ? 'إغلاق' : 'Close', exact: true })
+      .click();
+    await page
+      .getByLabel(ar ? 'البريد الإلكتروني' : 'Email', { exact: true })
+      .fill(user.email);
+    await page
+      .getByRole('button', {
+        name: ar ? 'نسيت كلمة المرور؟' : 'Forgot password?',
+        exact: true,
+      })
+      .click();
+    await expect.poll(() => recovery).toBe(true);
+    await page.goto('/?code=isolated_recovery');
+    await expect(page.getByTestId('password-recovery')).toBeVisible();
+    const password = page.getByLabel(
+      ar ? 'كلمة المرور الجديدة' : 'New password',
+      { exact: true },
+    );
+    const confirmation = page.getByLabel(
+      ar ? 'تأكيد كلمة المرور الجديدة' : 'Confirm new password',
+      { exact: true },
+    );
+    const save = page.getByRole('button', {
+      name: ar ? 'حفظ كلمة المرور' : 'Save password',
+      exact: true,
+    });
+    await password.fill('short');
+    await confirmation.fill('different');
+    await save.click();
+    await expect(page.getByRole('alert')).toContainText(
+      ar ? '8 أحرف' : '8 characters',
+    );
+    expect(updates).toBe(0);
+    await password.fill('new_fixture_password');
+    await confirmation.fill('new_fixture_password');
+    await save.click();
+    await expect(page.getByRole('alert')).toContainText(
+      ar ? 'تعذر حفظ' : 'Could not save',
+    );
+    expect(updates).toBe(1);
+    fail = false;
+    await save.click();
+    await expect(page.getByTestId('password-recovery')).toHaveCount(0);
+    expect(updates).toBe(2);
+    await expect(page.getByText(user.email, { exact: true })).toBeVisible();
+  });

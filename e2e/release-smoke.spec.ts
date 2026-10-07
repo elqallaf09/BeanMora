@@ -103,3 +103,29 @@ for (const locale of ['ar', 'en'] as const) {
     await page.waitForLoadState('networkidle');
   });
 }
+
+test("login refuses executable next parameters and public legal pages are available", async ({
+  page,
+}) => {
+  const attack =
+    'javascript:document.documentElement.dataset.auditExecuted="yes"';
+  await page.goto("/en/login?next=" + encodeURIComponent(attack));
+  await page.getByLabel("Email", { exact: true }).fill("fixture@example.test");
+  await page.getByLabel("Password", { exact: true }).fill("fixture_password");
+  await page.getByRole("button", { name: "Log in", exact: true }).click();
+  await expect(page).toHaveURL("http://127.0.0.1:3000/en/home");
+  expect(await page.locator("html").getAttribute("data-audit-executed")).toBe(
+    null,
+  );
+  for (const route of [
+    "/en/privacy",
+    "/ar/privacy",
+    "/en/terms",
+    "/ar/terms",
+  ]) {
+    const response = await page.goto(route);
+    expect(response?.status()).toBe(200);
+    await expect(page.locator("h1")).toBeVisible();
+    await noOverflow(page);
+  }
+});

@@ -30,6 +30,8 @@ import { recipeShelfKey } from './useRecipeShelf';
 import { invalidatePublicCatalog } from './data';
 import { artwork } from './CoffeeScreens';
 import { AppVersion } from './AppVersion';
+import { PasswordRecovery } from './PasswordRecovery';
+import { LegalLinks } from './LegalLinks';
 import {
   Action,
   Brand,
@@ -44,16 +46,23 @@ import {
 
 WebBrowser.maybeCompleteAuthSession();
 export const finishOAuth = supabase
-  ? createOAuthCallbackHandler(supabase.auth)
+  ? createOAuthCallbackHandler(
+      supabase.auth,
+      Platform.OS === 'web' ? window.location.origin : nativeAuthRedirect,
+    )
   : async () => {};
 export function AccountScreen({
   session,
   back,
   onDeleted,
+  recovery = false,
+  onRecovered = () => {},
 }: {
   session: Session | null;
   back: () => void;
   onDeleted: (localCleanupFailed: boolean) => void;
+  recovery?: boolean;
+  onRecovered?: () => void;
 }) {
   const t = useCopy();
   const ar = useContext(Language) === 'ar';
@@ -196,6 +205,12 @@ export function AccountScreen({
         const { data, error } = await supabase!.auth.signUp({
           email: email.trim(),
           password,
+          options: {
+            emailRedirectTo:
+              Platform.OS === 'web'
+                ? window.location.origin
+                : nativeAuthRedirect,
+          },
         });
         if (error) throw error;
         if (!data.session)
@@ -227,12 +242,16 @@ export function AccountScreen({
     await request(async () => {
       const { error } = await supabase!.auth.resetPasswordForEmail(
         email.trim(),
+        {
+          redirectTo:
+            Platform.OS === 'web' ? window.location.origin : nativeAuthRedirect,
+        },
       );
       if (error) throw error;
       setNotice(
         ar
-          ? 'أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك.'
-          : 'Password reset link sent to your email.',
+          ? 'إذا كان البريد مرتبطًا بحساب، ستصلك رسالة لاسترجاع كلمة المرور. افتح الرابط على هذا الجهاز.'
+          : 'If this email has an account, a password recovery message will arrive. Open its link on this device.',
       );
     });
   }
@@ -274,6 +293,7 @@ export function AccountScreen({
       if (result.type === 'success') await finishOAuth(result.url);
     });
   }
+  if (recovery && session) return <PasswordRecovery done={onRecovered} />;
   if (session)
     return (
       <ScrollView
@@ -291,6 +311,7 @@ export function AccountScreen({
         </View>
         <View style={styles.card}>
           <Txt>{t.profileNote}</Txt>
+          <LegalLinks />
           <Action
             title={t.logout}
             onPress={() => void authenticate()}
@@ -753,6 +774,7 @@ export function AccountScreen({
                 ? 'بمتابعتك، أنت توافق على شروط الاستخدام\nوسياسة الخصوصية.'
                 : 'By continuing, you agree to the terms of use\nand privacy policy.'}
             </Txt>
+            <LegalLinks />
           </View>
           <AppVersion light />
         </ScrollView>

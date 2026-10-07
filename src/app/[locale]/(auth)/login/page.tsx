@@ -9,6 +9,7 @@ import { useSearchParams } from "next/navigation";
 import { Coffee } from "lucide-react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { safeNextPath } from "@/lib/safe-next-path";
 import { mapLoginErrorToMessageKey } from "@/lib/auth-errors";
 import { useGuestSignIn } from "@/hooks/use-guest-sign-in";
 import { Button } from "@/components/ui/button";
@@ -63,7 +64,7 @@ export default function LoginPage() {
         setServerError(t(mapLoginErrorToMessageKey(error)));
         return;
       }
-      router.push((searchParams.get("next") as `/${string}`) ?? "/home");
+      router.push(safeNextPath(searchParams.get("next")));
       router.refresh();
     } catch (error) {
       // Network failures, CORS issues, etc. throw rather than returning
@@ -119,24 +120,44 @@ export default function LoginPage() {
         <CardTitle>{t("auth.loginTitle")}</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-4"
+          noValidate
+        >
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="email">{t("auth.emailLabel")}</Label>
-            <Input id="email" type="email" autoComplete="email" {...register("email")} />
+            <Input
+              id="email"
+              type="email"
+              autoComplete="email"
+              {...register("email")}
+            />
             {errors.email ? (
-              <p className="text-xs text-[var(--color-error)]">{errors.email.message}</p>
+              <p className="text-xs text-[var(--color-error)]">
+                {errors.email.message}
+              </p>
             ) : null}
           </div>
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center justify-between">
               <Label htmlFor="password">{t("auth.passwordLabel")}</Label>
-              <Link href="/forgot-password" className="text-xs text-[var(--color-teal)]">
+              <Link
+                href="/forgot-password"
+                className="text-xs text-[var(--color-teal)]"
+              >
                 {t("auth.forgotPassword")}
               </Link>
             </div>
-            <PasswordInput id="password" autoComplete="current-password" {...register("password")} />
+            <PasswordInput
+              id="password"
+              autoComplete="current-password"
+              {...register("password")}
+            />
             {errors.password ? (
-              <p className="text-xs text-[var(--color-error)]">{errors.password.message}</p>
+              <p className="text-xs text-[var(--color-error)]">
+                {errors.password.message}
+              </p>
             ) : null}
           </div>
 
@@ -147,7 +168,9 @@ export default function LoginPage() {
           ) : null}
 
           <Button type="submit" disabled={isBusy}>
-            {pendingAction === "password" ? t("common.loading") : t("auth.loginButton")}
+            {pendingAction === "password"
+              ? t("common.loading")
+              : t("auth.loginButton")}
           </Button>
         </form>
 
@@ -157,8 +180,16 @@ export default function LoginPage() {
           <span className="h-px flex-1 bg-[var(--color-border,#ece1d3)]" />
         </div>
 
-        <Button type="button" variant="outline" className="w-full" onClick={onGoogle} disabled={isBusy}>
-          {pendingAction === "google" ? t("common.loading") : t("auth.googleButton")}
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full"
+          onClick={onGoogle}
+          disabled={isBusy}
+        >
+          {pendingAction === "google"
+            ? t("common.loading")
+            : t("auth.googleButton")}
         </Button>
 
         <Button
@@ -170,7 +201,9 @@ export default function LoginPage() {
           aria-busy={pendingAction === "guest"}
         >
           <Coffee className="h-4 w-4" aria-hidden />
-          {pendingAction === "guest" ? t("auth.guestLoadingLabel") : t("auth.continueAsGuest")}
+          {pendingAction === "guest"
+            ? t("auth.guestLoadingLabel")
+            : t("auth.continueAsGuest")}
         </Button>
 
         <p className="mt-6 text-center text-sm text-[var(--color-muted-text)]">

@@ -1,6 +1,6 @@
 import 'react-native-url-polyfill/auto';
 import { createClient } from '@supabase/supabase-js';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { sessionStorage } from './sessionStorage';
 import { Platform } from 'react-native';
 import { isPublicKey } from './guards';
 import { boundedFetch } from './requestDeadline';
@@ -45,11 +45,13 @@ export const publicSupabase = configured
 export const supabase = configured
   ? createClient(url, key, {
       auth: {
-        ...(Platform.OS !== 'web' ? { storage: AsyncStorage } : {}),
+        ...(sessionStorage ? { storage: sessionStorage } : {}),
         storageKey: authStorageKey,
         persistSession: true,
         autoRefreshToken: true,
-        detectSessionInUrl: Platform.OS === 'web',
+        // App handles PKCE explicitly on every platform so recovery intent
+        // survives auth-js versions that discard it in URL auto-detection.
+        detectSessionInUrl: false,
         flowType: 'pkce',
       },
       global: { fetch: boundedFetch, headers: requestHeaders },
@@ -70,6 +72,10 @@ export async function clearDeletedSession() {
   } finally {
     if (Platform.OS === 'web')
       keys.forEach((item) => window.localStorage.removeItem(item));
-    else await AsyncStorage.multiRemove(keys);
+    else {
+      const storage = sessionStorage;
+      if (storage)
+        await Promise.all(keys.map((item) => storage.removeItem(item)));
+    }
   }
 }

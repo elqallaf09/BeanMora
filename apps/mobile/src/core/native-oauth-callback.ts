@@ -2,9 +2,13 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 export const nativeAuthRedirect = 'beanmora://auth';
 
-export function createOAuthCallbackHandler(auth: SupabaseClient['auth']) {
-  const exchanges = new Map<string, Promise<void>>();
-  return async (url: string): Promise<void> => {
+export function createOAuthCallbackHandler(
+  auth: SupabaseClient['auth'],
+  redirect = nativeAuthRedirect,
+) {
+  const allowed = new URL(redirect);
+  const exchanges = new Map<string, Promise<'recovery' | 'signin'>>();
+  return async (url: string): Promise<'recovery' | 'signin' | undefined> => {
     let callback: URL;
     try {
       callback = new URL(url);
@@ -12,12 +16,14 @@ export function createOAuthCallbackHandler(auth: SupabaseClient['auth']) {
       return;
     }
     if (
-      callback.protocol !== 'beanmora:' ||
-      callback.hostname !== 'auth' ||
-      !['', '/'].includes(callback.pathname) ||
+      callback.protocol !== allowed.protocol ||
+      callback.hostname !== allowed.hostname ||
+      ![allowed.pathname, allowed.pathname.replace(/\/$/, '') + '/'].includes(
+        callback.pathname,
+      ) ||
       callback.username ||
       callback.password ||
-      callback.port
+      callback.port !== allowed.port
     )
       return;
     const fragment = new URLSearchParams(callback.hash.replace(/^#/, ''));
@@ -31,11 +37,19 @@ export function createOAuthCallbackHandler(auth: SupabaseClient['auth']) {
       const { data, error } = await auth.exchangeCodeForSession(code);
       if (error) throw error;
       if (!data.session) throw new Error('OAUTH_SESSION_MISSING');
+      // auth-js 2.x emits SIGNED_IN for manual native PKCE exchange; its
+      // stored verifier supplies redirectType. Never trust a URL type flag.
+      return 'redirectType' in data &&
+        (data.redirectType === 'PASSWORD_RECOVERY' ||
+          data.redirectType === 'recovery')
+        ? ('recovery' as const)
+        : ('signin' as const);
     })();
     exchanges.set(code, exchange);
     try {
-      await exchange;
+      const result = await exchange;
       if (exchanges.size > 10) exchanges.delete(exchanges.keys().next().value!);
+      return result;
     } catch (error) {
       exchanges.delete(code);
       throw error;

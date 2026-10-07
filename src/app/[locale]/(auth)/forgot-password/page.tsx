@@ -20,6 +20,7 @@ export default function ForgotPasswordPage() {
   const locale = useLocale();
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const {
     register,
     handleSubmit,
@@ -27,15 +28,26 @@ export default function ForgotPasswordPage() {
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
   async function onSubmit(values: FormValues) {
+    if (loading) return;
     setLoading(true);
-    const supabase = createClient();
-    await supabase.auth.resetPasswordForEmail(values.email, {
-      redirectTo: `${window.location.origin}/${locale}/reset-password`,
-    });
-    setLoading(false);
-    // Always show the same confirmation regardless of whether the email
-    // exists, to avoid leaking account existence.
-    setSent(true);
+    setError(false);
+    try {
+      const supabase = createClient();
+      const { error: failure } = await supabase.auth.resetPasswordForEmail(
+        values.email,
+        {
+          redirectTo: `${window.location.origin}/${locale}/api/auth/callback?next=/${locale}/reset-password`,
+        },
+      );
+      if (failure) throw failure;
+      // Always show the same confirmation regardless of whether the email
+      // exists, to avoid leaking account existence.
+      setSent(true);
+    } catch {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -44,15 +56,35 @@ export default function ForgotPasswordPage() {
         <CardTitle>{t("auth.resetPasswordTitle")}</CardTitle>
       </CardHeader>
       <CardContent>
+        {error ? (
+          <p role="alert" className="text-sm text-[var(--color-error)]">
+            {locale === "ar"
+              ? "تعذر إرسال الطلب. تحقق من الاتصال وحاول مرة أخرى."
+              : "Could not send the request. Check your connection and try again."}
+          </p>
+        ) : null}
         {sent ? (
-          <p className="text-sm text-[var(--color-muted-text)]">{t("auth.resetPasswordSent")}</p>
+          <p className="text-sm text-[var(--color-muted-text)]">
+            {t("auth.resetPasswordSent")}
+          </p>
         ) : (
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-4"
+            noValidate
+          >
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="email">{t("auth.emailLabel")}</Label>
-              <Input id="email" type="email" autoComplete="email" {...register("email")} />
+              <Input
+                id="email"
+                type="email"
+                autoComplete="email"
+                {...register("email")}
+              />
               {errors.email ? (
-                <p className="text-xs text-[var(--color-error)]">{errors.email.message}</p>
+                <p className="text-xs text-[var(--color-error)]">
+                  {errors.email.message}
+                </p>
               ) : null}
             </div>
             <Button type="submit" disabled={loading}>

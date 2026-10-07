@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { coffeeArt, type ArtKind } from "./fallback-art";
+import { createClient } from "@/lib/supabase/client";
+import { contentMediaPath, resolveContentMedia } from "@/lib/content-media";
 
 /**
  * Drop-in replacement for next/image used everywhere a photo may be
@@ -37,7 +39,37 @@ export function ImageWithFallback({
   priority?: boolean;
 }) {
   const [failed, setFailed] = useState(false);
-  const showFallback = !src || failed;
+  const project = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+  const protectedMedia = !!contentMediaPath(src, project);
+  const [resolved, setResolved] = useState<{
+    source: typeof src;
+    url: string | null;
+  }>({ source: null, url: null });
+  useEffect(() => {
+    setFailed(false);
+    if (!protectedMedia) return;
+    let active = true;
+    const load = () =>
+      void resolveContentMedia(createClient(), src, project)
+        .then((url) => {
+          if (active) setResolved({ source: src, url });
+        })
+        .catch(() => {
+          if (active) setResolved({ source: src, url: null });
+        });
+    load();
+    const timer = setInterval(load, 45000);
+    return () => {
+      active = false;
+      clearInterval(timer);
+    };
+  }, [src, project, protectedMedia]);
+  const imageSrc = protectedMedia
+    ? resolved.source === src
+      ? resolved.url
+      : null
+    : src;
+  const showFallback = !imageSrc || failed;
 
   if (showFallback) {
     return (
@@ -45,7 +77,11 @@ export function ImageWithFallback({
       <img
         src={coffeeArt(fallbackSeed, artKind)}
         alt={alt}
-        className={cn("object-cover", fill ? "absolute inset-0 h-full w-full" : "", className)}
+        className={cn(
+          "object-cover",
+          fill ? "absolute inset-0 h-full w-full" : "",
+          className,
+        )}
         width={fill ? undefined : width}
         height={fill ? undefined : height}
       />
@@ -55,11 +91,12 @@ export function ImageWithFallback({
   if (fill) {
     return (
       <Image
-        src={src}
+        src={imageSrc!}
         alt={alt}
         fill
         sizes={sizes ?? "100vw"}
         priority={priority}
+        unoptimized={protectedMedia}
         className={cn("object-cover", className)}
         onError={() => setFailed(true)}
       />
@@ -68,12 +105,13 @@ export function ImageWithFallback({
 
   return (
     <Image
-      src={src}
+      src={imageSrc!}
       alt={alt}
       width={width ?? 400}
       height={height ?? 400}
       sizes={sizes}
       priority={priority}
+      unoptimized={protectedMedia}
       className={cn("object-cover", className)}
       onError={() => setFailed(true)}
     />

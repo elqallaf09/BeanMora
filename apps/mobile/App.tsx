@@ -130,6 +130,7 @@ function Shell() {
     void AsyncStorage.setItem('beanmora-language', v).catch(() => {});
   }
   const [session, setSession] = useState<Session | null>(null);
+  const [passwordRecovery, setPasswordRecovery] = useState(false);
   const userId = session && !session.user.is_anonymous ? session.user.id : null;
   const [tab, setTab] = useState<Tab>('home');
   const [method, setMethod] = useState<Method>();
@@ -171,9 +172,31 @@ function Shell() {
   });
   useEffect(() => {
     if (!supabase) return;
+    const showRecovery = () => {
+      loginReturn.current = null;
+      setPasswordRecovery(true);
+      setDetail(null);
+      setParents([]);
+      setRecording(false);
+      setTab('account');
+    };
+    const handleCallback = async (url: string) => {
+      const result = await finishOAuth(url);
+      if (result === 'recovery') showRecovery();
+      if (result && Platform.OS === 'web') {
+        const clean = new URL(window.location.href);
+        clean.searchParams.delete('code');
+        window.history.replaceState(window.history.state, '', clean.toString());
+      }
+    };
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, value) => setSession(value));
+    } = supabase.auth.onAuthStateChange((event, value) => {
+      setSession(value);
+      if (event === 'PASSWORD_RECOVERY') {
+        showRecovery();
+      } else if (event === 'SIGNED_OUT') setPasswordRecovery(false);
+    });
     const apply = (state: string) => {
       if (state === 'active') supabase?.auth.startAutoRefresh();
       else supabase?.auth.stopAutoRefresh();
@@ -181,10 +204,10 @@ function Shell() {
     apply(AppState.currentState);
     const listener = AppState.addEventListener('change', apply);
     const callback = Linking.addEventListener('url', (event) => {
-      void finishOAuth(event.url).catch(() => setMessage(t.authError));
+      void handleCallback(event.url).catch(() => setMessage(t.authError));
     });
     void Linking.getInitialURL()
-      .then((url) => (url ? finishOAuth(url) : undefined))
+      .then((url) => (url ? handleCallback(url) : undefined))
       .catch(() => setMessage(t.authError));
     return () => {
       subscription.unsubscribe();
@@ -897,6 +920,13 @@ function Shell() {
                 <AccountScreen
                   key={userId ?? 'public'}
                   session={userId ? session : null}
+                  recovery={passwordRecovery}
+                  onRecovered={() => {
+                    setPasswordRecovery(false);
+                    setMessage(
+                      ar ? 'تم تحديث كلمة المرور.' : 'Password updated.',
+                    );
+                  }}
                   back={back}
                   onDeleted={(localCleanupFailed) => {
                     loginReturn.current = null;

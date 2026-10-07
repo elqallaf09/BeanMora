@@ -30,8 +30,11 @@ test('installed mobile builds persist the authenticated session', () => {
   const client = get('src/client.ts');
   assert.match(client, /persistSession:\s*true/);
   assert.match(client, /autoRefreshToken:\s*true/);
-  assert.match(client, /storage:\s*AsyncStorage/);
-  assert.match(client, /detectSessionInUrl:\s*Platform.OS === 'web'/);
+  assert.match(client, /storage:\s*sessionStorage/);
+  assert.doesNotMatch(client, /storage:\s*AsyncStorage/);
+  assert.match(get('src/sessionStorage.native.ts'), /SecureStore/);
+  assert.match(get('src/sessionStorage.native.ts'), /WHEN_UNLOCKED_THIS_DEVICE_ONLY/);
+  assert.match(client, /detectSessionInUrl:\s*false/);
 });
 test('public reads enforce publication, review and recipe visibility', () => {
   const code = get('src/data.ts');

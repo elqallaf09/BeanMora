@@ -174,3 +174,67 @@ describe('native OAuth callbacks', () => {
     );
   });
 });
+
+it('native recovery reads the verified PKCE result, never a forged URL type', async () => {
+  const { createClient } = await import('@supabase/supabase-js');
+  const values = new Map<string, string>();
+  const client = createClient(
+    'https://fixture.supabase.co',
+    'isolated_public_key',
+    {
+      auth: {
+        flowType: 'pkce',
+        storageKey: 'native-recovery',
+        detectSessionInUrl: false,
+        autoRefreshToken: false,
+        storage: {
+          getItem: (key: string) => values.get(key) ?? null,
+          setItem: (key: string, value: string) => {
+            values.set(key, value);
+          },
+          removeItem: (key: string) => {
+            values.delete(key);
+          },
+        },
+      },
+      global: {
+        fetch: async (input) =>
+          new Response(
+            JSON.stringify(
+              String(input).includes('/recover')
+                ? {}
+                : {
+                    access_token: 'isolated',
+                    refresh_token: 'isolated_refresh',
+                    token_type: 'bearer',
+                    expires_in: 3600,
+                    user: {
+                      id: owner,
+                      app_metadata: {},
+                      user_metadata: {},
+                      aud: 'authenticated',
+                      created_at: '2026-10-07T00:00:00Z',
+                    },
+                  },
+            ),
+            { status: 200, headers: { 'Content-Type': 'application/json' } },
+          ),
+      },
+    },
+  );
+  const handler = createOAuthCallbackHandler(client.auth);
+  await client.auth.resetPasswordForEmail('fixture@example.test', {
+    redirectTo: 'beanmora://auth',
+  });
+  await expect(handler('beanmora://auth?code=isolated_recovery')).resolves.toBe(
+    'recovery',
+  );
+  values.set(
+    'native-recovery-code-verifier',
+    JSON.stringify('isolated_verifier'),
+  );
+  await expect(
+    handler('beanmora://auth?code=isolated_login&type=recovery'),
+  ).resolves.toBe('signin');
+  client.auth.stopAutoRefresh();
+});

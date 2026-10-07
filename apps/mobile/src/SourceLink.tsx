@@ -1,6 +1,8 @@
 import { useContext, useState } from 'react';
 import { Linking, View } from 'react-native';
 import { safeUrl } from './guards';
+import { resolveContentMedia } from './core/content-media';
+import { supabase, catalogScope } from './client';
 import { Action, Language, Txt, styles } from './ui';
 
 export function SourceLink({
@@ -20,13 +22,19 @@ export function SourceLink({
         compact={compact}
         title={title}
         onPress={() => {
-          setFailed(false);
-          const target = safeUrl(url);
-          if (!target) {
-            setFailed(true);
-            return;
-          }
-          void Linking.openURL(target).catch(() => setFailed(true));
+          void (async () => {
+            setFailed(false);
+            const target = safeUrl(
+              supabase
+                ? await resolveContentMedia(supabase, url, catalogScope)
+                : url,
+            );
+            if (!target) {
+              setFailed(true);
+              return;
+            }
+            void Linking.openURL(target).catch(() => setFailed(true));
+          })().catch(() => setFailed(true));
         }}
       />
       {failed ? (
