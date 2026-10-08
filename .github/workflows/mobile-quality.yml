@@ -11,6 +11,9 @@ concurrency:
 jobs:
   mobile:
     runs-on: ubuntu-latest
+    # Match the locked Playwright version and reuse the web workflow's browser image.
+    container:
+      image: mcr.microsoft.com/playwright:v1.55.1-noble
     timeout-minutes: 20
     env:
       CI: '1'
@@ -44,7 +47,7 @@ jobs:
         run: npm run export -- --source-maps
       - name: Keep security-patched build tooling out of every runtime bundle
         run: node scripts/check-exported-dependencies.mjs
-      - name: Install isolated web-preview browser
-        run: npx playwright install --with-deps chromium
+      - name: Verify preinstalled web-preview browser
+        run: node -e "const fs=require('node:fs'); const {chromium}=require('@playwright/test'); fs.accessSync(chromium.executablePath(),fs.constants.X_OK)"
       - name: Test React Native Web preview (not a physical-device test)
         run: npx playwright test --config=playwright.config.ts

@@ -34,6 +34,8 @@ The three export source maps contain no forge/braces modules. This proves their 
 4. Only the exact advisory URL/range and reviewed tooling nodes/immediate consumers can be classified as patched. New advisories, changed ranges, direct usage, additional nodes/consumers, critical findings, incomplete/unavailable audit data and failing tests block. Historical exception deadline/scope regression tests remain active even though the actual exception list is empty.
 5. CI exports source maps for iOS, Android and web and blocks either tooling package entering a runtime bundle. Missing/malformed maps fail. Verification maps stay in ignored `dist/`; no source maps are published by this change.
 
+The mobile workflow uses the same version-matched Playwright 1.55.1 image as the passing web workflow. On the 0.5.17 integration, browser installation on a fresh host stalled for several minutes after every security/build/export check had passed (the previous integration's install took 24 seconds). The container provides Chromium and its system libraries; an executable check is required before the unchanged 97 preview scenarios run. This makes browser setup reproducible without bypassing any test or security check.
+
 The raw mobile audit still exits **1**, reporting **15 high affected-package entries for two underlying advisories** and zero other severity counts. npm checks upstream package versions, so it cannot recognize these installed source backports. The gate prints both advisories as **VERIFIED LOCAL SECURITY FIX; NPM VERSION FINDING REMAINS**, reports zero risk exceptions, and explicitly states that raw npm audit is not clean. No warnings are hidden and no unresolved-risk exception substitutes for a source fix.
 
 ## Compatibility and exploit evidence
