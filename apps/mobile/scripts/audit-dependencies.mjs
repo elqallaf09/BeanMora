@@ -1,28 +1,22 @@
 import { spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
+import { evaluateAudit } from './audit-policy.mjs';
 
-// Exact, time-limited tooling advisories. New advisories, critical findings,
-// registry outages and expired exceptions fail the release check.
+// Audit the entire build tree, including devDependencies. These exceptions
+// accept only the reviewed tooling nodes/consumers, never a direct application
+// dependency. A passing gate with exceptions is NOT a clean npm audit.
 const exceptions = JSON.parse(readFileSync(new URL('../security-audit-exceptions.json', import.meta.url), 'utf8'));
-const result = spawnSync('npm', ['audit', '--omit=dev', '--json'], { encoding: 'utf8', timeout: 90000, maxBuffer: 4 * 1024 * 1024 });
+const result = spawnSync('npm', ['audit', '--include=dev', '--json'], {
+  encoding: 'utf8', timeout: 90000, maxBuffer: 4 * 1024 * 1024,
+  shell: process.platform === 'win32',
+});
 if (result.error) throw result.error;
+if (result.stderr) process.stderr.write(result.stderr);
+if (![0, 1].includes(result.status)) throw new Error(`Dependency audit failed to run (exit ${result.status}).`);
 const audit = JSON.parse(result.stdout);
-if (audit.error || !audit.metadata || !audit.vulnerabilities) throw new Error('Dependency audit unavailable; retry before release.');
-const blocked = new Set(), accepted = new Set();
-const visit = (name, seen = new Set()) => {
-  if (seen.has(name)) return;
-  seen.add(name);
-  const entry = audit.vulnerabilities[name];
-  if (!entry) { blocked.add(`Unresolved audit dependency: ${name}`); return; }
-  for (const item of entry.via) {
-    if (typeof item === 'string') { visit(item, seen); continue; }
-    if (!['moderate','high','critical'].includes(item.severity)) continue;
-    const exception = exceptions.find(e => e.package === item.name && e.url === item.url && e.range === item.range && Date.parse(e.expires) > Date.now());
-    if (item.severity !== 'critical' && exception) accepted.add(`${item.name}: ${item.url} (expires ${exception.expires})`);
-    else blocked.add(`${item.name}: ${item.url}`);
-  }
-};
-for (const name of Object.keys(audit.vulnerabilities)) visit(name);
+const { blocked, accepted, counts } = evaluateAudit(audit, exceptions);
+console.log(`Full dependency audit (including dev): ${JSON.stringify(counts)}`);
 for (const line of accepted) console.warn('REVIEWED TOOLING RISK:', line);
-if (blocked.size) { console.error([...blocked].join('\n')); process.exitCode=1; }
-else console.log(`Audit gate passed: ${accepted.size} explicitly reviewed tooling advisories; zero unreviewed findings.`);
+if (blocked.length) { console.error(blocked.join('\n')); process.exitCode = 1; }
+else if (accepted.length) console.log(`Audit gate passed WITH ${accepted.length} temporary tooling exceptions; vulnerabilities remain unresolved.`);
+else console.log('Audit gate passed: zero vulnerabilities and zero exceptions.');
