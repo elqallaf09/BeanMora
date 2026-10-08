@@ -63,7 +63,7 @@ export function BrewMyCoffee({
     owner: string | null;
     rows: InventoryRow[];
   }>({ owner: userId, rows: [] });
-  const [busy, setBusy] = useState(false);
+  const [busy, setBusy] = useState(Boolean(userId));
   const [error, setError] = useState('');
   const inventory = inventoryState.owner === userId ? inventoryState.rows : [];
   const [selectedId, setSelectedId] = useState<string | null>(null);
