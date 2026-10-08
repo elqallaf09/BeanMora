@@ -647,7 +647,10 @@ export function Home({
             title={ar ? 'أدوات وتوصيات' : 'Tools and recommendations'}
             onPress={() => tools('all')}
           />
-          <View style={s.tools}>
+          <View
+            testID="home-tools"
+            style={[s.tools, width >= 600 && s.toolsWide]}
+          >
             {[
               {
                 title: 'xBloom',
@@ -679,16 +682,21 @@ export function Home({
                 accessibilityRole="button"
                 accessibilityLabel={tool.title}
                 onPress={tool.press}
-                style={[s.tool, width < 600 && { minWidth: 145 }]}
+                style={[
+                  s.tool,
+                  width >= 600
+                    ? s.toolWide
+                    : { flexDirection: ar ? 'row-reverse' : 'row' },
+                ]}
               >
                 <Image
                   source={tool.image}
                   resizeMode="contain"
+                  accessible={false}
                   style={s.toolImage}
                 />
                 <View style={s.toolCopy}>
                   <Txt
-                    numberOfLines={1}
                     style={{ fontSize: 15, fontWeight: '700' }}
                   >
                     {tool.title}
@@ -1338,27 +1346,32 @@ const s = StyleSheet.create({
     paddingRight: 2,
     minHeight: 36,
   },
-  tools: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+  tools: { gap: 12 },
+  toolsWide: { flexDirection: 'row' },
   tool: {
-    flex: 1,
     minWidth: 0,
-    minHeight: 130,
+    minHeight: 128,
+    padding: 12,
+    gap: 12,
+    alignItems: 'center',
     borderRadius: 16,
     backgroundColor: '#E8DDCE',
     overflow: 'hidden',
   },
+  toolWide: { flex: 1, alignItems: 'stretch' },
+  // Keep the complete product in normal layout flow. Absolute positioning and
+  // percentage heights can clip these images on native iOS inside flex cards.
   toolImage: {
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-    width: '50%',
-    height: '100%',
+    width: 104,
+    height: 104,
+    flexShrink: 0,
+    alignSelf: 'center',
   },
   toolCopy: {
-    width: '60%',
-    padding: 14,
-    paddingRight: 0,
-    alignItems: 'flex-start',
+    flexGrow: 1,
+    flexShrink: 1,
+    minWidth: 0,
+    gap: 4,
   },
   skeleton: {
     height: 182,
