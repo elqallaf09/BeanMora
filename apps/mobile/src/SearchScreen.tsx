@@ -20,7 +20,7 @@ export function SearchScreen({
   savedIds,
   saveCoffee,
 }: {
-  recipeOptions?: Omit<ComponentProps<typeof RecipeCatalog>,'open'|'searchResults'>;
+  recipeOptions?: Omit<ComponentProps<typeof RecipeCatalog>,'open'|'searchResults'|'universal'>;
   coffees: CoffeeItem[];
   savedIds: string[];
   saveCoffee: (coffee: CoffeeItem) => void;
@@ -32,12 +32,15 @@ export function SearchScreen({
 }) {
   const locale = useContext(Language);
   const ar = locale === 'ar';
+  const universal = recipeOptions === undefined;
   const { width } = useWindowDimensions();
   const [roasters, setRoasters] = useState<RoasterItem[]>([]);
   const [error, setError] = useState(false);
   const [revision, setRevision] = useState(0);
   const [busy, setBusy] = useState(true);
   useEffect(() => {
+    // Recipe-only searches neither display nor fetch the roaster directory.
+    if (!universal) return;
     let active = true;
     setBusy(true);
     setError(false);
@@ -58,9 +61,8 @@ export function SearchScreen({
     return () => {
       active = false;
     };
-  }, [locale, revision]);
+  }, [locale, revision, universal]);
   const renderResults = (query: string) => {
-    if(recipeOptions && (!query.trim() || recipeOptions.locked))return null;
     const matches = coffees.filter(
       (coffee) =>
         coffee.published &&
@@ -168,6 +170,6 @@ export function SearchScreen({
     );
   };
   return (
-    <RecipeCatalog universal={!recipeOptions} {...recipeOptions} open={openRecipe} searchResults={renderResults} />
+    <RecipeCatalog {...recipeOptions} universal={universal} open={openRecipe} searchResults={universal ? renderResults : undefined} />
   );
 }
