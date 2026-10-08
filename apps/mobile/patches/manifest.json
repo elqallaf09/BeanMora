@@ -1,0 +1,95 @@
+[
+  {
+    "version": "1.4.0",
+    "url": "https://github.com/advisories/GHSA-86w9-cpqp-85rv",
+    "range": "<=1.4.0",
+    "nodes": [
+      "node_modules/node-forge"
+    ],
+    "dependents": [
+      "@expo/cli",
+      "@expo/code-signing-certificates"
+    ],
+    "upstream": "https://github.com/digitalbazaar/forge/pull/1152",
+    "commit": "ceba34402e329f0365134f23fe19898756527d65",
+    "license": "BSD-3-Clause",
+    "files": [
+      {
+        "path": "lib/rsa.js",
+        "patch": "node-forge/lib-rsa.js.patch",
+        "beforeSha256": "fd4740238145ec26470eb3f06a627c72039538ce1307dbdce40521f94dfd0a50",
+        "afterSha256": "acc22e5d36e27832c34e02dd3933aad7977d45b047eead5016520735efedc9c5"
+      }
+    ],
+    "package": "node-forge",
+    "resolutions": [
+      {
+        "from": "node_modules/expo/node_modules/@expo/cli/package.json",
+        "package": "@expo/cli"
+      },
+      {
+        "from": "node_modules/@expo/code-signing-certificates/package.json",
+        "package": "@expo/code-signing-certificates"
+      }
+    ]
+  },
+  {
+    "version": "3.0.3",
+    "url": "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm",
+    "range": "<=3.0.3",
+    "nodes": [
+      "node_modules/braces"
+    ],
+    "dependents": [
+      "micromatch"
+    ],
+    "upstream": "https://github.com/micromatch/braces/pull/78",
+    "commit": "97308a01d091b211cf015314a2d0696da28a5392",
+    "license": "MIT",
+    "files": [
+      {
+        "path": "lib/compile.js",
+        "patch": "braces/lib-compile.js.patch",
+        "beforeSha256": "dc98f22eee3d511785d92a00758d5f0d48efed5f5813bdecc2de430c529b5c9f",
+        "afterSha256": "88cf20f18b59c9b2741c2d9b0f0ac6b2967d8e174667edf817133ca57d76809e"
+      },
+      {
+        "path": "lib/constants.js",
+        "patch": "braces/lib-constants.js.patch",
+        "beforeSha256": "c18ac5adb57308f1ce42a28552da3a31f5d83709743ebd9a636336813a744d4b",
+        "afterSha256": "8d0bfdb50bb1e5267facef720ba09179634761165e3d6e13ad512ed10d6c180c"
+      },
+      {
+        "path": "lib/expand.js",
+        "patch": "braces/lib-expand.js.patch",
+        "beforeSha256": "41ccc196ebfa7b7781a634e721eb744e4e7bcb54cba427a7e3d6806a1b9e58f7",
+        "afterSha256": "46a259d3f23c0cd441fa370f16d5d48fa71060dfe918eeba84f6e95d3a94d368"
+      },
+      {
+        "path": "lib/parse.js",
+        "patch": "braces/lib-parse.js.patch",
+        "beforeSha256": "e572166565f15fa6ad9865ae49d678218e32aabfd1b3720f6d0d43d39800d310",
+        "afterSha256": "adf3c108a16afaabe5379298d2227881e88f536cc7345b7df780a80d38dd01f9"
+      },
+      {
+        "path": "lib/stringify.js",
+        "patch": "braces/lib-stringify.js.patch",
+        "beforeSha256": "379f22d77bfa1478341ccd49c5e4267464aabcbba03558bab332aac23fc6f23a",
+        "afterSha256": "a3b8b5e7567ff9bfdbe155479fbdd92d5a924c3919adf05316f8f0c4f6330332"
+      },
+      {
+        "path": "lib/utils.js",
+        "patch": "braces/lib-utils.js.patch",
+        "beforeSha256": "b5a7596aa67730412b3c029ef09e84e6b67b8e445cffd35d1d295549c89066c7",
+        "afterSha256": "bbdfdad69da36c1994a19006af254659586a20d2c00b2a936926b7905cfb3aaf"
+      }
+    ],
+    "package": "braces",
+    "resolutions": [
+      {
+        "from": "node_modules/micromatch/package.json",
+        "package": "micromatch"
+      }
+    ]
+  }
+]

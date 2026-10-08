@@ -13,6 +13,9 @@ const policy = [
     nodes: ['node_modules/node-forge'], dependents: ['@expo/cli', '@expo/code-signing-certificates'], expires: '2026-10-21T00:00:00Z', owner: 'test', reason: 'fixture' },
 ];
 const beforeExpiry = Date.parse('2026-10-20T23:59:59Z');
+const verifiedBackports = policy.map(({ package: name, url, range, nodes, dependents }) => ({
+  package: name, url, range, nodes, dependents, version: name === 'braces' ? '3.0.3' : '1.4.0', verified: true,
+}));
 function fixture(exceptions = policy) {
   const vulnerabilities = Object.fromEntries(exceptions.map(e => [e.package, {
     name: e.package, severity: 'high', isDirect: false, nodes: [...e.nodes], effects: [...e.dependents],
@@ -21,7 +24,7 @@ function fixture(exceptions = policy) {
   return { metadata: { vulnerabilities: { high: exceptions.length, total: exceptions.length } }, vulnerabilities };
 }
 
-test('only the two existing advisories are accepted and their deadline is unchanged', () => {
+test('historical exception identities, scope and deadline cannot be broadened', () => {
   assert.ok(currentPolicy.length <= policy.length);
   for (const e of currentPolicy) {
     const reviewed = policy.find(item => item.package === e.package);
@@ -98,5 +101,41 @@ test('unavailable or incomplete audit data and malformed policies cannot pass', 
   }
   for (const exceptions of [{}, [{ ...policy[0], expires: 'invalid' }], [policy[0], policy[0]], [null]]) {
     assert.throws(() => evaluateAudit(fixture(), exceptions, beforeExpiry), /exception/i);
+  }
+});
+
+test('real risk exceptions are removed; verified fixes remain valid after the old deadline', () => {
+  assert.deepEqual(currentPolicy, []);
+  const audit = fixture();
+  const result = evaluateAudit(audit, [], Date.parse('2026-10-22T00:00:00Z'), verifiedBackports);
+  assert.deepEqual(result.blocked, []);
+  assert.deepEqual(result.accepted, []);
+  assert.equal(result.patched.length, 2);
+  assert.deepEqual(result.counts, audit.metadata.vulnerabilities);
+  // Fixing code cannot bypass an expired risk entry left in the policy.
+  assert.ok(evaluateAudit(audit, policy, Date.parse('2026-10-22T00:00:00Z'), verifiedBackports).blocked.length);
+});
+
+test('audit findings cannot be classified as patched without verified installed-code proof', () => {
+  assert.ok(evaluateAudit(fixture(), [], beforeExpiry).blocked.length);
+  for (const proof of [verifiedBackports.map(p => ({ ...p, verified: false })), [{}], null]) {
+    assert.throws(() => evaluateAudit(fixture(), [], beforeExpiry, proof), /Unverified security backport/);
+  }
+});
+
+test('verified fixes cover only the exact advisory, range and reviewed installations/consumers', () => {
+  for (const mutate of [
+    entry => { entry.via[0].url += '-new'; },
+    entry => { entry.via[0].range += '-changed'; },
+    entry => { entry.via[0].severity = 'critical'; },
+    entry => { entry.severity = 'critical'; },
+    entry => { entry.isDirect = true; },
+    entry => { entry.nodes.push('node_modules/new/node_modules/braces'); },
+    entry => { entry.effects.push('new-consumer'); },
+    entry => { entry.via.push({ ...entry.via[0], url: entry.via[0].url + '-second' }); },
+  ]) {
+    const audit = fixture();
+    mutate(audit.vulnerabilities.braces);
+    assert.ok(evaluateAudit(audit, [], beforeExpiry, verifiedBackports).blocked.length);
   }
 });

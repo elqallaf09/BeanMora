@@ -1,62 +1,55 @@
-# BeanMora build-tool security exceptions — 2026-10-08
+# BeanMora tooling security fixes — 2026-10-08
 
-Baseline: main `9a780d7fc0368e7c9337349d3269ed94ff93ff27` (PR #39), app 0.5.15, Expo 57.0.27, Next.js 15.5.27. Both package trees were installed from the committed locks with `npm ci`, using npm 11.19.1. The local runtime is Node 24.19.0; CI uses Node 22.
+**Both reported flaws are fixed in the installed mobile build tools by reproducible source backports.** The two temporary risk exceptions have been removed (`security-audit-exceptions.json` is `[]`). No exception expiry was extended. These are locally validated fixes to the code actually used by Expo and Metro, not claims that upstream has released patched npm versions.
 
-## Actual findings
+Baseline: main `9a780d7fc0368e7c9337349d3269ed94ff93ff27` (PR #39), app 0.5.15, Expo 57.0.27, Next.js 15.5.27. Validation uses npm 11.19.1, local Node 24.19.0 and CI Node 22. Application source and SDK dependency versions are preserved. The mobile lock changes only its root `hasInstallScript` metadata for the automatic patch installer; registry versions, tarballs and integrity hashes remain honest and unchanged.
 
-**Neither upstream vulnerability is fixed.** Full mobile `npm audit --include=dev --json` exits 1: 15 high-severity affected-package entries, representing two underlying advisories; zero info/low/moderate/critical findings. The historical count of 16 from 0.5.14 is not a current finding count. A change in propagated package counts does not prove a fix.
+## Actual dependency chains and code fixes
 
-| Installed vulnerable package | Actual introducers after clean installation | Advisory |
+| Package and introducer | Reported flaw | Installed fix |
 | --- | --- | --- |
-| node-forge 1.4.0 | expo 57.0.27 → @expo/cli 57.0.28 → node-forge; the same CLI → @expo/code-signing-certificates 0.0.6 → node-forge (deduplicated) | GHSA-86w9-cpqp-85rv, affected <=1.4.0 |
-| braces 3.0.3 | expo 57.0.27 → @expo/metro 56.0.2 → metro-file-map 0.84.5 → micromatch 4.0.8 → braces; React Native's community CLI also reaches the same Metro tree | GHSA-vfj7-8cjw-p6xm, affected <=3.0.3 |
+| node-forge 1.4.0: expo 57.0.27 → @expo/cli 57.0.28 → node-forge; CLI → @expo/code-signing-certificates 0.0.6 → the same deduplicated forge | GHSA-86w9-cpqp-85rv / CVE-2026-85393: additional nested DigestAlgorithm children accepted by RSA PKCS#1 v1.5 verification | Require exactly the OID plus the optional NULL parameter, in addition to the existing outer DigestInfo checks. Reject extra algorithm children. Preserve valid algorithms, optional parameters and existing padding rules. |
+| braces 3.0.3: expo 57.0.27 → @expo/metro 56.0.2 → metro-file-map 0.84.5 → micromatch 4.0.8 → braces; React Native's community CLI also reaches this Metro graph | GHSA-vfj7-8cjw-p6xm / CVE-2026-93687: stack exhaustion on deeply nested patterns/AST traversal | Mandatory depth limit 100 in the iterative parser and all three recursive walkers: compile, expand and stringify. Deep braces/parentheses and direct ASTs produce a controlled SyntaxError before exhausting the stack. |
 
-The two leaf packages are installed in the **production-classified npm tree** because Expo/React Native are app dependencies. Calling them tooling dependencies is based on source usage and exported bundle evidence, not `dev: true` labels or an assumption that `--omit=dev` removes them.
+The patches exactly backport library hunks from the following pinned upstream proposals, reviewed and tested in this change:
 
-- Metro file watchers call micromatch with repository file paths/globs (`metro-file-map/src/watchers/common.js`). The risk is stack exhaustion from deeply nested patterns.
-- Expo CLI's iOS signing utility parses certificates with forge. `@expo/code-signing-certificates/build/main.js` also calls `certificate.verify`, public-key verification and CSR verification. Signing tooling is exposed to the cryptographic verifier; it is not accurate to say forge verification is unused everywhere.
-- The iOS, Android and web export source maps contain no node-forge/braces modules. This supports absence from these JavaScript runtime bundles; it does not make the installed build tools safe or certify a signed IPA/APK.
-- The separate Next.js tree has neither package and `npm audit --audit-level=low` reports zero vulnerabilities. PR #39 fixed the Next.js advisories, not these two mobile exceptions.
+- [digitalbazaar/forge PR #1152](https://github.com/digitalbazaar/forge/pull/1152), commit `ceba34402e329f0365134f23fe19898756527d65`; BSD-3-Clause option, with copyright/license notice retained.
+- [micromatch/braces PR #78](https://github.com/micromatch/braces/pull/78), commit `97308a01d091b211cf015314a2d0696da28a5392`; MIT, with copyright/license notice retained.
 
-## Available upgrades and decision
+These proposals are open upstream, not maintainer-approved releases. Their exact code, origin, package versions, consumers and SHA-256 file hashes are committed under `apps/mobile/patches/`. No floating fork, prerelease SDK or artificial package version is used.
 
-Registry queries and the upstream advisories were rechecked for this task:
+Both leaf packages are in npm's production-classified tree because Expo/React Native are application dependencies. Tooling status is established by source use and bundle evidence, not by `dev: true` or omitting development dependencies. Expo code-signing certificates **do perform RSA/certificate/CSR verification**, so that path needs the cryptographic fix. Metro imports micromatch; its brace compilation/expansion APIs resolve the patched braces copy. Normal micromatch file matching also uses picomatch, which must not be confused with the vulnerable braces recursion.
 
-| Package | Published stable version checked | Can it remove the finding? |
-| --- | --- | --- |
-| node-forge | 1.4.0 | No; this is the installed affected version. Upstream fix PR #1152 is still open. |
-| braces | 3.0.3 | No; this is the installed affected version. Issue #70 remains open. |
-| expo / @expo/cli | 57.0.27 / 57.0.28 | Already installed, still bring forge and Metro. Expo's `next` tag is outside the stable SDK used by this release. |
-| @expo/code-signing-certificates | 0.0.7 | Still depends on node-forge ^1.4.0. It is outside the CLI's ^0.0.6 range and does not fix this advisory. |
-| micromatch | 4.0.8 | Already installed; depends on braces ^3.0.3. |
-| metro-file-map | 0.87.1 | Still depends on micromatch ^4.0.4 and is outside the installed Metro 0.84.5 graph. |
+The three export source maps contain no forge/braces modules. This proves their absence from these JavaScript bundles, not safety of unpatched tools or successful signed IPA/APK builds. The separate Next.js tree has neither leaf package and audits cleanly; PR #39's Next upgrade did not itself fix the mobile tools.
 
-No dependency version or lock was changed: none of the checked stable upgrades removes either finding. An unrelated Metro/SDK upgrade, an unmerged cryptographic patch, or an unreviewed fork is not evidence of a safe compatible remediation. A maintainer-supported drop-in replacement was not identified. Preserve the current SDK until a fix can be installed and tested.
+## Installation and release gate
 
-## Changes made to the release gates
+1. Mobile `npm ci` automatically runs `postinstall` to apply both source fixes. The installer validates lockfile locations/versions and actual CLI/code-signing/micromatch resolutions, checks every original file hash, applies exact hunks without fuzzy matching, then checks the patched hashes. All files are validated before writes; repeat installation is idempotent. Unknown source fails installation.
+2. App start, iOS/Android/web/tunnel scripts, export and EAS post-install verify the installed patches. `npm ci --ignore-scripts` was explicitly tested: verification, the audit gate and `npm run export` all fail on the unpatched files. Modified bytes, new installed copies and a consumer resolving an unpatched nested copy also fail.
+3. The audit still runs **`npm audit --include=dev --json`** across every severity, preserves npm diagnostics and prints the raw result. Before classifying a finding as locally patched, it verifies installed hashes/resolutions and reruns exploit and compatibility checks. The manifest alone cannot clear a finding.
+4. Only the exact advisory URL/range and reviewed tooling nodes/immediate consumers can be classified as patched. New advisories, changed ranges, direct usage, additional nodes/consumers, critical findings, incomplete/unavailable audit data and failing tests block. Historical exception deadline/scope regression tests remain active even though the actual exception list is empty.
+5. CI exports source maps for iOS, Android and web and blocks either tooling package entering a runtime bundle. Missing/malformed maps fail. Verification maps stay in ignored `dist/`; no source maps are published by this change.
 
-1. Audit all dependencies, explicitly including development tools, and report raw severity counts. New findings at any severity block; critical findings can never be excepted.
-2. Retain the exact advisory URL/range but narrow each exception to its reviewed installed node and immediate consumers. Direct use of either package, new installed nodes or additional consumers blocks the gate.
-3. Validate exception metadata, duplicates and expiry. Expired exceptions fail even if an advisory disappears; unused exceptions must be removed after verifying the fix. Missing/incomplete audit data and unresolved advisory paths fail closed.
-4. State explicitly that a gate passed **with temporary exceptions and unresolved vulnerabilities**. Preserve npm diagnostics rather than suppressing them.
-5. Check all three exported source maps in CI and fail if either excepted package enters a runtime bundle. Missing or malformed maps also fail. Source maps are verification output in ignored `dist/`; this change does not publish them or change the normal app export script.
-6. Add regression coverage for the deadline, changed advisory identities/ranges, critical/new low findings, scope changes, cycles, unavailable data and runtime inclusion on all platforms.
+The raw mobile audit still exits **1**, reporting **15 high affected-package entries for two underlying advisories** and zero other severity counts. npm checks upstream package versions, so it cannot recognize these installed source backports. The gate prints both advisories as **VERIFIED LOCAL SECURITY FIX; NPM VERSION FINDING REMAINS**, reports zero risk exceptions, and explicitly states that raw npm audit is not clean. No warnings are hidden and no unresolved-risk exception substitutes for a source fix.
 
-## Deadline and remaining action
+## Compatibility and exploit evidence
 
-Expiry is unchanged: **2026-10-21T00:00:00Z (03:00 Kuwait time)**. No exception was added, broadened or extended. Both remain open until a real fix or reviewed compatible replacement is verified.
+The same regression assertions first failed on pristine upstream 1.4.0/3.0.3 code, then passed after patching:
 
-Before the deadline, recheck the registry plus forge PR #1152 and braces issue #70. Install a published fix through compatible parent versions or a narrowly reviewed override, regenerate locks with npm 11.19.1, and repeat the commands below. Confirm both the installed dependency tree and raw full audit; remove only the resolved exception. Do not reinterpret a passing exception gate as a clean audit.
+- Forge: valid PKCS#1 padding with extra DigestAlgorithm children (with and without NULL parameters) is now rejected. The upstream low-exponent vector is also rejected. That vector isolates ASN.1 checks with the upstream padding-test option; our separate malformed-signature tests use the normal padded verifier.
+- Forge compatibility: valid SHA-1/256/384/512 RSA signatures with and without optional NULL, wrong-hash rejection, RSA encryption/decryption and RSA-PSS pass. Real installed Expo certificate generation/PEM parsing/validation, CSR verification and manifest signing pass; a malformed certificate signature is rejected.
+- Braces: 4,000 nested braces/parentheses are rejected by parse, compile, expand, stringify and the default API in child processes with a 512 KB stack. Direct AST depth 100 succeeds, 101 and 4,000 reject. Alternatives, ranges, escapes, parsed ASTs, nested patterns below the bound and micromatch consumers retain their behavior.
+- The upstream suites ran against byte-identical patched library files: **forge 829 passed, 4 existing pending**, including the new upstream RSA regression; **braces 778 passed**, including its 14 new depth regressions. The forge tag's `describe.only` on JSBN was unfocused only in the scratch test clone to run the complete suite; no library code was changed beyond the committed security hunks. The isolated runner was Mocha 11.7.5; no test-runner dependencies were added to the app.
 
-Until then, accept only trusted repository/build/signing inputs and keep development servers private. At expiry the release gate must block while a finding remains; do not extend the date solely to release. If an upstream patch is still unavailable, a separately reviewed backport/replacement is the remaining engineering work, not a claimed completion here.
+The mandatory braces depth bound is an intentional rejection of pathological patterns. It is not a guarantee that arbitrary hostile JavaScript getters, malformed foreign parent/queue structures or unlimited Cartesian expansion are safe; those are outside this recursion CVE backport. All existing application behavior checks remain active.
 
-## Verification
+## Verification and reproduction
 
-Completed locally: clean web/mobile installs, web audit (zero), mobile raw audit (15 high entries / two unresolved advisories), the narrowed exception gate, 9 policy and 3 export-gate regression tests, 9 existing web security regressions, 214 web unit/recommendation/outcome tests, mobile behavior suite, web/native typechecks, web lint, Xcode UUID compatibility, Expo dependency compatibility, Expo Doctor **21/21**, and iOS/Android/web exports with source maps. The maps have 903/901/549 source entries respectively, with zero affected package modules.
+After a fresh normal mobile install: 36 security/backport/policy/export regression tests; mobile behavior suite (98 tests plus guide checks); web security regressions (9); web unit/recommendation/outcome suite (214); web/mobile typechecks; web lint; Xcode UUID compatibility; full audits; Expo version compatibility; Expo Doctor **21/21**; and all three source-map exports. iOS/Android/web maps have **903/901/549** sources and zero forge/braces modules. Final browser/build results and GitHub run links are recorded on the PR for the uploaded head, not inferred from older checks.
 
-All 89 React Native Web browser scenarios passed against the isolated fixture. A second local Next production build passed using the previous build's real font CSS/WOFF2 files through Next's test-only font response mechanism, with no application source change. The first normal local build failed because this environment could not fetch Google Fonts. Further web browser results and final GitHub checks are recorded in the pull request; this cached-font build is not evidence of successful online font fetching. CI continues to run the normal production build with online fonts.
+A local Next production build uses the previous build's real font CSS/WOFF2 through Next's test-only cached-font response mechanism because the normal local environment cannot fetch Google Fonts. Application code is unchanged; this does not prove online font fetching. GitHub's production build continues to use normal online fonts.
 
-Reproduction (web repository root):
+From the web repository root:
 
 ```sh
 npm ci
@@ -68,13 +61,14 @@ npm run lint
 npm run build
 ```
 
-Reproduction (`apps/mobile`, isolated fixture configuration for preview/export, not signing):
+From `apps/mobile`, using the isolated preview/export fixture configuration (not native signing):
 
 ```sh
 npm ci
 npm ls braces node-forge
+npm run verify:tooling-security
 npm audit --include=dev --json
-node --test scripts/audit-policy.test.mjs scripts/check-exported-dependencies.test.mjs
+node --test scripts/tooling-security.test.mjs scripts/audit-policy.test.mjs scripts/check-exported-dependencies.test.mjs
 node scripts/audit-dependencies.mjs
 node scripts/check-tooling.cjs
 npm run typecheck
@@ -86,15 +80,14 @@ node scripts/check-exported-dependencies.mjs
 npx playwright test --config=playwright.config.ts
 ```
 
-The raw mobile audit is expected to exit 1 while these advisories remain. JavaScript exports and browser preview are not physical-device tests, a signed native build, a TestFlight upload or store publication.
+Expect the raw mobile audit command to exit 1 for the unchanged published versions. The independently verified installed-code gate must pass with **two source fixes and zero risk exceptions**. JavaScript exports/browser previews are not physical-device tests, a signed native build, TestFlight upload or store publication.
 
-## Primary sources
+## October 21 and remaining external work
 
-- https://github.com/elqallaf09/BeanMora/pull/37
-- https://github.com/elqallaf09/BeanMora/blob/main/docs/RELEASE-0.5.15.md
-- https://github.com/elqallaf09/BeanMora/pull/39
-- https://github.com/advisories/GHSA-86w9-cpqp-85rv
-- https://github.com/digitalbazaar/forge/pull/1152
-- https://github.com/advisories/GHSA-vfj7-8cjw-p6xm
-- https://github.com/micromatch/braces/issues/70
-- Registry checks: `npm view <package> version dependencies dist-tags --json`, including `expo@57` and `@expo/cli@57` version lists. These were live registry observations, not versions inferred from old release notes.
+The former deadline was **2026-10-21T00:00:00Z (03:00 Kuwait)**. Both exceptions were removed after source-level remediation on October 8; neither was extended. A regression confirms the real audit fixture can pass after that deadline only with independently verified backports and no risk exceptions. An expired exception left in the policy still blocks even when backports verify.
+
+Published stable upgrades checked do not clear either advisory: forge 1.4.0, braces 3.0.3, current Expo/CLI 57.0.27/57.0.28 and micromatch 4.0.8 remain affected upstream. Code-signing-certificates 0.0.7 still uses forge ^1.4.0; Metro-file-map 0.87.1 still uses micromatch ^4.0.4 and is outside this SDK's graph. These unrelated upgrades were not forced.
+
+The remaining external dependency is a compatible **published upstream fix** so version-based scanners can clear and the local backports can be retired. BeanMora maintainers own these backports until then. Before upgrading, verify upstream source/advisory coverage and parent compatibility, regenerate the lock with npm 11.19.1, remove only the superseded backport, and rerun the commands above. Do not change expected hashes merely to force an upgrade through. Merging this PR is necessary for these source fixes to apply to main; the report does not claim deployment or a native store release.
+
+Primary evidence: [PR #37](https://github.com/elqallaf09/BeanMora/pull/37), [PR #39](https://github.com/elqallaf09/BeanMora/pull/39), [forge advisory](https://github.com/advisories/GHSA-86w9-cpqp-85rv), [braces advisory](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm), the two pinned upstream PRs above, and live registry/dependency/audit output recorded during this task.

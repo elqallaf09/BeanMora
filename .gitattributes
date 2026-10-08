@@ -20,3 +20,6 @@
 *.webp binary
 *.avif binary
 *.ico binary
+
+# Unified diff context markers include a space on otherwise blank lines.
+apps/mobile/patches/**/*.patch whitespace=-blank-at-eol,-blank-at-eof
