@@ -809,7 +809,7 @@ function Shell() {
                   loading={refreshing}
                 />
               ) : tab === 'assistant' ? (
-                <CoffeeAssistant key={userId ?? 'guest'} turns={assistantTurns} setTurns={setAssistantTurns} userId={userId} login={() => requestLogin()} openItem={(kind,id) => void openMemberItem(kind,id)} />
+                <CoffeeAssistant key={userId ?? 'guest'} turns={assistantTurns} setTurns={setAssistantTurns} openItem={(kind,id) => void openMemberItem(kind,id)} />
               ) : tab === 'myRecipes' ? (<MemberRecipes key={userId??'guest'} userId={userId} login={()=>requestLogin()} open={openRecipe} create={()=>navigate('addRecipe')}/>) : tab === 'capsules' ? (<CapsuleCatalog/>) : tab === 'addRecipe' || tab === 'addBean' ? (
                 <ContributionForm key={(userId??'guest')+tab} kind={tab==='addBean'?'bean':'recipe'} userId={userId} login={()=>requestLogin()} done={()=>{setRevision(n=>n+1);navigate(tab==='addBean'?'bags':'myRecipes');}}/>
               ) : tab === 'myEquipment' ? (
