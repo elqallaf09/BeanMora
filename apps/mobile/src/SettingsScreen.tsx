@@ -33,7 +33,7 @@ export function SettingsScreen({ visible, close, changeLanguage }: { visible: bo
         </View>
         <View style={styles.card}>
           <Txt heading style={styles.subtitle}>{ar ? 'الجديد في هذا الإصدار' : 'New in this release'}</Txt>
-          <Txt>{ar ? 'coffeeHO · مظهر ليلي ونهاري · اللغة في الإعدادات · مساعد القهوة · xBloom داخل الوصفات · إضافة المعدات من بطاقتها' : 'coffeeHO · Light and dark appearance · Language in Settings · Coffee assistant · xBloom in Recipes · Add equipment from its card'}</Txt>
+          <Txt>{ar ? 'مساعد القهوة بدون اشتراك · متابعة الحوار ومقارنة المعدات · شرح الوصفات · حساب النسب وإرشادات التحضير دون إنترنت' : 'Coffee assistant without a subscription · Follow-up questions and equipment comparisons · Recipe explanations · Offline ratio calculations and brewing guides'}</Txt>
         </View>
         <AppVersion />
       </ScrollView>

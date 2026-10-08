@@ -4,7 +4,9 @@
 
 Initial investigation baseline: main `9a780d7fc0368e7c9337349d3269ed94ff93ff27` (PR #39), app 0.5.15, Expo 57.0.27, Next.js 15.5.27. Validation uses npm 11.19.1, local Node 24.19.0 and CI Node 22. Application source and SDK dependency versions are preserved. The mobile lock changes only its root `hasInstallScript` metadata for the automatic patch installer; registry versions, tarballs and integrity hashes remain honest and unchanged.
 
-Integration target: main `5d9484f3cdd817534bfa5f4abcaafb5526805920` (PR #42), app **0.5.16**. Its new settings/theme, coffeeHO and catalog-assistant features, application source and two new Expo dependencies are retained. The single merge conflict in the lock's root metadata was resolved with version 0.5.16 **and** `hasInstallScript: true`; no release dependency or feature was reverted.
+The 0.5.16 integration baseline was main `5d9484f3cdd817534bfa5f4abcaafb5526805920` (PR #42). Its new settings/theme, coffeeHO and catalog-assistant features, application source and two new Expo dependencies were retained. The single merge conflict in the lock's root metadata kept the release version **and** `hasInstallScript: true`.
+
+Final integration target: main `7ed67b01a8357c4f95dc994861d058e2a43dc3e5` (PR #43), app **0.5.17**. The local coffee assistant, its shared core and new browser/unit tests are retained byte-for-byte from that main baseline. This release changes no installed dependency versions. Its lockfile conflict keeps version 0.5.17 with the automatic patch installer's root metadata; no application feature or release dependency is reverted.
 
 ## Actual dependency chains and code fixes
 
@@ -49,7 +51,9 @@ The mandatory braces depth bound is an intentional rejection of pathological pat
 
 Initial 0.5.15 validation after a fresh normal mobile install: 36 security/backport/policy/export regression tests; mobile behavior suite (98 tests plus guide checks); web security regressions (9); web unit/recommendation/outcome suite (214); web/mobile typechecks; web lint; Xcode UUID compatibility; full audits; Expo version compatibility; Expo Doctor **21/21**; and all three source-map exports. Its iOS/Android/web maps had **903/901/549** sources and zero forge/braces modules.
 
-The 0.5.16 integration repeats the 36 security regressions, 98 mobile behavior tests, guide checks, typechecks/lint, full audit and Expo compatibility/Doctor checks after a clean install. Its web unit/recommendation/outcome suite has **221** tests, including the new assistant regressions; its mobile browser suite has **93** scenarios. Final export/browser/build results and GitHub run links are recorded on the PR for the integrated head, not inferred from the older 0.5.15 checks.
+The 0.5.16 integration passed the 36 security regressions, 98 mobile behavior tests, guide checks, typechecks/lint, full audit and Expo compatibility/Doctor checks after a clean install. Its web unit/recommendation/outcome suite had **221** tests, including the new assistant regressions; its mobile browser suite passed **93** scenarios. All three exports passed with **910/908/585** mapped sources, zero affected runtime modules, and the normal Next production build plus all 42 web browser scenarios passed in GitHub Actions.
+
+The subsequent 0.5.17 integration preserves the same patched dependency graph and adds the release's local-assistant coverage. Local security regressions (36), mobile behavior (98 plus guide checks), web tests (**237**, including 16 new local-assistant tests) and both typechecks passed. The mobile browser suite now has **97** scenarios. Both complete GitHub workflows must pass again on this integrated head. Final export/browser/build results and run links are recorded on the PR; they are not inferred from either older release's checks.
 
 A local Next production build uses the previous build's real font CSS/WOFF2 through Next's test-only cached-font response mechanism because the normal local environment cannot fetch Google Fonts. Application code is unchanged; this does not prove online font fetching. GitHub's production build continues to use normal online fonts.
 
