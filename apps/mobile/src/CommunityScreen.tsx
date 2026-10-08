@@ -4,6 +4,7 @@ import {
   Image,
   Pressable,
   ScrollView,
+  Share,
   StyleSheet,
   TextInput,
   View,
@@ -17,7 +18,7 @@ import {
   type RecipeItem,
   type RecipeRow,
 } from './data';
-import { artwork, CoffeePhoto } from './CoffeeScreens';
+import { CoffeePhoto } from './CoffeeScreens';
 import { catalogName, methodLabel } from './localizedContent';
 import { countryLabel } from './catalog';
 import {
@@ -26,7 +27,8 @@ import {
   ROAST_FIELDS,
   type RoastProfile,
 } from './roastLab';
-import { Action, Language, Txt, Icon, colors, styles } from './ui';
+import { Action, Language, Txt, Icon, IconButton, colors, styles } from './ui';
+import { MemberAvatar } from './MemberAvatar';
 
 type PostRow = {
   id: string;
@@ -61,6 +63,7 @@ type ProfileRow = {
   name: string;
   username: string;
   country: string | null;
+  avatar_url?: string | null;
 };
 type LikeRow = { post_id: string; user_id: string };
 type CommentRow = {
@@ -123,7 +126,7 @@ export function CommunityScreen({
   roast: (id?: string) => void;
   tools: () => void;
   members: () => void;
-  openMember:(username:string)=>void;
+  openMember: (username: string) => void;
 }) {
   const locale = useContext(Language);
   const ar = locale === 'ar';
@@ -141,6 +144,7 @@ export function CommunityScreen({
   const [commentBusy, setCommentBusy] = useState(false);
   const [compose, setCompose] = useState(false);
   const [filter, setFilter] = useState('all');
+  const [feed, setFeed] = useState<'all' | 'following'>('all');
   const [sort, setSort] = useState<'new' | 'liked'>('new');
   const [language, setLanguage] = useState<'locale' | 'all'>('locale');
   const [loading, setLoading] = useState(false);
@@ -166,7 +170,17 @@ export function CommunityScreen({
     setError('');
     const run = async () => {
       try {
-        const result = await db
+        let followed: string[] = [];
+        if (feed === 'following' && userId) {
+          const { data, error } = await db
+            .from('follows')
+            .select('following_id')
+            .eq('follower_id', userId)
+            .eq('status', 'accepted');
+          if (error) throw error;
+          followed = (data ?? []).map((row) => row.following_id as string);
+        }
+        let query = db
           .from('posts')
           .select(
             'id,user_id,recipe_id,roast_profile_id,roast:roast_profiles(' +
@@ -177,6 +191,12 @@ export function CommunityScreen({
           .eq('is_hidden', false)
           .order('created_at', { ascending: false })
           .limit(60);
+        if (feed === 'following' && followed.length)
+          query = query.in('user_id', followed);
+        const result =
+          feed === 'following' && !followed.length
+            ? { data: [], error: null }
+            : await query;
         if (result.error) throw result.error;
         const rows = (result.data ?? []) as unknown as PostRow[];
         const ids = rows.map((p) => p.id);
@@ -227,13 +247,14 @@ export function CommunityScreen({
           ...new Set([
             ...rows.map((p) => p.user_id),
             ...commentRows.map((c) => c.user_id),
+            ...(userId ? [userId] : []),
           ]),
         ];
         let members: ProfileRow[] = [];
         if (userIds.length) {
           const result = await db
             .from('profiles')
-            .select('id,name,username,country')
+            .select('id,name,username,country,avatar_url')
             .in('id', userIds);
           members = (result.data ?? []) as ProfileRow[];
         }
@@ -266,7 +287,7 @@ export function CommunityScreen({
     return () => {
       alive = false;
     };
-  }, [locale, userId, revision]);
+  }, [locale, userId, revision, feed]);
   const recipeRows = useMemo(
     () => [
       ...new Map([...recipes, ...linkedRecipes].map((r) => [r.id, r])).values(),
@@ -432,47 +453,37 @@ export function CommunityScreen({
     >
       <View
         testID="community-hero"
-        style={[s.hero, { minHeight: wide ? 180 : 165 }]}
+        style={[
+          s.hero,
+          { flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center' },
+        ]}
       >
         <Image
-          source={artwork.beans}
-          resizeMode="cover"
-          style={[
-            StyleSheet.absoluteFill,
-            { width: '100%', height: '100%', opacity: 0.18 },
-          ]}
+          source={require('../assets/brand/mark.png')}
+          accessibilityLabel="BeanMora logo"
+          resizeMode="contain"
+          style={{ height: 44, width: 30 }}
         />
-        <View
-          style={{
-            flexDirection: ar ? 'row-reverse' : 'row',
-            alignItems: 'center',
-            gap: 16,
-          }}
-        >
-          <View style={{ flex: 1, gap: 5 }}>
-            <Txt style={s.eyebrow}>
-              coffeeHO
-            </Txt>
-            <Txt heading style={s.heroTitle}>
-              {ar ? 'كل كوب يستحق حكاية' : 'Every cup has a story'}
-            </Txt>
-            <Txt style={s.heroNote}>
-              {ar
-                ? 'جرّب، عدّل، وشارك ما تعلّمته. تفاصيل كوبك تساعد غيرك يصنع كوبه القادم.'
-                : 'Brew, adjust and share what you learned. Your cup can inspire someone else’s next brew.'}
-            </Txt>
-          </View>
-          <Image source={require('../assets/brand/mark.png')} accessibilityLabel="BeanMora logo" resizeMode="contain" style={{height:48,width:34}}/>
+        <View style={{ flex: 1, gap: 2 }}>
+          <Txt heading style={[s.heroTitle, width < 380 && { fontSize: 24 }]}>
+            coffeeHO
+          </Txt>
+          {width >= 380 ? <Txt style={s.heroNote}>
+            {ar
+              ? 'ناس القهوة، وتجارب تستحق المشاركة'
+              : 'Coffee people. Experiences worth sharing.'}
+          </Txt> : null}
         </View>
-        <View style={styles.row}>
-          <Action
-            title={ar ? 'شارك تجربة' : 'Share a brew'}
-            onPress={() => write()}
-            selected
-          />
-          <Action title={ar ? 'ابدأ تحضيرك' : 'Start brewing'} onPress={brew} />
-          <Action title={ar?'حسابات coffeeHO':'coffeeHO accounts'} onPress={members}/>
-        </View>
+        <IconButton
+          name="search"
+          label={ar ? 'حسابات coffeeHO' : 'coffeeHO accounts'}
+          onPress={members}
+        />
+        <IconButton
+          name="plus"
+          label={ar ? 'شارك تجربة' : 'Share a brew'}
+          onPress={() => write()}
+        />
       </View>
       {message ? (
         <View accessibilityLiveRegion="polite">
@@ -485,7 +496,63 @@ export function CommunityScreen({
           { flexDirection: wide ? (ar ? 'row-reverse' : 'row') : 'column' },
         ]}
       >
-        <View style={{ flex: 1, minWidth: 0, gap: 14 }}>
+        <View style={{ flex: 1, minWidth: 0, gap: 12 }}>
+          <View
+            style={{
+              flexDirection: ar ? 'row-reverse' : 'row',
+              borderBottomWidth: 1,
+              borderBottomColor: colors.line,
+            }}
+          >
+            {(['all', 'following'] as const).map((value) => (
+              <Pressable
+                key={value}
+                accessibilityRole="button"
+                accessibilityLabel={
+                  value === 'all'
+                    ? ar
+                      ? 'كل المشاركات'
+                      : 'All posts'
+                    : ar
+                      ? 'أتابع'
+                      : 'Following'
+                }
+                accessibilityState={{ selected: feed === value }}
+                onPress={() => {
+                  if (value === 'following' && !userId) {
+                    login();
+                    return;
+                  }
+                  setPosts([]);
+                  setFeed(value);
+                }}
+                style={{
+                  flex: 1,
+                  minHeight: 50,
+                  justifyContent: 'center',
+                  borderBottomWidth: 3,
+                  borderBottomColor:
+                    feed === value ? colors.teal : 'transparent',
+                }}
+              >
+                <Txt
+                  style={{
+                    textAlign: 'center',
+                    fontWeight: feed === value ? '700' : '500',
+                    color: feed === value ? colors.teal : colors.muted,
+                  }}
+                >
+                  {value === 'all'
+                    ? ar
+                      ? 'كل المشاركات'
+                      : 'All posts'
+                    : ar
+                      ? 'أتابع'
+                      : 'Following'}
+                </Txt>
+              </Pressable>
+            ))}
+          </View>
           {compose ? (
             <View testID="community-composer" style={s.compose}>
               <View style={[styles.row, { justifyContent: 'space-between' }]}>
@@ -623,23 +690,29 @@ export function CommunityScreen({
                 { flexDirection: ar ? 'row-reverse' : 'row' },
               ]}
             >
-              <View style={s.avatar}>
-                <Icon name="plus" size={22} color={colors.teal} />
-              </View>
+              <MemberAvatar
+                name={userId ? (profiles[userId]?.name ?? '') : '☕'}
+                url={userId ? profiles[userId]?.avatar_url : null}
+              />
               <View style={{ flex: 1 }}>
                 <Txt style={s.cardTitle}>
-                  {ar ? 'ما الذي ضبط معك اليوم؟' : 'What worked for you today?'}
+                  {ar ? 'كيف كان كوبك اليوم؟' : 'What’s brewing?'}
                 </Txt>
                 <Txt style={styles.muted}>
                   {ar
-                    ? 'شارك نتيجة، اطرح سؤالًا، أو أرفق تحضيرك.'
-                    : 'Share a result, ask a question or attach a brew.'}
+                    ? 'تجربة، سؤال، أو تحضير محفوظ.'
+                    : 'Share a brew or a thought.'}
                 </Txt>
               </View>
               <Icon name="arrow" size={18} color={colors.teal} />
             </Pressable>
           )}
-          <ScrollView horizontal contentContainerStyle={{ gap: 8 }}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={{ flexGrow: 0 }}
+            contentContainerStyle={{ gap: 8, paddingVertical: 2 }}
+          >
             {[
               { id: 'all', ar: 'الكل', en: 'All' },
               { id: 'brews', ar: 'تجارب التحضير', en: 'Brew experiences' },
@@ -648,6 +721,7 @@ export function CommunityScreen({
             ].map((f) => (
               <Action
                 key={f.id}
+                compact
                 title={ar ? f.ar : f.en}
                 selected={filter === f.id}
                 onPress={() => setFilter(f.id)}
@@ -661,15 +735,18 @@ export function CommunityScreen({
             <View style={styles.row}>
               <Action
                 title={ar ? 'الأحدث' : 'Newest'}
+                compact
                 selected={sort === 'new'}
                 onPress={() => setSort('new')}
               />
               <Action
                 title={ar ? 'الأكثر إعجابًا' : 'Most liked'}
+                compact
                 selected={sort === 'liked'}
                 onPress={() => setSort('liked')}
               />
               <Action
+                compact
                 title={
                   language === 'locale'
                     ? ar
@@ -696,7 +773,14 @@ export function CommunityScreen({
               />
             </View>
           ) : null}
-          <View style={{ gap: 12 }}>
+          <View
+            style={{
+              borderWidth: visible.length ? 1 : 0,
+              borderColor: colors.line,
+              borderRadius: 18,
+              overflow: 'hidden',
+            }}
+          >
             {visible.map((p) => {
               const member = profiles[p.user_id],
                 r = recipeRows.find((r) => r.id === p.recipe_id),
@@ -714,18 +798,56 @@ export function CommunityScreen({
                       { flexDirection: ar ? 'row-reverse' : 'row' },
                     ]}
                   >
-                    <View style={s.avatar}>
-                      <Txt style={{ fontWeight: '700', color: colors.teal }}>
-                        {(member?.name ?? member?.username ?? '?').slice(0, 1)}
-                      </Txt>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      {member?.username?<Action compact title={'@'+member.username} onPress={()=>openMember(member.username)}/>:null}
-                      <Txt style={s.cardTitle}>
-                        {member?.name ??
+                    <Pressable
+                      accessibilityRole="button"
+                      accessibilityLabel={
+                        member?.username
+                          ? '@' + member.username
+                          : ar
+                            ? 'حساب العضو'
+                            : 'Member account'
+                      }
+                      disabled={!member?.username}
+                      onPress={() =>
+                        member?.username && openMember(member.username)
+                      }
+                    >
+                      <MemberAvatar
+                        name={member?.name ?? member?.username ?? ''}
+                        url={member?.avatar_url}
+                      />
+                    </Pressable>
+                    <View style={{ flex: 1, gap: 2 }}>
+                      <Pressable
+                        accessibilityRole="button"
+                        accessibilityLabel={
+                          member?.name ??
                           member?.username ??
-                          (ar ? 'عضو المجتمع' : 'Community member')}
-                      </Txt>
+                          (ar ? 'عضو المجتمع' : 'Community member')
+                        }
+                        disabled={!member?.username}
+                        onPress={() =>
+                          member?.username && openMember(member.username)
+                        }
+                      >
+                        <Txt style={s.cardTitle}>
+                          {member?.name ??
+                            member?.username ??
+                            (ar ? 'عضو المجتمع' : 'Community member')}
+                        </Txt>
+                        {member?.username ? (
+                          <Txt
+                            style={{
+                              fontSize: 12,
+                              lineHeight: 18,
+                              color: colors.muted,
+                              writingDirection: 'ltr',
+                            }}
+                          >
+                            @{member.username}
+                          </Txt>
+                        ) : null}
+                      </Pressable>
                       <Txt style={{ fontSize: 11, color: colors.muted }}>
                         {[
                           member?.country
@@ -762,6 +884,9 @@ export function CommunityScreen({
                       </Txt>
                     ) : null}
                   </View>
+                  {p.body ? (
+                    <Txt style={{ fontSize: 16, lineHeight: 27 }}>{p.body}</Txt>
+                  ) : null}
                   {p.roast_profile_id && p.roast ? (
                     <Pressable
                       accessibilityRole="button"
@@ -918,9 +1043,6 @@ export function CommunityScreen({
                       </Txt>
                     </Pressable>
                   ) : null}
-                  {p.body ? (
-                    <Txt style={{ fontSize: 15, lineHeight: 25 }}>{p.body}</Txt>
-                  ) : null}
                   <View
                     style={[
                       styles.row,
@@ -956,13 +1078,33 @@ export function CommunityScreen({
                         }}
                         style={s.social}
                       >
-                        <Icon name="more" size={20} color={colors.muted} />
+                        <Icon name="comment" size={20} color={colors.muted} />
                         <Txt>{commentRows(p.id).length}</Txt>
                       </Pressable>
                     </View>
-                    <Txt style={{ fontSize: 11, color: colors.muted }}>
-                      {ar ? 'تجربة عضو' : 'Member experience'}
-                    </Txt>
+                    <IconButton
+                      name="share"
+                      label={ar ? 'مشاركة المنشور' : 'Share post'}
+                      size={20}
+                      onPress={() =>
+                        void Share.share({
+                          message: [
+                            member?.username ? '@' + member.username : '',
+                            p.body,
+                            r?.title,
+                            'coffeeHO · BeanMora',
+                          ]
+                            .filter(Boolean)
+                            .join('\n'),
+                        }).catch(() =>
+                          setError(
+                            ar
+                              ? 'تعذّرت مشاركة المنشور.'
+                              : 'Could not share post.',
+                          ),
+                        )
+                      }
+                    />
                   </View>
                   {commentsOpen === p.id ? (
                     <View style={s.comments}>
@@ -1022,32 +1164,50 @@ export function CommunityScreen({
                 />
               </View>
               <Txt heading style={[styles.subtitle, { textAlign: 'center' }]}>
-                {filter === 'roasts'
+                {feed === 'following'
                   ? ar
-                    ? 'منحنى حمصتك يستحق المشاركة'
-                    : 'Your roast curve is worth sharing'
-                  : ar
-                    ? 'ابدأ الحديث بكوبك'
-                    : 'Start a conversation with your cup'}
+                    ? 'تابع ناس القهوة'
+                    : 'Follow coffee people'
+                  : filter === 'roasts'
+                    ? ar
+                      ? 'منحنى حمصتك يستحق المشاركة'
+                      : 'Your roast curve is worth sharing'
+                    : ar
+                      ? 'ابدأ الحديث بكوبك'
+                      : 'Start a conversation with your cup'}
               </Txt>
               <Txt style={[styles.muted, { textAlign: 'center' }]}>
-                {ar
-                  ? 'هذه المساحة تنتظر تجارب فعلية: ما البن، ما الإعداد، وما الذي تغيّر في الطعم؟'
-                  : 'This space is for real experiences: which coffee, which settings, and what changed in the cup?'}
+                {feed === 'following'
+                  ? ar
+                    ? 'تظهر هنا المشاركات العامة للحسابات التي تتابعها.'
+                    : 'Public posts from accounts you follow appear here.'
+                  : ar
+                    ? 'هذه المساحة تنتظر تجارب فعلية: ما البن، ما الإعداد، وما الذي تغيّر في الطعم؟'
+                    : 'This space is for real experiences: which coffee, which settings, and what changed in the cup?'}
               </Txt>
               <View style={styles.row}>
                 <Action
                   title={
-                    filter === 'roasts'
+                    feed === 'following'
                       ? ar
-                        ? 'افتح مختبر التحميص'
-                        : 'Open Roast Lab'
-                      : ar
-                        ? 'شارك أول تجربة'
-                        : 'Share the first experience'
+                        ? 'اكتشف الحسابات'
+                        : 'Discover accounts'
+                      : filter === 'roasts'
+                        ? ar
+                          ? 'افتح مختبر التحميص'
+                          : 'Open Roast Lab'
+                        : ar
+                          ? 'شارك أول تجربة'
+                          : 'Share the first experience'
                   }
                   selected
-                  onPress={() => (filter === 'roasts' ? roast() : write())}
+                  onPress={() =>
+                    feed === 'following'
+                      ? members()
+                      : filter === 'roasts'
+                        ? roast()
+                        : write()
+                  }
                 />
                 <Action
                   title={ar ? 'استكشف وصفة وجربها' : 'Find a recipe to try'}
@@ -1057,118 +1217,135 @@ export function CommunityScreen({
             </View>
           ) : null}
         </View>
-        <View style={[s.sidebar, wide && { width: 290 }]}>
-          <View style={s.sideCard}>
-            <Txt heading style={s.cardTitle}>
-              {ar ? 'أفكار تبدأ منها' : 'Conversation starters'}
-            </Txt>
-            {[
-              {
-                ar: 'ما الذي تغيّر عندما عدّلت الطحنة؟',
-                en: 'What changed when you adjusted the grind?',
-              },
-              {
-                ar: 'هل غيّرت الحرارة لنفس البن؟',
-                en: 'Did you change temperature for the same coffee?',
-              },
-              {
-                ar: 'كيف تغيّر الطعم بعد راحة الحمصة؟',
-                en: 'How did roast resting change the taste?',
-              },
-            ].map((p) => (
-              <Pressable
-                key={p.en}
-                accessibilityRole="button"
-                onPress={() => write(ar ? p.ar : p.en)}
-                style={[
-                  s.prompt,
-                  { flexDirection: ar ? 'row-reverse' : 'row' },
-                ]}
-              >
-                <Icon name="plus" color={colors.copper} size={17} />
-                <Txt style={{ fontSize: 13, lineHeight: 21, flex: 1 }}>
-                  {ar ? p.ar : p.en}
-                </Txt>
-              </Pressable>
-            ))}
-          </View>
-          <View style={[s.sideCard, { backgroundColor: '#EAF3EE' }]}>
-            <Icon name="temp" color={colors.teal} size={28} />
-            <Txt heading style={s.cardTitle}>
-              {ar ? 'من الحمصة إلى الكوب' : 'From roast to cup'}
-            </Txt>
-            <Txt style={styles.muted}>
-              {ar
-                ? 'تابع الحمصات المنشورة، افتح مراحلها، وقارن محاولاتك معها.'
-                : 'Explore published roasts, open their stages and compare your attempts.'}
-            </Txt>
-            <Action
-              title={ar ? 'حمصات المجتمع' : 'Community roasts'}
-              onPress={() => roast()}
-            />
-          </View>
-          {coffees.length ? (
+        {wide ? (
+          <View style={[s.sidebar, { width: 290 }]}>
             <View style={s.sideCard}>
               <Txt heading style={s.cardTitle}>
-                {ar ? 'بن تبدأ معه التجربة' : 'Coffee to explore'}
+                {ar ? 'مساحتك في coffeeHO' : 'Your coffeeHO space'}
               </Txt>
-              {coffees.slice(0, 2).map((c) => (
+              <Action
+                title={ar ? 'اكتشف الحسابات' : 'Discover accounts'}
+                onPress={members}
+              />
+              <Action
+                title={ar ? 'ابدأ تحضيرك' : 'Start brewing'}
+                onPress={brew}
+              />
+            </View>
+            <View style={s.sideCard}>
+              <Txt heading style={s.cardTitle}>
+                {ar ? 'أفكار تبدأ منها' : 'Conversation starters'}
+              </Txt>
+              {[
+                {
+                  ar: 'ما الذي تغيّر عندما عدّلت الطحنة؟',
+                  en: 'What changed when you adjusted the grind?',
+                },
+                {
+                  ar: 'هل غيّرت الحرارة لنفس البن؟',
+                  en: 'Did you change temperature for the same coffee?',
+                },
+                {
+                  ar: 'كيف تغيّر الطعم بعد راحة الحمصة؟',
+                  en: 'How did roast resting change the taste?',
+                },
+              ].map((p) => (
                 <Pressable
-                  key={c.kind + c.id}
+                  key={p.en}
                   accessibilityRole="button"
-                  accessibilityLabel={
-                    (ar ? 'استكشف البن: ' : 'Explore coffee: ') + c.name
-                  }
-                  onPress={() => openCoffee(c)}
+                  onPress={() => write(ar ? p.ar : p.en)}
                   style={[
-                    s.catalogCoffee,
+                    s.prompt,
                     { flexDirection: ar ? 'row-reverse' : 'row' },
                   ]}
                 >
-                  <View
-                    style={{
-                      width: 56,
-                      height: 64,
-                      borderRadius: 10,
-                      overflow: 'hidden',
-                    }}
-                  >
-                    <CoffeePhoto
-                      uri={c.imageUrl}
-                      uris={c.images}
-                      kind={c.imageKind}
-                    />
-                  </View>
-                  <View style={{ flex: 1 }}>
-                    <Txt
-                      numberOfLines={2}
-                      style={{ fontSize: 13, fontWeight: '700' }}
-                    >
-                      {c.name}
-                    </Txt>
-                    <Txt numberOfLines={1} style={styles.muted}>
-                      {c.roaster}
-                    </Txt>
-                  </View>
+                  <Icon name="plus" color={colors.copper} size={17} />
+                  <Txt style={{ fontSize: 13, lineHeight: 21, flex: 1 }}>
+                    {ar ? p.ar : p.en}
+                  </Txt>
                 </Pressable>
               ))}
             </View>
-          ) : null}
-          <View style={s.sideCard}>
-            <Txt heading style={s.cardTitle}>
-              {ar ? 'غيّر أداتك عن معرفة' : 'Know your tools'}
-            </Txt>
-            <Txt style={styles.muted}>
-              {ar
-                ? 'قارن مواصفات الماكينات والطواحين قبل اختيار تجهيزك.'
-                : 'Compare machine and grinder specifications before choosing your setup.'}
-            </Txt>
-            <Action
-              title={ar ? 'دليل الأدوات والمقارنة' : 'Equipment and comparison'}
-              onPress={tools}
-            />
+            <View style={[s.sideCard, { backgroundColor: '#EAF3EE' }]}>
+              <Icon name="temp" color={colors.teal} size={28} />
+              <Txt heading style={s.cardTitle}>
+                {ar ? 'من الحمصة إلى الكوب' : 'From roast to cup'}
+              </Txt>
+              <Txt style={styles.muted}>
+                {ar
+                  ? 'تابع الحمصات المنشورة، افتح مراحلها، وقارن محاولاتك معها.'
+                  : 'Explore published roasts, open their stages and compare your attempts.'}
+              </Txt>
+              <Action
+                title={ar ? 'حمصات المجتمع' : 'Community roasts'}
+                onPress={() => roast()}
+              />
+            </View>
+            {coffees.length ? (
+              <View style={s.sideCard}>
+                <Txt heading style={s.cardTitle}>
+                  {ar ? 'بن تبدأ معه التجربة' : 'Coffee to explore'}
+                </Txt>
+                {coffees.slice(0, 2).map((c) => (
+                  <Pressable
+                    key={c.kind + c.id}
+                    accessibilityRole="button"
+                    accessibilityLabel={
+                      (ar ? 'استكشف البن: ' : 'Explore coffee: ') + c.name
+                    }
+                    onPress={() => openCoffee(c)}
+                    style={[
+                      s.catalogCoffee,
+                      { flexDirection: ar ? 'row-reverse' : 'row' },
+                    ]}
+                  >
+                    <View
+                      style={{
+                        width: 56,
+                        height: 64,
+                        borderRadius: 10,
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <CoffeePhoto
+                        uri={c.imageUrl}
+                        uris={c.images}
+                        kind={c.imageKind}
+                      />
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <Txt
+                        numberOfLines={2}
+                        style={{ fontSize: 13, fontWeight: '700' }}
+                      >
+                        {c.name}
+                      </Txt>
+                      <Txt numberOfLines={1} style={styles.muted}>
+                        {c.roaster}
+                      </Txt>
+                    </View>
+                  </Pressable>
+                ))}
+              </View>
+            ) : null}
+            <View style={s.sideCard}>
+              <Txt heading style={s.cardTitle}>
+                {ar ? 'غيّر أداتك عن معرفة' : 'Know your tools'}
+              </Txt>
+              <Txt style={styles.muted}>
+                {ar
+                  ? 'قارن مواصفات الماكينات والطواحين قبل اختيار تجهيزك.'
+                  : 'Compare machine and grinder specifications before choosing your setup.'}
+              </Txt>
+              <Action
+                title={
+                  ar ? 'دليل الأدوات والمقارنة' : 'Equipment and comparison'
+                }
+                onPress={tools}
+              />
+            </View>
           </View>
-        </View>
+        ) : null}
       </View>
     </ScrollView>
   );
@@ -1194,15 +1371,17 @@ const s = StyleSheet.create({
     gap: 16,
   },
   hero: {
-    borderRadius: 22,
-    backgroundColor: colors.brown,
-    overflow: 'hidden',
-    padding: 22,
-    gap: 14,
+    paddingVertical: 8,
+    gap: 12,
   },
   eyebrow: { fontSize: 12, lineHeight: 18, color: '#DDB791' },
-  heroTitle: { fontSize: 28, lineHeight: 39, fontWeight: '700', color: '#FFF' },
-  heroNote: { fontSize: 13, lineHeight: 21, color: '#EEE0D2' },
+  heroTitle: {
+    fontSize: 26,
+    lineHeight: 34,
+    fontWeight: '700',
+    color: colors.ink,
+  },
+  heroNote: { fontSize: 12, lineHeight: 20, color: colors.muted },
   columns: { gap: 18, alignItems: 'stretch' },
   sidebar: { gap: 12, minWidth: 0 },
   sideCard: {
@@ -1255,9 +1434,8 @@ const s = StyleSheet.create({
   },
   post: {
     backgroundColor: colors.paper,
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.line,
     padding: 16,
     gap: 13,
   },

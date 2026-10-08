@@ -33,7 +33,7 @@ export function SettingsScreen({ visible, close, changeLanguage }: { visible: bo
         </View>
         <View style={styles.card}>
           <Txt heading style={styles.subtitle}>{ar ? 'الجديد في هذا الإصدار' : 'New in this release'}</Txt>
-          <Txt>{ar ? 'مساعد القهوة بدون اشتراك · متابعة الحوار ومقارنة المعدات · شرح الوصفات · حساب النسب وإرشادات التحضير دون إنترنت' : 'Coffee assistant without a subscription · Follow-up questions and equipment comparisons · Recipe explanations · Offline ratio calculations and brewing guides'}</Txt>
+          <Txt>{ar ? 'وضوح أفضل في الوضع الليلي · حسابي بترتيب جديد · تعديل اسم المستخدم · تغيير البريد بتأكيد الملكية وكلمة المرور · coffeeHO بموجز اجتماعي ومشاركات الحسابات التي تتابعها' : 'Clearer dark mode · Redesigned account · Edit username · Verified email and password changes · A social coffeeHO timeline and following feed'}</Txt>
         </View>
         <AppVersion />
       </ScrollView>
