@@ -525,6 +525,12 @@ function Shell() {
       (!personalityOnly || hasCompletePersonality(c.flavors, c.sensory)),
   );
   const homeActive = tab === 'home' && !detail && !recording;
+  const socialPage = ['account', 'community', 'members', 'memberProfile'].includes(tab);
+  const libraryDialog = (<Modal transparent visible={libraryMenu} animationType="fade" onRequestClose={()=>setLibraryMenu(false)}><View style={{flex:1,justifyContent:'center',padding:24,backgroundColor:'#0008'}}><ScrollView contentContainerStyle={{padding:18,gap:10}} style={{maxHeight:'85%',backgroundColor:colors.paper,borderRadius:20}}>
+              <Txt heading style={styles.subtitle}>{ar?'مكتبتي وإضافاتي':'My library and contributions'}</Txt>
+              {([{id:'addRecipe',ar:'إضافة وصفة',en:'Add recipe'},{id:'addBean',ar:'إضافة بن',en:'Add coffee'},{id:'myRecipes',ar:'وصفاتي المضافة',en:'My submitted recipes'},{id:'myEquipment',ar:'معداتـي',en:'My equipment'},{id:'bags',ar:'أكياسي',en:'My bags'},{id:'roastLab',ar:'مختبر التحميص',en:'Roast Lab'}] as const).map(item=><Action key={item.id} title={item[locale]} onPress={()=>{setLibraryMenu(false);if(item.id==='myEquipment')setEquipmentToAdd(null);if(item.id==='roastLab'){setRoastId(null);setRoastSection('own');}navigate(item.id);}}/>)}
+              <Action title={ar?'إغلاق':'Close'} onPress={()=>setLibraryMenu(false)}/>
+            </ScrollView></View></Modal>);
   const screenIntro = (
     <>
       {!login && !detail && configured ? (
@@ -597,11 +603,7 @@ function Shell() {
               </Pressable>
             ))}
             <Pressable accessibilityRole="button" accessibilityLabel={ar?'المزيد':'More'} onPress={()=>setLibraryMenu(true)} style={s.libraryButton}><Icon name="plus" size={14}/><Txt style={{fontSize:11,fontWeight:'700'}}>{ar?'المزيد':'More'}</Txt></Pressable>
-            <Modal transparent visible={libraryMenu} animationType="fade" onRequestClose={()=>setLibraryMenu(false)}><View style={{flex:1,justifyContent:'center',padding:24,backgroundColor:'#0008'}}><ScrollView contentContainerStyle={{padding:18,gap:10}} style={{maxHeight:'85%',backgroundColor:colors.paper,borderRadius:20}}>
-              <Txt heading style={styles.subtitle}>{ar?'مكتبتي وإضافاتي':'My library and contributions'}</Txt>
-              {([{id:'addRecipe',ar:'إضافة وصفة',en:'Add recipe'},{id:'addBean',ar:'إضافة بن',en:'Add coffee'},{id:'myRecipes',ar:'وصفاتي المضافة',en:'My submitted recipes'},{id:'myEquipment',ar:'معداتـي',en:'My equipment'},{id:'bags',ar:'أكياسي',en:'My bags'},{id:'roastLab',ar:'مختبر التحميص',en:'Roast Lab'}] as const).map(item=><Action key={item.id} title={item[locale]} onPress={()=>{setLibraryMenu(false);if(item.id==='myEquipment')setEquipmentToAdd(null);if(item.id==='roastLab'){setRoastId(null);setRoastSection('own');}navigate(item.id);}}/>)}
-              <Action title={ar?'إغلاق':'Close'} onPress={()=>setLibraryMenu(false)}/>
-            </ScrollView></View></Modal>
+
 
           </View>
         </View>
@@ -663,6 +665,7 @@ function Shell() {
       >
         <StatusBar barStyle={login || theme.dark ? 'light-content' : 'dark-content'} />
         <SettingsScreen visible={settingsOpen} close={() => setSettingsOpen(false)} changeLanguage={changeLanguage} />
+        {libraryDialog}
         {!login ? (
           <View
             testID="app-header"
@@ -713,16 +716,16 @@ function Shell() {
                     />
                   ) : null}
                   <IconButton
-                    name="user"
-                    label={ar ? 'فتح حسابي' : 'Open account'}
-                    onPress={() => navigate('account')}
+                    name={socialPage ? 'more' : 'user'}
+                    label={socialPage ? ar ? 'المزيد' : 'More' : ar ? 'فتح حسابي' : 'Open account'}
+                    onPress={() => socialPage ? setLibraryMenu(true) : navigate('account')}
                   />
                 </View>
               </>
             )}
           </View>
         ) : null}
-        {!homeActive && tab !== 'assistant' ? screenIntro : null}
+        {!homeActive && tab !== 'assistant' && !socialPage ? screenIntro : null}
         <ScreenTransition
           key={
             recording ? 'record' : detail ? detail.type + detail.item.id : tab
@@ -1185,7 +1188,7 @@ function Shell() {
                   />}
                   <Txt
                     style={{
-                      fontSize: 13,
+                      fontSize: width < 360 ? 11 : 13,
                       lineHeight: 20,
                       fontWeight: tab === item.tab ? '700' : '400',
                       color: tab === item.tab ? colors.brown : colors.muted,
@@ -1325,6 +1328,7 @@ const s = StyleSheet.create({
   },
   navItem: {
     flex: 1,
+    minWidth: 0,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 4,

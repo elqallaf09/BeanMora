@@ -604,6 +604,7 @@ test('members can save, edit and delete their own equipment opinion with confirm
   await expect(
     page.getByRole('button', { name: 'Sign out', exact: true }),
   ).toBeVisible();
+  await page.getByRole('button', { name: 'Home', exact: true }).click();
   await page.getByRole('button', { name: 'Equipment', exact: true }).click();
   await page.getByRole('button', { name: model.name, exact: true }).click();
   await page.getByRole('button', { name: 'Rate 4/5', exact: true }).click();

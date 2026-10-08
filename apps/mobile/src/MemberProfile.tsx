@@ -1,9 +1,16 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { Image, Pressable, ScrollView, View } from "./native";
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  View,
+  useWindowDimensions,
+} from "./native";
 import * as ImagePicker from "expo-image-picker";
 import { randomUUID } from "expo-crypto";
 import { supabase } from "./client";
-import { Action, Field, Language, Txt, styles, colors } from "./ui";
+import { Action, Field, Icon, Language, Txt, styles, colors } from "./ui";
+import { MemberAvatar } from "./MemberAvatar";
 import { categoryLabel } from "./catalog";
 import { catalogName, methodLabel } from "./localizedContent";
 import { useContentMedia } from "./useContentMedia";
@@ -68,10 +75,16 @@ export function MemberDirectory({
   return (
     <ScrollView
       keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{ padding: 18, gap: 14 }}
+      contentContainerStyle={{
+        padding: 18,
+        gap: 14,
+        width: "100%",
+        maxWidth: 780,
+        alignSelf: "center",
+      }}
     >
       <Txt heading style={styles.title}>
-        {ar ? "حسابات المجتمع" : "Community accounts"}
+        {ar ? "حسابات coffeeHO" : "coffeeHO accounts"}
       </Txt>
       <Field
         label={
@@ -120,19 +133,31 @@ function MemberLink({
       accessibilityRole="button"
       accessibilityLabel={member.name + " @" + member.username}
       onPress={() => open(member.username)}
-      style={[styles.card, { padding: 13, gap: 4 }]}
+      style={[
+        styles.card,
+        {
+          padding: 15,
+          gap: 12,
+          flexDirection: ar ? "row-reverse" : "row",
+          alignItems: "center",
+        },
+      ]}
     >
-      <Txt style={{ fontWeight: "700" }}>{member.name}</Txt>
-      <Txt style={styles.muted}>
-        @{member.username} ·{" "}
-        {member.is_private
-          ? ar
-            ? "حساب خاص"
-            : "Private account"
-          : ar
-            ? "حساب عام"
-            : "Public account"}
-      </Txt>
+      <MemberAvatar name={member.name} url={member.avatar_url} />
+      <View style={{ flex: 1, gap: 4 }}>
+        <Txt style={{ fontWeight: "700" }}>{member.name}</Txt>
+        <Txt style={styles.muted}>
+          @{member.username} ·{" "}
+          {member.is_private
+            ? ar
+              ? "حساب خاص"
+              : "Private account"
+            : ar
+              ? "حساب عام"
+              : "Public account"}
+        </Txt>
+      </View>
+      <Icon name="arrow" size={18} color={colors.muted} />
     </Pressable>
   );
 }
@@ -170,6 +195,7 @@ export function MemberProfile({
 }: Props) {
   const locale = useContext(Language),
     ar = locale === "ar";
+  const { width } = useWindowDimensions();
   const [data, setData] = useState<MemberProfileData | null>(null),
     [busy, setBusy] = useState(false),
     [loading, setLoading] = useState(true),
@@ -177,6 +203,21 @@ export function MemberProfile({
     [revision, setRevision] = useState(0),
     [tab, setTab] = useState("equipment"),
     [editing, setEditing] = useState(false);
+  const [notice, setNotice] = useState("");
+  const sectionScroll = useRef<ScrollView>(null);
+  const sectionViewport = useRef(0);
+  const sectionLayouts = useRef<Record<string, { x: number; width: number }>>(
+    {},
+  );
+  const revealSection = () => {
+    const layout = sectionLayouts.current[tab];
+    if (layout && sectionViewport.current)
+      sectionScroll.current?.scrollTo({
+        x: Math.max(0, layout.x - (sectionViewport.current - layout.width) / 2),
+        animated: false,
+      });
+  };
+  useEffect(revealSection, [tab, ar, width]);
   const [draft, setDraft] = useState({
     name: "",
     username: "",
@@ -309,75 +350,154 @@ export function MemberProfile({
   ];
   return (
     <View style={{ gap: 16 }} testID="member-profile">
-      <View style={[styles.card, { padding: 18, gap: 9 }]}>
-        <Txt heading style={styles.title}>
-          {p.name}
-        </Txt>
-        <Txt style={{ fontWeight: "700", color: colors.teal }}>
-          @{p.username}
-        </Txt>
-        {p.bio ? <Txt>{p.bio}</Txt> : null}
-        <Txt>
-          {p.is_private
-            ? ar
-              ? "حساب خاص"
-              : "Private account"
-            : ar
-              ? "حساب عام"
-              : "Public account"}
-        </Txt>
-        <View style={[styles.row, { flexWrap: "wrap" }]}>
-          <Action
-            compact
-            title={`${data.follower_count} ${ar ? "متابع" : "followers"}`}
-            onPress={() => setTab("followers")}
-          />
-          <Action
-            compact
-            title={`${data.following_count} ${ar ? "أتابع" : "following"}`}
-            onPress={() => setTab("following")}
-          />
+      <View style={[styles.card, { padding: 0, gap: 0, overflow: "hidden" }]}>
+        <View
+          style={{
+            height: 64,
+            backgroundColor: colors.chip,
+            padding: 16,
+            alignItems: ar ? "flex-start" : "flex-end",
+          }}
+        >
+          <Txt style={{ fontSize: 18, fontWeight: "700", color: colors.teal }}>
+            coffeeHO
+          </Txt>
         </View>
-        {own ? (
-          <Action
-            title={ar ? "تعديل الملف والخصوصية" : "Edit profile and privacy"}
-            onPress={() => setEditing((v) => !v)}
-          />
-        ) : (
-          <Action
-            selected
-            disabled={busy}
-            title={
-              data.relationship === "accepted"
-                ? ar
-                  ? "إلغاء المتابعة"
-                  : "Unfollow"
-                : data.relationship === "pending"
-                  ? ar
-                    ? "إلغاء طلب المتابعة"
-                    : "Cancel follow request"
-                  : ar
-                    ? "متابعة"
-                    : "Follow"
-            }
-            onPress={() => {
-              if (!userId) {
-                login();
-                return;
-              }
-              void run(async () => {
-                await changeMemberFollow(
-                  supabase!,
-                  userId,
-                  p.id,
-                  data.relationship,
-                );
-                setRevision((n) => n + 1);
-              });
+        <View style={{ padding: 16, paddingTop: 0, gap: 10 }}>
+          <View
+            style={{
+              marginTop: -30,
+              flexDirection: ar ? "row-reverse" : "row",
+              justifyContent: "space-between",
+              alignItems: "flex-end",
             }}
-          />
-        )}
+          >
+            <View
+              style={{
+                borderWidth: 4,
+                borderColor: colors.paper,
+                borderRadius: 44,
+              }}
+            >
+              <MemberAvatar name={p.name} url={p.avatar_url} size={64} />
+            </View>
+            <View
+              style={{
+                flexDirection: ar ? "row-reverse" : "row",
+                alignItems: "center",
+                gap: 5,
+              }}
+            >
+              <Icon
+                name={p.is_private ? "lock" : "globe"}
+                size={15}
+                color={colors.muted}
+              />
+              <Txt style={styles.muted}>
+                {p.is_private
+                  ? ar
+                    ? "حساب خاص"
+                    : "Private account"
+                  : ar
+                    ? "حساب عام"
+                    : "Public account"}
+              </Txt>
+            </View>
+          </View>
+          <Txt
+            heading
+            style={{ fontSize: 26, lineHeight: 36, fontWeight: "700" }}
+          >
+            {p.name}
+          </Txt>
+          <Pressable
+            accessibilityRole={own ? "button" : undefined}
+            accessibilityLabel={
+              own ? (ar ? "تغيير اسم المستخدم" : "Change username") : undefined
+            }
+            disabled={!own || busy}
+            onPress={() => {
+              setEditing(true);
+              setNotice("");
+            }}
+            style={{ minHeight: 44, justifyContent: "center" }}
+          >
+            <Txt
+              style={{
+                fontWeight: "700",
+                color: colors.teal,
+                writingDirection: "ltr",
+              }}
+            >
+              @{p.username}
+            </Txt>
+          </Pressable>
+          {p.bio ? <Txt>{p.bio}</Txt> : null}
+          <View
+            style={[styles.row, { flexDirection: ar ? "row-reverse" : "row" }]}
+          >
+            <Action
+              compact
+              title={`${data.follower_count} ${ar ? "متابع" : "followers"}`}
+              onPress={() => setTab("followers")}
+            />
+            <Action
+              compact
+              title={`${data.following_count} ${ar ? "أتابع" : "following"}`}
+              onPress={() => setTab("following")}
+            />
+          </View>
+          {own ? (
+            <Action
+              title={ar ? "تعديل الملف والخصوصية" : "Edit profile and privacy"}
+              selected
+              disabled={busy}
+              onPress={() => {
+                setEditing((v) => !v);
+                setNotice("");
+              }}
+            />
+          ) : (
+            <Action
+              selected
+              disabled={busy}
+              title={
+                data.relationship === "accepted"
+                  ? ar
+                    ? "إلغاء المتابعة"
+                    : "Unfollow"
+                  : data.relationship === "pending"
+                    ? ar
+                      ? "إلغاء طلب المتابعة"
+                      : "Cancel follow request"
+                    : ar
+                      ? "متابعة"
+                      : "Follow"
+              }
+              onPress={() => {
+                if (!userId) {
+                  login();
+                  return;
+                }
+                void run(async () => {
+                  await changeMemberFollow(
+                    supabase!,
+                    userId,
+                    p.id,
+                    data.relationship,
+                  );
+                  setRevision((n) => n + 1);
+                });
+              }}
+            />
+          )}
+        </View>
       </View>
+      {notice ? (
+        <View accessibilityLiveRegion="polite">
+          <Txt style={styles.success}>{notice}</Txt>
+        </View>
+      ) : null}
       {error ? (
         <Txt accessibilityRole="alert" style={styles.error}>
           {error}
@@ -390,20 +510,29 @@ export function MemberProfile({
             value={draft.name}
             onChangeText={(name) => setDraft((v) => ({ ...v, name }))}
             maxLength={100}
+            editable={!busy}
           />
           <Field
             label={ar ? "اسم المستخدم" : "Username"}
             value={draft.username}
             onChangeText={(username) => setDraft((v) => ({ ...v, username }))}
             autoCapitalize="none"
+            autoCorrect={false}
             maxLength={30}
+            editable={!busy}
           />
+          <Txt style={styles.muted}>
+            {ar
+              ? "من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية. يظهر اسم المستخدم في ملفك وبحث coffeeHO."
+              : "3–30 letters, numbers or underscores. Your username appears on your profile and in coffeeHO search."}
+          </Txt>
           <Field
             label={ar ? "نبذة عني" : "Bio"}
             value={draft.bio}
             onChangeText={(bio) => setDraft((v) => ({ ...v, bio }))}
             multiline
             maxLength={2000}
+            editable={!busy}
           />
           <View style={styles.row}>
             <Action
@@ -454,10 +583,30 @@ export function MemberProfile({
                   draft,
                 );
                 setEditing(false);
+                setNotice(
+                  ar
+                    ? "تم تحديث الاسم واسم المستخدم وإعدادات الملف."
+                    : "Name, username and profile settings updated.",
+                );
                 if (username && handle !== username) openMember(handle);
                 else setRevision((n) => n + 1);
               })
             }
+          />
+          <Action
+            title={ar ? "إلغاء التعديل" : "Cancel editing"}
+            disabled={busy}
+            onPress={() => {
+              setDraft({
+                name: p.name,
+                username: p.username,
+                bio: p.bio ?? "",
+                is_private: p.is_private,
+                share_collection: p.share_collection ?? false,
+              });
+              setEditing(false);
+              setError("");
+            }}
           />
         </View>
       ) : null}
@@ -515,19 +664,104 @@ export function MemberProfile({
             style={{
               flexDirection: ar ? "row-reverse" : "row",
               flexWrap: "wrap",
+              gap: 10,
+            }}
+          >
+            {(
+              [
+                [
+                  "equipment",
+                  data.equipment?.length ?? 0,
+                  ar ? "معدات القهوة" : "Equipment",
+                  "gear",
+                ],
+                [
+                  "beans",
+                  data.beans?.length ?? 0,
+                  ar ? "أكياس البن" : "Coffee bags",
+                  "bean",
+                ],
+                [
+                  "recipes",
+                  data.recipes?.length ?? 0,
+                  ar ? "وصفاتي" : "My recipes",
+                  "espresso",
+                ],
+                [
+                  "photos",
+                  data.photos?.length ?? 0,
+                  ar ? "الركن والاستخلاص" : "Corner & brews",
+                  "eye",
+                ],
+              ] as const
+            ).map(([key, count, label, icon]) => (
+              <Pressable
+                key={key}
+                accessibilityRole="button"
+                accessibilityLabel={label + " (" + count + ")"}
+                onPress={() => setTab(key)}
+                style={[
+                  styles.card,
+                  {
+                    flexGrow: 1,
+                    flexBasis: width >= 700 ? "21%" : "44%",
+                    padding: 14,
+                    gap: 6,
+                  },
+                ]}
+              >
+                <View
+                  style={{
+                    flexDirection: ar ? "row-reverse" : "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Icon name={icon} size={22} color={colors.teal} />
+                  <Txt
+                    style={{ fontSize: 24, lineHeight: 30, fontWeight: "700" }}
+                  >
+                    {count}
+                  </Txt>
+                </View>
+                <Txt style={styles.muted}>{label}</Txt>
+              </Pressable>
+            ))}
+          </View>
+          <ScrollView
+            ref={sectionScroll}
+            testID="profile-sections"
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={{ flexGrow: 0 }}
+            onLayout={(event) => {
+              sectionViewport.current = event.nativeEvent.layout.width;
+              revealSection();
+            }}
+            onContentSizeChange={revealSection}
+            contentContainerStyle={{
+              flexDirection: ar ? "row-reverse" : "row",
               gap: 6,
+              paddingVertical: 4,
             }}
           >
             {sections.map((s) => (
-              <Action
-                compact
+              <View
                 key={s[0]}
-                title={s[ar ? 1 : 2]}
-                selected={tab === s[0]}
-                onPress={() => setTab(s[0])}
-              />
+                onLayout={(event) => {
+                  sectionLayouts.current[s[0]] = event.nativeEvent.layout;
+                  if (tab === s[0]) revealSection();
+                }}
+              >
+                <Action
+                  compact
+                  title={s[ar ? 1 : 2]}
+                  selected={tab === s[0]}
+                  onPress={() => setTab(s[0])}
+                />
+              </View>
             ))}
-          </View>
+          </ScrollView>
           {tab === "equipment" ? (
             <View style={{ gap: 10 }}>
               {own ? (

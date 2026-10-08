@@ -30,6 +30,7 @@ import { recipeShelfKey } from './useRecipeShelf';
 import { invalidatePublicCatalog } from './data';
 import { artwork } from './CoffeeScreens';
 import { AppVersion } from './AppVersion';
+import { AccountSecurity } from './AccountSecurity';
 import { PasswordRecovery } from './PasswordRecovery';
 import { LegalLinks } from './LegalLinks';
 import {
@@ -303,18 +304,34 @@ export function AccountScreen({
       <ScrollView
         contentContainerStyle={[
           styles.content,
-          { width: '100%', maxWidth: 620, alignSelf: 'center', gap: 22 },
+          { width: '100%', maxWidth: 900, alignSelf: 'center', gap: 20 },
         ]}
       >
-        <View style={{ alignItems: 'center', padding: 22 }}>
-          <Brand />
-          <Txt heading style={[styles.title, { marginTop: 20 }]}>
-            {t.account}
-          </Txt>
-          <Txt style={styles.muted}>{session.user.email}</Txt>
+        <View
+          style={[
+            styles.row,
+            {
+              justifyContent: 'space-between',
+              flexDirection: ar ? 'row-reverse' : 'row',
+            },
+          ]}
+        >
+          <View style={{ gap: 3, flex: 1 }}>
+            <Txt heading style={styles.title}>
+              {t.account}
+            </Txt>
+            <Txt style={[styles.muted, { writingDirection: 'ltr' }]}>
+              {session.user.email}
+            </Txt>
+          </View>
+          <Action
+            compact
+            title={ar ? 'الإعدادات' : 'Settings'}
+            onPress={settings}
+          />
         </View>
-        <Action title={ar ? 'الإعدادات' : 'Settings'} onPress={settings} />
         {profileContent}
+        <AccountSecurity session={session} />
         <View style={styles.card}>
           <LegalLinks />
           <Action
@@ -329,8 +346,8 @@ export function AccountScreen({
           <Txt heading>{ar ? 'حسابك وبياناتك' : 'Your account and data'}</Txt>
           <Txt style={styles.muted}>
             {ar
-              ? 'تقدر تحذف حسابك وبياناته نهائيًا من هنا، بما فيها وصفاتك وتجارب التحضير والمفضلة والمخزون والملفات المرفوعة.'
-              : 'Permanently delete your account, recipes, brew history, favorites, inventory and uploaded files here.'}
+              ? 'إدارة بياناتك وحذف حسابك نهائيًا.'
+              : 'Manage your data and permanent account deletion.'}
           </Txt>
           <Pressable
             accessibilityRole="button"
