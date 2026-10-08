@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, View } from "./native";
 import { capsuleSystems } from "./core/capsules";
 import { SourceLink } from "./SourceLink";
 import { Action, Field, Language, Txt, styles } from "./ui";

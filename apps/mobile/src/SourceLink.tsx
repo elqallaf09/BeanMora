@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Linking, View } from 'react-native';
+import { Linking, View } from './native';
 import { safeUrl } from './guards';
 import { resolveContentMedia } from './core/content-media';
 import { supabase, catalogScope } from './client';

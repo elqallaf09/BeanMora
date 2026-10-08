@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
-import { Modal, Pressable, ScrollView, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Modal, Pressable, ScrollView, View } from './native';
+import { SafeAreaView } from './native';
 import {
   legalContent,
   legalUpdated,

@@ -1,6 +1,7 @@
 import { createContext, useContext, type ReactNode } from 'react';
 import {
   Animated,
+  Platform,
   Image,
   Text,
   Pressable,
@@ -11,9 +12,10 @@ import {
   type TextInputProps,
   type TextProps,
   type TextStyle,
-} from 'react-native';
+} from './native';
 import Svg, { Path, Circle, Rect, Ellipse } from 'react-native-svg';
 import { copy, type Locale } from './copy';
+import { themeColor, useTheme } from './theme';
 import { usePressMotion } from './Motion';
 
 export const colors = {
@@ -71,7 +73,7 @@ export function Action({
   title,
   onPress,
   disabled = false,
-  selected = false,
+  selected,
   compact = false,
   accessibilityLabel,
 }: {
@@ -89,6 +91,7 @@ export function Action({
         accessibilityRole="button"
         accessibilityLabel={accessibilityLabel ?? title}
         accessibilityState={{ disabled, selected }}
+        {...(Platform.OS === 'web' && selected !== undefined ? { 'aria-pressed': selected } : {})}
         onPress={onPress}
         onPressIn={motion.pressIn}
         onPressOut={motion.pressOut}
@@ -185,6 +188,8 @@ export function Icon({
   color?: string;
   filled?: boolean;
 }) {
+  const { dark } = useTheme();
+  color = themeColor(color, dark) as string;
   const body: Record<IconName, ReactNode> = {
     home: (
       <Path d="m3 10 9-7 9 7v11h-6v-7H9v7H3Z" fill={filled ? color : 'none'} />

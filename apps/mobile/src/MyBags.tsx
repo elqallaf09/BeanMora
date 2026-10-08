@@ -1,5 +1,5 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from './native';
 import { supabase } from './client';
 import { archiveOwnedItem } from './core/owned-inventory';
 import { mapCoffee, type CoffeeRow, type CoffeeItem, type RecipeItem } from './data';

@@ -1,3 +1,4 @@
+import { setLanguage } from './settings';
 import { test, expect, type Page, type Route } from '@playwright/test';
 import { openRecipeLibrary } from './navigation';
 import { readFileSync } from 'node:fs';
@@ -121,7 +122,7 @@ for (const locale of ['ar', 'en'] as const) {
       await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(data) });
     });
     await page.goto('/');
-    if (locale === 'en') { await page.getByRole('button', { name: 'English', exact: true }).click(); }
+    if (locale === 'en') { await setLanguage(page, 'en'); }
     await expectHomeHeroContained(page);
     const coffeeName = locale === 'ar' ? bean.name_ar : bean.name_en;
     await page.getByRole('button', { name: coffeeName, exact: true }).click();
@@ -178,7 +179,7 @@ test('320 px UUID coffee detail accepts Toby’s verified shared recipe and pres
     return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(rows) });
   });
   await page.goto('/');
-  await page.getByRole('button', { name: 'English', exact: true }).click();
+  await setLanguage(page, 'en');
   await expectHomeHeroContained(page);
   await page.getByRole('button', { name: brunswick.name_en, exact: true }).click();
   await expect.poll(() => requests.length).toBeGreaterThan(0);

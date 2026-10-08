@@ -1,5 +1,5 @@
 import { useContext, useRef, useState } from 'react';
-import { View } from 'react-native';
+import { View } from './native';
 import { supabase } from './client';
 import { Action, Field, Language, Txt, styles } from './ui';
 

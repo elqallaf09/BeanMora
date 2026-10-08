@@ -1,5 +1,5 @@
 import { useContext, useState, type ReactNode } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, View } from './native';
 import { Icon, Language, Txt, colors, styles } from './ui';
 export function Disclosure({
   title,

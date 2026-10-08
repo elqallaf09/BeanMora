@@ -1,6 +1,6 @@
 import {CatalogComments,AccountFavorite} from './CatalogComments';
 import { useContext } from 'react';
-import { ScrollView, View, useWindowDimensions } from 'react-native';
+import { ScrollView, View, useWindowDimensions } from './native';
 import type { RecipeItem } from './data';
 import { copy, methods } from './copy';
 import { coffeeStyles } from './CoffeeScreens';

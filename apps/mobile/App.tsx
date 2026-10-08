@@ -17,8 +17,8 @@ import {
   StyleSheet,
   View,
   useWindowDimensions,
-} from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+} from './src/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
 import type { Session } from '@supabase/supabase-js';
 import { configured, supabase } from './src/client';
@@ -42,9 +42,11 @@ import {
   EquipmentDetail,
   RoasterDirectory,
   RoasterDetail,
-  XBLOOMHub,
 } from './src/ExploreScreens';
-import { LanguageSwitcher } from './src/LanguageSwitcher';
+import { SettingsScreen } from './src/SettingsScreen';
+import { ThemeProvider, useTheme } from './src/theme';
+import { SafeAreaView } from './src/native';
+import { CoffeeAssistant, type AssistantTurn } from './src/CoffeeAssistant';
 import { MotionProvider, ScreenTransition } from './src/Motion';
 import { RecipeDetail } from './src/RecipeDetail';
 import { MethodGuide } from './src/MethodGuide';
@@ -86,6 +88,7 @@ import {
 } from './src/ui';
 
 type Tab =
+  | 'assistant'
   | 'members'
   | 'memberProfile'
   | 'myRecipes'
@@ -107,7 +110,6 @@ type Tab =
   | 'account'
   | 'equipment'
   | 'roasters'
-  | 'xbloom'
   | 'roastLab';
 type Detail =
   | { type: 'coffee'; item: CoffeeItem }
@@ -116,6 +118,9 @@ type Detail =
   | { type: 'roaster'; item: RoasterItem };
 
 function Shell() {
+  const theme = useTheme();
+  const [assistantConversation, setAssistantConversation] = useState<{ owner: string | null; turns: AssistantTurn[] }>({ owner: null, turns: [] });
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const { width } = useWindowDimensions();
   const [locale, setLocale] = useState<Locale>('ar');
   const t = copy[locale];
@@ -141,6 +146,8 @@ function Shell() {
   const [session, setSession] = useState<Session | null>(null);
   const [passwordRecovery, setPasswordRecovery] = useState(false);
   const userId = session && !session.user.is_anonymous ? session.user.id : null;
+  const assistantTurns = assistantConversation.owner === userId ? assistantConversation.turns : [];
+  const setAssistantTurns = (turns: AssistantTurn[]) => setAssistantConversation({ owner: userId, turns });
   const [libraryMenu,setLibraryMenu]=useState(false);
   const [equipmentToAdd,setEquipmentToAdd]=useState<EquipmentItem|null>(null);
   const [tab, setTab] = useState<Tab>('home');
@@ -241,6 +248,7 @@ function Shell() {
     if (data && userId) setSaved({ owner: userId, ids: data.savedBeanIds });
     else setSaved(null);
   }, [data, userId]);
+  useEffect(() => setAssistantConversation({ owner: userId, turns: [] }), [userId]);
   const savedIds = saved?.owner === userId ? saved.ids : [];
   function navigate(next: Tab) {
     if (next !== 'account') loginReturn.current = null;
@@ -505,7 +513,7 @@ function Shell() {
     {
       tab: 'community',
       icon: 'globe',
-      label: ar ? 'المجتمع' : 'Community',
+      label: 'coffeeHO',
     },
     { tab: 'account', icon: 'user', label: t.account },
   ];
@@ -523,6 +531,7 @@ function Shell() {
         <View testID="library-navigation" style={s.libraryNav}>
           <View style={[s.libraryNavContent,{flexDirection:ar?'row-reverse':'row',flexWrap:'wrap'}]}>
             {[
+              {id:'assistant' as const,label:ar?'مساعد القهوة':'Coffee assistant',icon:'star' as const},
               {id:'capsules' as const,label:ar?'الكبسولات':'Capsules',icon:'espresso' as const},
               {
                 id: 'recipes' as const,
@@ -538,11 +547,6 @@ function Shell() {
                 id: 'beans' as const,
                 label: ar ? 'البن والإيحاءات' : 'Coffee & taste',
                 icon: 'bean' as const,
-              },
-              {
-                id: 'xbloom' as const,
-                label: 'xBloom',
-                icon: 'xbloom' as const,
               },
               {
                 id: 'roasters' as const,
@@ -657,7 +661,8 @@ function Shell() {
         style={styles.fill}
         edges={login ? ['left', 'right', 'bottom'] : undefined}
       >
-        <StatusBar barStyle={login ? 'light-content' : 'dark-content'} />
+        <StatusBar barStyle={login || theme.dark ? 'light-content' : 'dark-content'} />
+        <SettingsScreen visible={settingsOpen} close={() => setSettingsOpen(false)} changeLanguage={changeLanguage} />
         {!login ? (
           <View
             testID="app-header"
@@ -667,7 +672,7 @@ function Shell() {
               <>
                 <IconButton name="back" label={t.back} onPress={back} />
                 <View style={{ flex: 1 }} />
-                <LanguageSwitcher change={changeLanguage} />
+                <IconButton name="gear" label={ar ? 'الإعدادات' : 'Settings'} onPress={() => setSettingsOpen(true)} />
                 {detail.type === 'coffee' ? (
                   <IconButton
                     name="heart"
@@ -690,7 +695,7 @@ function Shell() {
               </>
             ) : (
               <>
-                <LanguageSwitcher change={changeLanguage} />
+                <IconButton name="gear" label={ar ? 'الإعدادات' : 'Settings'} onPress={() => setSettingsOpen(true)} />
                 <View style={s.headerBrand}>
                   <Brand compact={width < 600} />
                 </View>
@@ -717,7 +722,7 @@ function Shell() {
             )}
           </View>
         ) : null}
-        {!homeActive ? screenIntro : null}
+        {!homeActive && tab !== 'assistant' ? screenIntro : null}
         <ScreenTransition
           key={
             recording ? 'record' : detail ? detail.type + detail.item.id : tab
@@ -803,6 +808,8 @@ function Shell() {
                   saved={savedIds}
                   loading={refreshing}
                 />
+              ) : tab === 'assistant' ? (
+                <CoffeeAssistant key={userId ?? 'guest'} turns={assistantTurns} setTurns={setAssistantTurns} userId={userId} login={() => requestLogin()} openItem={(kind,id) => void openMemberItem(kind,id)} />
               ) : tab === 'myRecipes' ? (<MemberRecipes key={userId??'guest'} userId={userId} login={()=>requestLogin()} open={openRecipe} create={()=>navigate('addRecipe')}/>) : tab === 'capsules' ? (<CapsuleCatalog/>) : tab === 'addRecipe' || tab === 'addBean' ? (
                 <ContributionForm key={(userId??'guest')+tab} kind={tab==='addBean'?'bean':'recipe'} userId={userId} login={()=>requestLogin()} done={()=>{setRevision(n=>n+1);navigate(tab==='addBean'?'bags':'myRecipes');}}/>
               ) : tab === 'myEquipment' ? (
@@ -811,6 +818,7 @@ function Shell() {
                 <EquipmentDirectory
                   key={equipmentCategory}
                   category={equipmentCategory}
+                  add={item => { setEquipmentToAdd(item); navigate('myEquipment'); }}
                   open={(item) => openDetail({ type: 'equipment', item })}
                 />
               ) : tab === 'roastLab' ? (
@@ -833,16 +841,6 @@ function Shell() {
                                     coffees={data?.coffees ?? []}
                   initialSearch={search}
                   open={(item) => openDetail({ type: 'roaster', item })}
-                />
-              ) : tab === 'xbloom' ? (
-                <XBLOOMHub
-                                    recipes={data?.recipes ?? []}
-                  openRecipe={openRecipe}
-                  loading={refreshing}
-                  tools={() => {
-                    setEquipmentCategory('xbloom');
-                    navigate('equipment');
-                  }}
                 />
               ) : tab === 'savedRecipes' ? (
                 <RecipeShelf
@@ -908,7 +906,7 @@ function Shell() {
                   openRecipe={openRecipe}
                   openCoffee={openCoffee}
                 />
-              ) : tab === 'members' ? (<MemberDirectory open={showMember}/>) : tab === 'memberProfile' ? (<ScrollView contentContainerStyle={{padding:18,gap:14}}><Action title={ar?'حسابات المجتمع':'Community accounts'} onPress={()=>navigate('members')}/><MemberProfile key={(userId??'guest')+memberUsername} userId={userId} username={memberUsername} openMember={showMember} openItem={(kind,id)=>void openMemberItem(kind,id)} manage={manageMember} login={()=>requestLogin()}/></ScrollView>) : tab === 'community' ? (
+              ) : tab === 'members' ? (<MemberDirectory open={showMember}/>) : tab === 'memberProfile' ? (<ScrollView contentContainerStyle={{padding:18,gap:14}}><Action title={ar?'حسابات coffeeHO':'coffeeHO accounts'} onPress={()=>navigate('members')}/><MemberProfile key={(userId??'guest')+memberUsername} userId={userId} username={memberUsername} openMember={showMember} openItem={(kind,id)=>void openMemberItem(kind,id)} manage={manageMember} login={()=>requestLogin()}/></ScrollView>) : tab === 'community' ? (
                 <CommunityScreen
                   key={userId ?? 'guest'}
                   userId={userId}
@@ -928,6 +926,7 @@ function Shell() {
                 <AccountScreen
                   key={userId ?? 'public'}
                   session={userId ? session : null}
+                  settings={() => setSettingsOpen(true)}
                   profileContent={userId?<MemberProfile userId={userId} openMember={showMember} openItem={(kind,id)=>void openMemberItem(kind,id)} manage={manageMember} login={()=>requestLogin()}/>:null}
                   recovery={passwordRecovery}
                   onRecovered={() => {
@@ -963,7 +962,7 @@ function Shell() {
                   method={method}
                   setMethod={(value) => {
                     setMethod(value);
-                    navigate(value === 'xbloom' ? 'xbloom' : 'recipes');
+                    navigate('recipes');
                   }}
                   openCoffee={openCoffee}
                   browse={() => navigate('search')}
@@ -1253,9 +1252,11 @@ function Shell() {
 export default function App() {
   return (
     <SafeAreaProvider>
+      <ThemeProvider>
       <MotionProvider>
         <Shell />
       </MotionProvider>
+      </ThemeProvider>
     </SafeAreaProvider>
   );
 }

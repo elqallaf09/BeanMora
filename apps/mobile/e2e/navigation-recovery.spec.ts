@@ -1,3 +1,4 @@
+import { setLanguage } from './settings';
 import { test, expect } from '@playwright/test';
 
 // Isolated API fixtures; no production writes, accounts or credentials.
@@ -35,7 +36,7 @@ for (const {width,height,locale} of [
   });
   await page.goto('/');
   if(locale==='en'){
-    await page.getByRole('button',{name:'English',exact:true}).click();
+    await setLanguage(page, 'en');
   }
   const home=locale==='ar'?'الرئيسية':'Home';
   const library=locale==='ar'?'مكتبة الوصفات':'Recipe library';
@@ -56,25 +57,17 @@ for (const {width,height,locale} of [
   await expect(page.getByTestId('coffee-sensory').getByLabel(locale==='ar'?/^الحموضة:/:/^Acidity:/)).toHaveCount(0);
   await page.screenshot({path:testInfo.outputPath(`flavors-${locale}-${width}.png`)});
   await page.getByRole('button',{name:locale==='ar'?'رجوع':'Back',exact:true}).click();
-  await page.getByRole('button',{name:'xBloom',exact:true}).first().click();
-  const hero=page.getByTestId('xbloom-hero');
-  await expect(hero).toBeVisible();
-  const box=await hero.boundingBox();
-  expect(box!.height).toBeLessThan(330);
-  const heading=page.getByRole('heading',{name:locale==='ar'?'وصفات xBloom':'xBloom recipes',exact:true});
+  await page.getByRole('button',{name:library,exact:true}).click();
+  await page.getByTestId('method-picker').getByRole('button',{name:'xBloom',exact:true}).click();
+  await expect(page.getByTestId('xbloom-hero')).toHaveCount(0);
+  const heading=page.getByRole('heading',{name:library,exact:true});
   await expect(heading).toBeVisible();
-  expect((await heading.boundingBox())!.y).toBeLessThan(height);
-  const children=await hero.evaluate(element=>{
-    const outer=element.getBoundingClientRect();
-    return Array.from(element.querySelectorAll('[role="heading"],[role="button"]')).every(child=>{
-      const b=child.getBoundingClientRect();return b.top>=outer.top-1&&b.bottom<=outer.bottom+1&&b.left>=outer.left-1&&b.right<=outer.right+1;
-    });
-  });
-  expect(children).toBe(true);
+  await expect(page.getByRole('button',{name:locale==='ar'?recipes[0].title_ar:recipes[0].title,exact:true})).toBeVisible();
+  await expect(page.getByRole('button',{name:locale==='ar'?recipes[1].title_ar:recipes[1].title,exact:true})).toHaveCount(0);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await page.screenshot({path:testInfo.outputPath(`xbloom-${locale}-${width}.png`)});
-  // Resize the mounted hub to catch layout regressions when a tablet rotates.
   await page.setViewportSize({width:height,height:width});
-  await expect(hero).toBeVisible();await expect.poll(async () => (await hero.boundingBox())?.height ?? Infinity).toBeLessThan(330);
+  await expect(heading).toBeVisible();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   expect(errors).toEqual([]);
 });

@@ -11,7 +11,7 @@ import {
   StyleSheet,
   View,
   useWindowDimensions,
-} from 'react-native';
+} from './native';
 import {
   Language,
   Txt,

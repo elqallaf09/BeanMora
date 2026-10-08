@@ -1,3 +1,4 @@
+import { setLanguage } from './settings';
 import { expect, test, type Route } from '@playwright/test';
 import { openRecipeLibrary } from './navigation';
 
@@ -53,7 +54,7 @@ for (const locale of ['ar', 'en'] as const) {
         return reply(route, path.endsWith('/beans') ? [bean] : path.endsWith('/roasters') ? [roaster] : []);
       });
       await page.goto('/');
-      if (!ar) await page.getByRole('button', { name: 'English', exact: true }).click();
+      if (!ar) await setLanguage(page, 'en');
       await expect(page.getByRole('button', { name: ar ? bean.name_ar : bean.name_en, exact: true }).first()).toBeVisible();
       const readsBeforeRecipes = roasterReads;
       await openRecipeLibrary(page, locale);

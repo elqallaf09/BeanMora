@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Linking, Pressable, StyleSheet, View } from 'react-native';
+import { Linking, Pressable, StyleSheet, View } from './native';
 import Svg, { Circle, Ellipse, Path, Rect } from 'react-native-svg';
 import { Icon, Language, Txt, colors, styles } from './ui';
 import { flavorArt, flavorLabel, hasCompletePersonality, missingPersonalityAttributes, type CoffeeSensoryData, type SensoryKey, type SensoryValue } from './sensory';

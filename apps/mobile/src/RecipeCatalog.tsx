@@ -12,7 +12,7 @@ import {
   StyleSheet,
   View,
   useWindowDimensions,
-} from 'react-native';
+} from './native';
 import { publicSupabase as supabase } from './client';
 import {
   mapRecipe,
@@ -104,9 +104,9 @@ export function RecipeCatalog({
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const isXBloomHub = locked && initialMethod === 'xbloom';
-  const pageSize = isXBloomHub ? 12 : RECIPE_PAGE_SIZE;
   const { width } = useWindowDimensions();
   const [method, setMethod] = useState<Method | undefined>(initialMethod);
+  const pageSize = method === 'xbloom' ? 12 : RECIPE_PAGE_SIZE;
   const [search, setSearch] = useState('');
   const [debounced, setDebounced] = useState('');
   const [page, setPage] = useState(0);

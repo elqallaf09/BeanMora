@@ -1,3 +1,4 @@
+import { setLanguage } from './settings';
 import { readFileSync } from 'node:fs';
 import { test, expect } from '@playwright/test';
 
@@ -34,7 +35,7 @@ for (const { locale, width, height } of [
   });
   await page.goto('/');
   if (locale === 'en') {
-    await page.getByRole('button', { name: 'English', exact: true }).click();
+    await setLanguage(page, 'en');
   }
   const browse = page.getByRole('button', { name: locale === 'ar' ? 'البن والإيحاءات' : 'Coffee & taste', exact: true });
   const fullFilter = page.getByRole('button', { name: locale === 'ar' ? 'شخصية البن مكتملة' : 'Complete personality', exact: true });

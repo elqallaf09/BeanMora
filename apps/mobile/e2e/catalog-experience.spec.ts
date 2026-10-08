@@ -1,3 +1,4 @@
+import { setLanguage } from './settings';
 import { expect, test, type Route } from "@playwright/test";
 const bean = {
   id: "12121212-1212-4212-8212-121212121212",
@@ -95,14 +96,14 @@ test("switching language preserves each selected detail and translates in place"
     .getByRole("button", { name: "البن والإيحاءات", exact: true })
     .click();
   await page.getByRole("button", { name: "بن التجربة", exact: true }).click();
-  await page.getByRole("button", { name: "English", exact: true }).click();
+  await setLanguage(page, 'en');
   await expect(
     page.getByRole("heading", { name: "Test coffee", exact: true }),
   ).toBeVisible();
   await expect(
     page.getByText("Coffee details in English", { exact: true }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "العربية", exact: true }).click();
+  await setLanguage(page, 'ar');
   await expect(
     page.getByRole("heading", { name: "بن التجربة", exact: true }),
   ).toBeVisible();
@@ -114,7 +115,7 @@ test("switching language preserves each selected detail and translates in place"
     .getByRole("button", { name: "مكتبة الوصفات", exact: true })
     .click();
   await page.getByRole("button", { name: "وصفة التجربة", exact: true }).click();
-  await page.getByRole("button", { name: "English", exact: true }).click();
+  await setLanguage(page, 'en');
   await expect(
     page.getByRole("heading", { name: "Test recipe", exact: true }),
   ).toBeVisible();
@@ -130,7 +131,7 @@ test("switching language preserves each selected detail and translates in place"
     .getByRole("button", { name: /Test grinder/ })
     .first()
     .click();
-  await page.getByRole("button", { name: "العربية", exact: true }).click();
+  await setLanguage(page, 'ar');
   await expect(
     page.getByRole("heading", { name: "طاحونة التجربة", exact: true }),
   ).toBeVisible();

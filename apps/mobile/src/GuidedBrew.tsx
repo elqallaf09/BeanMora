@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { AppState, Share, View } from 'react-native';
+import { AppState, Share, View } from './native';
 import type { RecipeItem } from './data';
 import { numberInput } from './guards';
 import {
