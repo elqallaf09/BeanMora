@@ -72,6 +72,8 @@ Start the build manually. When its status is **Finished**, check that the build 
 
 Both EAS profiles explicitly select `production` variables and the Android `latest` build image. EAS now manages build numbers remotely with `autoIncrement: true` on both profiles; the user-facing version remains in app.json. On initial migration verify the remote counters exceed Android **25** and iOS **9**; an existing lower counter must be synchronized with `eas build:version:set` before delivery. The `preview` profile produces an internally distributed APK; the `production` profile produces an app bundle for Android or an App Store build for iOS. Build a new iOS archive before submitting it to TestFlight. Resubmitting an old archive keeps its duplicate build number. The standalone preview APK runs without Expo Go or a development server.
 
+The Expo project's GitHub base directory must be `apps/mobile`. To upload a finished iOS production archive from the dashboard, run `.eas/workflows/submit-ios.yml` and supply that archive's exact EAS `build_id`. The workflow is manual-only, has no default archive, and uses the stored production submission configuration. It uploads to App Store Connect/TestFlight; it does not release the app publicly to the App Store.
+
 ## 0.5.16 mobile experience
 
 Settings now contains saved Arabic/English and light/dark/device appearance choices without leaving the current detail. The community tab is coffeeHO. xBloom opens the shared recipe library with its method filter and 12-result pages. Equipment cards and details expose Add to my equipment directly.
