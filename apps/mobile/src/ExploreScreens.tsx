@@ -50,6 +50,7 @@ import { MethodGuide } from './MethodGuide';
 import { SourceLink } from './SourceLink';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SafeAreaView } from './native';
+import { SelectionMenu } from './SelectionMenu';
 import { EquipmentCompare } from './EquipmentCompare';
 import { Disclosure } from './Disclosure';
 import { categoryGuide } from './equipmentGuides';
@@ -284,36 +285,10 @@ export function EquipmentDirectory({
                 ar ? 'موكا بوت، ميزان، طاحونة…' : 'Moka, scale, grinder…'
               }
             />
-            <Chips
-              items={kinds.map((id) => ({
-                id,
-                name: categoryLabel(id, locale),
-              }))}
-              value={filter}
-              set={(value) => {
-                setFilter(value);
-                list.current?.scrollToOffset({
-                  offset: 0,
-                  animated: false,
-                });
-              }}
-            />
-            {brands.length > 1 ? (
-              <Chips
-                items={[
-                  { id: 'all', name: ar ? 'كل الشركات' : 'All brands' },
-                  ...brands.map((id) => ({ id, name: id })),
-                ]}
-                value={brand}
-                set={(value) => {
-                  setBrand(value);
-                  list.current?.scrollToOffset({
-                    offset: 0,
-                    animated: false,
-                  });
-                }}
-              />
-            ) : null}
+            <View style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 10 }}>
+              <SelectionMenu style={{ flexGrow: 1, flexBasis: 180 }} label={ar ? 'نوع الأداة' : 'Equipment type'} items={kinds.map(id => ({ id, name: categoryLabel(id, locale) }))} value={filter} onChange={value => { setFilter(value); list.current?.scrollToOffset({ offset: 0, animated: false }); }} />
+              {brands.length > 1 ? <SelectionMenu style={{ flexGrow: 1, flexBasis: 180 }} label={ar ? 'الشركة' : 'Brand'} items={[{ id: 'all', name: ar ? 'كل الشركات' : 'All brands' }, ...brands.map(id => ({ id, name: id }))]} value={brand} onChange={value => { setBrand(value); list.current?.scrollToOffset({ offset: 0, animated: false }); }} /> : null}
+            </View>
             <View
               style={{
                 flexDirection: ar ? 'row-reverse' : 'row',
@@ -1426,22 +1401,7 @@ export function RoasterDirectory({
         onChangeText={setSearch}
         placeholder={ar ? 'اسم المحمصة أو البلد…' : 'Roaster name or country…'}
       />
-      <Chips
-        items={[
-          'all',
-          ...new Set(rows.map((r) => r.country).filter(Boolean)),
-        ].map((id) => ({
-          id,
-          name:
-            id === 'all'
-              ? ar
-                ? 'كل الدول'
-                : 'All countries'
-              : countryLabel(id, locale),
-        }))}
-        value={country}
-        set={setCountry}
-      />
+      <SelectionMenu label={ar ? 'الدولة' : 'Country'} items={['all', ...new Set(rows.map(r => r.country).filter(Boolean))].map(id => ({ id, name: id === 'all' ? ar ? 'كل الدول' : 'All countries' : countryLabel(id, locale) }))} value={country} onChange={setCountry} />
       {visible.map((r) => (
         <Pressable
           key={r.id}

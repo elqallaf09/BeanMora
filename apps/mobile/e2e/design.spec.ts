@@ -146,8 +146,8 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
     await expect(language).toBeInViewport();
     await expect(page.getByTestId('bottom-navigation')).toBeInViewport();
     await page.screenshot({ path: info.outputPath(`home-scrolled-${viewport.width}.png`) });
-    await expect(page.getByRole('button',{name:'ميزان القهوة',exact:true})).toBeVisible();
-    await page.getByRole('button',{name:'ميزان القهوة',exact:true}).click();
+    await expect(page.getByRole('button',{name:'استكشف أدوات القهوة',exact:true})).toBeVisible();
+    await page.getByRole('button',{name:'استكشف أدوات القهوة',exact:true}).click();
     await expect(page.getByText('ميزان اختبار معزول',{exact:true})).toBeVisible();
     await page.getByRole('button',{name:'الرئيسية',exact:true}).click();
     await page.getByTestId('home-scroll').evaluate(el=>{el.scrollTop=0;});

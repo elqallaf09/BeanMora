@@ -1,5 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { requireMember } from "./member-contributions";
+import { contributionImage, requireMember } from "./member-contributions";
 export type MemberIdentity = {
   id: string;
   name: string;
@@ -128,6 +128,46 @@ export async function updateMemberProfile(
       error?.code === "23505" ? "USERNAME_TAKEN" : "PROFILE_SAVE",
     );
   return username;
+}
+
+/** Upload into the authenticated owner's public avatar folder, then verify the profile write. */
+export async function saveMemberAvatar(
+  db: SupabaseClient,
+  owner: string,
+  attemptId: string,
+  bytes: Uint8Array,
+) {
+  await requireMember(db, owner);
+  if (
+    !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+      attemptId,
+    )
+  )
+    throw new Error("AVATAR_ID");
+  const type = contributionImage(bytes);
+  const path = `${owner}/${attemptId}.${type.extension}`;
+  const bucket = db.storage.from("avatars");
+  const upload = await bucket.upload(path, bytes.slice().buffer, {
+    contentType: type.mime,
+    upsert: false,
+  });
+  if (
+    upload.error &&
+    !("statusCode" in upload.error && String(upload.error.statusCode) === "409")
+  )
+    throw new Error("IMAGE_UPLOAD_FAILED");
+  await requireMember(db, owner);
+  const url = bucket.getPublicUrl(path).data.publicUrl;
+  const { data, error } = await db
+    .from("profiles")
+    .update({ avatar_url: url })
+    .eq("id", owner)
+    .select("id,avatar_url")
+    .single();
+  // Retain the immutable attempt on a lost response so retry cannot create duplicates.
+  if (error || data?.id !== owner || data.avatar_url !== url)
+    throw new Error("AVATAR_SAVE");
+  return url;
 }
 export async function changeMemberFollow(
   db: SupabaseClient,

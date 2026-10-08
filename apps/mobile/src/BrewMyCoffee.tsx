@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Pressable,
@@ -14,7 +14,7 @@ import {
   type RecipeItem,
   type RecipeRow,
 } from './data';
-import { MethodPicker, CoffeePhoto } from './CoffeeScreens';
+import { CoffeePhoto } from './CoffeeScreens';
 import { Action, Language, Txt, Icon, colors, styles } from './ui';
 import { coffeeRecipesPageQuery } from './useCoffeeRecipes';
 import {
@@ -24,6 +24,9 @@ import {
   type Profile,
 } from './core/engine';
 import { methods } from './copy';
+import { METHODS } from './core/engine';
+import { SelectionMenu } from './SelectionMenu';
+import { useBrewStarter } from './useBrewStarter';
 import { recipeQuickFacts } from './recipeQuickFacts';
 
 type InventoryRow = {
@@ -36,7 +39,7 @@ type InventoryRow = {
   opened_at: string | null;
   updated_at: string;
 };
-type Candidate = { recipe: RecipeItem; style: string | null; exact: boolean };
+type Candidate = { recipe: RecipeItem; style: string | null; exact: boolean; general?: boolean };
 type Serving = 'all' | 'hot' | 'cold_or_iced';
 
 export function BrewMyCoffee({
@@ -68,11 +71,11 @@ export function BrewMyCoffee({
   const [methodTouched, setMethodTouched] = useState(false);
   const [serving, setServing] = useState<Serving>('all');
   const [candidates, setCandidates] = useState<Candidate[]>([]);
+  const [candidateScope, setCandidateScope] = useState<string | null>(null);
   const [recipesBusy, setRecipesBusy] = useState(false);
   const [revision, setRevision] = useState(0);
   const [recipePage, setRecipePage] = useState(0);
   const [moreRecipes, setMoreRecipes] = useState(false);
-  const [discoveredMethods, setDiscoveredMethods] = useState<Method[]>([]);
   const [methodsReady, setMethodsReady] = useState(false);
 
   useEffect(() => {
@@ -106,7 +109,7 @@ export function BrewMyCoffee({
         );
         setInventory({ owner: userId, rows });
         setSelectedId((current) =>
-          current && rows.some((r) => r.id === current)
+          current && (rows.some((r) => r.id === current) || current.startsWith('catalog:'))
             ? current
             : (rows[0]?.id ?? null),
         );
@@ -124,28 +127,22 @@ export function BrewMyCoffee({
     };
   }, [userId, ar, revision]);
 
-  const selected = inventory.find((row) => row.id === selectedId) ?? null;
+  const catalogRows: InventoryRow[] = coffees.map(item => ({ id: 'catalog:' + item.kind + ':' + item.id, roasted_product_id: item.kind === 'product' ? item.id : null, legacy_bean_id: item.beanId ?? item.id, preferred_recipe_id: null, last_grind_setting: null, remaining_weight_grams: null, opened_at: null, updated_at: '' }));
+  const choices = [...inventory, ...catalogRows];
+  const selected = choices.find(row => row.id === selectedId) ?? (busy ? null : choices[0] ?? null);
+  useEffect(() => {
+    if (!busy && (!selectedId || !choices.some(row => row.id === selectedId))) setSelectedId(choices[0]?.id ?? null);
+  }, [busy, userId, coffees, inventory, selectedId]);
   const coffeeFor = (row: InventoryRow | null) =>
     row
-      ? (coffees.find((c) =>
+      ? (coffees.find((c) => row.id.startsWith('catalog:') ? row.id === 'catalog:' + c.kind + ':' + c.id :
           row.roasted_product_id
             ? c.kind === 'product' && c.id === row.roasted_product_id
             : (c.beanId ?? c.id) === row.legacy_bean_id,
         ) ?? null)
       : null;
   const coffee = coffeeFor(selected);
-  const availableMethods = useMemo(
-    () => [
-      ...new Set(
-        [
-          ...(coffee?.methods ?? []),
-          ...discoveredMethods,
-          ...candidates.map(row=>row.recipe.method),
-        ].filter(isMethod),
-      ),
-    ],
-    [coffee, candidates, discoveredMethods],
-  );
+  const availableMethods = [...METHODS];
 
   useEffect(() => {
     if (!availableMethods.length) {
@@ -178,7 +175,6 @@ export function BrewMyCoffee({
 
   useEffect(() => {
     setRecipePage(0);
-    setDiscoveredMethods([]);
     setMethodsReady(false);
   }, [selectedId, userId]);
   useEffect(() => {
@@ -273,9 +269,7 @@ export function BrewMyCoffee({
                 ).values(),
               ],
         );
-        setDiscoveredMethods((previous) => [
-          ...new Set([...previous, ...dedup.map((row) => row.recipe.method)]),
-        ]);
+        setCandidateScope(selected.id);
         const first = results[0] as {
           data: unknown[] | null;
           error: unknown;
@@ -318,6 +312,7 @@ export function BrewMyCoffee({
 
   const visibleBase = candidates.filter(
     (row) =>
+      candidateScope === selected?.id &&
       (!method || row.recipe.method === method) &&
       (serving === 'all' ||
         row.style === serving ||
@@ -345,28 +340,14 @@ export function BrewMyCoffee({
     if (rankA !== rankB) return rankB - rankA;
     return a.recipe.title.localeCompare(b.recipe.title);
   });
-  const recommended = visible[0] ?? null;
+  const exactRecommendation = visible[0] ?? null;
+  const starter = useBrewStarter(method ?? 'v60', Boolean(coffee && method && !recipesBusy && !exactRecommendation && !error), locale);
+  const starterStyle = starter.recipe?.discovery?.servingStyle;
+  const canUseStarter = serving === 'all' || (serving === 'hot' && (!starterStyle || starterStyle === 'hot')) || (serving === 'cold_or_iced' && ['cold', 'iced'].includes(starterStyle ?? ''));
+  const recommended: Candidate | null = exactRecommendation ?? (starter.recipe && canUseStarter ? { recipe: starter.recipe, style: starterStyle ?? null, exact: false, general: true } : null);
   const recommendedReasons = recommended
     ? (personalizedRanks.get(recommended.recipe.id)?.reasons ?? [])
     : [];
-
-  if (!userId)
-    return (
-      <View style={s.center}>
-        <Icon name="play" size={40} color={colors.teal} />
-        <Txt heading style={styles.title}>
-          {ar ? 'حضّر قهوتي' : 'Brew my coffee'}
-        </Txt>
-        <Txt style={[styles.muted, { textAlign: 'center' }]}>
-          {ar
-            ? 'سجّل دخولك عشان نبدأ من الكيس اللي عندك ونرجع لأفضل إعداداتك.'
-            : 'Sign in so BeanMora can start from a bag you own and your saved settings.'}
-        </Txt>
-        <Pressable accessibilityRole="button" onPress={login} style={s.primary}>
-          <Txt style={s.primaryText}>{ar ? 'تسجيل الدخول' : 'Sign in'}</Txt>
-        </Pressable>
-      </View>
-    );
 
   return (
     <ScrollView
@@ -386,8 +367,8 @@ export function BrewMyCoffee({
           </Txt>
           <Txt style={styles.muted}>
             {ar
-              ? 'اختَر كيسك، وبعدها نضيق الخيارات للوصفات المرتبطة فعليًا بنفس البن.'
-              : 'Choose your bag, then BeanMora narrows the list to recipes actually linked to that coffee.'}
+              ? 'اختر البن وطريقة التحضير.'
+              : 'Choose your coffee and brew method.'}
           </Txt>
         </View>
         <View style={s.headerIcon}>
@@ -395,85 +376,9 @@ export function BrewMyCoffee({
         </View>
       </View>
 
-      {busy ? (
-        <ActivityIndicator color={colors.teal} />
-      ) : inventory.length ? (
-        <>
-          <Txt style={s.sectionTitle}>
-            {ar ? '1. اختَر الكيس' : '1. Choose your bag'}
-          </Txt>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={s.bags}
-          >
-            {inventory.map((row) => {
-              const item = coffeeFor(row);
-              if (!item) return null;
-              const active = row.id === selectedId;
-              return (
-                <Pressable
-                  key={row.id}
-                  accessibilityRole="button"
-                  accessibilityState={{ selected: active }}
-                  onPress={() => {
-                    setSelectedId(row.id);
-                    setServing('all');
-                    setMethod(undefined);
-                    setMethodTouched(false);
-                  }}
-                  style={[s.bagCard, active && s.bagCardActive]}
-                >
-                  <View style={s.bagPhoto}>
-                    <CoffeePhoto
-                      uri={item.imageUrl}
-                      uris={item.images}
-                      kind={item.imageKind}
-                    />
-                  </View>
-                  <Txt
-                    numberOfLines={2}
-                    style={[s.bagName, active && { color: '#FFF' }]}
-                  >
-                    {item.name}
-                  </Txt>
-                  <Txt
-                    numberOfLines={1}
-                    style={[s.bagMeta, active && { color: '#E8F5F3' }]}
-                  >
-                    {row.remaining_weight_grams !== null
-                      ? row.remaining_weight_grams + ' g'
-                      : ar
-                        ? 'الوزن غير محدد'
-                        : 'Weight not set'}
-                  </Txt>
-                </Pressable>
-              );
-            })}
-          </ScrollView>
-        </>
-      ) : (
-        <View style={s.empty}>
-          <Txt style={s.emptyTitle}>
-            {ar ? 'أكياسي فاضية' : 'My Bags is empty'}
-          </Txt>
-          <Txt style={styles.muted}>
-            {ar
-              ? 'أضف كيسًا من صفحة البن أولًا، وبعدها نقدر نبني التحضير عليه.'
-              : 'Add a bag from a coffee page first, then BeanMora can build your brew around it.'}
-          </Txt>
-          <Pressable
-            accessibilityRole="button"
-            onPress={browse}
-            style={s.secondary}
-          >
-            <Txt style={s.secondaryText}>
-              {ar ? 'اكتشف البن' : 'Discover coffee'}
-            </Txt>
-            <Icon name="search" size={17} color={colors.brown} />
-          </Pressable>
-        </View>
-      )}
+      <Txt style={s.sectionTitle}>{ar ? '1. البن' : '1. Coffee'}</Txt>
+      {busy ? <ActivityIndicator color={colors.teal} /> : null}
+      {choices.length ? <SelectionMenu label={ar ? 'اختيار البن' : 'Choose coffee'} value={selected?.id ?? ''} items={choices.flatMap(row => { const item = coffeeFor(row); return item ? [{ id: row.id, name: item.name, note: item.roaster + (row.id.startsWith('catalog:') ? ar ? ' · الكتالوغ' : ' · Catalog' : ar ? ' · أكياسي' : ' · My bags') }] : []; })} onChange={id => { setSelectedId(id); setMethod(undefined); setMethodTouched(false); setServing('all'); }} /> : <Action title={ar ? 'اكتشف البن' : 'Discover coffee'} onPress={browse} />}
 
       {selected && coffee ? (
         <>
@@ -500,26 +405,7 @@ export function BrewMyCoffee({
           <Txt style={s.sectionTitle}>
             {ar ? '2. طريقة التحضير' : '2. Brew method'}
           </Txt>
-          {availableMethods.length ? (
-            <MethodPicker
-              value={method}
-              onChange={(m) => {
-                if (m) {
-                  setRecipePage(0);
-                  setMethod(m);
-                  setMethodTouched(true);
-                }
-              }}
-              allowed={availableMethods}
-              all={false}
-            />
-          ) : (
-            <Txt style={styles.muted}>
-              {ar
-                ? 'ما عندنا طريقة تحضير مرتبطة بهالبن للحين.'
-                : 'No brew method is linked to this coffee yet.'}
-            </Txt>
-          )}
+          <SelectionMenu label={ar ? 'اختيار طريقة التحضير' : 'Choose brew method'} value={method ?? ''} items={availableMethods.map(id => ({ id, name: methods[locale][id] }))} onChange={id => { if (isMethod(id)) { setRecipePage(0); setMethod(id); setMethodTouched(true); } }} />
 
           <Txt style={s.sectionTitle}>
             {ar ? '3. التقديم' : '3. Serving style'}
@@ -554,7 +440,7 @@ export function BrewMyCoffee({
           <Txt style={s.sectionTitle}>
             {ar ? '4. أفضل نقطة بداية' : '4. Best starting point'}
           </Txt>
-          {recipesBusy ? (
+          {recipesBusy || starter.busy ? (
             <ActivityIndicator color={colors.teal} />
           ) : recommended ? (
             <View style={s.recommend}>
@@ -570,6 +456,7 @@ export function BrewMyCoffee({
                   <Txt style={s.recommendTitle}>{recommended.recipe.title}</Txt>
                   <Txt style={styles.muted}>
                     {methods[locale][recommended.recipe.method]}
+                    {recommended.general ? ar ? ' · وصفة عامة، اضبطها حسب بنّك' : ' · General guide; adjust for your coffee' : ''}
                     {recommended.recipe.id === selected.preferred_recipe_id
                       ? ar
                         ? ' · أفضل وصفة محفوظة'
@@ -619,8 +506,8 @@ export function BrewMyCoffee({
               </Txt>
               <Txt style={styles.muted}>
                 {ar
-                  ? 'جرّب طريقة تقديم ثانية أو افتح مكتبة الوصفات لهذا البن من صفحة البن.'
-                  : 'Try another serving style or open this coffee page to browse more recipes.'}
+                  ? 'جرّب طريقة ثانية أو اكتشف الوصفات.'
+                  : 'Try another method or explore recipes.'}
               </Txt>
             </View>
           )}

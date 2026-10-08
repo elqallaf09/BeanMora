@@ -68,6 +68,7 @@ for (const { locale, width } of [{ locale: 'ar', width: 320 }, { locale: 'en', w
     await expect(popup).toHaveURL(sourceUrl);
     await popup.close();
     await page.getByRole('button', { name: locale === 'ar' ? 'رجوع' : 'Back', exact: true }).click();
+    await page.getByRole('button', { name: locale === 'ar' ? 'البن والإيحاءات' : 'Coffee & taste', exact: true }).click();
     await page.getByRole('button', { name: locale === 'ar' ? unknown.name_ar : unknown.name_en, exact: true }).click();
     await expect(profile.getByLabel(locale === 'ar' ? /^الحموضة:/ : /^Acidity:/)).toHaveCount(0);
     await expect(profile.getByTestId('coffee-personality-pending')).toBeVisible();

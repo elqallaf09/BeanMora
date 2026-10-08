@@ -700,7 +700,7 @@ export function CommunityScreen({
                 </Txt>
                 <Txt style={styles.muted}>
                   {ar
-                    ? 'تجربة، سؤال، أو تحضير محفوظ.'
+                    ? 'شارك تجربتك'
                     : 'Share a brew or a thought.'}
                 </Txt>
               </View>
@@ -1156,18 +1156,11 @@ export function CommunityScreen({
           </View>
           {!visible.length && !loading && !error ? (
             <View testID="community-empty" style={s.empty}>
-              <View style={s.emptyIcon}>
-                <Icon
-                  name={filter === 'roasts' ? 'bean' : 'espresso'}
-                  size={34}
-                  color={colors.copper}
-                />
-              </View>
               <Txt heading style={[styles.subtitle, { textAlign: 'center' }]}>
                 {feed === 'following'
                   ? ar
-                    ? 'تابع ناس القهوة'
-                    : 'Follow coffee people'
+                    ? 'لا توجد منشورات بعد'
+                    : 'No posts yet'
                   : filter === 'roasts'
                     ? ar
                       ? 'منحنى حمصتك يستحق المشاركة'
@@ -1179,11 +1172,11 @@ export function CommunityScreen({
               <Txt style={[styles.muted, { textAlign: 'center' }]}>
                 {feed === 'following'
                   ? ar
-                    ? 'تظهر هنا المشاركات العامة للحسابات التي تتابعها.'
+                    ? 'منشورات الحسابات اللي تتابعها تظهر هنا.'
                     : 'Public posts from accounts you follow appear here.'
                   : ar
-                    ? 'هذه المساحة تنتظر تجارب فعلية: ما البن، ما الإعداد، وما الذي تغيّر في الطعم؟'
-                    : 'This space is for real experiences: which coffee, which settings, and what changed in the cup?'}
+                    ? 'شارك تجربة قهوتك.'
+                    : 'Share your coffee experience.'}
               </Txt>
               <View style={styles.row}>
                 <Action
@@ -1209,141 +1202,22 @@ export function CommunityScreen({
                         : write()
                   }
                 />
-                <Action
-                  title={ar ? 'استكشف وصفة وجربها' : 'Find a recipe to try'}
-                  onPress={browse}
-                />
+
               </View>
             </View>
           ) : null}
         </View>
         {wide ? (
-          <View style={[s.sidebar, { width: 290 }]}>
-            <View style={s.sideCard}>
-              <Txt heading style={s.cardTitle}>
-                {ar ? 'مساحتك في coffeeHO' : 'Your coffeeHO space'}
-              </Txt>
-              <Action
-                title={ar ? 'اكتشف الحسابات' : 'Discover accounts'}
-                onPress={members}
-              />
-              <Action
-                title={ar ? 'ابدأ تحضيرك' : 'Start brewing'}
-                onPress={brew}
-              />
-            </View>
-            <View style={s.sideCard}>
-              <Txt heading style={s.cardTitle}>
-                {ar ? 'أفكار تبدأ منها' : 'Conversation starters'}
-              </Txt>
-              {[
-                {
-                  ar: 'ما الذي تغيّر عندما عدّلت الطحنة؟',
-                  en: 'What changed when you adjusted the grind?',
-                },
-                {
-                  ar: 'هل غيّرت الحرارة لنفس البن؟',
-                  en: 'Did you change temperature for the same coffee?',
-                },
-                {
-                  ar: 'كيف تغيّر الطعم بعد راحة الحمصة؟',
-                  en: 'How did roast resting change the taste?',
-                },
-              ].map((p) => (
-                <Pressable
-                  key={p.en}
-                  accessibilityRole="button"
-                  onPress={() => write(ar ? p.ar : p.en)}
-                  style={[
-                    s.prompt,
-                    { flexDirection: ar ? 'row-reverse' : 'row' },
-                  ]}
-                >
-                  <Icon name="plus" color={colors.copper} size={17} />
-                  <Txt style={{ fontSize: 13, lineHeight: 21, flex: 1 }}>
-                    {ar ? p.ar : p.en}
-                  </Txt>
-                </Pressable>
-              ))}
-            </View>
-            <View style={[s.sideCard, { backgroundColor: '#EAF3EE' }]}>
-              <Icon name="temp" color={colors.teal} size={28} />
-              <Txt heading style={s.cardTitle}>
-                {ar ? 'من الحمصة إلى الكوب' : 'From roast to cup'}
-              </Txt>
-              <Txt style={styles.muted}>
-                {ar
-                  ? 'تابع الحمصات المنشورة، افتح مراحلها، وقارن محاولاتك معها.'
-                  : 'Explore published roasts, open their stages and compare your attempts.'}
-              </Txt>
-              <Action
-                title={ar ? 'حمصات المجتمع' : 'Community roasts'}
-                onPress={() => roast()}
-              />
-            </View>
-            {coffees.length ? (
-              <View style={s.sideCard}>
-                <Txt heading style={s.cardTitle}>
-                  {ar ? 'بن تبدأ معه التجربة' : 'Coffee to explore'}
-                </Txt>
-                {coffees.slice(0, 2).map((c) => (
-                  <Pressable
-                    key={c.kind + c.id}
-                    accessibilityRole="button"
-                    accessibilityLabel={
-                      (ar ? 'استكشف البن: ' : 'Explore coffee: ') + c.name
-                    }
-                    onPress={() => openCoffee(c)}
-                    style={[
-                      s.catalogCoffee,
-                      { flexDirection: ar ? 'row-reverse' : 'row' },
-                    ]}
-                  >
-                    <View
-                      style={{
-                        width: 56,
-                        height: 64,
-                        borderRadius: 10,
-                        overflow: 'hidden',
-                      }}
-                    >
-                      <CoffeePhoto
-                        uri={c.imageUrl}
-                        uris={c.images}
-                        kind={c.imageKind}
-                      />
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Txt
-                        numberOfLines={2}
-                        style={{ fontSize: 13, fontWeight: '700' }}
-                      >
-                        {c.name}
-                      </Txt>
-                      <Txt numberOfLines={1} style={styles.muted}>
-                        {c.roaster}
-                      </Txt>
-                    </View>
-                  </Pressable>
-                ))}
+          <View style={[s.sidebar, { width: 238 }]}>
+            <View testID="community-ad-space" accessibilityLabel={ar ? 'مساحة إعلانية' : 'Advertising space'} style={[s.sideCard, { height: 164, padding: 18, gap: 14, justifyContent: 'space-between', backgroundColor: colors.chip }]}>
+              <Txt style={{ color: colors.muted, fontSize: 11 }}>{ar ? 'إعلان' : 'Advertisement'}</Txt>
+              <View style={{ flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 12 }}>
+                <View style={{ width: 42, height: 42, borderRadius: 14, backgroundColor: colors.paper, alignItems: 'center', justifyContent: 'center' }}><Icon name="espresso" size={22} color={colors.teal} /></View>
+                <Txt heading style={{ flex: 1, fontSize: 16 }}>{ar ? 'مساحة إعلانية' : 'Your brand here'}</Txt>
               </View>
-            ) : null}
-            <View style={s.sideCard}>
-              <Txt heading style={s.cardTitle}>
-                {ar ? 'غيّر أداتك عن معرفة' : 'Know your tools'}
-              </Txt>
-              <Txt style={styles.muted}>
-                {ar
-                  ? 'قارن مواصفات الماكينات والطواحين قبل اختيار تجهيزك.'
-                  : 'Compare machine and grinder specifications before choosing your setup.'}
-              </Txt>
-              <Action
-                title={
-                  ar ? 'دليل الأدوات والمقارنة' : 'Equipment and comparison'
-                }
-                onPress={tools}
-              />
+              <Txt style={{ color: colors.muted, fontSize: 12 }}>{ar ? 'للمحامص وعلامات القهوة' : 'For coffee brands and roasters'}</Txt>
             </View>
+            <Action compact title={ar ? 'اكتشف الحسابات' : 'Discover accounts'} onPress={members} />
           </View>
         ) : null}
       </View>

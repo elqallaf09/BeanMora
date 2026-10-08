@@ -1,11 +1,13 @@
 import { assistantReply, assistantSafeUrl, assistantSearchTerms, parseAssistantQuery, rankAssistantDocuments, type AssistantDocument, type AssistantMatch, type AssistantQuery, type CatalogRate } from './coffee-assistant';
 import { factLabels } from './equipment-facts';
 import { normalizeSearch } from './search/deepSearch';
+import { coffeeKnowledgeAnswer } from './coffee-knowledge';
 
 /** A bounded coffee expert system, not a generative model. No provider, keys or training uploads. */
 export interface LocalAssistantTurn {
   question: string; answer: string; query: AssistantQuery; matches: AssistantMatch[];
-  mode: 'local'; intent: 'search' | 'compare' | 'explain' | 'calculate' | 'coach' | 'guide' | 'help';
+  mode: 'local'; intent: 'search' | 'compare' | 'explain' | 'calculate' | 'coach' | 'guide' | 'knowledge' | 'help';
+  knowledgeTopic?: string;
   followUp?: string; suggestions?: string[]; sources?: { title: string; url: string }[];
   calculation?: { dose: number | null; ratio: number | null; method: string | null };
   coach?: { signal: string; method: string | null; dose?: number; output?: number; seconds?: number };
@@ -151,7 +153,9 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
     const outputLabel = brewMethod === 'espresso' ? (ar ? 'ناتج الإسبريسو المستهدف' : 'Target espresso beverage yield') : (ar ? 'ماء التحضير' : 'Brew water');
     return reply(`${ar ? 'حساب النسبة المطلوبة' : 'Requested ratio calculation'}: ${number(dose)} g × ${number(ratio)} = ${number(dose * ratio)} g\n${outputLabel}: ${number(dose * ratio)} g\n${ar ? 'هذا حساب رياضي، وليس وصفة مختبرة. لا يحدد درجة الطحن أو الحرارة أو الوقت؛ تحقق من سعة أداتك.' : 'This is arithmetic, not a tested recipe. It does not set grind, temperature or time; check your brewer capacity.'}`, { intent: 'calculate', calculation, matches: selected, suggestions: ar ? ['خلها 20 غرام', 'غير النسبة إلى 1:15'] : ['Make it 20 g', 'Change ratio to 1:15'] });
   }
-  if (compare || explain || selection.explicit) {
+  const knowledge = !selection.explicit && !(compare && references.length) ? coffeeKnowledgeAnswer(question, locale, previous?.knowledgeTopic) : null;
+  if (knowledge) return reply(knowledge.answer, { intent: 'knowledge', knowledgeTopic: knowledge.topic, sources: knowledge.sources, suggestions: knowledge.suggestions });
+  if (compare || selection.explicit || (explain && references.length)) {
     const chosen = selection.explicit ? selection.matches : compare ? references.slice(0, 3) : references.length === 1 ? references : [];
     if (selection.invalid || !chosen.length || (compare && chosen.length < 2)) return reply(ar ? 'ابحث عن الخيارات أولًا، ثم قل «اشرح الأول» أو «قارن الأول والثاني». اختر رقمًا من النتائج الظاهرة.' : 'Search for options first, then say “explain the first” or “compare the first and second”. Use a displayed result number.', { matches: references, query: previous?.query ?? query });
     // Revalidate dated offers locally before displaying references; never keep a stale price alive.
@@ -186,7 +190,7 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
     const guide = dependencies.guides?.[methods[0]];
     if (guide) return reply([ar ? guide.title_ar : guide.title, ar ? guide.intro_ar : guide.intro, ...(ar ? guide.tips_ar : guide.tips).map(t => '• ' + t)].join('\n'), { intent: 'guide', sources: [{ title: guide.source_name, url: guide.source }], suggestions: ar ? [`أبي وصفة ${methods[0]}`] : [`Find a ${methods[0]} recipe`] });
   }
-  if (/^(?:هلا|مرحبا|السلام عليكم|hello|hi|شكرا|مشكور|thanks|thank you)[! .؟?]*$/.test(q) || /شنو تقدر|شقاعد تسوي|what can you|help|مساعده/.test(q)) return reply(ar ? 'أنا مساعد BeanMora المتخصص بالقهوة. أبحث عن معدة ضمن ميزانيتك، أقارن النتائج، أشرح الوصفات وأحسب النسب. أفهم متابعة مثل «الثاني» و«خلها 150 دينار». معرفتي محدودة بالقواعد والمصادر المنشورة في التطبيق.' : 'I am BeanMora’s specialized coffee assistant. I find equipment within your budget, compare results, explain recipes and calculate ratios. Try follow-ups like “the second one” or “make it 150 KWD”. My knowledge is limited to the app’s rules and published sources.', { suggestions: ar ? ['أبي ماكينة إسبريسو تحت 480 دولار', 'احسب 18 غرام بنسبة 1:16', 'قهوتي V60 حامضة'] : ['Espresso machine under 480 USD', 'Calculate 18 g at 1:16', 'My V60 tastes sour'] });
+  if (/^(?:هلا|مرحبا|السلام عليكم|hello|hi|شكرا|مشكور|thanks|thank you)[! .؟?]*$/.test(q) || /شنو تقدر|شقاعد تسوي|what can you|help|مساعده/.test(q)) return reply(ar ? 'أنا خبير القهوة. أساعدك في التحضير والطحن والماء والتخزين، وأقارن الأدوات والوصفات من مصادرها.' : 'I am your coffee expert. I help with brewing, grinding, water and storage, and compare equipment and recipes using their sources.', { suggestions: ar ? ['أبي ماكينة إسبريسو تحت 480 دولار', 'احسب 18 غرام بنسبة 1:16', 'قهوتي V60 حامضة'] : ['Espresso machine under 480 USD', 'Calculate 18 g at 1:16', 'My V60 tastes sour'] });
   if (query.clarification) return reply(assistantReply(query, [], locale), { intent: 'search', suggestions: query.clarification === 'currency' ? ['USD', 'KWD', 'SAR'] : [] });
   const searched = await dependencies.search(query);
   const now = dependencies.now ?? Date.now();

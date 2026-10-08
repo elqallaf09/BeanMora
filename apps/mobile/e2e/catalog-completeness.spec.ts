@@ -112,9 +112,11 @@ test('an owned bag keeps the xBloom source water unit and present facts in Brew 
   await expect(facts.getByText('225 g',{exact:true})).toHaveCount(0);
   await expect(facts.getByText('—',{exact:true})).toHaveCount(0);
   expect(scopedMethods[0]).toBeNull();
+  await page.getByRole('button',{name:'Choose brew method: xBloom',exact:true}).click();
   await page.getByRole('button',{name:'V60',exact:true}).click();
   await expect(page.getByText('No exact recipe matches these choices',{exact:true})).toBeVisible();
-  await page.getByRole('button',{name:'xBloom',exact:true}).last().click();
+  await page.getByRole('button',{name:'Choose brew method: V60',exact:true}).click();
+  await page.getByRole('button',{name:'xBloom',exact:true}).click();
   await expect(facts).toContainText('225 ml');
   await page.getByRole('button',{name:'Start this recipe',exact:true}).click();
   await expect(page.getByTestId('recipe-detail')).toContainText(recipe.title);

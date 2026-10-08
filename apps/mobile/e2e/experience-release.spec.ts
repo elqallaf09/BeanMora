@@ -43,8 +43,8 @@ for (const width of [390, 800]) {
   test(`catalog assistant preserves budget currency and displays source (${width})`, async ({ page }, info) => {
     await page.setViewportSize({ width, height: 1000 }); const queries = await fixtures(page); await page.goto('/');
     await setLanguage(page, 'en');
-    await page.getByRole('button', { name: 'Coffee assistant', exact: true }).click();
-    await expect(page.getByText('A specialized coffee knowledge and rules assistant, with no subscription. Calculations and built-in guides work offline; catalog and prices need a connection.', { exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'Coffee expert', exact: true }).click();
+    await expect(page.getByText('From choosing beans to dialing in your cup.', { exact: true })).toBeVisible();
     await page.getByLabel('Your coffee question', { exact: true }).fill('Espresso machine under 480 USD');
     await page.getByRole('button', { name: 'Send', exact: true }).click();
     await expect(page.getByTestId('assistant-result')).toContainText('Test espresso machine');

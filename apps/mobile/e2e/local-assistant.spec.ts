@@ -18,7 +18,7 @@ async function openAssistant(page: Page, offlineCatalog = false) {
     return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(data) });
   });
   await page.goto('/');
-  await page.getByRole('button', { name: 'مساعد القهوة', exact: true }).click();
+  await page.getByRole('button', { name: 'خبير القهوة', exact: true }).click();
   return { providerCalls: () => providerCalls, searches };
 }
 async function ask(page: Page, question: string, english = false) {
@@ -38,7 +38,7 @@ test('Arabic conversation clarifies currency, compares and resolves references w
   await expect(panel).toContainText('أقارن المواصفات المنشورة');
   await expect(panel).toContainText('غير مذكور في المصدر');
   await ask(page, 'اشرح الثاني');
-  await expect(page.getByTestId('assistant-result')).toHaveCount(5);
+  await expect(page.getByTestId('assistant-result')).toHaveCount(1);
   expect(network.searches).toHaveLength(1);
   expect(network.providerCalls()).toBe(0);
   await panel.getByRole('button', { name: 'محادثة جديدة', exact: true }).click();
