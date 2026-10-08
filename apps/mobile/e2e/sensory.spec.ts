@@ -1,3 +1,4 @@
+import { setLanguage } from './settings';
 import { test, expect } from '@playwright/test';
 
 // Deliberately tall synthetic artwork makes cover cropping observable.
@@ -40,7 +41,7 @@ for (const { locale, width } of [{ locale: 'ar', width: 320 }, { locale: 'en', w
     });
     await page.goto('/');
     if (locale === 'en') {
-      await page.getByRole('button', { name: 'English', exact: true }).click();
+      await setLanguage(page, 'en');
     }
     await page.getByRole('button', { name: locale === 'ar' ? scored.name_ar : scored.name_en, exact: true }).click();
     const profile = page.getByTestId('coffee-sensory');

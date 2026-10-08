@@ -1,3 +1,4 @@
+import { setLanguage } from './settings';
 import { test, expect, type Page, type Request, type Route } from '@playwright/test';
 import { openRecipeLibrary } from './navigation';
 
@@ -26,7 +27,7 @@ async function reply(route: Route, rows: unknown[], total = rows.length) {
 async function openLibrary(page: Page, locale: 'ar' | 'en') {
   await page.goto('/');
   if (locale === 'en') {
-    await page.getByRole('button', { name: 'English', exact: true }).click();
+    await setLanguage(page, 'en');
     // Modal fade-out restores focus to its opener. Finish that transition
     // before navigating and typing into another control.
     await expect(page.getByRole('button', { name: 'Close language selection', exact: true, includeHidden: true })).toHaveCount(0);

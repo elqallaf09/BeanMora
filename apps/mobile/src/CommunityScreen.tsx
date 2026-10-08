@@ -8,7 +8,7 @@ import {
   TextInput,
   View,
   useWindowDimensions,
-} from 'react-native';
+} from './native';
 import { supabase } from './client';
 import {
   mapRecipe,
@@ -451,7 +451,7 @@ export function CommunityScreen({
         >
           <View style={{ flex: 1, gap: 5 }}>
             <Txt style={s.eyebrow}>
-              {ar ? 'مجتمع القهوة' : 'COFFEE COMMUNITY'}
+              coffeeHO
             </Txt>
             <Txt heading style={s.heroTitle}>
               {ar ? 'كل كوب يستحق حكاية' : 'Every cup has a story'}
@@ -471,7 +471,7 @@ export function CommunityScreen({
             selected
           />
           <Action title={ar ? 'ابدأ تحضيرك' : 'Start brewing'} onPress={brew} />
-          <Action title={ar?'حسابات المجتمع':'Community accounts'} onPress={members}/>
+          <Action title={ar?'حسابات coffeeHO':'coffeeHO accounts'} onPress={members}/>
         </View>
       </View>
       {message ? (

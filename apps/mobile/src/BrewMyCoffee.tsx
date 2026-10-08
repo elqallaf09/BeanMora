@@ -6,7 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   View,
-} from 'react-native';
+} from './native';
 import { supabase, publicSupabase } from './client';
 import {
   mapRecipe,

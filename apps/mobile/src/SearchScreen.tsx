@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState, type ComponentProps } from 'react';
-import { Pressable, View, useWindowDimensions } from 'react-native';
+import { Pressable, View, useWindowDimensions } from './native';
 import { publicSupabase as supabase } from './client';
 import { loadRoasters, countryLabel, type RoasterItem } from './catalog';
 import type { CoffeeItem, RecipeItem } from './data';

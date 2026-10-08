@@ -13,7 +13,7 @@ import {
   StyleSheet,
   View,
   useWindowDimensions,
-} from 'react-native';
+} from './native';
 import { supabase, publicSupabase } from './client';
 import {
   countryLabel,
@@ -48,7 +48,8 @@ import { RecipeCatalog } from './RecipeCatalog';
 import { CatalogPhoto } from './CatalogPhoto';
 import { MethodGuide } from './MethodGuide';
 import { SourceLink } from './SourceLink';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaView } from './native';
 import { EquipmentCompare } from './EquipmentCompare';
 import { Disclosure } from './Disclosure';
 import { categoryGuide } from './equipmentGuides';
@@ -151,9 +152,11 @@ function ToolSymbol({
 export function EquipmentDirectory({
   category,
   open,
+  add,
 }: {
   category: string;
   open: (item: EquipmentItem) => void;
+  add: (item: EquipmentItem) => void;
 }) {
   const locale = useContext(Language);
   const ar = locale === 'ar';
@@ -429,6 +432,7 @@ export function EquipmentDirectory({
                     : 'Details and member experiences')}
               </Txt>
             </Pressable>
+            <Action title={ar ? 'إضافة إلى معداتي' : 'Add to my equipment'} onPress={() => add(item)} selected />
             <Action
               title={
                 selection.includes(item.id)
@@ -783,6 +787,7 @@ export function EquipmentDetail({
           {item.name}
         </Txt>
       </View>
+      <Action selected title={ar?'إضافة إلى معداتي':'Add to my equipment'} onPress={myEquipment}/>
       <Txt>{g.intro}</Txt>
       <Txt style={s.editorial}>
         {ar
@@ -819,7 +824,6 @@ export function EquipmentDetail({
         </Txt>
         <Txt>{g.care}</Txt>
       </View>
-      <Action selected title={ar?'إضافة إلى معداتي':'Add to my equipment'} onPress={myEquipment}/>
       {item.description ? (
         <View style={styles.card}>
           <Txt heading style={styles.subtitle}>

@@ -8,7 +8,7 @@ import {
   StyleSheet,
   View,
   useWindowDimensions,
-} from 'react-native';
+} from './native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { randomUUID } from 'expo-crypto';
 import { supabase } from './client';

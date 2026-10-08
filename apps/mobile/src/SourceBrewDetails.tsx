@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { View, useWindowDimensions } from 'react-native';
+import { View, useWindowDimensions } from './native';
 import type { RecipeItem } from './data';
 import { Language, Txt, colors, styles } from './ui';
 import { sourceTemperature } from './sourceBrew';

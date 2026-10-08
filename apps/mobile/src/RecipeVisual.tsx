@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { View } from './native';
 import type { RecipeItem } from './data';
 import { CoffeePhoto } from './CoffeeScreens';
 import { Icon, colors } from './ui';

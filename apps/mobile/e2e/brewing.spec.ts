@@ -1,3 +1,4 @@
+import { setLanguage } from './settings';
 import { test, expect, type Route } from '@playwright/test';
 import { openRecipeLibrary } from './navigation';
 import { readFileSync } from 'node:fs';
@@ -208,7 +209,7 @@ test('English preserves recipe instructions and source temperature ranges', asyn
     return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(path.endsWith('/recipes') ? rows : []) });
   });
   await page.goto('/');
-  await page.getByRole('button', { name: 'English', exact: true }).click();
+  await setLanguage(page, 'en');
   await openRecipeLibrary(page, 'en');
   await page.getByRole('button', { name: 'Blue Bottle — Chemex 600 g', exact: true }).click();
   await expect(page.getByText('36–46 g', { exact: true })).toBeVisible();
@@ -235,7 +236,7 @@ test('measured time reaches explicit outcome review without silently recording a
     await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(data) });
   });
   await page.goto('/');
-  await page.getByRole('button', { name: 'English', exact: true }).click();
+  await setLanguage(page, 'en');
   await page.getByRole('button', { name: 'Account', exact: true }).click();
   await page.getByLabel('Email', { exact: true }).fill(user.email);
   await page.getByLabel('Password', { exact: true }).fill('isolated-fixture-password');
@@ -284,7 +285,7 @@ for (const locale of ['ar', 'en'] as const) {
     });
     await page.goto('/');
     if (locale === 'en') {
-      await page.getByRole('button', { name: 'English', exact: true }).click();
+      await setLanguage(page, 'en');
     }
     await openRecipeLibrary(page, locale);
     for (const fixture of fixtures) {

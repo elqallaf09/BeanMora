@@ -375,7 +375,7 @@ test('Arabic community preserves member languages, links measured roasts and rea
 }) => {
   await page.setViewportSize({ width: 1536, height: 1017 });
   const requests = await start(page, { posts: true });
-  await page.getByRole('button', { name: 'المجتمع', exact: true }).click();
+  await page.getByRole('button', { name: 'coffeeHO', exact: true }).click();
   await expect(page.getByTestId('community-composer')).toHaveCount(0);
   await expect(page.getByTestId('community-post-post-ar')).toContainText(
     'خففت الطحنة',

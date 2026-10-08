@@ -1,5 +1,5 @@
 import { useContext, useMemo, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View } from './native';
 import type { RecipeItem } from './data';
 import { MethodPicker } from './CoffeeScreens';
 import { recipeQuickFacts } from './recipeQuickFacts';

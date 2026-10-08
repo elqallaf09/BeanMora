@@ -1,4 +1,4 @@
-import { Image, View, type ImageSourcePropType } from 'react-native';
+import { Image, View, type ImageSourcePropType } from './native';
 import { useContext } from 'react';
 import type { Method } from './core/engine';
 import { Language, Txt } from './ui';

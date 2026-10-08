@@ -1,3 +1,4 @@
+import { setLanguage } from './settings';
 import { test, expect, type Page, type Route } from '@playwright/test';
 import { openRecipeLibrary } from './navigation';
 
@@ -337,7 +338,7 @@ const recipes = Array.from({ length: 64 }, (_, i) => ({
 }));
 
 async function english(page: Page) {
-  await page.getByRole('button', { name: 'English', exact: true }).click();
+  await setLanguage(page, 'en');
 }
 async function response(
   route: Route,
@@ -432,7 +433,7 @@ for (const width of [320, 768]) {
     await page.reload();
     await expect(
       page.getByRole('button', {
-        name: 'English',
+        name: 'Settings',
         exact: true,
       }),
     ).toBeVisible();
@@ -456,7 +457,7 @@ test('full recipe pagination retries a failed page and filters sources and machi
       return response(route, []);
     const result = discoveryPage(route, recipes, [bean]);
     const { offset } = result;
-    expect(result.limit).toBe(30);
+    expect(result.limit).toBe(result.params.p_method === 'xbloom' ? 12 : 30);
     requestedOffsets.push(offset);
     requestedParameters.push(result.params);
     if (offset === 30 && !allowNextPage)

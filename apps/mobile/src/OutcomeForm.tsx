@@ -1,5 +1,5 @@
 import { useContext, useRef, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Switch, View } from './native';
 import { randomUUID } from 'expo-crypto';
 import { parseOutcome, saveOutcome, OUTCOMES, type BrewOutcome, type Outcome } from './core/outcome';
 import type { RecipeItem } from './data';
