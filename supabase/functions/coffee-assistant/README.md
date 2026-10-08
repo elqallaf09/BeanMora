@@ -1,4 +1,6 @@
-# Coffee assistant service
+# Historical optional model service
+
+Since mobile 0.5.17, the app uses its on-device rules/knowledge assistant and does not call this endpoint. Do not enable or configure a model provider for the current mobile assistant. This source is retained for the previously deployed endpoint; no redeployment is part of the local assistant release.
 
 This directory preserves the existing BeanMora deployed function (version 2), retrieved while connecting the mobile UI. This mobile release does not redeploy it or change production catalog data. The matching parser/ranker lives in `src/lib/coffee-assistant.ts` and the mobile snapshot; keep shared copies aligned when changing retrieval rules.
 
