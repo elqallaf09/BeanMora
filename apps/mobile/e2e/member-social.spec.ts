@@ -1,3 +1,4 @@
+import { setLanguage } from './settings';
 import {test,expect,type Route,type Page} from '@playwright/test';
 const uid='11111111-1111-4111-8111-111111111111';
 const user={id:uid,aud:'authenticated',role:'authenticated',email:'social@example.test',is_anonymous:false,app_metadata:{provider:'email',providers:['email']},user_metadata:{},identities:[],created_at:'2026-01-01T00:00:00Z'};
@@ -5,7 +6,7 @@ const enc=(v:object)=>Buffer.from(JSON.stringify(v)).toString('base64url');
 const token=`${enc({alg:'HS256',typ:'JWT'})}.${enc({sub:uid,role:'authenticated',is_anonymous:false,exp:Math.floor(Date.now()/1000)+3600})}.isolated_signature`;
 const other={id:'22222222-2222-4222-8222-222222222222',name:'Private Barista',username:'barista',avatar_url:null,is_private:true};
 async function reply(route:Route,data:unknown,status=200){return route.fulfill({status,contentType:'application/json',body:JSON.stringify(data)});}
-async function signIn(page:Page){await page.goto('/');await page.getByRole('button',{name:'English',exact:true}).click();await page.getByRole('button',{name:'Account',exact:true}).click();await page.getByLabel('Email',{exact:true}).fill(user.email);await page.getByLabel('Password',{exact:true}).fill('isolated-fixture-password');await page.getByRole('button',{name:'Sign in',exact:true}).click();await expect(page.getByText(user.email,{exact:true})).toBeVisible();}
+async function signIn(page:Page){await page.goto('/');await setLanguage(page, 'en');await page.getByRole('button',{name:'Account',exact:true}).click();await page.getByLabel('Email',{exact:true}).fill(user.email);await page.getByLabel('Password',{exact:true}).fill('isolated-fixture-password');await page.getByRole('button',{name:'Sign in',exact:true}).click();await expect(page.getByText(user.email,{exact:true})).toBeVisible();}
 function auth(path:string){return path.endsWith('/token')?{access_token:token,token_type:'bearer',expires_in:3600,refresh_token:'isolated_refresh',user}:path.endsWith('/user')?user:null;}
 test('search by username shows private identity; request stays pending and collections remain hidden',async({page})=>{
  let relationship:null|'pending'=null;let followed=0;const queries:string[]=[];
@@ -13,7 +14,7 @@ test('search by username shows private identity; request stays pending and colle
  if(p.endsWith('/rpc/search_member_profiles')){queries.push(route.request().postDataJSON().p_query);return reply(route,[other]);}
  if(p.endsWith('/rpc/get_member_profile')){const own=route.request().postDataJSON().p_username==='owner';return reply(route,{profile:own?{id:uid,name:'Owner',username:'owner',bio:'',is_private:false,share_collection:false}:other,is_owner:own,can_view:own,relationship,follower_count:0,following_count:0});}
  if(p.endsWith('/follows')&&route.request().method()==='POST'){expect(route.request().postDataJSON()).toEqual({follower_id:uid,following_id:other.id});followed++;relationship='pending';return reply(route,{status:'pending'});}return reply(route,[]);});
- await page.setViewportSize({width:320,height:900});await signIn(page);await page.getByRole('button',{name:'Community',exact:true}).click();await page.getByRole('button',{name:'Community accounts',exact:true}).click();await page.getByLabel('Search by name or username',{exact:true}).fill('@barista');await expect.poll(()=>queries.at(-1)).toBe('barista');await page.getByRole('button',{name:'Private Barista @barista',exact:true}).click();
+ await page.setViewportSize({width:320,height:900});await signIn(page);await page.getByRole('button',{name:'coffeeHO',exact:true}).click();await page.getByRole('button',{name:'coffeeHO accounts',exact:true}).click();await page.getByLabel('Search by name or username',{exact:true}).fill('@barista');await expect.poll(()=>queries.at(-1)).toBe('barista');await page.getByRole('button',{name:'Private Barista @barista',exact:true}).click();
  await expect(page.getByText('This account is private. Request to follow to view details after approval.',{exact:true})).toBeVisible();await page.getByRole('button',{name:'Follow',exact:true}).click();await expect(page.getByRole('button',{name:'Cancel follow request',exact:true})).toBeVisible();expect(followed).toBe(1);await expect(page.getByRole('button',{name:'Manage my equipment',exact:true})).toHaveCount(0);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 test('own profile exposes username and collections, validates privacy update, approves a request and saves a corner photo',async({page})=>{

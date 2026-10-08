@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { View } from 'react-native';
+import { View } from './native';
 import type { Method } from './core/engine';
 import guides from './methodGuides.json';
 import { SourceLink } from './SourceLink';

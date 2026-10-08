@@ -1,3 +1,4 @@
+import { setLanguage } from './settings';
 import { test, expect, type Route } from '@playwright/test';
 
 // Independent network-fixture contract; production SQL is tested separately.
@@ -112,7 +113,7 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
     await page.route('https://photo-fixture.test/**',route=>route.abort());
     await page.goto('/');
     await expect(page.getByRole('heading',{name:'اكتشف عالم القهوة.'})).toBeVisible();
-    const language = page.getByTestId('language-switcher');
+    const language = page.getByRole('button', { name: /^(الإعدادات|Settings)$/ }).first();
     const header = await page.getByTestId('app-header').boundingBox();
     const pill = await language.boundingBox();
     const scroll = await page.getByTestId('home-scroll').boundingBox();
@@ -126,29 +127,11 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
       expect(action!.x).toBeGreaterThanOrEqual(pill!.x + pill!.width);
       expect(action!.x + action!.width).toBeLessThanOrEqual(viewport.width);
     }
-    const arabic = page.getByRole('button', { name: 'العربية', exact: true });
-    const english = page.getByRole('button', { name: 'English', exact: true });
-    await expect(arabic).toHaveAttribute('aria-pressed', 'true');
-    await expect(english).toHaveAttribute('aria-pressed', 'false');
-    for (const option of [arabic, english]) {
-      const bounds = await option.boundingBox();
-      expect(bounds!.width).toBeGreaterThanOrEqual(44);
-      expect(bounds!.height).toBeGreaterThanOrEqual(44);
-      expect(bounds!.x).toBeGreaterThanOrEqual(0);
-      expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(viewport.width);
-    }
-    await page.screenshot({ path: info.outputPath(`language-ar-${viewport.width}.png`) });
-    if (viewport.width === 768) {
-      await page.setViewportSize({ width: 320, height: 740 });
-      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-      await page.setViewportSize(viewport);
-    }
-    await english.click();
-    await expect(english).toHaveAttribute('aria-pressed', 'true');
-    await expect(arabic).toHaveAttribute('aria-pressed', 'false');
+    await expect(page.getByTestId('language-switcher')).toHaveCount(0);
+    await setLanguage(page, 'en');
     await page.reload();
-    await expect(english).toHaveAttribute('aria-pressed', 'true');
-    await arabic.click();
+    await expect(page.getByRole('button',{name:'Settings',exact:true}).first()).toBeVisible();
+    await setLanguage(page, 'ar');
     await expect(page.getByRole('heading', { name: 'اكتشف عالم القهوة.' })).toBeVisible();
     await expect(page.getByRole('button',{name:beans[0].name_ar,exact:true})).toBeVisible();
     await expect(page.getByTestId('coffee-photo-unavailable').first()).toBeVisible();
@@ -173,7 +156,7 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
     const detailPill = await language.boundingBox();
     expect(detailPill!.x).toBeGreaterThanOrEqual(0);
     expect(detailPill!.x + detailPill!.width).toBeLessThanOrEqual(viewport.width);
-    await arabic.click();
+    await setLanguage(page, 'ar');
     // Choosing the current language preserves the open coffee details.
     await expect(page.getByRole('heading', { name: beans[0].name_ar })).toBeVisible();
     await expect(page.getByText('18 g',{exact:true})).toBeVisible();

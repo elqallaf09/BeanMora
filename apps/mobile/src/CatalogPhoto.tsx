@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "./native";
 import { Icon, Language, Txt, colors, type IconName } from "./ui";
 
 /** A model photo never falls back to a photo of a different product. */

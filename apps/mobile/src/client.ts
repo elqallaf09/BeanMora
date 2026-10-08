@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { sessionStorage } from './sessionStorage';
 import { Platform } from 'react-native';
 import { isPublicKey } from './guards';
-import { boundedFetch } from './requestDeadline';
+import { boundedFetch, withDeadline } from './requestDeadline';
 import appConfig from '../app.json';
 
 const url = process.env.EXPO_PUBLIC_SUPABASE_URL ?? '';
@@ -11,6 +11,21 @@ export const catalogScope = url;
 const authStorageKey =
   'sb-' + url.replace(/^https:\/\//, '').split('.')[0] + '-auth-token';
 const key = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '';
+/** Provider credentials never enter the app; only the member JWT reaches our service. */
+export async function assistantApi(body?: unknown, signal?: AbortSignal): Promise<unknown> {
+  const headers: Record<string, string> = { apikey: key, 'Content-Type': 'application/json' };
+  if (body) {
+    const session = (await supabase?.auth.getSession())?.data.session;
+    if (!session || session.user.is_anonymous) throw new Error('SIGN_IN_REQUIRED');
+    headers.Authorization = `Bearer ${session.access_token}`;
+  }
+  return withDeadline(async requestSignal => {
+    const response = await fetch(`${url}/functions/v1/coffee-assistant`, { method: body ? 'POST' : 'GET', headers, body: body ? JSON.stringify(body) : undefined, signal: requestSignal });
+    const result = await response.json();
+    if (!response.ok) throw new Error(response.status === 429 ? 'RATE_LIMIT' : response.status === 401 ? 'SIGN_IN_REQUIRED' : 'ASSISTANT_UNAVAILABLE');
+    return result;
+  }, { signal, timeoutMs: body ? 25000 : 6000 });
+}
 export const configured =
   /^https:\/\/[a-z0-9]+\.supabase\.co$/.test(url) && isPublicKey(key);
 export async function authProviderEnabled(provider: 'apple' | 'google') {

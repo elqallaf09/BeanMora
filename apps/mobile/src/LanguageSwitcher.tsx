@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { Animated, Platform, Pressable, StyleSheet, View } from 'react-native';
+import { Animated, Platform, Pressable, StyleSheet, View } from './native';
 import type { Locale } from './copy';
 import { Language, Txt, colors } from './ui';
 import { useReducedMotion } from './Motion';

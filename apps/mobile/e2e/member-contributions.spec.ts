@@ -1,3 +1,4 @@
+import { setLanguage } from './settings';
 import { test, expect, type Page, type Route } from "@playwright/test";
 
 const user = {
@@ -41,7 +42,7 @@ async function reply(route: Route, data: unknown, status = 200) {
 }
 async function signedIn(page: Page) {
   await page.goto("/");
-  await page.getByRole("button", { name: "English", exact: true }).click();
+  await setLanguage(page, 'en');
   await page.getByRole("button", { name: "Account", exact: true }).click();
   await page.getByLabel("Email", { exact: true }).fill(user.email);
   await page

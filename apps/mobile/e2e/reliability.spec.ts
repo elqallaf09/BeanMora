@@ -1,3 +1,4 @@
+import { setLanguage } from './settings';
 import { test, expect, type Page, type Route } from '@playwright/test';
 import { openRecipeLibrary } from './navigation';
 
@@ -18,7 +19,7 @@ async function reply(route: Route, data: unknown, status = 200, total?: number) 
   }, body: JSON.stringify(data) });
 }
 async function chooseEnglish(page: Page) {
-  await page.getByRole('button', { name: 'English', exact: true }).click();
+  await setLanguage(page, 'en');
   await expect(page.getByRole('button', { name: 'Close language selection', includeHidden: true, exact: true })).toHaveCount(0);
 }
 function normalize(text: string) { return text.normalize('NFKD').replace(/\p{M}/gu, '').replace(/ة/g, 'ه').toLowerCase(); }
@@ -37,14 +38,14 @@ test('coffee cards appear while recipe reads are delayed and language changes do
     await page.goto('/');
     await expect(page.getByRole('button', { name: bean.name_ar, exact: true })).toBeVisible();
     await expect.poll(() => calls.length).toBe(5);
-    await page.getByRole('button', { name: 'English', exact: true }).click();
+    await setLanguage(page, 'en');
     await expect(page.getByRole('button', { name: bean.name_en, exact: true })).toBeVisible();
-    await page.getByRole('button', { name: 'العربية', exact: true }).click();
+    await setLanguage(page, 'ar');
     await expect(page.getByRole('button', { name: bean.name_ar, exact: true })).toBeVisible();
     expect(calls).toHaveLength(5);
     release();
     await expect.poll(() => page.evaluate(() => Object.keys(localStorage).filter(k => k.startsWith('beanmora-public-catalog-v2:')).length)).toBe(1);
-    await page.getByRole('button', { name: 'English', exact: true }).click();
+    await setLanguage(page, 'en');
     await expect(page.getByRole('button', { name: bean.name_en, exact: true })).toBeVisible();
     expect(calls).toHaveLength(5);
   } finally { release(); }

@@ -1,5 +1,5 @@
 import { Component, type ReactNode } from 'react';
-import { View } from 'react-native';
+import { View } from './native';
 import { Action, Txt, styles } from './ui';
 import type { Locale } from './copy';
 

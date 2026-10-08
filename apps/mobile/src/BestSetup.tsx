@@ -6,7 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   View,
-} from 'react-native';
+} from './native';
 import { supabase } from './client';
 import type { CoffeeItem, RecipeItem } from './data';
 import { Language, Txt, Icon, colors, styles } from './ui';

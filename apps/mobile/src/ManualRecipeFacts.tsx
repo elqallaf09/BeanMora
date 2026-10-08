@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { View } from 'react-native';
+import { View } from './native';
 import type { RecipeItem } from './data';
 import { manualRecipeFacts, roastAgeLabel } from './manualBrew';
 import { Language, Txt, colors, styles } from './ui';

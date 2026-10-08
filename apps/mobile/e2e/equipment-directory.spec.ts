@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { setLanguage } from './settings';
 
 const models = Array.from({ length: 120 }, (_, i) => ({
   id: '44444444-4444-4444-8444-' + String(i).padStart(12, '0'),
@@ -35,9 +36,7 @@ for (const width of [390, 1024])
       });
     });
     await page.goto('/');
-    await page
-      .getByRole('button', { name: 'English', exact: true })
-      .click();
+    await setLanguage(page, 'en');
     await page
       .getByRole('button', { name: 'Equipment', exact: true })
       .click();
@@ -101,9 +100,7 @@ for (const width of [390, 1024])
       page.getByText('120 of 120 models', { exact: true }),
     ).toBeVisible();
     expect(reads).toBe(1);
-    await page
-      .getByRole('button', { name: 'العربية', exact: true })
-      .click();
+    await setLanguage(page, 'ar');
     await page
       .getByRole('button', { name: 'أدوات القهوة', exact: true })
       .click();
@@ -119,7 +116,9 @@ for (const width of [390, 1024])
     const card = await page
       .getByTestId('equipment-card-' + models[119].id)
       .boundingBox();
-    expect(card!.height).toBeLessThan(245);
+    // Includes the additional 44px Add to my equipment action on each card.
+    expect(card!.height).toBeLessThan(300);
+    await expect(page.getByTestId('equipment-card-' + models[119].id).getByRole('button', { name: 'إضافة إلى معداتي', exact: true })).toBeVisible();
     expect(card!.x).toBeGreaterThanOrEqual(0);
     expect(card!.x + card!.width).toBeLessThanOrEqual(width);
     expect(

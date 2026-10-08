@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 const pairs = [
+  ['../../../src/lib/coffee-assistant.ts', '../src/core/coffee-assistant.ts'],
   ['../../../src/lib/catalog-comments.ts', '../src/core/catalog-comments.ts'],
   ['../../../src/lib/member-social.ts', '../src/core/member-social.ts'],
   ['../../../src/lib/equipment-facts.ts', '../src/core/equipment-facts.ts'],
@@ -20,7 +21,8 @@ const pairs = [
 for (const [source, destination] of pairs) {
   const sourceUrl = new URL(source, import.meta.url);
   const targetUrl = new URL(destination, import.meta.url);
-  const content = readFileSync(sourceUrl, 'utf8');
+  const raw = readFileSync(sourceUrl, 'utf8');
+  const content = source.endsWith('/coffee-assistant.ts') ? raw.replace("'./search/deepSearch'", "'./deepSearch'") : raw;
   if (process.argv.includes('--check')) {
     if (readFileSync(targetUrl, 'utf8') !== content) throw new Error('Shared core drift: run npm run sync:core in apps/mobile');
   } else writeFileSync(targetUrl, content);

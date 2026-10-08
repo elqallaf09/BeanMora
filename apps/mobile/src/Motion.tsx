@@ -6,7 +6,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { AccessibilityInfo, Animated, Easing, Platform } from 'react-native';
+import { AccessibilityInfo, Animated, Easing, Platform } from './native';
 const ReducedMotion = createContext(true);
 export function MotionProvider({ children }: { children: ReactNode }) {
   const [reduced, setReduced] = useState(true);

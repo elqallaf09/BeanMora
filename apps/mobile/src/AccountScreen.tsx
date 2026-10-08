@@ -10,7 +10,7 @@ import {
   StyleSheet,
   TextInput,
   View,
-} from 'react-native';
+} from './native';
 import * as WebBrowser from 'expo-web-browser';
 import type { Session } from '@supabase/supabase-js';
 import {
@@ -54,6 +54,7 @@ export const finishOAuth = supabase
 export function AccountScreen({
   session,
   profileContent,
+  settings,
   back,
   onDeleted,
   recovery = false,
@@ -61,6 +62,7 @@ export function AccountScreen({
 }: {
   session: Session | null;
   profileContent?: ReactNode;
+  settings: () => void;
   back: () => void;
   onDeleted: (localCleanupFailed: boolean) => void;
   recovery?: boolean;
@@ -311,6 +313,7 @@ export function AccountScreen({
           </Txt>
           <Txt style={styles.muted}>{session.user.email}</Txt>
         </View>
+        <Action title={ar ? 'الإعدادات' : 'Settings'} onPress={settings} />
         {profileContent}
         <View style={styles.card}>
           <LegalLinks />
@@ -525,6 +528,7 @@ export function AccountScreen({
               {ar ? '←' : '→'}
             </Txt>
           </Pressable>
+          <Action title={ar ? 'الإعدادات' : 'Settings'} onPress={settings} />
           <View style={s.panel}>
             <View style={s.segment}>
               {(['signup', 'login'] as const).map((value) => (

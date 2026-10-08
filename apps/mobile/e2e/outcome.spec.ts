@@ -1,3 +1,4 @@
+import { setLanguage } from './settings';
 import { test, expect, type Route } from '@playwright/test';
 import { openRecipeLibrary } from './navigation';
 
@@ -112,7 +113,7 @@ for (const unit of ['g', 'ml'] as const) test(`signed-in brew with source water 
     }
     await route.fulfill({ status, contentType: 'application/json', body: JSON.stringify(data) });
   });
-  await page.goto('/'); await page.getByRole('button', { name: 'English', exact: true }).click();
+  await page.goto('/'); await setLanguage(page, 'en');
   await page.getByRole('button', { name: 'Account', exact: true }).click();
   await page.getByLabel('Email', { exact: true }).fill(user.email);
   await page.getByLabel('Password', { exact: true }).fill('isolated-fixture-password');

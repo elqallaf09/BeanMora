@@ -1,3 +1,4 @@
+import { setLanguage } from './settings';
 import { expect, test, type Page, type Route } from '@playwright/test';
 
 // All users, sessions, Storage operations and deletions below are isolated fixtures.
@@ -11,7 +12,7 @@ const session = { access_token: token, refresh_token: 'isolated_refresh', token_
 const reply = (route: Route, data: unknown, status = 200) => route.fulfill({ status, contentType: 'application/json', body: JSON.stringify(data) });
 async function openAccount(page: Page, ar: boolean) {
   await page.goto('/');
-  if (!ar) await page.getByRole('button', { name: 'English', exact: true }).click();
+  if (!ar) await setLanguage(page, 'en');
   await page.getByRole('button', { name: ar ? 'فتح حسابي' : 'Open account', exact: true }).click();
 }
 async function login(page: Page, ar: boolean) {

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, View } from "./native";
 import { supabase } from "./client";
 import { loadEquipment, type EquipmentItem } from "./catalog";
 import { archiveOwnedItem } from "./core/owned-inventory";

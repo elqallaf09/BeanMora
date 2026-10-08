@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { View } from "react-native";
+import { View } from "./native";
 import { randomUUID } from "expo-crypto";
 import { supabase } from "./client";
 import { Action, Field, Language, Txt, styles } from "./ui";

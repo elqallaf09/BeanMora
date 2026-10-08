@@ -1,5 +1,5 @@
 import { useContext, useRef, useState } from 'react';
-import { ScrollView, View, useWindowDimensions } from 'react-native';
+import { ScrollView, View, useWindowDimensions } from './native';
 import {
   categoryLabel,
   equipmentKind,

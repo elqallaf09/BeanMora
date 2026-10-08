@@ -1,3 +1,4 @@
+import { setLanguage } from './settings';
 import { test, expect } from '@playwright/test';
 
 const bean = {
@@ -36,7 +37,8 @@ for (const width of [320,1536]) test(`xBloom covers, source facts, short paginat
   });
   await page.goto('/');
   await page.getByRole('button',{name:'xBloom',exact:true}).first().click();
-  await expect(page.getByTestId('xbloom-hero-photo')).toBeVisible();
+  await expect(page.getByTestId('method-picker')).toBeVisible();
+  await expect(page.getByTestId('xbloom-hero-photo')).toHaveCount(0);
   const first=page.getByRole('button',{name:recipes[0].title_ar,exact:true});
   await expect(first).toContainText('15 g');await expect(first).toContainText('225 ml');
   await expect(first).toContainText('85–88°C');await expect(first).toContainText('60');
@@ -97,7 +99,7 @@ test('an owned bag keeps the xBloom source water unit and present facts in Brew 
     return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(data)});
   });
   await page.goto('/');
-  await page.getByRole('button',{name:'English',exact:true}).click();
+  await setLanguage(page, 'en');
   await page.getByRole('button',{name:'Account',exact:true}).click();
   await page.getByLabel('Email',{exact:true}).fill(user.email);
   await page.getByLabel('Password',{exact:true}).fill('isolated-fixture-password');

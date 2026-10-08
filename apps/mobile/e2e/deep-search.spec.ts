@@ -1,3 +1,4 @@
+import { setLanguage } from './settings';
 import { test, expect, type Route } from '@playwright/test';
 
 const bean = {id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', slug:'strawberry-bean',name_ar:'بن الفراولة',name_en:'Strawberry coffee',description_en:'Strawberries and jasmine',requires_review:false,is_published:true,roaster_id:'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee', suitable_for_v60:true,suitable_for_xbloom:true,flavors:[{flavor:'strawberry'}],roaster:{name_ar:'محمصة التجربة',name_en:'Test roaster'}};
@@ -23,7 +24,7 @@ for (const locale of ['ar','en'] as const) test(`coffee xBloom exploration keeps
     if(path.endsWith('/rpc/recipes_for_coffee'))return reply(route,[],0);
     return reply(route,path.endsWith('/beans')?[bean]:path.endsWith('/roasters')?[roaster]:[]);
   });
-  await page.goto('/');if(locale==='en')await page.getByRole('button',{name:'English',exact:true}).click();
+  await page.goto('/');if(locale==='en')await setLanguage(page, 'en');
   await page.getByRole('button',{name:locale==='ar'?bean.name_ar:bean.name_en,exact:true}).first().click();
   await page.getByRole('button',{name:'xBloom',exact:true}).click();
   await page.getByRole('button',{name:locale==='ar'?'استكشف وصفات xBloom':'Explore xBloom recipes',exact:true}).click();
@@ -82,13 +83,17 @@ test('foreground automation refreshes once after five minutes and reuses the cat
   await visibility('hidden');await visibility('visible');expect(reads).toBe(10);
 });
 
-test('language indicator follows selection with reduced motion and fits a small screen',async({page})=>{
+test('language selection in settings follows reduced motion and fits a small screen',async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});await page.setViewportSize({width:320,height:740});
   await page.route('https://mobilefixture.supabase.co/**',route=>reply(route,[]));
-  await page.goto('/');const indicator=page.getByTestId('language-selection-indicator');
-  await page.getByRole('button',{name:'English',exact:true}).click();
-  await expect.poll(()=>indicator.evaluate(el=>Math.round(new DOMMatrix(getComputedStyle(el).transform).m41-el.getBoundingClientRect().width))).toBe(0);
-  await page.getByRole('button',{name:'العربية',exact:true}).click();
-  await expect(indicator).toHaveCSS('transform',/matrix\(1, 0, 0, 1, 0, 0\)/);
+  await page.goto('/');
+  await page.getByRole('button', { name: 'الإعدادات', exact: true }).click();
+  const panel = page.getByTestId('settings-screen');
+  await panel.getByRole('button', { name: 'English', exact: true }).click();
+  await expect(panel.getByRole('button', { name: 'English', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await expect(panel.getByRole('button', { name: 'العربية', exact: true })).toHaveAttribute('aria-pressed', 'false');
+  await panel.getByRole('button', { name: 'العربية', exact: true }).click();
+  await expect(panel.getByRole('button', { name: 'العربية', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await panel.getByRole('button', { name: 'تم', exact: true }).click();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });

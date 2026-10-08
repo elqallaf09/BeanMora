@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { Image, Pressable, ScrollView, View } from "react-native";
+import { Image, Pressable, ScrollView, View } from "./native";
 import * as ImagePicker from "expo-image-picker";
 import { randomUUID } from "expo-crypto";
 import { supabase } from "./client";

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { View } from 'react-native';
+import { View } from './native';
 import Svg, { Circle, Line, Polyline, Text as SvgText } from 'react-native-svg';
 import { Language, Txt, colors, styles } from './ui';
 import { clockTime, type RoastPoint } from './roastLab';
