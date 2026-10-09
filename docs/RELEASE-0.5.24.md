@@ -20,7 +20,7 @@ Source version 0.5.24 uses Android versionCode 35 and iOS buildNumber 17. EAS ow
 
 ## Database rollout
 
-`20261009210146_immediate_stories_and_direct_message_editing.sql` is additive and has been applied to the BeanMora project. Message updates grant only the `body` column to authenticated members. RLS restricts updates to the sender's unexpired text/shared-post message; the server stamps `edited_at` without changing creation time, expiry, conversation, sender or media identity. Deletes verify the returned ID before removing local content. Voice-file removal follows a verified message deletion.
+`20261009215410_immediate_stories_and_direct_message_editing.sql` is additive and has been applied to the BeanMora project. Its version matches the database migration history. Message updates grant only the `body` column to authenticated members. RLS restricts updates to the sender's unexpired text/shared-post message; the server stamps `edited_at` without changing creation time, expiry, conversation, sender or media identity. Deletes verify the returned ID before removing local content. Voice-file removal follows a verified message deletion.
 
 The story insert trigger publishes even submissions from older clients that still send `pending`. The server assigns creation/expiry and clears any forged review fields. Existing pending stories from active members are published for 24 hours. Reviewers can inspect unreviewed published stories and open story reports, including reports on previously approved stories. Approval never extends expiry. Only a confirmed moderator rejection issues a strike, and repeated review cannot duplicate that strike. A report alone cannot warn or suspend an account.
 
