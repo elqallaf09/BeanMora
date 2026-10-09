@@ -579,9 +579,11 @@ test("account actions live only in compact settings and sign-out failure can be 
     .first()
     .click();
   const panel = page.getByTestId("settings-screen");
-  await expect(
-    panel.getByRole("button", { name: "Delete account and data", exact: true }),
-  ).toBeInViewport();
+  await expect(panel.getByTestId("account-details")).toBeVisible();
+  await expect(panel.getByTestId("account-details").getByText("Loading…", { exact: true })).toHaveCount(0);
+  const deleteAccount = panel.getByRole("button", { name: "Delete account and data", exact: true });
+  await deleteAccount.scrollIntoViewIfNeeded();
+  await expect(deleteAccount).toBeInViewport({ ratio: 1 });
   await expect(
     panel.getByText("New in this release", { exact: true }),
   ).toHaveCount(0);
