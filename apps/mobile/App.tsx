@@ -1,3 +1,4 @@
+import { TabRail } from './src/TabRail';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
@@ -35,7 +36,7 @@ import { copy, caveats, reasons, type Locale } from './src/copy';
 import { matchesIndexedSearch } from './src/core/deepSearch';
 import { indexedCoffeeSearchDocument } from './src/searchIndex';
 import { SearchScreen } from './src/SearchScreen';
-import { flavorLabel, hasCompletePersonality } from './src/sensory';
+import { flavorLabel } from './src/sensory';
 import type { EquipmentItem, RoasterItem } from './src/catalog';
 import {
   EquipmentDirectory,
@@ -157,7 +158,6 @@ function Shell() {
   const [roastSection, setRoastSection] = useState<'own' | 'public'>('own');
   const [recipeEntry, setRecipeEntry] = useState(0);
   const [recipeCoffee, setRecipeCoffee] = useState<CoffeeItem | null>(null);
-  const [personalityOnly, setPersonalityOnly] = useState(false);
   const [detailSnapshot, setDetail] = useState<Detail | null>(null);
   // A locale change updates the selected entity in place, including back-stack
   // entries and recipes loaded outside the first catalog page.
@@ -259,7 +259,6 @@ function Shell() {
     if (next === 'recipes') setRecipeEntry((n) => n + 1);
     setTab(next);
     setSearch('');
-    setPersonalityOnly(false);
     setRecipeCoffee(null);
   }
   function back() {
@@ -284,7 +283,7 @@ function Shell() {
     });
     return () => listener.remove();
   }, [recording, detail, parents, tab, recipeCoffee]);
-  useEffect(() => setVisibleCount(30), [tab, method, search, personalityOnly]);
+  useEffect(() => setVisibleCount(30), [tab, method, search]);
   // Navigation must not rebuild the search index or scan recipes per coffee.
   const coffees = useMemo(() => {
     const linkedBeans = new Set<string>();
@@ -509,103 +508,45 @@ function Shell() {
   const nav: { tab: Tab; icon: IconName; label: string }[] = [
     { tab: 'home', icon: 'home', label: ar ? 'الرئيسية' : 'Home' },
     { tab: 'beans', icon: 'search', label: ar ? 'اكتشف' : 'Discover' },
-    { tab: 'brewFlow', icon: 'plus', label: ar ? 'تحضير' : 'Brew' },
     {
       tab: 'community',
       icon: 'globe',
       label: 'coffeeHO',
     },
+    { tab: 'brewFlow', icon: 'plus', label: ar ? 'تحضير' : 'Brew' },
     { tab: 'account', icon: 'user', label: t.account },
   ];
   const columns = width >= 850 ? 4 : width >= 600 ? 3 : 2;
   const cardWidth = (Math.min(width, 1120) - 36 - (columns - 1) * 12) / columns;
   const displayCoffee = coffees.filter(
     (c) =>
-      (tab !== 'favorites' || savedIds.includes(c.beanId ?? c.id)) &&
-      (!personalityOnly || hasCompletePersonality(c.flavors, c.sensory)),
+      (tab !== 'favorites' || savedIds.includes(c.beanId ?? c.id)),
   );
   const homeActive = tab === 'home' && !detail && !recording;
   const socialPage = ['account', 'community', 'members', 'memberProfile'].includes(tab);
   const libraryDialog = (<Modal transparent visible={libraryMenu} animationType="fade" onRequestClose={()=>setLibraryMenu(false)}><View style={{flex:1,justifyContent:'center',padding:24,backgroundColor:'#0008'}}><ScrollView contentContainerStyle={{padding:18,gap:10}} style={{maxHeight:'85%',backgroundColor:colors.paper,borderRadius:20}}>
-              <Txt heading style={styles.subtitle}>{ar?'مكتبتي وإضافاتي':'My library and contributions'}</Txt>
-              {([{id:'addRecipe',ar:'إضافة وصفة',en:'Add recipe'},{id:'addBean',ar:'إضافة بن',en:'Add coffee'},{id:'myRecipes',ar:'وصفاتي المضافة',en:'My submitted recipes'},{id:'myEquipment',ar:'معداتـي',en:'My equipment'},{id:'bags',ar:'أكياسي',en:'My bags'},{id:'roastLab',ar:'مختبر التحميص',en:'Roast Lab'}] as const).map(item=><Action key={item.id} title={item[locale]} onPress={()=>{setLibraryMenu(false);if(item.id==='myEquipment')setEquipmentToAdd(null);if(item.id==='roastLab'){setRoastId(null);setRoastSection('own');}navigate(item.id);}}/>)}
+              <Txt heading style={styles.subtitle}>{ar?'المزيد':'More'}</Txt>
+              {([{id:'assistant',ar:'خبير القهوة',en:'Coffee expert'},{id:'capsules',ar:'الكبسولات',en:'Capsules'},{id:'savedRecipes',ar:'وصفاتي المحفوظة',en:'Saved recipes'},{id:'forYou',ar:'لك أنت',en:'For you'},{id:'favorites',ar:'البن المحفوظ',en:'Saved coffees'},{id:'addRecipe',ar:'إضافة وصفة',en:'Add recipe'},{id:'addBean',ar:'إضافة بن',en:'Add coffee'},{id:'myRecipes',ar:'وصفاتي المضافة',en:'My submitted recipes'},{id:'myEquipment',ar:'معداتـي',en:'My equipment'},{id:'bags',ar:'أكياسي',en:'My bags'},{id:'roastLab',ar:'مختبر التحميص',en:'Roast Lab'}] as const).map(item=><Action key={item.id} title={item[locale]} onPress={()=>{setLibraryMenu(false);if(item.id==='myEquipment')setEquipmentToAdd(null);if(item.id==='roastLab'){setRoastId(null);setRoastSection('own');}navigate(item.id);}}/>)}
               <Action title={ar?'إغلاق':'Close'} onPress={()=>setLibraryMenu(false)}/>
             </ScrollView></View></Modal>);
   const screenIntro = (
     <>
       {!login && !detail && configured ? (
-        <View testID="library-navigation" style={s.libraryNav}>
-          <View style={[s.libraryNavContent,{flexDirection:ar?'row-reverse':'row',flexWrap:'wrap'}]}>
-            {[
-              {id:'assistant' as const,label:ar?'خبير القهوة':'Coffee expert',icon:'star' as const},
-              {id:'capsules' as const,label:ar?'الكبسولات':'Capsules',icon:'espresso' as const},
-              {
-                id: 'recipes' as const,
-                label: ar ? 'مكتبة الوصفات' : 'Recipe library',
-                icon: 'espresso' as const,
-              },
-              {
-                id: 'savedRecipes' as const,
-                label: ar ? 'وصفاتي المحفوظة' : 'Saved recipes',
-                icon: 'heart' as const,
-              },
-              {
-                id: 'beans' as const,
-                label: ar ? 'البن والإيحاءات' : 'Coffee & taste',
-                icon: 'bean' as const,
-              },
-              {
-                id: 'roasters' as const,
-                label: ar ? 'المحامص' : 'Roasteries',
-                icon: 'bean' as const,
-              },
-              {
-                id: 'equipment' as const,
-                label: ar ? 'أدوات القهوة' : 'Equipment',
-                icon: 'gear' as const,
-              },
-              {
-                id: 'roastLab' as const,
-                label: ar ? 'مختبر التحميص' : 'Roast Lab',
-                icon: 'temp' as const,
-              },
-            ].filter(item=>item.id!=='roastLab').map((item) => (
-              <Pressable
-                key={item.id}
-                accessibilityRole="button"
-                accessibilityLabel={item.label}
-                accessibilityState={{ selected: tab === item.id }}
-                onPress={() => {
-                  if (item.id === 'equipment') setEquipmentCategory('all');
-                  if (item.id === 'recipes' || item.id === 'beans')
-                    setMethod(undefined);
-                  navigate(item.id);
-                }}
-                style={[
-                  s.libraryButton,
-                  tab === item.id && { backgroundColor: colors.brown },
-                ]}
-              >
-                <Icon
-                  name={item.icon}
-                  size={14}
-                  color={tab === item.id ? '#FFF' : colors.brown}
-                />
-                <Txt
-                  style={{
-                    fontSize: 11,
-                    fontWeight: '700',
-                    color: tab === item.id ? '#FFF' : colors.brown,
-                  }}
-                >
-                  {item.label}
-                </Txt>
-              </Pressable>
-            ))}
-            <Pressable accessibilityRole="button" accessibilityLabel={ar?'المزيد':'More'} onPress={()=>setLibraryMenu(true)} style={s.libraryButton}><Icon name="plus" size={14}/><Txt style={{fontSize:11,fontWeight:'700'}}>{ar?'المزيد':'More'}</Txt></Pressable>
-
-
-          </View>
+        <View style={s.libraryNav}>
+          <TabRail testID="library-navigation" value={['assistant', 'capsules', 'savedRecipes', 'forYou', 'roastLab', 'bags', 'myEquipment', 'myRecipes', 'addRecipe', 'addBean', 'favorites'].includes(tab) ? 'more' : tab}
+            items={[
+              { id: 'beans', label: ar ? 'البن والإيحاءات' : 'Coffee & taste', icon: 'bean' },
+              { id: 'recipes', label: ar ? 'مكتبة الوصفات' : 'Recipe library', icon: 'espresso' },
+              { id: 'equipment', label: ar ? 'أدوات القهوة' : 'Equipment', icon: 'gear' },
+              { id: 'roasters', label: ar ? 'المحامص' : 'Roasteries', icon: 'espresso' },
+              { id: 'more', label: ar ? 'المزيد' : 'More', icon: 'plus' },
+            ]}
+            onChange={id => {
+              if (id === 'more') { setLibraryMenu(true); return; }
+              if (id === 'equipment') setEquipmentCategory('all');
+              if (id === 'recipes' || id === 'beans') setMethod(undefined);
+              navigate(id as Tab);
+            }} />
         </View>
       ) : null}
       {configured && !login && (data?.stale || (!data && !refreshing)) ? (
@@ -1077,23 +1018,6 @@ function Shell() {
                   onRefresh={refresh}
                   ListHeaderComponent={
                     <View style={{ gap: 16, marginBottom: 4 }}>
-                      {tab !== 'favorites' ? (
-                        <View style={s.catalogTabs}>
-                          <Action
-                            title={t.beans}
-                            onPress={() => navigate('beans')}
-                            selected
-                          />
-                          <Action
-                            title={t.recipes}
-                            onPress={() => navigate('recipes')}
-                          />
-                          <Action
-                            title={t.forYou}
-                            onPress={() => navigate('forYou')}
-                          />
-                        </View>
-                      ) : null}
                       <Txt heading style={styles.title}>
                         {tab === 'favorites'
                           ? ar
@@ -1101,20 +1025,6 @@ function Shell() {
                             : 'Favorites'
                           : t.beans}
                       </Txt>
-                      <View style={s.catalogTabs}>
-                        <Action
-                          title={ar ? 'كل البن' : 'All coffees'}
-                          onPress={() => setPersonalityOnly(false)}
-                          selected={!personalityOnly}
-                        />
-                        <Action
-                          title={
-                            ar ? 'شخصية البن مكتملة' : 'Complete personality'
-                          }
-                          onPress={() => setPersonalityOnly(true)}
-                          selected={personalityOnly}
-                        />
-                      </View>
                       <MethodPicker value={method} onChange={setMethod} />
                       <MethodGuide
                         key={method ?? 'all'}
@@ -1288,28 +1198,11 @@ const s = StyleSheet.create({
     width: '100%',
     maxWidth: 1120,
     alignSelf: 'center',
-    minHeight: 62,
+    minHeight: 48,
     flexGrow: 0,
     flexShrink: 0,
     paddingHorizontal: 18,
-    paddingBottom: 10,
-  },
-  libraryNavContent: { width:'100%', flexDirection: 'row', gap: 6, paddingVertical: 2 },
-  libraryButton: {
-    flexGrow: 1,
-    flexBasis: '22%',
-    flexShrink: 0,
-    minWidth: 60,
-    paddingHorizontal: 4,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6,
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: 14,
-    backgroundColor: colors.paper,
-    minHeight: 46,
+    paddingBottom: 4,
   },
   headerActions: {
     flexDirection: 'row',

@@ -1,3 +1,4 @@
+import { EquipmentGallery } from './EquipmentGallery';
 import { matchesDeepSearch } from './core/deepSearch';
 import { coffeeSearchDocument } from './searchIndex';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
@@ -744,17 +745,7 @@ export function EquipmentDetail({
       contentContainerStyle={[coffeeStyles.page, { maxWidth: 780 }]}
     >
       <View style={s.toolHero}>
-        <CatalogPhoto
-          uri={item.imageUrl}
-          height={220}
-          icon={
-            equipmentKind(item) === 'moka_pot'
-              ? 'moka_pot'
-              : equipmentKind(item) === 'xbloom'
-                ? 'xbloom'
-                : 'gear'
-          }
-        />
+        <EquipmentGallery item={item} />
         <Txt style={s.eyebrow}>
           {categoryLabel(equipmentKind(item), locale)}
         </Txt>

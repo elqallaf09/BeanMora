@@ -17,8 +17,25 @@ export interface EquipmentItem {
   specifications: Record<string, unknown>;
   sourceUrl: string | null;
   imageUrl: string | null;
+  images?: EquipmentPhoto[];
   verifiedAt: string | null;
   confidence: string;
+}
+export interface EquipmentPhoto { url: string; sourceUrl: string; alt: string }
+export function reviewedEquipmentGallery(specifications: Record<string, unknown>, locale: Locale): EquipmentPhoto[] {
+  const catalog = specifications.catalog as { schema_version?: number; images?: unknown } | undefined;
+  if (catalog?.schema_version !== 1 || !Array.isArray(catalog.images)) return [];
+  const seen = new Set<string>();
+  return catalog.images.flatMap((entry: unknown) => {
+    if (!entry || typeof entry !== 'object' || Array.isArray(entry)) return [];
+    const row = entry as Record<string, unknown>;
+    const url = typeof row.url === 'string' ? safeUrl(row.url) : null;
+    const sourceUrl = typeof row.source_url === 'string' ? safeUrl(row.source_url) : null;
+    if (!url || !sourceUrl || !['source_linked', 'rights_confirmed'].includes(String(row.usage_status)) || seen.has(url)) return [];
+    seen.add(url);
+    const alt = locale === 'ar' ? row.alt_ar : row.alt_en;
+    return [{ url, sourceUrl, alt: typeof alt === 'string' ? alt.slice(0, 200) : '' }];
+  }).slice(0, 8);
 }
 export interface RoasterItem {
   localeContent?: Record<Locale, { name: string; description: string }>;
@@ -228,7 +245,7 @@ async function readEquipment(
   const { data, error } = await db
     .from('equipment_models')
     .select(
-      'id,name,category,description,notes,specifications,suitable_brew_methods,source_url,official_url,image_url,image_usage_status,last_verified_at,data_confidence,requires_review,brand:equipment_brands(name)',
+      'id,name,category,description,notes,specifications,suitable_brew_methods,source_url,official_url,image_url,image_source_url,image_usage_status,last_verified_at,data_confidence,requires_review,brand:equipment_brands(name)',
     )
     .eq('requires_review', false)
     .order('name')
@@ -249,6 +266,8 @@ async function readEquipment(
     ) as {
       name?: string;
     } | null;
+    const photos = reviewedEquipmentGallery(row.specifications ?? {}, locale);
+    const cover = row.image_usage_status === 'rights_confirmed' || (row.image_usage_status === 'source_linked' && safeUrl(row.source_url)) ? safeUrl(row.image_url) : null;
     return {
       id: row.id,
       localeContent: {
@@ -278,12 +297,8 @@ async function readEquipment(
           : {},
       methods: row.suitable_brew_methods ?? [],
       sourceUrl: safeUrl(row.source_url) || safeUrl(row.official_url),
-      imageUrl:
-        row.image_usage_status === 'rights_confirmed' ||
-        (row.image_usage_status === 'source_linked' &&
-          safeUrl(row.source_url))
-          ? safeUrl(row.image_url)
-          : null,
+      imageUrl: photos[0]?.url ?? cover,
+      images: photos.length ? photos : cover && safeUrl(row.image_source_url ?? row.source_url) ? [{ url: cover, sourceUrl: safeUrl(row.image_source_url ?? row.source_url)!, alt: row.name }] : [],
       verifiedAt: row.last_verified_at,
       confidence: row.data_confidence,
     };

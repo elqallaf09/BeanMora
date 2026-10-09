@@ -25,6 +25,7 @@ const methodAliases: [string, string[]][] = [
   ['cold_brew', ['cold brew', 'كولد برو']], ['origami', ['origami', 'اوريغامي']],
   ['kalita_wave', ['kalita', 'كاليتا']], ['april', ['april', 'ابريل']], ['orea', ['orea', 'اوريا', 'اوريه']],
   ['switch', ['hario switch', 'سويتش']],
+  ['pour_over', ['pour over', 'ترشيح يدوي']], ['auto_drip', ['automatic drip', 'auto drip', 'تقطير الي']],
 ];
 const gearAliases = [['manual', 'يدوي', 'يدويه'], ['electric', 'كهربائي', 'كهربائيه'], ['automatic', 'اوتوماتيك', 'اوتوماتيكيه', 'اتوماتيك'], ['meraki', 'ميراكي', 'ميراكى', 'مراكي'], ['flair', 'فلير', 'فلاير'], ['profitec', 'بروفيتك', 'بروفيتيك']];
 const filler = new Set(normalizeSearch('بدون دون خل خلي خلها خله زيد زيدها غير غيرها غيره بس فقط لا ابيها ابيه ابيهم ابيك ابيلى دور دورلي ورني وورني عطنى عطني يطلعلي تطلعلي بغيت بغيته احتاج ابي نبي شنو شلون شرايك رايك اشرح اشرحلي قارن قارنهم بينهم ليش لي تقدر حق نفس هذي هذيل هذه هذول بعد زين زينه ممتاز طيب اوكي تمام لو اذا يكون تكون ابحثلي بحدود اقصى حد متوفره موجود موجوده بروحها ابيله ابيها تكفي تكفيني ارخص اسعار سعرها سعره ميزانيتي الميزانيه دولار امريكي موجوده please could would can you get show tell explain change make that those these them only cheaper cheapest just now instead whats what which your for want with without budget to the it one me is how much look looking some at').split(' '));
@@ -132,7 +133,7 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
   const explain = /اشرح|تفاصيل|مواصفات|خطوات|explain|details|specs|steps|ليش|why/.test(q);
   const ratioMatch = q.match(/1\s*[:/]\s*(-?\d+(?:\.\d+)?)/);
   const doseMatch = q.match(/(?:^|[^\d.])(-?\d+(?:\.\d+)?)\s*(?:غرام|جرام|غ|جم|grams?|g)(?=$|[^a-z\p{L}])/u);
-  const calculate = /احسب|حساب|نسبه|ريشو|ratio|calculate|scale/.test(q) || !!ratioMatch || (!!doseMatch && (previous?.intent === 'calculate' || /خل|غير|اضبط|make|change/.test(q)));
+  const calculate = /احسب|حساب|نسبه|ريشو|ratio|calculate/.test(q) || !!ratioMatch || (!!doseMatch && (previous?.intent === 'calculate' || /خل|غير|اضبط|make|change/.test(q)));
 
   if (calculate) {
     const methodChanged = methods.length > 0 && previous?.calculation?.method && methods[0] !== previous.calculation.method;
@@ -190,7 +191,7 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
     const guide = dependencies.guides?.[methods[0]];
     if (guide) return reply([ar ? guide.title_ar : guide.title, ar ? guide.intro_ar : guide.intro, ...(ar ? guide.tips_ar : guide.tips).map(t => '• ' + t)].join('\n'), { intent: 'guide', sources: [{ title: guide.source_name, url: guide.source }], suggestions: ar ? [`أبي وصفة ${methods[0]}`] : [`Find a ${methods[0]} recipe`] });
   }
-  if (/^(?:هلا|مرحبا|السلام عليكم|hello|hi|شكرا|مشكور|thanks|thank you)[! .؟?]*$/.test(q) || /شنو تقدر|شقاعد تسوي|what can you|help|مساعده/.test(q)) return reply(ar ? 'أنا خبير القهوة. أساعدك في التحضير والطحن والماء والتخزين، وأقارن الأدوات والوصفات من مصادرها.' : 'I am your coffee expert. I help with brewing, grinding, water and storage, and compare equipment and recipes using their sources.', { suggestions: ar ? ['أبي ماكينة إسبريسو تحت 480 دولار', 'احسب 18 غرام بنسبة 1:16', 'قهوتي V60 حامضة'] : ['Espresso machine under 480 USD', 'Calculate 18 g at 1:16', 'My V60 tastes sour'] });
+  if (/^(?:هلا|مرحبا|السلام عليكم|hello|hi|شكرا|مشكور|thanks|thank you)[! .؟?]*$/.test(q) || /شنو تقدر|شقاعد تسوي|what can you|help|مساعده/.test(q)) return reply(ar ? 'أنا خبير القهوة. أشرح البن والماء والطحن والمكاين والأدوات والتحميص والتذوق، وأحسب النسب وأقارن مواصفات الكتالوغ. افتح مكتبة المعرفة أو اكتب سؤالك.' : 'I am your coffee expert. I explain beans, water, grinding, machines, tools, roasting and tasting, calculate ratios and compare catalog specifications. Open the knowledge library or ask your question.', { suggestions: ar ? ['علمني القهوة من الألف إلى الياء', 'احسب 18 غرام بنسبة 1:16', 'قهوتي V60 حامضة'] : ['Teach me coffee from A to Z', 'Calculate 18 g at 1:16', 'My V60 tastes sour'] });
   if (query.clarification) return reply(assistantReply(query, [], locale), { intent: 'search', suggestions: query.clarification === 'currency' ? ['USD', 'KWD', 'SAR'] : [] });
   const searched = await dependencies.search(query);
   const now = dependencies.now ?? Date.now();

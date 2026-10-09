@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 const pairs = [
+  ['../../../src/lib/coffee-curriculum.ts', '../src/core/coffee-curriculum.ts'],
   ['../../../src/lib/coffee-knowledge.ts', '../src/core/coffee-knowledge.ts'],
   ['../../../src/lib/local-coffee-assistant.ts', '../src/core/local-coffee-assistant.ts'],
   ['../../../src/lib/coffee-assistant.ts', '../src/core/coffee-assistant.ts'],

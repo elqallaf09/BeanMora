@@ -1,6 +1,6 @@
 import { setLanguage } from './settings';
 import { test, expect, type Route } from '@playwright/test';
-import { openRecipeLibrary } from './navigation';
+import { chooseMethod, openRecipeLibrary } from './navigation';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
@@ -113,7 +113,7 @@ for (const guide of guideCases) test(`${guide.method}: Arabic guide, source unit
   });
   await page.goto('/');
   await openRecipeLibrary(page, 'ar');
-  await page.getByRole('button', { name: guide.label, exact: true }).click();
+  await chooseMethod(page, 'ar', guide.label);
   const recipe = rows.find((r: any) => r.slug === guide.slug);
   await page.getByRole('button', { name: recipe.title_ar, exact: true }).click();
   await expect(page.getByText(guide.time, { exact: true }).first()).toBeVisible();
@@ -147,7 +147,7 @@ for (const width of [320, 390, 1536]) {
     });
     await page.goto('/');
     await page.getByRole('button', { name: 'اكتشف', exact: true }).click();
-    await page.getByRole('button', { name: 'كيمكس', exact: true }).click();
+    await chooseMethod(page, 'ar', 'كيمكس');
     await expect(page.getByRole('heading', { name: 'دليل الكيمكس', exact: true })).toBeVisible();
     await page.getByRole('button', { name: 'وصفات هذه الطريقة', exact: true }).click();
     await page.getByRole('button', { name: 'إكواتور — كيمكس 45 g / 720 g', exact: true }).click();
@@ -186,7 +186,7 @@ test('Moka: model-specific ranges, no scaling, unspecified fields remain written
   });
   await page.goto('/');
   await openRecipeLibrary(page, 'ar');
-  await page.getByRole('button', { name: 'موكا بوت', exact: true }).click();
+  await chooseMethod(page, 'ar', 'موكا بوت');
   await page.getByRole('button', { name: 'بلو بوتل — موكا بوت 6 أكواب', exact: true }).click();
   await expect(page.getByText('20–22 g', { exact: true })).toBeVisible();
   await expect(page.getByText('345 g', { exact: true })).toBeVisible();

@@ -16,6 +16,8 @@ import { loadEquipment, type EquipmentItem } from './catalog';
 import type { RecipeItem } from './data';
 import { Disclosure } from './Disclosure';
 import { RoastCurve } from './RoastCurve';
+import { RoastGuide } from './RoastGuide';
+import { TabRail } from './TabRail';
 import { catalogName, processLabel } from './localizedContent';
 import {
   clockTime,
@@ -41,7 +43,7 @@ import {
 } from './roastLab';
 import { Action, Field, Icon, Language, Txt, colors, styles } from './ui';
 
-type Section = 'own' | 'public' | 'new' | 'green' | 'gear';
+type Section = 'own' | 'public' | 'new' | 'green' | 'gear' | 'learn';
 type EventDraft = RoastEvent & { time: string; temperature: string };
 interface Draft {
   id: string;
@@ -184,7 +186,7 @@ export function RoastLab({
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const { width } = useWindowDimensions();
-  const [section, setSection] = useState<Section>(initialSection);
+  const [section, setSection] = useState<Section>(initialId || initialSection === 'public' ? initialSection : 'learn');
   const [green, setGreen] = useState<GreenCoffee[]>([]);
   const [roasts, setRoasts] = useState<RoastProfile[]>([]);
   const [gear, setGear] = useState<
@@ -936,26 +938,19 @@ export function RoastLab({
         </View>
         <Icon name="bean" color="#DEAE82" size={45} />
       </View>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ gap: 8 }}
-      >
-        {(
+      <TabRail value={selected || showCompare ? '' : section}
+        items={(
           [
+            { id: 'learn', ar: 'دليل التحميص', en: 'Roasting guide' },
             { id: 'own', ar: 'حمصاتي', en: 'My roasts' },
             { id: 'public', ar: 'حمصات المجتمع', en: 'Community roasts' },
             { id: 'new', ar: 'ابدأ حمصة', en: 'Start a roast' },
             { id: 'green', ar: 'البن الأخضر', en: 'Green coffee' },
             { id: 'gear', ar: 'معدات التحميص', en: 'Roasting equipment' },
           ] as { id: Section; ar: string; en: string }[]
-        ).map((t) => (
-          <Action
-            key={t.id}
-            title={ar ? t.ar : t.en}
-            selected={section === t.id && !selected && !showCompare}
-            onPress={() => {
-              if (t.id === 'new') {
+        ).map(t => ({ id: t.id, label: ar ? t.ar : t.en }))}
+        onChange={id => {
+              if (id === 'new') {
                 if (!userId) {
                   login();
                   return;
@@ -967,11 +962,8 @@ export function RoastLab({
                     setSection('new');
                   } else makeDraft();
                 }
-              } else choose(t.id);
-            }}
-          />
-        ))}
-      </ScrollView>
+              } else choose(id as Section);
+            }} />
       {message ? (
         <View accessibilityLiveRegion="polite">
           <Txt style={styles.success}>{message}</Txt>
@@ -987,7 +979,7 @@ export function RoastLab({
         </View>
       ) : null}
       {busy ? <ActivityIndicator color={colors.teal} /> : null}
-      {showCompare ? (
+      {section === 'learn' && !selected && !showCompare ? <RoastGuide /> : showCompare ? (
         <>
           <Action
             title={ar ? 'إغلاق المقارنة' : 'Close comparison'}

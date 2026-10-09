@@ -1,3 +1,5 @@
+import { TabRail } from './TabRail';
+import { SelectionMenu } from './SelectionMenu';
 import { EquipmentRecommendations } from './EquipmentRecommendations';
 import type { EquipmentItem } from './catalog';
 import {CatalogComments} from './CatalogComments';
@@ -182,45 +184,24 @@ export function MethodPicker({
 }) {
   const locale = useContext(Language);
   const items = all ? [undefined, ...allowed] : [...allowed];
+  const popular = items.filter(m => !m || ['v60', 'espresso', 'xbloom', 'aeropress', 'chemex', 'french_press'].includes(m));
+  const label = (m?: Method) => m ? methods[locale][m] : locale === 'ar' ? 'الكل' : 'All';
+  const rail = value && allowed.includes(value) && !popular.includes(value) ? [value, ...popular] : popular;
   return (
-    <View testID="method-picker" style={[s.methodRail, { flexDirection: 'row', flexWrap: 'wrap', gap: 6 }]}>
-      {items.map((m) => {
-        const title = m ? methods[locale][m] : locale === 'ar' ? 'الكل' : 'All';
-        const active = value === m;
-        return (
-          <Pressable
-            key={m ?? 'all'}
-            accessibilityRole="button"
-            accessibilityLabel={
-              m ? title : locale === 'ar' ? 'كل طرق التحضير' : 'All methods'
-            }
-            accessibilityState={{ selected: active }}
-            onPress={() => onChange(m)}
-            style={[s.method, { width: '23%', minWidth: 64, minHeight: 60, paddingHorizontal: 3, paddingVertical: 7 }, active && s.methodActive]}
-          >
-            <Icon
-              name={m ?? 'bean'}
-              size={20}
-              color={active ? '#FFF' : colors.ink}
-            />
-            <Txt
-              numberOfLines={1}
-              style={{
-                fontSize: 11,
-                lineHeight: 20,
-                fontWeight: '700',
-                color: active ? '#FFF' : colors.ink,
-                textAlign: 'center',
-              }}
-            >
-              {title}
-            </Txt>
-          </Pressable>
-        );
-      })}
+    <View testID="method-picker" style={{ gap: 2 }}>
+      <TabRail value={value ?? 'all'} items={rail.map(m => ({ id: m ?? 'all', label: label(m) }))}
+        onChange={id => onChange(id === 'all' ? undefined : id as Method)} />
+      {items.length > popular.length ? (
+        <View style={{ alignSelf: locale === 'ar' ? 'flex-end' : 'flex-start' }}>
+          <SelectionMenu compact label={locale === 'ar' ? 'كل طرق التحضير' : 'All methods'}
+            value={value ?? 'all'} items={items.map(m => ({ id: m ?? 'all', name: label(m) }))}
+            onChange={id => onChange(id === 'all' ? undefined : id as Method)} />
+        </View>
+      ) : null}
     </View>
   );
 }
+
 export function CoffeeCard({
   item,
   width,

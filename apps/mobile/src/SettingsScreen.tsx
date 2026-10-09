@@ -8,6 +8,7 @@ import type { Locale } from './copy';
 import { AppVersion } from './AppVersion';
 import { LegalLinks } from './LegalLinks';
 import { SettingsAccount } from './SettingsAccount';
+import { TabRail } from './TabRail';
 
 export function SettingsScreen({
   visible,
@@ -25,11 +26,6 @@ export function SettingsScreen({
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const theme = useTheme();
-  const row = {
-    flexDirection: ar ? ('row-reverse' as const) : ('row' as const),
-    gap: 8,
-    flexWrap: 'wrap' as const,
-  };
   return (
     <Modal
       visible={visible}
@@ -71,24 +67,9 @@ export function SettingsScreen({
               >
                 {ar ? 'المظهر' : 'Appearance'}
               </Txt>
-              <View style={row}>
-                {(
-                  [
-                    ['light', 'نهاري', 'Light'],
-                    ['dark', 'ليلي', 'Dark'],
-                    ['system', 'حسب الجهاز', 'Device'],
-                  ] as [Appearance, string, string][]
-                ).map(([value, arabic, english]) => (
-                  <View key={value} style={{ flex: 1, minWidth: 72 }}>
-                    <Action
-                      compact
-                      title={ar ? arabic : english}
-                      selected={theme.appearance === value}
-                      onPress={() => theme.setAppearance(value)}
-                    />
-                  </View>
-                ))}
-              </View>
+              <TabRail equal testID="settings-appearance" value={theme.appearance}
+                items={[{ id: 'light', label: ar ? 'نهاري' : 'Light' }, { id: 'dark', label: ar ? 'ليلي' : 'Dark' }, { id: 'system', label: ar ? 'حسب الجهاز' : 'Device' }]}
+                onChange={value => theme.setAppearance(value as Appearance)} />
               {theme.saveError ? (
                 <Txt style={styles.error}>
                   {ar
@@ -109,24 +90,9 @@ export function SettingsScreen({
               >
                 {ar ? 'اللغة' : 'Language'}
               </Txt>
-              <View style={row}>
-                <View style={{ flex: 1 }}>
-                  <Action
-                    compact
-                    title="العربية"
-                    selected={locale === 'ar'}
-                    onPress={() => changeLanguage('ar')}
-                  />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Action
-                    compact
-                    title="English"
-                    selected={locale === 'en'}
-                    onPress={() => changeLanguage('en')}
-                  />
-                </View>
-              </View>
+              <TabRail equal testID="settings-language" value={locale}
+                items={[{ id: 'ar', label: 'العربية' }, { id: 'en', label: 'English' }]}
+                onChange={value => changeLanguage(value as Locale)} />
             </View>
             {session ? (
               <SettingsAccount

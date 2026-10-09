@@ -18,6 +18,7 @@ export function SelectionMenu({
   items,
   onChange,
   disabled = false,
+  compact = false,
   style,
 }: {
   label: string;
@@ -25,6 +26,7 @@ export function SelectionMenu({
   items: { id: string; name: string; note?: string }[];
   onChange: (value: string) => void;
   disabled?: boolean;
+  compact?: boolean;
   style?: StyleProp<ViewStyle>;
 }) {
   const ar = useContext(Language) === "ar";
@@ -44,20 +46,21 @@ export function SelectionMenu({
     <View style={[{ minWidth: 0 }, style]}>
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel={label + ": " + (chosen?.name ?? "")}
+        accessibilityLabel={chosen ? label + ": " + chosen.name : label}
         accessibilityState={{ expanded: open, disabled }}
         disabled={disabled}
         onPress={() => setOpen(true)}
         style={[
           s.trigger,
+          compact && { minHeight: 48, borderWidth: 0, backgroundColor: 'transparent', padding: 8 },
           { flexDirection: ar ? "row-reverse" : "row" },
           disabled && { opacity: 0.5 },
         ]}
       >
         <View style={{ flex: 1, minWidth: 0, gap: 2 }}>
-          <Txt style={styles.muted}>{label}</Txt>
+          {!compact ? <Txt style={styles.muted}>{label}</Txt> : null}
           <Txt numberOfLines={1} style={{ fontWeight: "700" }}>
-            {chosen?.name ?? (ar ? "اختر" : "Choose")}
+            {compact ? label : chosen?.name ?? (ar ? "اختر" : "Choose")}
           </Txt>
         </View>
         <Icon name="arrow" size={16} color={colors.teal} />

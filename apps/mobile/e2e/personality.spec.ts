@@ -24,7 +24,7 @@ for (const { locale, width, height } of [
   { locale: 'ar', width: 320, height: 960 },
   { locale: 'ar', width: 768, height: 1024 },
   { locale: 'en', width: 1536, height: 864 },
-] as const) test(`${locale} ${width}: source-backed full profiles, partial records and the complete filter stay distinct`, async ({ page }, testInfo) => {
+] as const) test(`${locale} ${width}: source-backed full profiles, partial records and source metadata stay distinct without extra filters`, async ({ page }, testInfo) => {
   await page.setViewportSize({ width, height });
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
   await page.route('https://mobilefixture.supabase.co/**', route => {
@@ -40,9 +40,9 @@ for (const { locale, width, height } of [
   const browse = page.getByRole('button', { name: locale === 'ar' ? 'البن والإيحاءات' : 'Coffee & taste', exact: true });
   const fullFilter = page.getByRole('button', { name: locale === 'ar' ? 'شخصية البن مكتملة' : 'Complete personality', exact: true });
   const back = page.getByRole('button', { name: locale === 'ar' ? 'رجوع' : 'Back', exact: true });
-  await browse.click(); await fullFilter.click();
-  await expect(page.getByRole('button', { name: locale === 'ar' ? partial.name_ar : partial.name_en, exact: true })).toHaveCount(0);
-  await expect(page.getByRole('button', { name: locale === 'ar' ? empty.name_ar : empty.name_en, exact: true })).toHaveCount(0);
+  await browse.click(); await expect(fullFilter).toHaveCount(0);
+  await expect(page.getByRole('button', { name: locale === 'ar' ? partial.name_ar : partial.name_en, exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: locale === 'ar' ? empty.name_ar : empty.name_en, exact: true })).toBeVisible();
   await page.getByRole('button', { name: qualitative.name_en, exact: true }).click();
   const profile = page.getByTestId('coffee-sensory');
   await expect(profile.getByTestId('coffee-personality-complete')).toBeVisible();
@@ -71,7 +71,7 @@ for (const { locale, width, height } of [
   await expect(profile.getByLabel(locale === 'ar' ? 'الحلاوة: 4/5' : 'Sweetness: 4/5', { exact: true })).toBeVisible();
   await expect(profile.getByLabel(locale === 'ar' ? 'القوام: 4/5' : 'Body: 4/5', { exact: true })).toBeVisible();
   await back.click();
-  await page.getByRole('button', { name: locale === 'ar' ? 'كل البن' : 'All coffees', exact: true }).click();
+  await expect(page.getByRole('button', { name: locale === 'ar' ? 'كل البن' : 'All coffees', exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: locale === 'ar' ? partial.name_ar : partial.name_en, exact: true }).click();
   await expect(profile.getByTestId('coffee-personality-complete')).toHaveCount(0);
   await expect(profile.getByRole('heading', { name: locale === 'ar' ? 'شخصية البن' : 'Coffee personality', exact: true })).toHaveCount(0);
@@ -85,7 +85,7 @@ for (const { locale, width, height } of [
   await expect(profile.locator('[data-testid^="coffee-attribute-"]')).toHaveCount(0);
   await expect(profile.getByTestId('coffee-personality-status')).toBeVisible();
   await back.click();
-  await fullFilter.click();
+  await expect(fullFilter).toHaveCount(0);
   await page.getByRole('button', { name: locale === 'ar' ? 'مكتبة الوصفات' : 'Recipe library', exact: true }).click();
   await browse.click();
   await expect(page.getByRole('button', { name: locale === 'ar' ? partial.name_ar : partial.name_en, exact: true })).toBeVisible();
