@@ -38,6 +38,7 @@ import { useBrewStarter } from './useBrewStarter';
 import { recipeQuickFacts } from './recipeQuickFacts';
 import { useContentMedia } from './useContentMedia';
 import { catalogPhotoSource } from './catalogPhotoSource';
+import { useRotatingPicks } from './useRotatingPicks';
 
 export const artwork = {
   hero: require('../assets/images/home-banner.jpg'),
@@ -189,12 +190,13 @@ export function MethodPicker({
   const label = (m?: Method) => m ? methods[locale][m] : locale === 'ar' ? 'الكل' : 'All';
   const rail = value && allowed.includes(value) && !popular.includes(value) ? [value, ...popular] : popular;
   return (
-    <View testID="method-picker" style={{ gap: 2 }}>
-      <TabRail value={value ?? 'all'} items={rail.map(m => ({ id: m ?? 'all', label: label(m) }))}
+    <View testID="method-picker" style={{ flexDirection: locale === 'ar' ? 'row-reverse' : 'row', alignItems: 'center' }}>
+      <View style={{ flex: 1, minWidth: 0 }}><TabRail compact value={value ?? 'all'} items={rail.map(m => ({ id: m ?? 'all', label: label(m) }))}
         onChange={id => onChange(id === 'all' ? undefined : id as Method)} />
+      </View>
       {items.length > popular.length ? (
-        <View style={{ alignSelf: locale === 'ar' ? 'flex-end' : 'flex-start' }}>
-          <SelectionMenu compact label={locale === 'ar' ? 'كل طرق التحضير' : 'All methods'}
+        <View style={{ borderBottomWidth: 1, borderColor: colors.line }}>
+          <SelectionMenu compact iconOnly label={locale === 'ar' ? 'كل طرق التحضير' : 'All methods'}
             value={value ?? 'all'} items={items.map(m => ({ id: m ?? 'all', name: label(m) }))}
             onChange={id => onChange(id === 'all' ? undefined : id as Method)} />
         </View>
@@ -332,6 +334,9 @@ export function Home({
   // Preserve readable cards on portrait tablets instead of squeezing four in.
   const cols = available >= 1000 ? 4 : available >= 720 ? 3 : 2;
   const cardWidth = (available - (cols - 1) * 12) / cols;
+  const pickPool = coffees.some(item => item.imageUrl) ? coffees.filter(item => item.imageUrl) : coffees;
+  const rotation = useRotatingPicks(pickPool.length, 4);
+  const picks = Array.from({ length: Math.min(4, pickPool.length) }, (_, i) => pickPool[(rotation.offset + i) % pickPool.length]);
   const stats: {
     icon: IconName;
     value: number | string;
@@ -608,8 +613,8 @@ export function Home({
               ))}
             </View>
           ) : coffees.length ? (
-            <View style={s.grid}>
-              {(coffees.some(item => item.imageUrl) ? coffees.filter(item => item.imageUrl) : coffees).slice(0, 4).map((c) => (
+            <Animated.View testID="home-coffee-picks" onTouchStart={rotation.hold} onTouchEnd={rotation.release} onTouchCancel={rotation.release} style={[s.grid, rotation.style]}>
+              {picks.map((c) => (
                 <CoffeeCard
                   key={c.kind + c.id}
                   item={c}
@@ -619,7 +624,7 @@ export function Home({
                   save={() => save(c)}
                 />
               ))}
-            </View>
+            </Animated.View>
           ) : (
             <Txt style={styles.muted}>
               {ar

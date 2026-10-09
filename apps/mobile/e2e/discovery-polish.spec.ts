@@ -145,7 +145,7 @@ test("brew changes coffee without owning a bag, offers all 15 methods and labels
   ).toBeVisible();
   expect(scopes.at(-1)).toBe(secondId);
 });
-test("catalog photos appear and tool recommendations rotate, pause and open the chosen model", async ({
+test("catalog photos appear and tools rotate automatically while focus keeps the chosen model stable", async ({
   page,
 }) => {
   await page.clock.install();
@@ -158,19 +158,18 @@ test("catalog photos appear and tool recommendations rotate, pause and open the 
   const names = await section
     .getByRole("button", { name: /Rotating tool/ })
     .allTextContents();
-  await page.clock.runFor(18010);
+  await page.clock.runFor(3500);
   await expect
     .poll(() =>
       section.getByRole("button", { name: /Rotating tool/ }).allTextContents(),
     )
     .not.toEqual(names);
-  await section
-    .getByRole("button", { name: "Pause rotation", exact: true })
-    .click();
+  await expect(section.getByRole('button', { name: /Pause rotation|Other tools|Resume rotation/ })).toHaveCount(0);
+  await section.getByRole('button', { name: /Rotating tool/ }).first().focus();
   const paused = await section
     .getByRole("button", { name: /Rotating tool/ })
     .allTextContents();
-  await page.clock.runFor(36000);
+  await page.clock.runFor(6500);
   expect(
     await section
       .getByRole("button", { name: /Rotating tool/ })

@@ -4,7 +4,7 @@ import { contributionImage, requireMember } from './member-contributions';
 export type SocialMedia = { id: string; uri: string; bytes: Uint8Array; type: 'image' | 'video'; mime: string; extension: string };
 export type DirectAudience = 'everyone' | 'followers' | 'off';
 export type DirectConversation = { id: string; user_a: string; user_b: string; created_at: string };
-export type DirectMessage = { id: string; conversation_id: string; sender_id: string; kind: 'text' | 'post' | 'audio'; body: string | null; post_id: string | null; audio_path: string | null; duration_seconds: number | null; expires_at: string; created_at: string };
+export type DirectMessage = { id: string; conversation_id: string; sender_id: string; kind: 'text' | 'post' | 'audio'; body: string | null; post_id: string | null; audio_path: string | null; duration_seconds: number | null; expires_at: string; created_at: string; edited_at: string | null };
 export type CoffeeStory = { id: string; user_id: string; media_path: string; media_type: 'image' | 'video'; category: 'coffee' | 'brewing' | 'equipment' | 'coffee_corner'; caption: string; status: 'pending' | 'approved' | 'rejected'; expires_at: string | null; created_at: string; review_reason: string | null };
 export type SocialSanction = { strikes: number; banned_at: string | null; reason: string | null };
 
@@ -52,7 +52,7 @@ export async function startDirect(db: SupabaseClient, owner: string, recipient: 
   if (error || typeof data !== 'string') throw error ?? new Error('MESSAGES_CLOSED');
   return data;
 }
-export async function sendDirect(db: SupabaseClient, owner: string, message: Omit<DirectMessage, 'created_at' | 'sender_id' | 'expires_at'>) {
+export async function sendDirect(db: SupabaseClient, owner: string, message: Omit<DirectMessage, 'created_at' | 'sender_id' | 'expires_at' | 'edited_at'>) {
   await requireMember(db, owner);
   if (message.kind === 'audio' && (!message.duration_seconds || message.duration_seconds > 60)) throw new Error('VOICE_LIMIT');
   const values = { ...message, sender_id: owner };
@@ -63,10 +63,27 @@ export async function sendDirect(db: SupabaseClient, owner: string, message: Omi
   }
   if (error || data?.id !== message.id) throw error ?? new Error('MESSAGE_SEND');
 }
+export async function editDirect(db: SupabaseClient, owner: string, message: DirectMessage, body: string) {
+  await requireMember(db, owner);
+  if (message.sender_id !== owner || message.kind === 'audio' || Date.parse(message.expires_at) <= Date.now()) throw new Error('MESSAGE_EDIT_DENIED');
+  const text = body.trim();
+  if (text.length > 3000 || (message.kind === 'text' && !text)) throw new Error('MESSAGE_BODY');
+  const { data, error } = await db.from('direct_messages').update({ body: text || null }).eq('id', message.id).eq('sender_id', owner).select('id').single();
+  if (error || data?.id !== message.id) throw error ?? new Error('MESSAGE_EDIT');
+}
+export async function deleteDirect(db: SupabaseClient, owner: string, message: DirectMessage) {
+  await requireMember(db, owner);
+  if (message.sender_id !== owner) throw new Error('MESSAGE_OWNER_REQUIRED');
+  const { data, error } = await db.from('direct_messages').delete().eq('id', message.id).eq('sender_id', owner).select('id').single();
+  if (error || data?.id !== message.id) throw error ?? new Error('MESSAGE_DELETE');
+  if (message.audio_path) await db.storage.from('direct-audio').remove([message.audio_path]);
+}
 export async function submitCoffeeStory(db: SupabaseClient, owner: string, media: SocialMedia, category: CoffeeStory['category'], caption: string) {
   await requireMember(db, owner);
   const path = await uploadSocialMedia(db, owner, 'coffee-stories', media);
-  const values = { id: media.id, user_id: owner, media_path: path, media_type: media.type, category, caption: caption.trim(), rights_confirmed: true, status: 'pending' };
+  // Publication and the 24-hour lifetime are assigned by the server, including
+  // submissions from older clients that still send status=pending.
+  const values = { id: media.id, user_id: owner, media_path: path, media_type: media.type, category, caption: caption.trim(), rights_confirmed: true };
   const { data, error } = await db.from('coffee_stories').insert(values).select('id').single();
   if (error?.code === '23505') {
     const retry = await db.from('coffee_stories').select('id,user_id,media_path').eq('id', media.id).single();

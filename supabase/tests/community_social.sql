@@ -4,7 +4,7 @@ do $$
 declare
  a uuid:=gen_random_uuid(); b uuid:=gen_random_uuid(); outsider uuid:=gen_random_uuid(); moderator uuid:=gen_random_uuid(); guest uuid:=gen_random_uuid();
  conversation uuid; second_conversation uuid; message_id uuid:=gen_random_uuid(); expired_id uuid:=gen_random_uuid(); voice_id uuid:=gen_random_uuid(); test_post uuid:=gen_random_uuid(); photo_id uuid:=gen_random_uuid();
- story_id uuid:=gen_random_uuid(); bad_one uuid:=gen_random_uuid(); bad_two uuid:=gen_random_uuid(); path text; voice text; failure boolean; result text;
+ story_id uuid:=gen_random_uuid(); bad_one uuid:=gen_random_uuid(); bad_two uuid:=gen_random_uuid(); path text; voice text; failure boolean; result text; affected integer;
 begin
  insert into auth.users(id,email,is_anonymous) values
   (a,'social_a_'||a||'@example.invalid',false),(b,'social_b_'||b||'@example.invalid',false),
@@ -25,10 +25,16 @@ begin
  insert into public.direct_messages(id,conversation_id,sender_id,kind,body) values(message_id,conversation,a,'text','A coffee question');
  assert (select count(*) from public.direct_messages where id=message_id)=1,'Sender should see own message';
  assert (select expires_at=created_at+interval '24 hours' from public.direct_messages where id=message_id),'Messages live exactly 24 hours from server send time';
+ update public.direct_messages set body='Edited coffee question' where id=message_id;
+ assert (select body='Edited coffee question' and edited_at=now() and expires_at=created_at+interval '24 hours' from public.direct_messages where id=message_id),'Sender edits text without changing send time or expiry';
+ failure:=false;begin update public.direct_messages set expires_at=now()+interval '1 year' where id=message_id;exception when insufficient_privilege then failure:=true;end;assert failure,'Sender cannot extend expiry while editing';
+ failure:=false;begin update public.direct_messages set sender_id=b where id=message_id;exception when insufficient_privilege then failure:=true;end;assert failure,'Sender cannot reassign message ownership';
+ failure:=false;begin update public.direct_messages set body=' ' where id=message_id;exception when check_violation then failure:=true;end;assert failure,'Edited text cannot be emptied';
  insert into public.direct_messages(id,conversation_id,sender_id,kind,body,created_at,expires_at) values(expired_id,conversation,a,'text','Expired fixture',now()+interval '1 year',now()+interval '2 years');
  assert (select created_at=now() and expires_at=now()+interval '24 hours' from public.direct_messages where id=expired_id),'Client-supplied timestamps cannot extend retention';
  reset role;update public.direct_messages set expires_at=now()-interval '1 second' where id=expired_id;set local role authenticated;
  assert not exists(select 1 from public.direct_messages where id=expired_id),'Sender cannot read expired text';
+ update public.direct_messages set body='Resurrected' where id=expired_id;get diagnostics affected=row_count;assert affected=0,'Expired text cannot be edited back into history';
  perform set_config('request.jwt.claims',jsonb_build_object('sub',outsider,'role','authenticated','is_anonymous',false)::text,true);
  assert (select count(*) from public.direct_messages where id=message_id)=0,'Outsider cannot read messages';
  assert (select count(*) from public.direct_conversations where id=conversation)=0,'Outsider cannot read thread';
@@ -36,6 +42,8 @@ begin
  failure:=false;begin perform public.review_coffee_story(story_id,true,'');exception when insufficient_privilege then failure:=true;end;assert failure,'Member cannot moderate stories';
  perform set_config('request.jwt.claims',jsonb_build_object('sub',b,'role','authenticated','is_anonymous',false)::text,true);
  assert (select count(*) from public.direct_messages where id=message_id)=1,'Receiver sees messages';
+ update public.direct_messages set body='Receiver tampering' where id=message_id;get diagnostics affected=row_count;assert affected=0,'Receiver cannot edit the sender message';
+ delete from public.direct_messages where id=message_id;get diagnostics affected=row_count;assert affected=0,'Receiver cannot delete the sender message';
  assert not exists(select 1 from public.direct_messages where id=expired_id),'Receiver cannot read expired text';
  insert into public.direct_message_preferences(user_id,audience) values(b,'off');
  perform set_config('request.jwt.claims',jsonb_build_object('sub',a,'role','authenticated','is_anonymous',false)::text,true);
@@ -72,6 +80,7 @@ begin
  failure:=false;begin perform public.record_direct_voice_check(a,voice,30,repeat('0',64),gen_random_uuid());exception when others then failure:=true;end;assert failure,'Download identity mismatch cannot create a voice proof';
  perform public.record_direct_voice_check(a,voice,30,repeat('0',64),public.direct_audio_object_identity(a,voice));set local role authenticated;
  insert into public.direct_messages(id,conversation_id,sender_id,kind,audio_path,duration_seconds) values(voice_id,conversation,a,'audio',voice,30);
+ update public.direct_messages set body='Forged audio caption' where id=voice_id;get diagnostics affected=row_count;assert affected=0,'Recorded voice cannot be rewritten as text';
  failure:=false;begin insert into public.direct_messages(id,conversation_id,sender_id,kind,audio_path,duration_seconds) values(gen_random_uuid(),conversation,a,'audio',voice,61);exception when insufficient_privilege or check_violation then failure:=true;end;assert failure,'Voice over a minute is rejected';
  failure:=false;begin insert into public.direct_messages(id,conversation_id,sender_id,kind,body) values(gen_random_uuid(),conversation,a,'text',null);exception when check_violation then failure:=true;end;assert failure,'NULL cannot bypass message payload checks';
  failure:=false;begin perform public.purge_expired_direct_messages();exception when insufficient_privilege then failure:=true;end;assert failure,'Members cannot call server cleanup';
@@ -136,16 +145,18 @@ begin
  delete from public.profile_photos where id=photo_id;
  assert not exists(select 1 from public.profile_photos where id=photo_id),'Owner deletes gallery photo';
 
- insert into public.coffee_stories(id,user_id,media_path,media_type,category,rights_confirmed) values(story_id,a,a||'/'||story_id||'.jpg','image','coffee',true);
- failure:=false;begin insert into public.coffee_stories(id,user_id,media_path,media_type,category,rights_confirmed,status) values(bad_one,a,a||'/'||bad_one||'.jpg','image','coffee',true,'approved');exception when insufficient_privilege then failure:=true;end;assert failure,'Owner cannot approve story';
+ insert into public.coffee_stories(id,user_id,media_path,media_type,category,rights_confirmed,status,created_at,expires_at,reviewed_by,reviewed_at) values(story_id,a,a||'/'||story_id||'.jpg','image','coffee',true,'pending',now()+interval '1 year',now()+interval '2 years',moderator,now());
+ assert (select status='approved' and expires_at=created_at+interval '24 hours' and reviewed_at is null from public.coffee_stories where id=story_id),'Stories publish immediately for 24 hours and remain available for moderation';
+ assert (select created_at=now() and reviewed_by is null from public.coffee_stories where id=story_id),'Old pending clients publish immediately; client timestamps and moderator claims are ignored';
  perform set_config('request.jwt.claims','{"role":"anon","is_anonymous":true}',true);
  set local role anon;
- assert not exists(select 1 from public.coffee_stories where id=story_id),'Pending story is invisible to guests';
+ assert exists(select 1 from public.coffee_stories where id=story_id),'Published public story is immediately visible to guests';
  failure:=false;begin perform 1 from public.direct_messages;exception when insufficient_privilege then failure:=true;end;assert failure,'Public guest has no message table privilege';
  set local role authenticated;
  perform set_config('request.jwt.claims',jsonb_build_object('sub',moderator,'role','authenticated','is_anonymous',false)::text,true);
- result:=public.review_coffee_story(story_id,true,'');assert result='approved','Moderator approves';
- assert (select expires_at between now()+interval '23 hours 59 minutes' and now()+interval '24 hours 1 minute' from public.coffee_stories where id=story_id),'Story has 24-hour visibility after approval';
+ reset role;update public.coffee_stories set created_at=now()-interval '21 hours',expires_at=now()+interval '3 hours' where id=story_id;set local role authenticated;
+ result:=public.review_coffee_story(story_id,true,'');assert result='approved','Moderator checks a published story';
+ assert (select expires_at=now()+interval '3 hours' from public.coffee_stories where id=story_id),'Review preserves the original 24-hour publication window';
  perform set_config('request.jwt.claims',jsonb_build_object('sub',outsider,'role','authenticated','is_anonymous',false)::text,true);
  assert exists(select 1 from public.coffee_stories where id=story_id),'Approved public story is readable';
  reset role;update public.coffee_stories set expires_at=now()-interval '1 second' where id=story_id;set local role authenticated;

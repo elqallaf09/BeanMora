@@ -19,6 +19,7 @@ export function SelectionMenu({
   onChange,
   disabled = false,
   compact = false,
+  iconOnly = false,
   style,
   accessibilityLabel,
 }: {
@@ -28,6 +29,7 @@ export function SelectionMenu({
   onChange: (value: string) => void;
   disabled?: boolean;
   compact?: boolean;
+  iconOnly?: boolean;
   style?: StyleProp<ViewStyle>;
   accessibilityLabel?: string;
 }) {
@@ -57,18 +59,19 @@ export function SelectionMenu({
         style={[
           s.trigger,
           compact && {
-            minHeight: 48,
+            minHeight: 44,
             borderWidth: 0,
             backgroundColor: "transparent",
             paddingHorizontal: 4,
             paddingVertical: 8,
             gap: 4,
           },
+          iconOnly && { width: 44, padding: 8, justifyContent: 'center' },
           { flexDirection: ar ? "row-reverse" : "row" },
           disabled && { opacity: 0.5 },
         ]}
       >
-        <View style={{ flex: 1, minWidth: 0, gap: 2 }}>
+        {!iconOnly ? <View style={{ flex: 1, minWidth: 0, gap: 2 }}>
           {!compact ? <Txt style={styles.muted}>{label}</Txt> : null}
           <Txt
             numberOfLines={1}
@@ -76,7 +79,7 @@ export function SelectionMenu({
           >
             {compact ? label : (chosen?.name ?? (ar ? "اختر" : "Choose"))}
           </Txt>
-        </View>
+        </View> : null}
         <Icon
           name={compact ? "chevronDown" : "arrow"}
           size={16}
@@ -201,12 +204,12 @@ const s = StyleSheet.create({
   },
   dialog: {
     width: "100%",
-    maxWidth: 460,
-    maxHeight: "80%",
+    maxWidth: 360,
+    maxHeight: "70%",
     backgroundColor: colors.paper,
     borderRadius: 20,
-    padding: 16,
-    gap: 12,
+    padding: 12,
+    gap: 6,
     overflow: "hidden",
   },
   close: {
@@ -216,8 +219,9 @@ const s = StyleSheet.create({
     justifyContent: "center",
   },
   option: {
-    minHeight: 50,
-    padding: 12,
+    minHeight: 44,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
     borderRadius: 10,
     gap: 12,
     alignItems: "center",

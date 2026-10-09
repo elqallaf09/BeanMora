@@ -1,11 +1,12 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { randomUUID } from 'expo-crypto';
-import { AppState, ScrollView, View } from './native';
+import { AppState, Modal, Pressable, ScrollView, StyleSheet, View } from './native';
 import { supabase } from './client';
-import { Action, Field, Language, Txt, colors, styles } from './ui';
+import { Action, Field, IconButton, Language, Txt, colors, styles } from './ui';
+import { ConfirmDialog } from './ConfirmDialog';
 import { MemberAvatar } from './MemberAvatar';
 import { memberDirectory, type MemberIdentity } from './core/member-social';
-import { startDirect, sendDirect, type DirectConversation, type DirectMessage } from './core/community-social';
+import { startDirect, sendDirect, editDirect, deleteDirect, type DirectConversation, type DirectMessage } from './core/community-social';
 import { RecordVoice, VoicePlayback, type VoiceDraft } from './VoiceMessage';
 
 export function DirectMessages({ owner, recipient, sharedPost, login, openPost, openMember }: {
@@ -20,6 +21,8 @@ export function DirectMessages({ owner, recipient, sharedPost, login, openPost, 
   const [body, setBody] = useState(''), [voice, setVoice] = useState<VoiceDraft | null>(null), [postToShare, setPostToShare] = useState(sharedPost ?? null);
   const [busy, setBusy] = useState(false), [allowed, setAllowed] = useState(false), [error, setError] = useState(''), [revision, setRevision] = useState(0);
   const [recording, setRecording] = useState(false), [clock, setClock] = useState(Date.now());
+  const [options, setOptions] = useState<DirectMessage | null>(null), [editing, setEditing] = useState<DirectMessage | null>(null), [editBody, setEditBody] = useState('');
+  const [deleting, setDeleting] = useState<DirectMessage | null>(null), [blocking, setBlocking] = useState(false), [actionError, setActionError] = useState('');
   useEffect(() => { const timer = setInterval(() => setClock(Date.now()), 1000); return () => clearInterval(timer); }, []);
   const alive = useRef(true), sending = useRef(false), messageAttempt = useRef<string | null>(null), opened = useRef(false);
   useEffect(() => { alive.current = true; return () => { alive.current = false; }; }, []);
@@ -60,7 +63,7 @@ export function DirectMessages({ owner, recipient, sharedPost, login, openPost, 
       loading = true;
       try {
         const [result, permission] = await Promise.all([
-          db.from('direct_messages').select('id,conversation_id,sender_id,kind,body,post_id,audio_path,duration_seconds,created_at,expires_at').eq('conversation_id', selected.id).gt('expires_at', new Date().toISOString()).order('created_at', { ascending: false }).order('id', { ascending: false }).range(0, offset + 49),
+          db.from('direct_messages').select('id,conversation_id,sender_id,kind,body,post_id,audio_path,duration_seconds,created_at,expires_at,edited_at').eq('conversation_id', selected.id).gt('expires_at', new Date().toISOString()).order('created_at', { ascending: false }).order('id', { ascending: false }).range(0, offset + 49),
           db.rpc('can_direct_message', { p_recipient: selected.person.id }),
         ]);
         if (result.error) throw result.error;
@@ -93,6 +96,13 @@ export function DirectMessages({ owner, recipient, sharedPost, login, openPost, 
       if (alive.current) { setBody(''); setVoice(null); setPostToShare(null); messageAttempt.current = null; setRevision(n => n + 1); }
     } catch { fail(); } finally { sending.current = false; if (alive.current) setBusy(false); }
   }
+  async function changeMessage(action: () => Promise<void>, done: () => void) {
+    if (busy) return;
+    setBusy(true); setActionError('');
+    try { await action(); if (alive.current) { done(); setRevision(n => n + 1); } }
+    catch { if (alive.current) setActionError(ar ? 'تعذّر إكمال الإجراء. حاول مرة أخرى؛ قد تكون الرسالة انتهت.' : 'Could not complete this action. Try again; the message may have expired.'); }
+    finally { if (alive.current) setBusy(false); }
+  }
   if (!owner) return <View style={{ padding: 18, gap: 12 }}><Txt>{ar ? 'سجّل دخولك لفتح الرسائل الخاصة.' : 'Sign in to open private messages.'}</Txt><Action title={ar ? 'تسجيل الدخول' : 'Sign in'} onPress={login} /></View>;
   return <ScrollView testID="direct-messages" keyboardShouldPersistTaps="handled" contentContainerStyle={{ padding: 18, gap: 14, width: '100%', maxWidth: 760, alignSelf: 'center' }}>
     <View style={[styles.row, { justifyContent: 'space-between', flexDirection: ar ? 'row-reverse' : 'row' }]}>
@@ -109,13 +119,15 @@ export function DirectMessages({ owner, recipient, sharedPost, login, openPost, 
     </View> : null}
     {!selected && !compose ? <View style={{ gap: 10 }}>{threads.map(thread => { const person = profiles[thread.user_a === owner ? thread.user_b : thread.user_a]; return person ? <Member key={thread.id} person={person} press={() => { setSelected({ id: thread.id, person }); setMessages([]); setOffset(0); setError(''); }} /> : null; })}{!threads.length ? <Txt style={styles.muted}>{ar ? 'ما عندك محادثات بعد.' : 'No conversations yet.'}</Txt> : null}<Action compact title={ar ? 'تحديث الرسائل' : 'Refresh messages'} onPress={() => setRevision(n => n + 1)} /></View> : null}
     {selected ? <>
-      <Member person={selected.person} press={() => openMember(selected.person.username)} />
+      <View style={[styles.row, { justifyContent: 'space-between' }]}><View style={{ flex: 1 }}><Member person={selected.person} press={() => openMember(selected.person.username)} /></View><IconButton name="more" label={ar ? 'خيارات الحساب' : 'Member options'} onPress={() => { setActionError(''); setBlocking(true); }} /></View>
       {more ? <Action compact title={ar ? 'رسائل أقدم' : 'Older messages'} onPress={() => setOffset(n => n + 50)} /> : null}
-      {messages.filter(message => Date.parse(message.expires_at) > clock).map(message => <View key={message.id} testID={'direct-message-' + message.id} style={{ alignSelf: message.sender_id === owner ? (ar ? 'flex-start' : 'flex-end') : (ar ? 'flex-end' : 'flex-start'), maxWidth: '90%', padding: 14, gap: 8, borderRadius: 16, backgroundColor: message.sender_id === owner ? '#E6EFEA' : colors.paper, borderWidth: 1, borderColor: colors.line }}>
+      {messages.filter(message => Date.parse(message.expires_at) > clock).map(message => <View key={message.id} testID={'direct-message-' + message.id} style={{ alignSelf: message.sender_id === owner ? (ar ? 'flex-start' : 'flex-end') : (ar ? 'flex-end' : 'flex-start'), maxWidth: '90%', padding: 12, gap: 5, borderRadius: 16, backgroundColor: message.sender_id === owner ? '#E6EFEA' : colors.paper, borderWidth: 1, borderColor: colors.line }}>
+        <View style={{ alignSelf: ar ? 'flex-start' : 'flex-end' }}><IconButton size={17} name="more" label={ar ? 'خيارات الرسالة' : 'Message options'} onPress={() => { setOptions(message); setActionError(''); }} /></View>
         {message.body ? <Txt>{message.body}</Txt> : null}
         {message.kind === 'post' ? (message.post_id ? <Action compact title={ar ? 'فتح المنشور' : 'Open shared post'} onPress={() => openPost(message.post_id!)} /> : <Txt style={styles.muted}>{ar ? 'تم حذف المنشور.' : 'Post was deleted.'}</Txt>) : null}
         {message.kind === 'audio' && message.audio_path ? <VoicePlayback source={'storage://direct-audio/' + message.audio_path} seconds={message.duration_seconds ?? 0} expiresAt={message.expires_at} /> : null}
         <Txt style={{ fontSize: 11, color: colors.muted }}>{new Date(message.created_at).toLocaleTimeString(ar ? 'ar-KW-u-nu-latn' : 'en', { hour: '2-digit', minute: '2-digit' })}</Txt>
+        {message.edited_at ? <Txt style={{ fontSize: 10, color: colors.muted }}>{ar ? 'معدّلة' : 'Edited'}</Txt> : null}
       </View>)}
       {allowed ? <View style={[styles.card, { padding: 14, gap: 10 }]}>
         {postToShare ? <View style={styles.row}><Txt>{ar ? 'منشور للمشاركة' : 'Post to share'}</Txt><Action compact title={ar ? 'إلغاء مشاركة المنشور' : 'Remove shared post'} onPress={() => { setPostToShare(null); messageAttempt.current = null; }} /></View> : null}
@@ -125,8 +137,32 @@ export function DirectMessages({ owner, recipient, sharedPost, login, openPost, 
         </>}
         <Action title={busy ? (ar ? 'جارٍ الإرسال…' : 'Sending…') : (ar ? 'إرسال الرسالة' : 'Send message')} selected disabled={busy || recording || (!body.trim() && !voice && !postToShare)} onPress={() => void send()} />
       </View> : <Txt style={styles.muted}>{ar ? 'الرسائل لهذا الحساب مغلقة أو متاحة لمتابعيه فقط.' : 'Messages are closed or available only to this account’s followers.'}</Txt>}
-      <Action compact title={ar ? 'حظر هذا الحساب' : 'Block this member'} disabled={busy} onPress={() => { if (!supabase) return; void supabase.from('blocks').upsert({ blocker_id: owner, blocked_id: selected.person.id }, { onConflict: 'blocker_id,blocked_id', ignoreDuplicates: true }).then(result => { if (result.error) fail(); else { setAllowed(false); setRevision(n => n + 1); } }); }} />
+      <Action compact title={ar ? 'حظر هذا الحساب' : 'Block this member'} disabled={busy} onPress={() => { setActionError(''); setBlocking(true); }} />
     </> : null}
+    <Modal transparent visible={Boolean(options || editing || deleting || blocking)} animationType="fade" onRequestClose={() => { if (!busy) { setOptions(null); setEditing(null); setDeleting(null); setBlocking(false); } }}>
+      <View style={{ flex: 1 }}>
+      {options ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24, backgroundColor: '#0008' }}>
+        <Pressable accessibilityRole="button" accessibilityLabel={ar ? 'إغلاق الخيارات' : 'Close options'} style={StyleSheet.absoluteFill} onPress={() => setOptions(null)} />
+        <View testID="message-options" accessibilityViewIsModal style={{ width: '100%', maxWidth: 310, borderRadius: 18, backgroundColor: colors.paper, padding: 14, gap: 8 }}>
+          <Txt heading style={{ fontSize: 17, fontWeight: '700' }}>{ar ? 'خيارات الرسالة' : 'Message options'}</Txt>
+          {options?.sender_id === owner ? <>
+            {options.kind !== 'audio' ? <Action compact title={ar ? 'تعديل الرسالة' : 'Edit message'} onPress={() => { setEditing(options); setEditBody(options.body ?? ''); setOptions(null); }} /> : null}
+            <Action compact title={ar ? 'حذف الرسالة' : 'Delete message'} onPress={() => { setDeleting(options); setOptions(null); }} />
+          </> : null}
+          <Action compact title={ar ? 'حظر الحساب' : 'Block member'} onPress={() => { setOptions(null); setBlocking(true); }} />
+          <Action compact title={ar ? 'إلغاء' : 'Cancel'} onPress={() => setOptions(null)} />
+        </View>
+      </View> : null}
+      {editing ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24, backgroundColor: '#0008' }}><View testID="message-editor" accessibilityViewIsModal style={{ width: '100%', maxWidth: 360, padding: 18, borderRadius: 18, gap: 10, backgroundColor: colors.paper }}>
+        <Field label={ar ? 'تعديل الرسالة' : 'Edit message text'} value={editBody} onChangeText={setEditBody} multiline maxLength={3000} editable={!busy} />
+        {actionError ? <Txt accessibilityRole="alert" style={styles.error}>{actionError}</Txt> : null}
+        <Action selected title={ar ? 'حفظ التعديل' : 'Save message changes'} disabled={busy || (editing?.kind === 'text' && !editBody.trim()) || Boolean(editing && Date.parse(editing.expires_at) <= clock)} onPress={() => { if (supabase && editing) void changeMessage(() => editDirect(supabase!, owner, editing, editBody), () => setEditing(null)); }} />
+        <Action compact title={ar ? 'إلغاء التعديل' : 'Cancel edit'} disabled={busy} onPress={() => setEditing(null)} />
+      </View></View> : null}
+      <ConfirmDialog inline visible={Boolean(deleting)} title={ar ? 'حذف الرسالة' : 'Delete message'} message={ar ? 'حذف رسالتك من المحادثة لدى الطرفين؟' : 'Delete your message for both participants?'} confirmLabel={ar ? 'تأكيد حذف الرسالة' : 'Confirm delete message'} busy={busy} error={actionError} onCancel={() => setDeleting(null)} onConfirm={() => { if (supabase && deleting) void changeMessage(() => deleteDirect(supabase!, owner, deleting), () => { setMessages(rows => rows.filter(m => m.id !== deleting.id)); setDeleting(null); }); }} />
+      <ConfirmDialog inline visible={blocking} title={ar ? 'حظر الحساب' : 'Block member'} message={ar ? 'حظر هذا الحساب ومنع الرسائل الجديدة بينكما؟ يمكنك إلغاء الحظر من الإعدادات.' : 'Block this member and stop new messages between you? You can unblock in Settings.'} confirmLabel={ar ? 'تأكيد الحظر' : 'Confirm block'} busy={busy} error={actionError} onCancel={() => setBlocking(false)} onConfirm={() => { if (!supabase || !selected) return; void changeMessage(async () => { const write = await supabase!.from('blocks').upsert({ blocker_id: owner, blocked_id: selected.person.id }, { onConflict: 'blocker_id,blocked_id', ignoreDuplicates: true }); if (write.error) throw write.error; const result = await supabase!.from('blocks').select('blocked_id').eq('blocker_id', owner).eq('blocked_id', selected.person.id).maybeSingle(); if (result.error || result.data?.blocked_id !== selected.person.id) throw result.error ?? new Error('BLOCK_FAILED'); }, () => { setAllowed(false); setBlocking(false); }); }} />
+      </View>
+    </Modal>
   </ScrollView>;
 }
 function Member({ person, press }: { person: MemberIdentity; press: () => void }) {

@@ -30,6 +30,7 @@ import {
 } from './roastLab';
 import { Action, Language, Txt, Icon, IconButton, colors, styles } from './ui';
 import { MemberAvatar } from './MemberAvatar';
+import { ConfirmDialog } from './ConfirmDialog';
 import { CoffeeStories } from './CoffeeStories';
 import { PostComposer, type EditablePost } from './PostComposer';
 import { SocialMediaView } from './SocialMedia';
@@ -464,7 +465,6 @@ export function CommunityScreen({
           label={ar ? 'حسابات coffeeHO' : 'coffeeHO accounts'}
           onPress={members}
         />
-        {messages ? <IconButton name="comment" label={ar ? "الرسائل الخاصة" : "Private messages"} onPress={messages} /> : null}
         <IconButton
           name="plus"
           label={ar ? 'شارك تجربة' : 'Share a brew'}
@@ -1106,11 +1106,7 @@ export function CommunityScreen({
         <Action title={ar ? 'مشاركة خارج التطبيق' : 'Share outside the app'} onPress={() => { void Share.share({ message: [sharePost.body, `beanmora://post/${sharePost.id}`].filter(Boolean).join('\n') }).then(() => setSharePost(null)).catch(() => setError(ar ? 'تعذّرت المشاركة.' : 'Could not share.')); }} />
         <Action compact title={ar ? 'إغلاق المشاركة' : 'Close sharing'} onPress={() => setSharePost(null)} />
       </View> : null}
-      {deletePost ? <View testID="post-delete-confirm" style={[styles.card, { padding: 16, gap: 10 }]}>
-        <Txt>{ar ? 'حذف المنشور نهائيًا؟ سجل التحضير يبقى محفوظًا.' : 'Delete this post? Your brew record stays saved.'}</Txt>
-        <Action title={ar ? 'تأكيد حذف المنشور' : 'Confirm delete post'} disabled={deleting} onPress={() => { if (!supabase || !userId || deleting) return; setDeleting(true); void deleteCommunityPost(supabase, userId, deletePost.id).then(async () => { if (deletePost.primary_media_path) await supabase?.storage.from('post-media').remove([deletePost.primary_media_path]); setDeletePost(null); setRevision(n => n + 1); }).catch(() => setError(ar ? 'تعذّر تأكيد حذف المنشور.' : 'Could not confirm post deletion.')).finally(() => setDeleting(false)); }} />
-        <Action compact title={ar ? 'إلغاء حذف المنشور' : 'Cancel post deletion'} disabled={deleting} onPress={() => setDeletePost(null)} />
-      </View> : null}
+      <ConfirmDialog visible={Boolean(deletePost)} title={ar ? 'حذف المنشور' : 'Delete post'} message={ar ? 'حذف المنشور نهائيًا؟ سجل التحضير يبقى محفوظًا.' : 'Delete this post? Your brew record stays saved.'} confirmLabel={ar ? 'تأكيد حذف المنشور' : 'Confirm delete post'} cancelLabel={ar ? 'إلغاء حذف المنشور' : 'Cancel post deletion'} busy={deleting} error={error} onCancel={() => setDeletePost(null)} onConfirm={() => { if (!supabase || !userId || !deletePost || deleting) return; setDeleting(true); void deleteCommunityPost(supabase, userId, deletePost.id).then(async () => { if (deletePost.primary_media_path) await supabase?.storage.from('post-media').remove([deletePost.primary_media_path]); setDeletePost(null); setRevision(n => n + 1); }).catch(() => setError(ar ? 'تعذّر تأكيد حذف المنشور.' : 'Could not confirm post deletion.')).finally(() => setDeleting(false)); }} />
     </Container>
   );
 }

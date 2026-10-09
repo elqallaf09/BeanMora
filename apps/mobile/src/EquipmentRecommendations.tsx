@@ -1,5 +1,5 @@
 import { useContext, useEffect, useMemo, useState } from "react";
-import { AppState, Pressable, View, useWindowDimensions } from "./native";
+import { Animated, Pressable, View, useWindowDimensions } from "./native";
 import { publicSupabase } from "./client";
 import {
   categoryLabel,
@@ -8,7 +8,7 @@ import {
   type EquipmentItem,
 } from "./catalog";
 import { CatalogPhoto } from "./CatalogPhoto";
-import { useReducedMotion } from "./Motion";
+import { useRotatingPicks } from "./useRotatingPicks";
 import { Action, Language, Txt, colors } from "./ui";
 
 export function EquipmentRecommendations({
@@ -21,20 +21,7 @@ export function EquipmentRecommendations({
   const locale = useContext(Language),
     ar = locale === "ar";
   const { width } = useWindowDimensions();
-  const reduced = useReducedMotion();
   const [rows, setRows] = useState<EquipmentItem[]>([]);
-  const [offset, setOffset] = useState(() => Math.floor(Date.now() / 18000));
-  const [paused, setPaused] = useState(false);
-  const [focused, setFocused] = useState(false);
-  const [foreground, setForeground] = useState(
-    AppState.currentState !== "background",
-  );
-  useEffect(() => {
-    const listener = AppState.addEventListener("change", (state) =>
-      setForeground(state === "active"),
-    );
-    return () => listener.remove();
-  }, []);
   useEffect(() => {
     let active = true;
     if (publicSupabase)
@@ -61,24 +48,20 @@ export function EquipmentRecommendations({
       for (const group of groups.values()) if (group[i]) result.push(group[i]);
     return result;
   }, [rows]);
-  useEffect(() => {
-    if (paused || focused || reduced || !foreground || pool.length <= 3) return;
-    const timer = setInterval(() => setOffset((n) => n + 3), 18000);
-    return () => clearInterval(timer);
-  }, [paused, focused, reduced, foreground, pool.length]);
+  const rotation = useRotatingPicks(pool.length, 3);
   const selected = pool.length
     ? Array.from(
         { length: Math.min(3, pool.length) },
-        (_, i) => pool[(offset + i) % pool.length],
+        (_, i) => pool[(rotation.offset + i) % pool.length],
       )
     : [];
   return (
     <View testID="home-tools" style={{ gap: 10 }}>
-      <View
-        style={{
+      <Animated.View
+        style={[rotation.style, {
           flexDirection: width >= 600 ? (ar ? "row-reverse" : "row") : "column",
           gap: 12,
-        }}
+        }]}
       >
         {selected.map((item) => (
           <Pressable
@@ -86,8 +69,10 @@ export function EquipmentRecommendations({
             accessibilityRole="button"
             accessibilityLabel={item.name}
             onPress={() => open(item)}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
+            onFocus={rotation.focus}
+            onBlur={rotation.blur}
+            onPressIn={rotation.hold}
+            onPressOut={rotation.release}
             style={{
               flex: 1,
               minWidth: 0,
@@ -121,37 +106,8 @@ export function EquipmentRecommendations({
             </View>
           </Pressable>
         ))}
-      </View>
-      {pool.length > 3 ? (
-        <View
-          style={{
-            flexDirection: ar ? "row-reverse" : "row",
-            gap: 8,
-            justifyContent: "flex-end",
-          }}
-        >
-          <Action
-            compact
-            title={ar ? "أدوات أخرى" : "Other tools"}
-            onPress={() => setOffset((n) => n + 3)}
-          />
-          {!reduced ? (
-            <Action
-              compact
-              title={
-                paused
-                  ? ar
-                    ? "تشغيل التبديل"
-                    : "Resume rotation"
-                  : ar
-                    ? "إيقاف التبديل"
-                    : "Pause rotation"
-              }
-              onPress={() => setPaused((value) => !value)}
-            />
-          ) : null}
-        </View>
-      ) : !pool.length ? (
+      </Animated.View>
+      {!pool.length ? (
         <Action
           title={ar ? "استكشف أدوات القهوة" : "Explore coffee equipment"}
           onPress={browse}

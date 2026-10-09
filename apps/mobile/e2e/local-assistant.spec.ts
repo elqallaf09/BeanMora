@@ -18,7 +18,6 @@ async function openAssistant(page: Page, offlineCatalog = false) {
     return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(data) });
   });
   await page.goto('/');
-  await page.getByRole('button', { name: 'المزيد', exact: true }).click();
   await page.getByRole('button', { name: 'خبير القهوة', exact: true }).click();
   return { providerCalls: () => providerCalls, searches };
 }
