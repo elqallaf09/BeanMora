@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { readdirSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import ar from '../messages/ar.json';
@@ -17,7 +17,21 @@ const routes = pages(routeRoot).map(path => '/' + relative(routeRoot, path).spli
   .map(segment => segment === '[id]' ? uuid : segment === '[slug]' ? 'locale-fixture' : segment === '[username]' ? 'fixture_barista' : segment)
   .join('/')).sort();
 
-for (const locale of ['ar', 'en']) test(`${locale}: every page route renders or enforces its access boundary`, async ({ page }, info) => {
+async function fixtureSignInAt(page: Page, locale: 'ar' | 'en', path: string) {
+  const m = locale === 'ar' ? ar : en;
+  // The isolated auth fixture returns the same anonymous user for either flow.
+  // Use the real safe return path to land on the target without unloading home
+  // during its deferred RSC prefetches. Guest-button behavior is covered in
+  // release-smoke.spec.ts; no production credentials or session are involved.
+  await page.goto(`/${locale}/login?next=${encodeURIComponent(path)}`);
+  await page.getByLabel(m.auth.emailLabel, { exact: true }).fill('fixture@example.test');
+  await page.getByLabel(m.auth.passwordLabel, { exact: true }).fill('fixture_password');
+  await page.getByRole('button', { name: m.auth.loginButton, exact: true }).click();
+  await expect(page).toHaveURL(`http://127.0.0.1:3000/${locale}${path === '/' ? '' : path}`);
+  await page.waitForLoadState('networkidle');
+}
+
+for (const locale of ['ar', 'en'] as const) test(`${locale}: every page route renders or enforces its access boundary`, async ({ page }, info) => {
   test.setTimeout(150000);
   const errors: string[] = [], observations: { path: string; status: number; destination: string; ms: number }[] = [];
   page.on('pageerror', error => errors.push(error.message));
@@ -25,12 +39,7 @@ for (const locale of ['ar', 'en']) test(`${locale}: every page route renders or 
     const url = new URL(route.request().url());
     return url.hostname === '127.0.0.1' || ['data:', 'blob:'].includes(url.protocol) ? route.continue() : route.abort();
   });
-  await page.goto(`/${locale}/login`);
-  await page.getByRole('button', { name: locale === 'ar' ? 'الدخول كضيف' : 'Continue as guest', exact: true }).click();
-  await expect(page).toHaveURL(new RegExp(`/${locale}/home$`));
-  // Settle home RSC prefetches before a hard navigation unloads WebKit's document.
-  // Keep the pageerror assertion intact so application failures still fail the test.
-  await page.waitForLoadState('networkidle');
+  await fixtureSignInAt(page, locale, '/');
   for (const route of routes) {
     const path = `/${locale}${route}`, started = Date.now();
     const response = await page.goto(path);
@@ -45,6 +54,13 @@ for (const locale of ['ar', 'en']) test(`${locale}: every page route renders or 
     }
     await page.waitForLoadState('networkidle');
     observations.push({ path, status: response!.status(), destination: new URL(page.url()).pathname, ms: Date.now() - started });
+    if (route === '/home') {
+      // An SPA navigation preserves the document while deferred home prefetches
+      // settle. A timed idle wait alone can finish before those requests start.
+      await page.locator(`a[href="/${locale}/discover"]:visible`).first().click();
+      await expect(page).toHaveURL(`http://127.0.0.1:3000/${locale}/discover`);
+      await page.waitForLoadState('networkidle');
+    }
   }
   await info.attach('all-page-routes', { body: JSON.stringify(observations), contentType: 'application/json' });
   expect(errors).toEqual([]);
@@ -67,14 +83,10 @@ test('unmatched URLs return a complete document with working bilingual recovery 
   await expect(page).toHaveURL(/\/en$/);
 });
 
-for (const locale of ['ar', 'en']) test(`${locale}: incorrect-info button opens a usable correction form and failed submissions can be retried`, async ({ page }) => {
+for (const locale of ['ar', 'en'] as const) test(`${locale}: incorrect-info button opens a usable correction form and failed submissions can be retried`, async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
-  await page.goto(`/${locale}/login`);
-  await page.getByRole('button', { name: locale === 'ar' ? 'الدخول كضيف' : 'Continue as guest', exact: true }).click();
-  await expect(page).toHaveURL(new RegExp(`/${locale}/home$`));
-  await page.waitForLoadState('networkidle');
-  await page.goto(`/${locale}/beans/locale-fixture`);
+  await fixtureSignInAt(page, locale, '/beans/locale-fixture');
   await page.getByRole('link', { name: locale === 'ar' ? 'إبلاغ عن معلومة غير صحيحة' : 'Report incorrect info', exact: true }).click();
   await expect(page).toHaveURL(new RegExp(`/${locale}/beans/locale-fixture/report$`));
   const reason = 'The published origin needs correction.', suggestion = 'Brazil, according to the roaster.';
@@ -97,14 +109,10 @@ for (const locale of ['ar', 'en']) test(`${locale}: incorrect-info button opens 
   expect(errors).toEqual([]);
 });
 
-for (const locale of ['ar', 'en']) test(`${locale}: discover filter button opens, applies a method and resets the filters`, async ({ page }) => {
+for (const locale of ['ar', 'en'] as const) test(`${locale}: discover filter button opens, applies a method and resets the filters`, async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
-  await page.goto(`/${locale}/login`);
-  await page.getByRole('button', { name: locale === 'ar' ? 'الدخول كضيف' : 'Continue as guest', exact: true }).click();
-  await expect(page).toHaveURL(new RegExp(`/${locale}/home$`));
-  await page.waitForLoadState('networkidle');
-  await page.goto(`/${locale}/discover?category=beans`);
+  await fixtureSignInAt(page, locale, '/discover?category=beans');
   const name = locale === 'ar' ? 'الفلاتر' : 'Filters';
   await page.getByRole('button', { name, exact: true }).click();
   const dialog = page.getByRole('dialog', { name, exact: true });
@@ -123,11 +131,7 @@ for (const locale of ['ar', 'en']) test(`${locale}: discover filter button opens
 for (const locale of ['ar', 'en'] as const) test(`${locale}: onboarding options stay translated through every step`, async ({ page }) => {
   const m = locale === 'ar' ? ar : en, errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
-  await page.goto(`/${locale}/login`);
-  await page.getByRole('button', { name: locale === 'ar' ? 'الدخول كضيف' : 'Continue as guest', exact: true }).click();
-  await expect(page).toHaveURL(new RegExp(`/${locale}/home$`));
-  await page.waitForLoadState('networkidle');
-  await page.goto(`/${locale}/onboarding`);
+  await fixtureSignInAt(page, locale, '/onboarding');
   for (const label of [m.auth.experienceBeginner, m.auth.experienceIntermediate, m.auth.experienceAdvanced, m.auth.experienceBarista]) {
     await expect(page.getByRole('button', { name: label, exact: true })).toBeVisible();
   }
