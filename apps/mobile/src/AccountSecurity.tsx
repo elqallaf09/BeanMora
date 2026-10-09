@@ -6,7 +6,13 @@ import { nativeAuthRedirect } from "./oauthCallback";
 import { Action, Field, Icon, Language, Txt, colors, styles } from "./ui";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-export function AccountSecurity({ session }: { session: Session }) {
+export function AccountSecurity({
+  session,
+  compact = false,
+}: {
+  session: Session;
+  compact?: boolean;
+}) {
   const ar = useContext(Language) === "ar";
   const [panel, setPanel] = useState<"email" | "password" | null>(null);
   const [email, setEmail] = useState("");
@@ -189,18 +195,30 @@ export function AccountSecurity({ session }: { session: Session }) {
     });
   }
   return (
-    <View testID="account-security" style={[styles.card, { gap: 14 }]}>
+    <View
+      testID="account-security"
+      style={compact ? { gap: 10 } : [styles.card, { gap: 14 }]}
+    >
       <View style={[styles.row, { flexDirection: ar ? "row-reverse" : "row" }]}>
-        <Icon name="lock" color={colors.teal} />
-        <Txt heading style={styles.subtitle}>
+        {compact ? null : <Icon name="lock" color={colors.teal} />}
+        <Txt
+          heading
+          style={
+            compact
+              ? { fontSize: 14, fontWeight: "700", color: colors.muted }
+              : styles.subtitle
+          }
+        >
           {ar ? "أمان الحساب" : "Account security"}
         </Txt>
       </View>
-      <Txt style={styles.muted}>
-        {ar
-          ? "إدارة بريد الدخول وكلمة المرور."
-          : "Manage your sign-in email and password."}
-      </Txt>
+      {compact ? null : (
+        <Txt style={styles.muted}>
+          {ar
+            ? "إدارة بريد الدخول وكلمة المرور."
+            : "Manage your sign-in email and password."}
+        </Txt>
+      )}
       <SecurityRow
         label={ar ? "تغيير البريد الإلكتروني" : "Change email"}
         icon="mail"

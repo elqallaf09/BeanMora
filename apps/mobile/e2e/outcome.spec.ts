@@ -118,7 +118,7 @@ for (const unit of ['g', 'ml'] as const) test(`signed-in brew with source water 
   await page.getByLabel('Email', { exact: true }).fill(user.email);
   await page.getByLabel('Password', { exact: true }).fill('isolated-fixture-password');
   await page.getByRole('button', { name: 'Sign in', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Sign out', exact: true })).toBeVisible();
+  await expect(page.getByTestId('account-screen')).toBeVisible();
   await openRecipeLibrary(page, 'en');
   await page.getByRole('button', { name: recipe.title, exact: true }).click();
   await page.getByRole('button', { name: 'Record my brew', exact: true }).click();

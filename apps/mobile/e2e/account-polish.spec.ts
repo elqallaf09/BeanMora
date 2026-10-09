@@ -49,6 +49,20 @@ async function fixtures(
   const updates: Record<string, string>[] = [],
     changes: Record<string, unknown>[] = [];
   let reauthenticated = 0;
+  let failLike = false,
+    failComment = false,
+    failLogout = false;
+  const likeRows = [{ post_id: "post-1", user_id: other }];
+  const commentRows: {
+    id: string;
+    post_id: string;
+    user_id: string;
+    body: string;
+    created_at: string;
+  }[] = [];
+  const likeWrites: Record<string, unknown>[] = [],
+    commentWrites: Record<string, unknown>[] = [];
+  let logouts = 0;
   const token = `${enc({ alg: "HS256", typ: "JWT" })}.${enc({ sub: uid, role: "authenticated", exp: Math.floor(Date.now() / 1000) + 3600 })}.isolated_signature`;
   const reply = (route: Route, data: unknown, status = 200) =>
     route.fulfill({
@@ -64,8 +78,17 @@ async function fixtures(
     const url = new URL(route.request().url()),
       p = url.pathname,
       method = route.request().method();
-    if (p.startsWith('/storage/v1/object/avatars/')) return reply(route, { Key: p.replace('/storage/v1/object/', '') });
-    if (p.startsWith('/storage/v1/object/public/avatars/')) return route.fulfill({ status: 200, contentType: 'image/png', body: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/b1sAAAAASUVORK5CYII=', 'base64') });
+    if (p.startsWith("/storage/v1/object/avatars/"))
+      return reply(route, { Key: p.replace("/storage/v1/object/", "") });
+    if (p.startsWith("/storage/v1/object/public/avatars/"))
+      return route.fulfill({
+        status: 200,
+        contentType: "image/png",
+        body: Buffer.from(
+          "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/b1sAAAAASUVORK5CYII=",
+          "base64",
+        ),
+      });
     if (p.endsWith("/settings"))
       return reply(route, { external: { google: true, apple: false } });
     if (p.endsWith("/token")) {
@@ -103,6 +126,47 @@ async function fixtures(
         if (body.email) user.new_email = body.email;
       }
       return reply(route, user);
+    }
+    if (p.endsWith("/logout")) {
+      logouts++;
+      return failLogout
+        ? reply(route, { message: "isolated logout failure" }, 503)
+        : route.fulfill({ status: 204 });
+    }
+    if (p.endsWith("/post_likes")) {
+      if (method === "POST") {
+        const body = route.request().postDataJSON();
+        likeWrites.push(body);
+        if (failLike)
+          return reply(route, { message: "isolated like failure" }, 503);
+        likeRows.push(body);
+        return route.fulfill({ status: 201 });
+      }
+      if (method === "DELETE") {
+        expect(url.searchParams.get("post_id")).toBe("eq.post-1");
+        expect(url.searchParams.get("user_id")).toBe("eq." + uid);
+        const index = likeRows.findIndex(
+          (l) => l.post_id === "post-1" && l.user_id === uid,
+        );
+        if (index >= 0) likeRows.splice(index, 1);
+        return route.fulfill({ status: 204 });
+      }
+      return reply(route, likeRows);
+    }
+    if (p.endsWith("/comments")) {
+      if (method === "POST") {
+        const body = route.request().postDataJSON();
+        commentWrites.push(body);
+        if (failComment)
+          return reply(route, { message: "isolated comment failure" }, 503);
+        commentRows.push({
+          ...body,
+          id: "comment-" + commentRows.length,
+          created_at: new Date().toISOString(),
+        });
+        return route.fulfill({ status: 201 });
+      }
+      return reply(route, commentRows);
     }
     if (p.endsWith("/profiles")) {
       if (method === "PATCH") {
@@ -185,6 +249,18 @@ async function fixtures(
       user = { ...user, email: user.new_email, new_email: "" };
     },
     nonceSent: () => reauthenticated,
+    likeWrites,
+    commentWrites,
+    failLikes: (value: boolean) => {
+      failLike = value;
+    },
+    failComments: (value: boolean) => {
+      failComment = value;
+    },
+    failSignOut: (value: boolean) => {
+      failLogout = value;
+    },
+    logouts: () => logouts,
   };
 }
 async function signIn(page: Page) {
@@ -204,6 +280,10 @@ test("email stays unchanged until confirmation and wrong current password blocks
 }) => {
   const f = await fixtures(page);
   await signIn(page);
+  await page
+    .getByRole("button", { name: "Settings", exact: true })
+    .first()
+    .click();
   const security = page.getByTestId("account-security");
   await security
     .getByRole("button", { name: "Change email", exact: true })
@@ -231,7 +311,9 @@ test("email stays unchanged until confirmation and wrong current password blocks
     "new@example.test",
   );
   await expect(
-    page.getByText("owner@example.test", { exact: true }),
+    page
+      .getByTestId("settings-screen")
+      .getByText("owner@example.test", { exact: true }),
   ).toBeVisible();
   expect(f.updates[0].email).toBe("new@example.test");
   await security
@@ -244,7 +326,9 @@ test("email stays unchanged until confirmation and wrong current password blocks
     .click();
   await expect(page.getByTestId("pending-email-change")).toHaveCount(0);
   await expect(
-    page.getByText("new@example.test", { exact: true }),
+    page
+      .getByTestId("settings-screen")
+      .getByText("new@example.test", { exact: true }),
   ).toBeVisible();
 });
 test("password validates matching fields and completes a server-required email nonce", async ({
@@ -252,6 +336,10 @@ test("password validates matching fields and completes a server-required email n
 }) => {
   const f = await fixtures(page, { nonce: true });
   await signIn(page);
+  await page
+    .getByRole("button", { name: "Settings", exact: true })
+    .first()
+    .click();
   const s = page.getByTestId("account-security");
   await s.getByRole("button", { name: "Change password", exact: true }).click();
   await s
@@ -358,14 +446,23 @@ for (const width of [320, 800, 1536])
     await page
       .getByRole("button", { name: "معدات القهوة (0)", exact: true })
       .click();
-      if (width === 800) {
-        await page.setViewportSize({ width, height: 1650 });
-        await expect(page.getByRole("button", { name: "حذف الحساب والبيانات", exact: true })).toBeInViewport();
-      }
+    await expect(
+      page.getByRole("button", { name: "حذف الحساب والبيانات", exact: true }),
+    ).toHaveCount(0);
+    await expect(page.getByTestId("account-security")).toHaveCount(0);
     await page.screenshot({
       path: info.outputPath(`account-dark-${width}.png`),
     });
-    if (width === 800) await page.setViewportSize({ width, height: 1000 });
+    await page
+      .getByRole("button", { name: "الإعدادات", exact: true })
+      .first()
+      .click();
+    await expect(
+      page.getByRole("button", { name: "حذف الحساب والبيانات", exact: true }),
+    ).toBeInViewport();
+    await page.screenshot({
+      path: info.outputPath(`settings-dark-${width}.png`),
+    });
     const actions = page.getByTestId("account-security").getByRole("button");
     for (const a of await actions.all()) {
       const rect = await a.boundingBox();
@@ -373,8 +470,8 @@ for (const width of [320, 800, 1536])
       expect(rect!.x).toBeGreaterThanOrEqual(0);
       expect(rect!.x + rect!.width).toBeLessThanOrEqual(width);
     }
+    await settings.getByRole("button", { name: "تم", exact: true }).click();
     await page.getByRole("button", { name: "coffeeHO", exact: true }).click();
-    await page.getByRole("button", { name: "كل اللغات", exact: true }).click();
     await expect(page.getByTestId("community-post-post-1")).toBeVisible();
     await page.screenshot({
       path: info.outputPath(`coffeeho-dark-${width}.png`),
@@ -386,21 +483,223 @@ for (const width of [320, 800, 1536])
     ).toBe(true);
   });
 
-test('profile photo previews before saving and remains beside the handle after reload', async ({ page }) => {
-  const f = await fixtures(page); await signIn(page);
-  const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/b1sAAAAASUVORK5CYII=', 'base64');
+test("profile photo previews before saving and remains beside the handle after reload", async ({
+  page,
+}) => {
+  const f = await fixtures(page);
+  await signIn(page);
+  const png = Buffer.from(
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/b1sAAAAASUVORK5CYII=",
+    "base64",
+  );
   async function choose() {
-    const chooser = page.waitForEvent('filechooser');
-    await page.getByRole('button', { name: 'Change profile photo', exact: true }).click();
-    await (await chooser).setFiles({ name: 'avatar.png', mimeType: 'image/png', buffer: png });
-    await expect(page.getByTestId('avatar-preview')).toBeVisible();
+    const chooser = page.waitForEvent("filechooser");
+    await page
+      .getByRole("button", { name: "Change profile photo", exact: true })
+      .click();
+    await (
+      await chooser
+    ).setFiles({ name: "avatar.png", mimeType: "image/png", buffer: png });
+    await expect(page.getByTestId("avatar-preview")).toBeVisible();
   }
-  await choose(); await page.getByRole('button', { name: 'Cancel', exact: true }).click(); expect(f.changes).toHaveLength(0);
-  await choose(); await page.getByRole('button', { name: 'Save photo', exact: true }).click();
-  await expect(page.getByText('Profile photo saved.', { exact: true })).toBeVisible();
-  expect(f.profile.avatar_url).toContain('/avatars/' + uid + '/');
+  await choose();
+  await page.getByRole("button", { name: "Cancel", exact: true }).click();
+  expect(f.changes).toHaveLength(0);
+  await choose();
+  await page.getByRole("button", { name: "Save photo", exact: true }).click();
+  await expect(
+    page.getByText("Profile photo saved.", { exact: true }),
+  ).toBeVisible();
+  expect(f.profile.avatar_url).toContain("/avatars/" + uid + "/");
   await page.reload();
-  await page.getByRole('button', { name: 'Account', exact: true }).click();
-  await expect(page.getByTestId('member-profile').getByText('@owner', { exact: true })).toBeVisible();
-  await expect(page.getByTestId('avatar-edit').getByRole('img')).toBeVisible();
+  await page.getByRole("button", { name: "Account", exact: true }).click();
+  await expect(
+    page.getByTestId("member-profile").getByText("@owner", { exact: true }),
+  ).toBeVisible();
+  await expect(page.getByTestId("avatar-edit").getByRole("img")).toBeVisible();
+});
+
+test("account actions live only in compact settings and sign-out failure can be retried", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 1000 });
+  const f = await fixtures(page);
+  await signIn(page);
+  for (const label of [
+    "Change email",
+    "Change password",
+    "Sign out",
+    "Delete account and data",
+  ])
+    await expect(
+      page
+        .getByTestId("account-screen")
+        .getByRole("button", { name: label, exact: true }),
+    ).toHaveCount(0);
+  await page
+    .getByRole("button", { name: "Settings", exact: true })
+    .first()
+    .click();
+  const panel = page.getByTestId("settings-screen");
+  await expect(
+    panel.getByRole("button", { name: "Delete account and data", exact: true }),
+  ).toBeInViewport();
+  await expect(
+    panel.getByText("New in this release", { exact: true }),
+  ).toHaveCount(0);
+  f.failSignOut(true);
+  await panel.getByRole("button", { name: "Sign out", exact: true }).click();
+  await expect(panel.getByRole("alert")).toContainText("Could not sign out");
+  expect(f.logouts()).toBe(1);
+  f.failSignOut(false);
+  await panel.getByRole("button", { name: "Sign out", exact: true }).click();
+  await expect(panel).toHaveCount(0);
+  await expect(page.getByLabel("Email", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Back", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Settings", exact: true })
+    .first()
+    .click();
+  await expect(page.getByTestId("settings-account")).toHaveCount(0);
+});
+
+test("general timeline likes survive reload, unlike removes only the current member and a failure rolls back", async ({
+  page,
+}) => {
+  const f = await fixtures(page);
+  await signIn(page);
+  await page.getByRole("button", { name: "coffeeHO", exact: true }).click();
+  const post = page.getByTestId("community-post-post-1");
+  for (const label of [
+    "All languages",
+    "Most liked",
+    "Discussions",
+    "Roasts",
+    "Brew experiences",
+    "Newest",
+  ])
+    await expect(
+      page
+        .getByTestId("community-screen")
+        .getByRole("button", { name: label, exact: true }),
+    ).toHaveCount(0);
+  const like = post.getByRole("button", { name: "Like", exact: true });
+  await expect(like).toContainText("Like · 1");
+  f.failLikes(true);
+  await like.click();
+  await expect(post.getByRole("alert")).toContainText("Could not save like");
+  await expect(like).toHaveAttribute("aria-pressed", "false");
+  await expect(like).toContainText("Like · 1");
+  f.failLikes(false);
+  const savedLike = page.waitForResponse(
+    (response) =>
+      new URL(response.url()).pathname.endsWith("/post_likes") &&
+      response.request().method() === "POST",
+  );
+  await like.click();
+  // Optimistic counts can appear before the mutation is acknowledged. Wait
+  // for completion so reload tests persisted state instead of aborting a save.
+  expect((await savedLike).status()).toBe(201);
+  await expect(like).toBeEnabled();
+  await expect(like).toHaveAttribute("aria-pressed", "true");
+  await expect(like).toContainText("Like · 2");
+  expect(f.likeWrites.at(-1)).toEqual({ post_id: "post-1", user_id: uid });
+  await page.reload();
+  await page.getByRole("button", { name: "coffeeHO", exact: true }).click();
+  await expect(like).toHaveAttribute("aria-pressed", "true");
+  const removedLike = page.waitForResponse(
+    (response) =>
+      new URL(response.url()).pathname.endsWith("/post_likes") &&
+      response.request().method() === "DELETE",
+  );
+  await like.click();
+  expect((await removedLike).status()).toBe(204);
+  await expect(like).toBeEnabled();
+  await expect(like).toContainText("Like · 1");
+  await expect(like).toHaveAttribute("aria-pressed", "false");
+});
+
+test("post comments keep a failed draft, retry once and remain visible after reload", async ({
+  page,
+}, info) => {
+  await page.setViewportSize({ width: 390, height: 1000 });
+  const f = await fixtures(page);
+  await signIn(page);
+  await page.getByRole("button", { name: "coffeeHO", exact: true }).click();
+  const post = page.getByTestId("community-post-post-1");
+  const open = post.getByRole("button", { name: "Comments", exact: true });
+  await open.click();
+  const draft = post.getByLabel("Write a comment", { exact: true });
+  await draft.fill("A lovely cup. Which grind size did you use?");
+  // Changing posts preserves each draft separately.
+  await page
+    .getByTestId("community-post-post-0")
+    .getByRole("button", { name: "Comments", exact: true })
+    .click();
+  await page
+    .getByTestId("community-post-post-0")
+    .getByLabel("Write a comment", { exact: true })
+    .fill("My separate draft");
+  await open.click();
+  await expect(draft).toHaveValue(
+    "A lovely cup. Which grind size did you use?",
+  );
+  f.failComments(true);
+  await post.getByRole("button", { name: "Send comment", exact: true }).click();
+  await expect(post.getByRole("alert")).toContainText(
+    "Your draft is kept here",
+  );
+  await expect(draft).toHaveValue(
+    "A lovely cup. Which grind size did you use?",
+  );
+  await expect(
+    post.getByRole("button", { name: "Like", exact: true }),
+  ).toBeVisible();
+  f.failComments(false);
+  await post.getByRole("button", { name: "Send comment", exact: true }).click();
+  await expect(
+    post.getByText("A lovely cup. Which grind size did you use?", {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(draft).toHaveValue("");
+  await expect(open).toContainText("Comment · 1");
+  expect(f.commentWrites).toHaveLength(2);
+  expect(f.commentWrites.at(-1)).toMatchObject({
+    post_id: "post-1",
+    user_id: uid,
+    parent_comment_id: null,
+    recipe_id: null,
+    is_hidden: false,
+    content_language: "en",
+  });
+  await page.screenshot({
+    path: info.outputPath("social-comments-light-phone.png"),
+  });
+  await page.reload();
+  await page.getByRole("button", { name: "coffeeHO", exact: true }).click();
+  await open.click();
+  await expect(
+    post.getByText("A lovely cup. Which grind size did you use?", {
+      exact: true,
+    }),
+  ).toBeVisible();
+});
+
+test("a guest can read comments and is asked to sign in when interacting", async ({
+  page,
+}) => {
+  await fixtures(page);
+  await page.goto("/");
+  await setLanguage(page, "en");
+  await page.getByRole("button", { name: "coffeeHO", exact: true }).click();
+  const post = page.getByTestId("community-post-post-1");
+  await post.getByRole("button", { name: "Comments", exact: true }).click();
+  await expect(post.getByLabel("Write a comment", { exact: true })).toHaveCount(
+    0,
+  );
+  await post
+    .getByRole("button", { name: "Sign in to comment", exact: true })
+    .click();
+  await expect(page.getByLabel("Email", { exact: true })).toBeVisible();
 });

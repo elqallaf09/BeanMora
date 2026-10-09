@@ -1,9 +1,7 @@
 import { useContext, useEffect, useRef, useState, type ReactNode } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   ImageBackground,
   KeyboardAvoidingView,
-  Modal,
   Platform,
   Pressable,
   ScrollView,
@@ -13,24 +11,13 @@ import {
 } from './native';
 import * as WebBrowser from 'expo-web-browser';
 import type { Session } from '@supabase/supabase-js';
-import {
-  supabase,
-  publicSupabase,
-  authProviderEnabled,
-  catalogScope,
-  clearDeletedSession,
-} from './client';
-import { deleteCurrentAccount } from './core/account-deletion';
+import { supabase, authProviderEnabled } from './client';
 import {
   createOAuthCallbackHandler,
   nativeAuthRedirect,
 } from './oauthCallback';
-import { catalogCacheKey } from './catalogCache';
-import { recipeShelfKey } from './useRecipeShelf';
-import { invalidatePublicCatalog } from './data';
 import { artwork } from './CoffeeScreens';
 import { AppVersion } from './AppVersion';
-import { AccountSecurity } from './AccountSecurity';
 import { PasswordRecovery } from './PasswordRecovery';
 import { LegalLinks } from './LegalLinks';
 import {
@@ -57,7 +44,6 @@ export function AccountScreen({
   profileContent,
   settings,
   back,
-  onDeleted,
   recovery = false,
   onRecovered = () => {},
 }: {
@@ -65,7 +51,6 @@ export function AccountScreen({
   profileContent?: ReactNode;
   settings: () => void;
   back: () => void;
-  onDeleted: (localCleanupFailed: boolean) => void;
   recovery?: boolean;
   onRecovered?: () => void;
 }) {
@@ -79,9 +64,6 @@ export function AccountScreen({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
-  const [deleteOpen, setDeleteOpen] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState('');
-  const [deleteError, setDeleteError] = useState('');
   const [appleEnabled, setAppleEnabled] = useState(false);
   const inFlight = useRef(false);
   const emailRef = useRef<TextInput>(null);
@@ -99,49 +81,6 @@ export function AccountScreen({
       active = false;
     };
   }, [session]);
-  async function deleteAccount() {
-    if (
-      !supabase ||
-      !session ||
-      inFlight.current ||
-      confirmDelete.trim() !== (ar ? 'حذف' : 'DELETE')
-    )
-      return;
-    inFlight.current = true;
-    setBusy(true);
-    setDeleteError('');
-    try {
-      const owner = await deleteCurrentAccount(supabase);
-      invalidatePublicCatalog(supabase);
-      if (publicSupabase) invalidatePublicCatalog(publicSupabase);
-      let localCleanupFailed = false;
-      try {
-        await AsyncStorage.multiRemove([
-          recipeShelfKey(catalogScope, owner),
-          'beanmora-roast-draft:' + owner,
-          catalogCacheKey(catalogScope, 'ar'),
-          catalogCacheKey(catalogScope, 'en'),
-        ]);
-      } catch {
-        localCleanupFailed = true;
-      }
-      try {
-        await clearDeletedSession();
-      } catch {
-        localCleanupFailed = true;
-      }
-      onDeleted(localCleanupFailed);
-    } catch {
-      setDeleteError(
-        ar
-          ? 'لم يتأكد حذف الحساب. تحقق من الاتصال وأعد المحاولة. قد تكون بعض الملفات حُذفت بالفعل.'
-          : 'Account deletion was not confirmed. Check your connection and retry. Some uploaded files may already have been removed.',
-      );
-    } finally {
-      inFlight.current = false;
-      setBusy(false);
-    }
-  }
   function authError(message: string) {
     const lower = message.toLowerCase();
     return lower.startsWith('oauth_') ||
@@ -177,11 +116,6 @@ export function AccountScreen({
   }
   async function authenticate() {
     await request(async () => {
-      if (session) {
-        const { error } = await supabase!.auth.signOut({ scope: 'local' });
-        if (error) throw error;
-        return;
-      }
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
         setError(
           ar
@@ -302,6 +236,7 @@ export function AccountScreen({
   if (session)
     return (
       <ScrollView
+        testID="account-screen"
         contentContainerStyle={[
           styles.content,
           { width: '100%', maxWidth: 900, alignSelf: 'center', gap: 20 },
@@ -331,143 +266,6 @@ export function AccountScreen({
           />
         </View>
         {profileContent}
-        <AccountSecurity session={session} />
-        <View style={styles.card}>
-          <LegalLinks />
-          <Action
-            title={t.logout}
-            onPress={() => void authenticate()}
-            selected
-            disabled={busy}
-          />
-          {error ? <Txt style={styles.error}>{error}</Txt> : null}
-        </View>
-        <View style={[styles.card, { gap: 12 }]}>
-          <Txt heading>{ar ? 'حسابك وبياناتك' : 'Your account and data'}</Txt>
-          <Txt style={styles.muted}>
-            {ar
-              ? 'إدارة بياناتك وحذف حسابك نهائيًا.'
-              : 'Manage your data and permanent account deletion.'}
-          </Txt>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={
-              ar ? 'حذف الحساب والبيانات' : 'Delete account and data'
-            }
-            disabled={busy}
-            onPress={() => {
-              setConfirmDelete('');
-              setDeleteError('');
-              setDeleteOpen(true);
-            }}
-            style={s.deleteButton}
-          >
-            <Txt style={s.deleteText}>
-              {ar ? 'حذف الحساب والبيانات' : 'Delete account and data'}
-            </Txt>
-          </Pressable>
-        </View>
-        <Modal
-          visible={deleteOpen}
-          transparent
-          animationType="fade"
-          onRequestClose={() => {
-            if (!busy) setDeleteOpen(false);
-          }}
-        >
-          <View style={s.modalShade}>
-            <View
-              style={s.deletePanel}
-              accessibilityViewIsModal
-              testID="delete-account-dialog"
-            >
-              <Txt heading style={{ fontSize: 22 }}>
-                {ar
-                  ? 'حذف الحساب نهائيًا؟'
-                  : 'Permanently delete your account?'}
-              </Txt>
-              <Txt>
-                {ar
-                  ? 'هذا يحذف حسابك وجميع بياناتك المرتبطة به. لا يمكن التراجع، وقد تُحذف الملفات قبل اكتمال العملية.'
-                  : 'This removes your account and its associated data. It cannot be undone. Uploaded files may be removed before the process completes.'}
-              </Txt>
-              <Txt style={styles.muted}>
-                {ar ? 'اكتب حذف للتأكيد' : 'Type DELETE to confirm'}
-              </Txt>
-              <TextInput
-                accessibilityLabel={
-                  ar ? 'تأكيد حذف الحساب' : 'Confirm account deletion'
-                }
-                value={confirmDelete}
-                onChangeText={setConfirmDelete}
-                autoCapitalize="none"
-                autoCorrect={false}
-                editable={!busy}
-                style={[
-                  s.field,
-                  {
-                    padding: 12,
-                    color: colors.ink,
-                    textAlign: ar ? 'right' : 'left',
-                  },
-                ]}
-              />
-              {deleteError ? (
-                <View
-                  accessibilityRole="alert"
-                  accessibilityLiveRegion="polite"
-                >
-                  <Txt style={styles.error}>{deleteError}</Txt>
-                </View>
-              ) : null}
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={
-                  busy
-                    ? ar
-                      ? 'جارٍ حذف الحساب…'
-                      : 'Deleting account…'
-                    : ar
-                      ? 'احذف حسابي نهائيًا'
-                      : 'Permanently delete my account'
-                }
-                accessibilityState={{
-                  disabled:
-                    busy || confirmDelete.trim() !== (ar ? 'حذف' : 'DELETE'),
-                }}
-                disabled={
-                  busy || confirmDelete.trim() !== (ar ? 'حذف' : 'DELETE')
-                }
-                onPress={() => void deleteAccount()}
-                style={[
-                  s.deleteButton,
-                  {
-                    backgroundColor: '#9C342B',
-                    opacity:
-                      busy || confirmDelete.trim() !== (ar ? 'حذف' : 'DELETE')
-                        ? 0.45
-                        : 1,
-                  },
-                ]}
-              >
-                <Txt style={[s.deleteText, { color: '#FFF' }]}>
-                  {busy
-                    ? ar
-                      ? 'جارٍ حذف الحساب…'
-                      : 'Deleting account…'
-                    : ar
-                      ? 'احذف حسابي نهائيًا'
-                      : 'Permanently delete my account'}
-                </Txt>
-              </Pressable>
-              <Action
-                title={ar ? 'إلغاء' : 'Cancel'}
-                onPress={() => setDeleteOpen(false)}
-                disabled={busy}
-              />
-            </View>
-          </View>
-        </Modal>
         <AppVersion />
       </ScrollView>
     );
@@ -838,32 +636,6 @@ const s = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: '#E6EFEB',
     lineHeight: 24,
-  },
-  deleteButton: {
-    minHeight: 48,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: '#D4AAA4',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
-  deleteText: { color: '#9C342B', fontWeight: '700', textAlign: 'center' },
-  modalShade: {
-    flex: 1,
-    backgroundColor: 'rgba(17,9,3,0.55)',
-    justifyContent: 'center',
-    padding: 22,
-  },
-  deletePanel: {
-    width: '100%',
-    maxWidth: 480,
-    alignSelf: 'center',
-    padding: 22,
-    gap: 16,
-    borderRadius: 24,
-    backgroundColor: colors.paper,
   },
   shade: {
     position: 'absolute',
