@@ -493,6 +493,8 @@ for (const width of [320, 800, 1536])
       .first()
       .click();
     // Country/contact fields make Settings scrollable on tablet layouts too.
+    await expect(settings.getByTestId("account-details")).toBeVisible();
+    await expect(settings.getByTestId("account-details").getByText("جارٍ التحميل…", { exact: true })).toHaveCount(0);
     const deleteAccount = settings.getByRole("button", { name: "حذف الحساب والبيانات", exact: true });
     await deleteAccount.scrollIntoViewIfNeeded();
     await expect(deleteAccount).toBeInViewport({ ratio: 1 });
