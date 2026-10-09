@@ -67,8 +67,10 @@ begin
  insert into storage.objects(bucket_id,name,owner_id,metadata) values('direct-audio',voice,a::text,'{"mimetype":"audio/mp4"}');
  set local role authenticated;
  failure:=false;begin insert into public.direct_messages(id,conversation_id,sender_id,kind,audio_path,duration_seconds) values(gen_random_uuid(),conversation,a,'audio',voice,30);exception when insufficient_privilege then failure:=true;end;assert failure,'Unverified audio is rejected';
- failure:=false;begin perform public.record_direct_voice_check(a,voice,30,repeat('0',64));exception when insufficient_privilege then failure:=true;end;assert failure,'Member cannot manufacture server voice validation';
- reset role;perform public.record_direct_voice_check(a,voice,30,repeat('0',64));set local role authenticated;
+ failure:=false;begin perform public.record_direct_voice_check(a,voice,30,repeat('0',64),null);exception when insufficient_privilege then failure:=true;end;assert failure,'Member cannot manufacture server voice validation';
+ reset role;
+ failure:=false;begin perform public.record_direct_voice_check(a,voice,30,repeat('0',64),gen_random_uuid());exception when others then failure:=true;end;assert failure,'Download identity mismatch cannot create a voice proof';
+ perform public.record_direct_voice_check(a,voice,30,repeat('0',64),public.direct_audio_object_identity(a,voice));set local role authenticated;
  insert into public.direct_messages(id,conversation_id,sender_id,kind,audio_path,duration_seconds) values(voice_id,conversation,a,'audio',voice,30);
  failure:=false;begin insert into public.direct_messages(id,conversation_id,sender_id,kind,audio_path,duration_seconds) values(gen_random_uuid(),conversation,a,'audio',voice,61);exception when insufficient_privilege or check_violation then failure:=true;end;assert failure,'Voice over a minute is rejected';
  failure:=false;begin insert into public.direct_messages(id,conversation_id,sender_id,kind,body) values(gen_random_uuid(),conversation,a,'text',null);exception when check_violation then failure:=true;end;assert failure,'NULL cannot bypass message payload checks';
@@ -89,8 +91,28 @@ begin
  assert exists(select 1 from public.direct_messages where id=message_id),'Maintenance keeps current messages';
  assert exists(select 1 from private.direct_audio_cleanup q where q.path=voice),'Failed Storage cleanup can retry the queued path';
  perform public.complete_direct_audio_cleanup(array[voice]);
+ assert exists(select 1 from private.direct_audio_cleanup q where q.path=voice),'Old signed voice URLs reserve their paths for one minute';
+ -- Simulate the Storage API only for metadata-only fixtures in this rollback.
+ perform set_config('storage.allow_delete_query','true',true);
+ delete from storage.objects where bucket_id='direct-audio' and name=voice;
+ perform set_config('storage.allow_delete_query','false',true);
+ set local role authenticated;
+ failure:=false;begin insert into storage.objects(bucket_id,name,owner_id,metadata) values('direct-audio',voice,a::text,'{"mimetype":"audio/mp4"}');exception when insufficient_privilege then failure:=true;end;assert failure,'Deleted queued audio cannot be replaced at the same signed path';
+ reset role;update private.direct_audio_cleanup q set enqueued_at=now()-interval '61 seconds' where q.path=voice;
+ perform public.complete_direct_audio_cleanup(array[voice]);
  assert not exists(select 1 from private.direct_audio_cleanup q where q.path=voice),'Successful cleanup acknowledges the queue';
  set local role authenticated;
+ -- Active audio is also tied to its object, without relying on a filename.
+ insert into storage.objects(bucket_id,name,owner_id,metadata) values('direct-audio',voice,a::text,'{"mimetype":"audio/mp4"}');
+ reset role;perform public.record_direct_voice_check(a,voice,30,repeat('0',64),public.direct_audio_object_identity(a,voice));set local role authenticated;
+ insert into public.direct_messages(id,conversation_id,sender_id,kind,audio_path,duration_seconds,audio_object_id) values(voice_id,conversation,a,'audio',voice,30,gen_random_uuid());
+ reset role;assert (select audio_object_id=public.direct_audio_object_identity(a,voice) from public.direct_messages where id=voice_id),'Server overrides a client-supplied audio object ID';set local role authenticated;
+ -- Simulate the Storage API only for metadata-only fixtures in this rollback.
+ perform set_config('storage.allow_delete_query','true',true);
+ delete from storage.objects where bucket_id='direct-audio' and name=voice;
+ perform set_config('storage.allow_delete_query','false',true);
+ assert not exists(select 1 from public.direct_messages where id=voice_id),'Deleting the exact audio object removes its live message';
+ failure:=false;begin insert into storage.objects(bucket_id,name,owner_id,metadata) values('direct-audio',voice,a::text,'{"mimetype":"audio/mp4"}');exception when insufficient_privilege then failure:=true;end;assert failure,'A sent voice file cannot be swapped after validation';
 
  perform public.save_community_post(test_post,'','en',path,'image',null);
  assert (select content_type='image' and brew_method is null and body is null from public.posts where id=test_post),'Photo-only post does not invent espresso or filler text';
