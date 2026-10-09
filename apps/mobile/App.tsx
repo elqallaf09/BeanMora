@@ -254,13 +254,20 @@ function Shell() {
   }, [data, userId]);
   useEffect(() => setAssistantConversation({ owner: userId, turns: [] }), [userId]);
   const savedIds = saved?.owner === userId ? saved.ids : [];
-  function navigate(next: Tab) {
+  function navigate(next: Tab, recipeMethod?: Method) {
     if (next !== 'account') loginReturn.current = null;
     setDetail(null);
     setParents([]);
     setRecording(false);
     setMeasuredSeconds(undefined);
-    if (next === 'recipes') setRecipeEntry((n) => n + 1);
+    if (next === 'recipes') {
+      // A deliberate library/method entry changes only the method. Detail Back
+      // bypasses navigate, retaining every typed field and selected filter.
+      const remembered = recipeMemory.current.get('recipes:all');
+      if (remembered) recipeMemory.current.set('recipes:all', { ...remembered, method: recipeMethod });
+      setMethod(recipeMethod);
+      setRecipeEntry((n) => n + 1);
+    }
     setTab(next);
     setSearch('');
     setRecipeCoffee(null);
@@ -742,8 +749,7 @@ function Shell() {
                   openRecipe={openRecipe}
                   addToBags={(item) => void addToBags(item)}
                   browseRecipes={(brewMethod) => {
-                    setMethod(brewMethod);
-                    navigate('recipes');
+                    navigate('recipes', brewMethod);
                     setRecipeCoffee(detail.item);
                   }}
                 />
@@ -922,8 +928,7 @@ function Shell() {
                   coffees={coffees}
                   method={method}
                   setMethod={(value) => {
-                    setMethod(value);
-                    navigate('recipes');
+                    navigate('recipes', value);
                   }}
                   openCoffee={openCoffee}
                   browse={() => navigate('search')}
