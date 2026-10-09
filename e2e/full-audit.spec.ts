@@ -12,10 +12,13 @@ function pages(dir: string): string[] {
   });
 }
 const uuid = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+// Home starts deferred RSC prefetches after rendering. Finish the inventory
+// there so its document stays alive; release-smoke covers real SPA navigation
+// from home. Keep every route and every pageerror assertion in this sweep.
 const routes = pages(routeRoot).map(path => '/' + relative(routeRoot, path).split(/[\\/]/).slice(0, -1)
   .filter(segment => !segment.startsWith('('))
   .map(segment => segment === '[id]' ? uuid : segment === '[slug]' ? 'locale-fixture' : segment === '[username]' ? 'fixture_barista' : segment)
-  .join('/')).sort();
+  .join('/')).sort((a, b) => Number(a === '/home') - Number(b === '/home') || a.localeCompare(b));
 
 async function fixtureSignInAt(page: Page, locale: 'ar' | 'en', path: string) {
   const m = locale === 'ar' ? ar : en;
@@ -34,7 +37,7 @@ async function fixtureSignInAt(page: Page, locale: 'ar' | 'en', path: string) {
 for (const locale of ['ar', 'en'] as const) test(`${locale}: every page route renders or enforces its access boundary`, async ({ page }, info) => {
   test.setTimeout(150000);
   const errors: string[] = [], observations: { path: string; status: number; destination: string; ms: number }[] = [];
-  page.on('pageerror', error => errors.push(error.message));
+  page.on('pageerror', error => errors.push(`${page.url()}: ${error.message}`));
   await page.context().route('**/*', route => {
     const url = new URL(route.request().url());
     return url.hostname === '127.0.0.1' || ['data:', 'blob:'].includes(url.protocol) ? route.continue() : route.abort();
@@ -54,13 +57,6 @@ for (const locale of ['ar', 'en'] as const) test(`${locale}: every page route re
     }
     await page.waitForLoadState('networkidle');
     observations.push({ path, status: response!.status(), destination: new URL(page.url()).pathname, ms: Date.now() - started });
-    if (route === '/home') {
-      // An SPA navigation preserves the document while deferred home prefetches
-      // settle. A timed idle wait alone can finish before those requests start.
-      await page.locator(`a[href="/${locale}/discover"]:visible`).first().click();
-      await expect(page).toHaveURL(`http://127.0.0.1:3000/${locale}/discover`);
-      await page.waitForLoadState('networkidle');
-    }
   }
   await info.attach('all-page-routes', { body: JSON.stringify(observations), contentType: 'application/json' });
   expect(errors).toEqual([]);
