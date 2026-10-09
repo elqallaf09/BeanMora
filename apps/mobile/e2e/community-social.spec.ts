@@ -23,7 +23,7 @@ async function fixture(page: Page, { reviewer = false, expiresSoon = false } = {
   const messages: Record<string, any>[] = expiresSoon ? [{ id: '99999999-9999-4999-8999-999999999999', conversation_id: thread, sender_id: other, kind: 'text', body: 'Short-lived test message', post_id: null, audio_path: null, duration_seconds: null, created_at: date(), expires_at: new Date(Date.now() + 12000).toISOString() }] : [];
   const stories: Record<string, any>[] = [];
   let photos: Record<string, any>[] = [{ id: galleryId, kind: 'extraction', image_url: 'storage://profile-gallery/' + uid + '/initial.png', image_path: uid + '/initial.png', caption: 'Original coffee extraction', created_at: date() }];
-  let audience = 'everyone', allowed = true, failPost = false, failSend = false, failPhoto = false;
+  let audience = 'everyone', allowed = true, blocked = false, failPost = false, failSend = false, failPhoto = false;
   const postWrites: Record<string, any>[] = [], messageWrites: Record<string, any>[] = [], uploads: { bucket: string; path: string; bytes: Buffer }[] = [], profilePostQueries: URLSearchParams[] = [];
   const reply = (r: Route, data: unknown, status = 200) => r.fulfill({ status, contentType: 'application/json', headers: { 'x-supabase-api-version': '2024-01-01', 'access-control-expose-headers': 'x-supabase-api-version' }, body: JSON.stringify(data) });
   await page.route('https://social-photo-fixture.test/**', r => r.fulfill({ contentType: 'image/png', body: png }));
@@ -76,7 +76,8 @@ async function fixture(page: Page, { reviewer = false, expiresSoon = false } = {
       }
       return reply(r, [...messages].filter(m => Date.parse(m.expires_at) > Date.now()).reverse());
     }
-    if (p.endsWith('/blocks') && method === 'POST') { allowed = false; return reply(r, body()); }
+    if (p.endsWith('/blocks') && method === 'POST') { const duplicate = blocked; blocked = true; allowed = false; return reply(r, failSend ? { message: 'response lost after successful block' } : duplicate ? [] : body(), failSend ? 503 : 200); }
+    if (p.endsWith('/blocks')) { expect(url.searchParams.get('blocker_id')).toBe('eq.' + uid); if (url.searchParams.has('blocked_id')) expect(url.searchParams.get('blocked_id')).toBe('eq.' + other); return reply(r, blocked ? [{ blocker_id: uid, blocked_id: other }] : []); }
     if (p.endsWith('/direct_message_preferences')) {
       if (method === 'POST') audience = body().audience;
       return reply(r, { audience });
@@ -392,9 +393,17 @@ test('DM editing keeps original expiry, failed changes keep drafts, deletion and
   await page.getByRole('button', { name: 'Confirm delete message', exact: true }).click();
   await expect(row).toHaveCount(0); expect(f.messages).toHaveLength(0);
   await page.getByRole('button', { name: 'Block this member', exact: true }).click();
+  f.failSend(true);
   await page.getByRole('button', { name: 'Confirm block', exact: true }).click();
+  await expect(page.getByTestId('confirm-dialog').getByRole('alert')).toBeVisible();
+  f.failSend(false);
+  await page.getByRole('button', { name: 'Confirm block', exact: true }).click();
+  await expect(page.getByTestId('confirm-dialog')).toHaveCount(0);
   await expect(page.getByLabel('Your message', { exact: true })).toHaveCount(0);
   await expect(page.getByText('Messages are closed or available only to this account’s followers.', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Block this member', exact: true }).click();
+  await page.getByRole('button', { name: 'Confirm block', exact: true }).click();
+  await expect(page.getByTestId('confirm-dialog')).toHaveCount(0);
 });
 
 test('profile extras are visible directly and the message entry is an icon above the profile', async ({ page }, info) => {
