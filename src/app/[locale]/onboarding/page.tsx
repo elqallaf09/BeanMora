@@ -29,6 +29,7 @@ function toggle<T>(list: T[], value: T): T[] {
 
 export default function OnboardingPage() {
   const t = useTranslations("onboarding");
+  const tAuth = useTranslations("auth");
   const tCommon = useTranslations("common");
   const router = useRouter();
 
@@ -108,7 +109,7 @@ export default function OnboardingPage() {
                     : "border-[var(--color-border,#ece1d3)] text-[var(--color-dark-text)]",
                 )}
               >
-                {t(`experience${level.charAt(0).toUpperCase()}${level.slice(1)}` as never)}
+                {tAuth(`experience${level.charAt(0).toUpperCase()}${level.slice(1)}` as never)}
               </button>
             ))}
           </div>

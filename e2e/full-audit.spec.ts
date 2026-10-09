@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { readdirSync } from 'node:fs';
 import { join, relative } from 'node:path';
+import ar from '../messages/ar.json';
+import en from '../messages/en.json';
 
 const routeRoot = join(process.cwd(), 'src/app/[locale]');
 function pages(dir: string): string[] {
@@ -26,6 +28,9 @@ for (const locale of ['ar', 'en']) test(`${locale}: every page route renders or 
   await page.goto(`/${locale}/login`);
   await page.getByRole('button', { name: locale === 'ar' ? 'الدخول كضيف' : 'Continue as guest', exact: true }).click();
   await expect(page).toHaveURL(new RegExp(`/${locale}/home$`));
+  // Settle home RSC prefetches before a hard navigation unloads WebKit's document.
+  // Keep the pageerror assertion intact so application failures still fail the test.
+  await page.waitForLoadState('networkidle');
   for (const route of routes) {
     const path = `/${locale}${route}`, started = Date.now();
     const response = await page.goto(path);
@@ -68,6 +73,7 @@ for (const locale of ['ar', 'en']) test(`${locale}: incorrect-info button opens 
   await page.goto(`/${locale}/login`);
   await page.getByRole('button', { name: locale === 'ar' ? 'الدخول كضيف' : 'Continue as guest', exact: true }).click();
   await expect(page).toHaveURL(new RegExp(`/${locale}/home$`));
+  await page.waitForLoadState('networkidle');
   await page.goto(`/${locale}/beans/locale-fixture`);
   await page.getByRole('link', { name: locale === 'ar' ? 'إبلاغ عن معلومة غير صحيحة' : 'Report incorrect info', exact: true }).click();
   await expect(page).toHaveURL(new RegExp(`/${locale}/beans/locale-fixture/report$`));
@@ -97,6 +103,7 @@ for (const locale of ['ar', 'en']) test(`${locale}: discover filter button opens
   await page.goto(`/${locale}/login`);
   await page.getByRole('button', { name: locale === 'ar' ? 'الدخول كضيف' : 'Continue as guest', exact: true }).click();
   await expect(page).toHaveURL(new RegExp(`/${locale}/home$`));
+  await page.waitForLoadState('networkidle');
   await page.goto(`/${locale}/discover?category=beans`);
   const name = locale === 'ar' ? 'الفلاتر' : 'Filters';
   await page.getByRole('button', { name, exact: true }).click();
@@ -110,5 +117,35 @@ for (const locale of ['ar', 'en']) test(`${locale}: discover filter button opens
   await expect(dialog).toBeVisible();
   await dialog.getByRole('button', { name: locale === 'ar' ? 'إعادة تعيين' : 'Reset', exact: true }).click();
   await expect(page).toHaveURL(new RegExp(`/${locale}/discover\\?category=beans$`));
+  expect(errors).toEqual([]);
+});
+
+for (const locale of ['ar', 'en'] as const) test(`${locale}: onboarding options stay translated through every step`, async ({ page }) => {
+  const m = locale === 'ar' ? ar : en, errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto(`/${locale}/login`);
+  await page.getByRole('button', { name: locale === 'ar' ? 'الدخول كضيف' : 'Continue as guest', exact: true }).click();
+  await expect(page).toHaveURL(new RegExp(`/${locale}/home$`));
+  await page.waitForLoadState('networkidle');
+  await page.goto(`/${locale}/onboarding`);
+  for (const label of [m.auth.experienceBeginner, m.auth.experienceIntermediate, m.auth.experienceAdvanced, m.auth.experienceBarista]) {
+    await expect(page.getByRole('button', { name: label, exact: true })).toBeVisible();
+  }
+  await page.getByRole('button', { name: m.auth.experienceBeginner, exact: true }).click();
+  await page.getByRole('button', { name: m.common.next, exact: true }).click();
+  for (const [key, label] of Object.entries(m.onboarding).filter(([key]) => key.startsWith('method'))) {
+    await expect(page.getByRole('button', { name: label, exact: true }), key).toBeVisible();
+  }
+  await page.getByRole('button', { name: m.onboarding.methodV60, exact: true }).click();
+  await page.getByRole('button', { name: m.common.next, exact: true }).click();
+  for (const [key, label] of Object.entries(m.onboarding).filter(([key]) => key.startsWith('flavor'))) {
+    await expect(page.getByRole('button', { name: label, exact: true }), key).toBeVisible();
+  }
+  await page.getByRole('button', { name: m.onboarding.flavorFruity, exact: true }).click();
+  await page.getByRole('button', { name: m.common.next, exact: true }).click();
+  for (const [key, label] of Object.entries(m.onboarding).filter(([key]) => key.startsWith('roast'))) {
+    await expect(page.getByRole('button', { name: label, exact: true }), key).toBeVisible();
+  }
+  await expect(page.getByRole('button', { name: m.common.done, exact: true })).toBeVisible();
   expect(errors).toEqual([]);
 });
