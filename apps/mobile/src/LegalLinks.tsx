@@ -1,3 +1,4 @@
+import { contentLocale } from './localeText';
 import { useContext, useState } from 'react';
 import { Modal, Pressable, ScrollView, View } from './native';
 import { SafeAreaView } from './native';
@@ -6,10 +7,10 @@ import {
   legalUpdated,
   type LegalKind,
 } from './core/legal-content';
-import { Action, Language, Txt, colors, styles } from './ui';
+import { Action, Language, Txt, colors, styles, useLabels } from './ui';
 
 export function LegalLinks() {
-  const locale = useContext(Language);
+  const uiLocale = useContext(Language), locale = contentLocale(uiLocale), L = useLabels();
   const [open, setOpen] = useState<LegalKind | null>(null);
   const document = open ? legalContent[locale][open] : null;
   return (
@@ -36,7 +37,7 @@ export function LegalLinks() {
             <Txt
               style={{ color: colors.teal, textDecorationLine: 'underline' }}
             >
-              {legalContent[locale][kind].title}
+              {kind === 'privacy' ? L('سياسة الخصوصية', 'Privacy policy') : L('شروط الاستخدام', 'Terms of use')}
             </Txt>
           </Pressable>
         ))}
@@ -59,8 +60,9 @@ export function LegalLinks() {
             <Txt heading style={styles.title}>
               {document?.title}
             </Txt>
+            {uiLocale === 'ja' ? <Txt style={styles.muted}>この文書は現在英語で表示されます。</Txt> : null}
             <Txt style={styles.muted}>
-              {locale === 'ar' ? 'آخر تحديث: ' : 'Updated: '}
+              {L('آخر تحديث: ', 'Updated: ')}
               {legalUpdated}
             </Txt>
             {document?.sections.map(([title, body]) => (
@@ -72,7 +74,7 @@ export function LegalLinks() {
               </View>
             ))}
             <Action
-              title={locale === 'ar' ? 'إغلاق' : 'Close'}
+              title={L('إغلاق', 'Close')}
               onPress={() => setOpen(null)}
               selected
             />

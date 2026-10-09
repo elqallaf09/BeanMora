@@ -1,3 +1,4 @@
+import { contentLocale } from './localeText';
 import { useContext, useEffect, useState } from "react";
 import { View } from "./native";
 import { loadEquipment, type EquipmentItem } from "./catalog";
@@ -127,7 +128,7 @@ export function GrinderPicker({
             {ar ? "بداية المصنع: " : "Manufacturer start: "}
             {start.setting}
           </Txt>
-          <Txt style={styles.muted}>{start.note[locale]}</Txt>
+          <Txt style={styles.muted}>{start.note[contentLocale(locale)]}</Txt>
           <SourceLink
             compact
             title={ar ? "مصدر درجات الطحن" : "Grind setting source"}

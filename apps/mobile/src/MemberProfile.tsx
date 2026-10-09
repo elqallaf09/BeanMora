@@ -9,7 +9,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { randomUUID } from "expo-crypto";
 import { supabase } from "./client";
-import {
+import { useLabels,
   Action,
   Field,
   Icon,
@@ -33,6 +33,7 @@ import { catalogName, methodLabel } from "./localizedContent";
 import { useContentMedia } from "./useContentMedia";
 import { CatalogPhoto } from "./CatalogPhoto";
 import { safeUrl } from "./guards";
+import { accountCountryFlag, accountCountryName } from './core/account-profile';
 import {
   contributionImage,
   uploadContributionImage,
@@ -55,6 +56,7 @@ export function MemberDirectory({
   open: (username: string) => void;
 }) {
   const ar = useContext(Language) === "ar";
+  const L = useLabels();
   const [query, setQuery] = useState(""),
     [rows, setRows] = useState<MemberIdentity[]>([]),
     [offset, setOffset] = useState(0),
@@ -103,11 +105,11 @@ export function MemberDirectory({
       }}
     >
       <Txt heading style={styles.title}>
-        {ar ? "حسابات coffeeHO" : "coffeeHO accounts"}
+        {L("حسابات coffeeHO", "coffeeHO accounts")}
       </Txt>
       <Field
         label={
-          ar ? "ابحث بالاسم أو اسم المستخدم" : "Search by name or username"
+          L("ابحث بالاسم أو اسم المستخدم", "Search by name or username")
         }
         value={query}
         onChangeText={(v) => {
@@ -122,17 +124,17 @@ export function MemberDirectory({
       ))}
       {failed ? (
         <Action
-          title={ar ? "إعادة تحميل الحسابات" : "Retry accounts"}
+          title={L("إعادة تحميل الحسابات", "Retry accounts")}
           onPress={() => setRevision((n) => n + 1)}
         />
       ) : !busy && !rows.length ? (
-        <Txt>{ar ? "لا توجد حسابات مطابقة." : "No matching accounts."}</Txt>
+        <Txt>{L("لا توجد حسابات مطابقة.", "No matching accounts.")}</Txt>
       ) : null}
       {busy ? (
-        <Txt>{ar ? "جارٍ التحميل…" : "Loading…"}</Txt>
+        <Txt>{L("جارٍ التحميل…", "Loading…")}</Txt>
       ) : more ? (
         <Action
-          title={ar ? "حسابات إضافية" : "More accounts"}
+          title={L("حسابات إضافية", "More accounts")}
           onPress={() => setOffset((n) => n + 24)}
         />
       ) : null}
@@ -147,6 +149,7 @@ function MemberLink({
   open: (username: string) => void;
 }) {
   const ar = useContext(Language) === "ar";
+  const L = useLabels();
   return (
     <Pressable
       accessibilityRole="button"
@@ -168,12 +171,8 @@ function MemberLink({
         <Txt style={styles.muted}>
           @{member.username} ·{" "}
           {member.is_private
-            ? ar
-              ? "حساب خاص"
-              : "Private account"
-            : ar
-              ? "حساب عام"
-              : "Public account"}
+            ? L("حساب خاص", "Private account")
+            : L("حساب عام", "Public account")}
         </Txt>
       </View>
       <Icon name="arrow" size={18} color={colors.muted} />
@@ -222,6 +221,7 @@ function CollectionPhoto({
 type Props = {
   userId: string | null;
   username?: string;
+  refreshKey?: number;
   openMember: (username: string) => void;
   openItem: (
     kind: "recipe" | "bean" | "product" | "equipment",
@@ -238,6 +238,7 @@ type Props = {
 export function MemberProfile({
   userId,
   username,
+  refreshKey = 0,
   openMember,
   openItem,
   manage,
@@ -246,6 +247,7 @@ export function MemberProfile({
 }: Props) {
   const locale = useContext(Language),
     ar = locale === "ar";
+  const L = useLabels();
   const { width } = useWindowDimensions();
   const [data, setData] = useState<MemberProfileData | null>(null),
     [busy, setBusy] = useState(false),
@@ -254,6 +256,7 @@ export function MemberProfile({
     [revision, setRevision] = useState(0),
     [tab, setTab] = useState("equipment"),
     [editing, setEditing] = useState(false);
+  const [bioExpanded, setBioExpanded] = useState(false);
   const [notice, setNotice] = useState("");
   const [moreSections, setMoreSections] = useState(true);
   const [draft, setDraft] = useState({
@@ -303,7 +306,7 @@ export function MemberProfile({
     })()
       .catch(() => {
         if (active)
-          setError(ar ? "تعذّر تحميل الملف." : "Could not load profile.");
+          setError(L("تعذّر تحميل الملف.", "Could not load profile."));
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -311,7 +314,7 @@ export function MemberProfile({
     return () => {
       active = false;
     };
-  }, [username, userId, revision, ar]);
+  }, [username, userId, revision, ar, refreshKey]);
   const run = async (action: () => Promise<void>) => {
     if (busy) return;
     setBusy(true);
@@ -322,16 +325,10 @@ export function MemberProfile({
       const code = e instanceof Error ? e.message : "";
       setError(
         code === "USERNAME_TAKEN"
-          ? ar
-            ? "اسم المستخدم مستخدم؛ اختر اسمًا آخر."
-            : "Username is taken. Choose another."
+          ? L("اسم المستخدم مستخدم؛ اختر اسمًا آخر.", "Username is taken. Choose another.")
           : code === "PROFILE_FIELDS"
-            ? ar
-              ? "أدخل اسمًا من حرفين واسم مستخدم من ٣ إلى ٣٠ حرفًا إنجليزيًا صغيرًا أو رقمًا أو شرطة سفلية."
-              : "Use a name of at least 2 characters and a username of 3–30 lowercase letters, numbers or underscores."
-            : ar
-              ? "تعذّر تأكيد العملية. تحقق من الاتصال وأعد المحاولة."
-              : "Could not confirm the action. Check your connection and retry.",
+            ? L("أدخل اسمًا من حرفين واسم مستخدم من ٣ إلى ٣٠ حرفًا إنجليزيًا صغيرًا أو رقمًا أو شرطة سفلية.", "Use a name of at least 2 characters and a username of 3–30 lowercase letters, numbers or underscores.")
+            : L("تعذّر تأكيد العملية. تحقق من الاتصال وأعد المحاولة.", "Could not confirm the action. Check your connection and retry."),
       );
     } finally {
       setBusy(false);
@@ -354,22 +351,20 @@ export function MemberProfile({
       setRights(false);
     } catch {
       setError(
-        ar
-          ? "اختر صورة JPEG أو PNG أو WebP لا تتجاوز ٥ ميغابايت."
-          : "Choose JPEG, PNG or WebP under 5 MB.",
+        L("اختر صورة JPEG أو PNG أو WebP لا تتجاوز ٥ ميغابايت.", "Choose JPEG, PNG or WebP under 5 MB."),
       );
     }
   };
   if (loading)
-    return <Txt>{ar ? "جارٍ تحميل الملف…" : "Loading profile…"}</Txt>;
+    return <Txt>{L("جارٍ تحميل الملف…", "Loading profile…")}</Txt>;
   if (!data)
     return (
       <View style={{ gap: 12 }}>
         <Txt>
-          {error || (ar ? "لم يُعثر على الحساب." : "Account not found.")}
+          {error || (L("لم يُعثر على الحساب.", "Account not found."))}
         </Txt>
         <Action
-          title={ar ? "إعادة المحاولة" : "Retry profile"}
+          title={L("إعادة المحاولة", "Retry profile")}
           onPress={() => setRevision((n) => n + 1)}
         />
       </View>
@@ -426,7 +421,7 @@ export function MemberProfile({
                       : current,
                   );
                   setNotice(
-                    ar ? "تم حفظ الصورة الشخصية." : "Profile photo saved.",
+                    L("تم حفظ الصورة الشخصية.", "Profile photo saved."),
                   );
                 }}
               />
@@ -448,7 +443,7 @@ export function MemberProfile({
             <View style={{ maxWidth: wide ? 240 : "62%", paddingBottom: 6 }}>
               {own ? (
                 <ProfileAction
-                  title={ar ? "تعديل الملف" : "Edit profile"}
+                  title={L("تعديل الملف", "Edit profile")}
                   icon="edit"
                   disabled={busy}
                   onPress={() => {
@@ -462,16 +457,10 @@ export function MemberProfile({
                   disabled={busy}
                   title={
                     data.relationship === "accepted"
-                      ? ar
-                        ? "إلغاء المتابعة"
-                        : "Unfollow"
+                      ? L("إلغاء المتابعة", "Unfollow")
                       : data.relationship === "pending"
-                        ? ar
-                          ? "إلغاء طلب المتابعة"
-                          : "Cancel follow request"
-                        : ar
-                          ? "متابعة"
-                          : "Follow"
+                        ? L("إلغاء طلب المتابعة", "Cancel follow request")
+                        : L("متابعة", "Follow")
                   }
                   onPress={() => {
                     if (!userId) {
@@ -492,7 +481,7 @@ export function MemberProfile({
               )}
             </View>
           </View>
-          {messages && !own ? <View style={{ alignSelf: ar ? "flex-end" : "flex-start" }}><IconButton name="inbox" label={ar ? "رسالة خاصة" : "Direct message"} onPress={() => { if (!userId) login(); else messages(own ? undefined : p); }} /></View> : null}
+          {messages && !own ? <View style={{ alignSelf: ar ? "flex-end" : "flex-start" }}><IconButton name="inbox" label={L("رسالة خاصة", "Direct message")} onPress={() => { if (!userId) login(); else messages(own ? undefined : p); }} /></View> : null}
           <View
             style={{
               gap: 2,
@@ -528,9 +517,7 @@ export function MemberProfile({
                 accessibilityRole={own ? "button" : undefined}
                 accessibilityLabel={
                   own
-                    ? ar
-                      ? "تغيير اسم المستخدم"
-                      : "Change username"
+                    ? L("تغيير اسم المستخدم", "Change username")
                     : undefined
                 }
                 disabled={!own || busy}
@@ -556,6 +543,9 @@ export function MemberProfile({
                   @{p.username}
                 </Txt>
               </Pressable>
+              {accountCountryFlag(p.country) ? <View testID="profile-country-flag" accessible accessibilityLabel={accountCountryName(p.country, locale)}>
+                <Txt style={{ fontSize: 20 }}>{accountCountryFlag(p.country)}</Txt>
+              </View> : null}
               <View
                 style={{
                   flexDirection: ar ? "row-reverse" : "row",
@@ -570,16 +560,20 @@ export function MemberProfile({
                 />
                 <Txt style={styles.muted}>
                   {p.is_private
-                    ? ar
-                      ? "حساب خاص"
-                      : "Private account"
-                    : ar
-                      ? "حساب عام"
-                      : "Public account"}
+                    ? L("حساب خاص", "Private account")
+                    : L("حساب عام", "Public account")}
                 </Txt>
               </View>
             </View>
-            {p.bio ? <Txt numberOfLines={3}>{p.bio}</Txt> : null}
+            <View testID="profile-bio" style={{ gap: 4 }}>
+              {p.bio ? <>
+                <Txt numberOfLines={bioExpanded ? undefined : 3}>{p.bio}</Txt>
+                {p.bio.length > 160 || p.bio.includes('\n') ? <Action compact title={bioExpanded ? L('عرض أقل', 'Show less') : L('عرض النبذة كاملة', 'Show full bio')} onPress={() => setBioExpanded(v => !v)} /> : null}
+              </> : null}
+              {own && !editing ? <View style={{ alignSelf: ar ? 'flex-end' : 'flex-start' }}>
+                <Action compact title={p.bio ? L('تعديل النبذة', 'Edit bio') : L('أضف نبذة عنك', 'Add a bio')} disabled={busy} onPress={() => { setEditing(true); setNotice(''); }} />
+              </View> : null}
+            </View>
           </View>
           <View
             style={{
@@ -591,13 +585,13 @@ export function MemberProfile({
           >
             <ProfileCount
               count={data.follower_count}
-              label={ar ? "متابع" : "followers"}
+              label={L("متابع", "followers")}
               onPress={() => selectSection("followers")}
             />
             <Txt style={styles.muted}>·</Txt>
             <ProfileCount
               count={data.following_count}
-              label={ar ? "أتابع" : "following"}
+              label={L("أتابع", "following")}
               onPress={() => selectSection("following")}
             />
           </View>
@@ -616,14 +610,14 @@ export function MemberProfile({
       {own && editing ? (
         <View style={[styles.card, { padding: 15, gap: 12 }]}>
           <Field
-            label={ar ? "الاسم" : "Name"}
+            label={L("الاسم", "Name")}
             value={draft.name}
             onChangeText={(name) => setDraft((v) => ({ ...v, name }))}
             maxLength={100}
             editable={!busy}
           />
           <Field
-            label={ar ? "اسم المستخدم" : "Username"}
+            label={L("اسم المستخدم", "Username")}
             value={draft.username}
             onChangeText={(username) => setDraft((v) => ({ ...v, username }))}
             autoCapitalize="none"
@@ -632,41 +626,38 @@ export function MemberProfile({
             editable={!busy}
           />
           <Txt style={styles.muted}>
-            {ar
-              ? "من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية. يظهر اسم المستخدم في ملفك وبحث coffeeHO."
-              : "3–30 letters, numbers or underscores. Your username appears on your profile and in coffeeHO search."}
+            {L("من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية. يظهر اسم المستخدم في ملفك وبحث coffeeHO.", "3–30 letters, numbers or underscores. Your username appears on your profile and in coffeeHO search.")}
           </Txt>
           <Field
-            label={ar ? "نبذة عني" : "Bio"}
+            label={L("نبذة عني", "Bio")}
             value={draft.bio}
             onChangeText={(bio) => setDraft((v) => ({ ...v, bio }))}
             multiline
             maxLength={2000}
             editable={!busy}
+            placeholder={L('عرّف بنفسك واهتماماتك بالقهوة…', 'Tell us about yourself and your coffee interests…', 'あなた自身やコーヒーの好みを紹介しましょう…')}
+            style={{ minHeight: 96, textAlignVertical: 'top' }}
           />
+          <Txt style={styles.muted}>{draft.bio.length} / 2000</Txt>
           <View style={styles.row}>
             <Action
-              title={ar ? "عام" : "Public"}
+              title={L("عام", "Public")}
               selected={!draft.is_private}
               onPress={() => setDraft((v) => ({ ...v, is_private: false }))}
             />
             <Action
-              title={ar ? "خاص" : "Private"}
+              title={L("خاص", "Private")}
               selected={draft.is_private}
               onPress={() => setDraft((v) => ({ ...v, is_private: true }))}
             />
           </View>
           <Txt style={styles.muted}>
-            {ar
-              ? "الاسم واسم المستخدم ظاهران في البحث. الحساب الخاص يعرض محتوى ملفك للمتابعين المقبولين فقط."
-              : "Name and username remain searchable. Private profile content is visible only to approved followers."}
+            {L("الاسم واسم المستخدم ظاهران في البحث. الحساب الخاص يعرض محتوى ملفك للمتابعين المقبولين فقط.", "Name and username remain searchable. Private profile content is visible only to approved followers.")}
           </Txt>
           <Pressable
             accessibilityRole="checkbox"
             accessibilityLabel={
-              ar
-                ? "مشاركة معداتي والبن والمفضلة"
-                : "Share equipment, coffee and favorites"
+              L("مشاركة معداتي والبن والمفضلة", "Share equipment, coffee and favorites")
             }
             accessibilityState={{ checked: draft.share_collection }}
             onPress={() =>
@@ -676,15 +667,13 @@ export function MemberProfile({
           >
             <Txt>
               {(draft.share_collection ? "☑ " : "☐ ") +
-                (ar
-                  ? "عرض معداتي والبن والمفضلة لمن يستطيع مشاهدة ملفي"
-                  : "Show equipment, coffee and favorites to people who can view my profile")}
+                (L("عرض معداتي والبن والمفضلة لمن يستطيع مشاهدة ملفي", "Show equipment, coffee and favorites to people who can view my profile"))}
             </Txt>
           </Pressable>
           <Action
             selected
             disabled={busy}
-            title={ar ? "حفظ الملف" : "Save profile"}
+            title={L("حفظ الملف", "Save profile")}
             onPress={() =>
               void run(async () => {
                 const handle = await updateMemberProfile(
@@ -694,9 +683,7 @@ export function MemberProfile({
                 );
                 setEditing(false);
                 setNotice(
-                  ar
-                    ? "تم تحديث الاسم واسم المستخدم وإعدادات الملف."
-                    : "Name, username and profile settings updated.",
+                  L("تم تحديث الاسم واسم المستخدم وإعدادات الملف.", "Name, username and profile settings updated."),
                 );
                 if (username && handle !== username) openMember(handle);
                 else setRevision((n) => n + 1);
@@ -704,7 +691,7 @@ export function MemberProfile({
             }
           />
           <Action
-            title={ar ? "إلغاء التعديل" : "Cancel editing"}
+            title={L("إلغاء التعديل", "Cancel editing")}
             disabled={busy}
             onPress={() => {
               setDraft({
@@ -722,13 +709,13 @@ export function MemberProfile({
       ) : null}
       {own && (data.requests?.length ?? 0) > 0 ? (
         <View style={{ gap: 9 }}>
-          <Txt heading>{ar ? "طلبات المتابعة" : "Follow requests"}</Txt>
+          <Txt heading>{L("طلبات المتابعة", "Follow requests")}</Txt>
           {data.requests!.map((r) => (
             <View key={r.id} style={styles.card}>
               <MemberLink member={r} open={openMember} />
               <View style={styles.row}>
                 <Action
-                  title={ar ? "قبول" : "Accept"}
+                  title={L("قبول", "Accept")}
                   disabled={busy}
                   onPress={() =>
                     void run(async () => {
@@ -743,7 +730,7 @@ export function MemberProfile({
                   }
                 />
                 <Action
-                  title={ar ? "رفض" : "Decline"}
+                  title={L("رفض", "Decline")}
                   disabled={busy}
                   onPress={() =>
                     void run(async () => {
@@ -764,9 +751,7 @@ export function MemberProfile({
       ) : null}
       {!data.can_view ? (
         <Txt>
-          {ar
-            ? "هذا الحساب خاص. أرسل طلب متابعة لعرض تفاصيله بعد الموافقة."
-            : "This account is private. Request to follow to view details after approval."}
+          {L("هذا الحساب خاص. أرسل طلب متابعة لعرض تفاصيله بعد الموافقة.", "This account is private. Request to follow to view details after approval.")}
         </Txt>
       ) : (
         <>
@@ -784,25 +769,25 @@ export function MemberProfile({
                 [
                   "equipment",
                   data.equipment?.length ?? 0,
-                  ar ? "معدات القهوة" : "Equipment",
+                  L("معدات القهوة", "Equipment"),
                   "gear",
                 ],
                 [
                   "beans",
                   data.beans?.length ?? 0,
-                  ar ? "أكياس البن" : "Coffee bags",
+                  L("أكياس البن", "Coffee bags"),
                   "bean",
                 ],
                 [
                   "recipes",
                   data.recipes?.length ?? 0,
-                  ar ? "وصفاتي" : "My recipes",
+                  L("وصفاتي", "My recipes"),
                   "espresso",
                 ],
                 [
                   "photos",
                   data.photos?.length ?? 0,
-                  ar ? "الركن والاستخلاص" : "Corner & brews",
+                  L("الركن والاستخلاص", "Corner & brews"),
                   "eye",
                 ],
               ] as const
@@ -877,7 +862,7 @@ export function MemberProfile({
                 onChange={selectSection}
                 items={sections.slice(0, 4).map((section) => ({
                   id: section[0],
-                  label: section[ar ? 1 : 2],
+                  label: L(section[1], section[2]),
                 }))}
               />
             </View>
@@ -890,16 +875,16 @@ export function MemberProfile({
                 borderBottomColor: selectedExtra ? colors.teal : "transparent",
               }}
             >
-              <Pressable accessibilityRole="button" accessibilityLabel={ar ? "المزيد من أقسام الحساب" : "More profile sections"} accessibilityState={{ expanded: moreSections }} onPress={() => setMoreSections(v => !v)} style={{ minHeight: 44, flexDirection: ar ? 'row-reverse' : 'row', gap: 3, alignItems: 'center', justifyContent: 'center' }}>
-                <Txt numberOfLines={1} style={{ fontSize: 12 }}>{ar ? 'المزيد' : 'More'}</Txt>
+              <Pressable accessibilityRole="button" accessibilityLabel={L("المزيد من أقسام الحساب", "More profile sections")} accessibilityState={{ expanded: moreSections }} onPress={() => setMoreSections(v => !v)} style={{ minHeight: 44, flexDirection: ar ? 'row-reverse' : 'row', gap: 3, alignItems: 'center', justifyContent: 'center' }}>
+                <Txt numberOfLines={1} style={{ fontSize: 12 }}>{L('المزيد', 'More')}</Txt>
                 <Icon name="chevronDown" size={12} color={colors.teal} />
               </Pressable>
             </View>
           </View>
-          {moreSections ? <TabRail testID="profile-extra-sections" compact wrap value={tab} items={extraSections.map(section => ({ id: section[0], label: section[ar ? 1 : 2] }))} onChange={selectSection} /> : null}
+          {moreSections ? <TabRail testID="profile-extra-sections" compact wrap value={tab} items={extraSections.map(section => ({ id: section[0], label: L(section[1], section[2]) }))} onChange={selectSection} /> : null}
           {selectedExtra ? (
             <Txt heading style={styles.subtitle}>
-              {selectedExtra[ar ? 1 : 2]}
+              {L(selectedExtra[1], selectedExtra[2])}
             </Txt>
           ) : null}
           {tab === "posts" ? <CommunityScreen key={p.id} embedded authorId={p.id} userId={userId} recipes={recipes} coffees={coffees} login={login} brew={() => manage("recipes")} browse={() => manage("recipes")} openRecipe={r => openItem("recipe", r.id)} openCoffee={c => openItem(c.kind, c.beanId ?? c.id)} roast={id => openRoast?.(id)} tools={() => manage("equipment")} members={() => setTab("following")} openMember={openMember} shareDirect={shareDirect} /> : null}
@@ -948,7 +933,7 @@ export function MemberProfile({
                             catalogName(data.beans[0].name_en, "ar")
                           : data.beans[0].name_en || data.beans[0].name_ar
                       }
-                      subtitle={ar ? "من أكياس البن" : "From my coffee bags"}
+                      subtitle={L("من أكياس البن", "From my coffee bags")}
                       url={data.beans[0].image_url}
                       status={data.beans[0].image_usage_status}
                       onPress={() =>
@@ -959,13 +944,13 @@ export function MemberProfile({
                     <Pressable
                       accessibilityRole="button"
                       accessibilityLabel={
-                        ar ? "عرض كل البن" : "View all coffee"
+                        L("عرض كل البن", "View all coffee")
                       }
                       onPress={() => selectSection("beans")}
                       style={{ minHeight: 44, justifyContent: "center" }}
                     >
                       <Txt style={{ color: colors.teal, fontSize: 13 }}>
-                        {ar ? "عرض كل البن" : "View all coffee"}
+                        {L("عرض كل البن", "View all coffee")}
                       </Txt>
                     </Pressable>
                   </View>
@@ -974,7 +959,7 @@ export function MemberProfile({
               {own ? (
                 <ProfileAction
                   dashed
-                  title={ar ? "إضافة معدة" : "Add equipment"}
+                  title={L("إضافة معدة", "Add equipment")}
                   icon="plus"
                   onPress={() => manage("equipment")}
                 />
@@ -1003,7 +988,7 @@ export function MemberProfile({
               {own ? (
                 <ProfileAction
                   dashed
-                  title={ar ? "إدارة أكياسي" : "Manage my bags"}
+                  title={L("إدارة أكياسي", "Manage my bags")}
                   icon="bean"
                   onPress={() => manage("bags")}
                 />
@@ -1014,7 +999,7 @@ export function MemberProfile({
             <View style={{ gap: 10 }}>
               {own && tab === "recipes" ? (
                 <Action
-                  title={ar ? "إضافة وصفة" : "Add recipe"}
+                  title={L("إضافة وصفة", "Add recipe")}
                   onPress={() => manage("recipes")}
                 />
               ) : null}
@@ -1029,7 +1014,7 @@ export function MemberProfile({
                   <Txt style={styles.muted}>
                     {methodLabel(r.brew_method, locale)}
                     {r.visibility && r.visibility !== "public"
-                      ? " · " + (ar ? "خاصة" : "Private")
+                      ? " · " + (L("خاصة", "Private"))
                       : ""}
                   </Txt>
                 </View>
@@ -1081,28 +1066,28 @@ export function MemberProfile({
                   <View style={styles.row}>
                     <Action
                       compact
-                      title={ar ? "صورة استخلاص" : "Brew photo"}
+                      title={L("صورة استخلاص", "Brew photo")}
                       selected={kind === "extraction"}
                       disabled={locked}
                       onPress={() => setKind("extraction")}
                     />
                     <Action
                       compact
-                      title={ar ? "ركن القهوة" : "Coffee corner"}
+                      title={L("ركن القهوة", "Coffee corner")}
                       selected={kind === "corner"}
                       disabled={locked}
                       onPress={() => setKind("corner")}
                     />
                   </View>
                   <Field
-                    label={ar ? "وصف الصورة" : "Photo caption"}
+                    label={L("وصف الصورة", "Photo caption")}
                     value={caption}
                     onChangeText={setCaption}
                     maxLength={2000}
                     editable={!locked}
                   />
                   <Action
-                    title={ar ? "اختيار صورة" : "Choose photo"}
+                    title={L("اختيار صورة", "Choose photo")}
                     disabled={locked || busy}
                     onPress={() => void selectPhoto()}
                   />
@@ -1111,7 +1096,7 @@ export function MemberProfile({
                       <Image
                         source={{ uri: photo.uri }}
                         accessibilityLabel={
-                          ar ? "الصورة المختارة" : "Selected photo"
+                          L("الصورة المختارة", "Selected photo")
                         }
                         style={{ height: 180, width: "100%" }}
                         resizeMode="contain"
@@ -1125,9 +1110,7 @@ export function MemberProfile({
                       >
                         <Txt>
                           {(rights ? "☑ " : "☐ ") +
-                            (ar
-                              ? "أملك حق مشاركة الصورة"
-                              : "I have permission to share the photo")}
+                            (L("أملك حق مشاركة الصورة", "I have permission to share the photo"))}
                         </Txt>
                       </Pressable>
                       <Action
@@ -1135,12 +1118,8 @@ export function MemberProfile({
                         disabled={busy || !rights}
                         title={
                           locked
-                            ? ar
-                              ? "إعادة حفظ الصورة"
-                              : "Retry photo"
-                            : ar
-                              ? "حفظ الصورة"
-                              : "Save photo"
+                            ? L("إعادة حفظ الصورة", "Retry photo")
+                            : L("حفظ الصورة", "Save photo")
                         }
                         onPress={() =>
                           void run(async () => {
@@ -1189,22 +1168,14 @@ export function MemberProfile({
                     caption={
                       p.caption ||
                       (p.kind === "corner"
-                        ? ar
-                          ? "ركن القهوة"
-                          : "Coffee corner"
-                        : ar
-                          ? "صورة استخلاص"
-                          : "Brew photo")
+                        ? L("ركن القهوة", "Coffee corner")
+                        : L("صورة استخلاص", "Brew photo"))
                     }
                   />
                   <Txt>
                     {p.kind === "corner"
-                      ? ar
-                        ? "ركن القهوة"
-                        : "Coffee corner"
-                      : ar
-                        ? "استخلاص"
-                        : "Brew"}
+                      ? L("ركن القهوة", "Coffee corner")
+                      : L("استخلاص", "Brew")}
                   </Txt>
                   {p.caption ? <Txt>{p.caption}</Txt> : null}
                   {own && userId ? <ProfilePhotoActions owner={userId} photo={p} saved={() => setRevision(n => n + 1)} /> : null}
@@ -1327,6 +1298,7 @@ function CollectionCard({
   manage?: () => void;
 }) {
   const ar = useContext(Language) === "ar";
+  const L = useLabels();
   return (
     <View style={[styles.card, { padding: 14, marginBottom: 0, gap: 0 }]}>
       <Pressable
@@ -1368,12 +1340,8 @@ function CollectionCard({
           accessibilityRole="button"
           accessibilityLabel={
             bean
-              ? ar
-                ? "إدارة أكياسي"
-                : "Manage my bags"
-              : ar
-                ? "إدارة معداتي"
-                : "Manage my equipment"
+              ? L("إدارة أكياسي", "Manage my bags")
+              : L("إدارة معداتي", "Manage my equipment")
           }
           onPress={manage}
           style={{

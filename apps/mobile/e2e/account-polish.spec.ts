@@ -492,9 +492,12 @@ for (const width of [320, 800, 1536])
       .getByRole("button", { name: "الإعدادات", exact: true })
       .first()
       .click();
-    await expect(
-      page.getByRole("button", { name: "حذف الحساب والبيانات", exact: true }),
-    ).toBeInViewport();
+    // Country/contact fields make Settings scrollable on tablet layouts too.
+    await expect(settings.getByTestId("account-details")).toBeVisible();
+    await expect(settings.getByTestId("account-details").getByText("جارٍ التحميل…", { exact: true })).toHaveCount(0);
+    const deleteAccount = settings.getByRole("button", { name: "حذف الحساب والبيانات", exact: true });
+    await deleteAccount.scrollIntoViewIfNeeded();
+    await expect(deleteAccount).toBeInViewport({ ratio: 1 });
     await page.screenshot({
       path: info.outputPath(`settings-dark-${width}.png`),
     });
@@ -576,9 +579,11 @@ test("account actions live only in compact settings and sign-out failure can be 
     .first()
     .click();
   const panel = page.getByTestId("settings-screen");
-  await expect(
-    panel.getByRole("button", { name: "Delete account and data", exact: true }),
-  ).toBeInViewport();
+  await expect(panel.getByTestId("account-details")).toBeVisible();
+  await expect(panel.getByTestId("account-details").getByText("Loading…", { exact: true })).toHaveCount(0);
+  const deleteAccount = panel.getByRole("button", { name: "Delete account and data", exact: true });
+  await deleteAccount.scrollIntoViewIfNeeded();
+  await expect(deleteAccount).toBeInViewport({ ratio: 1 });
   await expect(
     panel.getByText("New in this release", { exact: true }),
   ).toHaveCount(0);

@@ -6,6 +6,7 @@ export type MemberIdentity = {
   username: string;
   avatar_url: string | null;
   is_private: boolean;
+  country?: string | null;
   request_id?: string;
 };
 export type ProfileRecipe = {

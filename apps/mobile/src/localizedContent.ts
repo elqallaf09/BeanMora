@@ -64,7 +64,7 @@ export function localizeStep(
   description: string,
   locale: Locale,
 ) {
-  if (locale === 'en') return { title, description };
+  if (locale !== 'ar') return { title, description };
   const pour = title.match(/^Pour\s+(\d+)$/i);
   const cumulative = description.match(
     /^Pour to a cumulative ([\d.]+)ml(?: \(final\))?\.$/,

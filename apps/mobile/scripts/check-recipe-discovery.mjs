@@ -19,6 +19,7 @@ for (const file of [
   'core/catalog-names.ts', 'core/catalog-foreign-titles.ts', 'localizedContent.ts',
   'foreignTitles.ts',
   'copy.ts',
+  'localeText.ts', 'japaneseLabels.ts',
   'recipeDiscovery.ts',
   'guards.ts',
   'core/engine.ts',

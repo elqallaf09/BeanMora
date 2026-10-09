@@ -8,7 +8,7 @@ import recEn from '../messages/recommendations/en.json';
 
 const errors = new WeakMap<Page, string[]>();
 test('public member directory finds usernames and opens a private identity without exposing collections', async ({page}) => {
-  const member={id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',name:'Private Barista',username:'barista',avatar_url:null,is_private:true};
+  const member={id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',name:'Private Barista',username:'barista',avatar_url:null,country:'JP',is_private:true};
   const queries:string[]=[];
   await page.route('**/rest/v1/rpc/search_member_profiles',async route=>{
     queries.push(route.request().postDataJSON().p_query);
@@ -21,6 +21,8 @@ test('public member directory finds usernames and opens a private identity witho
   await page.getByRole('link').filter({hasText:'Private Barista'}).click();
   await expect(page).toHaveURL('http://127.0.0.1:3000/en/members/barista');
   await expect(page.getByText('@barista',{exact:true})).toBeVisible();
+  await expect(page.getByTestId('profile-country-flag')).toHaveText('🇯🇵');
+  await expect(page.getByTestId('profile-country-flag')).toHaveAttribute('aria-label', 'Japan');
   await expect(page.getByText('This account is private. Request to follow to view details after approval.',{exact:true})).toBeVisible();
   await expect(page.getByText('Hand grinder',{exact:true})).toHaveCount(0);
   await expect(page.getByRole('button',{name:'Favorite recipes',exact:true})).toHaveCount(0);

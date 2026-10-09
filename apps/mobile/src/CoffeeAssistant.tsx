@@ -1,3 +1,4 @@
+import { contentLocale } from './localeText';
 import { useContext, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Linking, ScrollView, View } from "./native";
 import { Action, Field, Icon, Language, Txt, colors, styles } from "./ui";
@@ -30,7 +31,7 @@ export function CoffeeAssistant({
   const [question, setQuestion] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const learningTopics = coffeeLearningTopics(locale);
+  const learningTopics = coffeeLearningTopics(contentLocale(locale));
   const active = useRef<AbortController | null>(null);
   const list = useRef<ScrollView>(null);
   const reduced = useReducedMotion();
@@ -61,7 +62,7 @@ export function CoffeeAssistant({
     setBusy(true);
     setError("");
     try {
-      const turn = await converseLocally(text, locale, turns, {
+      const turn = await converseLocally(text, contentLocale(locale), turns, {
         guides: methodGuides,
         search: async (query) => {
           if (!publicSupabase) throw new Error("CATALOG_UNAVAILABLE");

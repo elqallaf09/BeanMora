@@ -3,7 +3,7 @@ import type { Session } from "@supabase/supabase-js";
 import { Platform, Pressable, View } from "./native";
 import { supabase } from "./client";
 import { nativeAuthRedirect } from "./oauthCallback";
-import { Action, Field, Icon, Language, Txt, colors, styles } from "./ui";
+import { useLabels, Action, Field, Icon, Language, Txt, colors, styles } from "./ui";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export function AccountSecurity({
@@ -14,6 +14,7 @@ export function AccountSecurity({
   compact?: boolean;
 }) {
   const ar = useContext(Language) === "ar";
+  const L = useLabels();
   const [panel, setPanel] = useState<"email" | "password" | null>(null);
   const [email, setEmail] = useState("");
   const [current, setCurrent] = useState("");
@@ -63,33 +64,19 @@ export function AccountSecurity({
       const message = failure instanceof Error ? failure.message : "";
       setError(
         code === "invalid_credentials" || message.includes("Invalid login")
-          ? ar
-            ? "كلمة المرور الحالية غير صحيحة."
-            : "The current password is incorrect."
+          ? L("كلمة المرور الحالية غير صحيحة.", "The current password is incorrect.")
           : code === "email_exists" ||
               message.includes("already been registered")
-            ? ar
-              ? "هذا البريد مستخدم لحساب آخر."
-              : "This email belongs to another account."
+            ? L("هذا البريد مستخدم لحساب آخر.", "This email belongs to another account.")
             : code === "same_password"
-              ? ar
-                ? "اختر كلمة مرور مختلفة عن الحالية."
-                : "Choose a password different from the current one."
+              ? L("اختر كلمة مرور مختلفة عن الحالية.", "Choose a password different from the current one.")
               : code === "reauthentication_not_valid"
-                ? ar
-                  ? "رمز التحقق غير صحيح أو انتهت صلاحيته."
-                  : "The verification code is incorrect or expired."
+                ? L("رمز التحقق غير صحيح أو انتهت صلاحيته.", "The verification code is incorrect or expired.")
                 : code === "weak_password"
-                  ? ar
-                    ? "اختر كلمة مرور أقوى، من 8 أحرف على الأقل."
-                    : "Choose a stronger password with at least 8 characters."
+                  ? L("اختر كلمة مرور أقوى، من 8 أحرف على الأقل.", "Choose a stronger password with at least 8 characters.")
                   : code.includes("rate_limit")
-                    ? ar
-                      ? "وصلت لحد المحاولات. انتظر قليلًا ثم حاول."
-                      : "Too many attempts. Wait a moment and try again."
-                    : ar
-                      ? "تعذّر تأكيد التغيير. تحقق من الاتصال وأعد المحاولة."
-                      : "Could not confirm the change. Check your connection and retry.",
+                    ? L("وصلت لحد المحاولات. انتظر قليلًا ثم حاول.", "Too many attempts. Wait a moment and try again.")
+                    : L("تعذّر تأكيد التغيير. تحقق من الاتصال وأعد المحاولة.", "Could not confirm the change. Check your connection and retry."),
       );
     } finally {
       inFlight.current = false;
@@ -110,9 +97,7 @@ export function AccountSecurity({
     const next = email.trim().toLowerCase();
     if (!emailPattern.test(next) || next === currentEmail.toLowerCase()) {
       setError(
-        ar
-          ? "أدخل بريدًا صحيحًا مختلفًا عن بريدك الحالي."
-          : "Enter a valid email different from your current one.",
+        L("أدخل بريدًا صحيحًا مختلفًا عن بريدك الحالي.", "Enter a valid email different from your current one."),
       );
       return;
     }
@@ -133,26 +118,20 @@ export function AccountSecurity({
       setEmail("");
       setPanel(null);
       setNotice(
-        ar
-          ? "أرسلنا طلب التغيير. افتح رسالة التأكيد في البريد الحالي والجديد إذا طُلب منك. يبقى بريدك الحالي حتى يكتمل التحقق."
-          : "Confirmation requested. Open the confirmation emails in your current and new inboxes if required. Your current email remains until verification is complete.",
+        L("أرسلنا طلب التغيير. افتح رسالة التأكيد في البريد الحالي والجديد إذا طُلب منك. يبقى بريدك الحالي حتى يكتمل التحقق.", "Confirmation requested. Open the confirmation emails in your current and new inboxes if required. Your current email remains until verification is complete."),
       );
     });
   }
   async function changePassword() {
     if (password.length < 8 || password !== confirmation) {
       setError(
-        ar
-          ? "استخدم 8 أحرف على الأقل وتأكد من تطابق كلمتي المرور."
-          : "Use at least 8 characters and matching passwords.",
+        L("استخدم 8 أحرف على الأقل وتأكد من تطابق كلمتي المرور.", "Use at least 8 characters and matching passwords."),
       );
       return;
     }
     if (needsNonce && !nonce.trim()) {
       setError(
-        ar
-          ? "أدخل رمز التحقق المرسل إلى بريدك."
-          : "Enter the verification code sent to your email.",
+        L("أدخل رمز التحقق المرسل إلى بريدك.", "Enter the verification code sent to your email."),
       );
       return;
     }
@@ -176,9 +155,7 @@ export function AccountSecurity({
         if (sendError) throw sendError;
         setNeedsNonce(true);
         setNotice(
-          ar
-            ? "أرسلنا رمز تحقق إلى بريدك. أدخله لإكمال تغيير كلمة المرور."
-            : "A verification code was sent to your email. Enter it to finish changing your password.",
+          L("أرسلنا رمز تحقق إلى بريدك. أدخله لإكمال تغيير كلمة المرور.", "A verification code was sent to your email. Enter it to finish changing your password."),
         );
         return;
       }
@@ -190,7 +167,7 @@ export function AccountSecurity({
       setNeedsNonce(false);
       setPanel(null);
       setNotice(
-        ar ? "تم تغيير كلمة المرور بنجاح." : "Password changed successfully.",
+        L("تم تغيير كلمة المرور بنجاح.", "Password changed successfully."),
       );
     });
   }
@@ -209,18 +186,16 @@ export function AccountSecurity({
               : styles.subtitle
           }
         >
-          {ar ? "أمان الحساب" : "Account security"}
+          {L("أمان الحساب", "Account security")}
         </Txt>
       </View>
       {compact ? null : (
         <Txt style={styles.muted}>
-          {ar
-            ? "إدارة بريد الدخول وكلمة المرور."
-            : "Manage your sign-in email and password."}
+          {L("إدارة بريد الدخول وكلمة المرور.", "Manage your sign-in email and password.")}
         </Txt>
       )}
       <SecurityRow
-        label={ar ? "تغيير البريد الإلكتروني" : "Change email"}
+        label={L("تغيير البريد الإلكتروني", "Change email")}
         icon="mail"
         selected={panel === "email"}
         disabled={busy}
@@ -229,7 +204,7 @@ export function AccountSecurity({
       {panel === "email" ? (
         <View style={{ gap: 12 }}>
           <Field
-            label={ar ? "البريد الإلكتروني الجديد" : "New email"}
+            label={L("البريد الإلكتروني الجديد", "New email")}
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
@@ -240,7 +215,7 @@ export function AccountSecurity({
           />
           {hasEmailPassword ? (
             <Field
-              label={ar ? "كلمة المرور الحالية" : "Current password"}
+              label={L("كلمة المرور الحالية", "Current password")}
               value={current}
               onChangeText={setCurrent}
               secureTextEntry
@@ -251,12 +226,10 @@ export function AccountSecurity({
             />
           ) : null}
           <Txt style={styles.muted}>
-            {ar
-              ? "التغيير يحتاج تأكيد ملكية البريد. لا يتغير بريد الدخول بمجرد إرسال الطلب."
-              : "Verify ownership through the confirmation email. Sending a request does not change your sign-in email."}
+            {L("التغيير يحتاج تأكيد ملكية البريد. لا يتغير بريد الدخول بمجرد إرسال الطلب.", "Verify ownership through the confirmation email. Sending a request does not change your sign-in email.")}
           </Txt>
           <Action
-            title={ar ? "إرسال رابط التأكيد" : "Send confirmation link"}
+            title={L("إرسال رابط التأكيد", "Send confirmation link")}
             selected
             disabled={busy || !email.trim() || (!!hasEmailPassword && !current)}
             onPress={() => void changeEmail()}
@@ -274,9 +247,7 @@ export function AccountSecurity({
           }}
         >
           <Txt>
-            {ar
-              ? "تغيير البريد بانتظار التأكيد"
-              : "Email change awaiting confirmation"}
+            {L("تغيير البريد بانتظار التأكيد", "Email change awaiting confirmation")}
           </Txt>
           <Txt
             style={{
@@ -290,7 +261,7 @@ export function AccountSecurity({
           <Action
             compact
             disabled={busy}
-            title={ar ? "تحقق من التأكيد" : "Check confirmation"}
+            title={L("تحقق من التأكيد", "Check confirmation")}
             onPress={() =>
               void request(async () => {
                 const { data, error } = await supabase!.auth.getUser();
@@ -303,15 +274,11 @@ export function AccountSecurity({
                   if (refreshError) throw refreshError;
                   setRequestedEmail("");
                   setNotice(
-                    ar
-                      ? "تم تأكيد البريد الجديد."
-                      : "Your new email is confirmed.",
+                    L("تم تأكيد البريد الجديد.", "Your new email is confirmed."),
                   );
                 } else
                   setNotice(
-                    ar
-                      ? "لم يكتمل التأكيد بعد. راجع رسائل البريد الحالي والجديد."
-                      : "Confirmation is still pending. Check your current and new inboxes.",
+                    L("لم يكتمل التأكيد بعد. راجع رسائل البريد الحالي والجديد.", "Confirmation is still pending. Check your current and new inboxes."),
                   );
               })
             }
@@ -319,7 +286,7 @@ export function AccountSecurity({
         </View>
       ) : null}
       <SecurityRow
-        label={ar ? "تغيير كلمة المرور" : "Change password"}
+        label={L("تغيير كلمة المرور", "Change password")}
         icon="lock"
         selected={panel === "password"}
         disabled={busy}
@@ -330,7 +297,7 @@ export function AccountSecurity({
           {hasEmailPassword ? (
             <>
               <Field
-                label={ar ? "كلمة المرور الحالية" : "Current password"}
+                label={L("كلمة المرور الحالية", "Current password")}
                 value={current}
                 onChangeText={setCurrent}
                 secureTextEntry
@@ -340,7 +307,7 @@ export function AccountSecurity({
                 editable={!busy}
               />
               <Field
-                label={ar ? "كلمة المرور الجديدة" : "New password"}
+                label={L("كلمة المرور الجديدة", "New password")}
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
@@ -351,7 +318,7 @@ export function AccountSecurity({
               />
               <Field
                 label={
-                  ar ? "تأكيد كلمة المرور الجديدة" : "Confirm new password"
+                  L("تأكيد كلمة المرور الجديدة", "Confirm new password")
                 }
                 value={confirmation}
                 onChangeText={setConfirmation}
@@ -363,7 +330,7 @@ export function AccountSecurity({
               />
               {needsNonce ? (
                 <Field
-                  label={ar ? "رمز التحقق" : "Verification code"}
+                  label={L("رمز التحقق", "Verification code")}
                   value={nonce}
                   onChangeText={setNonce}
                   autoCapitalize="none"
@@ -375,24 +342,20 @@ export function AccountSecurity({
               <Action
                 selected
                 disabled={busy || !current || !password || !confirmation}
-                title={ar ? "حفظ كلمة المرور" : "Save password"}
+                title={L("حفظ كلمة المرور", "Save password")}
                 onPress={() => void changePassword()}
               />
             </>
           ) : (
             <Txt>
-              {ar
-                ? "دخلت عبر Google أو Apple. أرسل رابطًا إلى بريدك لتعيين كلمة مرور."
-                : "You signed in with Google or Apple. Send a link to your email to set a password."}
+              {L("دخلت عبر Google أو Apple. أرسل رابطًا إلى بريدك لتعيين كلمة مرور.", "You signed in with Google or Apple. Send a link to your email to set a password.")}
             </Txt>
           )}
           <Action
             compact
             disabled={busy || !currentEmail}
             title={
-              ar
-                ? "إرسال رابط استرجاع كلمة المرور"
-                : "Send password recovery link"
+              L("إرسال رابط استرجاع كلمة المرور", "Send password recovery link")
             }
             onPress={() =>
               void request(async () => {
@@ -405,9 +368,7 @@ export function AccountSecurity({
                 setPassword("");
                 setConfirmation("");
                 setNotice(
-                  ar
-                    ? "أرسلنا رابط تعيين كلمة المرور إلى بريدك."
-                    : "A password reset link was sent to your email.",
+                  L("أرسلنا رابط تعيين كلمة المرور إلى بريدك.", "A password reset link was sent to your email."),
                 );
               })
             }
@@ -416,7 +377,7 @@ export function AccountSecurity({
       ) : null}
       {busy ? (
         <Txt accessibilityRole="alert" style={styles.muted}>
-          {ar ? "جارٍ التحقق…" : "Verifying…"}
+          {L("جارٍ التحقق…", "Verifying…")}
         </Txt>
       ) : null}
       {error ? (

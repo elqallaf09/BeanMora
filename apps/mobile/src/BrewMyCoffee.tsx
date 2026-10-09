@@ -1,3 +1,4 @@
+import { contentLocale } from './localeText';
 import { useContext, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -341,7 +342,7 @@ export function BrewMyCoffee({
     return a.recipe.title.localeCompare(b.recipe.title);
   });
   const exactRecommendation = visible[0] ?? null;
-  const starter = useBrewStarter(method ?? 'v60', Boolean(coffee && method && !recipesBusy && !exactRecommendation && !error), locale);
+  const starter = useBrewStarter(method ?? 'v60', Boolean(coffee && method && !recipesBusy && !exactRecommendation && !error), contentLocale(locale));
   const starterStyle = starter.recipe?.discovery?.servingStyle;
   const canUseStarter = serving === 'all' || (serving === 'hot' && (!starterStyle || starterStyle === 'hot')) || (serving === 'cold_or_iced' && ['cold', 'iced'].includes(starterStyle ?? ''));
   const recommended: Candidate | null = exactRecommendation ?? (starter.recipe && canUseStarter ? { recipe: starter.recipe, style: starterStyle ?? null, exact: false, general: true } : null);

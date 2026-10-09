@@ -1,3 +1,4 @@
+import { contentLocale } from './localeText';
 import { catalogName, localizeStep } from './localizedContent';
 import { sourceBrew, type SourceBrew } from './sourceBrew';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -275,7 +276,7 @@ async function read<T>(
 }
 export function mapRecipe(
   row: RecipeRow,
-  locale: 'ar' | 'en',
+  locale: 'ar' | 'en' | 'ja',
   profile: RecipeItem['xBloom'] = null,
   includeTranslations = true,
 ): RecipeItem | null {
@@ -337,7 +338,7 @@ export function mapRecipe(
       null,
     waterUnit: amount(row.water_grams) ? 'g' : source.water_ml ? 'ml' : 'g',
     sourceBrew: source,
-    discovery: readRecipeDiscovery(row, locale),
+    discovery: readRecipeDiscovery(row, contentLocale(locale)),
     grindSetting:
       row.grinder_setting ||
       profile?.grindSetting ||
@@ -601,7 +602,7 @@ export function mapCoffee(
 
 export async function loadData(
   db: SupabaseClient,
-  locale: 'ar' | 'en',
+  locale: 'ar' | 'en' | 'ja',
   userId: string | null,
   method?: Method,
   options: {

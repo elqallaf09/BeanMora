@@ -8,7 +8,7 @@ import {
   type StyleProp,
   type ViewStyle,
 } from "./native";
-import { Field, Icon, Language, Txt, colors, styles } from "./ui";
+import { useLabels, Field, Icon, Language, Txt, colors, styles } from "./ui";
 import { normalizeSearch } from "./core/deepSearch";
 
 /** One compact trigger, with a searchable list only while choosing. */
@@ -34,6 +34,7 @@ export function SelectionMenu({
   accessibilityLabel?: string;
 }) {
   const ar = useContext(Language) === "ar";
+  const L = useLabels();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const chosen = items.find((item) => item.id === value);
@@ -77,7 +78,7 @@ export function SelectionMenu({
             numberOfLines={1}
             style={{ fontWeight: "700", ...(compact ? { fontSize: 14 } : {}) }}
           >
-            {compact ? label : (chosen?.name ?? (ar ? "اختر" : "Choose"))}
+            {compact ? label : (chosen?.name ?? (L("اختر", "Choose")))}
           </Txt>
         </View> : null}
         <Icon
@@ -95,7 +96,7 @@ export function SelectionMenu({
         <View style={s.backdrop}>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel={ar ? "إغلاق القائمة" : "Close menu"}
+            accessibilityLabel={L("إغلاق القائمة", "Close menu")}
             onPress={close}
             style={StyleSheet.absoluteFill}
           />
@@ -114,7 +115,7 @@ export function SelectionMenu({
               </Txt>
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel={ar ? "إغلاق" : "Close"}
+                accessibilityLabel={L("إغلاق", "Close")}
                 onPress={close}
                 style={s.close}
               >
@@ -123,7 +124,7 @@ export function SelectionMenu({
             </View>
             {items.length > 8 ? (
               <Field
-                label={ar ? "ابحث في القائمة" : "Search this list"}
+                label={L("ابحث في القائمة", "Search this list")}
                 value={search}
                 onChangeText={setSearch}
                 autoCapitalize="none"
@@ -137,7 +138,7 @@ export function SelectionMenu({
               initialNumToRender={16}
               ListEmptyComponent={
                 <Txt style={styles.muted}>
-                  {ar ? "لا توجد نتائج" : "No results"}
+                  {L("لا توجد نتائج", "No results")}
                 </Txt>
               }
               renderItem={({ item }) => (
