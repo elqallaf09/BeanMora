@@ -20,6 +20,7 @@ export function SelectionMenu({
   disabled = false,
   compact = false,
   style,
+  accessibilityLabel,
 }: {
   label: string;
   value: string;
@@ -28,6 +29,7 @@ export function SelectionMenu({
   disabled?: boolean;
   compact?: boolean;
   style?: StyleProp<ViewStyle>;
+  accessibilityLabel?: string;
 }) {
   const ar = useContext(Language) === "ar";
   const [open, setOpen] = useState(false);
@@ -46,24 +48,40 @@ export function SelectionMenu({
     <View style={[{ minWidth: 0 }, style]}>
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel={chosen ? label + ": " + chosen.name : label}
+        accessibilityLabel={
+          accessibilityLabel ?? (chosen ? label + ": " + chosen.name : label)
+        }
         accessibilityState={{ expanded: open, disabled }}
         disabled={disabled}
         onPress={() => setOpen(true)}
         style={[
           s.trigger,
-          compact && { minHeight: 48, borderWidth: 0, backgroundColor: 'transparent', padding: 8 },
+          compact && {
+            minHeight: 48,
+            borderWidth: 0,
+            backgroundColor: "transparent",
+            paddingHorizontal: 4,
+            paddingVertical: 8,
+            gap: 4,
+          },
           { flexDirection: ar ? "row-reverse" : "row" },
           disabled && { opacity: 0.5 },
         ]}
       >
         <View style={{ flex: 1, minWidth: 0, gap: 2 }}>
           {!compact ? <Txt style={styles.muted}>{label}</Txt> : null}
-          <Txt numberOfLines={1} style={{ fontWeight: "700" }}>
-            {compact ? label : chosen?.name ?? (ar ? "اختر" : "Choose")}
+          <Txt
+            numberOfLines={1}
+            style={{ fontWeight: "700", ...(compact ? { fontSize: 14 } : {}) }}
+          >
+            {compact ? label : (chosen?.name ?? (ar ? "اختر" : "Choose"))}
           </Txt>
         </View>
-        <Icon name="arrow" size={16} color={colors.teal} />
+        <Icon
+          name={compact ? "chevronDown" : "arrow"}
+          size={16}
+          color={colors.teal}
+        />
       </Pressable>
       <Modal
         visible={open}

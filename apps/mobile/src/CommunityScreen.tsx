@@ -30,6 +30,10 @@ import {
 } from './roastLab';
 import { Action, Language, Txt, Icon, IconButton, colors, styles } from './ui';
 import { MemberAvatar } from './MemberAvatar';
+import { CoffeeStories } from './CoffeeStories';
+import { PostComposer, type EditablePost } from './PostComposer';
+import { SocialMediaView } from './SocialMedia';
+import { deleteCommunityPost } from './core/community-social';
 
 type PostRow = {
   id: string;
@@ -47,6 +51,9 @@ type PostRow = {
   body: string | null;
   content_language: string;
   created_at: string;
+  content_type?: 'topic' | 'image' | 'video';
+  primary_media_path?: string | null;
+  media?: {url: string; media_type: 'image' | 'video'}[];
 };
 type BrewRow = {
   id: string;
@@ -115,6 +122,11 @@ export function CommunityScreen({
   tools,
   members,
   openMember,
+  messages,
+  shareDirect,
+  authorId,
+  embedded = false,
+  postId,
 }: {
   userId: string | null;
   recipes: RecipeItem[];
@@ -128,18 +140,28 @@ export function CommunityScreen({
   tools: () => void;
   members: () => void;
   openMember: (username: string) => void;
+  messages?: () => void;
+  shareDirect?: (id: string) => void;
+  authorId?: string;
+  embedded?: boolean;
+  postId?: string | null;
 }) {
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const { width } = useWindowDimensions();
-  const wide = width >= 950;
+  const wide = width >= 950 && !embedded;
+  const Container = embedded ? View : ScrollView;
   const [posts, setPosts] = useState<PostRow[]>([]);
   const [profiles, setProfiles] = useState<Record<string, ProfileRow>>({});
   const [linkedRecipes, setLinkedRecipes] = useState<RecipeItem[]>([]);
   const [likes, setLikes] = useState<LikeRow[]>([]);
   const [comments, setComments] = useState<CommentRow[]>([]);
   const [recentBrews, setRecentBrews] = useState<BrewRow[]>([]);
-  const [selectedBrew, setSelectedBrew] = useState<string | null>(null);
+  const [editingPost, setEditingPost] = useState<EditablePost | null>(null);
+  const [deletePost, setDeletePost] = useState<PostRow | null>(null);
+  const [sharePost, setSharePost] = useState<PostRow | null>(null);
+  const [deleting, setDeleting] = useState(false);
+  const [pageLimit, setPageLimit] = useState(60);
   const [commentsOpen, setCommentsOpen] = useState<string | null>(null);
   const [commentText, setCommentText] = useState<Record<string, string>>({});
   const [commentBusy, setCommentBusy] = useState<string | null>(null);
@@ -151,12 +173,9 @@ export function CommunityScreen({
   const [feed, setFeed] = useState<'all' | 'following'>('all');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [body, setBody] = useState('');
-  const [sending, setSending] = useState(false);
   const [message, setMessage] = useState('');
   const [revision, setRevision] = useState(0);
   const active = useRef(true);
-  const publishing = useRef(false);
   const pendingLikes = useRef(new Set<string>());
   const pendingComment = useRef(false);
   useEffect(() => {
@@ -188,12 +207,13 @@ export function CommunityScreen({
           .select(
             'id,user_id,recipe_id,roast_profile_id,roast:roast_profiles(' +
               ROAST_FIELDS +
-              '),brew_log_id,bean_id,brew_method,dose_grams,water_grams,actual_time_seconds,outcome,body,content_language,created_at',
+              '),brew_log_id,bean_id,brew_method,dose_grams,water_grams,actual_time_seconds,outcome,body,content_language,created_at,content_type,primary_media_path,media:post_media(url,media_type)',
           )
-          .eq('visibility', 'public')
-          .eq('is_hidden', false)
           .order('created_at', { ascending: false })
-          .limit(60);
+          .limit(pageLimit);
+        if (authorId) query = query.eq('user_id', authorId);
+        if (!authorId || authorId !== userId) query = query.eq('visibility', 'public').eq('is_hidden', false);
+        if (postId) query = query.eq('id', postId);
         if (feed === 'following' && followed.length)
           query = query.in('user_id', followed);
         const result =
@@ -290,7 +310,7 @@ export function CommunityScreen({
     return () => {
       alive = false;
     };
-  }, [locale, userId, revision, feed]);
+  }, [locale, userId, revision, feed, authorId, pageLimit, postId]);
   const recipeRows = useMemo(
     () => [
       ...new Map([...recipes, ...linkedRecipes].map((r) => [r.id, r])).values(),
@@ -390,50 +410,6 @@ export function CommunityScreen({
       if (active.current) setCommentBusy(null);
     }
   };
-  const publish = async () => {
-    if (!userId || !supabase) {
-      login();
-      return;
-    }
-    if (publishing.current) return;
-    const text = body.trim(),
-      b = recentBrews.find((b) => b.id === selectedBrew) ?? null;
-    if (!text && !b?.recipe_id) return;
-    publishing.current = true;
-    setSending(true);
-    setError('');
-    try {
-      const { error } = await supabase.from('posts').insert({
-        user_id: userId,
-        body: text || null,
-        content_language: locale,
-        visibility: 'public',
-        is_hidden: false,
-        recipe_id: b?.recipe_id ?? null,
-        brew_log_id: b?.id ?? null,
-        bean_id: b?.bean_id ?? null,
-        brew_method: b?.brew_method ?? null,
-        dose_grams: b?.dose_grams ?? null,
-        water_grams: b?.water_grams ?? null,
-        actual_time_seconds: b?.actual_time_seconds ?? null,
-        outcome: b ? brewOutcome(b.outcome_submission) : null,
-      });
-      if (error) throw error;
-      if (active.current) {
-        setBody('');
-        setSelectedBrew(null);
-        setCompose(false);
-        setMessage(ar ? 'تم نشر تجربتك.' : 'Your experience is published.');
-        setRevision((r) => r + 1);
-      }
-    } catch {
-      if (active.current)
-        setError(ar ? 'تعذّر نشر التجربة.' : 'Could not publish experience.');
-    } finally {
-      publishing.current = false;
-      if (active.current) setSending(false);
-    }
-  };
   const brewTitle = (b: BrewRow) => {
     const r = recipeRows.find((r) => r.id === b.recipe_id),
       c = coffees.find((c) => (c.beanId ?? c.id) === b.bean_id);
@@ -444,21 +420,21 @@ export function CommunityScreen({
       methodLabel(b.brew_method, locale)
     );
   };
-  const write = (prompt?: string) => {
+  const write = () => {
     if (!userId) {
       login();
       return;
     }
     setCompose(true);
-    if (prompt) setBody(prompt);
+    setEditingPost(null);
   };
   return (
-    <ScrollView
+    <Container
       testID="community-screen"
-      contentContainerStyle={s.page}
+      {...(embedded ? { style: { gap: 12 } } : { contentContainerStyle: s.page })}
       keyboardShouldPersistTaps="handled"
     >
-      <View
+      {!embedded ? <View
         testID="community-hero"
         style={[
           s.hero,
@@ -488,12 +464,15 @@ export function CommunityScreen({
           label={ar ? 'حسابات coffeeHO' : 'coffeeHO accounts'}
           onPress={members}
         />
+        {messages ? <IconButton name="comment" label={ar ? "الرسائل الخاصة" : "Private messages"} onPress={messages} /> : null}
         <IconButton
           name="plus"
           label={ar ? 'شارك تجربة' : 'Share a brew'}
           onPress={() => write()}
         />
-      </View>
+      </View> : null}
+      {!embedded ? <CoffeeStories owner={userId} login={login} /> : null}
+      {postId ? <Txt heading style={styles.subtitle}>{ar ? "المنشور" : "Post"}</Txt> : null}
       {message ? (
         <View accessibilityLiveRegion="polite">
           <Txt style={styles.success}>{message}</Txt>
@@ -506,7 +485,7 @@ export function CommunityScreen({
         ]}
       >
         <View style={{ flex: 1, minWidth: 0, gap: 12 }}>
-          <View
+          {!embedded && !postId ? <View
             style={{
               flexDirection: ar ? 'row-reverse' : 'row',
               borderBottomWidth: 1,
@@ -561,133 +540,10 @@ export function CommunityScreen({
                 </Txt>
               </Pressable>
             ))}
-          </View>
-          {compose ? (
-            <View testID="community-composer" style={s.compose}>
-              <View style={[styles.row, { justifyContent: 'space-between' }]}>
-                <Txt heading style={s.cardTitle}>
-                  {ar
-                    ? 'شارك تجربة قابلة للتكرار'
-                    : 'Share a repeatable experience'}
-                </Txt>
-                <Action
-                  title={ar ? 'إغلاق المحرر' : 'Close composer'}
-                  onPress={() => setCompose(false)}
-                />
-              </View>
-              {recentBrews.length ? (
-                <>
-                  <Txt style={styles.muted}>
-                    {ar
-                      ? 'أرفق تحضيرًا من سجلك ليظهر البن والمقادير والنتيجة.'
-                      : 'Attach a saved brew to include coffee, amounts and result.'}
-                  </Txt>
-                  <ScrollView horizontal contentContainerStyle={{ gap: 8 }}>
-                    {recentBrews.map((b) => (
-                      <Pressable
-                        key={b.id}
-                        accessibilityRole="button"
-                        accessibilityLabel={
-                          (ar ? 'إرفاق تحضير: ' : 'Attach brew: ') +
-                          brewTitle(b)
-                        }
-                        accessibilityState={{ selected: selectedBrew === b.id }}
-                        onPress={() =>
-                          setSelectedBrew((v) => (v === b.id ? null : b.id))
-                        }
-                        style={[
-                          s.brewPick,
-                          selectedBrew === b.id && {
-                            borderColor: colors.teal,
-                            backgroundColor: '#EAF4F0',
-                          },
-                        ]}
-                      >
-                        <Txt
-                          numberOfLines={2}
-                          style={{ fontSize: 13, fontWeight: '700' }}
-                        >
-                          {brewTitle(b)}
-                        </Txt>
-                        <Txt style={{ fontSize: 11, color: colors.muted }}>
-                          {[
-                            b.dose_grams
-                              ? b.dose_grams + (ar ? ' غ' : ' g')
-                              : null,
-                            b.water_grams
-                              ? b.water_grams + (ar ? ' غ ماء' : ' g water')
-                              : null,
-                            b.actual_time_seconds
-                              ? clockTime(b.actual_time_seconds)
-                              : null,
-                          ]
-                            .filter(Boolean)
-                            .join(' · ')}
-                        </Txt>
-                      </Pressable>
-                    ))}
-                  </ScrollView>
-                </>
-              ) : (
-                <View style={s.tip}>
-                  <Txt style={styles.muted}>
-                    {ar
-                      ? 'لم تسجّل تحضيرًا بعد. يمكنك كتابة سؤال، أو تحضير وصفة ثم مشاركة نتيجتها.'
-                      : 'No saved brew yet. Ask a question or brew a recipe and share the result.'}
-                  </Txt>
-                  <Action
-                    title={ar ? 'حضّر وسجّل النتيجة' : 'Brew and record'}
-                    onPress={brew}
-                  />
-                </View>
-              )}
-              <TextInput
-                accessibilityLabel={
-                  ar ? 'اكتب تجربتك' : 'Write your experience'
-                }
-                multiline
-                maxLength={3000}
-                value={body}
-                onChangeText={setBody}
-                placeholder={
-                  ar
-                    ? 'ما البن الذي استخدمته؟ ماذا غيّرت، وكيف صار الطعم؟'
-                    : 'Which coffee? What changed? How did it taste?'
-                }
-                placeholderTextColor={colors.muted}
-                style={[
-                  s.input,
-                  {
-                    textAlign: ar ? 'right' : 'left',
-                    writingDirection: ar ? 'rtl' : 'ltr',
-                  },
-                ]}
-              />
-              <Txt style={{ fontSize: 11, color: colors.muted }}>
-                {ar
-                  ? 'سيظهر هذا المنشور للمجتمع. مشاركة سجل التحضير اختيارية.'
-                  : 'This post will be public. Attaching a brew log is optional.'}
-              </Txt>
-              <Action
-                title={
-                  sending
-                    ? ar
-                      ? 'جارٍ النشر…'
-                      : 'Publishing…'
-                    : ar
-                      ? 'انشر التجربة'
-                      : 'Publish'
-                }
-                selected
-                disabled={
-                  sending ||
-                  (!body.trim() &&
-                    !recentBrews.find((b) => b.id === selectedBrew)?.recipe_id)
-                }
-                onPress={() => void publish()}
-              />
-            </View>
-          ) : (
+          </View> : null}
+          {compose && userId ? (
+            <PostComposer key={editingPost?.id ?? 'new'} owner={userId} post={editingPost} brews={recentBrews.map(b => ({ id: b.id, label: brewTitle(b) + ' · ' + methodLabel(b.brew_method, locale) }))} close={() => { setCompose(false); setEditingPost(null); }} saved={() => { setCompose(false); setEditingPost(null); setRevision(r => r + 1); setMessage(ar ? 'تم حفظ المنشور.' : 'Post saved.'); }} />
+          ) : (!embedded || authorId === userId) && !postId ? (
             <Pressable
               accessibilityRole="button"
               accessibilityLabel={
@@ -713,7 +569,7 @@ export function CommunityScreen({
               </View>
               <Icon name="arrow" size={18} color={colors.teal} />
             </Pressable>
-          )}
+          ) : null}
           {loading ? (
             <ActivityIndicator color={colors.teal} />
           ) : error ? (
@@ -809,11 +665,11 @@ export function CommunityScreen({
                             ? ar
                               ? 'تحميص'
                               : 'Roasting'
-                            : p.brew_method || r?.method
+                            : (p.brew_log_id || p.recipe_id) && (p.brew_method || r?.method)
                               ? methodLabel(p.brew_method ?? r?.method, locale)
                               : ar
-                                ? 'نقاش'
-                                : 'Discussion',
+                                ? p.content_type === 'image' ? 'صورة' : p.content_type === 'video' ? 'فيديو' : 'موضوع'
+                                : p.content_type === 'image' ? 'Photo' : p.content_type === 'video' ? 'Video' : 'Topic',
                           '\u2066' +
                             new Date(p.created_at)
                               .toLocaleDateString(locale + '-u-nu-latn')
@@ -824,6 +680,7 @@ export function CommunityScreen({
                           .join(' · ')}
                       </Txt>
                     </View>
+                    {p.user_id === userId ? <View style={{ flexDirection: "row", flexWrap: "wrap" }}><IconButton name="edit" label={ar ? "تعديل المنشور" : "Edit post"} onPress={() => { setEditingPost(p); setCompose(true); }} /><IconButton name="trash" label={ar ? "حذف المنشور" : "Delete post"} onPress={() => { setDeletePost(p); setError(""); }} /></View> : null}
                     {p.content_language && p.content_language !== locale ? (
                       <Txt style={{ fontSize: 11, color: colors.muted }}>
                         {p.content_language === 'en'
@@ -839,6 +696,7 @@ export function CommunityScreen({
                   {p.body ? (
                     <Txt style={{ fontSize: 16, lineHeight: 27 }}>{p.body}</Txt>
                   ) : null}
+                  {(p.media ?? []).map((media, index) => <SocialMediaView key={media.url + index} source={media.url} type={media.media_type} label={p.body || (ar ? "وسائط المنشور" : "Post media")} />)}
                   {p.roast_profile_id && p.roast ? (
                     <Pressable
                       accessibilityRole="button"
@@ -1055,24 +913,7 @@ export function CommunityScreen({
                       name="share"
                       label={ar ? 'مشاركة المنشور' : 'Share post'}
                       size={20}
-                      onPress={() =>
-                        void Share.share({
-                          message: [
-                            member?.username ? '@' + member.username : '',
-                            p.body,
-                            r?.title,
-                            'coffeeHO · BeanMora',
-                          ]
-                            .filter(Boolean)
-                            .join('\n'),
-                        }).catch(() =>
-                          setError(
-                            ar
-                              ? 'تعذّرت مشاركة المنشور.'
-                              : 'Could not share post.',
-                          ),
-                        )
-                      }
+                      onPress={() => setSharePost(p)}
                     />
                   </View>
                   {interactionErrors[p.id] ? (
@@ -1165,6 +1006,7 @@ export function CommunityScreen({
               );
             })}
           </View>
+          {!postId && posts.length >= pageLimit && !loading ? <Action compact title={ar ? "منشورات أقدم" : "Older posts"} onPress={() => setPageLimit(n => n + 60)} /> : null}
           {!visible.length && !loading && !error ? (
             <View testID="community-empty" style={s.empty}>
               <Txt heading style={[styles.subtitle, { textAlign: 'center' }]}>
@@ -1203,7 +1045,7 @@ export function CommunityScreen({
             </View>
           ) : null}
         </View>
-        {wide ? (
+        {wide && !postId ? (
           <View style={[s.sidebar, { width: 238 }]}>
             <View
               testID="community-ad-space"
@@ -1259,7 +1101,17 @@ export function CommunityScreen({
           </View>
         ) : null}
       </View>
-    </ScrollView>
+      {sharePost ? <View testID="post-share-options" style={[styles.card, { padding: 16, gap: 10 }]}>
+        {shareDirect ? <Action title={ar ? 'مشاركة برسالة خاصة' : 'Share in a private message'} onPress={() => { shareDirect(sharePost.id); setSharePost(null); }} /> : null}
+        <Action title={ar ? 'مشاركة خارج التطبيق' : 'Share outside the app'} onPress={() => { void Share.share({ message: [sharePost.body, `beanmora://post/${sharePost.id}`].filter(Boolean).join('\n') }).then(() => setSharePost(null)).catch(() => setError(ar ? 'تعذّرت المشاركة.' : 'Could not share.')); }} />
+        <Action compact title={ar ? 'إغلاق المشاركة' : 'Close sharing'} onPress={() => setSharePost(null)} />
+      </View> : null}
+      {deletePost ? <View testID="post-delete-confirm" style={[styles.card, { padding: 16, gap: 10 }]}>
+        <Txt>{ar ? 'حذف المنشور نهائيًا؟ سجل التحضير يبقى محفوظًا.' : 'Delete this post? Your brew record stays saved.'}</Txt>
+        <Action title={ar ? 'تأكيد حذف المنشور' : 'Confirm delete post'} disabled={deleting} onPress={() => { if (!supabase || !userId || deleting) return; setDeleting(true); void deleteCommunityPost(supabase, userId, deletePost.id).then(async () => { if (deletePost.primary_media_path) await supabase?.storage.from('post-media').remove([deletePost.primary_media_path]); setDeletePost(null); setRevision(n => n + 1); }).catch(() => setError(ar ? 'تعذّر تأكيد حذف المنشور.' : 'Could not confirm post deletion.')).finally(() => setDeleting(false)); }} />
+        <Action compact title={ar ? 'إلغاء حذف المنشور' : 'Cancel post deletion'} disabled={deleting} onPress={() => setDeletePost(null)} />
+      </View> : null}
+    </Container>
   );
 }
 function Metric({ value, label }: { value: string; label: string }) {

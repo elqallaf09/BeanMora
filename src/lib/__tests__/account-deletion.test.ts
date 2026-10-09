@@ -11,12 +11,14 @@ function fixture() {
   const list = vi.fn().mockResolvedValue({ data: [], error: null });
   const remove = vi.fn().mockResolvedValue({ error: null });
   const rpc = vi.fn().mockResolvedValue({ error: null });
+  const invoke = vi.fn().mockResolvedValue({ data: { expired_audio_removed: 0 }, error: null });
   const client = {
     auth: { getUser },
     storage: { from: () => ({ list, remove }) },
+    functions: { invoke },
     rpc,
   } as unknown as SupabaseClient;
-  return { client, getUser, list, remove, rpc };
+  return { client, getUser, list, remove, rpc, invoke };
 }
 describe('self-service deletion', () => {
   it('requires a verified signed-in user before inspecting media', async () => {
@@ -103,6 +105,16 @@ describe('self-service deletion', () => {
       'ACCOUNT_CHANGED',
     );
     expect(f.rpc).not.toHaveBeenCalled();
+  });
+  it('cleans hidden expired audio before deleting the caller, and blocks deletion on cleanup failure', async () => {
+    const f = fixture();
+    f.invoke.mockResolvedValueOnce({ data: { expired_audio_removed: 200 }, error: null });
+    await expect(deleteCurrentAccount(f.client)).resolves.toBe(owner);
+    expect(f.invoke).toHaveBeenCalledTimes(2);
+    expect(f.invoke).toHaveBeenCalledWith('purge-direct-messages', { body: { mode: 'own_expired_audio', owner } });
+    expect(f.invoke.mock.invocationCallOrder.at(-1)).toBeLessThan(f.rpc.mock.invocationCallOrder[0]);
+    const failed = fixture(); failed.invoke.mockResolvedValue({ data: null, error: new Error('voice cleanup failure') });
+    await expect(deleteCurrentAccount(failed.client)).rejects.toThrow('voice cleanup failure'); expect(failed.rpc).not.toHaveBeenCalled();
   });
   it('propagates database failure instead of claiming success', async () => {
     const f = fixture();

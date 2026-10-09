@@ -516,7 +516,7 @@ test('Arabic Roast Lab saves actual Arabic-number measurements, retries the same
     .fill('isolated-fixture-password');
   await page.getByRole('button', { name: 'تسجيل الدخول', exact: true }).click();
   await expect(
-    page.getByText(user.email, { exact: true }),
+    page.getByTestId("account-screen"),
   ).toBeVisible();
   await page.getByRole('button', { name: 'المزيد', exact: true }).click();
   await page

@@ -20,7 +20,7 @@ async function login(page: Page, ar: boolean) {
   await page.getByLabel(ar ? 'البريد الإلكتروني' : 'Email', { exact: true }).fill(user.email);
   await page.getByLabel(ar ? 'كلمة المرور' : 'Password', { exact: true }).fill('isolated_password');
   await page.getByRole('button', { name: ar ? 'تسجيل الدخول' : 'Sign in', exact: true }).click();
-  await expect(page.getByText(user.email, { exact: true })).toBeVisible();
+  await expect(page.getByTestId("account-screen")).toBeVisible();
 }
 for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: deletion requires confirmation, handles failure and clears only this account`, async ({ page }, info) => {
   let deleted = false; let calls = 0; let fail = true;
@@ -31,6 +31,7 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: deletion requires con
     if (path.endsWith('/token')) return reply(route, session);
     if (path.endsWith('/user')) return reply(route, deleted ? { message: 'User not found' } : user, deleted ? 404 : 200);
     if (path.includes('/storage/v1/object/list/')) { paths.push(route.request().postDataJSON().prefix); return reply(route, []); }
+    if (path.endsWith('/functions/v1/purge-direct-messages')) { expect(route.request().postDataJSON()).toEqual({ mode: 'own_expired_audio', owner: user.id }); return reply(route, { expired_audio_removed: 0 }); }
     if (path.endsWith('/rpc/delete_own_account')) {
       calls++;
       expect(route.request().postDataJSON()).toEqual({});
@@ -69,7 +70,7 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: deletion requires con
   fail = false; await confirm.click();
   await expect(page.getByText(ar ? 'تم حذف حسابك وبياناته.' : 'Your account and its data were deleted.', { exact: true })).toBeVisible();
   expect(deleted).toBe(true); expect(calls).toBe(2);
-  expect(paths).toHaveLength(16); expect(paths.every(path => path === user.id)).toBe(true);
+  expect(paths).toHaveLength(20); expect(paths.every(path => path === user.id)).toBe(true);
   const stored = await page.evaluate(({ ownShelf, ownDraft, guestShelf }) => ({ ownShelf: localStorage.getItem(ownShelf),
     ownDraft: localStorage.getItem(ownDraft), guestShelf: localStorage.getItem(guestShelf), session: localStorage.getItem('sb-mobilefixture-auth-token') }), { ownShelf, ownDraft, guestShelf });
   expect(stored).toEqual({ ownShelf: null, ownDraft: null, guestShelf: 'isolated guest shelf', session: null });
@@ -105,7 +106,7 @@ test('Google uses PKCE, offers account selection and returns to a signed-in acco
   expect(authorization?.searchParams.get('code_challenge_method')).toBe('s256');
   expect(authorization?.searchParams.get('code_challenge')).toBeTruthy();
   await page.getByRole('button', { name: 'Open account', exact: true }).click();
-  await expect(page.getByText(user.email, { exact: true })).toBeVisible();
+  await expect(page.getByTestId("account-screen")).toBeVisible();
 });
 
 test('a disabled Google provider explains the problem without a broken redirect', async ({ page }) => {
@@ -253,5 +254,5 @@ for (const ar of [true, false])
     await save.click();
     await expect(page.getByTestId('password-recovery')).toHaveCount(0);
     expect(updates).toBe(2);
-    await expect(page.getByText(user.email, { exact: true })).toBeVisible();
+    await expect(page.getByTestId("account-screen")).toBeVisible();
   });

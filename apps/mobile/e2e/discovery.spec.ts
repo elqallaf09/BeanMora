@@ -26,12 +26,7 @@ async function reply(route: Route, rows: unknown[], total = rows.length) {
 }
 async function openLibrary(page: Page, locale: 'ar' | 'en') {
   await page.goto('/');
-  if (locale === 'en') {
-    await setLanguage(page, 'en');
-    // Modal fade-out restores focus to its opener. Finish that transition
-    // before navigating and typing into another control.
-    await expect(page.getByRole('button', { name: 'Close language selection', exact: true, includeHidden: true })).toHaveCount(0);
-  }
+  if (locale === 'en') await setLanguage(page, 'en');
   await openRecipeLibrary(page, locale);
   await expect(page.getByRole('button', { name: locale === 'ar' ? records[0].title_ar : records[0].title, exact: true })).toBeVisible();
 }

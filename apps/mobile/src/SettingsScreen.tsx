@@ -9,6 +9,7 @@ import { AppVersion } from './AppVersion';
 import { LegalLinks } from './LegalLinks';
 import { SettingsAccount } from './SettingsAccount';
 import { TabRail } from './TabRail';
+import { SettingsSocial } from './SettingsSocial';
 
 export function SettingsScreen({
   visible,
@@ -94,6 +95,9 @@ export function SettingsScreen({
                 items={[{ id: 'ar', label: 'العربية' }, { id: 'en', label: 'English' }]}
                 onChange={value => changeLanguage(value as Locale)} />
             </View>
+            {session ? (
+              <SettingsSocial key={'social-' + session.user.id} owner={session.user.id} />
+            ) : null}
             {session ? (
               <SettingsAccount
                 key={session.user.id}

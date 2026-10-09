@@ -171,6 +171,8 @@ export type IconName =
   | 'clock'
   | 'play'
   | 'more'
+  | 'edit'
+  | 'chevronDown'
   | 'lock'
   | 'mail'
   | 'trash'
@@ -364,6 +366,12 @@ export function Icon({
         fill={filled ? color : 'none'}
       />
     ),
+    edit: (
+      <>
+        <Path d="m15 4 5 5M4 20l5-1L21 7a2 2 0 0 0-5-5L4 14v6Z" />
+      </>
+    ),
+    chevronDown: <Path d="m6 9 6 6 6-6" />,
     gear: (
       <>
         <Path d="m9 2 6 0 1 3 3 1 2 5-2 3v4l-5 3-3-1-3 1-5-4 1-4-1-3 3-5 3-1Z" />
