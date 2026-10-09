@@ -492,9 +492,10 @@ for (const width of [320, 800, 1536])
       .getByRole("button", { name: "الإعدادات", exact: true })
       .first()
       .click();
-    await expect(
-      page.getByRole("button", { name: "حذف الحساب والبيانات", exact: true }),
-    ).toBeInViewport();
+    // Country/contact fields make Settings scrollable on tablet layouts too.
+    const deleteAccount = settings.getByRole("button", { name: "حذف الحساب والبيانات", exact: true });
+    await deleteAccount.scrollIntoViewIfNeeded();
+    await expect(deleteAccount).toBeInViewport({ ratio: 1 });
     await page.screenshot({
       path: info.outputPath(`settings-dark-${width}.png`),
     });
