@@ -591,14 +591,30 @@ test("general timeline likes survive reload, unlike removes only the current mem
   await expect(like).toHaveAttribute("aria-pressed", "false");
   await expect(like).toContainText("Like · 1");
   f.failLikes(false);
+  const savedLike = page.waitForResponse(
+    (response) =>
+      new URL(response.url()).pathname.endsWith("/post_likes") &&
+      response.request().method() === "POST",
+  );
   await like.click();
+  // Optimistic counts can appear before the mutation is acknowledged. Wait
+  // for completion so reload tests persisted state instead of aborting a save.
+  expect((await savedLike).status()).toBe(201);
+  await expect(like).toBeEnabled();
   await expect(like).toHaveAttribute("aria-pressed", "true");
   await expect(like).toContainText("Like · 2");
   expect(f.likeWrites.at(-1)).toEqual({ post_id: "post-1", user_id: uid });
   await page.reload();
   await page.getByRole("button", { name: "coffeeHO", exact: true }).click();
   await expect(like).toHaveAttribute("aria-pressed", "true");
+  const removedLike = page.waitForResponse(
+    (response) =>
+      new URL(response.url()).pathname.endsWith("/post_likes") &&
+      response.request().method() === "DELETE",
+  );
   await like.click();
+  expect((await removedLike).status()).toBe(204);
+  await expect(like).toBeEnabled();
   await expect(like).toContainText("Like · 1");
   await expect(like).toHaveAttribute("aria-pressed", "false");
 });

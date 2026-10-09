@@ -16,7 +16,7 @@ Prepared source release. Local Android versionCode is 31 and iOS buildNumber is 
 - Mobile TypeScript, behavior suites and shared-core parity pass.
 - Android, iOS and web exports compile with source maps; exported dependency checks pass for all three platforms.
 - Forty-one focused browser scenarios pass, including verified email/password changes inside Settings, bilingual deletion/recovery, appearance persistence, guest settings, retrying failed sign-out, liking/unliking, comment retry/draft preservation and persistence after reload. Arabic layouts are checked at 320, 800 and 1536 px.
-- The full 111-scenario browser run passed 106 scenarios; five older scenarios still used the former account-page sign-out button as a sign-in assertion. They were updated to assert the authenticated account screen and all five pass in a focused rerun.
+- The complete browser suite contains 111 scenarios. Existing sign-in checks now assert the authenticated account screen rather than its relocated sign-out button. Like persistence checks wait for the server acknowledgement before reloading and verify the unlike response; optimistic counts alone are not treated as confirmation.
 - The twelve mockups are rendered with the app's Arabic fonts and assets. The PDF contains twelve full-size pages with matching numbered bookmarks; all pages are rendered and visually reviewed.
 
 Browser tests use isolated fixture accounts and endpoints. They do not send real confirmation email or mutate production account data. Exported JavaScript and browser previews are not a signed APK or a physical-device test.
