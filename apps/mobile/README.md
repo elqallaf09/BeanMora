@@ -68,7 +68,7 @@ After the release PR is merged, open the existing BeanMora Expo project's **Buil
 | Environment from the build profile | `production` (the **Production** variables in Expo) |
 | Submit to store after build | Off |
 
-Start the build manually. When its status is **Finished**, check that the build details identify the intended release commit and version **0.5.21**, then download the **APK** from that build's artifact link. The Android build number must exceed the version already installed on the device. Settings and account screens show the actual installed native version/build number. Install the newly built APK to receive these changes.
+Start the build manually. When its status is **Finished**, check that the build details identify the intended release commit and version **0.5.22**, then download the **APK** from that build's artifact link. The Android build number must exceed the version already installed on the device. Settings and account screens show the actual installed native version/build number. Install the newly built APK to receive these changes.
 
 Both EAS profiles explicitly select `production` variables and the Android `latest` build image. EAS now manages build numbers remotely with `autoIncrement: true` on both profiles; the user-facing version remains in app.json. On initial migration verify the remote counters exceed Android **25** and iOS **9**; an existing lower counter must be synchronized with `eas build:version:set` before delivery. The `preview` profile produces an internally distributed APK; the `production` profile produces an app bundle for Android or an App Store build for iOS. Build a new iOS archive before submitting it to TestFlight. Resubmitting an old archive keeps its duplicate build number. The standalone preview APK runs without Expo Go or a development server.
 
@@ -118,3 +118,5 @@ npm run export
 Passing Metro iOS/Android exports verifies bundling, not physical-device operation. React Native Web regression tests exercise scrolling, card widths, detail-to-recipe navigation, auth and outcome retries at 320, 390, 768 and 1536 pixels. Those tests do not establish native iOS/Android behavior. See the pull request for checks actually completed.
 
 Reference docs (checked 2026-09-22): https://docs.expo.dev/get-started/start-developing/ , https://expo.dev/go , https://docs.expo.dev/guides/authentication/ , https://docs.expo.dev/guides/using-supabase/ .
+
+Version 0.5.22 unifies account recipe saves with the saved shelf, retains recipe search/filter drafts across detail navigation, expands Arabic coffee/flavor retrieval, and displays catalog pictures in account collections. Equipment includes usage steps and verified manufacturer links; the capsule catalog lists 101 reviewed products in seven systems, including Zill. Brew results save grinder, brewer, roast and calibration in the same idempotent transaction. See [validation and build requirements](../../docs/RELEASE-0.5.22.md).

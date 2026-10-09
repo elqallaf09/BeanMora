@@ -36,6 +36,7 @@ import { copy, caveats, reasons, type Locale } from './src/copy';
 import { matchesIndexedSearch } from './src/core/deepSearch';
 import { indexedCoffeeSearchDocument } from './src/searchIndex';
 import { SearchScreen } from './src/SearchScreen';
+import type { RecipeCatalogState } from './src/RecipeCatalog';
 import { flavorLabel } from './src/sensory';
 import type { EquipmentItem, RoasterItem } from './src/catalog';
 import {
@@ -172,6 +173,9 @@ function Shell() {
   const [revision, setRevision] = useState(0);
   const { data, refreshing } = useCatalog(locale, userId, revision);
   const shelf = useRecipeShelf(userId, locale);
+  const recipeMemory = useRef(new Map<string, RecipeCatalogState>());
+  useEffect(() => { recipeMemory.current.clear(); }, [userId]);
+  const recipeMemoryKey = tab + ':' + (recipeCoffee ? recipeCoffee.kind + recipeCoffee.id : 'all');
   const loginReturn = useRef<{
     tab: Tab;
     detail: Detail | null;
@@ -732,6 +736,7 @@ function Shell() {
               ) : detail?.type === 'coffee' ? (
                 <CoffeeDetail
                   key={detail.item.id}
+                  userId={userId}
                   item={detail.item}
                   recipes={data?.recipes ?? []}
                   openRecipe={openRecipe}
@@ -744,7 +749,9 @@ function Shell() {
                 />
               ) : detail?.type === 'recipe' ? (
                 <RecipeDetail
+                  key={detail.item.id + (userId ?? 'guest')}
                   recipe={detail.item}
+                  accountSaved={Boolean(userId)}
                   record={startRecord}
                   saved={shelf.ids.includes(detail.item.id)}
                   saving={shelf.busy}
@@ -818,6 +825,8 @@ function Shell() {
                 />
               ) : tab === 'search' ? (
                 <SearchScreen
+                  initialState={recipeMemory.current.get(recipeMemoryKey)}
+                  remember={state => { recipeMemory.current.set(recipeMemoryKey, state); }}
                                     coffees={data?.coffees ?? []}
                   savedIds={savedIds}
                   saveCoffee={(item) => void saveCoffee(item)}
@@ -836,6 +845,8 @@ function Shell() {
                 />
               ) : tab === 'recipes' ? (
                 <SearchScreen key={recipeEntry + (recipeCoffee?.id ?? '')}
+                  initialState={recipeMemory.current.get(recipeMemoryKey)}
+                  remember={state => { recipeMemory.current.set(recipeMemoryKey, state); }}
                   coffees={data?.coffees??[]} savedIds={savedIds} saveCoffee={item=>void saveCoffee(item)}
                   openCoffee={openCoffee} openRecipe={openRecipe} openRoaster={item=>openDetail({type:'roaster',item})}
                   browseCoffees={query=>{setMethod(undefined);navigate('beans');setSearch(query);}}

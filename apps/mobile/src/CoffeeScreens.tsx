@@ -32,6 +32,7 @@ import { METHODS, type Method } from './core/engine';
 import type { Bundle, CoffeeItem, RecipeItem, CoffeeImageKind } from './data';
 import { CoffeeSensory, FlavorNotes } from './SensoryProfile';
 import { useCoffeeRecipes } from './useCoffeeRecipes';
+import { GrinderSettings } from './GrinderSettings';
 import { SourceLink } from './SourceLink';
 import { useBrewStarter } from './useBrewStarter';
 import { recipeQuickFacts } from './recipeQuickFacts';
@@ -651,12 +652,14 @@ export function CoffeeDetail({
   openRecipe,
   addToBags,
   browseRecipes,
+  userId = null,
 }: {
   item: CoffeeItem;
   recipes: RecipeItem[];
   openRecipe: (r: RecipeItem) => void;
   addToBags?: (item: CoffeeItem) => void;
   browseRecipes?: (method: Method) => void;
+  userId?: string | null;
 }) {
   const locale = useContext(Language);
   const ar = locale === 'ar';
@@ -704,6 +707,7 @@ export function CoffeeDetail({
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
       contentContainerStyle={[s.page, { maxWidth: 780, gap: 18 }]}
     >
       <View
@@ -979,6 +983,7 @@ export function CoffeeDetail({
             <Icon name="arrow" size={18} />
           </Pressable>
         ))}
+      <GrinderSettings coffee={item} recipes={related} userId={userId}/>
       {linked.error ? (
         <View testID="coffee-recipes-error" style={styles.card}>
           <Txt style={styles.warning}>

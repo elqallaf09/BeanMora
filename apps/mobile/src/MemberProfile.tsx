@@ -15,6 +15,8 @@ import { MemberAvatar } from "./MemberAvatar";
 import { categoryLabel } from "./catalog";
 import { catalogName, methodLabel } from "./localizedContent";
 import { useContentMedia } from "./useContentMedia";
+import { CatalogPhoto } from "./CatalogPhoto";
+import { safeUrl } from "./guards";
 import {
   contributionImage,
   uploadContributionImage,
@@ -173,6 +175,30 @@ function ProfileImage({ url, caption }: { url: string; caption: string }) {
     />
   ) : (
     <View style={{ height: 80, backgroundColor: colors.paper }} />
+  );
+}
+function CollectionPhoto({
+  url,
+  status,
+  name,
+  bean = false,
+}: {
+  url?: string | null;
+  status?: string | null;
+  name: string;
+  bean?: boolean;
+}) {
+  const allowed = ["source_linked", "rights_confirmed"].includes(status ?? "");
+  const resolved = useContentMedia(allowed ? (url ?? null) : null);
+  return (
+    <View style={{ width: 94, flexShrink: 0 }}>
+      <CatalogPhoto
+        uri={safeUrl(resolved)}
+        height={90}
+        icon={bean ? "bean" : "gear"}
+        alt={name}
+      />
+    </View>
   );
 }
 type Props = {
@@ -365,18 +391,94 @@ export function MemberProfile({
           </Txt>
         </View>
         <View style={{ padding: 16, paddingTop: 0, gap: 10 }}>
-          <View style={{ marginTop: -20, flexDirection: ar ? "row-reverse" : "row", alignItems: "center", gap: 12 }}>
-            {own && userId ? <AvatarEditor key={userId} owner={userId} name={p.name} url={p.avatar_url} saved={url => { setData(current => current ? { ...current, profile: { ...current.profile, avatar_url: url } } : current); setNotice(ar ? "تم حفظ الصورة الشخصية." : "Profile photo saved."); }} /> : <MemberAvatar name={p.name} url={p.avatar_url} size={64} />}
+          <View
+            style={{
+              marginTop: -20,
+              flexDirection: ar ? "row-reverse" : "row",
+              alignItems: "center",
+              gap: 12,
+            }}
+          >
+            {own && userId ? (
+              <AvatarEditor
+                key={userId}
+                owner={userId}
+                name={p.name}
+                url={p.avatar_url}
+                saved={(url) => {
+                  setData((current) =>
+                    current
+                      ? {
+                          ...current,
+                          profile: { ...current.profile, avatar_url: url },
+                        }
+                      : current,
+                  );
+                  setNotice(
+                    ar ? "تم حفظ الصورة الشخصية." : "Profile photo saved.",
+                  );
+                }}
+              />
+            ) : (
+              <MemberAvatar name={p.name} url={p.avatar_url} size={64} />
+            )}
             <View style={{ flex: 1, minWidth: 0, paddingTop: 16 }}>
-              <Txt heading numberOfLines={2} style={{ fontSize: 23, lineHeight: 31, fontWeight: "700" }}>{p.name}</Txt>
-              <Pressable accessibilityRole={own ? "button" : undefined} accessibilityLabel={own ? ar ? "تغيير اسم المستخدم" : "Change username" : undefined} disabled={!own || busy} onPress={() => { setEditing(true); setNotice(""); }} style={{ minHeight: 44, justifyContent: "center" }}>
-                <Txt style={{ fontWeight: "700", color: colors.teal, writingDirection: "ltr" }}>@{p.username}</Txt>
+              <Txt
+                heading
+                numberOfLines={2}
+                style={{ fontSize: 23, lineHeight: 31, fontWeight: "700" }}
+              >
+                {p.name}
+              </Txt>
+              <Pressable
+                accessibilityRole={own ? "button" : undefined}
+                accessibilityLabel={
+                  own
+                    ? ar
+                      ? "تغيير اسم المستخدم"
+                      : "Change username"
+                    : undefined
+                }
+                disabled={!own || busy}
+                onPress={() => {
+                  setEditing(true);
+                  setNotice("");
+                }}
+                style={{ minHeight: 44, justifyContent: "center" }}
+              >
+                <Txt
+                  style={{
+                    fontWeight: "700",
+                    color: colors.teal,
+                    writingDirection: "ltr",
+                  }}
+                >
+                  @{p.username}
+                </Txt>
               </Pressable>
             </View>
           </View>
-          <View style={{ flexDirection: ar ? "row-reverse" : "row", alignItems: "center", gap: 5 }}>
-            <Icon name={p.is_private ? "lock" : "globe"} size={14} color={colors.muted} />
-            <Txt style={styles.muted}>{p.is_private ? ar ? "حساب خاص" : "Private account" : ar ? "حساب عام" : "Public account"}</Txt>
+          <View
+            style={{
+              flexDirection: ar ? "row-reverse" : "row",
+              alignItems: "center",
+              gap: 5,
+            }}
+          >
+            <Icon
+              name={p.is_private ? "lock" : "globe"}
+              size={14}
+              color={colors.muted}
+            />
+            <Txt style={styles.muted}>
+              {p.is_private
+                ? ar
+                  ? "حساب خاص"
+                  : "Private account"
+                : ar
+                  ? "حساب عام"
+                  : "Public account"}
+            </Txt>
           </View>
           {p.bio ? <Txt>{p.bio}</Txt> : null}
           <View
@@ -724,15 +826,30 @@ export function MemberProfile({
                     if (e.equipment_model_id)
                       openItem("equipment", e.equipment_model_id);
                   }}
-                  style={[styles.card, { padding: 14, gap: 5 }]}
+                  style={[
+                    styles.card,
+                    {
+                      padding: 14,
+                      gap: 14,
+                      flexDirection: ar ? "row-reverse" : "row",
+                      alignItems: "center",
+                    },
+                  ]}
                 >
-                  <Txt heading>
-                    {ar ? e.name_ar || catalogName(e.name, "ar") : e.name}
-                  </Txt>
-                  <Txt>{categoryLabel(e.category, locale)}</Txt>
-                  {e.operation ? (
-                    <Txt style={styles.muted}>{e.operation[ar ? 0 : 1]}</Txt>
-                  ) : null}
+                  <CollectionPhoto
+                    url={e.image_url}
+                    status={e.image_usage_status}
+                    name={ar ? e.name_ar || catalogName(e.name, "ar") : e.name}
+                  />
+                  <View style={{ flex: 1, minWidth: 0, gap: 5 }}>
+                    <Txt heading>
+                      {ar ? e.name_ar || catalogName(e.name, "ar") : e.name}
+                    </Txt>
+                    <Txt>{categoryLabel(e.category, locale)}</Txt>
+                    {e.operation ? (
+                      <Txt style={styles.muted}>{e.operation[ar ? 0 : 1]}</Txt>
+                    ) : null}
+                  </View>
                 </Pressable>
               ))}
               {!data.equipment?.length ? <Empty ar={ar} /> : null}
@@ -747,15 +864,41 @@ export function MemberProfile({
                 />
               ) : null}
               {data.beans?.map((b) => (
-                <Action
+                <Pressable
                   key={b.id}
-                  title={
+                  accessibilityRole="button"
+                  accessibilityLabel={
                     ar
                       ? b.name_ar || catalogName(b.name_en, "ar")
                       : b.name_en || b.name_ar
                   }
                   onPress={() => openItem(b.kind, b.coffee_id)}
-                />
+                  style={[
+                    styles.card,
+                    {
+                      padding: 14,
+                      gap: 14,
+                      flexDirection: ar ? "row-reverse" : "row",
+                      alignItems: "center",
+                    },
+                  ]}
+                >
+                  <CollectionPhoto
+                    bean
+                    url={b.image_url}
+                    status={b.image_usage_status}
+                    name={
+                      ar
+                        ? b.name_ar || catalogName(b.name_en, "ar")
+                        : b.name_en || b.name_ar
+                    }
+                  />
+                  <Txt heading style={{ flex: 1 }}>
+                    {ar
+                      ? b.name_ar || catalogName(b.name_en, "ar")
+                      : b.name_en || b.name_ar}
+                  </Txt>
+                </Pressable>
               ))}
               {!data.beans?.length ? <Empty ar={ar} /> : null}
             </View>

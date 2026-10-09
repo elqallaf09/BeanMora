@@ -1,24 +1,28 @@
 import { useContext, useRef, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Switch, View } from './native';
 import { randomUUID } from 'expo-crypto';
-import { parseOutcome, saveOutcome, OUTCOMES, type BrewOutcome, type Outcome } from './core/outcome';
+import { parseOutcome, OUTCOMES, type BrewOutcome, type Outcome } from './core/outcome';
 import type { RecipeItem } from './data';
 import { supabase } from './client';
 import { errors, outcomes } from './copy';
 import { numberInput } from './guards';
 import { Action, Field, Language, Txt, styles, useCopy } from './ui';
 import { brewCoach, type TasteSignal } from './brewCoach';
+import { GrinderPicker } from './GrinderPicker';
+import { Disclosure } from './Disclosure';
+import { emptyGrinderContext, parseGrinderContext, saveConfiguredBrew, type GrinderContext } from './core/grinder-context';
 export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe: RecipeItem; userId: string; done: () => void; measuredSeconds?: number }) {
   const locale = useContext(Language); const t = useCopy();
   const [dose, setDose] = useState(recipe.dose === null ? '' : String(recipe.dose));
   const [water, setWater] = useState(recipe.water === null || recipe.waterUnit === 'ml' ? '' : String(recipe.water));
   const [seconds, setSeconds] = useState(measuredSeconds && Number.isInteger(measuredSeconds) && measuredSeconds > 0 ? String(measuredSeconds) : ''); const [outcome, setOutcome] = useState<Outcome | null>(null);
   const [grindSetting, setGrindSetting] = useState(recipe.grindSetting ?? '');
+  const [grinderContext, setGrinderContext] = useState<GrinderContext>(() => ({...emptyGrinderContext(),roasted_product_id:recipe.productId??null}));
   const [brewed, setBrewed] = useState(false); const [modified, setModified] = useState(false); const [share, setShare] = useState(false);
   const [nextGrind, setNextGrind] = useState<'finer' | 'same' | 'coarser' | null>(null);
   const [tasteSignal,setTasteSignal]=useState<TasteSignal|null>(null);
   const [busy, setBusy] = useState(false); const [saved, setSaved] = useState(false); const [error, setError] = useState(''); const [auxiliaryWarning,setAuxiliaryWarning]=useState('');
-  const inFlight = useRef(false); const pending = useRef<{ id: string; payload: BrewOutcome } | null>(null);
+  const inFlight = useRef(false); const pending = useRef<{ id: string; payload: BrewOutcome; context: GrinderContext } | null>(null);
   const locked = busy || pending.current !== null;
   async function submit() {
     if (inFlight.current || !supabase || saved) return;
@@ -33,21 +37,17 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
           outcome, status: modified ? 'brewed_with_modifications' : 'brewed_as_written',
           share_with_community: share, next_grind_adjustment: nextGrind, taste_scores: {}, brewed });
         if (!payload) { setError(errors[locale].invalid); return; }
-        pending.current = { id: randomUUID(), payload };
+        const context=parseGrinderContext({...grinderContext,grind_setting:grindSetting.trim()||null,taste_signal:tasteSignal});
+        if (!context) {setError(locale==='ar'?'راجع تاريخ التحميص وبيانات الطاحونة.':'Check the roast date and grinder details.');return;}
+        pending.current = { id: randomUUID(), payload, context };
       }
-      const response = await saveOutcome(supabase, pending.current.id, pending.current.payload);
+      const response = await saveConfiguredBrew(supabase, pending.current.id, pending.current.payload, pending.current.context);
       const request = pending.current;
       if (!response.ok) { setError(errors[locale][response.error]); return; }
       const warnings:string[]=[];
-      if(tasteSignal){
-        const tasteUpdate=await supabase.from('brew_logs').update({taste_signal:tasteSignal}).eq('id',request.id).eq('user_id',userId);
-        if(tasteUpdate.error) warnings.push(locale==='ar'?'تم حفظ الكوب، لكن تعذّر حفظ ملاحظة الطعم.':'The brew was saved, but the taste note could not be synced.');
-      }
       const grind = grindSetting.trim();
       if (grind) {
         try{
-          const update = await supabase.from('brew_logs').update({ grind_setting: grind }).eq('id', request.id).eq('user_id', userId);
-          if (update.error) throw update.error;
           const inventoryLookup = recipe.productId
             ? supabase.from('user_bean_inventory').select('id').eq('user_id',userId).eq('roasted_product_id',recipe.productId).order('updated_at',{ascending:false}).limit(1).maybeSingle()
             : recipe.beanId
@@ -92,7 +92,8 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
     <Field label={t.dose} value={dose} onChangeText={setDose} keyboardType="decimal-pad" editable={!locked} />
     <Field label={t.water} value={water} onChangeText={setWater} keyboardType="decimal-pad" editable={!locked} />
     <Field label={t.seconds} value={seconds} onChangeText={setSeconds} keyboardType="number-pad" editable={!locked} />
-    <Field label={locale==='ar'?'درجة الطحن الفعلية':'Actual grind setting'} value={grindSetting} onChangeText={setGrindSetting} editable={!locked} placeholder={locale==='ar'?'مثال: 5E أو 22 clicks':'e.g. 5E or 22 clicks'} />
+    <Disclosure title={locale==='ar'?'الطاحونة والجهاز والحمصة':'Grinder, device and roast'}><GrinderPicker value={grinderContext} change={setGrinderContext} method={recipe.method} disabled={locked}/></Disclosure>
+    <Field maxLength={100} label={locale==='ar'?'درجة الطحن الفعلية':'Actual grind setting'} value={grindSetting} onChangeText={setGrindSetting} editable={!locked} placeholder={locale==='ar'?'مثال: 5E أو 22 clicks':'e.g. 5E or 22 clicks'} />
     <Txt style={local.sectionLabel}>{t.outcome}</Txt><View style={local.outcomeGrid}>{OUTCOMES.map((o,index) => <Pressable key={o} accessibilityRole="button" accessibilityLabel={outcomes[locale][o]} accessibilityState={{selected:outcome===o,disabled:locked}} disabled={locked} onPress={()=>setOutcome(o)} style={[local.outcomeCard,outcome===o&&local.outcomeSelected]}><Txt style={local.outcomeEmoji}>{['◎','○','△','×'][index]}</Txt><Txt style={[local.outcomeText,outcome===o&&{color:'#FFF'}]}>{outcomes[locale][o]}</Txt></Pressable>)}</View>
     <View style={local.tasteCard}><Txt style={local.coachTitle}>{locale==='ar'?'شنو كان أوضح شي بالطعم؟':'What stood out most?'}</Txt><View style={styles.row}>{([
       ['sharp_sour',locale==='ar'?'حامض/حاد':'Sharp sour'],['bitter_dry',locale==='ar'?'مر/جاف':'Bitter/dry'],['thin_weak',locale==='ar'?'خفيف/ضعيف':'Thin/weak'],['balanced',locale==='ar'?'متوازن':'Balanced'],['other',locale==='ar'?'شي ثاني':'Other']

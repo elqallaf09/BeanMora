@@ -6,7 +6,7 @@ import type { CoffeeItem, RecipeItem } from './data';
 import { matchesDeepSearch, matchesIndexedSearch } from './core/deepSearch';
 import { indexedCoffeeSearchDocument } from './searchIndex';
 import { CoffeeCard, SectionTitle } from './CoffeeScreens';
-import { RecipeCatalog } from './RecipeCatalog';
+import { RecipeCatalog, type RecipeCatalogState } from './RecipeCatalog';
 import { Action, Language, Txt, colors, styles } from './ui';
 
 export function SearchScreen({
@@ -19,6 +19,8 @@ export function SearchScreen({
   browseRoasters,
   savedIds,
   saveCoffee,
+  initialState,
+  remember,
 }: {
   recipeOptions?: Omit<ComponentProps<typeof RecipeCatalog>,'open'|'searchResults'|'universal'>;
   coffees: CoffeeItem[];
@@ -27,6 +29,8 @@ export function SearchScreen({
   openCoffee: (coffee: CoffeeItem) => void;
   openRecipe: (recipe: RecipeItem) => void;
   openRoaster: (roaster: RoasterItem) => void;
+  initialState?: RecipeCatalogState;
+  remember?: (state: RecipeCatalogState) => void;
   browseCoffees: (query: string) => void;
   browseRoasters: (query: string) => void;
 }) {
@@ -170,6 +174,6 @@ export function SearchScreen({
     );
   };
   return (
-    <RecipeCatalog {...recipeOptions} universal={universal} open={openRecipe} searchResults={universal ? renderResults : undefined} />
+    <RecipeCatalog {...recipeOptions} initialState={initialState} remember={remember} universal={universal} open={openRecipe} searchResults={universal ? renderResults : undefined} />
   );
 }
