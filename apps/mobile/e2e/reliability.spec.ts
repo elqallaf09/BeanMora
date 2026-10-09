@@ -161,6 +161,7 @@ test('saved recipe amounts and steps survive a reload and failed network, then c
   await page.getByRole('button', { name: 'حفظ الوصفة على الجهاز', exact: true }).click();
   await expect(page.getByRole('button', { name: 'إزالة الوصفة من المحفوظة', exact: true })).toBeEnabled();
   offline = true; await page.reload();
+  await page.getByRole('button', { name: 'المزيد', exact: true }).click();
   await page.getByRole('button', { name: 'وصفاتي المحفوظة', exact: true }).click();
   await page.getByRole('button', { name: 'وصفة بومب 100', exact: true }).click();
   await expect(page.getByTestId('recipe-detail')).toContainText('288');

@@ -7,10 +7,12 @@ export function CatalogPhoto({
   uri,
   icon = "gear",
   height = 140,
+  alt,
 }: {
   uri: string | null;
   icon?: IconName;
   height?: number;
+  alt?: string;
 }) {
   const ar = useContext(Language) === "ar";
   const [failed, setFailed] = useState(false);
@@ -20,7 +22,7 @@ export function CatalogPhoto({
       {uri && !failed ? (
         <Image
           accessibilityLabel={
-            ar ? "صورة الأداة من مصدرها" : "Equipment photo from its source"
+            alt ?? (ar ? "صورة الأداة من مصدرها" : "Equipment photo from its source")
           }
           source={{ uri }}
           resizeMode="contain"

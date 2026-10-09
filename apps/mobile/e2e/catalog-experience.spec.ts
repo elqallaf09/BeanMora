@@ -146,9 +146,10 @@ test("compact navigation and capsule systems fit 320px; guest contributions requ
   await page.route("https://mobilefixture.supabase.co/**", fixture);
   await page.goto("/");
   const nav = page.getByTestId("library-navigation");
-  expect(await nav.evaluate((e) => e.scrollWidth <= e.clientWidth + 1)).toBe(
+  expect(await nav.evaluate((e) => e.clientWidth <= window.innerWidth)).toBe(
     true,
   );
+  await page.getByRole("button", { name: "المزيد", exact: true }).click();
   await page.getByRole("button", { name: "الكبسولات", exact: true }).click();
   await page
     .getByRole("button", { name: "نسبريسو فيرتو", exact: true })

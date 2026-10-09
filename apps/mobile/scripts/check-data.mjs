@@ -8,7 +8,7 @@ const root = new URL('../', import.meta.url);
 const temp = mkdtempSync(tmpdir() + '/beanmora-data-');
 mkdirSync(temp + '/core');
 for (const file of [
-  'core/content-media.ts', 'data.ts',
+  'core/content-media.ts', 'core/equipment-facts.ts', 'catalog.ts', 'data.ts',
   'guards.ts',
   'sourceBrew.ts',
   'manualBrew.ts',
@@ -793,4 +793,14 @@ test('a never-settling read finishes as a recoverable failure within the deadlin
   assert.equal(result.failures.beans, true);
   assert.equal(result.warnings, true);
   assert.deepEqual(result.coffees, []);
+});
+
+const { reviewedEquipmentGallery } = await import(pathToFileURL(temp + '/catalog.mjs').href);
+test('equipment gallery only exposes reviewed sourced photos, deduplicates and localizes alt text', () => {
+  const photo = {url:'https://manufacturer.example/front.jpg', source_url:'https://manufacturer.example/model', usage_status:'source_linked', alt_ar:'أمام', alt_en:'Front'};
+  const spec = {catalog:{schema_version:1,images:[photo,photo,{...photo,url:'javascript:alert(1)'},{...photo,url:'https://manufacturer.example/private.jpg',usage_status:'unreviewed'},{...photo,url:'https://manufacturer.example/no-source.jpg',source_url:''},{...photo,url:'https://manufacturer.example/side.jpg',usage_status:'rights_confirmed'}]}};
+  assert.deepEqual(reviewedEquipmentGallery(spec,'ar').map(p=>p.alt),['أمام','أمام']);
+  assert.deepEqual(reviewedEquipmentGallery(spec,'en').map(p=>p.url),['https://manufacturer.example/front.jpg','https://manufacturer.example/side.jpg']);
+  assert.deepEqual(reviewedEquipmentGallery({catalog:{schema_version:2,images:[photo]}},'en'),[]);
+  assert.deepEqual(reviewedEquipmentGallery({catalog:{schema_version:1,images:'bad'}},'en'),[]);
 });

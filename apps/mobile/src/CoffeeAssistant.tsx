@@ -12,6 +12,8 @@ import {
 import methodGuides from "./methodGuides.json";
 import { factLabels } from "./core/equipment-facts";
 import { useReducedMotion } from "./Motion";
+import { SelectionMenu } from './SelectionMenu';
+import { coffeeCourseGroups, coffeeLearningTopics } from './core/coffee-knowledge';
 
 export type AssistantTurn = LocalAssistantTurn;
 export function CoffeeAssistant({
@@ -28,6 +30,7 @@ export function CoffeeAssistant({
   const [question, setQuestion] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const learningTopics = coffeeLearningTopics(locale);
   const active = useRef<AbortController | null>(null);
   const list = useRef<ScrollView>(null);
   const reduced = useReducedMotion();
@@ -192,6 +195,13 @@ export function CoffeeAssistant({
             ))}
           </View>
         ) : null}
+        <SelectionMenu compact disabled={busy}
+          label={ar ? 'مكتبة المعرفة' : 'Knowledge library'} value=""
+          items={learningTopics.map(topic => ({ id: topic.id, name: topic.title, note: coffeeCourseGroups[topic.group][ar ? 0 : 1] }))}
+          onChange={id => {
+            const topic = learningTopics.find(topic => topic.id === id);
+            if (topic) void ask(topic.title);
+          }} />
         {turns.map((turn, index) => (
           <View key={index} style={{ gap: 12 }}>
             <View

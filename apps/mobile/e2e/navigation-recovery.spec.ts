@@ -1,5 +1,6 @@
 import { setLanguage } from './settings';
 import { test, expect } from '@playwright/test';
+import { chooseMethod } from './navigation';
 
 // Isolated API fixtures; no production writes, accounts or credentials.
 const bean = {
@@ -43,7 +44,7 @@ for (const {width,height,locale} of [
   await page.getByRole('button',{name:library,exact:true}).click();
   for(const recipe of recipes) await expect(page.getByRole('button',{name:locale==='ar'?recipe.title_ar:recipe.title,exact:true})).toBeVisible();
   await page.getByRole('button',{name:home,exact:true}).click();
-  await page.getByRole('button',{name:locale==='ar'?'موكا بوت':'Moka pot',exact:true}).click();
+  await chooseMethod(page, locale, locale==='ar'?'موكا بوت':'Moka pot');
   await expect(page.getByRole('heading',{name:library,exact:true})).toBeVisible();
   await expect(page.getByRole('button',{name:locale==='ar'?recipes[1].title_ar:recipes[1].title,exact:true})).toBeVisible();
   await expect(page.getByRole('button',{name:locale==='ar'?recipes[0].title_ar:recipes[0].title,exact:true})).toHaveCount(0);

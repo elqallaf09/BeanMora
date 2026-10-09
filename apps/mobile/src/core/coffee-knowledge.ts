@@ -1,6 +1,7 @@
 import { normalizeSearch } from "./deepSearch";
+import { COFFEE_CURRICULUM, type CoffeeCourseGroup } from './coffee-curriculum';
 /** Reviewed bilingual education. Product settings always remain with their source. */
-const articles = [
+const basics = [
   {
     id: "storage",
     keywords:
@@ -53,7 +54,7 @@ const articles = [
     ar: "بعد التحميص يخرج الغاز تدريجيًا، ومدة الراحة تختلف حسب البن ودرجة التحميص. اتبع توصية محمصتك وسجّل تغير الطعم مع الأيام. لا كابرا توصي لبنها براحة عشرة أيام على الأقل وقد يناسب بعض بنها الكثيف وقت أطول؛ هذا يخص تحميصها وليس قاعدة لكل المحامص.",
     en: "Roasting gas leaves the beans gradually, and resting time varies with the coffee and roast. Follow your roaster’s guidance and track taste over time. La Cabra recommends at least ten days for its own coffee and sometimes longer for dense coffees; that is its roast guidance, not a rule for every roaster.",
     title: "La Cabra — Resting coffee",
-    url: "https://lacabra.com/pages/water",
+    url: "https://us.lacabra.com/pages/resting-coffee",
     suggestions: ["شلون أخزن البن؟", "ليش نسوي بلوم؟"],
     suggestionsEn: ["How should I store beans?", "Why bloom coffee?"],
   },
@@ -72,28 +73,63 @@ const articles = [
     ],
   },
 ];
+const basicLabels: Record<string, { group: CoffeeCourseGroup; titles: [string, string]; more: [string, string] }> = {
+  storage: { group: 'beans', titles: ['تخزين البن', 'Storing coffee'], more: ['قسّم الكمية الكبيرة إلى عبوات صغيرة. اترك العبوة المجمدة مغلقة حتى تصل إلى حرارة الغرفة قبل فتحها لتقليل التكاثف.', 'Divide a large supply into small airtight portions. Let a frozen package reach room temperature while sealed before opening to reduce condensation.'] },
+  water: { group: 'water', titles: ['العسر والقلوية وTDS', 'Hardness, alkalinity and TDS'], more: ['العسر والقلوية قياسان مختلفان حتى لو كُتبا بوحدة ppm ككربونات الكالسيوم. جهاز TDS لا يفصل بينهما؛ تحتاج تحليلًا أو اختبارين مناسبين.', 'Hardness and alkalinity are separate measurements even when both are expressed in ppm as calcium carbonate. A TDS meter cannot separate them; use suitable tests or a water analysis.'] },
+  processing: { group: 'beans', titles: ['معالجات البن', 'Coffee processing'], more: ['المعالجة اللاهوائية تصف بيئة تخمير محدودة الأكسجين، وقد تُدمج مع مغسول أو مجفف. اقرأ تفاصيل المنتج بدل افتراض أن الاسم يضمن نكهة ثابتة.', 'Anaerobic processing describes a low-oxygen fermentation environment and can accompany washed or natural processing. Read producer details rather than assuming the name guarantees one flavor.'] },
+  bloom: { group: 'brewing', titles: ['البلوم وخروج الغاز', 'Blooming and gas release'], more: ['تأكد أن كل طبقة البن ابتلت؛ اسكب بهدوء وسجّل طريقة التحريك. إذا غيّرت مدة البلوم، ثبّت بقية الصبات حتى تكون المقارنة مفيدة.', 'Wet the whole bed gently and record agitation. When changing bloom duration, keep the other pours fixed for a useful comparison.'] },
+  rest: { group: 'beans', titles: ['راحة البن بعد التحميص', 'Resting after roasting'], more: ['تذوق نفس البن في عدة أيام بنفس الوصفة وسجل التدفق والطعم. تاريخ التحميص وحده لا يحدد يوم الذروة لكل البن.', 'Taste the same coffee on several days with the same recipe, recording flow and taste. Roast date alone cannot predict a universal peak day.'] },
+  roast: { group: 'roasting', titles: ['درجات التحميص', 'Roast levels'], more: ['الفاتح ليس مرادفًا لنقص التطوير، والغامق ليس مرادفًا للجودة المنخفضة. قارن لونًا وطعمًا مستهدفين، ولا تحكم من اسم الحمصة فقط.', 'Light does not mean underdeveloped, and dark does not automatically mean low quality. Compare intended color and flavor rather than judging roast names alone.'] },
+};
+const articles = [
+  ...basics.map(row => ({ ...row, ...basicLabels[row.id], priority: row.id === 'water' ? 5 : 55 })),
+  ...COFFEE_CURRICULUM.map(row => ({ ...row, suggestions: [] as string[], suggestionsEn: [] as string[] })),
+];
+export const coffeeCourseGroups: Record<CoffeeCourseGroup, [string, string]> = {
+  beans: ['البن والمعالجة', 'Beans and processing'], grinding: ['الطحن', 'Grinding'],
+  water: ['الماء', 'Water'], equipment: ['المكاين والأدوات', 'Machines and tools'],
+  brewing: ['التحضير', 'Brewing'], roasting: ['التحميص', 'Roasting'], sensory: ['التذوق والإيحاءات', 'Tasting and flavor'],
+};
+export function coffeeLearningTopics(locale: 'ar' | 'en') {
+  return articles.map(row => ({ id: row.id, group: row.group, title: row.titles[locale === 'ar' ? 0 : 1] }));
+}
+export function coffeeLessonById(id: string, locale: 'ar' | 'en') {
+  const row = articles.find(row => row.id === id);
+  return row ? { title: row.titles[locale === 'ar' ? 0 : 1], answer: locale === 'ar' ? row.ar : row.en, more: row.more[locale === 'ar' ? 0 : 1], source: { title: row.title, url: row.url } } : null;
+}
 export function coffeeKnowledgeAnswer(
   question: string,
   locale: "ar" | "en",
   previousTopic?: string,
 ) {
   const q = normalizeSearch(question);
+  // Shopping follow-ups must keep their catalog context instead of matching
+  // educational words such as ميزان inside ميزانية.
+  if (/ميزاني|دولار|دينار|ريال|budget|\b(?:usd|kwd|sar)\b|under \d/.test(q)) return null;
   if (
-    /ابي (?:بن|ماكين|وصف)|ابحث|محامص|recommend|find|recipe with|buy|under \d/.test(
+    /ابي (?:بن|ماكين|مكين|طاحون|مطحن|غلاي|معدات|وصف)|ابحث|محامص|recommend|find|recipe with|buy|under \d|(?:افضل|best).*(?:طاحون|ماكين|grinder|machine)/.test(
       q,
     )
   )
     return null;
-  const followUp = /^(?:اشرح اكثر|وضح اكثر|tell me more|explain more)$/.test(q);
-  const article = followUp
-    ? articles.find((row) => row.id === previousTopic)
-    : (articles.find((row) => row.id !== "water" && row.keywords.test(q)) ??
-      articles.find((row) => row.id === "water" && row.keywords.test(q)));
+  const clean = q.replace(/[؟?!.,،]/g, '').trim();
+  const followUp = /^(?:اشرح اكثر|وضح اكثر|اكمل|كمل|tell me more|explain more|continue)$/.test(clean);
+  const ranked = articles.map(row => ({ row, score: row.titles.some(title => normalizeSearch(title) === clean) ? 1000 : row.keywords.test(q) ? row.priority : 0 })).filter(hit => hit.score > 0).sort((a, b) => b.score - a.score);
+  const article = followUp ? articles.find(row => row.id === previousTopic) : ranked[0]?.row;
+  if (!article && /علمني.*قهوه|تعلم.*قهوه|من الالف|من ا.*ي|a to z|learn.*coffee|all about coffee/.test(q)) {
+    return {
+      topic: 'curriculum',
+      answer: locale === 'ar' ? 'ابدأ بالبن والمعالجة، ثم الماء والطحن والتحضير، وبعدها المكاين والتحميص والتذوق. افتح «مكتبة المعرفة» واختر موضوعًا؛ كل شرح معه مصدر وخطوة عملية. تقدر تسأل عن موديل معين للمواصفات أو تعطيني وصفة كوبك لضبطها.' : 'Start with beans and processing, then water, grinding and brewing, followed by equipment, roasting and tasting. Open the knowledge library and choose a topic; each lesson includes a source and a practical next step. Ask about a model for specifications or provide your brew measurements for coaching.',
+      sources: [] as { title: string; url: string }[],
+      suggestions: locale === 'ar' ? ['من الشجرة إلى الكوب', 'درجة الطحن حسب التحضير', 'مراحل التحميص من الأخضر إلى البني'] : ['From seed to cup', 'Grind size by method', 'Roast stages: green to brown'],
+    };
+  }
   if (!article) return null;
+  const related = articles.filter(row => row.group === article.group && row.id !== article.id).slice(0, 2);
   return {
     topic: article.id,
-    answer: locale === "ar" ? article.ar : article.en,
+    answer: followUp ? article.more[locale === 'ar' ? 0 : 1] : locale === "ar" ? article.ar : article.en,
     sources: [{ title: article.title, url: article.url }],
-    suggestions: locale === "ar" ? article.suggestions : article.suggestionsEn,
+    suggestions: [locale === 'ar' ? 'اشرح أكثر' : 'Tell me more', ...related.map(row => row.titles[locale === 'ar' ? 0 : 1])],
   };
 }
