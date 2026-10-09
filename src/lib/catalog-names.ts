@@ -282,6 +282,11 @@ const words: Record<string, string> = {
   sidama: "سيداما",
   sidamo: "سيدامو",
 };
+/** Search aliases describe spellings/translations, never additional coffee facts. */
+export const catalogSearchVocabulary: readonly (readonly string[])[] = [
+  ...Object.entries(names),
+  ...Object.entries(words).filter(([name]) => name.length >= 3),
+];
 const pairs: Record<string, string> = {
   sh: "ش",
   ch: "تش",

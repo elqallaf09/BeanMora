@@ -22,7 +22,7 @@ for (const file of [
   'recipeDiscovery.ts',
   'guards.ts',
   'core/engine.ts',
-  'core/deepSearch.ts',
+  'core/deepSearch.ts','core/flavor-vocabulary.ts','core/coffee-name-aliases.ts',
 ]) {
   const source = readFileSync(
     new URL('../src/' + file, import.meta.url),

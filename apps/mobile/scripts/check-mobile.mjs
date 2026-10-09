@@ -43,7 +43,7 @@ test('public reads enforce publication, review and recipe visibility', () => {
 });
 test('outcomes remain opt-in and same-request retries use the shared RPC', () => {
   const form = get('src/OutcomeForm.tsx'); assert.match(form, /\[share, setShare\] = useState\(false\)/);
-  assert.match(form, /saveOutcome\(supabase, pending.current.id, pending.current.payload\)/);
+  assert.match(form, /saveConfiguredBrew\(\s*supabase,\s*pending.current.id,\s*pending.current.payload,\s*pending.current.context/);
   assert.match(form, /user.id !== userId/); assert.match(form, /setSaved\(true\)/);
   assert.match(get('src/core/outcome.ts'), /data !== requestId/);
 });

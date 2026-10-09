@@ -25,7 +25,7 @@ for (const file of [
   'guards.ts',
   'sourceBrew.ts',
   'manualBrew.ts',
-  'sensory.ts',
+  'sensory.ts','core/flavor-vocabulary.ts',
   'core/catalog-names.ts', 'core/catalog-foreign-titles.ts', 'localizedContent.ts',
   'foreignTitles.ts',
   'copy.ts',

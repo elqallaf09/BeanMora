@@ -55,6 +55,7 @@ import { SelectionMenu } from './SelectionMenu';
 import { EquipmentCompare } from './EquipmentCompare';
 import { Disclosure } from './Disclosure';
 import { categoryGuide } from './equipmentGuides';
+import { EquipmentUsage } from './EquipmentUsage';
 import { isMethod } from './core/engine';
 import {
   Action,
@@ -742,6 +743,7 @@ export function EquipmentDetail({
   return (
     <ScrollView
       testID="equipment-detail-scroll"
+      keyboardShouldPersistTaps="handled"
       contentContainerStyle={[coffeeStyles.page, { maxWidth: 780 }]}
     >
       <View style={s.toolHero}>
@@ -754,6 +756,7 @@ export function EquipmentDetail({
         </Txt>
       </View>
       <Action selected title={ar?'إضافة إلى معداتي':'Add to my equipment'} onPress={myEquipment}/>
+      <EquipmentUsage item={item}/>
       <Txt>{g.intro}</Txt>
       <Txt style={s.editorial}>
         {ar
@@ -950,14 +953,12 @@ function EquipmentReviews({
     ])
       .then(([r, s, o]) => {
         if (!current) return;
-        if (r.error || s.error || o.error) {
-          setFailed(true);
-          return;
-        }
-        setReviews(r.data ?? []);
-        setSummary(s.data?.[0] ?? null);
-        setOwn(o.data);
-        if (o.data) {
+        // Aggregate ratings are optional; a failed count must not hide readable opinions.
+        setFailed(Boolean(r.error || o.error));
+        if (!r.error) setReviews(r.data ?? []);
+        setSummary(s.error ? null : s.data?.[0] ?? null);
+        if (!o.error) setOwn(o.data);
+        if (!o.error && o.data) {
           setRating(o.data.rating);
           setText(o.data.review_text);
           setPros(o.data.pros);
@@ -988,7 +989,7 @@ function EquipmentReviews({
     return supabase;
   }
   async function write(remove = false) {
-    if (inFlight.current || busy || failed) return;
+    if (inFlight.current || busy) return;
     if (!remove && !validateReview(rating, text, pros, cons)) {
       setMessage(
         ar
@@ -1009,7 +1010,7 @@ function EquipmentReviews({
         cons: cons.trim(),
         experience,
       };
-      const r =
+      let r =
         remove && own
           ? await db
               .from('equipment_reviews')
@@ -1035,6 +1036,12 @@ function EquipmentReviews({
                 })
                 .select('id')
                 .single();
+      // A timed-out insert may already have committed. Retry only this member's model.
+      if (!remove && !own && r.error?.code === '23505') {
+        r = await db.from('equipment_reviews').update(payload)
+          .eq('equipment_model_id', modelId).eq('user_id', userId!)
+          .select('id').single();
+      }
       if (r.error || !r.data?.id)
         throw r.error || new Error('no confirmed write');
       if (active.current) {
@@ -1044,6 +1051,9 @@ function EquipmentReviews({
           setText('');
           setPros('');
           setCons('');
+        } else {
+          setOwn({ ...payload, id: r.data.id, user_id: userId!, status: 'published',
+            created_at: own?.created_at ?? new Date().toISOString() });
         }
         setMessage(
           ar
@@ -1288,7 +1298,7 @@ function EquipmentReviews({
                       : 'Save my review'
                 }
                 onPress={() => void write()}
-                disabled={writing || busy || failed}
+                disabled={writing || busy}
                 selected
               />
             </>
@@ -1297,7 +1307,7 @@ function EquipmentReviews({
             <Action
               title={ar ? 'حذف رأيي' : 'Delete my review'}
               onPress={() => void write(true)}
-              disabled={writing || busy || failed}
+              disabled={writing || busy}
             />
           ) : null}
         </View>

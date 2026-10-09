@@ -232,7 +232,7 @@ test('measured time reaches explicit outcome review without silently recording a
     if (path.endsWith('/token')) data = { access_token: token, token_type: 'bearer', expires_in: 3600, refresh_token: 'isolated_refresh_fixture', user };
     else if (path.endsWith('/user')) data = user;
     else if (path.endsWith('/recipes')) data = rows;
-    else if (path.endsWith('/rpc/record_brew_outcome_v1')) { const body = route.request().postDataJSON(); writes.push(body); data = body.p_request_id; }
+    else if (path.endsWith('/rpc/record_configured_brew_v1')) { const body = route.request().postDataJSON(); writes.push(body); data = body.p_request_id; }
     await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(data) });
   });
   await page.goto('/');

@@ -37,6 +37,8 @@ export type MemberProfileData = {
     name: string;
     name_ar: string | null;
     operation: [string, string] | null;
+    image_url?: string | null;
+    image_usage_status?: string | null;
   }[];
   beans?: {
     id: string;
@@ -45,6 +47,8 @@ export type MemberProfileData = {
     name_ar: string;
     name_en: string;
     slug: string;
+    image_url?: string | null;
+    image_usage_status?: string | null;
   }[];
   comments?: {
     id: string;
@@ -220,15 +224,23 @@ export async function setMemberFavorite(
 ) {
   await requireMember(db, owner);
   if (saved) {
-    const { data, error } = await db
+    const { error } = await db
       .from("recipe_saves")
       .upsert(
         { user_id: owner, recipe_id: recipeId },
-        { onConflict: "recipe_id,user_id" },
-      )
+        { onConflict: "recipe_id,user_id", ignoreDuplicates: true },
+      );
+    if (error) throw new Error("FAVORITE_SAVE");
+    // Saves have INSERT/DELETE policies, deliberately no UPDATE policy.
+    // A retry of an already saved recipe must verify the existing owner row.
+    const { data, error: readError } = await db
+      .from("recipe_saves")
       .select("recipe_id")
+      .eq("user_id", owner)
+      .eq("recipe_id", recipeId)
       .single();
-    if (error || data?.recipe_id !== recipeId) throw new Error("FAVORITE_SAVE");
+    if (readError || data?.recipe_id !== recipeId)
+      throw new Error("FAVORITE_SAVE");
   } else {
     const { error } = await db
       .from("recipe_saves")
@@ -236,6 +248,13 @@ export async function setMemberFavorite(
       .eq("user_id", owner)
       .eq("recipe_id", recipeId);
     if (error) throw error;
+    const { data, error: readError } = await db
+      .from("recipe_saves")
+      .select("recipe_id")
+      .eq("user_id", owner)
+      .eq("recipe_id", recipeId)
+      .maybeSingle();
+    if (readError || data) throw new Error("FAVORITE_REMOVE");
   }
 }
 export async function saveProfilePhoto(

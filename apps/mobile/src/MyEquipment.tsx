@@ -5,6 +5,7 @@ import { loadEquipment, type EquipmentItem } from "./catalog";
 import { archiveOwnedItem } from "./core/owned-inventory";
 import { requireMember } from "./core/member-contributions";
 import { Action, Language, Txt, styles } from "./ui";
+import { CatalogPhoto } from "./CatalogPhoto";
 type Row = {
   id: string;
   equipment_model_id: string | null;
@@ -83,14 +84,12 @@ export function MyEquipment({
     setError(false);
     try {
       await requireMember(supabase, userId);
-      const { error } = await supabase
-        .from("user_equipment")
-        .insert({
-          user_id: userId,
-          equipment_model_id: initialItem.id,
-          category: initialItem.category,
-          is_default: false,
-        });
+      const { error } = await supabase.from("user_equipment").insert({
+        user_id: userId,
+        equipment_model_id: initialItem.id,
+        category: initialItem.category,
+        is_default: false,
+      });
       if (error) throw error;
       setAdded(true);
       setRevision((n) => n + 1);
@@ -116,7 +115,10 @@ export function MyEquipment({
       </View>
     );
   return (
-    <ScrollView contentContainerStyle={{ padding: 18, gap: 14 }}>
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={{ padding: 18, gap: 14 }}
+    >
       <Txt heading style={styles.title}>
         {ar ? "معداتـي" : "My equipment"}
       </Txt>
@@ -158,6 +160,22 @@ export function MyEquipment({
       ) : null}
       {rows.map((row) => (
         <View key={row.id} style={[styles.card, { padding: 16, gap: 8 }]}>
+          <View
+            style={{ width: 110, alignSelf: ar ? "flex-end" : "flex-start" }}
+          >
+            <CatalogPhoto
+              uri={
+                catalog.find((c) => c.id === row.equipment_model_id)
+                  ?.imageUrl ?? null
+              }
+              height={96}
+              alt={
+                catalog.find((c) => c.id === row.equipment_model_id)?.name ??
+                row.custom_name ??
+                undefined
+              }
+            />
+          </View>
           <Txt heading>
             {catalog.find((c) => c.id === row.equipment_model_id)?.name ??
               row.custom_name ??

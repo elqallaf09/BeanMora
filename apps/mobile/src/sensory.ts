@@ -1,13 +1,14 @@
-import { safeUrl } from './guards';
+import { flavorTranslations as labels } from "./core/flavor-vocabulary";
+import { safeUrl } from "./guards";
 
 export const SENSORY_KEYS = [
-  'acidity',
-  'sweetness',
-  'body',
-  'fermentation',
+  "acidity",
+  "sweetness",
+  "body",
+  "fermentation",
 ] as const;
 export type SensoryKey = (typeof SENSORY_KEYS)[number];
-export const PERSONALITY_KEYS = ['acidity', 'sweetness', 'body'] as const;
+export const PERSONALITY_KEYS = ["acidity", "sweetness", "body"] as const;
 export interface SensoryValue {
   value: number;
   max: number;
@@ -49,35 +50,35 @@ export function readSensory(
   legacySource?: string | null,
 ): CoffeeSensoryData {
   const row =
-    value && typeof value === 'object' && !Array.isArray(value)
+    value && typeof value === "object" && !Array.isArray(value)
       ? (value as Record<string, unknown>)
       : {};
   const sourceUrl = safeUrl(row.source_url) || safeUrl(legacySource);
   const result: CoffeeSensoryData = { sourceUrl };
   if (!sourceUrl) return result;
-  const descriptions: NonNullable<CoffeeSensoryData['descriptions']> = {};
+  const descriptions: NonNullable<CoffeeSensoryData["descriptions"]> = {};
   for (const key of SENSORY_KEYS) {
     const raw = row[`${key}_description`];
     const translated = row[`${key}_description_ar`];
-    if (typeof raw === 'string' && raw.trim())
+    if (typeof raw === "string" && raw.trim())
       descriptions[key] = {
         en: raw.trim().slice(0, 160),
         ar:
-          typeof translated === 'string' && translated.trim()
+          typeof translated === "string" && translated.trim()
             ? translated.trim().slice(0, 160)
             : raw.trim().slice(0, 160),
       };
   }
   if (Object.keys(descriptions).length) result.descriptions = descriptions;
-  const scale = typeof row.scale_max === 'number' ? row.scale_max : NaN;
-  for (const key of [...SENSORY_KEYS, 'roast'] as const) {
+  const scale = typeof row.scale_max === "number" ? row.scale_max : NaN;
+  for (const key of [...SENSORY_KEYS, "roast"] as const) {
     const raw =
       row[key] ??
-      (key === 'acidity' || key === 'sweetness' || key === 'body'
+      (key === "acidity" || key === "sweetness" || key === "body"
         ? legacy[key]
         : undefined);
     const structured =
-      raw && typeof raw === 'object' && !Array.isArray(raw)
+      raw && typeof raw === "object" && !Array.isArray(raw)
         ? (raw as Record<string, unknown>)
         : null;
     const n = structured ? structured.value : raw;
@@ -87,8 +88,8 @@ export function readSensory(
         ? scale
         : 5;
     if (
-      typeof n === 'number' &&
-      typeof max === 'number' &&
+      typeof n === "number" &&
+      typeof max === "number" &&
       Number.isFinite(n) &&
       Number.isInteger(max) &&
       max >= 2 &&
@@ -103,22 +104,22 @@ export function readSensory(
 
 const normalize = (v: string) =>
   v
-    .normalize('NFKC')
+    .normalize("NFKC")
     .toLowerCase()
     .trim()
-    .replace(/[أإآ]/g, 'ا')
-    .replace(/ة/g, 'ه');
+    .replace(/[أإآ]/g, "ا")
+    .replace(/ة/g, "ه");
 export type FlavorArt =
-  | 'citrus'
-  | 'flower'
-  | 'peach'
-  | 'berry'
-  | 'honey'
-  | 'chocolate'
-  | 'nut'
-  | 'caramel'
-  | 'spice'
-  | 'bean';
+  | "citrus"
+  | "flower"
+  | "peach"
+  | "berry"
+  | "honey"
+  | "chocolate"
+  | "nut"
+  | "caramel"
+  | "spice"
+  | "bean";
 export function flavorArt(note: string): FlavorArt {
   const n = normalize(note);
   if (
@@ -126,236 +127,32 @@ export function flavorArt(note: string): FlavorArt {
       n,
     )
   )
-    return 'citrus';
+    return "citrus";
   if (
     /floral|flower|jasmine|rose|hibiscus|زهور|ازهار|ياسمين|ورد|كركديه/.test(n)
   )
-    return 'flower';
+    return "flower";
   if (/peach|apricot|nectarine|mango|stone fruit|خوخ|دراق|مشمش|مانجو/.test(n))
-    return 'peach';
-  if (/honey|عسل/.test(n)) return 'honey';
-  if (/chocolate|cocoa|cacao|شوكولا|كاكاو/.test(n)) return 'chocolate';
+    return "peach";
+  if (/honey|عسل/.test(n)) return "honey";
+  if (/chocolate|cocoa|cacao|شوكولا|كاكاو/.test(n)) return "chocolate";
   if (
     /nut|almond|hazelnut|pecan|pistachio|walnut|مكسر|لوز|بندق|فستق|جوز/.test(n)
   )
-    return 'nut';
+    return "nut";
   if (/caramel|toffee|butterscotch|brown sugar|كراميل|توفي|سكر بني/.test(n))
-    return 'caramel';
+    return "caramel";
   if (/spic|cinnamon|cardamom|clove|توابل|قرفه|هيل|قرنفل/.test(n))
-    return 'spice';
+    return "spice";
   if (
     /fruit|berr|cherry|cherries|plum|grape|apple|فواكه|توت|فراول|كرز|برقوق|عنب|تفاح/.test(
       n,
     )
   )
-    return 'berry';
-  return 'bean';
+    return "berry";
+  return "bean";
 }
-const labels: Record<string, string> = {
-  allspice: 'بهار حلو',
-  amaretto: 'أماريتو',
-  'barley tea': 'شاي الشعير',
-  biscuits: 'بسكويت',
-  blackberries: 'توت أسود',
-  'butter biscuit': 'بسكويت بالزبدة',
-  butterscotch: 'كراميل بالزبدة',
-  'candied almond': 'لوز محلّى',
-  'candied lemon': 'ليمون محلّى',
-  'cane sugar': 'سكر القصب',
-  'cashew butter': 'زبدة الكاجو',
-  'cherry filled doughnut': 'دونات بحشوة الكرز',
-  'chocolate fudge': 'فدج الشوكولاتة',
-  'chocolate milk': 'حليب بالشوكولاتة',
-  clean: 'واضحة',
-  clementine: 'كلمنتينا',
-  cola: 'كولا',
-  cookies: 'بسكويت',
-  'creamy white chocolate': 'شوكولاتة بيضاء كريمية',
-  currants: 'كشمش',
-  'dark grape': 'عنب داكن',
-  'dried berries': 'توت مجفف',
-  'earl grey': 'شاي إيرل غراي',
-  fig: 'تين',
-  florals: 'زهور',
-  fruits: 'فواكه',
-  'grape soda': 'مشروب عنب غازي',
-  'heavy chocolate': 'شوكولاتة كثيفة',
-  honeycomb: 'قرص العسل',
-  honeydew: 'شمام عسلي',
-  honeysuckle: 'زهرة العسلة',
-  'juicy & citrus finish': 'قوام عصيري ونهاية حمضية',
-  'key lime': 'لايم',
-  kumquat: 'كمكوات',
-  lime: 'لايم',
-  'lime curd': 'كريمة اللايم',
-  'lotus biscuit': 'بسكويت لوتس',
-  malt: 'شعير',
-  mandarin: 'يوسفي',
-  maple: 'قيقب',
-  'maple syrup': 'شراب القيقب',
-  matcha: 'ماتشا',
-  melon: 'شمام',
-  'mulled wine': 'نبيذ متبّل',
-  'mulling spice': 'توابل دافئة',
-  'myrtle liquor': 'مشروب الآس',
-  panela: 'سكر قصب غير مكرر',
-  'peanut butter': 'زبدة الفول السوداني',
-  pecan: 'بيكان',
-  'pink grapefruit': 'جريب فروت وردي',
-  'raspberry candy': 'حلوى توت العليق',
-  'raw honey': 'عسل خام',
-  'red grape': 'عنب أحمر',
-  'red wine': 'نبيذ أحمر',
-  redcurrant: 'كشمش أحمر',
-  refined: 'رقيقة',
-  rhubarb: 'راوند',
-  'ripe fruits': 'فواكه ناضجة',
-  'ripe orange': 'برتقال ناضج',
-  'roasted almonds': 'لوز محمص',
-  'roasted macadamia': 'مكاديميا محمصة',
-  round: 'متوازنة',
-  silky: 'حريرية',
-  spearmint: 'نعناع',
-  spices: 'توابل',
-  'stone fruits': 'فواكه ذات نواة',
-  sugarcane: 'قصب السكر',
-  'sweet berries': 'توت حلو',
-  'sweet blood orange': 'برتقال أحمر حلو',
-  'sweet tea': 'شاي حلو',
-  'tart apple': 'تفاح حامض',
-  'thick & syrupy': 'قوام كثيف',
-  'tropical fruits': 'فواكه استوائية',
-  'tropical fruit': 'فاكهة استوائية',
-  'vanilla cake': 'كيك الفانيلا',
-  'vanilla malt': 'شعير بالفانيلا',
-  violet: 'بنفسج',
-  waffle: 'وافل',
-  'white florals': 'زهور بيضاء',
-  'white grape': 'عنب أبيض',
-  'white wine': 'نبيذ أبيض',
-  'white chocolate': 'شوكولاتة بيضاء',
-  'white peach': 'خوخ أبيض',
-  'passion fruit': 'باشن فروت',
-  passionfruit: 'باشن فروت',
-  'burnt sugar': 'سكر محروق',
-  'dried cherry': 'كرز مجفف',
-  'dried apricot': 'مشمش مجفف',
-  'orange marmalade': 'مربى البرتقال',
-  'black cherry': 'كرز أسود',
-  'red grapes': 'عنب أحمر',
-  nutmeg: 'جوزة الطيب',
-  marzipan: 'مرزبان',
-  sultana: 'زبيب سلطاني',
-  'bitter orange': 'برتقال مر',
-  pear: 'إجاص',
-  'miso caramel': 'كراميل الميسو',
-  stonefruit: 'فواكه ذات نواة',
-  'star anise': 'يانسون نجمي',
-  kiwi: 'كيوي',
-  'berries jam': 'مربى توت',
-  'grape yoghurt': 'زبادي العنب',
-  winegum: 'حلوى فاكهة',
-  'peach iced tea': 'شاي خوخ مثلج',
-  'jammy berries': 'توت بقوام مربى',
-  'sweet candy': 'حلوى',
-  'winey fruitiness': 'فاكهة مخمّرة',
-  'candy-like finish': 'نهاية حلوة',
-  'slight floral': 'لمسة زهرية',
-  chocolate: 'شوكولاتة',
-  'milk chocolate': 'شوكولاتة بالحليب',
-  'dark chocolate': 'شوكولاتة داكنة',
-  cocoa: 'كاكاو',
-  cacao: 'كاكاو',
-  nutty: 'مكسرات',
-  nuts: 'مكسرات',
-  almond: 'لوز',
-  almonds: 'لوز',
-  hazelnut: 'بندق',
-  hazelnuts: 'بندق',
-  pistachio: 'فستق',
-  walnut: 'جوز',
-  fruity: 'فواكه',
-  fruit: 'فواكه',
-  citrus: 'حمضيات',
-  lemon: 'ليمون',
-  orange: 'برتقال',
-  grapefruit: 'جريب فروت',
-  bergamot: 'برغموت',
-  floral: 'زهور',
-  jasmine: 'ياسمين',
-  rose: 'ورد',
-  hibiscus: 'كركديه',
-  peach: 'خوخ',
-  apricot: 'مشمش',
-  mango: 'مانجو',
-  'stone fruit': 'فواكه ذات نواة',
-  honey: 'عسل',
-  caramel: 'كراميل',
-  toffee: 'توفي',
-  'brown sugar': 'سكر بني',
-  spice: 'توابل',
-  cinnamon: 'قرفة',
-  cardamom: 'هيل',
-  berry: 'توت',
-  berries: 'توت',
-  raspberry: 'توت العليق',
-  strawberry: 'فراولة',
-  blueberry: 'توت أزرق',
-  blackberry: 'توت أسود',
-  cherry: 'كرز',
-  apple: 'تفاح',
-  'red apple': 'تفاح أحمر',
-  'green apple': 'تفاح أخضر',
-  plum: 'برقوق',
-  grape: 'عنب',
-  grapes: 'عنب',
-  raisin: 'زبيب',
-  raisins: 'زبيب',
-  vanilla: 'فانيلا',
-  lavender: 'لافندر',
-  chamomile: 'بابونج',
-  'black tea': 'شاي أسود',
-  'yellow plum': 'برقوق أصفر',
-  dates: 'تمر',
-  cloves: 'قرنفل',
-  lychee: 'ليتشي',
-  cantaloupe: 'شمام',
-  pineapple: 'أناناس',
-  mandarine: 'يوسفي',
-  tangerine: 'يوسفي',
-  pomegranate: 'رمان',
-  'dried fig': 'تين مجفف',
-  'red berries': 'توت أحمر',
-  'red berry': 'توت أحمر',
-  'mixed berries': 'توت مشكّل',
-  'black berries': 'توت داكن',
-  'almond cream': 'كريمة اللوز',
-  'blood orange': 'برتقال أحمر',
-  nectarine: 'نكتارين',
-  lemongrass: 'عشبة الليمون',
-  'dried fruit': 'فواكه مجففة',
-  'dried fruits': 'فواكه مجففة',
-  blackcurrant: 'كشمش أسود',
-  'white grapes': 'عنب أبيض',
-  'blueberry pie': 'فطيرة التوت الأزرق',
-  'candied pecan': 'بيكان مُحلّى',
-  'roasted walnuts': 'جوز محمّص',
-  'cacao nibs': 'قطع الكاكاو',
-  'candied walnuts': 'جوز مُحلّى',
-  liquorice: 'عرق السوس',
-  molasses: 'دبس',
-  'maraschino cherries': 'كرز ماراشينو',
-  'fruit-smoked': 'فواكه مع لمسة دخان',
-  nougat: 'نوجا',
-  praline: 'برالين',
-  maltesers: 'مالتيزرز',
-  sweet: 'حلوة',
-  elegant: 'أنيقة',
-  botanical: 'نباتية',
-  'sweet citrus': 'حمضيات حلوة',
-  'orange zest': 'قشر البرتقال',
-  'sugar cane': 'قصب السكر',
-};
+
 export function flavorLabel(note: string, ar: boolean): string {
   const clean = note.trim();
   return ar
@@ -405,7 +202,7 @@ export function publishedFlavorNotes(
           !/\b(?:no|not|notes|coffee|roast|lot|origin|process|published|stated|altitude|intensity|scale)\b/i.test(
             note,
           ) &&
-          (flavorArt(note) !== 'bean' ||
+          (flavorArt(note) !== "bean" ||
             /vanilla|tea|chamomile|lavender|melon|lychee|mandarin|pineapple|date|raisin|sugar|winegum|\bfig\b|فانيلا|شاي|بابونج|لافندر|شمام|ليتشي|اناناس|أناناس|تمر|زبيب|سكر/i.test(
               note,
             )),

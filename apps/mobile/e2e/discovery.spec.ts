@@ -138,10 +138,10 @@ test('main search debounces text, carries punctuation literally and ignores a su
   // Finish screen movement and the Settings modal's focus restoration before
   // freezing timers. The assertions below still test each debounce boundary.
   await page.clock.runFor(300);
-  await page.clock.pauseAt(new Date('2026-10-04T00:01:00Z'));
   const field = page.getByLabel('Find a recipe', { exact: true });
-  await field.focus();
+  await field.click();
   await expect(field).toBeFocused();
+  await page.clock.pauseAt(new Date('2026-10-04T00:01:00Z'));
   // Wall-clock character delays are only a minimum on a busy CI worker. Keep
   // browser time fixed and advance it explicitly to exercise every timer reset.
   for (let index = 0; index < 'fast'.length; index += 1) {

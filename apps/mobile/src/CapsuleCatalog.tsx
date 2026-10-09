@@ -1,93 +1,148 @@
 import { useContext, useState } from "react";
 import { ScrollView, View } from "./native";
-import { capsuleSystems } from "./core/capsules";
+import { capsuleProducts, capsuleSystems } from "./core/capsules";
+import { matchesDeepSearch } from "./core/deepSearch";
+import { SelectionMenu } from "./SelectionMenu";
+import { Disclosure } from "./Disclosure";
+import { CatalogPhoto } from "./CatalogPhoto";
 import { SourceLink } from "./SourceLink";
 import { Action, Field, Language, Txt, styles } from "./ui";
 export function CapsuleCatalog() {
   const locale = useContext(Language),
     ar = locale === "ar";
   const [system, setSystem] = useState("all"),
-    [query, setQuery] = useState("");
-  const rows = capsuleSystems.filter(
-    (c) =>
-      (system === "all" || c.id === system) &&
-      [c.name.ar, c.name.en, c.examples.ar, c.examples.en]
-        .join(" ")
-        .toLowerCase()
-        .includes(query.trim().toLowerCase()),
+    [query, setQuery] = useState(""),
+    [limit, setLimit] = useState(12);
+  const selected = capsuleSystems.find((c) => c.id === system);
+  const rows = capsuleProducts.filter(
+    (p) =>
+      (system === "all" || p.system === system) &&
+      matchesDeepSearch(
+        [
+          p.name.ar,
+          p.name.en,
+          capsuleSystems.find((c) => c.id === p.system)?.name.ar,
+          capsuleSystems.find((c) => c.id === p.system)?.name.en,
+          p.detail?.ar,
+          p.detail?.en,
+        ]
+          .filter(Boolean)
+          .join(" "),
+        query,
+      ),
   );
   return (
     <ScrollView
-      contentContainerStyle={{ padding: 18, gap: 16, paddingBottom: 36 }}
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={{ padding: 18, gap: 14, paddingBottom: 36 }}
+      testID="capsule-catalog"
     >
       <Txt heading style={styles.title}>
         {ar ? "الكبسولات" : "Capsules"}
       </Txt>
-      <Txt style={styles.muted}>
-        {ar
-          ? "اختر نظام ماكينتك، ثم تصفح الأنواع ومواقع الطلب."
-          : "Choose your machine system, then explore capsules and order sites."}
-      </Txt>
+      <SelectionMenu
+        label={ar ? "نظام الماكينة" : "Machine system"}
+        value={system}
+        items={[
+          { id: "all", name: ar ? "كل الأنظمة" : "All systems" },
+          ...capsuleSystems.map((c) => ({ id: c.id, name: c.name[locale] })),
+        ]}
+        onChange={(v) => {
+          setSystem(v);
+          setLimit(12);
+        }}
+      />
       <Field
         label={ar ? "بحث الكبسولات" : "Search capsules"}
         placeholder={
-          ar ? "اسم النظام أو نوع الكبسولة" : "System or capsule name"
+          ar
+            ? "اسم الكبسولة بالعربي أو الإنجليزي"
+            : "Capsule name in Arabic or English"
         }
         value={query}
-        onChangeText={setQuery}
-      />
-      <View
-        style={{
-          flexDirection: ar ? "row-reverse" : "row",
-          flexWrap: "wrap",
-          gap: 6,
+        onChangeText={(v) => {
+          setQuery(v);
+          setLimit(12);
         }}
-      >
-        <Action
-          compact
-          selected={system === "all"}
-          title={ar ? "الكل" : "All"}
-          onPress={() => setSystem("all")}
-        />
-        {capsuleSystems.map((c) => (
-          <Action
-            key={c.id}
-            compact
-            selected={system === c.id}
-            title={c.name[locale]}
-            onPress={() => setSystem(c.id)}
-          />
-        ))}
-      </View>
-      {rows.map((c) => (
-        <View key={c.id} style={[styles.card, { padding: 16, gap: 10 }]}>
+      />
+      {selected ? (
+        <View style={[styles.card, { gap: 8 }]}>
           <Txt heading style={styles.subtitle}>
-            {c.name[locale]}
+            {selected.name[locale]}
           </Txt>
-          <Txt>{c.description[locale]}</Txt>
-          <Txt>{(ar ? "أمثلة: " : "Examples: ") + c.examples[locale]}</Txt>
-          <Txt style={styles.muted}>{c.region[locale]}</Txt>
+          <Txt>{selected.description[locale]}</Txt>
           <SourceLink
-            url={c.shop}
-            title={ar ? "الأنواع وموقع الطلب" : "Capsules and order site"}
-          />
-          <SourceLink
-            url={c.source}
+            url={selected.source}
             title={ar ? "مصدر معلومات التوافق" : "Compatibility source"}
           />
         </View>
+      ) : (
+        <Disclosure title={ar ? "توافق الأنظمة" : "System compatibility"}>
+          {capsuleSystems.map((c) => (
+            <View key={c.id} style={{ gap: 6 }}>
+              <Txt heading>{c.name[locale]}</Txt>
+              <Txt>{c.description[locale]}</Txt>
+              <SourceLink
+                compact
+                url={c.source}
+                title={ar ? "مصدر التوافق" : "Compatibility source"}
+              />
+            </View>
+          ))}
+        </Disclosure>
+      )}
+      <Txt style={styles.muted}>
+        {rows.length} {ar ? "صنف" : "products"}
+      </Txt>
+      {rows.slice(0, limit).map((p) => (
+        <View key={p.id} style={[styles.card, { gap: 8 }]}>
+          {p.image ? (
+            <CatalogPhoto
+              uri={p.image}
+              alt={p.name[locale]}
+              height={140}
+              icon="bean"
+            />
+          ) : null}
+          <Txt heading>{p.name[locale]}</Txt>
+          {ar ? <Txt style={styles.muted}>{p.name.en}</Txt> : null}
+          <Txt style={styles.muted}>
+            {capsuleSystems.find((c) => c.id === p.system)?.name[locale]}
+          </Txt>
+          {p.detail ? <Txt>{p.detail[locale]}</Txt> : null}
+          <SourceLink
+            url={p.source}
+            title={ar ? "تفاصيل لدى المصنع" : "Manufacturer details"}
+          />
+        </View>
       ))}
+      {rows.length > limit ? (
+        <Action
+          title={ar ? "عرض أصناف أكثر" : "Show more products"}
+          onPress={() => setLimit((n) => n + 12)}
+        />
+      ) : null}
       {!rows.length ? (
         <Txt>
-          {ar
-            ? "لا توجد نتائج؛ جرّب اسم النظام."
-            : "No results; try the system name."}
+          {selected
+            ? ar
+              ? "تصفح مجموعة هذا النظام لدى المصنع."
+              : "Browse this system’s collection at the manufacturer."
+            : ar
+              ? "لا توجد نتائج؛ جرّب اسم الكبسولة أو النظام."
+              : "No results; try the capsule or system name."}
         </Txt>
+      ) : null}
+      {selected ? (
+        <SourceLink
+          url={selected.shop}
+          title={ar ? "الأنواع وموقع الطلب" : "Capsules and order site"}
+        />
       ) : null}
       <Txt style={styles.muted}>
         {ar
-          ? "تمت مراجعة المصادر في ٧ أكتوبر ٢٠٢٦. السعر والمخزون والتوصيل بحسب المتجر عند الطلب."
-          : "Sources reviewed 7 October 2026. Price, stock and delivery depend on the store at ordering."}
+          ? "المصادر مراجعة في ٩ أكتوبر ٢٠٢٦. تحقق من التوافق والتوصيل والسعر لدى المتجر."
+          : "Sources reviewed 9 October 2026. Check compatibility, delivery and price with the store."}
       </Txt>
     </ScrollView>
   );

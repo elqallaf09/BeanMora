@@ -82,6 +82,14 @@ const flavorLabels = {
   caramel: ['كراميل', 'Caramel'],
   spice: ['توابل', 'Spice'],
 } as const;
+export type RecipeCatalogState = {
+  search: string;
+  method?: Method;
+  source: RecipeSourceFilter;
+  model: string;
+  filters: RecipeDiscoveryFilters;
+  draftFilters: RecipeDiscoveryFilters;
+};
 export function RecipeCatalog({
   open,
   method: initialMethod,
@@ -91,6 +99,8 @@ export function RecipeCatalog({
   backToCoffee,
   universal = false,
   searchResults,
+  initialState,
+  remember,
 }: {
   open: (r: RecipeItem) => void;
   method?: Method;
@@ -100,15 +110,17 @@ export function RecipeCatalog({
   backToCoffee?: () => void;
   universal?: boolean;
   searchResults?: (query: string) => ReactNode;
+  initialState?: RecipeCatalogState;
+  remember?: (state: RecipeCatalogState) => void;
 }) {
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const isXBloomHub = locked && initialMethod === 'xbloom';
   const { width } = useWindowDimensions();
-  const [method, setMethod] = useState<Method | undefined>(initialMethod);
+  const [method, setMethod] = useState<Method | undefined>(locked ? initialMethod : initialState?.method ?? initialMethod);
   const pageSize = method === 'xbloom' ? 12 : RECIPE_PAGE_SIZE;
-  const [search, setSearch] = useState('');
-  const [debounced, setDebounced] = useState('');
+  const [search, setSearch] = useState(initialState?.search ?? '');
+  const [debounced, setDebounced] = useState(initialState?.search ?? '');
   const [page, setPage] = useState(0);
   const [rows, setRows] = useState<DiscoveredRecipe[]>([]);
   const [busy, setBusy] = useState(true);
@@ -116,10 +128,11 @@ export function RecipeCatalog({
   const [total, setTotal] = useState<number | null>(null);
   const [more, setMore] = useState(false);
   const [revision, setRevision] = useState(0);
-  const [source, setSource] = useState<RecipeSourceFilter>('all');
-  const [model, setModel] = useState('all');
-  const [filters, setFilters] = useState(emptyRecipeFilters);
-  const [draftFilters, setDraftFilters] = useState(emptyRecipeFilters);
+  const [source, setSource] = useState<RecipeSourceFilter>(initialState?.source ?? 'all');
+  const [model, setModel] = useState(initialState?.model ?? 'all');
+  const [filters, setFilters] = useState(initialState?.filters ?? emptyRecipeFilters);
+  const [draftFilters, setDraftFilters] = useState(initialState?.draftFilters ?? emptyRecipeFilters);
+  useEffect(() => { remember?.({ search, method, source, model, filters, draftFilters }); }, [search, method, source, model, filters, draftFilters, remember]);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const requestGeneration = useRef(0);
   const filterCount = recipeFilterCount(filters);

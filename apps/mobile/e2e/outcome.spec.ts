@@ -106,7 +106,7 @@ for (const unit of ['g', 'ml'] as const) test(`signed-in brew with source water 
     if (path.endsWith('/token')) data = { access_token: accessToken, token_type: 'bearer', expires_in: 3600, refresh_token: 'isolated_refresh_fixture', user };
     else if (path.endsWith('/user')) data = user;
     else if (path.endsWith('/recipes')) data = [recipe];
-    else if (path.endsWith('/rpc/record_brew_outcome_v1')) {
+    else if (path.endsWith('/rpc/record_configured_brew_v1')) {
       const body = route.request().postDataJSON(); writes.push(body);
       status = writes.length === 1 ? 503 : 200;
       data = writes.length === 1 ? { message: 'isolated temporary failure' } : body.p_request_id;

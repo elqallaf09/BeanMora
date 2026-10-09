@@ -1,3 +1,6 @@
+import { catalogSearchVocabulary } from "./catalog-names";
+import { flavorSearchVocabulary } from "./flavor-vocabulary";
+import { coffeeNameAliases } from "./coffee-name-aliases";
 /** Shared literal search vocabulary; expands retrieval terms without changing coffee facts. */
 export const searchVocabulary: readonly (readonly string[])[] = [
   ["rawi", "rawee", "راوي", "راوى"],
@@ -36,6 +39,12 @@ export const searchVocabulary: readonly (readonly string[])[] = [
   ["ethiopia", "ethiopian", "اثيوبيا", "إثيوبيا"],
   ["colombia", "colombian", "كولومبيا"],
   ["cold", "iced", "ice", "بارد", "مثلج", "مثلّج"],
+  ...flavorSearchVocabulary,
+  ...catalogSearchVocabulary,
+  ...coffeeNameAliases,
+  ["coffee", "قهوة", "القهوة", "بن", "البن"],
+  ["gesha", "geisha", "قيشا", "قيشة", "غيشا", "جيشا"],
+  ["zill", "زل", "زيل", "زِلّ"],
 ] as const;
 export function normalizeSearch(value: string): string {
   return value
@@ -49,7 +58,9 @@ export function normalizeSearch(value: string): string {
     .replace(/\s+/g, " ")
     .trim();
 }
-const normalizedVocabulary = searchVocabulary.map(group => group.map(normalizeSearch));
+const normalizedVocabulary = searchVocabulary.map((group) =>
+  group.map(normalizeSearch),
+);
 export function deepSearchText(value: string): string {
   const original = normalizeSearch(value);
   const words = new Set(original.split(/[^\p{L}\p{N}]+/u));
