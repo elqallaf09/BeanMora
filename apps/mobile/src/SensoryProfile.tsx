@@ -1,8 +1,9 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Linking, Pressable, StyleSheet, View } from './native';
 import Svg, { Circle, Ellipse, Path, Rect } from 'react-native-svg';
 import { Icon, Language, Txt, colors, styles } from './ui';
 import { flavorArt, flavorLabel, hasCompletePersonality, missingPersonalityAttributes, type CoffeeSensoryData, type SensoryKey, type SensoryValue } from './sensory';
+import { safeUrl } from './guards';
 
 /** Small vector illustrations stay crisp on both native screens and web. */
 export function FlavorIcon({ note, size = 38 }: { note: string; size?: number }) {
@@ -41,11 +42,12 @@ export function RoastLevel({ roast, score }: { roast?: string | null; score?: Se
 
 export function CoffeeSensory({ notes, sensory, roast, sourceUrl }: { notes: string[]; sensory?: CoffeeSensoryData; roast?: string | null; sourceUrl?: string | null }) {
   const ar = useContext(Language) === 'ar';
+  const [sourceFailed, setSourceFailed] = useState(false);
   const complete = hasCompletePersonality(notes, sensory);
   const labels: Record<SensoryKey, string> = ar ? { acidity: 'الحموضة', sweetness: 'الحلاوة', body: 'القوام', fermentation: 'التخمير' } : { acidity: 'Acidity', sweetness: 'Sweetness', body: 'Body', fermentation: 'Fermentation' };
   const keys: SensoryKey[] = (['acidity', 'sweetness', 'body', 'fermentation'] as const).filter(key => sensory?.[key] || sensory?.descriptions?.[key]);
   const missing = missingPersonalityAttributes(sensory).map(key => labels[key]).join(ar ? '، ' : ', ');
-  const source = keys.length ? sensory?.sourceUrl : sourceUrl;
+  const source = safeUrl(keys.length ? sensory?.sourceUrl : sourceUrl);
   return <View testID="coffee-sensory" style={[s.profile, complete && s.completeProfile]}>
     <View testID={complete ? 'coffee-personality-complete' : 'coffee-personality-pending'} style={[s.profileHeader, ar && { flexDirection: 'row-reverse' }]}>
       <View style={s.profileIcon}><Icon name="bean" size={23} color={colors.copper}/></View>
@@ -60,7 +62,8 @@ export function CoffeeSensory({ notes, sensory, roast, sourceUrl }: { notes: str
       return <View key={key} testID={'coffee-attribute-'+key} style={s.scaleRow}><View style={[s.scaleHeading, ar && { flexDirection: 'row-reverse' }]}><Txt style={s.scaleTitle}>{labels[key]}</Txt>{metric ? <Txt style={s.scaleValue}>{value}</Txt> : null}</View>{metric ? <View accessibilityLabel={labels[key]+': '+value} style={s.track}><View style={[s.trackFill, { width: `${metric.value / metric.max * 100}%`, alignSelf: ar ? 'flex-end' : 'flex-start' }]}/></View> : null}{description ? <Txt style={s.description}>{ar ? description.ar : description.en}</Txt> : null}</View>;
     })}</View> : null}
     {!complete ? <View testID="coffee-personality-status"><Txt style={s.caption}>{!notes.length && !keys.length ? ar ? 'تظهر شخصية البن هنا بعد توثيق الإيحاءات والحموضة والحلاوة والقوام.' : 'The full personality appears here once tasting notes, acidity, sweetness and body are documented.' : !notes.length ? ar ? 'تظهر شخصية البن الكاملة بعد استكمال توثيق الإيحاءات'+(missing ? ' و'+missing : '')+'.' : 'The full personality awaits documented tasting notes'+(missing ? ', '+missing : '')+'.' : ar ? 'شخصية البن الكاملة بانتظار توثيق: '+missing+'.' : 'The full personality awaits documented '+missing+'.'}</Txt></View> : null}
-    {source && (notes.length || keys.length) ? <Pressable accessibilityRole="link" onPress={() => void Linking.openURL(source)} style={s.source}><Txt style={s.sourceText}>{keys.some(key => sensory?.[key]) ? ar ? 'درجات المحمصة · عرض المصدر' : 'Roaster’s scale · View source' : ar ? 'وصف المحمصة · عرض المصدر' : 'Roaster’s description · View source'}</Txt><Icon name="arrow" color={colors.teal} size={16}/></Pressable> : null}
+    {source && (notes.length || keys.length) ? <Pressable accessibilityRole="link" onPress={() => { setSourceFailed(false); void Linking.openURL(source).catch(() => setSourceFailed(true)); }} style={s.source}><Txt style={s.sourceText}>{keys.some(key => sensory?.[key]) ? ar ? 'درجات المحمصة · عرض المصدر' : 'Roaster’s scale · View source' : ar ? 'وصف المحمصة · عرض المصدر' : 'Roaster’s description · View source'}</Txt><Icon name="arrow" color={colors.teal} size={16}/></Pressable> : null}
+    {sourceFailed ? <Txt accessibilityRole="alert" style={styles.error}>{ar ? 'تعذّر فتح الرابط. حاول مرة ثانية.' : 'Could not open the link. Try again.'}</Txt> : null}
   </View>;
 }
 
