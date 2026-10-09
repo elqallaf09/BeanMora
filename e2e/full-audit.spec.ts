@@ -37,26 +37,36 @@ async function fixtureSignInAt(page: Page, locale: 'ar' | 'en', path: string) {
 for (const locale of ['ar', 'en'] as const) test(`${locale}: every page route renders or enforces its access boundary`, async ({ page }, info) => {
   test.setTimeout(150000);
   const errors: string[] = [], observations: { path: string; status: number; destination: string; ms: number }[] = [];
-  page.on('pageerror', error => errors.push(`${page.url()}: ${error.message}`));
+  const watchErrors = (target: Page) => target.on('pageerror', error => errors.push(`${target.url()}: ${error.message}`));
+  watchErrors(page);
   await page.context().route('**/*', route => {
     const url = new URL(route.request().url());
     return url.hostname === '127.0.0.1' || ['data:', 'blob:'].includes(url.protocol) ? route.continue() : route.abort();
   });
   await fixtureSignInAt(page, locale, '/');
+  let currentPage = page;
   for (const route of routes) {
     const path = `/${locale}${route}`, started = Date.now();
-    const response = await page.goto(path);
+    const response = await currentPage.goto(path);
     expect(response, path).not.toBeNull();
     expect([200, 404], path).toContain(response!.status());
-    await expect(page.locator('body'), path).toBeVisible();
+    await expect(currentPage.locator('body'), path).toBeVisible();
     if (route.startsWith('/admin')) {
       // Existing admin guards deny access through a 404, sign-in or home redirect.
-      const denied = page.getByRole('heading', { name: '404', exact: true });
+      const denied = currentPage.getByRole('heading', { name: '404', exact: true });
       if (response!.status() === 404 || await denied.count()) await expect(denied, path).toBeVisible();
-      else expect([`/${locale}/login`, `/${locale}/home`], path).toContain(new URL(page.url()).pathname);
+      else expect([`/${locale}/login`, `/${locale}/home`], path).toContain(new URL(currentPage.url()).pathname);
     }
-    await page.waitForLoadState('networkidle');
-    observations.push({ path, status: response!.status(), destination: new URL(page.url()).pathname, ms: Date.now() - started });
+    await currentPage.waitForLoadState('networkidle');
+    const destination = new URL(currentPage.url()).pathname;
+    observations.push({ path, status: response!.status(), destination, ms: Date.now() - started });
+    if (destination === `/${locale}/home` && route !== '/home') {
+      // Some admin guards redirect guests to home. Keep that document alive
+      // while its deferred prefetches complete, and continue in the same auth
+      // context. Errors from both tabs remain part of the final assertion.
+      currentPage = await page.context().newPage();
+      watchErrors(currentPage);
+    }
   }
   await info.attach('all-page-routes', { body: JSON.stringify(observations), contentType: 'application/json' });
   expect(errors).toEqual([]);
