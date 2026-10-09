@@ -228,7 +228,7 @@ test('bag serving filters find a recipe beyond page one and Arabic decimal weigh
     return reply(route, path.endsWith('/beans') ? [bean] : path.endsWith('/recipes') ? [records[0]] : []);
   });
   await page.goto('/'); await page.getByRole('button', { name: 'حسابي', exact: true }).click(); await signIn(page);
-  await expect(page.getByRole('button', { name: 'تسجيل الخروج', exact: true })).toBeVisible();
+  await expect(page.getByTestId('account-screen')).toBeVisible();
   await page.getByRole('button', { name: 'تحضير', exact: true }).click();
   await page.getByRole('button', { name: 'بارد ومثلّج', exact: true }).click();
   await expect(page.getByText('وصفة بومب 100', { exact: true })).toBeVisible();

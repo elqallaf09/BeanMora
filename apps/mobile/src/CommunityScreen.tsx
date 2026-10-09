@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   Image,
   Pressable,
+  Platform,
   ScrollView,
   Share,
   StyleSheet,
@@ -140,13 +141,14 @@ export function CommunityScreen({
   const [recentBrews, setRecentBrews] = useState<BrewRow[]>([]);
   const [selectedBrew, setSelectedBrew] = useState<string | null>(null);
   const [commentsOpen, setCommentsOpen] = useState<string | null>(null);
-  const [commentText, setCommentText] = useState('');
-  const [commentBusy, setCommentBusy] = useState(false);
+  const [commentText, setCommentText] = useState<Record<string, string>>({});
+  const [commentBusy, setCommentBusy] = useState<string | null>(null);
+  const [likesBusy, setLikesBusy] = useState<string[]>([]);
+  const [interactionErrors, setInteractionErrors] = useState<
+    Record<string, string>
+  >({});
   const [compose, setCompose] = useState(false);
-  const [filter, setFilter] = useState('all');
   const [feed, setFeed] = useState<'all' | 'following'>('all');
-  const [sort, setSort] = useState<'new' | 'liked'>('new');
-  const [language, setLanguage] = useState<'locale' | 'all'>('locale');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [body, setBody] = useState('');
@@ -156,6 +158,7 @@ export function CommunityScreen({
   const active = useRef(true);
   const publishing = useRef(false);
   const pendingLikes = useRef(new Set<string>());
+  const pendingComment = useRef(false);
   useEffect(() => {
     active.current = true;
     return () => {
@@ -299,28 +302,9 @@ export function CommunityScreen({
   const commentRows = (id: string) => comments.filter((c) => c.post_id === id);
   const liked = (id: string) =>
     !!userId && likes.some((l) => l.post_id === id && l.user_id === userId);
-  const visible = posts
-    .filter(
-      (p) =>
-        (language === 'all' ||
-          !p.content_language ||
-          p.content_language === locale) &&
-        (filter === 'all' ||
-          (filter === 'roasts' && !!p.roast_profile_id) ||
-          (filter === 'brews' &&
-            !!(p.brew_log_id || p.recipe_id) &&
-            !p.roast_profile_id) ||
-          (filter === 'discussion' &&
-            !p.recipe_id &&
-            !p.brew_log_id &&
-            !p.roast_profile_id)),
-    )
-    .sort((a, b) =>
-      sort === 'liked'
-        ? likeCount(b.id) - likeCount(a.id) ||
-          Date.parse(b.created_at) - Date.parse(a.created_at)
-        : Date.parse(b.created_at) - Date.parse(a.created_at),
-    );
+  const visible = [...posts].sort(
+    (a, b) => Date.parse(b.created_at) - Date.parse(a.created_at),
+  );
   const toggleLike = async (id: string) => {
     const db = supabase;
     if (!userId || !db) {
@@ -329,6 +313,8 @@ export function CommunityScreen({
     }
     if (pendingLikes.current.has(id)) return;
     pendingLikes.current.add(id);
+    setLikesBusy((v) => [...v, id]);
+    setInteractionErrors((v) => ({ ...v, [id]: '' }));
     const was = liked(id);
     setLikes((v) =>
       was
@@ -346,21 +332,36 @@ export function CommunityScreen({
       if (error) throw error;
     } catch {
       if (active.current) {
-        setRevision((r) => r + 1);
-        setError(ar ? 'تعذّر حفظ الإعجاب.' : 'Could not save like.');
+        setLikes((v) =>
+          was
+            ? [
+                ...v.filter((l) => !(l.post_id === id && l.user_id === userId)),
+                { post_id: id, user_id: userId },
+              ]
+            : v.filter((l) => !(l.post_id === id && l.user_id === userId)),
+        );
+        setInteractionErrors((v) => ({
+          ...v,
+          [id]: ar
+            ? 'تعذّر حفظ الإعجاب. حاول مرة ثانية.'
+            : 'Could not save like. Please retry.',
+        }));
       }
     } finally {
       pendingLikes.current.delete(id);
+      if (active.current) setLikesBusy((v) => v.filter((post) => post !== id));
     }
   };
   const sendComment = async (id: string) => {
-    const text = commentText.trim();
-    if (!text || commentBusy) return;
+    const text = (commentText[id] ?? '').trim();
+    if (!text || pendingComment.current) return;
     if (!userId || !supabase) {
       login();
       return;
     }
-    setCommentBusy(true);
+    pendingComment.current = true;
+    setCommentBusy(id);
+    setInteractionErrors((v) => ({ ...v, [id]: '' }));
     try {
       const { error } = await supabase.from('comments').insert({
         user_id: userId,
@@ -373,14 +374,20 @@ export function CommunityScreen({
       });
       if (error) throw error;
       if (active.current) {
-        setCommentText('');
+        setCommentText((v) => ({ ...v, [id]: '' }));
         setRevision((r) => r + 1);
       }
     } catch {
       if (active.current)
-        setError(ar ? 'تعذّر إرسال التعليق.' : 'Could not send comment.');
+        setInteractionErrors((v) => ({
+          ...v,
+          [id]: ar
+            ? 'تعذّر إرسال التعليق. تعليقك محفوظ هنا للمحاولة مرة ثانية.'
+            : 'Could not send comment. Your draft is kept here so you can retry.',
+        }));
     } finally {
-      if (active.current) setCommentBusy(false);
+      pendingComment.current = false;
+      if (active.current) setCommentBusy(null);
     }
   };
   const publish = async () => {
@@ -468,11 +475,13 @@ export function CommunityScreen({
           <Txt heading style={[s.heroTitle, width < 380 && { fontSize: 24 }]}>
             coffeeHO
           </Txt>
-          {width >= 380 ? <Txt style={s.heroNote}>
-            {ar
-              ? 'ناس القهوة، وتجارب تستحق المشاركة'
-              : 'Coffee people. Experiences worth sharing.'}
-          </Txt> : null}
+          {width >= 380 ? (
+            <Txt style={s.heroNote}>
+              {ar
+                ? 'ناس القهوة، وتجارب تستحق المشاركة'
+                : 'Coffee people. Experiences worth sharing.'}
+            </Txt>
+          ) : null}
         </View>
         <IconButton
           name="search"
@@ -699,69 +708,12 @@ export function CommunityScreen({
                   {ar ? 'كيف كان كوبك اليوم؟' : 'What’s brewing?'}
                 </Txt>
                 <Txt style={styles.muted}>
-                  {ar
-                    ? 'شارك تجربتك'
-                    : 'Share a brew or a thought.'}
+                  {ar ? 'شارك تجربتك' : 'Share a brew or a thought.'}
                 </Txt>
               </View>
               <Icon name="arrow" size={18} color={colors.teal} />
             </Pressable>
           )}
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={{ flexGrow: 0 }}
-            contentContainerStyle={{ gap: 8, paddingVertical: 2 }}
-          >
-            {[
-              { id: 'all', ar: 'الكل', en: 'All' },
-              { id: 'brews', ar: 'تجارب التحضير', en: 'Brew experiences' },
-              { id: 'roasts', ar: 'الحمصات', en: 'Roasts' },
-              { id: 'discussion', ar: 'النقاشات', en: 'Discussions' },
-            ].map((f) => (
-              <Action
-                key={f.id}
-                compact
-                title={ar ? f.ar : f.en}
-                selected={filter === f.id}
-                onPress={() => setFilter(f.id)}
-              />
-            ))}
-          </ScrollView>
-          <View style={[styles.row, { justifyContent: 'space-between' }]}>
-            <Txt style={styles.muted}>
-              {ar ? 'آخر المشاركات' : 'Member posts'}
-            </Txt>
-            <View style={styles.row}>
-              <Action
-                title={ar ? 'الأحدث' : 'Newest'}
-                compact
-                selected={sort === 'new'}
-                onPress={() => setSort('new')}
-              />
-              <Action
-                title={ar ? 'الأكثر إعجابًا' : 'Most liked'}
-                compact
-                selected={sort === 'liked'}
-                onPress={() => setSort('liked')}
-              />
-              <Action
-                compact
-                title={
-                  language === 'locale'
-                    ? ar
-                      ? 'كل اللغات'
-                      : 'All languages'
-                    : ar
-                      ? 'العربية فقط'
-                      : 'English only'
-                }
-                onPress={() =>
-                  setLanguage((v) => (v === 'locale' ? 'all' : 'locale'))
-                }
-              />
-            </View>
-          </View>
           {loading ? (
             <ActivityIndicator color={colors.teal} />
           ) : error ? (
@@ -1056,7 +1008,15 @@ export function CommunityScreen({
                       <Pressable
                         accessibilityRole="button"
                         accessibilityLabel={ar ? 'إعجاب' : 'Like'}
-                        accessibilityState={{ selected: liked(p.id) }}
+                        accessibilityState={{
+                          selected: liked(p.id),
+                          disabled: likesBusy.includes(p.id),
+                        }}
+                        disabled={likesBusy.includes(p.id)}
+                        testID={'post-like-' + p.id}
+                        {...(Platform.OS === 'web'
+                          ? { 'aria-pressed': liked(p.id) }
+                          : {})}
                         onPress={() => void toggleLike(p.id)}
                         style={s.social}
                       >
@@ -1066,7 +1026,14 @@ export function CommunityScreen({
                           color={liked(p.id) ? colors.teal : colors.muted}
                           filled={liked(p.id)}
                         />
-                        <Txt>{likeCount(p.id)}</Txt>
+                        <Txt
+                          style={{
+                            fontSize: 13,
+                            color: liked(p.id) ? colors.teal : colors.muted,
+                          }}
+                        >
+                          {ar ? 'إعجاب' : 'Like'} · {likeCount(p.id)}
+                        </Txt>
                       </Pressable>
                       <Pressable
                         accessibilityRole="button"
@@ -1074,12 +1041,14 @@ export function CommunityScreen({
                         accessibilityState={{ expanded: commentsOpen === p.id }}
                         onPress={() => {
                           setCommentsOpen((v) => (v === p.id ? null : p.id));
-                          setCommentText('');
                         }}
                         style={s.social}
                       >
                         <Icon name="comment" size={20} color={colors.muted} />
-                        <Txt>{commentRows(p.id).length}</Txt>
+                        <Txt style={{ fontSize: 13, color: colors.muted }}>
+                          {ar ? 'تعليق' : 'Comment'} ·{' '}
+                          {commentRows(p.id).length}
+                        </Txt>
                       </Pressable>
                     </View>
                     <IconButton
@@ -1106,8 +1075,13 @@ export function CommunityScreen({
                       }
                     />
                   </View>
+                  {interactionErrors[p.id] ? (
+                    <Txt accessibilityRole="alert" style={styles.error}>
+                      {interactionErrors[p.id]}
+                    </Txt>
+                  ) : null}
                   {commentsOpen === p.id ? (
-                    <View style={s.comments}>
+                    <View testID={'post-comments-' + p.id} style={s.comments}>
                       {commentRows(p.id)
                         .slice(-8)
                         .map((c) => (
@@ -1126,28 +1100,65 @@ export function CommunityScreen({
                             <Txt>{c.body}</Txt>
                           </View>
                         ))}
-                      <View style={styles.row}>
-                        <TextInput
-                          accessibilityLabel={
-                            ar ? 'اكتب تعليقًا' : 'Write a comment'
-                          }
-                          maxLength={2000}
-                          value={commentText}
-                          onChangeText={setCommentText}
-                          placeholder={
-                            ar ? 'شارك ملاحظتك…' : 'Add your observation…'
-                          }
-                          style={[
-                            s.commentInput,
-                            { textAlign: ar ? 'right' : 'left' },
-                          ]}
-                        />
+                      {userId ? (
+                        <View style={{ gap: 8 }}>
+                          <TextInput
+                            accessibilityLabel={
+                              ar ? 'اكتب تعليقًا' : 'Write a comment'
+                            }
+                            multiline
+                            maxLength={2000}
+                            value={commentText[p.id] ?? ''}
+                            onChangeText={(text) =>
+                              setCommentText((v) => ({ ...v, [p.id]: text }))
+                            }
+                            editable={commentBusy !== p.id}
+                            placeholder={
+                              ar ? 'اكتب تعليقك…' : 'Write your comment…'
+                            }
+                            placeholderTextColor={colors.muted}
+                            style={[
+                              s.commentInput,
+                              {
+                                textAlign: ar ? 'right' : 'left',
+                                textAlignVertical: 'top',
+                              },
+                            ]}
+                          />
+                          <View
+                            style={{
+                              alignSelf: ar ? 'flex-start' : 'flex-end',
+                            }}
+                          >
+                            <Action
+                              compact
+                              selected
+                              title={
+                                commentBusy === p.id
+                                  ? ar
+                                    ? 'جارٍ الإرسال…'
+                                    : 'Sending…'
+                                  : ar
+                                    ? 'إرسال التعليق'
+                                    : 'Send comment'
+                              }
+                              disabled={
+                                !!commentBusy ||
+                                !(commentText[p.id] ?? '').trim()
+                              }
+                              onPress={() => void sendComment(p.id)}
+                            />
+                          </View>
+                        </View>
+                      ) : (
                         <Action
-                          title={ar ? 'إرسال التعليق' : 'Send comment'}
-                          disabled={commentBusy || !commentText.trim()}
-                          onPress={() => void sendComment(p.id)}
+                          compact
+                          title={
+                            ar ? 'سجّل الدخول للتعليق' : 'Sign in to comment'
+                          }
+                          onPress={login}
                         />
-                      </View>
+                      )}
                     </View>
                   ) : null}
                 </View>
@@ -1161,13 +1172,9 @@ export function CommunityScreen({
                   ? ar
                     ? 'لا توجد منشورات بعد'
                     : 'No posts yet'
-                  : filter === 'roasts'
-                    ? ar
-                      ? 'منحنى حمصتك يستحق المشاركة'
-                      : 'Your roast curve is worth sharing'
-                    : ar
-                      ? 'ابدأ الحديث بكوبك'
-                      : 'Start a conversation with your cup'}
+                  : ar
+                    ? 'ابدأ الحديث بكوبك'
+                    : 'Start a conversation with your cup'}
               </Txt>
               <Txt style={[styles.muted, { textAlign: 'center' }]}>
                 {feed === 'following'
@@ -1185,39 +1192,70 @@ export function CommunityScreen({
                       ? ar
                         ? 'اكتشف الحسابات'
                         : 'Discover accounts'
-                      : filter === 'roasts'
-                        ? ar
-                          ? 'افتح مختبر التحميص'
-                          : 'Open Roast Lab'
-                        : ar
-                          ? 'شارك أول تجربة'
-                          : 'Share the first experience'
+                      : ar
+                        ? 'شارك أول تجربة'
+                        : 'Share the first experience'
                   }
                   selected
-                  onPress={() =>
-                    feed === 'following'
-                      ? members()
-                      : filter === 'roasts'
-                        ? roast()
-                        : write()
-                  }
+                  onPress={() => (feed === 'following' ? members() : write())}
                 />
-
               </View>
             </View>
           ) : null}
         </View>
         {wide ? (
           <View style={[s.sidebar, { width: 238 }]}>
-            <View testID="community-ad-space" accessibilityLabel={ar ? 'مساحة إعلانية' : 'Advertising space'} style={[s.sideCard, { height: 164, padding: 18, gap: 14, justifyContent: 'space-between', backgroundColor: colors.chip }]}>
-              <Txt style={{ color: colors.muted, fontSize: 11 }}>{ar ? 'إعلان' : 'Advertisement'}</Txt>
-              <View style={{ flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 12 }}>
-                <View style={{ width: 42, height: 42, borderRadius: 14, backgroundColor: colors.paper, alignItems: 'center', justifyContent: 'center' }}><Icon name="espresso" size={22} color={colors.teal} /></View>
-                <Txt heading style={{ flex: 1, fontSize: 16 }}>{ar ? 'مساحة إعلانية' : 'Your brand here'}</Txt>
+            <View
+              testID="community-ad-space"
+              accessibilityLabel={ar ? 'مساحة إعلانية' : 'Advertising space'}
+              style={[
+                s.sideCard,
+                {
+                  height: 164,
+                  padding: 18,
+                  gap: 14,
+                  justifyContent: 'space-between',
+                  backgroundColor: colors.chip,
+                },
+              ]}
+            >
+              <Txt style={{ color: colors.muted, fontSize: 11 }}>
+                {ar ? 'إعلان' : 'Advertisement'}
+              </Txt>
+              <View
+                style={{
+                  flexDirection: ar ? 'row-reverse' : 'row',
+                  alignItems: 'center',
+                  gap: 12,
+                }}
+              >
+                <View
+                  style={{
+                    width: 42,
+                    height: 42,
+                    borderRadius: 14,
+                    backgroundColor: colors.paper,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Icon name="espresso" size={22} color={colors.teal} />
+                </View>
+                <Txt heading style={{ flex: 1, fontSize: 16 }}>
+                  {ar ? 'مساحة إعلانية' : 'Your brand here'}
+                </Txt>
               </View>
-              <Txt style={{ color: colors.muted, fontSize: 12 }}>{ar ? 'للمحامص وعلامات القهوة' : 'For coffee brands and roasters'}</Txt>
+              <Txt style={{ color: colors.muted, fontSize: 12 }}>
+                {ar
+                  ? 'للمحامص وعلامات القهوة'
+                  : 'For coffee brands and roasters'}
+              </Txt>
             </View>
-            <Action compact title={ar ? 'اكتشف الحسابات' : 'Discover accounts'} onPress={members} />
+            <Action
+              compact
+              title={ar ? 'اكتشف الحسابات' : 'Discover accounts'}
+              onPress={members}
+            />
           </View>
         ) : null}
       </View>
@@ -1339,7 +1377,7 @@ const s = StyleSheet.create({
   },
   social: {
     minHeight: 44,
-    paddingHorizontal: 5,
+    paddingHorizontal: 8,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
@@ -1351,9 +1389,10 @@ const s = StyleSheet.create({
     gap: 12,
   },
   commentInput: {
-    flex: 1,
-    minWidth: 100,
-    minHeight: 46,
+    width: '100%',
+    minHeight: 80,
+    maxHeight: 160,
+    paddingVertical: 12,
     borderWidth: 1,
     borderColor: colors.line,
     borderRadius: 12,

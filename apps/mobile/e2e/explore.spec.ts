@@ -602,7 +602,7 @@ test('members can save, edit and delete their own equipment opinion with confirm
   await page.getByLabel('Password', { exact: true }).fill('isolated-password');
   await page.getByRole('button', { name: 'Sign in', exact: true }).click();
   await expect(
-    page.getByRole('button', { name: 'Sign out', exact: true }),
+    page.getByTestId('account-screen'),
   ).toBeVisible();
   await page.getByRole('button', { name: 'Home', exact: true }).click();
   await page.getByRole('button', { name: 'Equipment', exact: true }).click();

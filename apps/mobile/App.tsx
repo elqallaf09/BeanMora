@@ -664,7 +664,30 @@ function Shell() {
         edges={login ? ['left', 'right', 'bottom'] : undefined}
       >
         <StatusBar barStyle={login || theme.dark ? 'light-content' : 'dark-content'} />
-        <SettingsScreen visible={settingsOpen} close={() => setSettingsOpen(false)} changeLanguage={changeLanguage} />
+        <SettingsScreen
+          visible={settingsOpen}
+          close={() => setSettingsOpen(false)}
+          changeLanguage={changeLanguage}
+          session={userId ? session : null}
+          onDeleted={(localCleanupFailed) => {
+            setSettingsOpen(false);
+            loginReturn.current = null;
+            setSession(null);
+            setSaved(null);
+            setNotifications(null);
+            setRevision((value) => value + 1);
+            navigate('home');
+            setMessage(
+              localCleanupFailed
+                ? ar
+                  ? 'حُذف الحساب. تعذّر مسح بعض البيانات من الجهاز؛ امسح بيانات التطبيق من إعدادات الجهاز.'
+                  : 'Account deleted. Some device data could not be cleared; clear app data in your device settings.'
+                : ar
+                  ? 'تم حذف حسابك وبياناته.'
+                  : 'Your account and its data were deleted.',
+            );
+          }}
+        />
         {libraryDialog}
         {!login ? (
           <View
@@ -939,23 +962,6 @@ function Shell() {
                     );
                   }}
                   back={back}
-                  onDeleted={(localCleanupFailed) => {
-                    loginReturn.current = null;
-                    setSession(null);
-                    setSaved(null);
-                    setNotifications(null);
-                    setRevision((value) => value + 1);
-                    navigate('home');
-                    setMessage(
-                      localCleanupFailed
-                        ? ar
-                          ? 'حُذف الحساب. تعذّر مسح بعض البيانات من الجهاز؛ امسح بيانات التطبيق من إعدادات الجهاز.'
-                          : 'Account deleted. Some device data could not be cleared; clear app data in your device settings.'
-                        : ar
-                          ? 'تم حذف حسابك وبياناته.'
-                          : 'Your account and its data were deleted.',
-                    );
-                  }}
                 />
               ) : tab === 'home' ? (
                 <Home

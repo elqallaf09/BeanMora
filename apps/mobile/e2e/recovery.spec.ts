@@ -380,19 +380,20 @@ test('Arabic community preserves member languages, links measured roasts and rea
   await expect(page.getByTestId('community-post-post-ar')).toContainText(
     'خففت الطحنة',
   );
-  await expect(page.getByTestId('community-post-post-en')).toHaveCount(0);
+  await expect(page.getByTestId('community-post-post-en')).toBeVisible();
   const hero = await page.getByTestId('community-hero').boundingBox();
   expect(hero!.height).toBeLessThan(300);
-  await page.getByRole('button', { name: 'كل اللغات', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'كل اللغات', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'الأكثر إعجابًا', exact: true })).toHaveCount(0);
   await expect(page.getByTestId('community-post-post-en')).toContainText(
     'بالإنجليزية',
   );
   await expect(page.getByTestId('community-post-post-en')).toContainText(
     'Original member English text.',
   );
-  await page.getByRole('button', { name: 'العربية فقط', exact: true }).click();
-  await page.getByRole('button', { name: 'الحمصات', exact: true }).click();
-  await expect(page.getByTestId('community-post-post-ar')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'الحمصات', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'النقاشات', exact: true })).toHaveCount(0);
+  await expect(page.getByTestId('community-post-post-ar')).toBeVisible();
   await page
     .getByRole('button', {
       name: 'فتح الحمصة: حمصة المجتمع الأولى',
@@ -515,7 +516,7 @@ test('Arabic Roast Lab saves actual Arabic-number measurements, retries the same
     .fill('isolated-fixture-password');
   await page.getByRole('button', { name: 'تسجيل الدخول', exact: true }).click();
   await expect(
-    page.getByRole('button', { name: 'تسجيل الخروج', exact: true }),
+    page.getByText(user.email, { exact: true }),
   ).toBeVisible();
   await page.getByRole('button', { name: 'المزيد', exact: true }).click();
   await page

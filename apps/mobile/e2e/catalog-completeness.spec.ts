@@ -104,7 +104,7 @@ test('an owned bag keeps the xBloom source water unit and present facts in Brew 
   await page.getByLabel('Email',{exact:true}).fill(user.email);
   await page.getByLabel('Password',{exact:true}).fill('isolated-fixture-password');
   await page.getByRole('button',{name:'Sign in',exact:true}).click();
-  await expect(page.getByRole('button',{name:'Sign out',exact:true})).toBeVisible();
+  await expect(page.getByTestId('account-screen')).toBeVisible();
   await page.getByRole('button',{name:'Brew',exact:true}).click();
   await expect(page.getByText('Last grind: 4.2',{exact:true})).toBeVisible();
   await expect(page.getByText('xBloom · Saved best recipe',{exact:true})).toBeVisible();
