@@ -31,6 +31,7 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: deletion requires con
     if (path.endsWith('/token')) return reply(route, session);
     if (path.endsWith('/user')) return reply(route, deleted ? { message: 'User not found' } : user, deleted ? 404 : 200);
     if (path.includes('/storage/v1/object/list/')) { paths.push(route.request().postDataJSON().prefix); return reply(route, []); }
+    if (path.endsWith('/functions/v1/purge-direct-messages')) { expect(route.request().postDataJSON()).toEqual({ mode: 'own_expired_audio', owner: user.id }); return reply(route, { expired_audio_removed: 0 }); }
     if (path.endsWith('/rpc/delete_own_account')) {
       calls++;
       expect(route.request().postDataJSON()).toEqual({});
@@ -69,7 +70,7 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: deletion requires con
   fail = false; await confirm.click();
   await expect(page.getByText(ar ? 'تم حذف حسابك وبياناته.' : 'Your account and its data were deleted.', { exact: true })).toBeVisible();
   expect(deleted).toBe(true); expect(calls).toBe(2);
-  expect(paths).toHaveLength(16); expect(paths.every(path => path === user.id)).toBe(true);
+  expect(paths).toHaveLength(20); expect(paths.every(path => path === user.id)).toBe(true);
   const stored = await page.evaluate(({ ownShelf, ownDraft, guestShelf }) => ({ ownShelf: localStorage.getItem(ownShelf),
     ownDraft: localStorage.getItem(ownDraft), guestShelf: localStorage.getItem(guestShelf), session: localStorage.getItem('sb-mobilefixture-auth-token') }), { ownShelf, ownDraft, guestShelf });
   expect(stored).toEqual({ ownShelf: null, ownDraft: null, guestShelf: 'isolated guest shelf', session: null });

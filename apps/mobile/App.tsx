@@ -67,6 +67,8 @@ import { MyBags } from './src/MyBags';
 import { BestSetup } from './src/BestSetup';
 import { RoastLab } from './src/RoastLab';
 import { CommunityScreen } from './src/CommunityScreen';
+import { DirectMessages } from './src/DirectMessages';
+import type { MemberIdentity } from './src/core/member-social';
 import { BrewMyCoffee } from './src/BrewMyCoffee';
 import {
   CoffeeCard,
@@ -109,6 +111,7 @@ type Tab =
   | 'bags'
   | 'best'
   | 'community'
+  | 'messages'
   | 'account'
   | 'equipment'
   | 'roasters'
@@ -192,6 +195,10 @@ function Shell() {
   const identity = useRef(userId);
   identity.current = userId;
   const [memberUsername,setMemberUsername]=useState('');
+  const [directTarget, setDirectTarget] = useState<MemberIdentity | null>(null);
+  const [directPost, setDirectPost] = useState<string | null>(null);
+  const [communityPost, setCommunityPost] = useState<string | null>(null);
+  const [directRevision, setDirectRevision] = useState(0);
   const [message, setMessage] = useState('');
   const [notifications, setNotifications] = useState<string[] | null>(null);
   const [fontsLoaded, fontError] = useFonts({
@@ -210,6 +217,8 @@ function Shell() {
       setTab('account');
     };
     const handleCallback = async (url: string) => {
+      const post = url.match(/^beanmora:\/\/post\/([0-9a-f-]{36})$/i);
+      if (post) { setCommunityPost(post[1]); setTab('community'); setDetail(null); return; }
       const result = await finishOAuth(url);
       if (result === 'recovery') showRecovery();
       if (result && Platform.OS === 'web') {
@@ -502,12 +511,15 @@ function Shell() {
     setNotifications(
       (rows ?? []).map((row) =>
         [
-          ar ? 'نشاط جديد' : 'New activity',
+          row.type === 'story_warning' ? (ar ? 'تحذير: القصة خارج موضوع القهوة. تكرارها يوقف المشاركة والرسائل.' : 'Warning: your story is off-topic. Repetition suspends participation and messages.') : row.type === 'community_suspended' ? (ar ? 'تم إيقاف المشاركة والرسائل بسبب تكرار المخالفة.' : 'Community participation and messages are suspended after repeated violations.') : ar ? 'نشاط جديد' : 'New activity',
           new Date(row.created_at).toLocaleDateString(locale + '-u-nu-latn'),
         ].join(' · '),
       ),
     );
   }
+  const showMessages = (member?: MemberIdentity, post?: string) => { if (!userId) { requestLogin(); return; } setDirectTarget(member ?? null); setDirectPost(post ?? null); setDirectRevision(n => n + 1); navigate('messages'); };
+  const shareToDirect = (id: string) => showMessages(undefined, id);
+  const showCommunityPost = (id: string) => { navigate('community'); setCommunityPost(id); };
   const showMember=(username:string)=>{setMemberUsername(username);navigate('memberProfile');};
   const manageMember=(kind:'bags'|'equipment'|'recipes')=>{if(kind==='equipment')setEquipmentToAdd(null);navigate(kind==='bags'?'bags':kind==='equipment'?'myEquipment':'addRecipe');};
   const openMemberItem=async(kind:'recipe'|'bean'|'product'|'equipment',id:string)=>{if(!supabase)return;const owner=identity.current;try{
@@ -534,7 +546,7 @@ function Shell() {
       (tab !== 'favorites' || savedIds.includes(c.beanId ?? c.id)),
   );
   const homeActive = tab === 'home' && !detail && !recording;
-  const socialPage = ['account', 'community', 'members', 'memberProfile'].includes(tab);
+  const socialPage = ['account', 'community', 'members', 'memberProfile', 'messages'].includes(tab);
   const libraryDialog = (<Modal transparent visible={libraryMenu} animationType="fade" onRequestClose={()=>setLibraryMenu(false)}><View style={{flex:1,justifyContent:'center',padding:24,backgroundColor:'#0008'}}><ScrollView contentContainerStyle={{padding:18,gap:10}} style={{maxHeight:'85%',backgroundColor:colors.paper,borderRadius:20}}>
               <Txt heading style={styles.subtitle}>{ar?'المزيد':'More'}</Txt>
               {([{id:'assistant',ar:'خبير القهوة',en:'Coffee expert'},{id:'capsules',ar:'الكبسولات',en:'Capsules'},{id:'savedRecipes',ar:'وصفاتي المحفوظة',en:'Saved recipes'},{id:'forYou',ar:'لك أنت',en:'For you'},{id:'favorites',ar:'البن المحفوظ',en:'Saved coffees'},{id:'addRecipe',ar:'إضافة وصفة',en:'Add recipe'},{id:'addBean',ar:'إضافة بن',en:'Add coffee'},{id:'myRecipes',ar:'وصفاتي المضافة',en:'My submitted recipes'},{id:'myEquipment',ar:'معداتـي',en:'My equipment'},{id:'bags',ar:'أكياسي',en:'My bags'},{id:'roastLab',ar:'مختبر التحميص',en:'Roast Lab'}] as const).map(item=><Action key={item.id} title={item[locale]} onPress={()=>{setLibraryMenu(false);if(item.id==='myEquipment')setEquipmentToAdd(null);if(item.id==='roastLab'){setRoastId(null);setRoastSection('own');}navigate(item.id);}}/>)}
@@ -890,7 +902,7 @@ function Shell() {
                   openRecipe={openRecipe}
                   openCoffee={openCoffee}
                 />
-              ) : tab === 'members' ? (<MemberDirectory open={showMember}/>) : tab === 'memberProfile' ? (<ScrollView contentContainerStyle={{padding:18,gap:14}}><Action title={ar?'حسابات coffeeHO':'coffeeHO accounts'} onPress={()=>navigate('members')}/><MemberProfile key={(userId??'guest')+memberUsername} userId={userId} username={memberUsername} openMember={showMember} openItem={(kind,id)=>void openMemberItem(kind,id)} manage={manageMember} login={()=>requestLogin()}/></ScrollView>) : tab === 'community' ? (
+              ) : tab === 'messages' ? <DirectMessages key={(userId ?? 'guest') + directRevision} owner={userId} recipient={directTarget} sharedPost={directPost} login={() => requestLogin()} openPost={showCommunityPost} openMember={showMember} /> : tab === 'members' ? (<MemberDirectory open={showMember}/>) : tab === 'memberProfile' ? (<ScrollView contentContainerStyle={{padding:18,gap:14}}><Action title={ar?'حسابات coffeeHO':'coffeeHO accounts'} onPress={()=>navigate('members')}/><MemberProfile key={(userId??'guest')+memberUsername} userId={userId} username={memberUsername} openMember={showMember} openItem={(kind,id)=>void openMemberItem(kind,id)} manage={manageMember} login={()=>requestLogin()} messages={showMessages} shareDirect={shareToDirect} recipes={data?.recipes ?? []} coffees={data?.coffees ?? []} openRoast={id => showRoasts(id ?? null, "public")}/></ScrollView>) : tab === 'community' ? (
                 <CommunityScreen
                   key={userId ?? 'guest'}
                   userId={userId}
@@ -905,13 +917,16 @@ function Shell() {
                   tools={() => showTools('all')}
                   members={()=>navigate('members')}
                   openMember={showMember}
+                  messages={() => showMessages()}
+                  shareDirect={shareToDirect}
+                  postId={communityPost}
                 />
               ) : tab === 'account' ? (
                 <AccountScreen
                   key={userId ?? 'public'}
                   session={userId ? session : null}
                   settings={() => setSettingsOpen(true)}
-                  profileContent={userId?<MemberProfile userId={userId} openMember={showMember} openItem={(kind,id)=>void openMemberItem(kind,id)} manage={manageMember} login={()=>requestLogin()}/>:null}
+                  profileContent={userId?<MemberProfile userId={userId} openMember={showMember} openItem={(kind,id)=>void openMemberItem(kind,id)} manage={manageMember} login={()=>requestLogin()} messages={showMessages} shareDirect={shareToDirect} recipes={data?.recipes ?? []} coffees={data?.coffees ?? []} openRoast={id => showRoasts(id ?? null, "public")}/>:null}
                   recovery={passwordRecovery}
                   onRecovered={() => {
                     setPasswordRecovery(false);
@@ -1110,7 +1125,7 @@ function Shell() {
                   accessibilityRole="button"
                   accessibilityLabel={item.label}
                   accessibilityState={{ selected: tab === item.tab }}
-                  onPress={() => navigate(item.tab)}
+                  onPress={() => { if (item.tab === 'community') setCommunityPost(null); navigate(item.tab); }}
                   style={s.navItem}
                 >
                   {item.tab==='community'?<Image source={require('./assets/brand/mark.png')} accessibilityLabel="BeanMora logo" resizeMode="contain" style={{height:25,width:25}}/>:<Icon

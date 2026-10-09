@@ -1,18 +1,36 @@
-# BeanMora 0.5.23 — approved social account profile
+# BeanMora 0.5.23 — social profile, 24-hour messages and coffee stories
 
-Implements the user's selected account mockup 01 with the existing mockup 7 underline navigation. Source version 0.5.23 uses Android versionCode 34 and iOS buildNumber 16; EAS manages the remote build counters.
+Source version 0.5.23 uses Android versionCode 34 and iOS buildNumber 16; EAS manages the remote build counters. This release retains the selected account mockup 01 and mockup 7 underline navigation.
 
-## Resulting behavior
+## Profile and posts
 
-- A small vector wave cover replaces the oversized profile card. The avatar overlaps the cover, the name and username stay together, and editing uses a compact outlined button. The cover adapts to light/dark appearance without downloading an image.
-- Followers and following are inline links. Four collection summaries share one strip instead of separate large statistic cards. Counts come from the existing visible collection response; no example counts or products are added to a real account.
-- Equipment, coffee and recipes use equal-width underline tabs. Favorites, comments, brew/corner photographs, followers and following remain available in the compact More selector. Choosing a summary or follower count activates its section directly. The More selector has a distinct accessible label from the app's general More menu.
-- Approved equipment and coffee photographs appear in compact cards on phones. On tablets, equipment photos are larger and the first existing coffee bag appears alongside equipment, with a link to the full coffee section. Photograph approval rules, signed private-media access and model-specific missing-image handling remain in place. The coffee preview shows only fields supplied by the account API, without invented bag weights or origin labels.
-- Equipment details, inventory management, bag management, recipe creation, profile/avatar editing and accepted follow requests retain their existing actions. The Add equipment action opens the existing equipment manager, where the catalog addition flow is available. There is no new equipment-write path.
-- The duplicate account heading, email block, settings action and release footer are removed from the profile. Email, security, sign-out, account deletion and version information remain in Settings. The existing header settings button and centered coffeeHO navigation are retained.
+- The ivory/teal wave cover, overlapping avatar, compact Edit action, horizontal collection summaries and actual equipment/coffee photographs adapt to light/dark appearance and narrow screens. Equipment, coffee, recipes and posts are the four main tabs; additional sections remain under More. Security, sign-out and account deletion stay in Settings. coffeeHO remains centered in the bottom navigation.
+- The owner can load all their posts, including private posts, through pagination. Visitors receive only accessible public posts. Authors can edit and delete their posts. Editing text preserves existing photographs and linked brew/roast facts unless the author explicitly replaces or removes the media.
+- A post can be a topic, photo or video. Brewing is optional; there is no fixed Espresso label. A linked brewing method is shown only when supplied by the actual post/recipe.
+- Extraction and coffee-corner photographs support caption/section editing, photo replacement and confirmed deletion. Upload/save failures keep the draft available for retry.
 
-## Verification
+## Direct messages and sharing
 
-Mobile TypeScript, shared-core parity and the mobile behavior checks pass. Account-focused browser checks cover authentication, username and avatar updates, privacy/follow requests, gallery uploads, saved favorites, account-owned photos and collection actions. Four added account scenarios check Arabic/English layouts at 320, 800 and 1536 pixels, light/dark appearance, actual fixture images, compact edit actions, all four navigation triggers, extra-section selection and the centered coffeeHO destination. Fixture assets and sessions are isolated from real member accounts. Language-switch test setup waits for the closing Settings modal host to unmount and release its focus trap, rather than only waiting for its contents to disappear. The deterministic search test retains real clicking, focused typing, debounce boundaries and stale-response assertions. Complete CI results are recorded in the release PR.
+- Recipient preferences are Everyone, accepted Followers or Off. Every new send rechecks both members' blocks, the recipient preference and active membership. Changing a preference does not remove unexpired conversation history.
+- Text, shared posts and voice messages expire exactly 24 hours after the server records the send. Clients cannot choose or extend this timestamp. Database policies hide expired messages immediately, and the open conversation removes them as the deadline passes. Voice links are short-lived and bounded by the remaining message lifetime.
+- An active Cron job runs every five minutes to delete expired message rows and their private voice files through the Storage API. A private queue supports retries; physical deletion can lag by the scheduling interval or a service outage. Unsent voice uploads also expire after 24 hours. Account deletion first removes the authenticated owner's expired voice files.
+- Recording stops at 59.5 seconds to leave encoding margin below the strict 60-second server limit. Audio is previewed and sent explicitly; backgrounding or leaving the recorder stops it. The server checks actual AAC/Opus tracks, sample/packet timing and object identity before permitting attachment. Forged duration claims and unsupported/non-audio files are rejected. Failed sends reuse their message ID to avoid duplicates.
+- Sharing offers a DM recipient or the device share sheet. External links use the installed app's `beanmora://post/<uuid>` route and preserve access checks. There is no invented public web domain. Deleted or inaccessible posts show an unavailable state.
 
-No database migration, new provider, paid service, or replacement catalog photography is required. These browser checks do not establish physical-device behavior or produce a signed APK/iOS archive. An installed app requires a new native build to receive this design.
+## Coffee stories
+
+Photo/video stories require a coffee, brewing, equipment or coffee-corner topic and an ownership confirmation. Camera capture and media preview are available. New stories remain pending until an authorized human reviewer approves them; approved stories are publicly visible for 24 hours from approval. The author can see review history and delete their stories.
+
+Settings exposes the review queue only to the dedicated reviewer capability. A confirmed off-topic rejection creates the first warning notification; a second confirmed rejection suspends community participation and messaging. Reports alone do not trigger a ban. Review decisions are idempotent. No paid classifier or automatic image understanding is claimed.
+
+## Backend rollout
+
+Nine additive migrations introduce protected conversations, preferences, messages, stories, moderation and owned-media updates, plus expiry and cleanup. The `verify-direct-audio` and `purge-direct-messages` Edge Functions validate their own authenticated requests before acting. Their gateway JWT setting is disabled intentionally because authorization is implemented inside each function. No server key is shipped to the app.
+
+The cleanup schedule uses a narrowly scoped random token held in Vault and the project URL configured for that environment. The internal `net` schema is not exposed through the Data API. Database role tests cover participants, strangers, anonymous sessions, followers, blocks, disabled messages, expiry, forged voice metadata, owned media, warnings and suspensions. Test transactions roll back; no fixture accounts remain. Unauthenticated function calls return 401, and scheduled cleanup calls returned 200 during verification.
+
+## Validation and delivery limits
+
+Root lint, TypeScript and the 219-test root suite pass. Mobile shared-core parity, behavior checks, TypeScript, dependency checks, all three Expo exports and runtime bundle audits pass. The 135-test browser suite includes 12 social scenarios covering failed-save retries, post and gallery editing/deletion, sharing, preferences, expiry, recording, owner review, pagination, Arabic and dark mode.
+
+Synthetic AAC/Opus files exercise actual encoded durations, including rejection above 60 seconds. WebM video playback is tested in Chromium; the CI Chromium build has no H.264 decoder, so MP4 coverage verifies upload and either playback or a clear unsupported-codec state. Browser checks do not establish physical-device behavior. No signed APK or iOS archive is produced by these checks; installed apps require a new native build for the audio/video modules and this release.

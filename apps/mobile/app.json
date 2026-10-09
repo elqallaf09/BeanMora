@@ -48,10 +48,19 @@
         "expo-image-picker",
         {
           "photosPermission": "Allow BeanMora to use a photo you select for your coffee or recipe.",
-          "cameraPermission": false,
-          "microphonePermission": false
+          "cameraPermission": "Allow BeanMora to photograph your coffee, brewing or equipment.",
+          "microphonePermission": "Allow BeanMora to record sound in your coffee videos."
         }
-      ]
+      ],
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Allow BeanMora to record private voice messages of up to one minute.",
+          "enableBackgroundPlayback": false,
+          "enableBackgroundRecording": false
+        }
+      ],
+      "expo-video"
     ]
   }
 }

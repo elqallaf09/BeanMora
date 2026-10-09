@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-const buckets = new Set(['post-media', 'recipe-images', 'recipe-videos', 'member-media', 'profile-gallery']);
+const buckets = new Set(['post-media', 'recipe-images', 'recipe-videos', 'member-media', 'profile-gallery', 'direct-audio', 'coffee-stories']);
 /** Match this project's Storage only. Never send arbitrary URLs to a signer. */
 export function contentMediaPath(
   value: string | null | undefined,
@@ -39,12 +39,13 @@ export async function resolveContentMedia(
   client: Pick<SupabaseClient, 'storage'>,
   value: string | null | undefined,
   project: string,
+  expiresIn = 60,
 ): Promise<string | null> {
   const target = contentMediaPath(value, project);
   if (!target) return value?.startsWith('https://') ? value : null;
   // Signed URLs remain capabilities until expiry; never persist them in the DB.
   const { data, error } = await client.storage
     .from(target.bucket)
-    .createSignedUrl(target.path, 60);
+    .createSignedUrl(target.path, Math.max(1, Math.min(60, Math.floor(expiresIn))));
   return error ? null : (data?.signedUrl ?? null);
 }

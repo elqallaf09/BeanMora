@@ -22,6 +22,9 @@ import {
 import { AvatarEditor } from "./AvatarEditor";
 import { MemberAvatar } from "./MemberAvatar";
 import { ProfileCover } from "./ProfileCover";
+import { ProfilePhotoActions } from "./ProfilePhotoActions";
+import { CommunityScreen } from "./CommunityScreen";
+import type { CoffeeItem, RecipeItem } from "./data";
 import { TabRail } from "./TabRail";
 import { SelectionMenu } from "./SelectionMenu";
 import { categoryLabel } from "./catalog";
@@ -225,6 +228,11 @@ type Props = {
   ) => void;
   manage: (kind: "bags" | "equipment" | "recipes") => void;
   login: () => void;
+  messages?: (member?: MemberIdentity) => void;
+  shareDirect?: (id: string) => void;
+  recipes?: RecipeItem[];
+  coffees?: CoffeeItem[];
+  openRoast?: (id?: string) => void;
 };
 export function MemberProfile({
   userId,
@@ -233,6 +241,7 @@ export function MemberProfile({
   openItem,
   manage,
   login,
+  messages, shareDirect, recipes = [], coffees = [], openRoast,
 }: Props) {
   const locale = useContext(Language),
     ar = locale === "ar";
@@ -369,6 +378,7 @@ export function MemberProfile({
     ["equipment", "المعدات", "Equipment"],
     ["beans", "البن", "Coffee"],
     ["recipes", "الوصفات", "Recipes"],
+    ["posts", "منشوراتي", "Posts"],
     ["favorites", "الوصفات المفضلة", "Favorite recipes"],
     ["comments", "التعليقات", "Comments"],
     ["photos", "الاستخلاص وركن القهوة", "Brews & coffee corner"],
@@ -377,7 +387,7 @@ export function MemberProfile({
   ];
   const wide = width >= 700;
   const avatarSize = wide ? 112 : 80;
-  const extraSections = sections.slice(3);
+  const extraSections = sections.slice(4);
   const selectedExtra = extraSections.find((section) => section[0] === tab);
   const selectSection = (key: string) => {
     setTab(key);
@@ -480,6 +490,7 @@ export function MemberProfile({
               )}
             </View>
           </View>
+          {messages ? <View style={{ alignSelf: ar ? "flex-end" : "flex-start" }}><Action compact title={own ? (ar ? "رسائلي" : "My messages") : (ar ? "رسالة خاصة" : "Direct message")} onPress={() => { if (!userId) login(); else messages(own ? undefined : p); }} /></View> : null}
           <View
             style={{
               gap: 2,
@@ -857,12 +868,12 @@ export function MemberProfile({
               borderColor: colors.line,
             }}
           >
-            <View style={{ flex: 3, minWidth: 0 }}>
+            <View style={{ flex: 4, minWidth: 0 }}>
               <TabRail
                 equal
                 value={tab}
                 onChange={selectSection}
-                items={sections.slice(0, 3).map((section) => ({
+                items={sections.slice(0, 4).map((section) => ({
                   id: section[0],
                   label: section[ar ? 1 : 2],
                 }))}
@@ -897,6 +908,7 @@ export function MemberProfile({
               {selectedExtra[ar ? 1 : 2]}
             </Txt>
           ) : null}
+          {tab === "posts" ? <CommunityScreen key={p.id} embedded authorId={p.id} userId={userId} recipes={recipes} coffees={coffees} login={login} brew={() => manage("recipes")} browse={() => manage("recipes")} openRecipe={r => openItem("recipe", r.id)} openCoffee={c => openItem(c.kind, c.beanId ?? c.id)} roast={id => openRoast?.(id)} tools={() => manage("equipment")} members={() => setTab("following")} openMember={openMember} shareDirect={shareDirect} /> : null}
           {tab === "equipment" ? (
             <View style={{ gap: 14 }}>
               <View
@@ -1201,6 +1213,7 @@ export function MemberProfile({
                         : "Brew"}
                   </Txt>
                   {p.caption ? <Txt>{p.caption}</Txt> : null}
+                  {own && userId ? <ProfilePhotoActions owner={userId} photo={p} saved={() => setRevision(n => n + 1)} /> : null}
                 </View>
               ))}
               {!data.photos?.length ? <Empty ar={ar} /> : null}

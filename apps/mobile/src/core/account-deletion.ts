@@ -8,7 +8,7 @@ const accountBuckets = [
   'recipe-videos',
   'roaster-logos',
   'post-media',
-  'member-media', 'profile-gallery',
+  'member-media', 'profile-gallery', 'direct-audio', 'coffee-stories',
 ];
 
 /** Remove Storage files through its API, then atomically delete only the caller. */
@@ -64,6 +64,21 @@ export async function deleteCurrentAccount(
   const { data: current, error: identityError } = await client.auth.getUser();
   if (identityError) throw identityError;
   if (current.user?.id !== owner) throw new Error('ACCOUNT_CHANGED');
+  if (!data.user?.is_anonymous) {
+    // Expired private voice cannot be listed/signed by the member anymore.
+    // The server verifies this owner and removes only their expired uploads.
+    for (let batch = 0; ; batch++) {
+      if (batch >= 50) throw new Error('ACCOUNT_MEDIA_LIMIT');
+      const cleanup = await client.functions.invoke('purge-direct-messages', { body: { mode: 'own_expired_audio', owner } });
+      if (cleanup.error) throw cleanup.error;
+      const count = cleanup.data?.expired_audio_removed;
+      if (!Number.isInteger(count) || count < 0) throw new Error('ACCOUNT_MEDIA_UNAVAILABLE');
+      if (count < 200) break;
+    }
+    const latest = await client.auth.getUser();
+    if (latest.error) throw latest.error;
+    if (latest.data.user?.id !== owner) throw new Error('ACCOUNT_CHANGED');
+  }
   const { error: deleteError } = await client.rpc('delete_own_account');
   if (deleteError) throw deleteError;
   return owner;

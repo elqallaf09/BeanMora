@@ -789,7 +789,7 @@ for (const scenario of [
     ).toHaveCount(4);
     await expect(
       page.getByTestId("profile-sections").getByRole("button"),
-    ).toHaveCount(4);
+    ).toHaveCount(5);
     const edit = profile.getByRole("button", {
       name: ar ? "تعديل الملف" : "Edit profile",
       exact: true,
