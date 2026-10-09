@@ -13,6 +13,7 @@ import {
   Action,
   Field,
   Icon,
+  IconButton,
   Language,
   Txt,
   styles,
@@ -254,6 +255,7 @@ export function MemberProfile({
     [tab, setTab] = useState("equipment"),
     [editing, setEditing] = useState(false);
   const [notice, setNotice] = useState("");
+  const [moreSections, setMoreSections] = useState(true);
   const [draft, setDraft] = useState({
     name: "",
     username: "",
@@ -490,7 +492,7 @@ export function MemberProfile({
               )}
             </View>
           </View>
-          {messages ? <View style={{ alignSelf: ar ? "flex-end" : "flex-start" }}><Action compact title={own ? (ar ? "رسائلي" : "My messages") : (ar ? "رسالة خاصة" : "Direct message")} onPress={() => { if (!userId) login(); else messages(own ? undefined : p); }} /></View> : null}
+          {messages && !own ? <View style={{ alignSelf: ar ? "flex-end" : "flex-start" }}><IconButton name="inbox" label={ar ? "رسالة خاصة" : "Direct message"} onPress={() => { if (!userId) login(); else messages(own ? undefined : p); }} /></View> : null}
           <View
             style={{
               gap: 2,
@@ -870,7 +872,7 @@ export function MemberProfile({
           >
             <View style={{ flex: 4, minWidth: 0 }}>
               <TabRail
-                equal
+                equal compact
                 value={tab}
                 onChange={selectSection}
                 items={sections.slice(0, 4).map((section) => ({
@@ -888,21 +890,13 @@ export function MemberProfile({
                 borderBottomColor: selectedExtra ? colors.teal : "transparent",
               }}
             >
-              <SelectionMenu
-                compact
-                label={ar ? "المزيد" : "More"}
-                accessibilityLabel={
-                  ar ? "المزيد من أقسام الحساب" : "More profile sections"
-                }
-                value={tab}
-                items={extraSections.map((section) => ({
-                  id: section[0],
-                  name: section[ar ? 1 : 2],
-                }))}
-                onChange={selectSection}
-              />
+              <Pressable accessibilityRole="button" accessibilityLabel={ar ? "المزيد من أقسام الحساب" : "More profile sections"} accessibilityState={{ expanded: moreSections }} onPress={() => setMoreSections(v => !v)} style={{ minHeight: 44, flexDirection: ar ? 'row-reverse' : 'row', gap: 3, alignItems: 'center', justifyContent: 'center' }}>
+                <Txt numberOfLines={1} style={{ fontSize: 12 }}>{ar ? 'المزيد' : 'More'}</Txt>
+                <Icon name="chevronDown" size={12} color={colors.teal} />
+              </Pressable>
             </View>
           </View>
+          {moreSections ? <TabRail testID="profile-extra-sections" compact wrap value={tab} items={extraSections.map(section => ({ id: section[0], label: section[ar ? 1 : 2] }))} onChange={selectSection} /> : null}
           {selectedExtra ? (
             <Txt heading style={styles.subtitle}>
               {selectedExtra[ar ? 1 : 2]}

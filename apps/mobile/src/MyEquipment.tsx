@@ -6,6 +6,7 @@ import { archiveOwnedItem } from "./core/owned-inventory";
 import { requireMember } from "./core/member-contributions";
 import { Action, Language, Txt, styles } from "./ui";
 import { CatalogPhoto } from "./CatalogPhoto";
+import { ConfirmDialog } from "./ConfirmDialog";
 type Row = {
   id: string;
   equipment_model_id: string | null;
@@ -181,32 +182,10 @@ export function MyEquipment({
               row.custom_name ??
               (ar ? "معدة" : "Equipment")}
           </Txt>
-          {confirm === row.id ? (
-            <>
-              <Txt>
-                {ar
-                  ? "إزالة هذه المعدة من معداتك؟ سجل التحضير يبقى محفوظًا."
-                  : "Remove this equipment? Brew history will be preserved."}
-              </Txt>
-              <Action
-                title={ar ? "تأكيد الحذف" : "Confirm removal"}
-                disabled={busy}
-                onPress={() => void archive(row.id, true)}
-              />
-              <Action
-                title={ar ? "إلغاء" : "Cancel"}
-                onPress={() => setConfirm(null)}
-              />
-            </>
-          ) : (
-            <Action
-              title={ar ? "حذف من معداتي" : "Remove from my equipment"}
-              disabled={busy}
-              onPress={() => setConfirm(row.id)}
-            />
-          )}
+          <Action title={ar ? "حذف من معداتي" : "Remove from my equipment"} disabled={busy} onPress={() => { setError(false); setConfirm(row.id); }} />
         </View>
       ))}
+      <ConfirmDialog visible={Boolean(confirm)} title={ar ? 'حذف المعدة' : 'Remove equipment'} message={ar ? 'إزالة هذه المعدة من معداتك؟ سجل التحضير يبقى محفوظًا.' : 'Remove this equipment? Brew history will be preserved.'} confirmLabel={ar ? 'تأكيد الحذف' : 'Confirm removal'} busy={busy} error={error ? (ar ? 'تعذّر حذف المعدة. حاول مرة أخرى.' : 'Could not remove equipment. Try again.') : undefined} onCancel={() => setConfirm(null)} onConfirm={() => { if (confirm) void archive(confirm, true); }} />
     </ScrollView>
   );
 }

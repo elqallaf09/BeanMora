@@ -547,29 +547,56 @@ function Shell() {
   );
   const homeActive = tab === 'home' && !detail && !recording;
   const socialPage = ['account', 'community', 'members', 'memberProfile', 'messages'].includes(tab);
-  const libraryDialog = (<Modal transparent visible={libraryMenu} animationType="fade" onRequestClose={()=>setLibraryMenu(false)}><View style={{flex:1,justifyContent:'center',padding:24,backgroundColor:'#0008'}}><ScrollView contentContainerStyle={{padding:18,gap:10}} style={{maxHeight:'85%',backgroundColor:colors.paper,borderRadius:20}}>
-              <Txt heading style={styles.subtitle}>{ar?'المزيد':'More'}</Txt>
-              {([{id:'assistant',ar:'خبير القهوة',en:'Coffee expert'},{id:'capsules',ar:'الكبسولات',en:'Capsules'},{id:'savedRecipes',ar:'وصفاتي المحفوظة',en:'Saved recipes'},{id:'forYou',ar:'لك أنت',en:'For you'},{id:'favorites',ar:'البن المحفوظ',en:'Saved coffees'},{id:'addRecipe',ar:'إضافة وصفة',en:'Add recipe'},{id:'addBean',ar:'إضافة بن',en:'Add coffee'},{id:'myRecipes',ar:'وصفاتي المضافة',en:'My submitted recipes'},{id:'myEquipment',ar:'معداتـي',en:'My equipment'},{id:'bags',ar:'أكياسي',en:'My bags'},{id:'roastLab',ar:'مختبر التحميص',en:'Roast Lab'}] as const).map(item=><Action key={item.id} title={item[locale]} onPress={()=>{setLibraryMenu(false);if(item.id==='myEquipment')setEquipmentToAdd(null);if(item.id==='roastLab'){setRoastId(null);setRoastSection('own');}navigate(item.id);}}/>)}
-              <Action title={ar?'إغلاق':'Close'} onPress={()=>setLibraryMenu(false)}/>
-            </ScrollView></View></Modal>);
+  const extraLibraryItems: { id: Tab; label: string; icon: IconName }[] = [
+    {id:'assistant',label:ar?'خبير القهوة':'Coffee expert',icon:'comment'},
+    {id:'capsules',label:ar?'الكبسولات':'Capsules',icon:'espresso'},
+    {id:'savedRecipes',label:ar?'وصفاتي المحفوظة':'Saved recipes',icon:'heart'},
+    {id:'forYou',label:ar?'لك أنت':'For you',icon:'star'},
+    {id:'favorites',label:ar?'البن المحفوظ':'Saved coffees',icon:'bean'},
+    {id:'addRecipe',label:ar?'إضافة وصفة':'Add recipe',icon:'plus'},
+    {id:'addBean',label:ar?'إضافة بن':'Add coffee',icon:'plus'},
+    {id:'myRecipes',label:ar?'وصفاتي المضافة':'My recipes',icon:'espresso'},
+    {id:'myEquipment',label:ar?'معداتـي':'My equipment',icon:'gear'},
+    {id:'bags',label:ar?'أكياسي':'My bags',icon:'bean'},
+    {id:'roastLab',label:ar?'مختبر التحميص':'Roast Lab',icon:'temp'},
+  ];
+  const openLibraryItem = (id: string) => {
+    setLibraryMenu(false);
+    if (id === 'myEquipment') setEquipmentToAdd(null);
+    if (id === 'equipment') setEquipmentCategory('all');
+    if (id === 'roastLab') { setRoastId(null); setRoastSection('own'); }
+    if (id === 'recipes' || id === 'beans') setMethod(undefined);
+    navigate(id as Tab);
+  };
+  const libraryDialog = <Modal transparent visible={libraryMenu} animationType="fade" onRequestClose={() => setLibraryMenu(false)}>
+    <View style={{flex:1,alignItems:'center',justifyContent:'center',padding:20,backgroundColor:'#0008'}}>
+      <Pressable accessibilityRole="button" accessibilityLabel={ar?'إغلاق القائمة':'Close menu'} style={StyleSheet.absoluteFill} onPress={() => setLibraryMenu(false)}/>
+      <View testID="quick-library-menu" accessibilityViewIsModal style={{width:'100%',maxWidth:390,maxHeight:'70%',backgroundColor:colors.paper,borderRadius:18,padding:12,gap:8}}>
+        <View style={{flexDirection:ar?'row-reverse':'row',alignItems:'center',justifyContent:'space-between'}}>
+          <Txt heading style={{fontSize:17,fontWeight:'700'}}>{ar?'اختصارات القهوة':'Coffee shortcuts'}</Txt>
+          <IconButton name="close" label={ar?'إغلاق':'Close'} onPress={() => setLibraryMenu(false)}/>
+        </View>
+        <ScrollView contentContainerStyle={{flexDirection:ar?'row-reverse':'row',flexWrap:'wrap',gap:6}}>
+          {extraLibraryItems.map(item => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.label} onPress={() => openLibraryItem(item.id)} style={{width:'48%',minHeight:44,padding:8,borderRadius:10,backgroundColor:colors.chip,flexDirection:ar?'row-reverse':'row',alignItems:'center',gap:6}}>
+            <Icon name={item.icon} size={16} color={colors.teal}/><Txt numberOfLines={1} style={{fontSize:12,flexShrink:1}}>{item.label}</Txt>
+          </Pressable>)}
+        </ScrollView>
+      </View>
+    </View>
+  </Modal>;
   const screenIntro = (
     <>
       {!login && !detail && configured ? (
         <View style={s.libraryNav}>
-          <TabRail testID="library-navigation" value={['assistant', 'capsules', 'savedRecipes', 'forYou', 'roastLab', 'bags', 'myEquipment', 'myRecipes', 'addRecipe', 'addBean', 'favorites'].includes(tab) ? 'more' : tab}
+          <TabRail compact wrap testID="library-navigation" value={tab}
             items={[
               { id: 'beans', label: ar ? 'البن والإيحاءات' : 'Coffee & taste', icon: 'bean' },
               { id: 'recipes', label: ar ? 'مكتبة الوصفات' : 'Recipe library', icon: 'espresso' },
               { id: 'equipment', label: ar ? 'أدوات القهوة' : 'Equipment', icon: 'gear' },
               { id: 'roasters', label: ar ? 'المحامص' : 'Roasteries', icon: 'espresso' },
-              { id: 'more', label: ar ? 'المزيد' : 'More', icon: 'plus' },
+              ...extraLibraryItems,
             ]}
-            onChange={id => {
-              if (id === 'more') { setLibraryMenu(true); return; }
-              if (id === 'equipment') setEquipmentCategory('all');
-              if (id === 'recipes' || id === 'beans') setMethod(undefined);
-              navigate(id as Tab);
-            }} />
+            onChange={openLibraryItem} />
         </View>
       ) : null}
       {configured && !login && (data?.stale || (!data && !refreshing)) ? (
@@ -702,6 +729,7 @@ function Shell() {
                       onPress={() => void showNotifications()}
                     />
                   ) : null}
+                  {socialPage && userId ? <IconButton name="inbox" label={ar ? 'رسائلي' : 'My messages'} onPress={() => showMessages()} /> : null}
                   <IconButton
                     name={socialPage ? 'more' : 'user'}
                     label={socialPage ? ar ? 'المزيد' : 'More' : ar ? 'فتح حسابي' : 'Open account'}
@@ -946,7 +974,7 @@ function Shell() {
                     navigate('recipes', value);
                   }}
                   openCoffee={openCoffee}
-                  browse={() => navigate('search')}
+                  browse={() => { setMethod(undefined); navigate('beans'); }}
                   brew={() => navigate('brewFlow')}
                   personalize={() => navigate('best')}
                   bags={() => navigate('bags')}
