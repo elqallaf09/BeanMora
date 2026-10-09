@@ -12,13 +12,13 @@ function pages(dir: string): string[] {
   });
 }
 const uuid = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
-// Home starts deferred RSC prefetches after rendering. Finish the inventory
-// there so its document stays alive; release-smoke covers real SPA navigation
-// from home. Keep every route and every pageerror assertion in this sweep.
+// Load each route in its own page within the same authenticated context.
+// Real link navigation is covered by the interaction scenarios; this inventory
+// checks complete documents without hard-reloading another route's prefetches.
 const routes = pages(routeRoot).map(path => '/' + relative(routeRoot, path).split(/[\\/]/).slice(0, -1)
   .filter(segment => !segment.startsWith('('))
   .map(segment => segment === '[id]' ? uuid : segment === '[slug]' ? 'locale-fixture' : segment === '[username]' ? 'fixture_barista' : segment)
-  .join('/')).sort((a, b) => Number(a === '/home') - Number(b === '/home') || a.localeCompare(b));
+  .join('/')).sort();
 
 async function fixtureSignInAt(page: Page, locale: 'ar' | 'en', path: string) {
   const m = locale === 'ar' ? ar : en;
@@ -44,28 +44,29 @@ for (const locale of ['ar', 'en'] as const) test(`${locale}: every page route re
     return url.hostname === '127.0.0.1' || ['data:', 'blob:'].includes(url.protocol) ? route.continue() : route.abort();
   });
   await fixtureSignInAt(page, locale, '/');
-  let currentPage = page;
   for (const route of routes) {
-    const path = `/${locale}${route}`, started = Date.now();
-    const response = await currentPage.goto(path);
-    expect(response, path).not.toBeNull();
-    expect([200, 404], path).toContain(response!.status());
-    await expect(currentPage.locator('body'), path).toBeVisible();
-    if (route.startsWith('/admin')) {
-      // Existing admin guards deny access through a 404, sign-in or home redirect.
-      const denied = currentPage.getByRole('heading', { name: '404', exact: true });
-      if (response!.status() === 404 || await denied.count()) await expect(denied, path).toBeVisible();
-      else expect([`/${locale}/login`, `/${locale}/home`], path).toContain(new URL(currentPage.url()).pathname);
-    }
-    await currentPage.waitForLoadState('networkidle');
-    const destination = new URL(currentPage.url()).pathname;
-    observations.push({ path, status: response!.status(), destination, ms: Date.now() - started });
-    if (destination === `/${locale}/home` && route !== '/home') {
-      // Some admin guards redirect guests to home. Keep that document alive
-      // while its deferred prefetches complete, and continue in the same auth
-      // context. Errors from both tabs remain part of the final assertion.
-      currentPage = await page.context().newPage();
-      watchErrors(currentPage);
+    const currentPage = await page.context().newPage();
+    watchErrors(currentPage);
+    try {
+      const path = `/${locale}${route}`, started = Date.now();
+      const response = await currentPage.goto(path);
+      expect(response, path).not.toBeNull();
+      expect([200, 404], path).toContain(response!.status());
+      await expect(currentPage.locator('body'), path).toBeVisible();
+      if (route.startsWith('/admin')) {
+        // Existing admin guards deny access through a 404, sign-in or home redirect.
+        const denied = currentPage.getByRole('heading', { name: '404', exact: true });
+        if (response!.status() === 404 || await denied.count()) await expect(denied, path).toBeVisible();
+        else expect([`/${locale}/login`, `/${locale}/home`], path).toContain(new URL(currentPage.url()).pathname);
+      }
+      await currentPage.waitForLoadState('networkidle');
+      const destination = new URL(currentPage.url()).pathname;
+      observations.push({ path, status: response!.status(), destination, ms: Date.now() - started });
+    } catch (error) {
+      await info.attach('failed-route-document', { body: await currentPage.screenshot(), contentType: 'image/png' });
+      throw error;
+    } finally {
+      await currentPage.close();
     }
   }
   await info.attach('all-page-routes', { body: JSON.stringify(observations), contentType: 'application/json' });
