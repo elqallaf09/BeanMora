@@ -1,3 +1,4 @@
+import { contentLocale } from './localeText';
 import { useContext, useState } from "react";
 import { ScrollView, View } from "./native";
 import { capsuleProducts, capsuleSystems } from "./core/capsules";
@@ -45,7 +46,7 @@ export function CapsuleCatalog() {
         value={system}
         items={[
           { id: "all", name: ar ? "كل الأنظمة" : "All systems" },
-          ...capsuleSystems.map((c) => ({ id: c.id, name: c.name[locale] })),
+          ...capsuleSystems.map((c) => ({ id: c.id, name: c.name[contentLocale(locale)] })),
         ]}
         onChange={(v) => {
           setSystem(v);
@@ -68,9 +69,9 @@ export function CapsuleCatalog() {
       {selected ? (
         <View style={[styles.card, { gap: 8 }]}>
           <Txt heading style={styles.subtitle}>
-            {selected.name[locale]}
+            {selected.name[contentLocale(locale)]}
           </Txt>
-          <Txt>{selected.description[locale]}</Txt>
+          <Txt>{selected.description[contentLocale(locale)]}</Txt>
           <SourceLink
             url={selected.source}
             title={ar ? "مصدر معلومات التوافق" : "Compatibility source"}
@@ -80,8 +81,8 @@ export function CapsuleCatalog() {
         <Disclosure title={ar ? "توافق الأنظمة" : "System compatibility"}>
           {capsuleSystems.map((c) => (
             <View key={c.id} style={{ gap: 6 }}>
-              <Txt heading>{c.name[locale]}</Txt>
-              <Txt>{c.description[locale]}</Txt>
+              <Txt heading>{c.name[contentLocale(locale)]}</Txt>
+              <Txt>{c.description[contentLocale(locale)]}</Txt>
               <SourceLink
                 compact
                 url={c.source}
@@ -99,17 +100,17 @@ export function CapsuleCatalog() {
           {p.image ? (
             <CatalogPhoto
               uri={p.image}
-              alt={p.name[locale]}
+              alt={p.name[contentLocale(locale)]}
               height={140}
               icon="bean"
             />
           ) : null}
-          <Txt heading>{p.name[locale]}</Txt>
+          <Txt heading>{p.name[contentLocale(locale)]}</Txt>
           {ar ? <Txt style={styles.muted}>{p.name.en}</Txt> : null}
           <Txt style={styles.muted}>
-            {capsuleSystems.find((c) => c.id === p.system)?.name[locale]}
+            {capsuleSystems.find((c) => c.id === p.system)?.name[contentLocale(locale)]}
           </Txt>
-          {p.detail ? <Txt>{p.detail[locale]}</Txt> : null}
+          {p.detail ? <Txt>{p.detail[contentLocale(locale)]}</Txt> : null}
           <SourceLink
             url={p.source}
             title={ar ? "تفاصيل لدى المصنع" : "Manufacturer details"}

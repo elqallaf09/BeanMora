@@ -20,6 +20,7 @@ import {
   requireMember,
 } from "@/lib/member-contributions";
 import { catalogName } from "@/lib/catalog-names";
+import { accountCountryFlag, accountCountryName } from "@/lib/account-profile";
 import { ImageWithFallback } from "@/components/coffee/image-with-fallback";
 import { Button } from "@/components/ui/button";
 const card = "rounded-2xl border bg-white p-4";
@@ -256,8 +257,9 @@ export function MemberProfilePanel({ username }: { username?: string }) {
       </Link>
       <header className={card + " space-y-3"}>
         <h1 className="break-words text-2xl font-bold">{p.name}</h1>
-        <p dir="ltr" className="break-all font-semibold">
-          @{p.username}
+        <p dir="ltr" className="flex items-center gap-2 break-all font-semibold">
+          <span>@{p.username}</span>
+          {accountCountryFlag(p.country) ? <span data-testid="profile-country-flag" aria-label={accountCountryName(p.country, locale)}>{accountCountryFlag(p.country)}</span> : null}
         </p>
         {p.bio ? (
           <p className="whitespace-pre-wrap break-words">{p.bio}</p>
@@ -288,9 +290,12 @@ export function MemberProfilePanel({ username }: { username?: string }) {
           </Button>
         </div>
         {own ? (
+          <div className="flex flex-wrap gap-2">
           <Button onClick={() => setEditing((v) => !v)}>
             {ar ? "تعديل الملف والخصوصية" : "Edit profile and privacy"}
           </Button>
+          {!editing ? <Button variant="secondary" onClick={() => setEditing(true)}>{p.bio ? (ar ? "تعديل النبذة" : "Edit bio") : (ar ? "أضف نبذة عنك" : "Add a bio")}</Button> : null}
+          </div>
         ) : owner ? (
           <Button
             disabled={busy}

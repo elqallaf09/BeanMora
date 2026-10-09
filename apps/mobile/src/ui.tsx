@@ -15,6 +15,7 @@ import {
 } from './native';
 import Svg, { Path, Circle, Rect, Ellipse } from 'react-native-svg';
 import { copy, type Locale } from './copy';
+import { localeLabel } from './localeText';
 import { themeColor, useTheme } from './theme';
 import { usePressMotion } from './Motion';
 
@@ -31,6 +32,10 @@ export const colors = {
 };
 export const Language = createContext<Locale>('ar');
 export const useCopy = () => copy[useContext(Language)];
+export function useLabels() {
+  const locale = useContext(Language);
+  return (arabic: string, english: string, japanese?: string) => localeLabel(locale, arabic, english, japanese);
+}
 export function Txt({
   children,
   style,

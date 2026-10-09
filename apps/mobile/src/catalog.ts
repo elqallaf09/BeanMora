@@ -6,7 +6,7 @@ import { safeUrl } from './guards';
 import { catalogName } from './localizedContent';
 
 export interface EquipmentItem {
-  localeContent?: Record<Locale, { name: string; description: string }>;
+  localeContent?: Record<'ar' | 'en', { name: string; description: string }>;
   id: string;
   name: string;
   originalName?: string;
@@ -38,7 +38,7 @@ export function reviewedEquipmentGallery(specifications: Record<string, unknown>
   }).slice(0, 8);
 }
 export interface RoasterItem {
-  localeContent?: Record<Locale, { name: string; description: string }>;
+  localeContent?: Record<'ar' | 'en', { name: string; description: string }>;
   searchDocument?: string;
   id: string;
   slug: string;

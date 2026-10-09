@@ -3,6 +3,7 @@ import { Globe, Shield, Sparkles } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { isGuestUser } from "@/lib/guest";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import { AccountDetails } from "@/components/members/account-details";
 import {
   AppearanceToggle,
   ReducedMotionToggle,
@@ -62,6 +63,7 @@ export default async function SettingsPage() {
       ) : null}
 
       <div className="flex flex-col gap-3">
+        {user && !isGuest ? <AccountDetails owner={user.id} /> : null}
         <SettingsRow icon={Globe} title={t("settings.language")}>
           <LanguageSwitcher />
         </SettingsRow>

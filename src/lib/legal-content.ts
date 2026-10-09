@@ -6,7 +6,7 @@ export const legalContent = {
       sections: [
         [
           'البيانات التي نعالجها',
-          'يمكنك تصفح الكتالوج دون حساب. عند إنشاء حساب نعالج البريد الإلكتروني ومعرّف الحساب وبيانات الملف التي تضيفها. عند استخدام الحفظ والمخزون والتحضير والمجتمع نعالج الوصفات والتجارب والمفضلة والملفات التي تختار إضافتها.',
+          'يمكنك تصفح الكتالوج دون حساب. عند إنشاء حساب نعالج البريد الإلكتروني واسم المستخدم والدولة ورقم الهاتف ومعرّف الحساب وبيانات الملف التي تضيفها. تظهر الدولة وعلمها في الملف العام، ويبقى البريد ورقم الهاتف خاصين بالحساب. عند استخدام الحفظ والمخزون والتحضير والمجتمع نعالج الوصفات والتجارب والمفضلة والملفات التي تختار إضافتها.',
         ],
         [
           'سبب الاستخدام ومقدمو الخدمة',
@@ -58,7 +58,7 @@ export const legalContent = {
       sections: [
         [
           'Data we process',
-          'You can browse the catalog without an account. When you register, we process your email, account identifier and profile details you provide. Saved recipes, inventory, brew history, community content and uploads are processed when you choose those features.',
+          'You can browse the catalog without an account. When you register, we process your email, username, country, phone number, account identifier and profile details you provide. Your selected country and flag are public; email and phone stay private. Saved recipes, inventory, brew history, community content and uploads are processed when you choose those features.',
         ],
         [
           'Purposes and providers',
@@ -105,4 +105,4 @@ export const legalContent = {
     },
   },
 } as const;
-export const legalUpdated = '2026-10-07';
+export const legalUpdated = '2026-10-09';

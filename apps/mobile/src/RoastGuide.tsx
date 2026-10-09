@@ -1,3 +1,4 @@
+import { contentLocale } from './localeText';
 import { useContext, useState } from 'react';
 import { Image, View, useWindowDimensions } from './native';
 import { coffeeLessonById } from './core/coffee-knowledge';
@@ -69,7 +70,7 @@ export function RoastGuide() {
       </Disclosure>
       <Disclosure title={ar ? 'دليل التحميص الكامل' : 'Complete roasting study'} subtitle={ar ? 'المراحل، التحكم، القياس، العيوب والتذوق' : 'Stages, control, measurement, defects and tasting'}>
         {chapters.map(id => {
-          const lesson = coffeeLessonById(id, locale);
+          const lesson = coffeeLessonById(id, contentLocale(locale));
           return lesson ? <Disclosure key={id} title={lesson.title}>
             <Txt>{lesson.answer}</Txt><Txt style={styles.muted}>{lesson.more}</Txt>
             <SourceLink compact title={lesson.source.title} url={lesson.source.url} />

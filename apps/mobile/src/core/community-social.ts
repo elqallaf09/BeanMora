@@ -24,7 +24,7 @@ export async function uploadSocialMedia(db: SupabaseClient, owner: string, bucke
   if (error && !('statusCode' in error && String(error.statusCode) === '409')) throw error;
   return path;
 }
-export async function saveCommunityPost(db: SupabaseClient, owner: string, values: { id: string; body: string; language: 'ar' | 'en'; path?: string | null; type?: 'image' | 'video' | null; brewId?: string | null; replaceMedia?: boolean }) {
+export async function saveCommunityPost(db: SupabaseClient, owner: string, values: { id: string; body: string; language: 'ar' | 'en' | 'ja'; path?: string | null; type?: 'image' | 'video' | null; brewId?: string | null; replaceMedia?: boolean }) {
   await requireMember(db, owner);
   if (values.body.trim().length > 3000) throw new Error('POST_LENGTH');
   const { data, error } = await db.rpc('save_community_post', { p_id: values.id, p_body: values.body.trim(), p_language: values.language, p_media_path: values.path ?? null, p_media_type: values.type ?? null, p_brew_id: values.brewId ?? null, p_replace_media: values.replaceMedia ?? true });

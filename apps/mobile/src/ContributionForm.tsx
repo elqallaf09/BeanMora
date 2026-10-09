@@ -1,3 +1,4 @@
+import { contentLocale } from './localeText';
 import { useContext, useRef, useState } from "react";
 import { Image, Pressable, ScrollView, View } from "./native";
 import * as ImagePicker from "expo-image-picker";
@@ -72,7 +73,7 @@ export function ContributionForm({
     setBusy(true);
     try {
       if (!attempt.current) {
-        const payload = contributionPayload(kind, values, locale);
+        const payload = contributionPayload(kind, values, contentLocale(locale));
         if (photo && !rights)
           throw new Error(
             ar

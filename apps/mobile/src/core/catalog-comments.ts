@@ -31,7 +31,7 @@ export async function addCatalogComment(
   target: string,
   id: string,
   body: string,
-  locale: "ar" | "en",
+  locale: "ar" | "en" | "ja",
 ) {
   const owner = await requireMember(db);
   const text = body.trim();

@@ -20,18 +20,22 @@ import { catalogCacheKey } from './catalogCache';
 import { recipeShelfKey } from './useRecipeShelf';
 import { invalidatePublicCatalog } from './data';
 import { AccountSecurity } from './AccountSecurity';
-import { Action, Icon, Language, Txt, colors, styles, useCopy } from './ui';
+import { AccountDetails } from './AccountDetails';
+import { useLabels, Action, Icon, Language, Txt, colors, styles, useCopy } from './ui';
 
 export function SettingsAccount({
   session,
   onDeleted,
   onSignedOut,
+  onProfileUpdated,
 }: {
   session: Session;
   onDeleted: (localCleanupFailed: boolean) => void;
   onSignedOut: () => void;
+  onProfileUpdated: () => void;
 }) {
   const ar = useContext(Language) === 'ar';
+  const L = useLabels();
   const t = useCopy();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -44,7 +48,7 @@ export function SettingsAccount({
       !supabase ||
       !session ||
       inFlight.current ||
-      confirmDelete.trim() !== (ar ? 'حذف' : 'DELETE')
+      confirmDelete.trim() !== (L('حذف', 'DELETE'))
     )
       return;
     inFlight.current = true;
@@ -61,6 +65,7 @@ export function SettingsAccount({
           'beanmora-roast-draft:' + owner,
           catalogCacheKey(catalogScope, 'ar'),
           catalogCacheKey(catalogScope, 'en'),
+          catalogCacheKey(catalogScope, 'ja'),
         ]);
       } catch {
         localCleanupFailed = true;
@@ -73,9 +78,7 @@ export function SettingsAccount({
       onDeleted(localCleanupFailed);
     } catch {
       setDeleteError(
-        ar
-          ? 'لم يتأكد حذف الحساب. تحقق من الاتصال وأعد المحاولة. قد تكون بعض الملفات حُذفت بالفعل.'
-          : 'Account deletion was not confirmed. Check your connection and retry. Some uploaded files may already have been removed.',
+        L('لم يتأكد حذف الحساب. تحقق من الاتصال وأعد المحاولة. قد تكون بعض الملفات حُذفت بالفعل.', 'Account deletion was not confirmed. Check your connection and retry. Some uploaded files may already have been removed.'),
       );
     } finally {
       inFlight.current = false;
@@ -93,9 +96,7 @@ export function SettingsAccount({
       onSignedOut();
     } catch {
       setError(
-        ar
-          ? 'تعذّر تسجيل الخروج. حاول مرة ثانية.'
-          : 'Could not sign out. Please retry.',
+        L('تعذّر تسجيل الخروج. حاول مرة ثانية.', 'Could not sign out. Please retry.'),
       );
     } finally {
       inFlight.current = false;
@@ -114,6 +115,7 @@ export function SettingsAccount({
         {session.user.email}
       </Txt>
       <AccountSecurity session={session} compact />
+      <AccountDetails owner={session.user.id} updated={onProfileUpdated} />
       <View style={{ height: 1, backgroundColor: colors.line }} />
       <SettingsRow
         label={t.logout}
@@ -127,7 +129,7 @@ export function SettingsAccount({
         </Txt>
       ) : null}
       <SettingsRow
-        label={ar ? 'حذف الحساب والبيانات' : 'Delete account and data'}
+        label={L('حذف الحساب والبيانات', 'Delete account and data')}
         icon="trash"
         danger
         disabled={busy}
@@ -154,19 +156,17 @@ export function SettingsAccount({
             testID="delete-account-dialog"
           >
             <Txt heading style={{ fontSize: 22 }}>
-              {ar ? 'حذف الحساب نهائيًا؟' : 'Permanently delete your account?'}
+              {L('حذف الحساب نهائيًا؟', 'Permanently delete your account?')}
             </Txt>
             <Txt>
-              {ar
-                ? 'هذا يحذف حسابك وجميع بياناتك المرتبطة به. لا يمكن التراجع، وقد تُحذف الملفات قبل اكتمال العملية.'
-                : 'This removes your account and its associated data. It cannot be undone. Uploaded files may be removed before the process completes.'}
+              {L('هذا يحذف حسابك وجميع بياناتك المرتبطة به. لا يمكن التراجع، وقد تُحذف الملفات قبل اكتمال العملية.', 'This removes your account and its associated data. It cannot be undone. Uploaded files may be removed before the process completes.')}
             </Txt>
             <Txt style={styles.muted}>
-              {ar ? 'اكتب حذف للتأكيد' : 'Type DELETE to confirm'}
+              {L('اكتب حذف للتأكيد', 'Type DELETE to confirm')}
             </Txt>
             <TextInput
               accessibilityLabel={
-                ar ? 'تأكيد حذف الحساب' : 'Confirm account deletion'
+                L('تأكيد حذف الحساب', 'Confirm account deletion')
               }
               value={confirmDelete}
               onChangeText={setConfirmDelete}
@@ -191,19 +191,15 @@ export function SettingsAccount({
               accessibilityRole="button"
               accessibilityLabel={
                 busy
-                  ? ar
-                    ? 'جارٍ حذف الحساب…'
-                    : 'Deleting account…'
-                  : ar
-                    ? 'احذف حسابي نهائيًا'
-                    : 'Permanently delete my account'
+                  ? L('جارٍ حذف الحساب…', 'Deleting account…')
+                  : L('احذف حسابي نهائيًا', 'Permanently delete my account')
               }
               accessibilityState={{
                 disabled:
-                  busy || confirmDelete.trim() !== (ar ? 'حذف' : 'DELETE'),
+                  busy || confirmDelete.trim() !== (L('حذف', 'DELETE')),
               }}
               disabled={
-                busy || confirmDelete.trim() !== (ar ? 'حذف' : 'DELETE')
+                busy || confirmDelete.trim() !== (L('حذف', 'DELETE'))
               }
               onPress={() => void deleteAccount()}
               style={[
@@ -211,7 +207,7 @@ export function SettingsAccount({
                 {
                   backgroundColor: '#9C342B',
                   opacity:
-                    busy || confirmDelete.trim() !== (ar ? 'حذف' : 'DELETE')
+                    busy || confirmDelete.trim() !== (L('حذف', 'DELETE'))
                       ? 0.45
                       : 1,
                 },
@@ -219,16 +215,12 @@ export function SettingsAccount({
             >
               <Txt style={[s.deleteText, { color: '#FFF' }]}>
                 {busy
-                  ? ar
-                    ? 'جارٍ حذف الحساب…'
-                    : 'Deleting account…'
-                  : ar
-                    ? 'احذف حسابي نهائيًا'
-                    : 'Permanently delete my account'}
+                  ? L('جارٍ حذف الحساب…', 'Deleting account…')
+                  : L('احذف حسابي نهائيًا', 'Permanently delete my account')}
               </Txt>
             </Pressable>
             <Action
-              title={ar ? 'إلغاء' : 'Cancel'}
+              title={L('إلغاء', 'Cancel')}
               onPress={() => setDeleteOpen(false)}
               disabled={busy}
             />

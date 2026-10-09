@@ -122,7 +122,12 @@
     "guestUpgradeCancel": "Cancel",
     "guestBannerTitle": "Save your account before losing guest data",
     "guestBannerHint": "Guest access may be lost if you sign out, clear your browser data, or switch devices.",
-    "guestBannerCta": "Save my account"
+    "guestBannerCta": "Save my account",
+    "chooseCountry": "Choose your country",
+    "phoneLabel": "Phone number",
+    "phonePrivate": "Include the country code. Your phone stays private and does not appear on your public profile.",
+    "phoneInvalid": "Enter a valid phone with its country code, for example +96550000000.",
+    "usernameTaken": "Username is taken. Choose another."
   },
   "home": {
     "greeting": "Hello, {name}",
@@ -476,7 +481,11 @@
     "deleteAccountConfirm": "Type DELETE to confirm",
     "deleteAccountAction": "Permanently delete my account",
     "cancel": "Cancel",
-    "guestNote": "You're browsing as a guest — most settings apply once you create an account."
+    "guestNote": "You're browsing as a guest — most settings apply once you create an account.",
+    "accountDetails": "Account details",
+    "accountDetailsHint": "Your country flag appears beside your username. Your phone stays private.",
+    "accountDetailsSaved": "Country and phone updated.",
+    "accountDetailsFailed": "Saving was not confirmed. Check your connection and retry."
   },
   "recipe": {
     "notFoundTitle": "Recipe not found",

@@ -33,6 +33,7 @@ import {
   type Method,
 } from './src/core/engine';
 import { copy, caveats, reasons, type Locale } from './src/copy';
+import { contentLocale, isLocale, localeLabel } from './src/localeText';
 import { matchesIndexedSearch } from './src/core/deepSearch';
 import { indexedCoffeeSearchDocument } from './src/searchIndex';
 import { SearchScreen } from './src/SearchScreen';
@@ -130,12 +131,13 @@ function Shell() {
   const [locale, setLocale] = useState<Locale>('ar');
   const t = copy[locale];
   const ar = locale === 'ar';
+  const L = (arabic: string, english: string, japanese?: string) => localeLabel(locale, arabic, english, japanese);
   const languageChanged = useRef(false);
   useEffect(() => {
     let active = true;
     void AsyncStorage.getItem('beanmora-language')
       .then((v) => {
-        if (active && !languageChanged.current && (v === 'ar' || v === 'en'))
+        if (active && !languageChanged.current && isLocale(v))
           setLocale(v);
       })
       .catch(() => {});
@@ -149,6 +151,7 @@ function Shell() {
     void AsyncStorage.setItem('beanmora-language', v).catch(() => {});
   }
   const [session, setSession] = useState<Session | null>(null);
+  const [profileRevision, setProfileRevision] = useState(0);
   const [passwordRecovery, setPasswordRecovery] = useState(false);
   const userId = session && !session.user.is_anonymous ? session.user.id : null;
   const assistantTurns = assistantConversation.owner === userId ? assistantConversation.turns : [];
@@ -167,7 +170,7 @@ function Shell() {
   // entries and recipes loaded outside the first catalog page.
   const detail = useMemo(() => detailSnapshot ? ({
     ...detailSnapshot,
-    item: { ...detailSnapshot.item, ...detailSnapshot.item.localeContent?.[locale] },
+    item: { ...detailSnapshot.item, ...detailSnapshot.item.localeContent?.[contentLocale(locale)] },
   } as Detail) : null, [detailSnapshot, locale]);
   const [parents, setParents] = useState<Detail[]>([]);
   const [equipmentCategory, setEquipmentCategory] = useState('all');
@@ -377,9 +380,7 @@ function Shell() {
     const beanId = item.beanId;
     if (!beanId) {
       setMessage(
-        ar
-          ? 'حفظ هذا المنتج غير متاح بعد.'
-          : 'Saving this product is not available yet.',
+        L('حفظ هذا المنتج غير متاح بعد.', 'Saving this product is not available yet.'),
       );
       return;
     }
@@ -421,9 +422,7 @@ function Shell() {
     } catch {
       if (identity.current === owner)
         setMessage(
-          ar
-            ? 'تعذّر حفظ المفضلة. حاول مرة ثانية.'
-            : 'Could not update favorites. Try again.',
+          L('تعذّر حفظ المفضلة. حاول مرة ثانية.', 'Could not update favorites. Try again.'),
         );
     } finally {
       savePending.current.delete(key);
@@ -457,18 +456,14 @@ function Shell() {
       if (error) throw error;
       if (identity.current === owner) {
         setMessage(
-          ar
-            ? 'تمت إضافة الكيس إلى أكياسي. كمّل الوزن والتواريخ من صفحة أكياسي.'
-            : 'Added to My Bags. Complete its weight and dates in My Bags.',
+          L('تمت إضافة الكيس إلى أكياسي. كمّل الوزن والتواريخ من صفحة أكياسي.', 'Added to My Bags. Complete its weight and dates in My Bags.'),
         );
         navigate('bags');
       }
     } catch {
       if (identity.current === owner)
         setMessage(
-          ar
-            ? 'تعذّرت إضافة الكيس إلى أكياسي.'
-            : 'Could not add this coffee to My Bags.',
+          L('تعذّرت إضافة الكيس إلى أكياسي.', 'Could not add this coffee to My Bags.'),
         );
     }
   }
@@ -504,14 +499,14 @@ function Shell() {
     if (error) {
       setNotifications(null);
       setMessage(
-        ar ? 'تعذّر تحميل التنبيهات.' : 'Could not load notifications.',
+        L('تعذّر تحميل التنبيهات.', 'Could not load notifications.'),
       );
       return;
     }
     setNotifications(
       (rows ?? []).map((row) =>
         [
-          row.type === 'story_warning' ? (ar ? 'تحذير: القصة خارج موضوع القهوة. تكرارها يوقف المشاركة والرسائل.' : 'Warning: your story is off-topic. Repetition suspends participation and messages.') : row.type === 'community_suspended' ? (ar ? 'تم إيقاف المشاركة والرسائل بسبب تكرار المخالفة.' : 'Community participation and messages are suspended after repeated violations.') : ar ? 'نشاط جديد' : 'New activity',
+          row.type === 'story_warning' ? (L('تحذير: القصة خارج موضوع القهوة. تكرارها يوقف المشاركة والرسائل.', 'Warning: your story is off-topic. Repetition suspends participation and messages.')) : row.type === 'community_suspended' ? (L('تم إيقاف المشاركة والرسائل بسبب تكرار المخالفة.', 'Community participation and messages are suspended after repeated violations.')) : L('نشاط جديد', 'New activity'),
           new Date(row.created_at).toLocaleDateString(locale + '-u-nu-latn'),
         ].join(' · '),
       ),
@@ -526,17 +521,17 @@ function Shell() {
     if(kind==='equipment'){const item=(await loadEquipment(supabase,locale)).find(e=>e.id===id);if(item&&owner===identity.current)setDetail({type:'equipment',item});return;}
     const table=kind==='recipe'?'recipes':kind==='bean'?'beans':'roasted_products';const {data:row,error}=await supabase.from(table).select(kind==='recipe'?RECIPE_FIELDS:'*').eq('id',id).single();if(error||!row)throw error;if(owner!==identity.current)return;
     if(kind==='recipe'){const item=mapRecipe(row as unknown as RecipeRow,locale);if(item)openRecipe(item);}else openCoffee(mapCoffee(row as unknown as CoffeeRow,kind,ar));
-  }catch{setMessage(ar?'هذا المحتوى غير متاح للعرض الآن.':'This content is not available now.');}};
+  }catch{setMessage(L('هذا المحتوى غير متاح للعرض الآن.', 'This content is not available now.'));}};
   const login = tab === 'account' && !userId && !detail;
   const nav: { tab: Tab; icon: IconName; label: string }[] = [
-    { tab: 'home', icon: 'home', label: ar ? 'الرئيسية' : 'Home' },
-    { tab: 'beans', icon: 'search', label: ar ? 'اكتشف' : 'Discover' },
+    { tab: 'home', icon: 'home', label: L('الرئيسية', 'Home') },
+    { tab: 'beans', icon: 'search', label: L('اكتشف', 'Discover') },
     {
       tab: 'community',
       icon: 'globe',
       label: 'coffeeHO',
     },
-    { tab: 'brewFlow', icon: 'plus', label: ar ? 'تحضير' : 'Brew' },
+    { tab: 'brewFlow', icon: 'plus', label: L('تحضير', 'Brew') },
     { tab: 'account', icon: 'user', label: t.account },
   ];
   const columns = width >= 850 ? 4 : width >= 600 ? 3 : 2;
@@ -548,17 +543,17 @@ function Shell() {
   const homeActive = tab === 'home' && !detail && !recording;
   const socialPage = ['account', 'community', 'members', 'memberProfile', 'messages'].includes(tab);
   const extraLibraryItems: { id: Tab; label: string; icon: IconName }[] = [
-    {id:'assistant',label:ar?'خبير القهوة':'Coffee expert',icon:'comment'},
-    {id:'capsules',label:ar?'الكبسولات':'Capsules',icon:'espresso'},
-    {id:'savedRecipes',label:ar?'وصفاتي المحفوظة':'Saved recipes',icon:'heart'},
-    {id:'forYou',label:ar?'لك أنت':'For you',icon:'star'},
-    {id:'favorites',label:ar?'البن المحفوظ':'Saved coffees',icon:'bean'},
-    {id:'addRecipe',label:ar?'إضافة وصفة':'Add recipe',icon:'plus'},
-    {id:'addBean',label:ar?'إضافة بن':'Add coffee',icon:'plus'},
-    {id:'myRecipes',label:ar?'وصفاتي المضافة':'My recipes',icon:'espresso'},
-    {id:'myEquipment',label:ar?'معداتـي':'My equipment',icon:'gear'},
-    {id:'bags',label:ar?'أكياسي':'My bags',icon:'bean'},
-    {id:'roastLab',label:ar?'مختبر التحميص':'Roast Lab',icon:'temp'},
+    {id:'assistant',label:L('خبير القهوة', 'Coffee expert'),icon:'comment'},
+    {id:'capsules',label:L('الكبسولات', 'Capsules'),icon:'espresso'},
+    {id:'savedRecipes',label:L('وصفاتي المحفوظة', 'Saved recipes'),icon:'heart'},
+    {id:'forYou',label:L('لك أنت', 'For you'),icon:'star'},
+    {id:'favorites',label:L('البن المحفوظ', 'Saved coffees'),icon:'bean'},
+    {id:'addRecipe',label:L('إضافة وصفة', 'Add recipe'),icon:'plus'},
+    {id:'addBean',label:L('إضافة بن', 'Add coffee'),icon:'plus'},
+    {id:'myRecipes',label:L('وصفاتي المضافة', 'My recipes'),icon:'espresso'},
+    {id:'myEquipment',label:L('معداتـي', 'My equipment'),icon:'gear'},
+    {id:'bags',label:L('أكياسي', 'My bags'),icon:'bean'},
+    {id:'roastLab',label:L('مختبر التحميص', 'Roast Lab'),icon:'temp'},
   ];
   const openLibraryItem = (id: string) => {
     setLibraryMenu(false);
@@ -570,11 +565,11 @@ function Shell() {
   };
   const libraryDialog = <Modal transparent visible={libraryMenu} animationType="fade" onRequestClose={() => setLibraryMenu(false)}>
     <View style={{flex:1,alignItems:'center',justifyContent:'center',padding:20,backgroundColor:'#0008'}}>
-      <Pressable accessibilityRole="button" accessibilityLabel={ar?'إغلاق القائمة':'Close menu'} style={StyleSheet.absoluteFill} onPress={() => setLibraryMenu(false)}/>
+      <Pressable accessibilityRole="button" accessibilityLabel={L('إغلاق القائمة', 'Close menu')} style={StyleSheet.absoluteFill} onPress={() => setLibraryMenu(false)}/>
       <View testID="quick-library-menu" accessibilityViewIsModal style={{width:'100%',maxWidth:390,maxHeight:'70%',backgroundColor:colors.paper,borderRadius:18,padding:12,gap:8}}>
         <View style={{flexDirection:ar?'row-reverse':'row',alignItems:'center',justifyContent:'space-between'}}>
-          <Txt heading style={{fontSize:17,fontWeight:'700'}}>{ar?'اختصارات القهوة':'Coffee shortcuts'}</Txt>
-          <IconButton name="close" label={ar?'إغلاق':'Close'} onPress={() => setLibraryMenu(false)}/>
+          <Txt heading style={{fontSize:17,fontWeight:'700'}}>{L('اختصارات القهوة', 'Coffee shortcuts')}</Txt>
+          <IconButton name="close" label={L('إغلاق', 'Close')} onPress={() => setLibraryMenu(false)}/>
         </View>
         <ScrollView contentContainerStyle={{flexDirection:ar?'row-reverse':'row',flexWrap:'wrap',gap:6}}>
           {extraLibraryItems.map(item => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.label} onPress={() => openLibraryItem(item.id)} style={{width:'48%',minHeight:44,padding:8,borderRadius:10,backgroundColor:colors.chip,flexDirection:ar?'row-reverse':'row',alignItems:'center',gap:6}}>
@@ -590,10 +585,10 @@ function Shell() {
         <View style={s.libraryNav}>
           <TabRail compact wrap testID="library-navigation" value={tab}
             items={[
-              { id: 'beans', label: ar ? 'البن والإيحاءات' : 'Coffee & taste', icon: 'bean' },
-              { id: 'recipes', label: ar ? 'مكتبة الوصفات' : 'Recipe library', icon: 'espresso' },
-              { id: 'equipment', label: ar ? 'أدوات القهوة' : 'Equipment', icon: 'gear' },
-              { id: 'roasters', label: ar ? 'المحامص' : 'Roasteries', icon: 'espresso' },
+              { id: 'beans', label: L('البن والإيحاءات', 'Coffee & taste'), icon: 'bean' },
+              { id: 'recipes', label: L('مكتبة الوصفات', 'Recipe library'), icon: 'espresso' },
+              { id: 'equipment', label: L('أدوات القهوة', 'Equipment'), icon: 'gear' },
+              { id: 'roasters', label: L('المحامص', 'Roasteries'), icon: 'espresso' },
               ...extraLibraryItems,
             ]}
             onChange={openLibraryItem} />
@@ -614,22 +609,18 @@ function Shell() {
         >
           <Txt style={{ fontSize: 12, lineHeight: 19 }}>
             {data?.savedAt
-              ? (ar ? 'آخر بيانات متاحة: ' : 'Last available data: ') +
+              ? (L('آخر بيانات متاحة: ', 'Last available data: ')) +
                 new Date(data.savedAt).toLocaleString(locale + '-u-nu-latn')
               : t.partial}
             {data?.savedAt
               ? refreshing
-                ? ar
-                  ? ' · جارٍ التحديث'
-                  : ' · Updating'
-                : ar
-                  ? ' · تعذّر تحديث بعض البيانات'
-                  : ' · Some data could not update'
+                ? L(' · جارٍ التحديث', ' · Updating')
+                : L(' · تعذّر تحديث بعض البيانات', ' · Some data could not update')
               : ''}
           </Txt>
           {!refreshing ? (
             <Action
-              title={ar ? 'إعادة الاتصال' : 'Reconnect'}
+              title={L('إعادة الاتصال', 'Reconnect')}
               onPress={refresh}
             />
           ) : null}
@@ -658,6 +649,7 @@ function Shell() {
         <SettingsScreen
           visible={settingsOpen}
           close={() => setSettingsOpen(false)}
+          onProfileUpdated={() => setProfileRevision(n => n + 1)}
           changeLanguage={changeLanguage}
           session={userId ? session : null}
           onDeleted={(localCleanupFailed) => {
@@ -670,12 +662,8 @@ function Shell() {
             navigate('home');
             setMessage(
               localCleanupFailed
-                ? ar
-                  ? 'حُذف الحساب. تعذّر مسح بعض البيانات من الجهاز؛ امسح بيانات التطبيق من إعدادات الجهاز.'
-                  : 'Account deleted. Some device data could not be cleared; clear app data in your device settings.'
-                : ar
-                  ? 'تم حذف حسابك وبياناته.'
-                  : 'Your account and its data were deleted.',
+                ? L('حُذف الحساب. تعذّر مسح بعض البيانات من الجهاز؛ امسح بيانات التطبيق من إعدادات الجهاز.', 'Account deleted. Some device data could not be cleared; clear app data in your device settings.')
+                : L('تم حذف حسابك وبياناته.', 'Your account and its data were deleted.'),
             );
           }}
         />
@@ -689,17 +677,17 @@ function Shell() {
               <>
                 <IconButton name="back" label={t.back} onPress={back} />
                 <View style={{ flex: 1 }} />
-                <IconButton name="gear" label={ar ? 'الإعدادات' : 'Settings'} onPress={() => setSettingsOpen(true)} />
+                <IconButton name="gear" label={L('الإعدادات', 'Settings')} onPress={() => setSettingsOpen(true)} />
                 {detail.type === 'coffee' ? (
                   <IconButton
                     name="heart"
-                    label={ar ? 'المفضلة' : 'Favorites'}
+                    label={L('المفضلة', 'Favorites')}
                     onPress={() => void saveCoffee(detail.item as CoffeeItem)}
                   />
                 ) : null}
                 <IconButton
                   name="share"
-                  label={ar ? 'مشاركة' : 'Share'}
+                  label={L('مشاركة', 'Share')}
                   onPress={() =>
                     void Share.share({
                       message:
@@ -712,27 +700,27 @@ function Shell() {
               </>
             ) : (
               <>
-                <IconButton name="gear" label={ar ? 'الإعدادات' : 'Settings'} onPress={() => setSettingsOpen(true)} />
+                <IconButton name="gear" label={L('الإعدادات', 'Settings')} onPress={() => setSettingsOpen(true)} />
                 <View style={s.headerBrand}>
                   <Brand compact={width < 600} />
                 </View>
                 <View style={s.headerActions}>
                   <IconButton
                     name="search"
-                    label={ar ? 'البحث' : 'Search'}
+                    label={L('البحث', 'Search')}
                     onPress={() => navigate('search')}
                   />
                   {width >= 600 ? (
                     <IconButton
                       name="bell"
-                      label={ar ? 'التنبيهات' : 'Notifications'}
+                      label={L('التنبيهات', 'Notifications')}
                       onPress={() => void showNotifications()}
                     />
                   ) : null}
-                  {socialPage && userId ? <IconButton name="inbox" label={ar ? 'رسائلي' : 'My messages'} onPress={() => showMessages()} /> : null}
+                  {socialPage && userId ? <IconButton name="inbox" label={L('رسائلي', 'My messages')} onPress={() => showMessages()} /> : null}
                   <IconButton
                     name={socialPage ? 'more' : 'user'}
-                    label={socialPage ? ar ? 'المزيد' : 'More' : ar ? 'فتح حسابي' : 'Open account'}
+                    label={socialPage ? L('المزيد', 'More') : L('فتح حسابي', 'Open account')}
                     onPress={() => socialPage ? setLibraryMenu(true) : navigate('account')}
                   />
                 </View>
@@ -930,7 +918,7 @@ function Shell() {
                   openRecipe={openRecipe}
                   openCoffee={openCoffee}
                 />
-              ) : tab === 'messages' ? <DirectMessages key={(userId ?? 'guest') + directRevision} owner={userId} recipient={directTarget} sharedPost={directPost} login={() => requestLogin()} openPost={showCommunityPost} openMember={showMember} /> : tab === 'members' ? (<MemberDirectory open={showMember}/>) : tab === 'memberProfile' ? (<ScrollView contentContainerStyle={{padding:18,gap:14}}><Action title={ar?'حسابات coffeeHO':'coffeeHO accounts'} onPress={()=>navigate('members')}/><MemberProfile key={(userId??'guest')+memberUsername} userId={userId} username={memberUsername} openMember={showMember} openItem={(kind,id)=>void openMemberItem(kind,id)} manage={manageMember} login={()=>requestLogin()} messages={showMessages} shareDirect={shareToDirect} recipes={data?.recipes ?? []} coffees={data?.coffees ?? []} openRoast={id => showRoasts(id ?? null, "public")}/></ScrollView>) : tab === 'community' ? (
+              ) : tab === 'messages' ? <DirectMessages key={(userId ?? 'guest') + directRevision} owner={userId} recipient={directTarget} sharedPost={directPost} login={() => requestLogin()} openPost={showCommunityPost} openMember={showMember} /> : tab === 'members' ? (<MemberDirectory open={showMember}/>) : tab === 'memberProfile' ? (<ScrollView contentContainerStyle={{padding:18,gap:14}}><Action title={L('حسابات coffeeHO', 'coffeeHO accounts')} onPress={()=>navigate('members')}/><MemberProfile refreshKey={profileRevision} key={(userId??'guest')+memberUsername} userId={userId} username={memberUsername} openMember={showMember} openItem={(kind,id)=>void openMemberItem(kind,id)} manage={manageMember} login={()=>requestLogin()} messages={showMessages} shareDirect={shareToDirect} recipes={data?.recipes ?? []} coffees={data?.coffees ?? []} openRoast={id => showRoasts(id ?? null, "public")}/></ScrollView>) : tab === 'community' ? (
                 <CommunityScreen
                   key={userId ?? 'guest'}
                   userId={userId}
@@ -954,12 +942,12 @@ function Shell() {
                   key={userId ?? 'public'}
                   session={userId ? session : null}
                   settings={() => setSettingsOpen(true)}
-                  profileContent={userId?<MemberProfile userId={userId} openMember={showMember} openItem={(kind,id)=>void openMemberItem(kind,id)} manage={manageMember} login={()=>requestLogin()} messages={showMessages} shareDirect={shareToDirect} recipes={data?.recipes ?? []} coffees={data?.coffees ?? []} openRoast={id => showRoasts(id ?? null, "public")}/>:null}
+                  profileContent={userId?<MemberProfile refreshKey={profileRevision} userId={userId} openMember={showMember} openItem={(kind,id)=>void openMemberItem(kind,id)} manage={manageMember} login={()=>requestLogin()} messages={showMessages} shareDirect={shareToDirect} recipes={data?.recipes ?? []} coffees={data?.coffees ?? []} openRoast={id => showRoasts(id ?? null, "public")}/>:null}
                   recovery={passwordRecovery}
                   onRecovered={() => {
                     setPasswordRecovery(false);
                     setMessage(
-                      ar ? 'تم تحديث كلمة المرور.' : 'Password updated.',
+                      L('تم تحديث كلمة المرور.', 'Password updated.'),
                     );
                   }}
                   back={back}
@@ -1001,9 +989,7 @@ function Shell() {
                   <Txt style={styles.muted}>{t.ruleNote}</Txt>
                   {data?.limited ? (
                     <Txt style={styles.muted}>
-                      {ar
-                        ? 'التوصيات تستخدم مجموعة محدودة من الوصفات. ابحث في مكتبة الوصفات لاستكشاف الكتالوغ الكامل.'
-                        : 'Recommendations use a bounded recipe sample. Search the recipe library for the full catalog.'}
+                      {L('التوصيات تستخدم مجموعة محدودة من الوصفات. ابحث في مكتبة الوصفات لاستكشاف الكتالوغ الكامل.', 'Recommendations use a bounded recipe sample. Search the recipe library for the full catalog.')}
                     </Txt>
                   ) : null}
                   <SectionTitle title={t.beans} />
@@ -1079,9 +1065,7 @@ function Shell() {
                     <View style={{ gap: 16, marginBottom: 4 }}>
                       <Txt heading style={styles.title}>
                         {tab === 'favorites'
-                          ? ar
-                            ? 'المفضلة'
-                            : 'Favorites'
+                          ? L('المفضلة', 'Favorites')
                           : t.beans}
                       </Txt>
                       <MethodPicker value={method} onChange={setMethod} />
@@ -1095,9 +1079,7 @@ function Shell() {
                         value={search}
                         onChangeText={setSearch}
                         placeholder={
-                          ar
-                            ? 'ابحث عن البن أو المحمصة أو البلد…'
-                            : 'Search coffee, roaster or origin…'
+                          L('ابحث عن البن أو المحمصة أو البلد…', 'Search coffee, roaster or origin…')
                         }
                       />
                       {data?.warnings || (!data && !refreshing) ? (
@@ -1112,9 +1094,7 @@ function Shell() {
                         : tab === 'favorites' && !userId
                           ? t.loginFirst
                           : tab === 'favorites'
-                            ? ar
-                              ? 'احفظ حبوبك المفضلة بالضغط على القلب.'
-                              : 'Save your favorite coffees with the heart button.'
+                            ? L('احفظ حبوبك المفضلة بالضغط على القلب.', 'Save your favorite coffees with the heart button.')
                             : t.empty}
                     </Txt>
                   }
@@ -1122,7 +1102,7 @@ function Shell() {
                     <View style={{ gap: 10, marginTop: 10 }}>
                       {displayCoffee.length > visibleCount ? (
                         <Action
-                          title={ar ? 'عرض المزيد' : 'Load more'}
+                          title={L('عرض المزيد', 'Load more')}
                           onPress={() => setVisibleCount((n) => n + 30)}
                           selected
                         />
@@ -1191,9 +1171,7 @@ function Shell() {
             <View style={s.modal}>
               <Txt heading style={styles.subtitle}>
                 {notifications !== null
-                  ? ar
-                    ? 'التنبيهات'
-                    : 'Notifications'
+                  ? L('التنبيهات', 'Notifications')
                   : 'BeanMora'}
               </Txt>
               <ScrollView style={{ maxHeight: 350 }}>
@@ -1207,14 +1185,12 @@ function Shell() {
                   ))
                 ) : (
                   <Txt style={styles.muted}>
-                    {ar
-                      ? 'لا توجد تنبيهات حالياً.'
-                      : 'No notifications right now.'}
+                    {L('لا توجد تنبيهات حالياً.', 'No notifications right now.')}
                   </Txt>
                 )}
               </ScrollView>
               <Action
-                title={ar ? 'إغلاق' : 'Close'}
+                title={L('إغلاق', 'Close')}
                 onPress={() => {
                   setMessage('');
                   setNotifications(null);

@@ -15,7 +15,7 @@ export function storageFits(value: string): boolean {
   }
   return true;
 }
-type Locale = 'ar' | 'en';
+type Locale = 'ar' | 'en' | 'ja';
 export type PublicCatalog = Pick<Bundle, 'coffees' | 'recipes' | 'recipeTotal' | 'limited'>;
 export const catalogCacheKey = (project: string, locale: Locale) => `beanmora-public-catalog-v2:${project}:${locale}`;
 

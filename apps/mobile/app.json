@@ -3,7 +3,7 @@
     "name": "BeanMora",
     "slug": "beanmora-mobile",
     "owner": "elqallaf09",
-    "version": "0.5.24",
+    "version": "0.5.25",
     "scheme": "beanmora",
     "orientation": "default",
     "userInterfaceStyle": "automatic",
@@ -15,11 +15,11 @@
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       },
-      "buildNumber": "17"
+      "buildNumber": "18"
     },
     "android": {
       "package": "com.beanmora.mobile",
-      "versionCode": 35,
+      "versionCode": 36,
       "icon": "./assets/brand/icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/brand/adaptive-foreground.png",

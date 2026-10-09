@@ -1,3 +1,4 @@
+import { contentLocale } from './localeText';
 import { TabRail } from './TabRail';
 import { SelectionMenu } from './SelectionMenu';
 import { EquipmentRecommendations } from './EquipmentRecommendations';
@@ -16,7 +17,7 @@ import {
   View,
   useWindowDimensions,
 } from './native';
-import {
+import { useLabels,
   Language,
   Txt,
   Icon,
@@ -89,6 +90,7 @@ export function CoffeePhoto({
   fallback?: ReactNode;
 }) {
   const ar = useContext(Language) === 'ar';
+  const L = useLabels();
   const [attempt, setAttempt] = useState(0);
   const candidates = [
     ...new Set(
@@ -100,16 +102,10 @@ export function CoffeePhoto({
   const current = useContentMedia(candidates[attempt] ?? null);
   const label =
     kind === 'origin_photo'
-      ? ar
-        ? 'صورة منشأ البن'
-        : 'Coffee origin photo'
+      ? L('صورة منشأ البن', 'Coffee origin photo')
       : kind === 'product_artwork'
-        ? ar
-          ? 'صورة المنتج من المحمصة'
-          : 'Roaster product artwork'
-        : ar
-          ? 'صورة عبوة البن'
-          : 'Coffee product photo';
+        ? L('صورة المنتج من المحمصة', 'Roaster product artwork')
+        : L('صورة عبوة البن', 'Coffee product photo');
   return (
     <View style={s.photo}>
       {current ? (
@@ -135,7 +131,7 @@ export function CoffeePhoto({
         (fallback ?? (
           <View testID="coffee-photo-unavailable" style={[s.photoPlaceholder, { width: '100%', height: '100%' }]}>
             <Icon name="bean" size={34} color={colors.copper} />
-            <Txt style={{ fontSize: 11, color: colors.muted }}>{ar ? 'صورة البن غير متوفرة' : 'Coffee photo unavailable'}</Txt>
+            <Txt style={{ fontSize: 11, color: colors.muted }}>{L('صورة البن غير متوفرة', 'Coffee photo unavailable')}</Txt>
           </View>
         ))
       )}
@@ -152,6 +148,7 @@ export function SectionTitle({
   action?: string;
 }) {
   const ar = useContext(Language) === 'ar';
+  const L = useLabels();
   return (
     <View style={s.sectionHeading}>
       <Txt heading style={styles.subtitle}>
@@ -160,12 +157,12 @@ export function SectionTitle({
       {onPress ? (
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={action ?? (ar ? 'عرض الكل' : 'View all')}
+          accessibilityLabel={action ?? (L('عرض الكل', 'View all'))}
           onPress={onPress}
           style={s.sectionLink}
         >
           <Txt style={styles.muted}>
-            {action ?? (ar ? 'عرض الكل' : 'View all')}
+            {action ?? (L('عرض الكل', 'View all'))}
           </Txt>
           <Icon name="arrow" size={14} color={colors.muted} />
         </Pressable>
@@ -185,9 +182,10 @@ export function MethodPicker({
   all?: boolean;
 }) {
   const locale = useContext(Language);
+  const L = useLabels();
   const items = all ? [undefined, ...allowed] : [...allowed];
   const popular = items.filter(m => !m || ['v60', 'espresso', 'xbloom', 'aeropress', 'chemex', 'french_press'].includes(m));
-  const label = (m?: Method) => m ? methods[locale][m] : locale === 'ar' ? 'الكل' : 'All';
+  const label = (m?: Method) => m ? methods[locale][m] : L('الكل', 'All');
   const rail = value && allowed.includes(value) && !popular.includes(value) ? [value, ...popular] : popular;
   return (
     <View testID="method-picker" style={{ flexDirection: locale === 'ar' ? 'row-reverse' : 'row', alignItems: 'center' }}>
@@ -196,7 +194,7 @@ export function MethodPicker({
       </View>
       {items.length > popular.length ? (
         <View style={{ borderBottomWidth: 1, borderColor: colors.line }}>
-          <SelectionMenu compact iconOnly label={locale === 'ar' ? 'كل طرق التحضير' : 'All methods'}
+          <SelectionMenu compact iconOnly label={L('كل طرق التحضير', 'All methods')}
             value={value ?? 'all'} items={items.map(m => ({ id: m ?? 'all', name: label(m) }))}
             onChange={id => onChange(id === 'all' ? undefined : id as Method)} />
         </View>
@@ -219,6 +217,7 @@ export function CoffeeCard({
   save: () => void;
 }) {
   const ar = useContext(Language) === 'ar';
+  const L = useLabels();
   const motion = usePressMotion();
   return (
     <Animated.View style={[s.coffeeCard, { width }, motion.style]}>
@@ -273,12 +272,8 @@ export function CoffeeCard({
           name="heart"
           label={
             (saved
-              ? ar
-                ? 'إزالة من المفضلة: '
-                : 'Unsave: '
-              : ar
-                ? 'حفظ في المفضلة: '
-                : 'Save: ') + item.name
+              ? L('إزالة من المفضلة: ', 'Unsave: ')
+              : L('حفظ في المفضلة: ', 'Save: ')) + item.name
           }
           onPress={save}
           selected={saved}
@@ -325,6 +320,7 @@ export function Home({
 }) {
   const locale = useContext(Language);
   const ar = locale === 'ar';
+  const L = useLabels();
   const { width } = useWindowDimensions();
   const [pulling, setPulling] = useState(false);
   useEffect(() => {
@@ -348,28 +344,28 @@ export function Home({
       value: data
         ? new Set(data.coffees.map((c) => c.beanId ?? c.kind + c.id)).size
         : '—',
-      title: ar ? 'نوع بن' : 'Coffees',
-      note: ar ? 'من مختلف أنحاء العالم' : 'From around the world',
+      title: L('نوع بن', 'Coffees'),
+      note: L('من مختلف أنحاء العالم', 'From around the world'),
     },
     {
       icon: 'espresso',
       value: data?.recipeTotal ?? '—',
-      title: ar ? 'وصفة' : 'Recipes',
-      note: ar ? 'وصفات متنوعة بعناية' : 'Explore your next cup',
+      title: L('وصفة', 'Recipes'),
+      note: L('وصفات متنوعة بعناية', 'Explore your next cup'),
     },
     {
       icon: 'xbloom',
       value: METHODS.length,
-      title: ar ? 'طريقة تحضير' : 'Brew methods',
-      note: ar ? 'من إسبريسو إلى كولد برو' : 'From espresso to cold brew',
+      title: L('طريقة تحضير', 'Brew methods'),
+      note: L('من إسبريسو إلى كولد برو', 'From espresso to cold brew'),
     },
     {
       icon: 'globe',
       value: data
         ? new Set(data.coffees.map((c) => c.origin).filter(Boolean)).size
         : '—',
-      title: ar ? 'دولة' : 'Origins',
-      note: ar ? 'حبوب من مختلف المزارع' : 'Discover coffee origins',
+      title: L('دولة', 'Origins'),
+      note: L('حبوب من مختلف المزارع', 'Discover coffee origins'),
     },
   ];
   const journey: {
@@ -381,35 +377,27 @@ export function Home({
   }[] = [
     {
       icon: 'play',
-      title: ar ? 'حضّر قهوتي' : 'Brew my coffee',
-      note: ar
-        ? 'اختر البن والطريقة وابدأ التحضير'
-        : 'Pick your coffee and start brewing',
+      title: L('حضّر قهوتي', 'Brew my coffee'),
+      note: L('اختر البن والطريقة وابدأ التحضير', 'Pick your coffee and start brewing'),
       press: brew,
       accent: true,
     },
     {
       icon: 'bean',
-      title: ar ? 'أكياسي' : 'My bags',
-      note: ar
-        ? 'ارجع للبن المحفوظ وإعداداتك'
-        : 'Your saved coffees and settings',
+      title: L('أكياسي', 'My bags'),
+      note: L('ارجع للبن المحفوظ وإعداداتك', 'Your saved coffees and settings'),
       press: bags,
     },
     {
       icon: 'search',
-      title: ar ? 'اكتشف' : 'Discover',
-      note: ar
-        ? 'ابحث بين البن والوصفات والمحامص'
-        : 'Search coffees, recipes and roasters',
+      title: L('اكتشف', 'Discover'),
+      note: L('ابحث بين البن والوصفات والمحامص', 'Search coffees, recipes and roasters'),
       press: browse,
     },
     {
       icon: 'star',
-      title: ar ? 'أفضل إعداد' : 'Best setup',
-      note: ar
-        ? 'اقتراحات مبنية على تفضيلاتك'
-        : 'Recommendations for your next cup',
+      title: L('أفضل إعداد', 'Best setup'),
+      note: L('اقتراحات مبنية على تفضيلاتك', 'Recommendations for your next cup'),
       press: personalize,
     },
   ];
@@ -464,16 +452,14 @@ export function Home({
                 },
               ]}
             >
-              {ar ? 'اكتشف عالم القهوة.' : 'Discover the world of coffee.'}
+              {L('اكتشف عالم القهوة.', 'Discover the world of coffee.')}
             </Txt>
             <Txt style={s.heroDescription}>
-              {ar
-                ? 'من الحبوب إلى الكوب، تجربة أفضل كل يوم.'
-                : 'From bean to cup, a better experience every day.'}
+              {L('من الحبوب إلى الكوب، تجربة أفضل كل يوم.', 'From bean to cup, a better experience every day.')}
             </Txt>
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel={ar ? 'استكشف الآن' : 'Explore now'}
+              accessibilityLabel={L('استكشف الآن', 'Explore now')}
               onPress={browse}
               style={s.heroButton}
             >
@@ -486,7 +472,7 @@ export function Home({
                   textAlign: 'center',
                 }}
               >
-                {ar ? 'استكشف الآن' : 'Explore now'}
+                {L('استكشف الآن', 'Explore now')}
               </Txt>
               <Icon name="arrow" color="#FFF" size={17} />
             </Pressable>
@@ -526,12 +512,10 @@ export function Home({
           <View style={s.journeyHeader}>
             <View style={{ flex: 1 }}>
               <Txt heading style={s.journeyTitle}>
-                {ar ? 'رحلتك مع القهوة' : 'Your coffee journey'}
+                {L('رحلتك مع القهوة', 'Your coffee journey')}
               </Txt>
               <Txt style={s.journeyIntro}>
-                {ar
-                  ? 'ابدأ من البن الذي عندك، ثم ارجع لأفضل نتيجة وصلت لها.'
-                  : 'Start with the coffee you have, then return to your best result.'}
+                {L('ابدأ من البن الذي عندك، ثم ارجع لأفضل نتيجة وصلت لها.', 'Start with the coffee you have, then return to your best result.')}
               </Txt>
             </View>
             <View style={s.journeyBadge}>
@@ -593,14 +577,14 @@ export function Home({
         </View>
         <View style={s.section}>
           <SectionTitle
-            title={ar ? 'اختر طريقة التحضير' : 'Choose your brew method'}
+            title={L('اختر طريقة التحضير', 'Choose your brew method')}
             onPress={brew}
           />
           <MethodPicker value={method} onChange={setMethod} />
         </View>
         <View style={s.section}>
           <SectionTitle
-            title={ar ? 'مختارات البن' : 'Coffee picks'}
+            title={L('مختارات البن', 'Coffee picks')}
             onPress={browse}
           />
           {refreshing && !data ? (
@@ -627,24 +611,20 @@ export function Home({
             </Animated.View>
           ) : (
             <Txt style={styles.muted}>
-              {ar
-                ? 'لا توجد حبوب مطابقة لطريقة التحضير.'
-                : 'No coffees match this brew method.'}
+              {L('لا توجد حبوب مطابقة لطريقة التحضير.', 'No coffees match this brew method.')}
             </Txt>
           )}
         </View>
         <View style={s.section}>
           <SectionTitle
-            title={ar ? 'أدوات وتوصيات' : 'Tools and recommendations'}
+            title={L('أدوات وتوصيات', 'Tools and recommendations')}
             onPress={() => tools('all')}
           />
           <EquipmentRecommendations open={openTool} browse={() => tools('all')} />
         </View>
         {data?.warnings ? (
           <Txt style={styles.warning}>
-            {ar
-              ? 'تعذّر تحميل بعض البيانات. اسحب لتحديثها.'
-              : 'Some data could not be loaded. Pull to refresh.'}
+            {L('تعذّر تحميل بعض البيانات. اسحب لتحديثها.', 'Some data could not be loaded. Pull to refresh.')}
           </Txt>
         ) : null}
       </View>
@@ -668,8 +648,9 @@ export function CoffeeDetail({
 }) {
   const locale = useContext(Language);
   const ar = locale === 'ar';
+  const L = useLabels();
   const { width } = useWindowDimensions();
-  const linked = useCoffeeRecipes(item, recipes, locale);
+  const linked = useCoffeeRecipes(item, recipes, contentLocale(locale));
   const related = linked.recipes;
   const allowed = METHODS.filter(
     (m) => item.methods.includes(m) || related.some((r) => r.method === m),
@@ -681,7 +662,7 @@ export function CoffeeDetail({
   const methodChosen = useRef(false);
   const [photo, setPhoto] = useState(0);
   const exactRecipe = related.find((r) => r.method === method);
-  const starter = useBrewStarter(method, !linked.busy && !exactRecipe, locale);
+  const starter = useBrewStarter(method, !linked.busy && !exactRecipe, contentLocale(locale));
   const recipe = exactRecipe ?? starter.recipe;
   const methodKey = allowed.join('|');
   useEffect(() => setPhoto(0), [item.kind, item.id]);
@@ -703,10 +684,10 @@ export function CoffeeDetail({
     }
   }, [linked.busy, related, method]);
   const process: Record<string, string> = {
-    natural: ar ? 'معالجة طبيعية' : 'Natural',
-    washed: ar ? 'مغسول' : 'Washed',
-    honey: ar ? 'عسلي' : 'Honey',
-    anaerobic: ar ? 'لاهوائي' : 'Anaerobic',
+    natural: L('معالجة طبيعية', 'Natural'),
+    washed: L('مغسول', 'Washed'),
+    honey: L('عسلي', 'Honey'),
+    anaerobic: L('لاهوائي', 'Anaerobic'),
   };
   const numbers = recipe ? recipeQuickFacts(recipe, ar) : [];
   return (
@@ -733,7 +714,7 @@ export function CoffeeDetail({
               <Pressable
                 key={i}
                 accessibilityRole="button"
-                accessibilityLabel={(ar ? 'صورة ' : 'Photo ') + (i + 1)}
+                accessibilityLabel={(L('صورة ', 'Photo ')) + (i + 1)}
                 onPress={() => setPhoto(i)}
                 style={[
                   s.dot,
@@ -782,12 +763,12 @@ export function CoffeeDetail({
       {item.description ? (
         <Txt style={{ fontSize: 14, lineHeight: 27 }}>{item.description}</Txt>
       ) : null}
-      {item.details?<View style={{gap:6}}>{[[ar?'المنطقة':'Region',item.details.region],[ar?'المزرعة':'Farm',item.details.farm],[ar?'الارتفاع':'Altitude',item.details.altitude?item.details.altitude+(ar?' متر':' m'):null],[ar?'وزن الكيس':'Bag weight',item.details.weight?item.details.weight+(ar?' غ':' g'):null],[ar?'تاريخ التحميص':'Roast date',item.details.roastDate]].filter(([,value])=>value).map(([label,value])=><Txt key={label}>{label}: {value}</Txt>)}</View>:null}
-      {item.roasterSite?<SourceLink title={ar?'موقع المحمصة':'Roaster website'} url={item.roasterSite}/>:null}
+      {item.details?<View style={{gap:6}}>{[[L('المنطقة', 'Region'),item.details.region],[L('المزرعة', 'Farm'),item.details.farm],[L('الارتفاع', 'Altitude'),item.details.altitude?item.details.altitude+(L(' متر', ' m')):null],[L('وزن الكيس', 'Bag weight'),item.details.weight?item.details.weight+(L(' غ', ' g')):null],[L('تاريخ التحميص', 'Roast date'),item.details.roastDate]].filter(([,value])=>value).map(([label,value])=><Txt key={label}>{label}: {value}</Txt>)}</View>:null}
+      {item.roasterSite?<SourceLink title={L('موقع المحمصة', 'Roaster website')} url={item.roasterSite}/>:null}
       {item.variety ? (
         <View style={styles.metaPill}>
           <Txt style={styles.metaText}>
-            {ar ? 'السلالة: ' : 'Variety: '}
+            {L('السلالة: ', 'Variety: ')}
             {catalogName(item.variety, locale)}
           </Txt>
         </View>
@@ -795,20 +776,20 @@ export function CoffeeDetail({
       {addToBags ? (
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={ar ? 'أضف إلى أكياسي' : 'Add to My Bags'}
+          accessibilityLabel={L('أضف إلى أكياسي', 'Add to My Bags')}
           onPress={() => addToBags(item)}
           style={s.inventoryButton}
         >
           <Icon name="plus" size={18} color={colors.teal} />
           <Txt style={s.inventoryButtonText}>
-            {ar ? 'أضف إلى أكياسي' : 'Add to My Bags'}
+            {L('أضف إلى أكياسي', 'Add to My Bags')}
           </Txt>
           <Icon name="arrow" size={17} color={colors.teal} />
         </Pressable>
       ) : null}
       <View style={s.section}>
         <SectionTitle
-          title={ar ? 'اختر طريقة التحضير' : 'Choose your brew method'}
+          title={L('اختر طريقة التحضير', 'Choose your brew method')}
         />
         <MethodPicker
           value={method}
@@ -824,7 +805,7 @@ export function CoffeeDetail({
         {linked.busy || starter.busy ? (
           <View accessibilityLiveRegion="polite">
             <Txt style={styles.muted}>
-              {ar ? 'جاري تحميل وصفات التحضير…' : 'Loading brew recipes…'}
+              {L('جاري تحميل وصفات التحضير…', 'Loading brew recipes…')}
             </Txt>
           </View>
         ) : null}
@@ -834,12 +815,8 @@ export function CoffeeDetail({
           <View style={s.infoSection}>
             <Txt heading style={s.infoHeading}>
               {exactRecipe
-                ? ar
-                  ? 'مقادير الوصفة المختارة'
-                  : 'Selected recipe'
-                : ar
-                  ? 'وصفة بداية عامة'
-                  : 'General starting recipe'}
+                ? L('مقادير الوصفة المختارة', 'Selected recipe')
+                : L('وصفة بداية عامة', 'General starting recipe')}
             </Txt>
             <View style={s.brewStats}>
               {numbers.map((n) => (
@@ -897,7 +874,7 @@ export function CoffeeDetail({
           >
             <Icon name="play" color="#FFF" size={18} />
             <Txt style={{ color: '#FFF', fontWeight: '700', fontSize: 16 }}>
-              {(ar ? 'ابدأ التحضير مع ' : 'Start brewing with ') +
+              {(L('ابدأ التحضير مع ', 'Start brewing with ')) +
                 methods[locale][method]}
             </Txt>
           </Pressable>
@@ -916,9 +893,7 @@ export function CoffeeDetail({
                   ? ar
                     ? 'وصفة ' + methods[locale][method] + ' لهذا البن'
                     : methods[locale][method] + ' recipe for this coffee'
-                  : ar
-                    ? 'دليل التحضير العام'
-                    : 'General brewing guide'}
+                  : L('دليل التحضير العام', 'General brewing guide')}
               </Txt>
               <Txt numberOfLines={2} style={styles.muted}>
                 {recipe.title}
@@ -936,13 +911,11 @@ export function CoffeeDetail({
           ]}
         >
           <Txt heading style={styles.subtitle}>
-            {ar ? 'اختَر وصفة لكوبك' : 'Choose a recipe for your cup'}
+            {L('اختَر وصفة لكوبك', 'Choose a recipe for your cup')}
           </Txt>
           <Txt style={styles.muted}>
             {linked.error || starter.error
-              ? ar
-                ? 'تعذّر تحميل الوصفات. يمكنك إعادة المحاولة أو استكشاف المكتبة.'
-                : 'Recipes could not be loaded. Retry or explore the library.'
+              ? L('تعذّر تحميل الوصفات. يمكنك إعادة المحاولة أو استكشاف المكتبة.', 'Recipes could not be loaded. Retry or explore the library.')
               : ar
                 ? 'استكشف إعدادات ' +
                   methods[locale][method] +
@@ -954,7 +927,7 @@ export function CoffeeDetail({
           {browseRecipes ? (
             <Action
               title={
-                (ar ? 'استكشف وصفات ' : 'Explore ') +
+                (L('استكشف وصفات ', 'Explore ')) +
                 methods[locale][method] +
                 (ar ? '' : ' recipes')
               }
@@ -964,7 +937,7 @@ export function CoffeeDetail({
           ) : null}
           {starter.error ? (
             <Action
-              title={ar ? 'إعادة المحاولة' : 'Try again'}
+              title={L('إعادة المحاولة', 'Try again')}
               onPress={starter.retry}
             />
           ) : null}
@@ -992,12 +965,10 @@ export function CoffeeDetail({
       {linked.error ? (
         <View testID="coffee-recipes-error" style={styles.card}>
           <Txt style={styles.warning}>
-            {ar
-              ? 'تعذّر تحميل بقية وصفات هذا البن.'
-              : 'Could not load the remaining recipes for this coffee.'}
+            {L('تعذّر تحميل بقية وصفات هذا البن.', 'Could not load the remaining recipes for this coffee.')}
           </Txt>
           <Action
-            title={ar ? 'إعادة المحاولة' : 'Try again'}
+            title={L('إعادة المحاولة', 'Try again')}
             onPress={linked.retry}
             disabled={linked.busy}
           />
@@ -1005,7 +976,7 @@ export function CoffeeDetail({
       ) : linked.more ? (
         <Action
           title={
-            ar ? 'عرض المزيد من وصفات هذا البن' : 'More recipes for this coffee'
+            L('عرض المزيد من وصفات هذا البن', 'More recipes for this coffee')
           }
           onPress={linked.loadMore}
           disabled={linked.busy}
@@ -1013,13 +984,13 @@ export function CoffeeDetail({
       ) : null}
       {item.sourceUrl ? (
         <SourceLink
-          title={ar ? 'فتح مصدر البيانات' : 'Open data source'}
+          title={L('فتح مصدر البيانات', 'Open data source')}
           url={item.sourceUrl}
         />
       ) : null}
       {item.imageSourceUrl && item.imageSourceUrl !== item.sourceUrl ? (
         <SourceLink
-          title={ar ? 'مصدر صورة البن' : 'Coffee photo source'}
+          title={L('مصدر صورة البن', 'Coffee photo source')}
           url={item.imageSourceUrl}
         />
       ) : null}
