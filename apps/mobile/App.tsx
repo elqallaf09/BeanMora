@@ -537,7 +537,7 @@ function Shell() {
         <View testID="library-navigation" style={s.libraryNav}>
           <View style={[s.libraryNavContent,{flexDirection:ar?'row-reverse':'row',flexWrap:'wrap'}]}>
             {[
-              {id:'assistant' as const,label:ar?'مساعد القهوة':'Coffee assistant',icon:'star' as const},
+              {id:'assistant' as const,label:ar?'خبير القهوة':'Coffee expert',icon:'star' as const},
               {id:'capsules' as const,label:ar?'الكبسولات':'Capsules',icon:'espresso' as const},
               {
                 id: 'recipes' as const,
@@ -973,6 +973,7 @@ function Shell() {
                   personalize={() => navigate('best')}
                   bags={() => navigate('bags')}
                   tools={(category) => void showTools(category)}
+                  openTool={item => openDetail({ type: "equipment", item })}
                   saved={savedIds}
                   save={(item) => void saveCoffee(item)}
                   refresh={refresh}

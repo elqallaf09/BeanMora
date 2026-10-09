@@ -130,7 +130,8 @@ for (const locale of ['ar', 'en'] as const) {
     await page.getByRole('button', { name: locale === 'ar' ? 'رجوع' : 'Back', exact: true }).click();
     await page.getByRole('button', { name: locale === 'ar' ? 'تحضير' : 'Brew', exact: true }).click();
     await expect(page.getByRole('heading', { name: locale === 'ar' ? 'حضّر قهوتي' : 'Brew my coffee', exact: true })).toBeVisible();
-    await expect(page.getByRole('button', { name: locale === 'ar' ? 'تسجيل الدخول' : 'Sign in', exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: (locale === 'ar' ? 'اختيار البن: ' : 'Choose coffee: ') + coffeeName, exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: locale === 'ar' ? 'ابدأ بهذه الوصفة' : 'Start this recipe', exact: true })).toBeVisible();
     await openRecipeLibrary(page, locale);
     await page.getByRole('button', { name: locale === 'ar' ? recipe.title_ar : recipe.title, exact: true }).click();
     await expect(page.getByText('A written test instruction')).toBeVisible();

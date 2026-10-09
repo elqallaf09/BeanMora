@@ -64,6 +64,8 @@ async function fixtures(
     const url = new URL(route.request().url()),
       p = url.pathname,
       method = route.request().method();
+    if (p.startsWith('/storage/v1/object/avatars/')) return reply(route, { Key: p.replace('/storage/v1/object/', '') });
+    if (p.startsWith('/storage/v1/object/public/avatars/')) return route.fulfill({ status: 200, contentType: 'image/png', body: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/b1sAAAAASUVORK5CYII=', 'base64') });
     if (p.endsWith("/settings"))
       return reply(route, { external: { google: true, apple: false } });
     if (p.endsWith("/token")) {
@@ -107,7 +109,7 @@ async function fixtures(
         const body = route.request().postDataJSON();
         changes.push(body);
         Object.assign(profile, body);
-        return reply(route, { id: uid });
+        return reply(route, { id: uid, avatar_url: profile.avatar_url });
       }
       if (url.searchParams.get("select") === "username")
         return reply(route, { username: profile.username });
@@ -383,3 +385,22 @@ for (const width of [320, 800, 1536])
       ),
     ).toBe(true);
   });
+
+test('profile photo previews before saving and remains beside the handle after reload', async ({ page }) => {
+  const f = await fixtures(page); await signIn(page);
+  const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/b1sAAAAASUVORK5CYII=', 'base64');
+  async function choose() {
+    const chooser = page.waitForEvent('filechooser');
+    await page.getByRole('button', { name: 'Change profile photo', exact: true }).click();
+    await (await chooser).setFiles({ name: 'avatar.png', mimeType: 'image/png', buffer: png });
+    await expect(page.getByTestId('avatar-preview')).toBeVisible();
+  }
+  await choose(); await page.getByRole('button', { name: 'Cancel', exact: true }).click(); expect(f.changes).toHaveLength(0);
+  await choose(); await page.getByRole('button', { name: 'Save photo', exact: true }).click();
+  await expect(page.getByText('Profile photo saved.', { exact: true })).toBeVisible();
+  expect(f.profile.avatar_url).toContain('/avatars/' + uid + '/');
+  await page.reload();
+  await page.getByRole('button', { name: 'Account', exact: true }).click();
+  await expect(page.getByTestId('member-profile').getByText('@owner', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('avatar-edit').getByRole('img')).toBeVisible();
+});

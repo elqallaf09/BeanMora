@@ -130,7 +130,7 @@ describe('local conversational coffee assistant', () => {
     expect(b.matches[0].price).toBeNull();
   });
   it('answers help and bundled method guidance without catalog availability', async () => {
-    expect((await ask('مرحبا', [], offline)).answer).toContain('BeanMora');
+    expect((await ask('مرحبا', [], offline)).answer).toContain('خبير القهوة');
     const turn = await ask('شلون أستخدم الكيمكس', [], { ...offline, guides: { chemex: { title: 'Chemex', title_ar: 'كيمكس', intro: 'Paper filter', intro_ar: 'فلتر ورقي', tips: ['Rinse it'], tips_ar: ['اشطفه'], source: 'https://example.com/guide', source_name: 'Maker' } } });
     expect(turn.intent).toBe('guide');
     expect(turn.answer).toContain('اشطفه');

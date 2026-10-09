@@ -1,3 +1,5 @@
+import { EquipmentRecommendations } from './EquipmentRecommendations';
+import type { EquipmentItem } from './catalog';
 import {CatalogComments} from './CatalogComments';
 import { usePressMotion } from './Motion';
 import { useContext, useEffect, useRef, useState, type ReactNode } from 'react';
@@ -128,8 +130,8 @@ export function CoffeePhoto({
       ) : (
         (fallback ?? (
           <View testID="coffee-photo-unavailable" style={[s.photoPlaceholder, { width: '100%', height: '100%' }]}>
-            <Image source={artwork.bag} accessibilityLabel={ar ? 'صورة توضيحية للبن' : 'Illustrative coffee image'} resizeMode="cover" style={StyleSheet.absoluteFill} />
-            <View style={[s.photoNote, { bottom: 6 }]}><Txt style={{ fontSize: 10, lineHeight: 16, color: '#FFF' }}>{ar ? 'صورة توضيحية' : 'Illustrative image'}</Txt></View>
+            <Icon name="bean" size={34} color={colors.copper} />
+            <Txt style={{ fontSize: 11, color: colors.muted }}>{ar ? 'صورة البن غير متوفرة' : 'Coffee photo unavailable'}</Txt>
           </View>
         ))
       )}
@@ -314,6 +316,7 @@ export function Home({
   personalize,
   bags,
   tools,
+  openTool,
   saved,
   save,
   refresh,
@@ -329,7 +332,8 @@ export function Home({
   brew: () => void;
   personalize: () => void;
   bags: () => void;
-  tools: (category: 'all' | 'xbloom' | 'grinder' | 'scale') => void;
+  tools: (category: string) => void;
+  openTool: (item: EquipmentItem) => void;
   saved: string[];
   save: (item: CoffeeItem) => void;
   refresh: () => void;
@@ -609,7 +613,7 @@ export function Home({
         </View>
         <View style={s.section}>
           <SectionTitle
-            title={ar ? 'أحدث الحبوب' : 'Latest beans'}
+            title={ar ? 'مختارات البن' : 'Coffee picks'}
             onPress={browse}
           />
           {refreshing && !data ? (
@@ -623,7 +627,7 @@ export function Home({
             </View>
           ) : coffees.length ? (
             <View style={s.grid}>
-              {coffees.slice(0, 4).map((c) => (
+              {(coffees.some(item => item.imageUrl) ? coffees.filter(item => item.imageUrl) : coffees).slice(0, 4).map((c) => (
                 <CoffeeCard
                   key={c.kind + c.id}
                   item={c}
@@ -647,82 +651,7 @@ export function Home({
             title={ar ? 'أدوات وتوصيات' : 'Tools and recommendations'}
             onPress={() => tools('all')}
           />
-          <View
-            testID="home-tools"
-            style={[s.tools, width >= 600 && s.toolsWide]}
-          >
-            {[
-              {
-                title: 'xBloom',
-                description: ar
-                  ? 'تحكم كامل في الوصفة'
-                  : 'A recipe for every cup',
-                image: artwork.xbloom,
-                press: () => tools('xbloom'),
-              },
-              {
-                title: ar ? 'طاحونة القهوة' : 'Coffee grinder',
-                description: ar
-                  ? 'طحن مثالي كل مرة'
-                  : 'Find your perfect grind',
-                image: artwork.grinder,
-                press: () => tools('grinder'),
-              },
-              {
-                title: ar ? 'ميزان القهوة' : 'Coffee scale',
-                description: ar
-                  ? 'دقة تصنع الفرق'
-                  : 'Precision makes the difference',
-                image: artwork.scale,
-                press: () => tools('scale'),
-              },
-            ].map((tool) => (
-              <Pressable
-                key={tool.title}
-                accessibilityRole="button"
-                accessibilityLabel={tool.title}
-                onPress={tool.press}
-                style={[
-                  s.tool,
-                  width >= 600
-                    ? s.toolWide
-                    : { flexDirection: ar ? 'row-reverse' : 'row' },
-                ]}
-              >
-                <Image
-                  source={tool.image}
-                  resizeMode="contain"
-                  accessible={false}
-                  style={s.toolImage}
-                />
-                <View style={s.toolCopy}>
-                  <Txt
-                    style={{ fontSize: 15, fontWeight: '700' }}
-                  >
-                    {tool.title}
-                  </Txt>
-                  <Txt
-                    style={{
-                      fontSize: 13,
-                      color: colors.muted,
-                      lineHeight: 21,
-                    }}
-                  >
-                    {tool.description}
-                  </Txt>
-                  <Txt
-                    style={{
-                      fontSize: 12,
-                      marginTop: 8,
-                      textDecorationLine: 'underline',
-                    }}
-                  >
-                    {ar ? 'عرض الآن' : 'View now'}
-                  </Txt>
-                </View>
-              </Pressable>
-            ))}
-          </View>
+          <EquipmentRecommendations open={openTool} browse={() => tools('all')} />
         </View>
         {data?.warnings ? (
           <Txt style={styles.warning}>

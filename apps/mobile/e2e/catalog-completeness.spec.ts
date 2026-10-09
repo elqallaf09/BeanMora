@@ -82,7 +82,7 @@ test('an owned bag keeps the xBloom source water unit and present facts in Brew 
   const encode=(v:object)=>Buffer.from(JSON.stringify(v)).toString('base64url');
   const token=`${encode({alg:'HS256',typ:'JWT'})}.${encode({sub:user.id,role:'authenticated',exp:Math.floor(Date.now()/1000)+3600})}.isolated_test_signature`;
   const recipe={...recipes[0],bean_id:bean.id};
-  const bag={id:'66666666-6666-4666-8666-666666666666',user_id:user.id,legacy_bean_id:bean.id,roasted_product_id:null,remaining_weight_grams:250,last_grind_setting:null,preferred_recipe_id:null,opened_at:'2026-10-01T00:00:00Z',updated_at:'2026-10-01T00:00:00Z'};
+  const bag={id:'66666666-6666-4666-8666-666666666666',user_id:user.id,legacy_bean_id:bean.id,roasted_product_id:null,remaining_weight_grams:250,last_grind_setting:'4.2',preferred_recipe_id:recipe.id,opened_at:'2026-10-01T00:00:00Z',updated_at:'2026-10-01T00:00:00Z'};
   const scopedMethods:(string|null)[]=[];
   await page.route('https://mobilefixture.supabase.co/**',route=>{
     const url=new URL(route.request().url());const path=url.pathname;let data:unknown=[];
@@ -106,15 +106,19 @@ test('an owned bag keeps the xBloom source water unit and present facts in Brew 
   await page.getByRole('button',{name:'Sign in',exact:true}).click();
   await expect(page.getByRole('button',{name:'Sign out',exact:true})).toBeVisible();
   await page.getByRole('button',{name:'Brew',exact:true}).click();
+  await expect(page.getByText('Last grind: 4.2',{exact:true})).toBeVisible();
+  await expect(page.getByText('xBloom · Saved best recipe',{exact:true})).toBeVisible();
   const facts=page.getByTestId('bag-brew-facts');
   await expect(facts).toContainText('15 g');await expect(facts).toContainText('225 ml');
   await expect(facts).toContainText('85–88°C');await expect(facts).toContainText('60');
   await expect(facts.getByText('225 g',{exact:true})).toHaveCount(0);
   await expect(facts.getByText('—',{exact:true})).toHaveCount(0);
   expect(scopedMethods[0]).toBeNull();
+  await page.getByRole('button',{name:'Choose brew method: xBloom',exact:true}).click();
   await page.getByRole('button',{name:'V60',exact:true}).click();
   await expect(page.getByText('No exact recipe matches these choices',{exact:true})).toBeVisible();
-  await page.getByRole('button',{name:'xBloom',exact:true}).last().click();
+  await page.getByRole('button',{name:'Choose brew method: V60',exact:true}).click();
+  await page.getByRole('button',{name:'xBloom',exact:true}).click();
   await expect(facts).toContainText('225 ml');
   await page.getByRole('button',{name:'Start this recipe',exact:true}).click();
   await expect(page.getByTestId('recipe-detail')).toContainText(recipe.title);

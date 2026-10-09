@@ -43,10 +43,12 @@ for (const width of [390, 1024])
     await expect(
       page.getByText('120 of 120 models', { exact: true }),
     ).toBeVisible();
+    const initialReads = reads; // Home also loads recommendations in the initial locale.
     // A large catalog must not mount every card on entry.
     expect(
       await page.locator('[data-testid^="equipment-card-"]').count(),
     ).toBeLessThan(80);
+    await page.getByRole('button', { name: 'Brand: All brands', exact: true }).click();
     await page
       .getByRole('button', { name: 'Rocket', exact: true })
       .click();
@@ -99,7 +101,7 @@ for (const width of [390, 1024])
     await expect(
       page.getByText('120 of 120 models', { exact: true }),
     ).toBeVisible();
-    expect(reads).toBe(1);
+    expect(reads).toBe(initialReads);
     await setLanguage(page, 'ar');
     await page
       .getByRole('button', { name: 'أدوات القهوة', exact: true })

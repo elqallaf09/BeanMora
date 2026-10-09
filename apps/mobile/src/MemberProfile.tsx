@@ -10,6 +10,7 @@ import * as ImagePicker from "expo-image-picker";
 import { randomUUID } from "expo-crypto";
 import { supabase } from "./client";
 import { Action, Field, Icon, Language, Txt, styles, colors } from "./ui";
+import { AvatarEditor } from "./AvatarEditor";
 import { MemberAvatar } from "./MemberAvatar";
 import { categoryLabel } from "./catalog";
 import { catalogName, methodLabel } from "./localizedContent";
@@ -364,74 +365,19 @@ export function MemberProfile({
           </Txt>
         </View>
         <View style={{ padding: 16, paddingTop: 0, gap: 10 }}>
-          <View
-            style={{
-              marginTop: -30,
-              flexDirection: ar ? "row-reverse" : "row",
-              justifyContent: "space-between",
-              alignItems: "flex-end",
-            }}
-          >
-            <View
-              style={{
-                borderWidth: 4,
-                borderColor: colors.paper,
-                borderRadius: 44,
-              }}
-            >
-              <MemberAvatar name={p.name} url={p.avatar_url} size={64} />
-            </View>
-            <View
-              style={{
-                flexDirection: ar ? "row-reverse" : "row",
-                alignItems: "center",
-                gap: 5,
-              }}
-            >
-              <Icon
-                name={p.is_private ? "lock" : "globe"}
-                size={15}
-                color={colors.muted}
-              />
-              <Txt style={styles.muted}>
-                {p.is_private
-                  ? ar
-                    ? "حساب خاص"
-                    : "Private account"
-                  : ar
-                    ? "حساب عام"
-                    : "Public account"}
-              </Txt>
+          <View style={{ marginTop: -20, flexDirection: ar ? "row-reverse" : "row", alignItems: "center", gap: 12 }}>
+            {own && userId ? <AvatarEditor key={userId} owner={userId} name={p.name} url={p.avatar_url} saved={url => { setData(current => current ? { ...current, profile: { ...current.profile, avatar_url: url } } : current); setNotice(ar ? "تم حفظ الصورة الشخصية." : "Profile photo saved."); }} /> : <MemberAvatar name={p.name} url={p.avatar_url} size={64} />}
+            <View style={{ flex: 1, minWidth: 0, paddingTop: 16 }}>
+              <Txt heading numberOfLines={2} style={{ fontSize: 23, lineHeight: 31, fontWeight: "700" }}>{p.name}</Txt>
+              <Pressable accessibilityRole={own ? "button" : undefined} accessibilityLabel={own ? ar ? "تغيير اسم المستخدم" : "Change username" : undefined} disabled={!own || busy} onPress={() => { setEditing(true); setNotice(""); }} style={{ minHeight: 44, justifyContent: "center" }}>
+                <Txt style={{ fontWeight: "700", color: colors.teal, writingDirection: "ltr" }}>@{p.username}</Txt>
+              </Pressable>
             </View>
           </View>
-          <Txt
-            heading
-            style={{ fontSize: 26, lineHeight: 36, fontWeight: "700" }}
-          >
-            {p.name}
-          </Txt>
-          <Pressable
-            accessibilityRole={own ? "button" : undefined}
-            accessibilityLabel={
-              own ? (ar ? "تغيير اسم المستخدم" : "Change username") : undefined
-            }
-            disabled={!own || busy}
-            onPress={() => {
-              setEditing(true);
-              setNotice("");
-            }}
-            style={{ minHeight: 44, justifyContent: "center" }}
-          >
-            <Txt
-              style={{
-                fontWeight: "700",
-                color: colors.teal,
-                writingDirection: "ltr",
-              }}
-            >
-              @{p.username}
-            </Txt>
-          </Pressable>
+          <View style={{ flexDirection: ar ? "row-reverse" : "row", alignItems: "center", gap: 5 }}>
+            <Icon name={p.is_private ? "lock" : "globe"} size={14} color={colors.muted} />
+            <Txt style={styles.muted}>{p.is_private ? ar ? "حساب خاص" : "Private account" : ar ? "حساب عام" : "Public account"}</Txt>
+          </View>
           {p.bio ? <Txt>{p.bio}</Txt> : null}
           <View
             style={[styles.row, { flexDirection: ar ? "row-reverse" : "row" }]}
