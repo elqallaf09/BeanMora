@@ -20,7 +20,7 @@ async function login(page: Page, ar: boolean) {
   await page.getByLabel(ar ? 'البريد الإلكتروني' : 'Email', { exact: true }).fill(user.email);
   await page.getByLabel(ar ? 'كلمة المرور' : 'Password', { exact: true }).fill('isolated_password');
   await page.getByRole('button', { name: ar ? 'تسجيل الدخول' : 'Sign in', exact: true }).click();
-  await expect(page.getByText(user.email, { exact: true })).toBeVisible();
+  await expect(page.getByTestId("account-screen")).toBeVisible();
 }
 for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: deletion requires confirmation, handles failure and clears only this account`, async ({ page }, info) => {
   let deleted = false; let calls = 0; let fail = true;
@@ -105,7 +105,7 @@ test('Google uses PKCE, offers account selection and returns to a signed-in acco
   expect(authorization?.searchParams.get('code_challenge_method')).toBe('s256');
   expect(authorization?.searchParams.get('code_challenge')).toBeTruthy();
   await page.getByRole('button', { name: 'Open account', exact: true }).click();
-  await expect(page.getByText(user.email, { exact: true })).toBeVisible();
+  await expect(page.getByTestId("account-screen")).toBeVisible();
 });
 
 test('a disabled Google provider explains the problem without a broken redirect', async ({ page }) => {
@@ -253,5 +253,5 @@ for (const ar of [true, false])
     await save.click();
     await expect(page.getByTestId('password-recovery')).toHaveCount(0);
     expect(updates).toBe(2);
-    await expect(page.getByText(user.email, { exact: true })).toBeVisible();
+    await expect(page.getByTestId("account-screen")).toBeVisible();
   });

@@ -237,36 +237,13 @@ export function AccountScreen({
     return (
       <ScrollView
         testID="account-screen"
+        keyboardShouldPersistTaps="handled"
         contentContainerStyle={[
           styles.content,
-          { width: '100%', maxWidth: 900, alignSelf: 'center', gap: 20 },
+          { width: '100%', maxWidth: 1280, alignSelf: 'center', gap: 16 },
         ]}
       >
-        <View
-          style={[
-            styles.row,
-            {
-              justifyContent: 'space-between',
-              flexDirection: ar ? 'row-reverse' : 'row',
-            },
-          ]}
-        >
-          <View style={{ gap: 3, flex: 1 }}>
-            <Txt heading style={styles.title}>
-              {t.account}
-            </Txt>
-            <Txt style={[styles.muted, { writingDirection: 'ltr' }]}>
-              {session.user.email}
-            </Txt>
-          </View>
-          <Action
-            compact
-            title={ar ? 'الإعدادات' : 'Settings'}
-            onPress={settings}
-          />
-        </View>
         {profileContent}
-        <AppVersion />
       </ScrollView>
     );
   return (

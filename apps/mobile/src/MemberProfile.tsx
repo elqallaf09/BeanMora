@@ -9,9 +9,21 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { randomUUID } from "expo-crypto";
 import { supabase } from "./client";
-import { Action, Field, Icon, Language, Txt, styles, colors } from "./ui";
+import {
+  Action,
+  Field,
+  Icon,
+  Language,
+  Txt,
+  styles,
+  colors,
+  type IconName,
+} from "./ui";
 import { AvatarEditor } from "./AvatarEditor";
 import { MemberAvatar } from "./MemberAvatar";
+import { ProfileCover } from "./ProfileCover";
+import { TabRail } from "./TabRail";
+import { SelectionMenu } from "./SelectionMenu";
 import { categoryLabel } from "./catalog";
 import { catalogName, methodLabel } from "./localizedContent";
 import { useContentMedia } from "./useContentMedia";
@@ -182,19 +194,21 @@ function CollectionPhoto({
   status,
   name,
   bean = false,
+  large = false,
 }: {
   url?: string | null;
   status?: string | null;
   name: string;
   bean?: boolean;
+  large?: boolean;
 }) {
   const allowed = ["source_linked", "rights_confirmed"].includes(status ?? "");
   const resolved = useContentMedia(allowed ? (url ?? null) : null);
   return (
-    <View style={{ width: 94, flexShrink: 0 }}>
+    <View style={{ width: large ? 180 : 88, flexShrink: 0 }}>
       <CatalogPhoto
         uri={safeUrl(resolved)}
-        height={90}
+        height={large ? 168 : 88}
         icon={bean ? "bean" : "gear"}
         alt={name}
       />
@@ -231,20 +245,6 @@ export function MemberProfile({
     [tab, setTab] = useState("equipment"),
     [editing, setEditing] = useState(false);
   const [notice, setNotice] = useState("");
-  const sectionScroll = useRef<ScrollView>(null);
-  const sectionViewport = useRef(0);
-  const sectionLayouts = useRef<Record<string, { x: number; width: number }>>(
-    {},
-  );
-  const revealSection = () => {
-    const layout = sectionLayouts.current[tab];
-    if (layout && sectionViewport.current)
-      sectionScroll.current?.scrollTo({
-        x: Math.max(0, layout.x - (sectionViewport.current - layout.width) / 2),
-        animated: false,
-      });
-  };
-  useEffect(revealSection, [tab, ar, width]);
   const [draft, setDraft] = useState({
     name: "",
     username: "",
@@ -366,7 +366,7 @@ export function MemberProfile({
   const { profile: p } = data,
     own = data.is_owner;
   const sections = [
-    ["equipment", "معدات القهوة", "Equipment"],
+    ["equipment", "المعدات", "Equipment"],
     ["beans", "البن", "Coffee"],
     ["recipes", "الوصفات", "Recipes"],
     ["favorites", "الوصفات المفضلة", "Favorite recipes"],
@@ -375,27 +375,25 @@ export function MemberProfile({
     ["followers", "المتابعون", "Followers"],
     ["following", "أتابع", "Following"],
   ];
+  const wide = width >= 700;
+  const avatarSize = wide ? 112 : 80;
+  const extraSections = sections.slice(3);
+  const selectedExtra = extraSections.find((section) => section[0] === tab);
+  const selectSection = (key: string) => {
+    setTab(key);
+    setEditing(false);
+  };
   return (
     <View style={{ gap: 16 }} testID="member-profile">
-      <View style={[styles.card, { padding: 0, gap: 0, overflow: "hidden" }]}>
-        <View
-          style={{
-            height: 64,
-            backgroundColor: colors.chip,
-            padding: 16,
-            alignItems: ar ? "flex-start" : "flex-end",
-          }}
-        >
-          <Txt style={{ fontSize: 18, fontWeight: "700", color: colors.teal }}>
-            coffeeHO
-          </Txt>
-        </View>
-        <View style={{ padding: 16, paddingTop: 0, gap: 10 }}>
+      <View testID="profile-identity" style={{ gap: 8 }}>
+        <ProfileCover compact={!wide} />
+        <View style={{ paddingHorizontal: wide ? 20 : 10, gap: 8 }}>
           <View
             style={{
-              marginTop: -20,
+              marginTop: wide ? -52 : -32,
               flexDirection: ar ? "row-reverse" : "row",
-              alignItems: "center",
+              alignItems: "flex-end",
+              justifyContent: "space-between",
               gap: 12,
             }}
           >
@@ -405,6 +403,7 @@ export function MemberProfile({
                 owner={userId}
                 name={p.name}
                 url={p.avatar_url}
+                size={avatarSize}
                 saved={(url) => {
                   setData((current) =>
                     current
@@ -420,16 +419,98 @@ export function MemberProfile({
                 }}
               />
             ) : (
-              <MemberAvatar name={p.name} url={p.avatar_url} size={64} />
-            )}
-            <View style={{ flex: 1, minWidth: 0, paddingTop: 16 }}>
-              <Txt
-                heading
-                numberOfLines={2}
-                style={{ fontSize: 23, lineHeight: 31, fontWeight: "700" }}
+              <View
+                style={{
+                  borderWidth: 4,
+                  borderColor: colors.cream,
+                  borderRadius: avatarSize / 2 + 4,
+                }}
               >
-                {p.name}
-              </Txt>
+                <MemberAvatar
+                  name={p.name}
+                  url={p.avatar_url}
+                  size={avatarSize}
+                />
+              </View>
+            )}
+            <View style={{ maxWidth: wide ? 240 : "62%", paddingBottom: 6 }}>
+              {own ? (
+                <ProfileAction
+                  title={ar ? "تعديل الملف" : "Edit profile"}
+                  icon="edit"
+                  disabled={busy}
+                  onPress={() => {
+                    setEditing((v) => !v);
+                    setNotice("");
+                  }}
+                />
+              ) : (
+                <ProfileAction
+                  selected
+                  disabled={busy}
+                  title={
+                    data.relationship === "accepted"
+                      ? ar
+                        ? "إلغاء المتابعة"
+                        : "Unfollow"
+                      : data.relationship === "pending"
+                        ? ar
+                          ? "إلغاء طلب المتابعة"
+                          : "Cancel follow request"
+                        : ar
+                          ? "متابعة"
+                          : "Follow"
+                  }
+                  onPress={() => {
+                    if (!userId) {
+                      login();
+                      return;
+                    }
+                    void run(async () => {
+                      await changeMemberFollow(
+                        supabase!,
+                        userId,
+                        p.id,
+                        data.relationship,
+                      );
+                      setRevision((n) => n + 1);
+                    });
+                  }}
+                />
+              )}
+            </View>
+          </View>
+          <View
+            style={{
+              gap: 2,
+              minWidth: 0,
+              marginTop: wide ? -58 : 0,
+              ...(wide
+                ? ar
+                  ? { marginRight: avatarSize + 24, marginLeft: 260 }
+                  : { marginLeft: avatarSize + 24, marginRight: 260 }
+                : {}),
+            }}
+          >
+            <Txt
+              heading
+              numberOfLines={2}
+              style={{
+                fontSize: wide ? 26 : 22,
+                lineHeight: wide ? 34 : 30,
+                fontWeight: "700",
+              }}
+            >
+              {p.name}
+            </Txt>
+            <View
+              style={{
+                flexDirection: ar ? "row-reverse" : "row",
+                alignItems: "center",
+                flexWrap: "wrap",
+                gap: 10,
+              }}
+            >
               <Pressable
                 accessibilityRole={own ? "button" : undefined}
                 accessibilityLabel={
@@ -444,9 +525,15 @@ export function MemberProfile({
                   setEditing(true);
                   setNotice("");
                 }}
-                style={{ minHeight: 44, justifyContent: "center" }}
+                style={{
+                  minHeight: 44,
+                  justifyContent: "center",
+                  minWidth: 0,
+                  maxWidth: "100%",
+                }}
               >
                 <Txt
+                  numberOfLines={1}
                   style={{
                     fontWeight: "700",
                     color: colors.teal,
@@ -456,89 +543,51 @@ export function MemberProfile({
                   @{p.username}
                 </Txt>
               </Pressable>
+              <View
+                style={{
+                  flexDirection: ar ? "row-reverse" : "row",
+                  alignItems: "center",
+                  gap: 5,
+                }}
+              >
+                <Icon
+                  name={p.is_private ? "lock" : "globe"}
+                  size={14}
+                  color={colors.muted}
+                />
+                <Txt style={styles.muted}>
+                  {p.is_private
+                    ? ar
+                      ? "حساب خاص"
+                      : "Private account"
+                    : ar
+                      ? "حساب عام"
+                      : "Public account"}
+                </Txt>
+              </View>
             </View>
+            {p.bio ? <Txt numberOfLines={3}>{p.bio}</Txt> : null}
           </View>
           <View
             style={{
               flexDirection: ar ? "row-reverse" : "row",
+              gap: 14,
               alignItems: "center",
-              gap: 5,
+              flexWrap: "wrap",
             }}
           >
-            <Icon
-              name={p.is_private ? "lock" : "globe"}
-              size={14}
-              color={colors.muted}
+            <ProfileCount
+              count={data.follower_count}
+              label={ar ? "متابع" : "followers"}
+              onPress={() => selectSection("followers")}
             />
-            <Txt style={styles.muted}>
-              {p.is_private
-                ? ar
-                  ? "حساب خاص"
-                  : "Private account"
-                : ar
-                  ? "حساب عام"
-                  : "Public account"}
-            </Txt>
-          </View>
-          {p.bio ? <Txt>{p.bio}</Txt> : null}
-          <View
-            style={[styles.row, { flexDirection: ar ? "row-reverse" : "row" }]}
-          >
-            <Action
-              compact
-              title={`${data.follower_count} ${ar ? "متابع" : "followers"}`}
-              onPress={() => setTab("followers")}
-            />
-            <Action
-              compact
-              title={`${data.following_count} ${ar ? "أتابع" : "following"}`}
-              onPress={() => setTab("following")}
+            <Txt style={styles.muted}>·</Txt>
+            <ProfileCount
+              count={data.following_count}
+              label={ar ? "أتابع" : "following"}
+              onPress={() => selectSection("following")}
             />
           </View>
-          {own ? (
-            <Action
-              title={ar ? "تعديل الملف والخصوصية" : "Edit profile and privacy"}
-              selected
-              disabled={busy}
-              onPress={() => {
-                setEditing((v) => !v);
-                setNotice("");
-              }}
-            />
-          ) : (
-            <Action
-              selected
-              disabled={busy}
-              title={
-                data.relationship === "accepted"
-                  ? ar
-                    ? "إلغاء المتابعة"
-                    : "Unfollow"
-                  : data.relationship === "pending"
-                    ? ar
-                      ? "إلغاء طلب المتابعة"
-                      : "Cancel follow request"
-                    : ar
-                      ? "متابعة"
-                      : "Follow"
-              }
-              onPress={() => {
-                if (!userId) {
-                  login();
-                  return;
-                }
-                void run(async () => {
-                  await changeMemberFollow(
-                    supabase!,
-                    userId,
-                    p.id,
-                    data.relationship,
-                  );
-                  setRevision((n) => n + 1);
-                });
-              }}
-            />
-          )}
         </View>
       </View>
       {notice ? (
@@ -709,10 +758,12 @@ export function MemberProfile({
       ) : (
         <>
           <View
+            testID="profile-stats"
             style={{
               flexDirection: ar ? "row-reverse" : "row",
-              flexWrap: "wrap",
-              gap: 10,
+              borderTopWidth: 1,
+              borderBottomWidth: 1,
+              borderColor: colors.line,
             }}
           >
             {(
@@ -742,165 +793,215 @@ export function MemberProfile({
                   "eye",
                 ],
               ] as const
-            ).map(([key, count, label, icon]) => (
+            ).map(([key, count, label, icon], index) => (
               <Pressable
                 key={key}
                 accessibilityRole="button"
                 accessibilityLabel={label + " (" + count + ")"}
-                onPress={() => setTab(key)}
-                style={[
-                  styles.card,
-                  {
-                    flexGrow: 1,
-                    flexBasis: width >= 700 ? "21%" : "44%",
-                    padding: 14,
-                    gap: 6,
-                  },
-                ]}
+                onPress={() => selectSection(key)}
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  minHeight: 72,
+                  justifyContent: "center",
+                  paddingVertical: 10,
+                  paddingHorizontal: wide ? 16 : 4,
+                  gap: 4,
+                }}
               >
                 <View
                   style={{
                     flexDirection: ar ? "row-reverse" : "row",
-                    justifyContent: "space-between",
+                    justifyContent: "center",
                     alignItems: "center",
+                    gap: wide ? 12 : 6,
+                    ...(wide && index < 3
+                      ? {
+                          borderLeftWidth: ar ? 1 : 0,
+                          borderRightWidth: ar ? 0 : 1,
+                          borderColor: colors.line,
+                        }
+                      : {}),
                   }}
                 >
                   <Icon name={icon} size={22} color={colors.teal} />
+                  {wide ? (
+                    <Txt style={[styles.muted, { flexShrink: 1 }]}>{label}</Txt>
+                  ) : null}
                   <Txt
-                    style={{ fontSize: 24, lineHeight: 30, fontWeight: "700" }}
+                    style={{ fontSize: 22, lineHeight: 28, fontWeight: "700" }}
                   >
                     {count}
                   </Txt>
                 </View>
-                <Txt style={styles.muted}>{label}</Txt>
+                {!wide ? (
+                  <Txt
+                    numberOfLines={2}
+                    style={[
+                      styles.muted,
+                      { textAlign: "center", fontSize: 11, lineHeight: 16 },
+                    ]}
+                  >
+                    {label}
+                  </Txt>
+                ) : null}
               </Pressable>
             ))}
           </View>
-          <ScrollView
-            ref={sectionScroll}
+          <View
             testID="profile-sections"
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={{ flexGrow: 0 }}
-            onLayout={(event) => {
-              sectionViewport.current = event.nativeEvent.layout.width;
-              revealSection();
-            }}
-            onContentSizeChange={revealSection}
-            contentContainerStyle={{
+            style={{
               flexDirection: ar ? "row-reverse" : "row",
-              gap: 6,
-              paddingVertical: 4,
+              alignItems: "stretch",
+              borderBottomWidth: 1,
+              borderColor: colors.line,
             }}
           >
-            {sections.map((s) => (
+            <View style={{ flex: 3, minWidth: 0 }}>
+              <TabRail
+                equal
+                value={tab}
+                onChange={selectSection}
+                items={sections.slice(0, 3).map((section) => ({
+                  id: section[0],
+                  label: section[ar ? 1 : 2],
+                }))}
+              />
+            </View>
+            <View
+              style={{
+                flex: 1,
+                minWidth: 0,
+                justifyContent: "center",
+                borderBottomWidth: 3,
+                borderBottomColor: selectedExtra ? colors.teal : "transparent",
+              }}
+            >
+              <SelectionMenu
+                compact
+                label={ar ? "المزيد" : "More"}
+                accessibilityLabel={
+                  ar ? "المزيد من أقسام الحساب" : "More profile sections"
+                }
+                value={tab}
+                items={extraSections.map((section) => ({
+                  id: section[0],
+                  name: section[ar ? 1 : 2],
+                }))}
+                onChange={selectSection}
+              />
+            </View>
+          </View>
+          {selectedExtra ? (
+            <Txt heading style={styles.subtitle}>
+              {selectedExtra[ar ? 1 : 2]}
+            </Txt>
+          ) : null}
+          {tab === "equipment" ? (
+            <View style={{ gap: 14 }}>
               <View
-                key={s[0]}
-                onLayout={(event) => {
-                  sectionLayouts.current[s[0]] = event.nativeEvent.layout;
-                  if (tab === s[0]) revealSection();
+                testID="profile-collection"
+                style={{
+                  flexDirection: wide ? (ar ? "row-reverse" : "row") : "column",
+                  gap: 14,
                 }}
               >
-                <Action
-                  compact
-                  title={s[ar ? 1 : 2]}
-                  selected={tab === s[0]}
-                  onPress={() => setTab(s[0])}
-                />
+                <View style={{ flex: 1, minWidth: 0, gap: 12 }}>
+                  {data.equipment?.map((e) => (
+                    <CollectionCard
+                      key={e.id}
+                      name={
+                        ar ? e.name_ar || catalogName(e.name, "ar") : e.name
+                      }
+                      subtitle={categoryLabel(e.category, locale)}
+                      note={e.operation?.[ar ? 0 : 1]}
+                      url={e.image_url}
+                      status={e.image_usage_status}
+                      large={wide}
+                      onPress={() => {
+                        if (e.equipment_model_id)
+                          openItem("equipment", e.equipment_model_id);
+                        else if (own) manage("equipment");
+                      }}
+                      manage={own ? () => manage("equipment") : undefined}
+                    />
+                  ))}
+                  {!data.equipment?.length ? <Empty ar={ar} /> : null}
+                </View>
+                {wide && data.beans?.[0] ? (
+                  <View
+                    testID="profile-bean-preview"
+                    style={{ flex: 0.62, minWidth: 0, gap: 8 }}
+                  >
+                    <CollectionCard
+                      bean
+                      large={width >= 1100}
+                      name={
+                        ar
+                          ? data.beans[0].name_ar ||
+                            catalogName(data.beans[0].name_en, "ar")
+                          : data.beans[0].name_en || data.beans[0].name_ar
+                      }
+                      subtitle={ar ? "من أكياس البن" : "From my coffee bags"}
+                      url={data.beans[0].image_url}
+                      status={data.beans[0].image_usage_status}
+                      onPress={() =>
+                        openItem(data.beans![0].kind, data.beans![0].coffee_id)
+                      }
+                      manage={own ? () => manage("bags") : undefined}
+                    />
+                    <Pressable
+                      accessibilityRole="button"
+                      accessibilityLabel={
+                        ar ? "عرض كل البن" : "View all coffee"
+                      }
+                      onPress={() => selectSection("beans")}
+                      style={{ minHeight: 44, justifyContent: "center" }}
+                    >
+                      <Txt style={{ color: colors.teal, fontSize: 13 }}>
+                        {ar ? "عرض كل البن" : "View all coffee"}
+                      </Txt>
+                    </Pressable>
+                  </View>
+                ) : null}
               </View>
-            ))}
-          </ScrollView>
-          {tab === "equipment" ? (
-            <View style={{ gap: 10 }}>
               {own ? (
-                <Action
-                  title={ar ? "إدارة معداتي" : "Manage my equipment"}
+                <ProfileAction
+                  dashed
+                  title={ar ? "إضافة معدة" : "Add equipment"}
+                  icon="plus"
                   onPress={() => manage("equipment")}
                 />
               ) : null}
-              {data.equipment?.map((e) => (
-                <Pressable
-                  key={e.id}
-                  accessibilityRole="button"
-                  onPress={() => {
-                    if (e.equipment_model_id)
-                      openItem("equipment", e.equipment_model_id);
-                  }}
-                  style={[
-                    styles.card,
-                    {
-                      padding: 14,
-                      gap: 14,
-                      flexDirection: ar ? "row-reverse" : "row",
-                      alignItems: "center",
-                    },
-                  ]}
-                >
-                  <CollectionPhoto
-                    url={e.image_url}
-                    status={e.image_usage_status}
-                    name={ar ? e.name_ar || catalogName(e.name, "ar") : e.name}
-                  />
-                  <View style={{ flex: 1, minWidth: 0, gap: 5 }}>
-                    <Txt heading>
-                      {ar ? e.name_ar || catalogName(e.name, "ar") : e.name}
-                    </Txt>
-                    <Txt>{categoryLabel(e.category, locale)}</Txt>
-                    {e.operation ? (
-                      <Txt style={styles.muted}>{e.operation[ar ? 0 : 1]}</Txt>
-                    ) : null}
-                  </View>
-                </Pressable>
-              ))}
-              {!data.equipment?.length ? <Empty ar={ar} /> : null}
             </View>
           ) : null}
           {tab === "beans" ? (
             <View style={{ gap: 10 }}>
-              {own ? (
-                <Action
-                  title={ar ? "إدارة أكياسي" : "Manage my bags"}
-                  onPress={() => manage("bags")}
-                />
-              ) : null}
               {data.beans?.map((b) => (
-                <Pressable
+                <CollectionCard
                   key={b.id}
-                  accessibilityRole="button"
-                  accessibilityLabel={
+                  bean
+                  name={
                     ar
                       ? b.name_ar || catalogName(b.name_en, "ar")
                       : b.name_en || b.name_ar
                   }
+                  url={b.image_url}
+                  status={b.image_usage_status}
+                  large={wide}
                   onPress={() => openItem(b.kind, b.coffee_id)}
-                  style={[
-                    styles.card,
-                    {
-                      padding: 14,
-                      gap: 14,
-                      flexDirection: ar ? "row-reverse" : "row",
-                      alignItems: "center",
-                    },
-                  ]}
-                >
-                  <CollectionPhoto
-                    bean
-                    url={b.image_url}
-                    status={b.image_usage_status}
-                    name={
-                      ar
-                        ? b.name_ar || catalogName(b.name_en, "ar")
-                        : b.name_en || b.name_ar
-                    }
-                  />
-                  <Txt heading style={{ flex: 1 }}>
-                    {ar
-                      ? b.name_ar || catalogName(b.name_en, "ar")
-                      : b.name_en || b.name_ar}
-                  </Txt>
-                </Pressable>
+                  manage={own ? () => manage("bags") : undefined}
+                />
               ))}
               {!data.beans?.length ? <Empty ar={ar} /> : null}
+              {own ? (
+                <ProfileAction
+                  dashed
+                  title={ar ? "إدارة أكياسي" : "Manage my bags"}
+                  icon="bean"
+                  onPress={() => manage("bags")}
+                />
+              ) : null}
             </View>
           ) : null}
           {tab === "recipes" || tab === "favorites" ? (
@@ -1105,13 +1206,183 @@ export function MemberProfile({
               {!data.photos?.length ? <Empty ar={ar} /> : null}
             </View>
           ) : null}
-          <Txt style={styles.muted}>
-            {ar
-              ? "تعرض الأقسام أحدث ١٠٠ عنصر متاح للعرض."
-              : "Sections show the latest 100 visible items."}
-          </Txt>
         </>
       )}
+    </View>
+  );
+}
+function ProfileAction({
+  title,
+  icon,
+  onPress,
+  selected = false,
+  disabled = false,
+  dashed = false,
+}: {
+  title: string;
+  icon?: IconName;
+  onPress: () => void;
+  selected?: boolean;
+  disabled?: boolean;
+  dashed?: boolean;
+}) {
+  const ar = useContext(Language) === "ar";
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={title}
+      accessibilityState={{ disabled }}
+      disabled={disabled}
+      onPress={onPress}
+      style={({ pressed }) => ({
+        minHeight: dashed ? 52 : 44,
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderRadius: 14,
+        borderWidth: 1,
+        borderStyle: dashed ? "dashed" : "solid",
+        borderColor: selected ? colors.teal : colors.line,
+        backgroundColor: selected ? colors.teal : colors.paper,
+        flexDirection: ar ? "row-reverse" : "row",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 8,
+        opacity: disabled || pressed ? 0.55 : 1,
+      })}
+    >
+      {icon ? (
+        <Icon
+          name={icon}
+          size={20}
+          color={selected ? "#FFF" : dashed ? colors.teal : colors.ink}
+        />
+      ) : null}
+      <Txt
+        style={{
+          color: selected ? "#FFF" : dashed ? colors.teal : colors.ink,
+          fontWeight: "700",
+          fontSize: 14,
+          textAlign: "center",
+          flexShrink: 1,
+        }}
+      >
+        {title}
+      </Txt>
+    </Pressable>
+  );
+}
+function ProfileCount({
+  count,
+  label,
+  onPress,
+}: {
+  count: number;
+  label: string;
+  onPress: () => void;
+}) {
+  const ar = useContext(Language) === "ar";
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`${count} ${label}`}
+      onPress={onPress}
+      style={{
+        minHeight: 44,
+        flexDirection: ar ? "row-reverse" : "row",
+        gap: 6,
+        alignItems: "center",
+      }}
+    >
+      <Txt style={{ fontWeight: "700", writingDirection: "ltr" }}>{count}</Txt>
+      <Txt style={styles.muted}>{label}</Txt>
+    </Pressable>
+  );
+}
+function CollectionCard({
+  name,
+  subtitle,
+  note,
+  url,
+  status,
+  bean = false,
+  large = false,
+  onPress,
+  manage,
+}: {
+  name: string;
+  subtitle?: string;
+  note?: string;
+  url?: string | null;
+  status?: string | null;
+  bean?: boolean;
+  large?: boolean;
+  onPress: () => void;
+  manage?: () => void;
+}) {
+  const ar = useContext(Language) === "ar";
+  return (
+    <View style={[styles.card, { padding: 14, marginBottom: 0, gap: 0 }]}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={name}
+        onPress={onPress}
+        style={{
+          minHeight: large ? 168 : 94,
+          flexDirection: ar ? "row-reverse" : "row",
+          alignItems: "center",
+          gap: 14,
+        }}
+      >
+        <CollectionPhoto
+          name={name}
+          url={url}
+          status={status}
+          bean={bean}
+          large={large}
+        />
+        <View style={{ flex: 1, minWidth: 0, gap: 6 }}>
+          <Txt
+            heading
+            numberOfLines={3}
+            style={{
+              fontSize: large ? 20 : 16,
+              lineHeight: large ? 28 : 24,
+              fontWeight: "700",
+            }}
+          >
+            {name}
+          </Txt>
+          {subtitle ? <Txt style={styles.muted}>{subtitle}</Txt> : null}
+          {note ? <Txt style={styles.muted}>{note}</Txt> : null}
+        </View>
+      </Pressable>
+      {manage ? (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={
+            bean
+              ? ar
+                ? "إدارة أكياسي"
+                : "Manage my bags"
+              : ar
+                ? "إدارة معداتي"
+                : "Manage my equipment"
+          }
+          onPress={manage}
+          style={{
+            alignSelf: ar ? "flex-start" : "flex-end",
+            minHeight: 44,
+            minWidth: 44,
+            alignItems: "center",
+            justifyContent: "center",
+            borderWidth: 1,
+            borderColor: colors.line,
+            borderRadius: 12,
+          }}
+        >
+          <Icon name="edit" size={18} color={colors.ink} />
+        </Pressable>
+      ) : null}
     </View>
   );
 }

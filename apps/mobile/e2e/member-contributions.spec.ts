@@ -49,7 +49,7 @@ async function signedIn(page: Page) {
     .getByLabel("Password", { exact: true })
     .fill("isolated-fixture-password");
   await page.getByRole("button", { name: "Sign in", exact: true }).click();
-  await expect(page.getByText(user.email, { exact: true })).toBeVisible();
+  await expect(page.getByTestId("account-screen")).toBeVisible();
 }
 async function more(page: Page, name: string) {
   await page.getByRole("button", { name: "More", exact: true }).click();

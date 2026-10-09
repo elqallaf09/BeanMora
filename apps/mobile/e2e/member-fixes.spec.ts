@@ -1,6 +1,7 @@
 import { test, expect, type Page, type Route } from "@playwright/test";
 import { openRecipeLibrary, chooseMethod } from "./navigation";
 import { setLanguage } from "./settings";
+import { selectProfileExtra } from "./profile-navigation";
 const user = {
   id: "33333333-3333-4333-8333-333333333333",
   aud: "authenticated",
@@ -287,9 +288,7 @@ test("account save retries a committed request, survives reopening and appears i
   expect(saves[1]).toEqual(saves[0]);
   await page.reload();
   await page.getByRole("button", { name: "Account", exact: true }).click();
-  await page
-    .getByRole("button", { name: "Favorite recipes", exact: true })
-    .click();
+  await selectProfileExtra(page, "Favorite recipes");
   await expect(
     page.getByRole("button", { name: recipe.title, exact: true }),
   ).toBeVisible();

@@ -1,5 +1,6 @@
 import { expect, test, type Page, type Route } from "@playwright/test";
 import { setLanguage } from "./settings";
+import { selectProfileExtra } from "./profile-navigation";
 
 // Only isolated fixture accounts and email endpoints are used in this suite.
 const uid = "11111111-1111-4111-8111-111111111111";
@@ -23,7 +24,7 @@ const enc = (value: object) =>
   Buffer.from(JSON.stringify(value)).toString("base64url");
 async function fixtures(
   page: Page,
-  options: { nonce?: boolean; arabic?: boolean } = {},
+  options: { nonce?: boolean; arabic?: boolean; collection?: boolean } = {},
 ) {
   let user = {
     id: uid,
@@ -74,6 +75,17 @@ async function fixtures(
       },
       body: JSON.stringify(data),
     });
+  if (options.collection)
+    await page.route("https://account-photo-fixture.test/**", (route) =>
+      route.fulfill({
+        path:
+          "assets/images/" +
+          (route.request().url().endsWith("grinder.jpg")
+            ? "grinder.jpg"
+            : "coffee-bag.jpg"),
+        contentType: "image/jpeg",
+      }),
+    );
   await page.route("https://mobilefixture.supabase.co/**", (route) => {
     const url = new URL(route.request().url()),
       p = url.pathname,
@@ -196,8 +208,33 @@ async function fixtures(
         follower_count: 2,
         following_count: 1,
         relationship: null,
-        equipment: [],
-        beans: [],
+        equipment: options.collection
+          ? [
+              {
+                id: "fixture-equipment",
+                equipment_model_id: null,
+                category: "grinder",
+                name: "Fixture grinder",
+                name_ar: "طاحونة تجريبية",
+                operation: ["يدوية", "Manual"],
+                image_url: "https://account-photo-fixture.test/grinder.jpg",
+                image_usage_status: "source_linked",
+              },
+            ]
+          : [],
+        beans: options.collection
+          ? [
+              {
+                id: "fixture-bag",
+                coffee_id: bean.id,
+                kind: "bean",
+                name_en: "Fixture coffee",
+                name_ar: "بن التجربة",
+                image_url: "https://account-photo-fixture.test/coffee-bag.jpg",
+                image_usage_status: "source_linked",
+              },
+            ]
+          : [],
         recipes: [],
         favorites: [],
         comments: [],
@@ -270,9 +307,7 @@ async function signIn(page: Page) {
   await page.getByLabel("Email", { exact: true }).fill("owner@example.test");
   await page.getByLabel("Password", { exact: true }).fill("correct-current");
   await page.getByRole("button", { name: "Sign in", exact: true }).click();
-  await expect(
-    page.getByText("owner@example.test", { exact: true }),
-  ).toBeVisible();
+  await expect(page.getByTestId("account-screen")).toBeVisible();
   await expect(page.getByTestId("member-profile")).toBeVisible();
 }
 test("email stays unchanged until confirmation and wrong current password blocks mutation", async ({
@@ -437,7 +472,7 @@ for (const width of [320, 800, 1536])
     await expect(page.getByTestId("member-profile")).toBeVisible();
     const sections = page.getByTestId("profile-sections");
     await expect(
-      sections.getByRole("button", { name: "معدات القهوة", exact: true }),
+      sections.getByRole("button", { name: "المعدات", exact: true }),
     ).toBeInViewport({ ratio: 1 });
     await page.getByRole("button", { name: "وصفاتي (0)", exact: true }).click();
     await expect(
@@ -703,3 +738,158 @@ test("a guest can read comments and is asked to sign in when interacting", async
     .click();
   await expect(page.getByLabel("Email", { exact: true })).toBeVisible();
 });
+
+for (const scenario of [
+  { width: 320, ar: true, dark: false },
+  { width: 800, ar: true, dark: true },
+  { width: 1536, ar: true, dark: false },
+  { width: 320, ar: false, dark: true },
+])
+  test(`approved social profile retains collection and extra-section actions (${scenario.width}, ${scenario.ar ? "ar" : "en"}, ${scenario.dark ? "dark" : "light"})`, async ({
+    page,
+  }, info) => {
+    const { width, ar, dark } = scenario;
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.setViewportSize({ width, height: 1100 });
+    const f = await fixtures(page, { arabic: ar, collection: true });
+    if (!ar) {
+      f.profile.name = "Coffee enthusiast with a longer display name";
+      f.profile.username = "coffee_owner_with_long_handle";
+    }
+    await signIn(page);
+    await setLanguage(page, ar ? "ar" : "en");
+    if (dark) {
+      await page
+        .getByRole("button", {
+          name: ar ? "الإعدادات" : "Settings",
+          exact: true,
+        })
+        .first()
+        .click();
+      const settings = page.getByTestId("settings-screen");
+      await settings
+        .getByRole("button", { name: ar ? "ليلي" : "Dark", exact: true })
+        .click();
+      await settings
+        .getByRole("button", { name: ar ? "تم" : "Done", exact: true })
+        .click();
+    }
+    const profile = page.getByTestId("member-profile");
+    await expect(page.getByTestId("profile-cover")).toBeVisible();
+    const photo = profile.getByRole("img", {
+      name: ar ? "طاحونة تجريبية" : "Fixture grinder",
+      exact: true,
+    });
+    await expect(photo).toBeVisible();
+    await expect
+      .poll(() => photo.evaluate((el) => (el as HTMLImageElement).naturalWidth))
+      .toBeGreaterThan(1);
+    await expect(
+      page.getByTestId("profile-stats").getByRole("button"),
+    ).toHaveCount(4);
+    await expect(
+      page.getByTestId("profile-sections").getByRole("button"),
+    ).toHaveCount(4);
+    const edit = profile.getByRole("button", {
+      name: ar ? "تعديل الملف" : "Edit profile",
+      exact: true,
+    });
+    expect((await edit.boundingBox())!.width).toBeLessThan(width * 0.75);
+    for (const button of await page
+      .getByTestId("profile-sections")
+      .getByRole("button")
+      .all()) {
+      const box = (await button.boundingBox())!;
+      expect(box.height).toBeGreaterThanOrEqual(44);
+      expect(box.x).toBeGreaterThanOrEqual(0);
+      expect(box.x + box.width).toBeLessThanOrEqual(width);
+    }
+    await expect(page.getByTestId("profile-bean-preview")).toHaveCount(
+      width >= 700 ? 1 : 0,
+    );
+    const coffeeHO = page.getByRole("button", {
+      name: "coffeeHO",
+      exact: true,
+    });
+    const brew = page.getByRole("button", {
+      name: ar ? "تحضير" : "Brew",
+      exact: true,
+    });
+    const navBox = (await coffeeHO.boundingBox())!;
+    expect(Math.abs(navBox.x + navBox.width / 2 - width / 2)).toBeLessThan(1);
+    expect((await brew.boundingBox())!.x).toBeGreaterThan(navBox.x);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await expect(photo).toBeInViewport();
+    await expect(coffeeHO).toBeInViewport();
+    await page.waitForTimeout(1000);
+    await page.screenshot({
+      path: info.outputPath(
+        `approved-profile-${width}-${ar ? "ar" : "en"}-${dark ? "dark" : "light"}.png`,
+      ),
+    });
+    await selectProfileExtra(
+      page,
+      ar ? "الوصفات المفضلة" : "Favorite recipes",
+      ar,
+    );
+    await expect(
+      profile.getByRole("heading", {
+        name: ar ? "الوصفات المفضلة" : "Favorite recipes",
+        exact: true,
+      }),
+    ).toBeVisible();
+    await profile
+      .getByRole("button", {
+        name: ar ? "2 متابع" : "2 followers",
+        exact: true,
+      })
+      .click();
+    await expect(
+      profile.getByRole("heading", {
+        name: ar ? "المتابعون" : "Followers",
+        exact: true,
+      }),
+    ).toBeVisible();
+    await profile
+      .getByRole("button", {
+        name: ar ? "أكياس البن (1)" : "Coffee bags (1)",
+        exact: true,
+      })
+      .click();
+    await expect(
+      profile.getByRole("img", {
+        name: ar ? "بن التجربة" : "Fixture coffee",
+        exact: true,
+      }),
+    ).toBeVisible();
+    await edit.click();
+    await expect(
+      page.getByLabel(ar ? "اسم المستخدم" : "Username", { exact: true }),
+    ).toBeVisible();
+    await page
+      .getByRole("button", {
+        name: ar ? "إلغاء التعديل" : "Cancel editing",
+        exact: true,
+      })
+      .click();
+    await page
+      .getByTestId("profile-sections")
+      .getByRole("button", { name: ar ? "المعدات" : "Equipment", exact: true })
+      .click();
+    await profile
+      .getByRole("button", {
+        name: ar ? "إضافة معدة" : "Add equipment",
+        exact: true,
+      })
+      .click();
+    await expect(
+      page.getByRole("button", {
+        name: ar ? "إضافة معدة من الكتالوج" : "Add equipment from catalog",
+        exact: true,
+      }),
+    ).toBeVisible();
+  });

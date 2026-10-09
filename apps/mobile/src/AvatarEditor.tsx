@@ -20,11 +20,13 @@ export function AvatarEditor({
   name,
   url,
   saved,
+  size = 64,
 }: {
   owner: string;
   name: string;
   url: string | null;
   saved: (url: string) => void;
+  size?: number;
 }) {
   const ar = useContext(Language) === "ar";
   const [draft, setDraft] = useState<{
@@ -118,9 +120,13 @@ export function AvatarEditor({
         }
         disabled={busy}
         onPress={() => void choose()}
-        style={{ borderWidth: 4, borderColor: colors.paper, borderRadius: 44 }}
+        style={{
+          borderWidth: 4,
+          borderColor: colors.cream,
+          borderRadius: size / 2 + 4,
+        }}
       >
-        <MemberAvatar name={name} url={url} size={64} />
+        <MemberAvatar name={name} url={url} size={size} />
         <View style={s.badge}>
           <Txt style={{ color: "#FFF", fontSize: 15, lineHeight: 20 }}>+</Txt>
         </View>
