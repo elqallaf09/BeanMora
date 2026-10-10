@@ -145,10 +145,11 @@ test("brew changes coffee without owning a bag, offers all 15 methods and labels
   ).toBeVisible();
   expect(scopes.at(-1)).toBe(secondId);
 });
-test("catalog photos appear and tools rotate automatically while focus keeps the chosen model stable", async ({
+test("catalog photos appear and tools rotate every 30 seconds while focus keeps the chosen model stable", async ({
   page,
 }) => {
   await page.clock.install();
+  await page.clock.pauseAt(new Date());
   await fixture(page);
   await expect(page.getByTestId("coffee-product-photo").first()).toBeVisible();
   const section = page.getByTestId("home-tools");
@@ -158,7 +159,11 @@ test("catalog photos appear and tools rotate automatically while focus keeps the
   const names = await section
     .getByRole("button", { name: /Rotating tool/ })
     .allTextContents();
-  await page.clock.runFor(3500);
+  await page.clock.runFor(29_000);
+  expect(
+    await section.getByRole("button", { name: /Rotating tool/ }).allTextContents(),
+  ).toEqual(names);
+  await page.clock.runFor(1500);
   await expect
     .poll(() =>
       section.getByRole("button", { name: /Rotating tool/ }).allTextContents(),
@@ -169,7 +174,7 @@ test("catalog photos appear and tools rotate automatically while focus keeps the
   const paused = await section
     .getByRole("button", { name: /Rotating tool/ })
     .allTextContents();
-  await page.clock.runFor(6500);
+  await page.clock.runFor(30_500);
   expect(
     await section
       .getByRole("button", { name: /Rotating tool/ })

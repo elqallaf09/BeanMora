@@ -42,7 +42,7 @@ export function useRotatingPicks(count: number, pageSize: number) {
           isInteraction: false,
         }).start();
       });
-    }, 3000);
+    }, 30_000);
     return () => {
       active = false;
       clearInterval(timer);
