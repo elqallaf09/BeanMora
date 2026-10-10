@@ -82,16 +82,24 @@ for (const locale of ['ar', 'en'] as const) {
     await followLink(page,`/${locale}/discover`);
     await expect(page.getByRole('heading',{name:m.nav.discover,exact:true})).toBeVisible();
     await noOverflow(page);
+    // Keep each direct URL check in a fresh document. Navigating discovery to
+    // the removed admin route aborts Next's late prefetches in WebKit.
+    const legacy = await page.context().newPage();
     const denied = await page.context().newPage();
-    denied.on('pageerror', error => errors.get(page)!.push(error.message));
+    for (const direct of [legacy, denied]) {
+      direct.on('pageerror', error => errors.get(page)!.push(error.message));
+    }
     try {
-      await denied.goto(`/${locale}/recommendations`);
-      await expect(denied).toHaveURL(`http://127.0.0.1:3000/${locale}/discover`);
-      await expect(denied.getByRole('heading',{name:m.nav.discover,exact:true})).toBeVisible();
-      await denied.waitForLoadState('networkidle');
+      await legacy.goto(`/${locale}/recommendations`);
+      await expect(legacy).toHaveURL(`http://127.0.0.1:3000/${locale}/discover`);
+      await expect(legacy.getByRole('heading',{name:m.nav.discover,exact:true})).toBeVisible();
+      await legacy.waitForLoadState('networkidle');
       await denied.goto(`/${locale}/admin/import`);
       await expect(denied.getByRole('heading',{name:'404',exact:true})).toBeVisible();
-    } finally { await denied.close(); }
+    } finally {
+      await legacy.close();
+      await denied.close();
+    }
     await page.waitForLoadState('networkidle');
   });
   test(`${locale}: skipped timer has no invented duration or ratings and guest cannot save`, async ({ page }) => {
