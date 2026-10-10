@@ -129,6 +129,7 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup validates befo
     if (path.endsWith('/signup')) {
       signups++;
       expect(route.request().postDataJSON().email).toBe('new@example.test');
+      expect(route.request().postDataJSON().data).toMatchObject({ username: 'new_fixture', country: 'KW', phone: '+96550000000', language: ar ? 'ar' : 'en' });
       return reply(route, { user: { ...user, email: 'new@example.test' }, session: null });
     }
     return reply(route, path.endsWith('/settings') ? { external: { google: true, apple: false } } : []);
@@ -142,6 +143,11 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup validates befo
   await expect(page.getByRole('button', { name: ar ? 'نسيت كلمة المرور؟' : 'Forgot password?' })).toHaveCount(0);
   const submit = page.getByRole('button', { name: ar ? 'إنشاء حساب' : 'Create account', exact: true }).last();
   await expect(submit).toBeDisabled();
+  await page.getByRole('button', { name: ar ? 'الدولة' : 'Country', exact: true }).click();
+  await page.getByLabel(ar ? 'ابحث عن الدولة' : 'Search countries', { exact: true }).fill('Kuwait');
+  await page.getByRole('button', { name: ar ? 'الكويت' : 'Kuwait', exact: true }).click();
+  await page.getByLabel(ar ? 'اسم المستخدم' : 'Username', { exact: true }).fill('new_fixture');
+  await page.getByLabel(ar ? 'رقم الهاتف' : 'Phone number', { exact: true }).fill('+٩٦٥ ٥٠٠٠٠٠٠٠');
   await page.getByLabel(ar ? 'البريد الإلكتروني' : 'Email', { exact: true }).fill('not-an-email');
   await page.getByLabel(ar ? 'كلمة المرور' : 'Password', { exact: true }).fill('fixture-password');
   await page.getByLabel(ar ? 'تأكيد كلمة المرور' : 'Confirm password', { exact: true }).fill('mismatch');

@@ -91,16 +91,16 @@ export function ReviewCard({ item }: { item: AnyRow }) {
           setError(t("errors.saveFailed"));
           return;
         }
-        createdRecipeId = (recipe as AnyRow).id;
+        createdRecipeId = recipe.id;
 
         // Attribution is mandatory — every ingested recipe links back.
-        await supabase.from("recipe_sources").insert({
-          recipe_id: createdRecipeId,
+        const source = await supabase.from("recipe_sources").insert({
+          recipe_id: recipe.id,
+          source_type: "user_submitted",
           source_url: item.url,
-          source_name: item.source_name,
-          author_name: item.author_name,
-          published_at: item.published_at,
+          source_name: [item.source_name, item.author_name].filter(Boolean).join(" — ") || null,
         });
+        if (source.error) { setError(t("errors.saveFailed")); return; }
 
         if (item.extraction_id) {
           await supabase

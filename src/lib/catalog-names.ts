@@ -1,5 +1,5 @@
 import { arabicRecipeTitles } from "./catalog-foreign-titles";
-type Locale = "ar" | "en";
+type Locale = "ar" | "en" | "ja";
 // Display translations never change the source identifier or the stored recipe.
 // Use this only for catalog names and enums, never for a member's own prose.
 const names: Record<string, string> = {
@@ -350,7 +350,7 @@ export function catalogName(
   text: string | null | undefined,
   locale: Locale,
 ): string {
-  if (!text || locale === "en") return text || "";
+  if (!text || locale !== "ar") return text || "";
   if (arabicRecipeTitles[text]) return arabicRecipeTitles[text];
   if (names[text]) return names[text];
   let value = text;

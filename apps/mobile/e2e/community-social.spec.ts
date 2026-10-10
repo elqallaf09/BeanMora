@@ -23,7 +23,7 @@ async function fixture(page: Page, { reviewer = false, expiresSoon = false } = {
   const messages: Record<string, any>[] = expiresSoon ? [{ id: '99999999-9999-4999-8999-999999999999', conversation_id: thread, sender_id: other, kind: 'text', body: 'Short-lived test message', post_id: null, audio_path: null, duration_seconds: null, created_at: date(), expires_at: new Date(Date.now() + 12000).toISOString() }] : [];
   const stories: Record<string, any>[] = [];
   let photos: Record<string, any>[] = [{ id: galleryId, kind: 'extraction', image_url: 'storage://profile-gallery/' + uid + '/initial.png', image_path: uid + '/initial.png', caption: 'Original coffee extraction', created_at: date() }];
-  let audience = 'everyone', allowed = true, failPost = false, failSend = false, failPhoto = false;
+  let audience = 'everyone', allowed = true, blocked = false, failPost = false, failSend = false, failPhoto = false;
   const postWrites: Record<string, any>[] = [], messageWrites: Record<string, any>[] = [], uploads: { bucket: string; path: string; bytes: Buffer }[] = [], profilePostQueries: URLSearchParams[] = [];
   const reply = (r: Route, data: unknown, status = 200) => r.fulfill({ status, contentType: 'application/json', headers: { 'x-supabase-api-version': '2024-01-01', 'access-control-expose-headers': 'x-supabase-api-version' }, body: JSON.stringify(data) });
   await page.route('https://social-photo-fixture.test/**', r => r.fulfill({ contentType: 'image/png', body: png }));
@@ -35,6 +35,8 @@ async function fixture(page: Page, { reviewer = false, expiresSoon = false } = {
     if (p.endsWith('/user')) return reply(r, user);
     if (p === '/storage/v1/object/sign/fixture/coffee.webm') return r.fulfill({ contentType: 'video/webm', body: readFileSync('e2e/fixtures/social-test-video.webm') });
     if (p === '/storage/v1/object/sign/fixture/coffee.mp4') return r.fulfill({ contentType: 'video/mp4', body: readFileSync('e2e/fixtures/social-test-video.mp4') });
+    if (p === '/storage/v1/object/sign/fixture/story.webm') return r.fulfill({ contentType: 'video/webm', body: uploads.find(u => u.bucket === 'coffee-stories')!.bytes });
+    if (p.startsWith('/storage/v1/object/sign/coffee-stories/') && p.endsWith('.webm')) return reply(r, { signedURL: '/object/sign/fixture/story.webm?token=isolated' });
     if (p === '/storage/v1/object/sign/fixture/voice.webm') return r.fulfill({ contentType: 'audio/webm', body: uploads.find(u => u.bucket === 'direct-audio')!.bytes });
     if (p.startsWith('/storage/v1/object/sign/direct-audio/')) return reply(r, { signedURL: '/object/sign/fixture/voice.webm?token=isolated' });
     if (p.startsWith('/storage/v1/object/sign/post-media/') && p.endsWith('.webm')) return reply(r, { signedURL: '/object/sign/fixture/coffee.webm?token=isolated' });
@@ -59,6 +61,14 @@ async function fixture(page: Page, { reviewer = false, expiresSoon = false } = {
     if (p.endsWith('/rpc/start_direct_conversation')) return allowed ? reply(r, thread) : reply(r, { message: 'MESSAGES_CLOSED' }, 403);
     if (p.endsWith('/direct_conversations')) return reply(r, [{ id: thread, user_a: uid, user_b: other, created_at: date() }]);
     if (p.endsWith('/direct_messages')) {
+      if (method === 'PATCH' || method === 'DELETE') {
+        expect(url.searchParams.get('sender_id')).toBe('eq.' + uid);
+        const id = url.searchParams.get('id')?.replace(/^eq\./, ''), row = messages.find(m => m.id === id)!;
+        if (failSend) return reply(r, { message: 'isolated mutation failure' }, 503);
+        if (method === 'PATCH') { row.body = body().body; row.edited_at = date(); }
+        else { const index = messages.indexOf(row); if (index >= 0) messages.splice(index, 1); }
+        return reply(r, { id });
+      }
       if (method === 'POST') {
         const value = body(); messageWrites.push(value);
         if (failSend || !allowed) return reply(r, { message: 'isolated send failure' }, 503);
@@ -66,6 +76,8 @@ async function fixture(page: Page, { reviewer = false, expiresSoon = false } = {
       }
       return reply(r, [...messages].filter(m => Date.parse(m.expires_at) > Date.now()).reverse());
     }
+    if (p.endsWith('/blocks') && method === 'POST') { const duplicate = blocked; blocked = true; allowed = false; return reply(r, failSend ? { message: 'response lost after successful block' } : duplicate ? [] : body(), failSend ? 503 : 200); }
+    if (p.endsWith('/blocks')) { expect(url.searchParams.get('blocker_id')).toBe('eq.' + uid); if (url.searchParams.has('blocked_id')) expect(url.searchParams.get('blocked_id')).toBe('eq.' + other); return reply(r, blocked ? [{ blocker_id: uid, blocked_id: other }] : []); }
     if (p.endsWith('/direct_message_preferences')) {
       if (method === 'POST') audience = body().audience;
       return reply(r, { audience });
@@ -89,14 +101,15 @@ async function fixture(page: Page, { reviewer = false, expiresSoon = false } = {
       return reply(r, rows.slice(0, Number(url.searchParams.get('limit') ?? 60)));
     }
     if (p.endsWith('/coffee_stories')) {
-      if (method === 'POST') { const row = { ...body(), created_at: date(), expires_at: null, review_reason: null }; stories.push(row); return reply(r, { id: row.id }, 201); }
+      if (method === 'POST') { const row = { ...body(), status: 'approved', created_at: date(), expires_at: tomorrow(), review_reason: null, reviewed_at: null }; stories.push(row); return reply(r, { id: row.id }, 201); }
       if (method === 'DELETE') { const id = url.searchParams.get('id')?.replace(/^eq\./, ''); const at = stories.findIndex(s => s.id === id); if (at >= 0) stories.splice(at, 1); return reply(r, { id }); }
       let rows = stories;
       if (url.searchParams.has('user_id')) rows = rows.filter(s => 'eq.' + s.user_id === url.searchParams.get('user_id'));
-      if (url.searchParams.has('status')) rows = rows.filter(s => 'eq.' + s.status === url.searchParams.get('status'));
+      if (url.searchParams.get('status')?.startsWith('eq.')) rows = rows.filter(s => 'eq.' + s.status === url.searchParams.get('status'));
+      if (url.searchParams.get('reviewed_at') === 'is.null') rows = rows.filter(s => !s.reviewed_at);
       return reply(r, rows);
     }
-    if (p.endsWith('/rpc/review_coffee_story')) { const v = body(), row = stories.find(s => s.id === v.p_id)!; row.status = v.p_approve ? 'approved' : 'rejected'; row.review_reason = v.p_reason; row.expires_at = v.p_approve ? tomorrow() : null; return reply(r, v.p_approve ? 'approved' : 'warned'); }
+    if (p.endsWith('/rpc/review_coffee_story')) { const v = body(), row = stories.find(s => s.id === v.p_id)!; row.status = v.p_approve ? 'approved' : 'rejected'; row.review_reason = v.p_reason; row.reviewed_at = date(); return reply(r, v.p_approve ? 'approved' : 'warned'); }
     if (p.endsWith('/social_sanctions')) return reply(r, null);
     if (p.endsWith('/profile_photos')) {
       const id = url.searchParams.get('id')?.replace(/^eq\./, '');
@@ -148,6 +161,26 @@ test('all own posts include private notes; commentary edits preserve legacy phot
   await expect(legacy).toHaveCount(0);
   await page.reload(); await page.getByRole('button', { name: 'Account', exact: true }).click(); await page.getByTestId('profile-sections').getByRole('button', { name: 'Posts', exact: true }).click();
   await expect(legacy).toHaveCount(0);
+});
+
+test('clearing post media and discarding a draft wait for confirmation and cancel preserves the draft', async ({ page }) => {
+  const f = await fixture(page); await login(page); await page.getByRole('button', { name: 'coffeeHO', exact: true }).click();
+  await page.getByRole('button', { name: 'Open experience composer', exact: true }).click();
+  const editor = page.getByTestId('community-composer'), confirm = page.getByTestId('confirm-dialog');
+  await editor.getByLabel('Write your experience', { exact: true }).fill('My unsaved coffee experience');
+  await pickPhoto(page, () => editor.getByRole('button', { name: 'Photo', exact: true }).click());
+  await editor.getByRole('button', { name: 'Remove media', exact: true }).click();
+  await confirm.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await expect(editor.getByRole('img', { name: 'Post media', exact: true })).toBeVisible();
+  await editor.getByRole('button', { name: 'Remove media', exact: true }).click();
+  await confirm.getByRole('button', { name: 'Confirm', exact: true }).click();
+  await expect(editor.getByRole('img', { name: 'Post media', exact: true })).toHaveCount(0);
+  await editor.getByRole('button', { name: 'Close composer', exact: true }).click();
+  await confirm.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await expect(editor.getByLabel('Write your experience', { exact: true })).toHaveValue('My unsaved coffee experience');
+  await editor.getByRole('button', { name: 'Close composer', exact: true }).click();
+  await confirm.getByRole('button', { name: 'Confirm', exact: true }).click();
+  await expect(editor).toHaveCount(0); expect(f.postWrites).toHaveLength(0);
 });
 
 test('photo-only posts preserve a failed draft, retry one ID, and keep genuine media after reload', async ({ page }) => {
@@ -209,23 +242,45 @@ test('settings persist Everyone, accepted Followers or Off and never expose mode
   await settings.getByRole('button', { name: 'Everyone', exact: true }).click(); await expect.poll(f.audience).toBe('everyone');
 });
 
-test('a coffee story needs media and confirmation, stays pending and can be reviewed in owner settings', async ({ page }, info) => {
+test('a coffee story publishes immediately, opens fullscreen and can be reviewed after publication', async ({ page }, info) => {
   const f = await fixture(page, { reviewer: true }); await login(page); await page.getByRole('button', { name: 'coffeeHO', exact: true }).click();
-  const stories = page.getByTestId('coffee-stories'); await stories.getByRole('button', { name: 'My story +', exact: true }).click();
-  const send = stories.getByRole('button', { name: 'Submit story for review', exact: true }); await expect(send).toBeDisabled();
+  const stories = page.getByTestId('coffee-stories'); await stories.getByRole('button', { name: 'Add my story', exact: true }).click();
+  const send = stories.getByRole('button', { name: 'Publish story', exact: true }); await expect(send).toBeDisabled();
   await pickPhoto(page, () => stories.getByRole('button', { name: 'Photo', exact: true }).click()); await expect(send).toBeDisabled();
   await stories.getByLabel('Story caption', { exact: true }).fill('Freshly brewed coffee');
   await stories.getByRole('checkbox').click(); await send.click();
-  await expect(stories).toContainText('awaiting review'); await expect(stories).toContainText('Pending'); expect(f.stories[0].status).toBe('pending');
+  await expect(stories).toContainText('published for 24 hours'); await expect(stories).not.toContainText('Pending'); expect(f.stories[0].status).toBe('approved');
+  await stories.getByRole('button', { name: 'Story by Coffee Owner', exact: true }).click();
+  await expect(page.getByTestId('story-viewer').getByRole('img', { name: 'Freshly brewed coffee', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Close story', exact: true }).click();
   await page.getByRole('button', { name: 'Settings', exact: true }).first().click(); await page.getByRole('button', { name: 'Review coffee stories', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Reject: off-topic', exact: true })).toBeDisabled();
   await page.getByRole('button', { name: 'Approve story', exact: true }).click();
-  await expect(page.getByText('No stories awaiting review.', { exact: true })).toBeVisible(); expect(f.stories[0].status).toBe('approved');
+  await expect(page.getByText('All stories have been reviewed.', { exact: true })).toBeVisible(); expect(f.stories[0].status).toBe('approved');
   await page.getByRole('button', { name: 'Done', exact: true }).click();
   await page.getByRole('button', { name: 'Account', exact: true }).click(); await page.getByRole('button', { name: 'coffeeHO', exact: true }).click();
-  await stories.getByRole('button', { name: 'Story by Coffee Owner', exact: true }).click(); await expect(stories.getByRole('img', { name: 'Freshly brewed coffee', exact: true })).toBeVisible();
-  await page.screenshot({ path: info.outputPath('coffee-story-light-phone.png') });
-  await stories.getByRole('button', { name: 'Delete story', exact: true }).click(); await stories.getByRole('button', { name: 'Confirm delete story', exact: true }).click(); await expect.poll(() => f.stories.length).toBe(0);
+  await stories.getByRole('button', { name: 'Story by Coffee Owner', exact: true }).click(); await expect(page.getByTestId('story-viewer').getByRole('img', { name: 'Freshly brewed coffee', exact: true })).toBeVisible();
+  await page.screenshot({ path: info.outputPath('coffee-story-light-phone.png'), animations: 'disabled' });
+  await page.getByRole('button', { name: 'Delete story', exact: true }).click(); await page.getByRole('button', { name: 'Confirm delete story', exact: true }).click(); await expect.poll(() => f.stories.length).toBe(0);
+});
+
+test('fullscreen story video autoplays, pauses, resumes and advances when the clip ends', async ({ page }) => {
+  await fixture(page); await login(page); await page.getByRole('button', { name: 'coffeeHO', exact: true }).click();
+  const rail = page.getByTestId('coffee-stories');
+  await rail.getByRole('button', { name: 'Add my story', exact: true }).click();
+  const chooser = page.waitForEvent('filechooser');
+  await rail.getByRole('button', { name: 'Video', exact: true }).click();
+  await (await chooser).setFiles('e2e/fixtures/story-test-video.webm');
+  await rail.getByRole('checkbox').click(); await rail.getByRole('button', { name: 'Publish story', exact: true }).click();
+  await rail.getByRole('button', { name: 'Story by Coffee Owner', exact: true }).click();
+  const viewer = page.getByTestId('story-viewer'), video = viewer.locator('video');
+  await expect.poll(() => video.evaluate(v => (v as HTMLVideoElement).currentTime)).toBeGreaterThan(0);
+  await viewer.getByRole('button', { name: 'Pause story', exact: true }).click();
+  await expect.poll(() => video.evaluate(v => (v as HTMLVideoElement).paused)).toBe(true);
+  const pausedAt = await video.evaluate(v => (v as HTMLVideoElement).currentTime);
+  await viewer.getByRole('button', { name: 'Play story', exact: true }).click();
+  await expect.poll(() => video.evaluate(v => (v as HTMLVideoElement).currentTime)).toBeGreaterThan(pausedAt);
+  await expect(viewer).toHaveCount(0, { timeout: 12000 });
 });
 
 test('gallery caption/file replacement and confirmed deletion retain failures and update the account', async ({ page }) => {
@@ -310,4 +365,75 @@ test('MP4 uploads remain available even when a browser lacks the H264 decoder', 
   else await expect(editor.getByRole('alert')).toContainText('could not be played on this device');
   await editor.getByRole('button', { name: 'Publish', exact: true }).click(); await expect(editor).toHaveCount(0);
   expect(f.postWrites.at(-1)!.p_media_path).toMatch(/\.mp4$/); expect(f.postWrites.at(-1)!.p_media_type).toBe('video');
+});
+
+
+test('DM editing keeps original expiry, failed changes keep drafts, deletion and blocking need confirmation', async ({ page }) => {
+  const f = await fixture(page); await login(page); await direct(page);
+  await page.getByLabel('Your message', { exact: true }).fill('Original message');
+  await page.getByRole('button', { name: 'Send message', exact: true }).click();
+  await expect.poll(() => f.messages.length).toBe(1);
+  const id = String(f.messages[0].id), expiry = f.messages[0].expires_at;
+  const row = page.getByTestId('direct-message-' + id);
+  await row.getByRole('button', { name: 'Message options', exact: true }).click();
+  await page.getByRole('button', { name: 'Edit message', exact: true }).click();
+  await page.getByLabel('Edit message text', { exact: true }).fill('Edited brewing message');
+  f.failSend(true); await page.getByRole('button', { name: 'Save message changes', exact: true }).click();
+  await expect(page.getByTestId('message-editor').getByRole('alert')).toBeVisible();
+  await expect(page.getByLabel('Edit message text', { exact: true })).toHaveValue('Edited brewing message');
+  f.failSend(false); await page.getByRole('button', { name: 'Save message changes', exact: true }).click();
+  await expect(row).toContainText('Edited brewing message'); await expect(row).toContainText('Edited');
+  expect(f.messages[0].expires_at).toBe(expiry);
+  await row.getByRole('button', { name: 'Message options', exact: true }).click();
+  await page.getByRole('button', { name: 'Delete message', exact: true }).click();
+  await page.getByTestId('confirm-dialog').getByRole('button', { name: 'Cancel', exact: true }).click();
+  expect(f.messages).toHaveLength(1);
+  await row.getByRole('button', { name: 'Message options', exact: true }).click();
+  await page.getByRole('button', { name: 'Delete message', exact: true }).click();
+  await page.getByRole('button', { name: 'Confirm delete message', exact: true }).click();
+  await expect(row).toHaveCount(0); expect(f.messages).toHaveLength(0);
+  await page.getByRole('button', { name: 'Block this member', exact: true }).click();
+  f.failSend(true);
+  await page.getByRole('button', { name: 'Confirm block', exact: true }).click();
+  await expect(page.getByTestId('confirm-dialog').getByRole('alert')).toBeVisible();
+  f.failSend(false);
+  await page.getByRole('button', { name: 'Confirm block', exact: true }).click();
+  await expect(page.getByTestId('confirm-dialog')).toHaveCount(0);
+  await expect(page.getByLabel('Your message', { exact: true })).toHaveCount(0);
+  await expect(page.getByText('Messages are closed or available only to this account’s followers.', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Block this member', exact: true }).click();
+  await page.getByRole('button', { name: 'Confirm block', exact: true }).click();
+  await expect(page.getByTestId('confirm-dialog')).toHaveCount(0);
+});
+
+test('profile extras open in a dismissible menu and the message entry is an icon above the profile', async ({ page }, info) => {
+  await page.setViewportSize({ width: 1536, height: 1009 }); await fixture(page); await login(page); await setLanguage(page, 'ar');
+  const primary = page.getByTestId('profile-sections');
+  for (const name of ['المعدات', 'البن', 'الوصفات', 'منشوراتي', 'المزيد من أقسام الحساب']) await expect(primary.getByRole('button', { name, exact: true })).toBeVisible();
+  const more = primary.getByRole('button', { name: 'المزيد من أقسام الحساب', exact: true });
+  await expect(more).toHaveAttribute('aria-expanded', 'false');
+  await expect(page.getByTestId('profile-extra-sections')).toHaveCount(0);
+  await more.click();
+  const extras = page.getByTestId('profile-extra-sections');
+  await expect(extras.getByRole('button', { name: 'التعليقات', exact: true })).toBeVisible();
+  for (const name of ['المتابعون', 'أتابع']) await expect(extras.getByRole('button', { name, exact: true })).toHaveCount(0);
+  const box = (await extras.boundingBox())!;
+  expect(box.x).toBeGreaterThanOrEqual(0); expect(box.x + box.width).toBeLessThanOrEqual(1536);
+  await page.screenshot({ path: info.outputPath('profile-more-menu-arabic-tablet.png'), animations: 'disabled' });
+  await page.getByRole('button', { name: 'إغلاق القائمة', exact: true }).click({ position: { x: 5, y: 5 } });
+  await expect(extras).toHaveCount(0);
+  await expect(more).toHaveAttribute('aria-expanded', 'false');
+  await expect(page.locator('[aria-modal="true"]')).toHaveCount(0);
+  await more.focus(); await page.keyboard.press('Enter');
+  await expect(extras).toBeVisible();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await page.keyboard.press('Escape'); await expect(extras).toHaveCount(0);
+  await expect(page.locator('[aria-modal="true"]')).toHaveCount(0);
+  const inbox = page.getByRole('button', { name: 'رسائلي', exact: true }); await expect(inbox).toBeVisible();
+  expect(await inbox.innerText()).toBe('');
+  await page.screenshot({ path: info.outputPath('compact-account-arabic-tablet.png'), animations: 'disabled' });
+  await page.getByRole('button', { name: 'المزيد', exact: true }).click();
+  const menu = page.getByTestId('quick-library-menu'); await expect(menu).toBeVisible();
+  expect((await menu.boundingBox())!.width).toBeLessThanOrEqual(390);
+  await page.screenshot({ path: info.outputPath('compact-shortcuts-arabic-tablet.png'), animations: 'disabled' });
 });

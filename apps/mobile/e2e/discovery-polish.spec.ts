@@ -145,10 +145,11 @@ test("brew changes coffee without owning a bag, offers all 15 methods and labels
   ).toBeVisible();
   expect(scopes.at(-1)).toBe(secondId);
 });
-test("catalog photos appear and tool recommendations rotate, pause and open the chosen model", async ({
+test("catalog photos appear and tools rotate every 30 seconds while focus keeps the chosen model stable", async ({
   page,
 }) => {
   await page.clock.install();
+  await page.clock.pauseAt(new Date());
   await fixture(page);
   await expect(page.getByTestId("coffee-product-photo").first()).toBeVisible();
   const section = page.getByTestId("home-tools");
@@ -158,19 +159,22 @@ test("catalog photos appear and tool recommendations rotate, pause and open the 
   const names = await section
     .getByRole("button", { name: /Rotating tool/ })
     .allTextContents();
-  await page.clock.runFor(18010);
+  await page.clock.runFor(29_000);
+  expect(
+    await section.getByRole("button", { name: /Rotating tool/ }).allTextContents(),
+  ).toEqual(names);
+  await page.clock.runFor(1500);
   await expect
     .poll(() =>
       section.getByRole("button", { name: /Rotating tool/ }).allTextContents(),
     )
     .not.toEqual(names);
-  await section
-    .getByRole("button", { name: "Pause rotation", exact: true })
-    .click();
+  await expect(section.getByRole('button', { name: /Pause rotation|Other tools|Resume rotation/ })).toHaveCount(0);
+  await section.getByRole('button', { name: /Rotating tool/ }).first().focus();
   const paused = await section
     .getByRole("button", { name: /Rotating tool/ })
     .allTextContents();
-  await page.clock.runFor(36000);
+  await page.clock.runFor(30_500);
   expect(
     await section
       .getByRole("button", { name: /Rotating tool/ })

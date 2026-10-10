@@ -5,7 +5,7 @@ if (process.env.BEANMORA_SMOKE !== '1' || process.env.NEXT_PUBLIC_SUPABASE_URL !
 }
 export default defineConfig({
   testDir: './e2e',
-  testMatch: ['release-smoke.spec.ts', 'full-audit.spec.ts'],
+  testMatch: ['release-smoke.spec.ts', 'full-audit.spec.ts', 'write-feedback.spec.ts'],
   fullyParallel: true,
   forbidOnly: true,
   retries: 0,

@@ -20,8 +20,11 @@ import { artwork } from './CoffeeScreens';
 import { AppVersion } from './AppVersion';
 import { PasswordRecovery } from './PasswordRecovery';
 import { LegalLinks } from './LegalLinks';
-import {
+import { CountryPicker } from './CountryPicker';
+import { signupDetails, usernameAvailable } from './core/account-profile';
+import { useLabels,
   Action,
+  Field,
   Brand,
   Icon,
   IconButton,
@@ -55,10 +58,15 @@ export function AccountScreen({
   onRecovered?: () => void;
 }) {
   const t = useCopy();
-  const ar = useContext(Language) === 'ar';
+  const locale = useContext(Language);
+  const ar = locale === 'ar';
+  const L = useLabels();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmation, setConfirmation] = useState('');
+  const [username, setUsername] = useState('');
+  const [country, setCountry] = useState('');
+  const [phone, setPhone] = useState('');
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [show, setShow] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -82,22 +90,28 @@ export function AccountScreen({
     };
   }, [session]);
   function authError(message: string) {
+    const fieldErrors: Record<string, string> = {
+      ACCOUNT_EMAIL: L('أدخل بريدًا إلكترونيًا صحيحًا.', 'Enter a valid email address.'),
+      ACCOUNT_USERNAME: L('اسم المستخدم من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية.', 'Use 3–30 English letters, numbers or underscores for your username.', 'ユーザー名は英字・数字・アンダースコアの3〜30文字にしてください。'),
+      ACCOUNT_USERNAME_TAKEN: L('اسم المستخدم مستخدم، اختر اسمًا آخر.', 'Username is taken. Choose another.', 'このユーザー名は使用されています。別の名前を選んでください。'),
+      ACCOUNT_COUNTRY: L('اختر دولتك.', 'Choose your country.', '国・地域を選択してください。'),
+      ACCOUNT_PHONE: L('أدخل رقم الهاتف مع رمز الدولة، مثل +96550000000.', 'Enter your phone with its country code, for example +96550000000.', '国番号を含む電話番号を入力してください（例：+819012345678）。'),
+      ACCOUNT_PASSWORD: L('كلمة المرور يجب أن تكون 8 أحرف على الأقل.', 'Use at least 8 characters for your password.'),
+      ACCOUNT_CONFIRMATION: L('كلمتا المرور غير متطابقتين.', 'The passwords do not match.'),
+    };
+    if (fieldErrors[message]) return fieldErrors[message];
     const lower = message.toLowerCase();
     return lower.startsWith('oauth_') ||
       lower.includes('code verifier') ||
       lower.includes('pkce')
-      ? ar
-        ? 'تعذّر إكمال تسجيل الدخول. حاول مرة ثانية.'
-        : 'Could not complete sign-in. Please try again.'
+      ? L('تعذّر إكمال تسجيل الدخول. حاول مرة ثانية.', 'Could not complete sign-in. Please try again.')
       : lower.includes('invalid login')
         ? t.invalidCredentials
         : lower.includes('not confirmed')
           ? t.emailNotConfirmed
           : lower.includes('network') || lower.includes('fetch')
             ? t.networkError
-            : ar
-              ? t.authError
-              : message || t.authError;
+            : t.authError;
   }
   async function request(action: () => Promise<void>) {
     if (!supabase || inFlight.current) return;
@@ -118,33 +132,19 @@ export function AccountScreen({
     await request(async () => {
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
         setError(
-          ar
-            ? 'أدخل بريدًا إلكترونيًا صحيحًا.'
-            : 'Enter a valid email address.',
+          L('أدخل بريدًا إلكترونيًا صحيحًا.', 'Enter a valid email address.'),
         );
         emailRef.current?.focus();
         return;
       }
       if (mode === 'signup') {
-        if (password.length < 8) {
-          setError(
-            ar
-              ? 'كلمة المرور يجب أن تكون 8 أحرف على الأقل.'
-              : 'Use at least 8 characters for your password.',
-          );
-          return;
-        }
-        if (password !== confirmation) {
-          setError(
-            ar ? 'كلمتا المرور غير متطابقتين.' : 'The passwords do not match.',
-          );
-          confirmationRef.current?.focus();
-          return;
-        }
+        const details = signupDetails({ country, username, email, password, confirmation, phone }, locale);
+        if (!(await usernameAvailable(supabase!, details.metadata.username))) throw new Error('ACCOUNT_USERNAME_TAKEN');
         const { data, error } = await supabase!.auth.signUp({
-          email: email.trim(),
-          password,
+          email: details.email,
+          password: details.password,
           options: {
+            data: details.metadata,
             emailRedirectTo:
               Platform.OS === 'web'
                 ? window.location.origin
@@ -154,9 +154,7 @@ export function AccountScreen({
         if (error) throw error;
         if (!data.session)
           setNotice(
-            ar
-              ? 'راجع بريدك الإلكتروني لتأكيد حسابك.'
-              : 'Check your email to confirm your account.',
+            L('راجع بريدك الإلكتروني لتأكيد حسابك.', 'Check your email to confirm your account.'),
           );
       } else {
         const { data, error } = await supabase!.auth.signInWithPassword({
@@ -173,7 +171,7 @@ export function AccountScreen({
   async function resetPassword() {
     if (!email.trim()) {
       setNotice(
-        ar ? 'أدخل بريدك الإلكتروني أولاً.' : 'Enter your email first.',
+        L('أدخل بريدك الإلكتروني أولاً.', 'Enter your email first.'),
       );
       emailRef.current?.focus();
       return;
@@ -188,9 +186,7 @@ export function AccountScreen({
       );
       if (error) throw error;
       setNotice(
-        ar
-          ? 'إذا كان البريد مرتبطًا بحساب، ستصلك رسالة لاسترجاع كلمة المرور. افتح الرابط على هذا الجهاز.'
-          : 'If this email has an account, a password recovery message will arrive. Open its link on this device.',
+        L('إذا كان البريد مرتبطًا بحساب، ستصلك رسالة لاسترجاع كلمة المرور. افتح الرابط على هذا الجهاز.', 'If this email has an account, a password recovery message will arrive. Open its link on this device.'),
       );
     });
   }
@@ -275,21 +271,13 @@ export function AccountScreen({
             <Brand light large />
             <Txt heading style={s.welcome}>
               {mode === 'signup'
-                ? ar
-                  ? 'ابدأ رحلتك مع القهوة'
-                  : 'Your coffee journey starts here'
-                : ar
-                  ? 'مرحباً بك مجدداً'
-                  : 'Welcome back'}
+                ? L('ابدأ رحلتك مع القهوة', 'Your coffee journey starts here')
+                : L('مرحباً بك مجدداً', 'Welcome back')}
             </Txt>
             <Txt style={s.tagline}>
               {mode === 'signup'
-                ? ar
-                  ? 'احفظ وصفاتك، رتّب أكياسك، وتابع تجارب التحضير.'
-                  : 'Save recipes, organize your coffees, and track your brews.'
-                : ar
-                  ? 'سجّل دخولك لمتابعة وصفاتك وحبوبك المفضلة.'
-                  : 'Sign in to follow recipes and save your favorite beans.'}
+                ? L('احفظ وصفاتك، رتّب أكياسك، وتابع تجارب التحضير.', 'Save recipes, organize your coffees, and track your brews.')
+                : L('سجّل دخولك لمتابعة وصفاتك وحبوبك المفضلة.', 'Sign in to follow recipes and save your favorite beans.')}
             </Txt>
           </View>
           <Pressable
@@ -311,16 +299,14 @@ export function AccountScreen({
             <View style={{ flex: 1, gap: 3 }}>
               <Txt style={s.guestTitle}>{t.guest}</Txt>
               <Txt style={s.guestNote}>
-                {ar
-                  ? 'استكشف البن والوصفات مباشرة'
-                  : 'Explore coffees and recipes right away'}
+                {L('استكشف البن والوصفات مباشرة', 'Explore coffees and recipes right away')}
               </Txt>
             </View>
             <Txt style={{ color: colors.teal, fontSize: 24 }}>
               {ar ? '←' : '→'}
             </Txt>
           </Pressable>
-          <Action title={ar ? 'الإعدادات' : 'Settings'} onPress={settings} />
+          <Action title={L('الإعدادات', 'Settings')} onPress={settings} />
           <View style={s.panel}>
             <View style={s.segment}>
               {(['signup', 'login'] as const).map((value) => (
@@ -329,12 +315,8 @@ export function AccountScreen({
                   accessibilityRole="button"
                   accessibilityLabel={
                     value === 'login'
-                      ? ar
-                        ? 'اختيار تسجيل الدخول'
-                        : 'Use email sign in'
-                      : ar
-                        ? 'إنشاء حساب'
-                        : 'Create account'
+                      ? L('اختيار تسجيل الدخول', 'Use email sign in')
+                      : L('إنشاء حساب', 'Create account')
                   }
                   accessibilityState={{ selected: mode === value }}
                   disabled={busy}
@@ -360,13 +342,17 @@ export function AccountScreen({
                   >
                     {value === 'login'
                       ? t.login
-                      : ar
-                        ? 'إنشاء حساب'
-                        : 'Create account'}
+                      : L('إنشاء حساب', 'Create account')}
                   </Txt>
                 </Pressable>
               ))}
             </View>
+            {mode === 'signup' ? <View style={{ gap: 10 }}>
+              <Txt style={s.label}>{L('الدولة', 'Country')}</Txt>
+              <CountryPicker value={country} onChange={setCountry} disabled={busy} />
+              <Field label={L('اسم المستخدم', 'Username')} value={username} onChangeText={setUsername} maxLength={30} autoCapitalize="none" autoCorrect={false} autoComplete="username" textContentType="username" editable={!busy} />
+              <Txt style={s.fieldHint}>{L('من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية.', '3–30 English letters, numbers or underscores.', '英字・数字・アンダースコアの3〜30文字。')}</Txt>
+            </View> : null}
             <Txt style={s.label}>{t.email}</Txt>
             <View style={s.field}>
               <Icon name="user" size={21} color={colors.muted} />
@@ -438,22 +424,20 @@ export function AccountScreen({
             {mode === 'signup' ? (
               <>
                 <Txt style={s.fieldHint}>
-                  {ar
-                    ? 'استخدم 8 أحرف على الأقل.'
-                    : 'Use at least 8 characters.'}
+                  {L('استخدم 8 أحرف على الأقل.', 'Use at least 8 characters.')}
                 </Txt>
                 <Txt style={s.label}>
-                  {ar ? 'تأكيد كلمة المرور' : 'Confirm password'}
+                  {L('تأكيد كلمة المرور', 'Confirm password')}
                 </Txt>
                 <View style={s.field}>
                   <Icon name="lock" size={21} color={colors.muted} />
                   <TextInput
                     ref={confirmationRef}
                     accessibilityLabel={
-                      ar ? 'تأكيد كلمة المرور' : 'Confirm password'
+                      L('تأكيد كلمة المرور', 'Confirm password')
                     }
                     placeholder={
-                      ar ? 'أعد كتابة كلمة المرور' : 'Re-enter your password'
+                      L('أعد كتابة كلمة المرور', 'Re-enter your password')
                     }
                     placeholderTextColor={colors.muted}
                     value={confirmation}
@@ -475,12 +459,14 @@ export function AccountScreen({
                     ]}
                   />
                 </View>
+                <Field label={L('رقم الهاتف', 'Phone number')} value={phone} onChangeText={setPhone} keyboardType="phone-pad" autoComplete="tel" textContentType="telephoneNumber" placeholder={locale === 'ja' ? '+819012345678' : '+96550000000'} maxLength={32} editable={!busy} style={{ writingDirection: 'ltr', textAlign: 'left' }} />
+                <Txt style={s.fieldHint}>{L('مع رمز الدولة. رقم الهاتف خاص بحسابك ولا يظهر في الملف العام.', 'Include the country code. Your phone is private and does not appear on your public profile.', '国番号を含めてください。電話番号は非公開で、プロフィールには表示されません。')}</Txt>
               </>
             ) : (
               <Pressable
                 accessibilityRole="button"
                 accessibilityLabel={
-                  ar ? 'نسيت كلمة المرور؟' : 'Forgot password?'
+                  L('نسيت كلمة المرور؟', 'Forgot password?')
                 }
                 onPress={() => void resetPassword()}
                 disabled={busy}
@@ -491,7 +477,7 @@ export function AccountScreen({
                 }}
               >
                 <Txt style={{ fontSize: 13, color: colors.muted }}>
-                  {ar ? 'نسيت كلمة المرور؟' : 'Forgot password?'}
+                  {L('نسيت كلمة المرور؟', 'Forgot password?')}
                 </Txt>
               </Pressable>
             )}
@@ -508,14 +494,10 @@ export function AccountScreen({
             <Action
               title={
                 busy
-                  ? ar
-                    ? 'جارٍ المتابعة…'
-                    : 'Please wait…'
+                  ? L('جارٍ المتابعة…', 'Please wait…')
                   : mode === 'login'
                     ? t.login
-                    : ar
-                      ? 'إنشاء حساب'
-                      : 'Create account'
+                    : L('إنشاء حساب', 'Create account')
               }
               onPress={() => void authenticate()}
               selected
@@ -523,13 +505,13 @@ export function AccountScreen({
                 busy ||
                 !email.trim() ||
                 !password ||
-                (mode === 'signup' && !confirmation)
+                (mode === 'signup' && (!confirmation || !country || !username.trim() || !phone.trim()))
               }
             />
             <View style={s.divider}>
               <View style={s.rule} />
               <Txt style={{ fontSize: 13, color: colors.muted }}>
-                {ar ? 'أو تابع باستخدام' : 'Or continue with'}
+                {L('أو تابع باستخدام', 'Or continue with')}
               </Txt>
               <View style={s.rule} />
             </View>
@@ -543,12 +525,8 @@ export function AccountScreen({
                   accessibilityRole="button"
                   accessibilityLabel={
                     provider === 'apple'
-                      ? ar
-                        ? 'تابع باستخدام Apple'
-                        : 'Continue with Apple'
-                      : ar
-                        ? 'تابع باستخدام Google'
-                        : 'Continue with Google'
+                      ? L('تابع باستخدام Apple', 'Continue with Apple')
+                      : L('تابع باستخدام Google', 'Continue with Google')
                   }
                   disabled={busy}
                   onPress={() => void social(provider)}
@@ -557,20 +535,14 @@ export function AccountScreen({
                   <Icon name={provider} size={25} />
                   <Txt style={{ fontSize: 14, fontWeight: '700' }}>
                     {provider === 'google'
-                      ? ar
-                        ? 'تابع باستخدام Google'
-                        : 'Continue with Google'
-                      : ar
-                        ? 'تابع باستخدام Apple'
-                        : 'Continue with Apple'}
+                      ? L('تابع باستخدام Google', 'Continue with Google')
+                      : L('تابع باستخدام Apple', 'Continue with Apple')}
                   </Txt>
                 </Pressable>
               ))}
             </View>
             <Txt style={s.terms}>
-              {ar
-                ? 'بمتابعتك، أنت توافق على شروط الاستخدام\nوسياسة الخصوصية.'
-                : 'By continuing, you agree to the terms of use\nand privacy policy.'}
+              {L('بمتابعتك، أنت توافق على شروط الاستخدام\nوسياسة الخصوصية.', 'By continuing, you agree to the terms of use\nand privacy policy.')}
             </Txt>
             <LegalLinks />
           </View>

@@ -11,6 +11,13 @@ import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { safeNextPath } from "@/lib/safe-next-path";
 import { isGuestUser } from "@/lib/guest";
+import {
+  accountCountries,
+  accountCountryFlag,
+  normalizeAccountPhone,
+  usernameAvailable,
+  validAccountCountry,
+} from "@/lib/account-profile";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
@@ -19,14 +26,29 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const schema = z
   .object({
-    name: z.string().min(2),
+    name: z.string().trim().min(2).max(100),
+    country: z.string().refine(validAccountCountry, "Choose your country."),
+    phone: z.string().transform((value, ctx) => {
+      try {
+        return normalizeAccountPhone(value);
+      } catch {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Enter a valid phone number with its country code.",
+        });
+        return z.NEVER;
+      }
+    }),
     username: z
       .string()
+      .trim()
+      .toLowerCase()
       .min(3)
+      .max(30)
       .regex(/^[a-z0-9_]+$/, "lowercase letters, numbers, underscore only"),
     email: z.string().email(),
-    password: z.string().min(6),
-    confirmPassword: z.string().min(6),
+    password: z.string().min(8),
+    confirmPassword: z.string().min(8),
   })
   .refine((v) => v.password === v.confirmPassword, {
     path: ["confirmPassword"],
@@ -53,6 +75,10 @@ export default function SignupPage() {
     setLoading(true);
     try {
       const supabase = createClient();
+      if (!(await usernameAvailable(supabase, values.username))) {
+        setServerError(t("auth.usernameTaken"));
+        return;
+      }
       const next = safeNextPath(
         searchParams.get("next"),
         `/${locale}/onboarding`,
@@ -80,6 +106,8 @@ export default function SignupPage() {
               name: values.name,
               username: values.username,
               language: locale,
+              country: values.country,
+              phone: values.phone,
             },
           },
           { emailRedirectTo },
@@ -100,6 +128,7 @@ export default function SignupPage() {
             name: values.name,
             username: values.username,
             language: locale,
+            country: values.country,
           })
           .eq("id", currentUser!.id);
         if (profileError) {
@@ -118,6 +147,8 @@ export default function SignupPage() {
             name: values.name,
             username: values.username,
             language: locale,
+            country: values.country,
+            phone: values.phone,
           },
           // Preserve the page the user was on as the post-confirmation
           // destination; default to onboarding for a fresh signup with no
@@ -175,6 +206,26 @@ export default function SignupPage() {
             ) : null}
           </div>
           <div className="flex flex-col gap-1.5">
+            <Label htmlFor="country">{t("auth.countryLabel")}</Label>
+            <select
+              id="country"
+              className="h-11 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 text-sm"
+              {...register("country")}
+            >
+              <option value="">{t("auth.chooseCountry")}</option>
+              {accountCountries.map((c) => (
+                <option key={c.code} value={c.code}>
+                  {accountCountryFlag(c.code)} {locale === "ar" ? c.ar : c.en}
+                </option>
+              ))}
+            </select>
+            {errors.country ? (
+              <p className="text-xs text-[var(--color-error)]">
+                {t("auth.chooseCountry")}
+              </p>
+            ) : null}
+          </div>
+          <div className="flex flex-col gap-1.5">
             <Label htmlFor="username">{t("auth.usernameLabel")}</Label>
             <Input
               id="username"
@@ -226,6 +277,26 @@ export default function SignupPage() {
             {errors.confirmPassword ? (
               <p className="text-xs text-[var(--color-error)]">
                 {errors.confirmPassword.message}
+              </p>
+            ) : null}
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="phone">{t("auth.phoneLabel")}</Label>
+            <Input
+              id="phone"
+              type="tel"
+              autoComplete="tel"
+              dir="ltr"
+              placeholder="+96550000000"
+              {...register("phone")}
+            />
+            <p className="text-xs text-[var(--color-muted-text)]">
+              {t("auth.phonePrivate")}
+            </p>
+            {errors.phone ? (
+              <p className="text-xs text-[var(--color-error)]">
+                {t("auth.phoneInvalid")}
               </p>
             ) : null}
           </div>

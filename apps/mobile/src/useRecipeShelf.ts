@@ -40,11 +40,11 @@ export function readShelf(raw: string | null): Entry[] {
           entry.snapshots &&
           Object.entries(entry.snapshots).every(
             ([locale, recipe]) =>
-              ["ar", "en"].includes(locale) &&
+              ["ar", "en", "ja"].includes(locale) &&
               validShelfRecipe(recipe) &&
               recipe.id === entry.id,
           ) &&
-          (entry.snapshots.ar || entry.snapshots.en),
+          (entry.snapshots.ar || entry.snapshots.en || entry.snapshots.ja),
       )
       .slice(0, 50);
   } catch {
@@ -54,7 +54,7 @@ export function readShelf(raw: string | null): Entry[] {
 function displaySnapshot(entry: Entry, locale: Locale): RecipeItem {
   const exact = entry.snapshots[locale];
   if (exact) return exact;
-  const recipe = (entry.snapshots.ar ?? entry.snapshots.en)!;
+  const recipe = (locale === 'ar' ? entry.snapshots.ar ?? entry.snapshots.en ?? entry.snapshots.ja : entry.snapshots.en ?? entry.snapshots.ja ?? entry.snapshots.ar)!;
   const ar = locale === "ar";
   return {
     ...recipe,

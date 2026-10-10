@@ -1,3 +1,4 @@
+import { contentLocale } from './localeText';
 import { modelLabel, catalogName } from './localizedContent';
 import { useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import {
@@ -212,7 +213,7 @@ export function RecipeCatalog({
         ).flatMap((r) => {
           const item = mapRecipe(r, locale);
           return item
-            ? [{ ...item, discovery: readRecipeDiscovery(r, locale) }]
+            ? [{ ...item, discovery: readRecipeDiscovery(r, contentLocale(locale)) }]
             : [];
         });
         setRows((previous) =>

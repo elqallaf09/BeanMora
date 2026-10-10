@@ -149,7 +149,6 @@ test("compact navigation and capsule systems fit 320px; guest contributions requ
   expect(await nav.evaluate((e) => e.clientWidth <= window.innerWidth)).toBe(
     true,
   );
-  await page.getByRole("button", { name: "المزيد", exact: true }).click();
   await page.getByRole("button", { name: "الكبسولات", exact: true }).click();
   await page
     .getByRole("button", { name: "نظام الماكينة: كل الأنظمة", exact: true })
@@ -168,7 +167,6 @@ test("compact navigation and capsule systems fit 320px; guest contributions requ
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
-  await page.getByRole("button", { name: "المزيد", exact: true }).click();
   await page.getByRole("button", { name: "إضافة بن", exact: true }).click();
   await expect(
     page.getByText("سجّل دخولك لإضافة وصفة أو بن وصورته.", { exact: true }),

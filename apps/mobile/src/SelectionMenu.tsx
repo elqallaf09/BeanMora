@@ -8,7 +8,7 @@ import {
   type StyleProp,
   type ViewStyle,
 } from "./native";
-import { Field, Icon, Language, Txt, colors, styles } from "./ui";
+import { useLabels, Field, Icon, Language, Txt, colors, styles } from "./ui";
 import { normalizeSearch } from "./core/deepSearch";
 
 /** One compact trigger, with a searchable list only while choosing. */
@@ -19,6 +19,7 @@ export function SelectionMenu({
   onChange,
   disabled = false,
   compact = false,
+  iconOnly = false,
   style,
   accessibilityLabel,
 }: {
@@ -28,10 +29,12 @@ export function SelectionMenu({
   onChange: (value: string) => void;
   disabled?: boolean;
   compact?: boolean;
+  iconOnly?: boolean;
   style?: StyleProp<ViewStyle>;
   accessibilityLabel?: string;
 }) {
   const ar = useContext(Language) === "ar";
+  const L = useLabels();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const chosen = items.find((item) => item.id === value);
@@ -57,26 +60,27 @@ export function SelectionMenu({
         style={[
           s.trigger,
           compact && {
-            minHeight: 48,
+            minHeight: 44,
             borderWidth: 0,
             backgroundColor: "transparent",
             paddingHorizontal: 4,
             paddingVertical: 8,
             gap: 4,
           },
+          iconOnly && { width: 44, padding: 8, justifyContent: 'center' },
           { flexDirection: ar ? "row-reverse" : "row" },
           disabled && { opacity: 0.5 },
         ]}
       >
-        <View style={{ flex: 1, minWidth: 0, gap: 2 }}>
+        {!iconOnly ? <View style={{ flex: 1, minWidth: 0, gap: 2 }}>
           {!compact ? <Txt style={styles.muted}>{label}</Txt> : null}
           <Txt
             numberOfLines={1}
             style={{ fontWeight: "700", ...(compact ? { fontSize: 14 } : {}) }}
           >
-            {compact ? label : (chosen?.name ?? (ar ? "اختر" : "Choose"))}
+            {compact ? label : (chosen?.name ?? (L("اختر", "Choose")))}
           </Txt>
-        </View>
+        </View> : null}
         <Icon
           name={compact ? "chevronDown" : "arrow"}
           size={16}
@@ -92,7 +96,7 @@ export function SelectionMenu({
         <View style={s.backdrop}>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel={ar ? "إغلاق القائمة" : "Close menu"}
+            accessibilityLabel={L("إغلاق القائمة", "Close menu")}
             onPress={close}
             style={StyleSheet.absoluteFill}
           />
@@ -111,7 +115,7 @@ export function SelectionMenu({
               </Txt>
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel={ar ? "إغلاق" : "Close"}
+                accessibilityLabel={L("إغلاق", "Close")}
                 onPress={close}
                 style={s.close}
               >
@@ -120,7 +124,7 @@ export function SelectionMenu({
             </View>
             {items.length > 8 ? (
               <Field
-                label={ar ? "ابحث في القائمة" : "Search this list"}
+                label={L("ابحث في القائمة", "Search this list")}
                 value={search}
                 onChangeText={setSearch}
                 autoCapitalize="none"
@@ -134,7 +138,7 @@ export function SelectionMenu({
               initialNumToRender={16}
               ListEmptyComponent={
                 <Txt style={styles.muted}>
-                  {ar ? "لا توجد نتائج" : "No results"}
+                  {L("لا توجد نتائج", "No results")}
                 </Txt>
               }
               renderItem={({ item }) => (
@@ -201,12 +205,12 @@ const s = StyleSheet.create({
   },
   dialog: {
     width: "100%",
-    maxWidth: 460,
-    maxHeight: "80%",
+    maxWidth: 360,
+    maxHeight: "70%",
     backgroundColor: colors.paper,
     borderRadius: 20,
-    padding: 16,
-    gap: 12,
+    padding: 12,
+    gap: 6,
     overflow: "hidden",
   },
   close: {
@@ -216,8 +220,9 @@ const s = StyleSheet.create({
     justifyContent: "center",
   },
   option: {
-    minHeight: 50,
-    padding: 12,
+    minHeight: 44,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
     borderRadius: 10,
     gap: 12,
     alignItems: "center",

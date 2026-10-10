@@ -449,7 +449,6 @@ test("expanded capsule menu finds Zill and Arabic flavor names at 320px", async 
   await setup(page);
   await page.setViewportSize({ width: 320, height: 900 });
   await page.goto("/");
-  await page.getByRole("button", { name: "المزيد", exact: true }).click();
   await page.getByRole("button", { name: "الكبسولات", exact: true }).click();
   await page.getByLabel("بحث الكبسولات", { exact: true }).fill("شقراء");
   await expect(

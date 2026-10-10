@@ -492,9 +492,12 @@ for (const width of [320, 800, 1536])
       .getByRole("button", { name: "الإعدادات", exact: true })
       .first()
       .click();
-    await expect(
-      page.getByRole("button", { name: "حذف الحساب والبيانات", exact: true }),
-    ).toBeInViewport();
+    // Country/contact fields make Settings scrollable on tablet layouts too.
+    await expect(settings.getByTestId("account-details")).toBeVisible();
+    await expect(settings.getByTestId("account-details").getByText("جارٍ التحميل…", { exact: true })).toHaveCount(0);
+    const deleteAccount = settings.getByRole("button", { name: "حذف الحساب والبيانات", exact: true });
+    await deleteAccount.scrollIntoViewIfNeeded();
+    await expect(deleteAccount).toBeInViewport({ ratio: 1 });
     await page.screenshot({
       path: info.outputPath(`settings-dark-${width}.png`),
     });
@@ -576,9 +579,11 @@ test("account actions live only in compact settings and sign-out failure can be 
     .first()
     .click();
   const panel = page.getByTestId("settings-screen");
-  await expect(
-    panel.getByRole("button", { name: "Delete account and data", exact: true }),
-  ).toBeInViewport();
+  await expect(panel.getByTestId("account-details")).toBeVisible();
+  await expect(panel.getByTestId("account-details").getByText("Loading…", { exact: true })).toHaveCount(0);
+  const deleteAccount = panel.getByRole("button", { name: "Delete account and data", exact: true });
+  await deleteAccount.scrollIntoViewIfNeeded();
+  await expect(deleteAccount).toBeInViewport({ ratio: 1 });
   await expect(
     panel.getByText("New in this release", { exact: true }),
   ).toHaveCount(0);
@@ -790,6 +795,9 @@ for (const scenario of [
     await expect(
       page.getByTestId("profile-sections").getByRole("button"),
     ).toHaveCount(5);
+    const more = page.getByTestId("profile-sections").getByRole("button", { name: ar ? "المزيد من أقسام الحساب" : "More profile sections", exact: true });
+    await expect(more).toHaveAttribute("aria-expanded", "false");
+    await expect(page.getByTestId("profile-extra-sections")).toHaveCount(0);
     const edit = profile.getByRole("button", {
       name: ar ? "تعديل الملف" : "Edit profile",
       exact: true,
@@ -831,6 +839,14 @@ for (const scenario of [
         `approved-profile-${width}-${ar ? "ar" : "en"}-${dark ? "dark" : "light"}.png`,
       ),
     });
+    await more.click();
+    const extras = page.getByTestId("profile-extra-sections");
+    await expect(extras.getByRole("button", { name: ar ? "الوصفات المفضلة" : "Favorite recipes", exact: true })).toBeVisible();
+    for (const name of ar ? ["المتابعون", "أتابع"] : ["Followers", "Following"]) await expect(extras.getByRole("button", { name, exact: true })).toHaveCount(0);
+    const menuBox = (await extras.boundingBox())!;
+    expect(menuBox.x).toBeGreaterThanOrEqual(0);
+    expect(menuBox.x + menuBox.width).toBeLessThanOrEqual(width);
+    await page.screenshot({ path: info.outputPath(`profile-menu-${width}-${ar ? "ar" : "en"}-${dark ? "dark" : "light"}.png`), animations: "disabled" });
     await selectProfileExtra(
       page,
       ar ? "الوصفات المفضلة" : "Favorite recipes",
@@ -842,6 +858,7 @@ for (const scenario of [
         exact: true,
       }),
     ).toBeVisible();
+    await expect(more).toHaveAttribute("aria-pressed", "true");
     await profile
       .getByRole("button", {
         name: ar ? "2 متابع" : "2 followers",

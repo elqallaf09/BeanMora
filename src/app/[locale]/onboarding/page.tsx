@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -39,35 +39,32 @@ export default function OnboardingPage() {
   const [flavors, setFlavors] = useState<string[]>([]);
   const [roast, setRoast] = useState<(typeof ROASTS)[number] | null>(null);
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState(false);
+  const saveLock = useRef(false);
 
   const isLast = step === STEPS.length - 1;
 
   async function finish() {
-    setSaving(true);
-    const supabase = createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (user) {
-      await supabase
-        .from("profiles")
-        .update({ experience_level: experience })
-        .eq("id", user.id);
-
-      await supabase.from("user_preferences").upsert({
-        user_id: user.id,
-        preferred_brew_methods: methods,
-        preferred_flavors: flavors,
-        preferred_roast_level: roast,
-        onboarding_completed: true,
-      });
-    }
-    setSaving(false);
-    router.push("/home");
+    if (saveLock.current) return;
+    saveLock.current = true; setSaving(true); setSaveError(false);
+    try {
+      const db = createClient();
+      const { data: { user }, error: authError } = await db.auth.getUser();
+      if (authError || !user) throw new Error("ONBOARDING_SESSION");
+      const profile = await db.from("profiles").update({ experience_level: experience }).eq("id", user.id).select("id").single();
+      if (profile.error || profile.data?.id !== user.id) throw new Error("ONBOARDING_PROFILE");
+      const preferences = await db.from("user_preferences").upsert({
+        user_id: user.id, preferred_brew_methods: methods, preferred_flavors: flavors,
+        preferred_roast_level: roast, onboarding_completed: true,
+      }, { onConflict: "user_id" }).select("user_id").single();
+      if (preferences.error || preferences.data?.user_id !== user.id) throw new Error("ONBOARDING_PREFERENCES");
+      router.push("/home"); router.refresh();
+    } catch { setSaveError(true); }
+    finally { saveLock.current = false; setSaving(false); }
   }
 
   function next() {
+    if (saveLock.current) return;
     if (isLast) {
       void finish();
     } else {
@@ -76,6 +73,7 @@ export default function OnboardingPage() {
   }
 
   function skipAll() {
+    if (saveLock.current) return;
     router.push("/home");
   }
 
@@ -101,6 +99,8 @@ export default function OnboardingPage() {
               <button
                 key={level}
                 type="button"
+                disabled={saving}
+                aria-pressed={experience === level}
                 onClick={() => setExperience(level)}
                 className={cn(
                   "rounded-[var(--radius-brand)] border px-4 py-3 text-sm font-medium",
@@ -124,6 +124,8 @@ export default function OnboardingPage() {
               <button
                 key={method}
                 type="button"
+                disabled={saving}
+                aria-pressed={methods.includes(method)}
                 onClick={() => setMethods((m) => toggle(m, method))}
                 className={cn(
                   "rounded-[var(--radius-brand)] border px-4 py-3 text-sm font-medium capitalize",
@@ -147,6 +149,8 @@ export default function OnboardingPage() {
               <button
                 key={flavor}
                 type="button"
+                disabled={saving}
+                aria-pressed={flavors.includes(flavor)}
                 onClick={() => setFlavors((f) => toggle(f, flavor))}
                 className={cn(
                   "rounded-[var(--radius-brand)] border px-4 py-3 text-sm font-medium capitalize",
@@ -170,6 +174,8 @@ export default function OnboardingPage() {
               <button
                 key={r}
                 type="button"
+                disabled={saving}
+                aria-pressed={roast === r}
                 onClick={() => setRoast(r)}
                 className={cn(
                   "rounded-[var(--radius-brand)] border px-4 py-3 text-sm font-medium capitalize",
@@ -185,17 +191,18 @@ export default function OnboardingPage() {
         </section>
       ) : null}
 
+      {saveError ? <p role="alert" className="text-sm text-[var(--color-error)]">{t("saveError")}</p> : null}
       <div className="mt-4 flex items-center justify-between">
-        <Button variant="ghost" size="sm" onClick={skipAll}>
+        <Button variant="ghost" size="sm" onClick={skipAll} disabled={saving}>
           {tCommon("skip")}
         </Button>
         <div className="flex gap-2">
           {step > 0 ? (
-            <Button variant="outline" size="sm" onClick={() => setStep((s) => s - 1)}>
+            <Button variant="outline" size="sm" disabled={saving} onClick={() => { if (!saveLock.current) setStep((s) => s - 1); }}>
               {tCommon("back")}
             </Button>
           ) : null}
-          <Button size="sm" onClick={next} disabled={saving}>
+          <Button size="sm" onClick={next} disabled={saving} aria-busy={saving}>
             {isLast ? tCommon("done") : tCommon("next")}
           </Button>
         </div>

@@ -141,7 +141,6 @@ for (const locale of ['ar', 'en'] as const) {
     await expect(page.getByRole('heading', { name: locale === 'ar' ? recipe.title_ar : recipe.title, exact: true })).toBeVisible();
     await page.getByRole('button', { name: locale === 'ar' ? 'رجوع' : 'Back', exact: true }).click();
     await page.getByRole('button', { name: locale === 'ar' ? 'اكتشف' : 'Discover', exact: true }).click();
-    await page.getByRole('button', { name: locale === 'ar' ? 'المزيد' : 'More', exact: true }).click();
     await page.getByRole('button', { name: locale === 'ar' ? 'لك أنت' : 'For you', exact: true }).click();
     await expect(page.getByText(locale === 'ar' ? /مطابقة بقواعد واضحة/ : /Explainable matching/)).toBeVisible();
     await expect(page.getByRole('button', { name: coffeeName, exact: true })).toBeVisible();

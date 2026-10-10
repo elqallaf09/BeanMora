@@ -48,6 +48,7 @@ import { methods } from './copy';
 import { RecipeCatalog } from './RecipeCatalog';
 import { CatalogPhoto } from './CatalogPhoto';
 import { MethodGuide } from './MethodGuide';
+import { ConfirmDialog } from './ConfirmDialog';
 import { SourceLink } from './SourceLink';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SafeAreaView } from './native';
@@ -175,6 +176,7 @@ export function EquipmentDirectory({
   const list = useRef<FlatList<EquipmentItem>>(null);
   const [selection, setSelection] = useState<string[]>([]);
   const [comparison, setComparison] = useState(false);
+  const [confirmClear, setConfirmClear] = useState(false);
   const selected = rows.filter((row) => selection.includes(row.id));
   function toggle(id: string) {
     setSelection((values) =>
@@ -473,7 +475,7 @@ export function EquipmentDirectory({
             />
             <Action
               title={ar ? 'مسح الاختيار' : 'Clear selection'}
-              onPress={() => setSelection([])}
+              onPress={() => setConfirmClear(true)}
             />
           </View>
           {selected.length === 1 ? (
@@ -485,6 +487,7 @@ export function EquipmentDirectory({
           ) : null}
         </View>
       ) : null}
+      <ConfirmDialog visible={confirmClear} title={ar ? 'مسح المعدات المختارة' : 'Clear selected equipment'} message={ar ? 'مسح المعدات التي اخترتها للمقارنة؟' : 'Clear the equipment selected for comparison?'} onCancel={() => setConfirmClear(false)} onConfirm={() => { setSelection([]); setConfirmClear(false); }} />
       <Modal
         visible={comparison}
         animationType="slide"

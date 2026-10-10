@@ -38,7 +38,12 @@ export default async function EquipmentDetailPage({
     )
     .eq("id", id)
     .maybeSingle();
-  const equipment = eqRaw ? {...eqRaw, name:locale==='ar'?eqRaw.specifications?.catalog?.name_ar||eqRaw.name:eqRaw.name,description:locale==='ar'?eqRaw.specifications?.catalog?.description_ar||'':eqRaw.specifications?.catalog?.description_en||eqRaw.description} as AnyRow : null;
+  const rawSpecs = eqRaw?.specifications;
+  const rawCatalog = rawSpecs && typeof rawSpecs === "object" && !Array.isArray(rawSpecs) ? rawSpecs.catalog : null;
+  const localized = rawCatalog && typeof rawCatalog === "object" && !Array.isArray(rawCatalog) ? rawCatalog : {};
+  function catalogText(key: string) { const value = localized[key]; return typeof value === "string" ? value : null; }
+  const equipment = eqRaw ? { ...eqRaw, name: locale === "ar" ? catalogText("name_ar") || eqRaw.name : eqRaw.name,
+    description: locale === "ar" ? catalogText("description_ar") || "" : catalogText("description_en") || eqRaw.description } : null;
 
   if (!equipment) {
     return (

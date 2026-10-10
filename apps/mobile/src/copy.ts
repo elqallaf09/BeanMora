@@ -1,6 +1,7 @@
 import type { Caveat, Reason, Method } from './core/engine';
 import type { Outcome, SaveError } from './core/outcome';
-export type Locale = 'ar' | 'en';
+import type { Locale } from './localeText';
+export type { Locale } from './localeText';
 const en = {
   tagline: 'Your next good cup.', preview: 'Expo Go preview · Connected to your BeanMora data',
   beans: 'Coffee', recipes: 'Recipes', forYou: 'For you', account: 'Account', appVersion: 'Version',
@@ -56,24 +57,56 @@ const ar: Record<keyof typeof en, string> = {
   profileNote: 'تستخدم الاقتراحات تفضيلاتك ومعداتك ومخزون البن وآخر نتائجك المسجلة في حساب الويب؛ لا تُعدّل هذه البيانات هنا.',
   setup: 'تعذّر تهيئة الاتصال', setupNote: 'تفتقد هذه النسخة إعدادات الاتصال. حدّث BeanMora إلى أحدث إصدار، ثم افتح التطبيق من جديد.',
 };
-export const copy = { en, ar };
+const ja: Record<keyof typeof en, string> = {
+  tagline: '次の一杯を、もっとおいしく。', preview: 'Expo Go プレビュー · BeanMoraのデータに接続',
+  beans: 'コーヒー', recipes: 'レシピ', forYou: 'おすすめ', account: 'マイページ', appVersion: 'バージョン',
+  loading: 'コーヒーを読み込み中…', retry: '再試行', refresh: '更新', back: '戻る',
+  search: 'コーヒーと風味を検索', all: 'すべての抽出方法', empty: '条件に合う確認済みのデータがありません。',
+  partial: '一部のデータを読み込めませんでした。カタログが空とは限りません。',
+  limited: '各データ元の最近の200件までを表示しています。カタログ全体の順位ではありません。',
+  matching: 'おすすめの理由', general: 'このコーヒーを探ってみましょう。好みとの一致はまだ確認されていません。',
+  ruleNote: '根拠のある条件で選んだおすすめです。AIの信頼度スコアではありません。',
+  stockUnknown: '購入可能な在庫は未確認です。', verified: '最終確認', unknown: '不明', source: '情報元を開く', sourceError: '情報元を開けませんでした。',
+  details: 'コーヒーの詳細', instructions: 'レシピの手順', noSteps: '手順は登録されていません。', noNotes: '追加のメモはありません。',
+  dose: 'コーヒー（g）', water: '水量／抽出量（g）', seconds: '実際の時間（秒・任意）',
+  amountNote: 'エスプレッソは抽出量、フィルターは注ぐ水量を記録してください。情報元の手順も確認してください。',
+  record: '抽出結果を記録', outcome: '仕上がりはどうでしたか？', modified: 'レシピを変更した', brewed: '実際にこの一杯を淹れた',
+  share: '抽出記録をコミュニティに共有（任意）', shareNote: 'アカウント、レシピ、結果、変更の有無と時間を共有します。初期状態はオフです。',
+  save: '結果を保存', saving: '保存中…', saved: '抽出記録を保存しました。', next: 'おすすめに戻る',
+  frozen: '同じリクエストで安全に再試行できます。保存が確定するまで別の一杯を送信しないでください。',
+  loginFirst: '抽出結果を記録するには、BeanMoraのメールとパスワードでログインしてください。',
+  email: 'メールアドレス', password: 'パスワード', login: 'ログイン', logout: 'ログアウト', guest: 'アカウントなしで閲覧',
+  existing: '同じBeanMoraアカウントを使えます。公開カタログの閲覧にログインは不要です。',
+  authNote: 'Googleまたはメールでログインできます。マイページからアカウントとデータを管理・削除できます。',
+  authError: 'ログインできませんでした。メール、パスワード、メールの確認と接続を確認してください。',
+  invalidCredentials: 'メールアドレスまたはパスワードが正しくありません。', emailNotConfirmed: 'ログイン前にメールを確認してください。', networkError: 'BeanMoraに接続できません。通信環境を確認して再試行してください。',
+  logoutError: 'ログアウトできませんでした。再試行してください。', show: 'パスワードを表示', hide: 'パスワードを隠す',
+  profileNote: '保存した好み、器具、コーヒー在庫と最近の抽出結果をおすすめに使います。',
+  setup: '接続設定が利用できません', setupNote: '接続設定が含まれていません。BeanMoraを最新バージョンに更新して、もう一度開いてください。',
+};
+export const copy = { en, ar, ja };
 export const methods: Record<Locale, Record<Method, string>> = {
+  ja: { v60: 'V60', espresso: 'エスプレッソ', xbloom: 'xBloom', aeropress: 'エアロプレス', chemex: 'ケメックス', french_press: 'フレンチプレス', cold_brew: 'コールドブリュー', moka_pot: 'モカポット', origami: 'ORIGAMI', kalita_wave: 'カリタウェーブ', april: 'April', orea: 'OREA', switch: 'ハリオスイッチ', pour_over: 'ハンドドリップ', auto_drip: '自動ドリップ' },
   en: { v60: 'V60', espresso: 'Espresso', xbloom: 'xBloom', aeropress: 'AeroPress', chemex: 'Chemex', french_press: 'French press', cold_brew: 'Cold brew', moka_pot: 'Moka pot', origami: 'Origami', kalita_wave: 'Kalita Wave', april: 'April', orea: 'OREA', switch: 'Hario Switch', pour_over: 'Pour over', auto_drip: 'Auto drip' },
   ar: { v60: 'V60', espresso: 'إسبريسو', xbloom: 'xBloom', aeropress: 'إيروبرس', chemex: 'كيمكس', french_press: 'فرنش برس', cold_brew: 'كولد برو', moka_pot: 'موكا بوت', origami: 'أوريغامي', kalita_wave: 'كاليتا ويف', april: 'إبريل', orea: 'OREA', switch: 'هاريو سويتش', pour_over: 'ترشيح يدوي', auto_drip: 'تقطير آلي' },
 };
 export const reasons: Record<Locale, Record<Reason, string>> = {
+  ja: { method: '好みの抽出方法', gearMethod: 'お持ちの器具に合う', flavor: '好みの風味に合う', roast: '好みの焙煎度', inventory: '在庫にあるコーヒー', exactEquipment: '記録した器具が一致', beginner: '初心者向け', ownSuccess: '前回気に入ったレシピ', community: 'コミュニティの好評価' },
   en: { method: 'Preferred brew method', gearMethod: 'Fits your brewing gear', flavor: 'Matches your flavor preferences', roast: 'Preferred roast family', inventory: 'Coffee in your inventory', exactEquipment: 'Recorded equipment matches', beginner: 'Beginner-friendly label', ownSuccess: 'You last enjoyed this recipe', community: 'Positive community evidence' },
   ar: { method: 'طريقة تحضيرك المفضلة', gearMethod: 'يناسب نوع معداتك', flavor: 'يطابق تفضيلات النكهة', roast: 'عائلة التحميص المفضلة', inventory: 'البن موجود في مخزونك', exactEquipment: 'المعدات المسجلة متطابقة', beginner: 'موسوم للمبتدئين', ownSuccess: 'أعجبتك آخر تجربة لهذه الوصفة', community: 'نتائج مجتمع إيجابية' },
 };
 export const caveats: Record<Locale, Record<Caveat, string>> = {
+  ja: { stockUnknown: ja.stockUnknown, stale: '確認から90日以上経過しています。', unverified: '確認日が未登録または無効です。', equipmentUnknown: '抽出器具が未登録です。', equipmentDifferent: '器具が異なります。別のグラインダーの目盛りをそのまま使わないでください。', incomplete: 'レシピの情報や分量が不足しています。', communityLimited: '十分なコミュニティの記録がありません。' },
   en: { stockUnknown: en.stockUnknown, stale: 'Verification is over 90 days old.', unverified: 'Verification date is missing or invalid.', equipmentUnknown: 'Your brewing equipment is not known.', equipmentDifferent: 'Some recorded equipment differs; do not copy grinder numbers.', incomplete: 'Some recipe evidence or quantities are missing.', communityLimited: 'No sufficient community evidence loaded.' },
   ar: { stockUnknown: ar.stockUnknown, stale: 'مرّ أكثر من 90 يومًا على التحقق.', unverified: 'تاريخ التحقق مفقود أو غير صالح.', equipmentUnknown: 'معدات التحضير لديك غير معروفة.', equipmentDifferent: 'بعض المعدات مختلفة؛ لا تنقل أرقام الطحن بين الطواحين.', incomplete: 'بعض معلومات الوصفة أو كمياتها ناقصة.', communityLimited: 'لا تتوفر أدلة مجتمع كافية محمّلة.' },
 };
 export const outcomes: Record<Locale, Record<Outcome, string>> = {
+  ja: { excellent: 'とても良い', good: '良い', needs_adjustment: '調整が必要', poor: '満足できない' },
   en: { excellent: 'Excellent', good: 'Good', needs_adjustment: 'Needs adjustment', poor: 'Poor' },
   ar: { excellent: 'ممتازة', good: 'جيدة', needs_adjustment: 'تحتاج تعديل', poor: 'غير مرضية' },
 };
 export const errors: Record<Locale, Record<SaveError, string>> = {
+  ja: { invalid: '分量、時間、結果と実際に抽出したことを確認してください。', auth: '登録済みのアカウントでログインしてください。', unavailable: 'レシピまたは保存機能が利用できません。', retry: '保存を確認できませんでした。同じリクエストで再試行してください。', conflict: 'このリクエストは別の内容で使用されています。' },
   en: { invalid: 'Check quantities, time, result and actual-brew confirmation.', auth: 'A permanent signed-in account is required.', unavailable: 'Recipe or save service unavailable.', retry: 'Save was not confirmed. Retry the same request.', conflict: 'This request was already used with different values.' },
   ar: { invalid: 'راجع الكميات والوقت والنتيجة وتأكيد التحضير الفعلي.', auth: 'يجب تسجيل الدخول بحساب دائم.', unavailable: 'الوصفة أو خدمة الحفظ غير متاحة.', retry: 'لم يتأكد الحفظ. أعد محاولة الطلب نفسه.', conflict: 'استُخدم هذا الطلب سابقًا بقيم مختلفة.' },
 };
