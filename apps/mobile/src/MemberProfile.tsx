@@ -26,7 +26,8 @@ import { ProfileCover } from "./ProfileCover";
 import { ProfilePhotoActions } from "./ProfilePhotoActions";
 import { CommunityScreen } from "./CommunityScreen";
 import type { CoffeeItem, RecipeItem } from "./data";
-import { TabRail } from "./TabRail";
+import { PillButton } from "./PillButton";
+import { ProfileSectionMenu } from "./ProfileSectionMenu";
 import { SelectionMenu } from "./SelectionMenu";
 import { categoryLabel } from "./catalog";
 import { catalogName, methodLabel } from "./localizedContent";
@@ -258,7 +259,6 @@ export function MemberProfile({
     [editing, setEditing] = useState(false);
   const [bioExpanded, setBioExpanded] = useState(false);
   const [notice, setNotice] = useState("");
-  const [moreSections, setMoreSections] = useState(true);
   const [draft, setDraft] = useState({
     name: "",
     username: "",
@@ -385,6 +385,7 @@ export function MemberProfile({
   const wide = width >= 700;
   const avatarSize = wide ? 112 : 80;
   const extraSections = sections.slice(4);
+  const menuSections = sections.slice(4, 7);
   const selectedExtra = extraSections.find((section) => section[0] === tab);
   const selectSection = (key: string) => {
     setTab(key);
@@ -570,9 +571,6 @@ export function MemberProfile({
                 <Txt numberOfLines={bioExpanded ? undefined : 3}>{p.bio}</Txt>
                 {p.bio.length > 160 || p.bio.includes('\n') ? <Action compact title={bioExpanded ? L('عرض أقل', 'Show less') : L('عرض النبذة كاملة', 'Show full bio')} onPress={() => setBioExpanded(v => !v)} /> : null}
               </> : null}
-              {own && !editing ? <View style={{ alignSelf: ar ? 'flex-end' : 'flex-start' }}>
-                <Action compact title={p.bio ? L('تعديل النبذة', 'Edit bio') : L('أضف نبذة عنك', 'Add a bio')} disabled={busy} onPress={() => { setEditing(true); setNotice(''); }} />
-              </View> : null}
             </View>
           </View>
           <View
@@ -586,12 +584,13 @@ export function MemberProfile({
             <ProfileCount
               count={data.follower_count}
               label={L("متابع", "followers")}
+              selected={tab === "followers"}
               onPress={() => selectSection("followers")}
             />
-            <Txt style={styles.muted}>·</Txt>
             <ProfileCount
               count={data.following_count}
               label={L("أتابع", "following")}
+              selected={tab === "following"}
               onPress={() => selectSection("following")}
             />
           </View>
@@ -759,9 +758,9 @@ export function MemberProfile({
             testID="profile-stats"
             style={{
               flexDirection: ar ? "row-reverse" : "row",
-              borderTopWidth: 1,
-              borderBottomWidth: 1,
-              borderColor: colors.line,
+              flexWrap: "wrap",
+              justifyContent: "space-between",
+              gap: 6,
             }}
           >
             {(
@@ -791,59 +790,11 @@ export function MemberProfile({
                   "eye",
                 ],
               ] as const
-            ).map(([key, count, label, icon], index) => (
-              <Pressable
-                key={key}
-                accessibilityRole="button"
+            ).map(([key, count, label, icon]) => (
+              <PillButton key={key} title={label} icon={icon} count={count} compact
+                labelLines={2} selected={tab === key}
                 accessibilityLabel={label + " (" + count + ")"}
-                onPress={() => selectSection(key)}
-                style={{
-                  flex: 1,
-                  minWidth: 0,
-                  minHeight: 72,
-                  justifyContent: "center",
-                  paddingVertical: 10,
-                  paddingHorizontal: wide ? 16 : 4,
-                  gap: 4,
-                }}
-              >
-                <View
-                  style={{
-                    flexDirection: ar ? "row-reverse" : "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: wide ? 12 : 6,
-                    ...(wide && index < 3
-                      ? {
-                          borderLeftWidth: ar ? 1 : 0,
-                          borderRightWidth: ar ? 0 : 1,
-                          borderColor: colors.line,
-                        }
-                      : {}),
-                  }}
-                >
-                  <Icon name={icon} size={22} color={colors.teal} />
-                  {wide ? (
-                    <Txt style={[styles.muted, { flexShrink: 1 }]}>{label}</Txt>
-                  ) : null}
-                  <Txt
-                    style={{ fontSize: 22, lineHeight: 28, fontWeight: "700" }}
-                  >
-                    {count}
-                  </Txt>
-                </View>
-                {!wide ? (
-                  <Txt
-                    numberOfLines={2}
-                    style={[
-                      styles.muted,
-                      { textAlign: "center", fontSize: 11, lineHeight: 16 },
-                    ]}
-                  >
-                    {label}
-                  </Txt>
-                ) : null}
-              </Pressable>
+                onPress={() => selectSection(key)} style={wide ? { flex: 1 } : { width: '48%' }} />
             ))}
           </View>
           <View
@@ -851,37 +802,15 @@ export function MemberProfile({
             style={{
               flexDirection: ar ? "row-reverse" : "row",
               alignItems: "stretch",
-              borderBottomWidth: 1,
-              borderColor: colors.line,
+              flexWrap: "wrap",
+              gap: 6,
             }}
           >
-            <View style={{ flex: 4, minWidth: 0 }}>
-              <TabRail
-                equal compact
-                value={tab}
-                onChange={selectSection}
-                items={sections.slice(0, 4).map((section) => ({
-                  id: section[0],
-                  label: L(section[1], section[2]),
-                }))}
-              />
-            </View>
-            <View
-              style={{
-                flex: 1,
-                minWidth: 0,
-                justifyContent: "center",
-                borderBottomWidth: 3,
-                borderBottomColor: selectedExtra ? colors.teal : "transparent",
-              }}
-            >
-              <Pressable accessibilityRole="button" accessibilityLabel={L("المزيد من أقسام الحساب", "More profile sections")} accessibilityState={{ expanded: moreSections }} onPress={() => setMoreSections(v => !v)} style={{ minHeight: 44, flexDirection: ar ? 'row-reverse' : 'row', gap: 3, alignItems: 'center', justifyContent: 'center' }}>
-                <Txt numberOfLines={1} style={{ fontSize: 12 }}>{L('المزيد', 'More')}</Txt>
-                <Icon name="chevronDown" size={12} color={colors.teal} />
-              </Pressable>
-            </View>
+            {sections.slice(0, 4).map((section, index) => <PillButton key={section[0]} compact title={L(section[1], section[2])}
+              icon={(['gear', 'bean', 'espresso', 'story'] as const)[index]} selected={tab === section[0]} onPress={() => selectSection(section[0])} />)}
+            <ProfileSectionMenu value={tab} onChange={selectSection} style={{ minWidth: 0 }}
+              items={menuSections.map((section, index) => ({ id: section[0], label: L(section[1], section[2]), icon: (['heart', 'comment', 'eye'] as const)[index] }))} />
           </View>
-          {moreSections ? <TabRail testID="profile-extra-sections" compact wrap value={tab} items={extraSections.map(section => ({ id: section[0], label: L(section[1], section[2]) }))} onChange={selectSection} /> : null}
           {selectedExtra ? (
             <Txt heading style={styles.subtitle}>
               {L(selectedExtra[1], selectedExtra[2])}
@@ -1193,7 +1122,7 @@ function ProfileAction({
   title,
   icon,
   onPress,
-  selected = false,
+  selected,
   disabled = false,
   dashed = false,
 }: {
@@ -1204,76 +1133,23 @@ function ProfileAction({
   disabled?: boolean;
   dashed?: boolean;
 }) {
-  const ar = useContext(Language) === "ar";
   return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={title}
-      accessibilityState={{ disabled }}
-      disabled={disabled}
-      onPress={onPress}
-      style={({ pressed }) => ({
-        minHeight: dashed ? 52 : 44,
-        paddingHorizontal: 16,
-        paddingVertical: 8,
-        borderRadius: 14,
-        borderWidth: 1,
-        borderStyle: dashed ? "dashed" : "solid",
-        borderColor: selected ? colors.teal : colors.line,
-        backgroundColor: selected ? colors.teal : colors.paper,
-        flexDirection: ar ? "row-reverse" : "row",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 8,
-        opacity: disabled || pressed ? 0.55 : 1,
-      })}
-    >
-      {icon ? (
-        <Icon
-          name={icon}
-          size={20}
-          color={selected ? "#FFF" : dashed ? colors.teal : colors.ink}
-        />
-      ) : null}
-      <Txt
-        style={{
-          color: selected ? "#FFF" : dashed ? colors.teal : colors.ink,
-          fontWeight: "700",
-          fontSize: 14,
-          textAlign: "center",
-          flexShrink: 1,
-        }}
-      >
-        {title}
-      </Txt>
-    </Pressable>
+    <PillButton title={title} icon={icon} selected={selected} disabled={disabled} dashed={dashed} onPress={onPress} labelLines={2} />
   );
 }
 function ProfileCount({
   count,
   label,
+  selected,
   onPress,
 }: {
   count: number;
   label: string;
+  selected: boolean;
   onPress: () => void;
 }) {
-  const ar = useContext(Language) === "ar";
   return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={`${count} ${label}`}
-      onPress={onPress}
-      style={{
-        minHeight: 44,
-        flexDirection: ar ? "row-reverse" : "row",
-        gap: 6,
-        alignItems: "center",
-      }}
-    >
-      <Txt style={{ fontWeight: "700", writingDirection: "ltr" }}>{count}</Txt>
-      <Txt style={styles.muted}>{label}</Txt>
-    </Pressable>
+    <PillButton title={label} count={count} leadingCount compact selected={selected} accessibilityLabel={`${count} ${label}`} onPress={onPress} />
   );
 }
 function CollectionCard({
