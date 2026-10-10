@@ -795,6 +795,9 @@ for (const scenario of [
     await expect(
       page.getByTestId("profile-sections").getByRole("button"),
     ).toHaveCount(5);
+    const more = page.getByTestId("profile-sections").getByRole("button", { name: ar ? "المزيد من أقسام الحساب" : "More profile sections", exact: true });
+    await expect(more).toHaveAttribute("aria-expanded", "false");
+    await expect(page.getByTestId("profile-extra-sections")).toHaveCount(0);
     const edit = profile.getByRole("button", {
       name: ar ? "تعديل الملف" : "Edit profile",
       exact: true,
@@ -836,6 +839,14 @@ for (const scenario of [
         `approved-profile-${width}-${ar ? "ar" : "en"}-${dark ? "dark" : "light"}.png`,
       ),
     });
+    await more.click();
+    const extras = page.getByTestId("profile-extra-sections");
+    await expect(extras.getByRole("button", { name: ar ? "الوصفات المفضلة" : "Favorite recipes", exact: true })).toBeVisible();
+    for (const name of ar ? ["المتابعون", "أتابع"] : ["Followers", "Following"]) await expect(extras.getByRole("button", { name, exact: true })).toHaveCount(0);
+    const menuBox = (await extras.boundingBox())!;
+    expect(menuBox.x).toBeGreaterThanOrEqual(0);
+    expect(menuBox.x + menuBox.width).toBeLessThanOrEqual(width);
+    await page.screenshot({ path: info.outputPath(`profile-menu-${width}-${ar ? "ar" : "en"}-${dark ? "dark" : "light"}.png`), animations: "disabled" });
     await selectProfileExtra(
       page,
       ar ? "الوصفات المفضلة" : "Favorite recipes",
@@ -847,6 +858,7 @@ for (const scenario of [
         exact: true,
       }),
     ).toBeVisible();
+    await expect(more).toHaveAttribute("aria-pressed", "true");
     await profile
       .getByRole("button", {
         name: ar ? "2 متابع" : "2 followers",

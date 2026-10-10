@@ -1,4 +1,5 @@
 import { TabRail } from './src/TabRail';
+import { PillButton } from './src/PillButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
@@ -572,9 +573,8 @@ function Shell() {
           <IconButton name="close" label={L('إغلاق', 'Close')} onPress={() => setLibraryMenu(false)}/>
         </View>
         <ScrollView contentContainerStyle={{flexDirection:ar?'row-reverse':'row',flexWrap:'wrap',gap:6}}>
-          {extraLibraryItems.map(item => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.label} onPress={() => openLibraryItem(item.id)} style={{width:'48%',minHeight:44,padding:8,borderRadius:10,backgroundColor:colors.chip,flexDirection:ar?'row-reverse':'row',alignItems:'center',gap:6}}>
-            <Icon name={item.icon} size={16} color={colors.teal}/><Txt numberOfLines={1} style={{fontSize:12,flexShrink:1}}>{item.label}</Txt>
-          </Pressable>)}
+          {extraLibraryItems.map(item => <PillButton key={item.id} compact title={item.label} icon={item.icon}
+            onPress={() => openLibraryItem(item.id)} style={{ width: '48%' }} labelLines={2} />)}
         </ScrollView>
       </View>
     </View>
@@ -583,7 +583,7 @@ function Shell() {
     <>
       {!login && !detail && configured ? (
         <View style={s.libraryNav}>
-          <TabRail compact wrap testID="library-navigation" value={tab}
+          <TabRail compact wrap variant="pills" testID="library-navigation" value={tab}
             items={[
               { id: 'beans', label: L('البن والإيحاءات', 'Coffee & taste'), icon: 'bean' },
               { id: 'recipes', label: L('مكتبة الوصفات', 'Recipe library'), icon: 'espresso' },
@@ -1237,7 +1237,8 @@ const s = StyleSheet.create({
     flexGrow: 0,
     flexShrink: 0,
     paddingHorizontal: 18,
-    paddingBottom: 4,
+    paddingTop: 4,
+    paddingBottom: 10,
   },
   headerActions: {
     flexDirection: 'row',

@@ -406,11 +406,29 @@ test('DM editing keeps original expiry, failed changes keep drafts, deletion and
   await expect(page.getByTestId('confirm-dialog')).toHaveCount(0);
 });
 
-test('profile extras are visible directly and the message entry is an icon above the profile', async ({ page }, info) => {
+test('profile extras open in a dismissible menu and the message entry is an icon above the profile', async ({ page }, info) => {
   await page.setViewportSize({ width: 1536, height: 1009 }); await fixture(page); await login(page); await setLanguage(page, 'ar');
   const primary = page.getByTestId('profile-sections');
   for (const name of ['المعدات', 'البن', 'الوصفات', 'منشوراتي', 'المزيد من أقسام الحساب']) await expect(primary.getByRole('button', { name, exact: true })).toBeVisible();
-  await expect(page.getByTestId('profile-extra-sections').getByRole('button', { name: 'التعليقات', exact: true })).toBeVisible();
+  const more = primary.getByRole('button', { name: 'المزيد من أقسام الحساب', exact: true });
+  await expect(more).toHaveAttribute('aria-expanded', 'false');
+  await expect(page.getByTestId('profile-extra-sections')).toHaveCount(0);
+  await more.click();
+  const extras = page.getByTestId('profile-extra-sections');
+  await expect(extras.getByRole('button', { name: 'التعليقات', exact: true })).toBeVisible();
+  for (const name of ['المتابعون', 'أتابع']) await expect(extras.getByRole('button', { name, exact: true })).toHaveCount(0);
+  const box = (await extras.boundingBox())!;
+  expect(box.x).toBeGreaterThanOrEqual(0); expect(box.x + box.width).toBeLessThanOrEqual(1536);
+  await page.screenshot({ path: info.outputPath('profile-more-menu-arabic-tablet.png'), animations: 'disabled' });
+  await page.getByRole('button', { name: 'إغلاق القائمة', exact: true }).click({ position: { x: 5, y: 5 } });
+  await expect(extras).toHaveCount(0);
+  await expect(more).toHaveAttribute('aria-expanded', 'false');
+  await expect(page.locator('[aria-modal="true"]')).toHaveCount(0);
+  await more.focus(); await page.keyboard.press('Enter');
+  await expect(extras).toBeVisible();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await page.keyboard.press('Escape'); await expect(extras).toHaveCount(0);
+  await expect(page.locator('[aria-modal="true"]')).toHaveCount(0);
   const inbox = page.getByRole('button', { name: 'رسائلي', exact: true }); await expect(inbox).toBeVisible();
   expect(await inbox.innerText()).toBe('');
   await page.screenshot({ path: info.outputPath('compact-account-arabic-tablet.png'), animations: 'disabled' });
