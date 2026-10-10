@@ -50,10 +50,12 @@ test('clearing equipment selection requires approval and cancel keeps both model
   await expect(page.getByRole('button', { name: 'مسح الاختيار', exact: true })).toHaveCount(0);
 });
 for (const width of [320, 1536])
-  test(`compact direct navigation and 3-second cached picks at ${width}px`, async ({
+  test(`compact direct navigation and 30-second cached picks at ${width}px`, async ({
     page,
   }, info) => {
     await page.setViewportSize({ width, height: 1009 });
+    await page.clock.install();
+    await page.clock.pauseAt(new Date());
     let reads = 0;
     await page.route("https://picks-fixture.test/**", (r) =>
       r.fulfill({ contentType: "image/png", body: png }),
@@ -109,6 +111,10 @@ for (const width of [320, 1536])
     const beforeCoffee = await names(coffee),
       beforeTools = await names(equipment),
       beforeReads = reads;
+    await page.clock.runFor(29_000);
+    expect(await names(coffee)).toBe(beforeCoffee);
+    expect(await names(equipment)).toBe(beforeTools);
+    await page.clock.runFor(1500);
     await expect
       .poll(() => names(coffee), { timeout: 6000 })
       .not.toBe(beforeCoffee);
