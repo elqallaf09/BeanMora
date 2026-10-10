@@ -22,6 +22,7 @@
   "savedPrivate": "Only you can read this attempt. It can improve your own recommendations, not the community score.",
   "savedShared": "Your attempt can now contribute to community evidence. Repeat cups are not counted as additional distinct brewers.",
   "unlinked": "This quick-start cup has no linked recipe, so it will not be credited to a recipe or its community score.",
+  "browseRecipes": "Browse recipes",
   "seeRecommendations": "See my updated recommendations", "backRecipe": "Back to the recipe", "signIn": "Sign in with a permanent account",
   "retryHint": "The submitted values are kept unchanged for a safe retry. A retry will not create another cup.",
   "skippedTime": "You skipped a timer step. The simulated time is not recorded as your actual brew time; enter your measured time or leave it blank.",

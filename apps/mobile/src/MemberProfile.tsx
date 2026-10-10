@@ -384,8 +384,8 @@ export function MemberProfile({
   ];
   const wide = width >= 700;
   const avatarSize = wide ? 112 : 80;
-  const extraSections = sections.slice(4);
-  const selectedExtra = extraSections.find((section) => section[0] === tab);
+  const extraSections = sections.slice(4).filter((section) => !['followers', 'following'].includes(section[0]));
+  const selectedExtra = sections.slice(4).find((section) => section[0] === tab);
   const selectSection = (key: string) => {
     setTab(key);
     setEditing(false);
@@ -570,9 +570,6 @@ export function MemberProfile({
                 <Txt numberOfLines={bioExpanded ? undefined : 3}>{p.bio}</Txt>
                 {p.bio.length > 160 || p.bio.includes('\n') ? <Action compact title={bioExpanded ? L('عرض أقل', 'Show less') : L('عرض النبذة كاملة', 'Show full bio')} onPress={() => setBioExpanded(v => !v)} /> : null}
               </> : null}
-              {own && !editing ? <View style={{ alignSelf: ar ? 'flex-end' : 'flex-start' }}>
-                <Action compact title={p.bio ? L('تعديل النبذة', 'Edit bio') : L('أضف نبذة عنك', 'Add a bio')} disabled={busy} onPress={() => { setEditing(true); setNotice(''); }} />
-              </View> : null}
             </View>
           </View>
           <View
@@ -960,6 +957,7 @@ export function MemberProfile({
                 <ProfileAction
                   dashed
                   title={L("إضافة معدة", "Add equipment")}
+                  variant="primary"
                   icon="plus"
                   onPress={() => manage("equipment")}
                 />
@@ -1000,6 +998,7 @@ export function MemberProfile({
               {own && tab === "recipes" ? (
                 <Action
                   title={L("إضافة وصفة", "Add recipe")}
+                  variant="primary"
                   onPress={() => manage("recipes")}
                 />
               ) : null}
@@ -1194,6 +1193,7 @@ function ProfileAction({
   icon,
   onPress,
   selected = false,
+  variant = "secondary",
   disabled = false,
   dashed = false,
 }: {
@@ -1201,10 +1201,12 @@ function ProfileAction({
   icon?: IconName;
   onPress: () => void;
   selected?: boolean;
+  variant?: "primary" | "secondary";
   disabled?: boolean;
   dashed?: boolean;
 }) {
   const ar = useContext(Language) === "ar";
+  const primary = selected || variant === "primary";
   return (
     <Pressable
       accessibilityRole="button"
@@ -1218,9 +1220,9 @@ function ProfileAction({
         paddingVertical: 8,
         borderRadius: 14,
         borderWidth: 1,
-        borderStyle: dashed ? "dashed" : "solid",
-        borderColor: selected ? colors.teal : colors.line,
-        backgroundColor: selected ? colors.teal : colors.paper,
+        borderStyle: dashed && !primary ? "dashed" : "solid",
+        borderColor: primary ? colors.teal : colors.line,
+        backgroundColor: primary ? colors.teal : colors.paper,
         flexDirection: ar ? "row-reverse" : "row",
         alignItems: "center",
         justifyContent: "center",
@@ -1232,12 +1234,12 @@ function ProfileAction({
         <Icon
           name={icon}
           size={20}
-          color={selected ? "#FFF" : dashed ? colors.teal : colors.ink}
+          color={primary ? "#FFF" : dashed ? colors.teal : colors.ink}
         />
       ) : null}
       <Txt
         style={{
-          color: selected ? "#FFF" : dashed ? colors.teal : colors.ink,
+          color: primary ? "#FFF" : dashed ? colors.teal : colors.ink,
           fontWeight: "700",
           fontSize: 14,
           textAlign: "center",

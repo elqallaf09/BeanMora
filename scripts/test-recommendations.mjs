@@ -157,7 +157,8 @@ test('personalization is request-scoped, read-only, and not wired to privileged 
   assert.ok(loader.includes('import "server-only"'));
   assert.ok(!loader.includes('SUPABASE_SERVICE_ROLE'));
   assert.ok(!/\.(insert|update|delete|upsert)\(/.test(loader));
-  assert.ok(page.includes('export const dynamic = "force-dynamic"'));
+  assert.match(page, /redirect\(\{ href: "\/discover"/);
+  assert.ok(!page.includes("loadRecommendations"));
   assert.ok(!loader.includes('unstable_cache'));
   for (const table of ['user_preferences', 'user_equipment', 'user_bean_inventory']) {
     assert.match(loader, new RegExp(`from\\("${table}"\\)[^\\n]+eq\\("user_id", user.id\\)`));

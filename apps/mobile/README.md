@@ -41,7 +41,7 @@ npm start
 - Arabic/English UI and search across loaded coffee names, roasters, origins and flavors.
 - Existing BeanMora email/password login, signup and password reset. Public browsing creates no anonymous account.
 - Native session persistence through AsyncStorage, private favorites using the existing owner-restricted bean_saves table, and account notifications.
-- Explainable recommendations from existing account preferences, equipment, inventory and latest own brew outcomes.
+- Saved coffee and recipe collections, with saved coffee method filters independent of general brewing guides.
 - Recording a real brew through the existing atomic `record_brew_outcome_v1` RPC, without positive defaults; private by default, optional explicit community consent.
 - Loading/error/empty states, request cancellation guards, bounded queries and network timeouts.
 
@@ -68,7 +68,7 @@ After the release PR is merged, open the existing BeanMora Expo project's **Buil
 | Environment from the build profile | `production` (the **Production** variables in Expo) |
 | Submit to store after build | Off |
 
-Start the build manually. When its status is **Finished**, check that the build details identify the intended release commit and version **0.5.22**, then download the **APK** from that build's artifact link. The Android build number must exceed the version already installed on the device. Settings and account screens show the actual installed native version/build number. Install the newly built APK to receive these changes.
+Start the build manually. When its status is **Finished**, check that the build details identify the intended release commit and version **0.5.26**, then download the **APK** from that build's artifact link. The Android build number must exceed the version already installed on the device. Settings and account screens show the actual installed native version/build number. Install the newly built APK to receive these changes.
 
 Both EAS profiles explicitly select `production` variables and the Android `latest` build image. EAS now manages build numbers remotely with `autoIncrement: true` on both profiles; the user-facing version remains in app.json. On initial migration verify the remote counters exceed Android **25** and iOS **9**; an existing lower counter must be synchronized with `eas build:version:set` before delivery. The `preview` profile produces an internally distributed APK; the `production` profile produces an app bundle for Android or an App Store build for iOS. Build a new iOS archive before submitting it to TestFlight. Resubmitting an old archive keeps its duplicate build number. The standalone preview APK runs without Expo Go or a development server.
 
@@ -96,7 +96,7 @@ Release references (checked 2026-10-04): [Expo GitHub builds](https://docs.expo.
 
 ## Catalog data and source handling
 
-Version 0.5.21 adopts the selected underline menu mockup 7 in discovery and Settings, removes the redundant coffee-list buttons, and centers coffeeHO in the bottom navigation. Roast Lab adds an illustrated, sourced learning guide with a ten-page Arabic study. Equipment details expose reviewed multi-photo galleries for 109 models (383 photographs); the free local coffee expert adds a searchable library of 44 bilingual lessons and substantive follow-ups. See [release validation and limitations](../../docs/RELEASE-0.5.21.md).
+Version 0.5.26 removes duplicate profile shortcuts and the For you page, separates saved coffees from general guides, makes roasting/capsule catalogs compact and unifies addition buttons in teal. Roast Lab now includes eleven reviewed machines and a smaller guide illustration. Coffee expert starts with suggestions and a nearby question form; its 44 bilingual lessons remain accessible through questions. See [release validation and limitations](../../docs/RELEASE-0.5.26.md).
 
 Reviewed product photography is read from bean_images / product_images and direct image_url fields with documented provenance. Attributed `source_linked` photos remain at the publisher; this status does not assert a redistribution licence. Images fit inside their containers without cropping the bag. Official product artwork and coffee-origin photos carry distinct captions. Missing or failed coffee images show a neutral bean symbol and an explicit unavailable label; equipment shows a model-photo-unavailable label. Product origins come from the linked coffee lot. Brew amounts, temperatures and times are shown only from a recipe linked to the selected coffee and method; no mock ratings or quantities are substituted. Espresso output is labelled separately from input water, published ranges remain ranges, and calculated yield is marked. Source milliliters are displayed as milliliters and are not prefilled as measured grams in a brew result.
 
