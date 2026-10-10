@@ -28,11 +28,9 @@ import { MemberDirectory, MemberProfile } from './src/MemberProfile';
 import {loadEquipment} from './src/catalog';
 import {
   emptyProfile,
-  recommendCoffees,
-  recommendRecipes,
   type Method,
 } from './src/core/engine';
-import { copy, caveats, reasons, type Locale } from './src/copy';
+import { copy, type Locale } from './src/copy';
 import { contentLocale, isLocale, localeLabel } from './src/localeText';
 import { matchesIndexedSearch } from './src/core/deepSearch';
 import { indexedCoffeeSearchDocument } from './src/searchIndex';
@@ -107,7 +105,6 @@ type Tab =
   | 'recipes'
   | 'savedRecipes'
   | 'brewFlow'
-  | 'forYou'
   | 'favorites'
   | 'bags'
   | 'best'
@@ -280,6 +277,7 @@ function Shell() {
       setMethod(recipeMethod);
       setRecipeEntry((n) => n + 1);
     }
+    if (next === 'favorites') setMethod(undefined);
     setTab(next);
     setSearch('');
     setRecipeCoffee(null);
@@ -330,20 +328,6 @@ function Shell() {
           matchesIndexedSearch(indexedCoffeeSearchDocument(coffee), query)),
     );
   }, [data?.coffees, data?.recipes, method, search]);
-  const rankedCoffee = useMemo(
-    () =>
-      data && tab === 'forYou'
-        ? recommendCoffees(data.coffees, data.profile, Date.now(), method)
-        : [],
-    [data?.coffees, data?.profile, method, tab === 'forYou'],
-  );
-  const rankedRecipes = useMemo(
-    () =>
-      data && tab === 'forYou'
-        ? recommendRecipes(data.recipes, data.profile, method)
-        : [],
-    [data?.recipes, data?.profile, method, tab === 'forYou'],
-  );
   const refresh = () => setRevision((n) => n + 1);
   const openDetail = (next: Detail) => {
     if (detail) setParents((p) => [...p, detail]);
@@ -546,7 +530,6 @@ function Shell() {
     {id:'assistant',label:L('خبير القهوة', 'Coffee expert'),icon:'comment'},
     {id:'capsules',label:L('الكبسولات', 'Capsules'),icon:'espresso'},
     {id:'savedRecipes',label:L('وصفاتي المحفوظة', 'Saved recipes'),icon:'heart'},
-    {id:'forYou',label:L('لك أنت', 'For you'),icon:'star'},
     {id:'favorites',label:L('البن المحفوظ', 'Saved coffees'),icon:'bean'},
     {id:'addRecipe',label:L('إضافة وصفة', 'Add recipe'),icon:'plus'},
     {id:'addBean',label:L('إضافة بن', 'Add coffee'),icon:'plus'},
@@ -764,7 +747,7 @@ function Shell() {
                   recipe={detail.item}
                   measuredSeconds={measuredSeconds}
                   done={() => {
-                    navigate('forYou');
+                    navigate('bags');
                     refresh();
                   }}
                 />
@@ -973,84 +956,6 @@ function Shell() {
                   refresh={refresh}
                   refreshing={refreshing}
                 />
-              ) : tab === 'forYou' ? (
-                <ScrollView contentContainerStyle={coffeeStyles.page}>
-                  <View style={s.catalogTabs}>
-                    <Action title={t.beans} onPress={() => navigate('beans')} />
-                    <Action
-                      title={t.recipes}
-                      onPress={() => navigate('recipes')}
-                    />
-                    <Action title={t.forYou} onPress={() => {}} selected />
-                  </View>
-                  <Txt heading style={styles.title}>
-                    {t.forYou}
-                  </Txt>
-                  <Txt style={styles.muted}>{t.ruleNote}</Txt>
-                  {data?.limited ? (
-                    <Txt style={styles.muted}>
-                      {L('التوصيات تستخدم مجموعة محدودة من الوصفات. ابحث في مكتبة الوصفات لاستكشاف الكتالوغ الكامل.', 'Recommendations use a bounded recipe sample. Search the recipe library for the full catalog.')}
-                    </Txt>
-                  ) : null}
-                  <SectionTitle title={t.beans} />
-                  {rankedCoffee.length ? (
-                    rankedCoffee.map((row) => (
-                      <View
-                        key={row.item.kind + row.item.id}
-                        style={styles.card}
-                      >
-                        <Action
-                          title={row.item.name}
-                          onPress={() => {
-                            const item = data?.coffees.find(
-                              (c) =>
-                                c.id === row.item.id &&
-                                c.kind === row.item.kind,
-                            );
-                            if (item) openCoffee(item);
-                          }}
-                        />
-                        <Txt>
-                          {t.matching}:{' '}
-                          {row.reasons.length
-                            ? row.reasons
-                                .map((r) => reasons[locale][r])
-                                .join(' · ')
-                            : t.general}
-                        </Txt>
-                        {row.caveats.map((c) => (
-                          <Txt key={c} style={styles.muted}>
-                            {caveats[locale][c]}
-                          </Txt>
-                        ))}
-                      </View>
-                    ))
-                  ) : (
-                    <Txt>{t.empty}</Txt>
-                  )}
-                  <SectionTitle title={t.recipes} />
-                  {rankedRecipes.map((row) => (
-                    <View key={row.item.id} style={styles.card}>
-                      <Action
-                        title={row.item.title}
-                        onPress={() => {
-                          const item = data?.recipes.find(
-                            (r) => r.id === row.item.id,
-                          );
-                          if (item) setDetail({ type: 'recipe', item });
-                        }}
-                      />
-                      <Txt>
-                        {t.matching}:{' '}
-                        {row.reasons.length
-                          ? row.reasons
-                              .map((r) => reasons[locale][r])
-                              .join(' · ')
-                          : t.general}
-                      </Txt>
-                    </View>
-                  ))}
-                </ScrollView>
               ) : (
                 <FlatList
                   key={tab + columns}
@@ -1065,15 +970,15 @@ function Shell() {
                     <View style={{ gap: 16, marginBottom: 4 }}>
                       <Txt heading style={styles.title}>
                         {tab === 'favorites'
-                          ? L('المفضلة', 'Favorites')
+                          ? L('البن المحفوظ', 'Saved coffees')
                           : t.beans}
                       </Txt>
                       <MethodPicker value={method} onChange={setMethod} />
-                      <MethodGuide
+                      {tab !== 'favorites' ? <MethodGuide
                         key={method ?? 'all'}
                         method={method}
                         recipes={() => navigate('recipes')}
-                      />
+                      /> : null}
                       <Field
                         label={t.search}
                         value={search}

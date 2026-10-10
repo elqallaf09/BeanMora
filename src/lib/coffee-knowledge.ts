@@ -119,7 +119,7 @@ export function coffeeKnowledgeAnswer(
   if (!article && /علمني.*قهوه|تعلم.*قهوه|من الالف|من ا.*ي|a to z|learn.*coffee|all about coffee/.test(q)) {
     return {
       topic: 'curriculum',
-      answer: locale === 'ar' ? 'ابدأ بالبن والمعالجة، ثم الماء والطحن والتحضير، وبعدها المكاين والتحميص والتذوق. افتح «مكتبة المعرفة» واختر موضوعًا؛ كل شرح معه مصدر وخطوة عملية. تقدر تسأل عن موديل معين للمواصفات أو تعطيني وصفة كوبك لضبطها.' : 'Start with beans and processing, then water, grinding and brewing, followed by equipment, roasting and tasting. Open the knowledge library and choose a topic; each lesson includes a source and a practical next step. Ask about a model for specifications or provide your brew measurements for coaching.',
+      answer: locale === 'ar' ? 'ابدأ بالبن والمعالجة، ثم الماء والطحن والتحضير، وبعدها المكاين والتحميص والتذوق. اكتب الموضوع الذي تريد تعلّمه؛ كل شرح معه مصدر وخطوة عملية. تقدر تسأل عن موديل معين للمواصفات أو تعطيني وصفة كوبك لضبطها.' : 'Start with beans and processing, then water, grinding and brewing, followed by equipment, roasting and tasting. Ask about the topic you want to learn; each lesson includes a source and a practical next step. Ask about a model for specifications or provide your brew measurements for coaching.',
       sources: [] as { title: string; url: string }[],
       suggestions: locale === 'ar' ? ['من الشجرة إلى الكوب', 'درجة الطحن حسب التحضير', 'مراحل التحميص من الأخضر إلى البني'] : ['From seed to cup', 'Grind size by method', 'Roast stages: green to brown'],
     };

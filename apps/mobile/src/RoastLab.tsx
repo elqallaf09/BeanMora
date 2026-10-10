@@ -17,6 +17,9 @@ import type { RecipeItem } from './data';
 import { Disclosure } from './Disclosure';
 import { RoastCurve } from './RoastCurve';
 import { RoastGuide } from './RoastGuide';
+import { CatalogPhoto } from './CatalogPhoto';
+import { SourceLink } from './SourceLink';
+import { matchesDeepSearch } from './core/deepSearch';
 import { TabRail } from './TabRail';
 import { catalogName, processLabel } from './localizedContent';
 import {
@@ -233,6 +236,7 @@ export function RoastLab({
     unit: '%',
   });
   const [customMachine, setCustomMachine] = useState('');
+  const [machineQuery, setMachineQuery] = useState('');
   const [tasting, setTasting] = useState(false);
   const [taste, setTaste] = useState({
     acidity: '',
@@ -375,8 +379,13 @@ export function RoastLab({
   }, [tasting, userId]);
   const currentBean = green.find((g) => g.id === draft.green);
   const currentMachine = gear.find((g) => g.id === draft.machine);
+  const machineColumns = width >= 850 ? 4 : width >= 600 ? 3 : 2;
+  const machineCardWidth = (Math.min(width, 1000) - 36 - (machineColumns - 1) * 12) / machineColumns;
+  const matchingMachines = catalog.filter((m) => matchesDeepSearch(
+    [m.name, m.originalName, m.brand, m.description].join(' '), machineQuery,
+  ));
   const choose = (next: Section) => {
-    if ((next === 'new' || next === 'green' || next === 'gear') && !userId) {
+    if ((next === 'new' || next === 'green') && !userId) {
       login();
       return;
     }
@@ -765,7 +774,8 @@ export function RoastLab({
     }
   }
   async function addMachine(model?: EquipmentItem) {
-    if (!supabase || !userId || inFlight.current) return;
+    if (!supabase || inFlight.current) return;
+    if (!userId) { login(); return; }
     if (!model && customMachine.trim().length < 2) return;
     inFlight.current = true;
     setSaving(true);
@@ -923,8 +933,8 @@ export function RoastLab({
             heading
             style={{
               color: '#FFF',
-              fontSize: 28,
-              lineHeight: 38,
+              fontSize: 22,
+              lineHeight: 30,
               fontWeight: '700',
             }}
           >
@@ -936,7 +946,7 @@ export function RoastLab({
               : 'Record your roast, follow its stages and compare attempts to understand your cup.'}
           </Txt>
         </View>
-        <Icon name="bean" color="#DEAE82" size={45} />
+        <Icon name="bean" color="#DEAE82" size={28} />
       </View>
       <TabRail value={selected || showCompare ? '' : section}
         items={(
@@ -2059,48 +2069,117 @@ export function RoastLab({
         </>
       ) : section === 'gear' ? (
         <>
-          <Txt heading style={styles.subtitle}>
-            {ar ? 'ماكينات التحميص المسجّلة' : 'My roasting machines'}
-          </Txt>
-          {gear.map((g) => (
-            <View key={g.id} style={styles.card}>
-              <Txt style={{ fontWeight: '700' }}>
-                {catalogName(g.custom_name ?? g.model?.name ?? '', locale)}
+          {userId ? (
+            <>
+              <Txt heading style={styles.subtitle}>
+                {ar ? 'ماكينات التحميص المسجّلة' : 'My roasting machines'}
               </Txt>
-            </View>
-          ))}
-          <View style={styles.card}>
-            <Field
-              label={
-                ar
-                  ? 'اسم ماكينة التحميص الخاصة بي'
-                  : 'My custom roasting machine'
-              }
-              value={customMachine}
-              onChangeText={setCustomMachine}
-            />
-            <Action
-              title={ar ? 'إضافة ماكينة التحميص' : 'Add roasting machine'}
-              disabled={saving || customMachine.trim().length < 2}
-              onPress={() => void addMachine()}
-            />
-          </View>
+              <View style={[s.grid, { flexDirection: ar ? 'row-reverse' : 'row' }]}>
+                {gear.map((g) => (
+                  <View
+                    key={g.id}
+                    style={[styles.card, { padding: 12, marginBottom: 0 }]}
+                  >
+                    <Txt style={{ fontWeight: '700' }}>
+                      {catalogName(g.custom_name ?? g.model?.name ?? '', locale)}
+                    </Txt>
+                  </View>
+                ))}
+              </View>
+              <Disclosure title={ar ? 'إضافة ماكينة باسمها' : 'Add a custom machine'}>
+                <Field
+                  label={
+                    ar ? 'اسم ماكينة التحميص الخاصة بي' : 'My custom roasting machine'
+                  }
+                  value={customMachine}
+                  onChangeText={setCustomMachine}
+                />
+                <Action
+                  title={ar ? 'إضافة ماكينة التحميص' : 'Add roasting machine'}
+                  disabled={saving || customMachine.trim().length < 2}
+                  variant="primary"
+                  onPress={() => void addMachine()}
+                />
+              </Disclosure>
+            </>
+          ) : null}
           <Txt heading style={styles.subtitle}>
             {ar ? 'من دليل الماكينات' : 'From the equipment catalog'}
           </Txt>
-          {catalog.map((m) => (
-            <View key={m.id} style={styles.card}>
-              <Txt heading style={{ fontSize: 18, fontWeight: '700' }}>
-                {m.name}
-              </Txt>
-              <Txt style={styles.muted}>{m.description}</Txt>
-              <Action
-                title={(ar ? 'أضف إلى معداتي: ' : 'Add to my gear: ') + m.name}
-                disabled={saving}
-                onPress={() => void addMachine(m)}
-              />
-            </View>
-          ))}
+          <Field
+            label={ar ? 'ابحث عن ماكينة تحميص' : 'Search roasting machines'}
+            value={machineQuery}
+            onChangeText={setMachineQuery}
+          />
+          <View
+            testID="roasting-equipment-grid"
+            style={[s.grid, { flexDirection: ar ? 'row-reverse' : 'row' }]}
+          >
+            {matchingMachines.map((m) => (
+              <View
+                key={m.id}
+                testID="roasting-equipment-card"
+                style={[
+                  styles.card,
+                  {
+                    width: machineCardWidth,
+                    padding: 10,
+                    borderRadius: 16,
+                    gap: 7,
+                    marginBottom: 0,
+                  },
+                ]}
+              >
+                <CatalogPhoto
+                  uri={m.images?.[0]?.url ?? m.imageUrl}
+                  height={88}
+                  alt={m.name}
+                />
+                <Txt
+                  heading
+                  numberOfLines={2}
+                  style={{ fontSize: 14, lineHeight: 20, fontWeight: '700' }}
+                >
+                  {m.name}
+                </Txt>
+                <Txt
+                  numberOfLines={2}
+                  style={{ fontSize: 12, lineHeight: 18, color: colors.muted }}
+                >
+                  {m.description}
+                </Txt>
+                <View style={{ flex: 1 }} />
+                <Action
+                  compact
+                  variant="primary"
+                  title={ar ? 'أضف إلى معدّاتي' : 'Add to my gear'}
+                  accessibilityLabel={
+                    (ar ? 'أضف إلى معداتي: ' : 'Add to my gear: ') + m.name
+                  }
+                  disabled={saving}
+                  onPress={() => void addMachine(m)}
+                />
+                {m.sourceUrl ? (
+                  <SourceLink
+                    compact
+                    title={ar ? 'تفاصيل الماكينة' : 'Machine details'}
+                    url={m.sourceUrl}
+                  />
+                ) : null}
+              </View>
+            ))}
+          </View>
+          {!matchingMachines.length && !busy ? (
+            <Txt style={styles.muted}>
+              {catalog.length
+                ? ar
+                  ? 'لا توجد نتائج؛ جرّب اسم الماكينة أو الشركة.'
+                  : 'No results; try a machine or brand name.'
+                : ar
+                  ? 'لا توجد ماكينات موثقة متاحة الآن.'
+                  : 'No verified machines are available right now.'}
+            </Txt>
+          ) : null}
         </>
       ) : (
         <>
@@ -2369,9 +2448,9 @@ const s = StyleSheet.create({
   },
   hero: {
     backgroundColor: colors.brown,
-    borderRadius: 22,
-    padding: 22,
-    gap: 16,
+    borderRadius: 16,
+    padding: 14,
+    gap: 10,
     alignItems: 'center',
   },
   fields: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },

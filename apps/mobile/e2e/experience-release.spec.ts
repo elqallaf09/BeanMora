@@ -44,7 +44,8 @@ for (const width of [390, 800]) {
     await page.setViewportSize({ width, height: 1000 }); const queries = await fixtures(page); await page.goto('/');
     await setLanguage(page, 'en');
     await page.getByRole('button', { name: 'Coffee expert', exact: true }).click();
-    await expect(page.getByText('From choosing beans to dialing in your cup.', { exact: true })).toBeVisible();
+    await expect(page.getByTestId('assistant-composer')).toBeVisible();
+    await expect(page.getByText('From choosing beans to dialing in your cup.', { exact: true })).toHaveCount(0);
     await page.getByLabel('Your coffee question', { exact: true }).fill('Espresso machine under 480 USD');
     await page.getByRole('button', { name: 'Send', exact: true }).click();
     await expect(page.getByTestId('assistant-result')).toContainText('Test espresso machine');

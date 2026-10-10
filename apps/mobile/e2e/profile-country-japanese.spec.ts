@@ -57,7 +57,7 @@ test('Japanese persists after restart, uses LTR navigation and submits country /
   await expect(page.getByRole('heading', { name: 'اكتشف عالم القهوة.' })).toBeVisible();
 });
 
-for (const ar of [true, false]) test(`${ar ? 'Arabic' : 'English'}: bio has a direct editor; country flag updates after settings save, phone stays private and retry keeps input`, async ({ page }, info) => {
+for (const ar of [true, false]) test(`${ar ? 'Arabic' : 'English'}: bio uses the profile editor without a duplicate shortcut; country flag updates after settings save, phone stays private and retry keeps input`, async ({ page }, info) => {
   let current = { ...user, user_metadata: { ...user.user_metadata } };
   let profile = { id: user.id, name: 'Profile fixture', username: 'profile_fixture', avatar_url: null, bio: '', country: 'JP', is_private: false, share_collection: false };
   let failSave = true, saves = 0;
@@ -87,7 +87,12 @@ for (const ar of [true, false]) test(`${ar ? 'Arabic' : 'English'}: bio has a di
   await page.getByLabel(ar ? 'كلمة المرور' : 'Password', { exact: true }).fill('fixture_password');
   await page.getByRole('button', { name: ar ? 'تسجيل الدخول' : 'Sign in', exact: true }).click();
   await expect(page.getByTestId('profile-country-flag')).toContainText('🇯🇵');
-  await page.getByRole('button', { name: ar ? 'أضف نبذة عنك' : 'Add a bio', exact: true }).click();
+  await expect(page.getByRole('button', { name: ar ? 'أضف نبذة عنك' : 'Add a bio', exact: true })).toHaveCount(0);
+  await page.getByRole('button', { name: ar ? 'المزيد من أقسام الحساب' : 'More profile sections', exact: true }).click();
+  const extras = page.getByTestId('profile-extra-sections');
+  await expect(extras.getByRole('button', { name: ar ? 'المتابعون' : 'Followers', exact: true })).toHaveCount(0);
+  await expect(extras.getByRole('button', { name: ar ? 'أتابع' : 'Following', exact: true })).toHaveCount(0);
+  await page.getByRole('button', { name: ar ? 'تعديل الملف' : 'Edit profile', exact: true }).click();
   await page.getByLabel(ar ? 'نبذة عني' : 'Bio', { exact: true }).fill('Coffee lover · V60 and espresso');
   await page.getByRole('button', { name: ar ? 'حفظ الملف' : 'Save profile', exact: true }).click();
   await expect(page.getByTestId('profile-bio')).toContainText('Coffee lover · V60 and espresso');

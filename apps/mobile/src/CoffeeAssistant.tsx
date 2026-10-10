@@ -1,7 +1,7 @@
-import { contentLocale } from './localeText';
+import { contentLocale } from "./localeText";
 import { useContext, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Linking, ScrollView, View } from "./native";
-import { Action, Field, Icon, Language, Txt, colors, styles } from "./ui";
+import { Action, Field, Language, Txt, colors, styles } from "./ui";
 import { publicSupabase } from "./client";
 import { assistantSafeUrl } from "./core/coffee-assistant";
 import {
@@ -13,8 +13,6 @@ import {
 import methodGuides from "./methodGuides.json";
 import { factLabels } from "./core/equipment-facts";
 import { useReducedMotion } from "./Motion";
-import { SelectionMenu } from './SelectionMenu';
-import { coffeeCourseGroups, coffeeLearningTopics } from './core/coffee-knowledge';
 
 export type AssistantTurn = LocalAssistantTurn;
 export function CoffeeAssistant({
@@ -31,7 +29,6 @@ export function CoffeeAssistant({
   const [question, setQuestion] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const learningTopics = coffeeLearningTopics(contentLocale(locale));
   const active = useRef<AbortController | null>(null);
   const list = useRef<ScrollView>(null);
   const reduced = useReducedMotion();
@@ -129,38 +126,16 @@ export function CoffeeAssistant({
     <View testID="coffee-assistant" style={{ flex: 1 }}>
       <ScrollView
         ref={list}
+        style={{ flexGrow: turns.length ? 1 : 0, flexShrink: 1 }}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
           padding: 18,
           gap: 16,
           width: "100%",
-          maxWidth: 820,
+          maxWidth: 720,
           alignSelf: "center",
         }}
       >
-        <View style={{ gap: 8 }}>
-          <View
-            style={[
-              styles.row,
-              {
-                justifyContent: "space-between",
-                flexDirection: ar ? "row-reverse" : "row",
-              },
-            ]}
-          >
-            <Txt heading style={styles.title}>
-              {ar ? "خبير القهوة" : "Coffee expert"}
-            </Txt>
-            <Icon name="star" color={colors.copper} size={30} />
-          </View>
-          {!turns.length ? (
-            <Txt style={styles.muted}>
-              {ar
-                ? "من اختيار البن إلى ضبط كوبك."
-                : "From choosing beans to dialing in your cup."}
-            </Txt>
-          ) : null}
-        </View>
         {!turns.length ? (
           <View
             style={{
@@ -196,13 +171,6 @@ export function CoffeeAssistant({
             ))}
           </View>
         ) : null}
-        <SelectionMenu compact disabled={busy}
-          label={ar ? 'مكتبة المعرفة' : 'Knowledge library'} value=""
-          items={learningTopics.map(topic => ({ id: topic.id, name: topic.title, note: coffeeCourseGroups[topic.group][ar ? 0 : 1] }))}
-          onChange={id => {
-            const topic = learningTopics.find(topic => topic.id === id);
-            if (topic) void ask(topic.title);
-          }} />
         {turns.map((turn, index) => (
           <View key={index} style={{ gap: 12 }}>
             <View
@@ -425,14 +393,17 @@ export function CoffeeAssistant({
         {error ? <Txt style={styles.error}>{error}</Txt> : null}
       </ScrollView>
       <View
+        testID="assistant-composer"
         style={{
           width: "100%",
-          maxWidth: 820,
+          maxWidth: 720,
           alignSelf: "center",
           backgroundColor: colors.paper,
-          borderTopWidth: 1,
+          borderWidth: 1,
+          borderRadius: 18,
           borderColor: colors.line,
           padding: 14,
+          marginBottom: 14,
           gap: 8,
         }}
       >

@@ -3,8 +3,6 @@ import ar from '../messages/ar.json';
 import en from '../messages/en.json';
 import brewingAr from '../messages/brewing/ar.json';
 import brewingEn from '../messages/brewing/en.json';
-import recAr from '../messages/recommendations/ar.json';
-import recEn from '../messages/recommendations/en.json';
 
 const errors = new WeakMap<Page, string[]>();
 test('public member directory finds usernames and opens a private identity without exposing collections', async ({page}) => {
@@ -56,7 +54,6 @@ async function followLink(page: Page, href: string) {
 for (const locale of ['ar', 'en'] as const) {
   const m = locale === 'ar' ? ar : en;
   const brew = locale === 'ar' ? brewingAr : brewingEn;
-  const rec = locale === 'ar' ? recAr : recEn;
   test(`${locale}: password controls, language direction and security headers`, async ({ page }) => {
     const response = await page.goto(`/${locale}/login`);
     expect(response?.headers()['x-content-type-options']).toBe('nosniff');
@@ -79,23 +76,30 @@ for (const locale of ['ar', 'en'] as const) {
     await page.goto(`/${locale}/admin`);
     await expect(page).toHaveURL(new RegExp(`/${locale}/login`));
   });
-  test(`${locale}: guest recommendations filters and mobile navigation`, async ({ page }) => {
+  test(`${locale}: guest discovery, removed For you navigation and legacy redirect`, async ({ page }) => {
     await guest(page,locale);
-    await followLink(page,`/${locale}/recommendations`);
-    await expect(page.getByRole('heading',{name:rec.title,exact:true})).toBeVisible();
-    await expect(page.getByText(rec.noCoffee,{exact:true})).toBeVisible();
-    await page.waitForLoadState('networkidle');
-    await page.locator('select[name="method"]').selectOption('v60');
-    await page.getByRole('button',{name:rec.apply,exact:true}).click();
-    await expect(page).toHaveURL(/method=v60/);
-    await expect(page.locator('select[name="method"]')).toHaveValue('v60');
+    await expect(page.locator(`a[href="/${locale}/recommendations"]`)).toHaveCount(0);
+    await followLink(page,`/${locale}/discover`);
+    await expect(page.getByRole('heading',{name:m.nav.discover,exact:true})).toBeVisible();
     await noOverflow(page);
+    // Keep each direct URL check in a fresh document. Navigating discovery to
+    // the removed admin route aborts Next's late prefetches in WebKit.
+    const legacy = await page.context().newPage();
     const denied = await page.context().newPage();
-    denied.on('pageerror', error => errors.get(page)!.push(error.message));
+    for (const direct of [legacy, denied]) {
+      direct.on('pageerror', error => errors.get(page)!.push(error.message));
+    }
     try {
+      await legacy.goto(`/${locale}/recommendations`);
+      await expect(legacy).toHaveURL(`http://127.0.0.1:3000/${locale}/discover`);
+      await expect(legacy.getByRole('heading',{name:m.nav.discover,exact:true})).toBeVisible();
+      await legacy.waitForLoadState('networkidle');
       await denied.goto(`/${locale}/admin/import`);
       await expect(denied.getByRole('heading',{name:'404',exact:true})).toBeVisible();
-    } finally { await denied.close(); }
+    } finally {
+      await legacy.close();
+      await denied.close();
+    }
     await page.waitForLoadState('networkidle');
   });
   test(`${locale}: skipped timer has no invented duration or ratings and guest cannot save`, async ({ page }) => {

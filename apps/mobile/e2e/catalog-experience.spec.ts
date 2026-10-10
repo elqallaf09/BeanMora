@@ -157,11 +157,14 @@ test("compact navigation and capsule systems fit 320px; guest contributions requ
     .getByRole("button", { name: "نسبريسو فيرتو", exact: true })
     .click();
   await expect(
-    page.getByRole("heading", { name: "نسبريسو فيرتو", exact: true }),
+    page.getByRole("button", { name: "نظام الماكينة: نسبريسو فيرتو", exact: true }),
   ).toBeVisible();
-  await expect(
-    page.getByRole("heading", { name: "نسبريسو أوريجينال", exact: true }),
-  ).toHaveCount(0);
+  const catalog = page.getByTestId("capsule-catalog");
+  const cards = catalog.getByTestId("capsule-product-card");
+  await expect(cards.first()).toBeVisible();
+  for (const card of await cards.all()) await expect(card).toContainText("نسبريسو فيرتو");
+  await expect(catalog.getByText("نسبريسو أوريجينال", { exact: true })).toHaveCount(0);
+  await expect(catalog.getByText("مصدر التوافق", { exact: true })).toHaveCount(0);
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,
