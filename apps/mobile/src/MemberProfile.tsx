@@ -889,6 +889,7 @@ export function MemberProfile({
                 <ProfileAction
                   dashed
                   title={L("إضافة معدة", "Add equipment")}
+                  variant="primary"
                   icon="plus"
                   onPress={() => manage("equipment")}
                 />
@@ -927,8 +928,10 @@ export function MemberProfile({
           {tab === "recipes" || tab === "favorites" ? (
             <View style={{ gap: 10 }}>
               {own && tab === "recipes" ? (
-                <Action
+                <ProfileAction
                   title={L("إضافة وصفة", "Add recipe")}
+                  variant="primary"
+                  icon="plus"
                   onPress={() => manage("recipes")}
                 />
               ) : null}
@@ -1123,6 +1126,7 @@ function ProfileAction({
   icon,
   onPress,
   selected,
+  variant = "secondary",
   disabled = false,
   dashed = false,
 }: {
@@ -1130,11 +1134,12 @@ function ProfileAction({
   icon?: IconName;
   onPress: () => void;
   selected?: boolean;
+  variant?: "primary" | "secondary";
   disabled?: boolean;
   dashed?: boolean;
 }) {
   return (
-    <PillButton title={title} icon={icon} selected={selected} disabled={disabled} dashed={dashed} onPress={onPress} labelLines={2} />
+    <PillButton title={title} icon={icon} selected={selected} variant={variant} disabled={disabled} dashed={dashed} onPress={onPress} labelLines={2} />
   );
 }
 function ProfileCount({

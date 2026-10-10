@@ -38,10 +38,10 @@ export function RoastGuide() {
         <Txt heading style={styles.title}>{ar ? 'افهم حمصتك' : 'Understand your roast'}</Txt>
         <Txt style={styles.muted}>{ar ? 'من لون الحبة إلى نتيجة الكوب.' : 'From bean color to the cup.'}</Txt>
       </View>
-      <View style={{ gap: 7 }}>
+      <View style={{ gap: 7, width: '100%', maxWidth: 460, alignSelf: 'center' }}>
         <Image testID="roast-levels-image" source={require('../assets/images/roast-levels-illustration.jpg')}
           accessibilityLabel={ar ? 'رسم توضيحي للبن، من اليسار: أخضر، بني فاتح، متوسط، غامق' : 'Illustration, left to right: green, light brown, medium brown, dark brown beans'}
-          resizeMode="contain" style={{ width: '100%', aspectRatio: 3, borderRadius: 18 }} />
+          resizeMode="contain" style={{ width: '100%', height: width < 600 ? 112 : 144, borderRadius: 14 }} />
         <View style={{ flexDirection: 'row' }}>
           {levels.map(level => <View key={level.id} style={{ flex: 1 }}><Txt style={{ textAlign: 'center', fontSize: width < 360 ? 11 : 13 }}>{level.names[i]}</Txt></View>)}
         </View>
@@ -58,7 +58,7 @@ export function RoastGuide() {
         <Txt>{level.how[i]}</Txt>
         <Txt style={styles.muted}>{level.taste[i]}</Txt>
       </View>
-      <Disclosure title={ar ? 'خطة تجربة: ثلاث نتائج من نفس البن' : 'Experiment: three outcomes from one coffee'} initial>
+      <Disclosure title={ar ? 'خطة تجربة: ثلاث نتائج من نفس البن' : 'Experiment: three outcomes from one coffee'}>
         {[
           ['١. ثبّت المحصول، وزن الدفعة، الماكينة، نوع الحساس وروتين التسخين.', '1. Fix lot, batch mass, machine, sensor type and preheat workflow.'],
           ['٢. اعمل دفعة مرجعية حسب دليل جهازك. سجل الاصفرار والفرقعة والإنزال، وكل تغيير طاقة أو هواء.', '2. Roast a reference using your machine guide. Record yellowing, crack, drop and every energy or airflow change.'],

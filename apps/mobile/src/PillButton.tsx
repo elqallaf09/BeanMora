@@ -11,13 +11,14 @@ import { Icon, Language, Txt, colors, type IconName } from './ui';
 export function PillButton({
   title, icon, trailingIcon, onPress, selected, disabled = false, compact = false,
   count, leadingCount = false, dashed = false, labelLines = 1, style, onLayout,
-  accessibilityLabel, accessibilityState,
+  accessibilityLabel, accessibilityState, variant = 'secondary',
 }: {
   title: string;
   icon?: IconName;
   trailingIcon?: IconName;
   onPress: () => void;
   selected?: boolean;
+  variant?: 'primary' | 'secondary';
   disabled?: boolean;
   compact?: boolean;
   count?: number;
@@ -31,6 +32,7 @@ export function PillButton({
 }) {
   const ar = useContext(Language) === 'ar';
   const { dark } = useTheme();
+  const primary = variant === 'primary';
   const motion = usePressMotion();
   const [focused, setFocused] = useState(false), [hovered, setHovered] = useState(false);
   const palette = dark ? {
@@ -40,10 +42,10 @@ export function PillButton({
     surface: colors.paper, hover: '#F5EFE5', pressed: colors.chip, border: '#DDD0C1',
     ink: colors.ink, accent: colors.teal, active: '#E0EEE5', activePressed: '#D0E3D8', activeBorder: '#357E6C', activeInk: '#165D54',
   };
-  const ink = selected ? palette.activeInk : palette.ink;
+  const ink = primary ? '#FFFFFF' : selected ? palette.activeInk : palette.ink;
   const row = { flexDirection: ar ? 'row-reverse' as const : 'row' as const, alignItems: 'center' as const, justifyContent: 'center' as const, gap: compact ? 5 : 8 };
-  const label = <Txt numberOfLines={labelLines} style={{ flexShrink: 1, minWidth: 0, fontSize: compact ? 12 : 14, lineHeight: compact ? 18 : 20, fontWeight: selected ? '700' : '500', color: ink, textAlign: 'center' }}>{title}</Txt>;
-  const symbol = icon ? <Icon name={icon} size={compact ? 16 : 19} color={selected ? palette.activeInk : palette.accent} /> : null;
+  const label = <Txt numberOfLines={labelLines} style={{ flexShrink: 1, minWidth: 0, fontSize: compact ? 12 : 14, lineHeight: compact ? 18 : 20, fontWeight: primary || selected ? '700' : '500', color: ink, textAlign: 'center' }}>{title}</Txt>;
+  const symbol = icon ? <Icon name={icon} size={compact ? 16 : 19} color={primary ? ink : selected ? palette.activeInk : palette.accent} /> : null;
   const number = count !== undefined ? <Txt style={{ color: ink, fontWeight: '700', fontSize: 18, lineHeight: 24, writingDirection: 'ltr' }}>{count}</Txt> : null;
   return (
     <Animated.View onLayout={onLayout} style={[{ minWidth: 0, maxWidth: '100%' }, style, motion.style]}>
@@ -59,9 +61,9 @@ export function PillButton({
         style={({ pressed }) => ({
           ...row, flex: 1, minHeight: dashed ? 52 : 44,
           paddingHorizontal: compact ? 10 : 16, paddingVertical: 6,
-          borderRadius: 999, borderWidth: 1, borderStyle: dashed ? 'dashed' : 'solid',
-          borderColor: focused ? palette.accent : selected ? palette.activeBorder : palette.border,
-          backgroundColor: selected ? pressed ? palette.activePressed : palette.active : pressed ? palette.pressed : hovered ? palette.hover : palette.surface,
+          borderRadius: 999, borderWidth: 1, borderStyle: dashed && !primary ? 'dashed' : 'solid',
+          borderColor: focused ? palette.accent : primary ? colors.teal : selected ? palette.activeBorder : palette.border,
+          backgroundColor: primary ? colors.teal : selected ? pressed ? palette.activePressed : palette.active : pressed ? palette.pressed : hovered ? palette.hover : palette.surface,
           opacity: disabled ? 0.45 : 1,
           ...(focused ? { shadowColor: palette.accent, shadowOpacity: 0.24, shadowRadius: 3, shadowOffset: { width: 0, height: 0 } } : {}),
         })}

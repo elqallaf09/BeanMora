@@ -294,7 +294,6 @@ export function MemberProfilePanel({ username }: { username?: string }) {
           <Button onClick={() => setEditing((v) => !v)}>
             {ar ? "تعديل الملف والخصوصية" : "Edit profile and privacy"}
           </Button>
-          {!editing ? <Button variant="secondary" onClick={() => setEditing(true)}>{p.bio ? (ar ? "تعديل النبذة" : "Edit bio") : (ar ? "أضف نبذة عنك" : "Add a bio")}</Button> : null}
           </div>
         ) : owner ? (
           <Button
@@ -476,7 +475,7 @@ export function MemberProfilePanel({ username }: { username?: string }) {
             className="flex flex-wrap gap-2"
             aria-label={ar ? "أقسام الملف" : "Profile sections"}
           >
-            {sections.map((s) => (
+            {sections.filter((s) => !["followers", "following"].includes(s[0])).map((s) => (
               <Button
                 key={s[0]}
                 size="sm"

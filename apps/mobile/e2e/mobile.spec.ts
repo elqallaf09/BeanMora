@@ -112,7 +112,7 @@ const recipeId = '11111111-1111-4111-8111-111111111111';
 const bean = { id: '22222222-2222-4222-8222-222222222222', slug: 'fixture', name_ar: 'بن الاختبار المعزول', name_en: 'Isolated coffee fixture', requires_review: false, is_published: true, suitable_for_v60: true, suitable_for_espresso: false, suitable_for_xbloom: false, roast_level: 'light', last_verified_at: null, roaster: { name_ar: 'محمصة الاختبار', name_en: 'Test roaster' }, flavors: [{ flavor: 'chocolate' }], origin_country: 'Test origin' };
 const recipe = { id: recipeId, title: 'Isolated recipe fixture', title_ar: 'وصفة الاختبار المعزولة', brew_method: 'v60', visibility: 'public', bean_id: bean.id, roasted_product_id: null, flavor_notes: ['chocolate'], difficulty: 'beginner', is_incomplete_source: false, dose_grams: 18, water_grams: 300, total_time_seconds: 180, steps: [{ step_number: 1, title: 'Pour water', description: 'A written test instruction' }], equipment: [] };
 for (const locale of ['ar', 'en'] as const) {
-  test(`${locale}: native-web catalog, detail, recommendation and login surfaces`, async ({ page }) => {
+  test(`${locale}: native-web catalog, detail, saved coffee and login surfaces`, async ({ page }) => {
     const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
     await page.route('https://mobilefixture.supabase.co/**', async route => {
       const url = new URL(route.request().url());
@@ -141,9 +141,10 @@ for (const locale of ['ar', 'en'] as const) {
     await expect(page.getByRole('heading', { name: locale === 'ar' ? recipe.title_ar : recipe.title, exact: true })).toBeVisible();
     await page.getByRole('button', { name: locale === 'ar' ? 'رجوع' : 'Back', exact: true }).click();
     await page.getByRole('button', { name: locale === 'ar' ? 'اكتشف' : 'Discover', exact: true }).click();
-    await page.getByRole('button', { name: locale === 'ar' ? 'لك أنت' : 'For you', exact: true }).click();
-    await expect(page.getByText(locale === 'ar' ? /مطابقة بقواعد واضحة/ : /Explainable matching/)).toBeVisible();
-    await expect(page.getByRole('button', { name: coffeeName, exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: locale === 'ar' ? 'لك أنت' : 'For you', exact: true })).toHaveCount(0);
+    await page.getByRole('button', { name: locale === 'ar' ? 'البن المحفوظ' : 'Saved coffees', exact: true }).click();
+    await expect(page.getByTestId('method-guide')).toHaveCount(0);
+    await expect(page.getByRole('heading', { name: locale === 'ar' ? 'البن المحفوظ' : 'Saved coffees', exact: true })).toBeVisible();
     expect(errors).toEqual([]);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   });

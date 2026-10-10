@@ -76,8 +76,8 @@ export function MemberRecipes({
         {ar ? "وصفاتي المضافة" : "My submitted recipes"}
       </Txt>
       <Action
-        selected
         title={ar ? "إضافة وصفة" : "Add recipe"}
+        variant="primary"
         onPress={create}
       />
       {busy ? <Txt>{ar ? "جارٍ التحميل…" : "Loading…"}</Txt> : null}

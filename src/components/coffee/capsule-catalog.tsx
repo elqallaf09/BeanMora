@@ -45,21 +45,21 @@ export function CapsuleCatalog() {
           </button>
         ))}
       </div>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
         {rows.map((c) => (
           <article
             key={c.id}
-            className="space-y-3 rounded-2xl border bg-white p-5"
+            className="space-y-2 rounded-2xl border bg-[var(--color-surface)] p-3"
           >
-            <h2 className="text-lg font-bold">{c.name[locale]}</h2>
-            <p className="text-sm leading-7">{c.description[locale]}</p>
-            <p className="text-sm">
+            <h2 className="text-sm font-bold">{c.name[locale]}</h2>
+            <p className="line-clamp-3 text-xs leading-5">{c.description[locale]}</p>
+            <p className="text-xs">
               {(ar ? "أمثلة: " : "Examples: ") + c.examples[locale]}
             </p>
             <p className="text-xs text-[var(--color-muted-text)]">
               {c.region[locale]}
             </p>
-            <div className="flex flex-wrap gap-4 text-sm">
+            <div className="flex flex-wrap gap-2 text-xs">
               <a
                 href={c.shop}
                 target="_blank"

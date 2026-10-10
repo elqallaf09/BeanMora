@@ -1,0 +1,275 @@
+{
+  "verified_at": "2026-10-10",
+  "models": [
+    {
+      "name": "Behmor 2000AB Plus",
+      "brand": "Behmor",
+      "name_ar": "بيهمور 2000AB بلس",
+      "source_url": "https://behmor.com/behmor-2000ab-plus/",
+      "category": "roaster",
+      "description_ar": "محمصة أسطوانية منزلية بخمسة برامج وتحكم في الوقت، مع نظام تقليل الدخان.",
+      "description_en": "Home drum roaster with five roast programs, time adjustment and smoke suppression.",
+      "facts": {
+        "capacity": [
+          "حتى رطل واحد للدفعة",
+          "Up to 1 lb per batch"
+        ],
+        "operation": [
+          "خمسة برامج تحميص وتحكم في الوقت",
+          "Five roast programs and time adjustment"
+        ]
+      },
+      "image_url": null,
+      "verified_at": "2026-10-10T00:00:00Z"
+    },
+    {
+      "name": "Behmor Jake",
+      "brand": "Behmor",
+      "name_ar": "بيهمور جيك",
+      "source_url": "https://behmor.com/jake-kilo-roaster/",
+      "category": "roaster",
+      "description_ar": "محمصة أسطوانية لدفعات من 100 غ إلى 1 كغ، مع اتصال ببرنامج أرتيزان؛ نسخة المصدر 120 فولت.",
+      "description_en": "Drum roaster for 100 g–1 kg batches, with Artisan connectivity; the sourced version uses 120 V.",
+      "facts": {
+        "capacity": [
+          "100–1000 غ للدفعة",
+          "100–1000 g batch"
+        ],
+        "voltage": [
+          "120 فولت؛ مأخذ 20 أمبير وفق الشركة",
+          "120 V; 20 A outlet specified"
+        ],
+        "connection": [
+          "USB وبرنامج أرتيزان",
+          "USB and Artisan software"
+        ]
+      },
+      "image_url": null,
+      "verified_at": "2026-10-10T00:00:00Z"
+    },
+    {
+      "name": "Fresh Roast SR540",
+      "brand": "Fresh Roast",
+      "name_ar": "فريش روست SR540",
+      "source_url": "https://homeroastingsupplies.com/products/fresh-roast-sr540-coffee-roaster-green-beans",
+      "category": "roaster",
+      "description_ar": "محمصة منزلية بتحكم يدوي في الهواء والحرارة وتسع درجات حرارة؛ نسخة المصدر 120 فولت.",
+      "description_en": "Manual home roaster with adjustable airflow and nine heat levels; the sourced version uses 120 V.",
+      "facts": {
+        "capacity": [
+          "حتى 4 أونصات للدفعة",
+          "Up to 4 oz batch"
+        ],
+        "voltage": [
+          "120 فولت؛ نسخة أمريكا الشمالية",
+          "120 V; North American version"
+        ],
+        "operation": [
+          "تحكم يدوي في المروحة والحرارة والوقت",
+          "Manual fan, heat and time control"
+        ]
+      },
+      "image_url": "https://homeroastingsupplies.com/cdn/shop/products/Fresh_Roast_SR540s1.png?v=1772813445",
+      "verified_at": "2026-10-10T00:00:00Z"
+    },
+    {
+      "name": "Fresh Roast SR800",
+      "brand": "Fresh Roast",
+      "name_ar": "فريش روست SR800",
+      "source_url": "https://homeroastingsupplies.com/products/fresh-roast-sr800-coffee-roaster",
+      "category": "roaster",
+      "description_ar": "محمصة منزلية بتحكم يدوي وتسع درجات حرارة وسعة حتى 226 غ للبن المغسول؛ نسخة المصدر 120 فولت.",
+      "description_en": "Manual home roaster with nine heat levels and up to 226 g washed-coffee capacity; sourced version uses 120 V.",
+      "facts": {
+        "capacity": [
+          "حتى 226 غ للمغسول أو 170 غ للمجفف",
+          "Up to 226 g washed or 170 g dry-processed"
+        ],
+        "voltage": [
+          "120 فولت؛ نسخة أمريكا الشمالية",
+          "120 V; North American version"
+        ],
+        "operation": [
+          "يدوي؛ عرض حرارة حجرة التحميص",
+          "Manual; roast-chamber temperature display"
+        ]
+      },
+      "image_url": "https://homeroastingsupplies.com/cdn/shop/files/SR800_1000_x_1500_px.png?v=1777305555",
+      "verified_at": "2026-10-10T00:00:00Z"
+    },
+    {
+      "name": "Fresh Roast SR900",
+      "brand": "Fresh Roast",
+      "name_ar": "فريش روست SR900",
+      "source_url": "https://homeroastingsupplies.com/products/fresh-roast-sr900-home-coffee-roaster-home-roasting-supplies",
+      "category": "roaster",
+      "description_ar": "محمصة بتحكم يدوي أو منحنيات محفوظة عبر تطبيق روست تك وبلوتوث؛ نسخة المصدر 120 فولت.",
+      "description_en": "Manual or stored-profile roaster with Roast-Tech and Bluetooth connectivity; sourced version uses 120 V.",
+      "facts": {
+        "capacity": [
+          "حتى 225 غ وفق وصف المنتج",
+          "Up to 225 g in the product description"
+        ],
+        "voltage": [
+          "120 فولت",
+          "120 V"
+        ],
+        "connection": [
+          "بلوتوث منخفض الطاقة وتطبيق روست تك",
+          "Bluetooth Low Energy and Roast-Tech app"
+        ]
+      },
+      "image_url": "https://homeroastingsupplies.com/cdn/shop/files/11_1.jpg?v=1785167913",
+      "verified_at": "2026-10-10T00:00:00Z"
+    },
+    {
+      "name": "Nucleus LINK",
+      "brand": "Nucleus Coffee Tools",
+      "name_ar": "نيوكليوس لينك",
+      "source_url": "https://nucleuscoffeetools.com/how-to-use-the-link/",
+      "category": "roaster",
+      "description_ar": "محمصة عينات لدفعات 50–100 غ، مع اختيار منحنى التحميص وفق بيانات البن في تطبيق لينك.",
+      "description_en": "Sample roaster for 50–100 g batches, with roast-profile selection using coffee data in the LINK app.",
+      "facts": {
+        "capacity": [
+          "50–100 غ؛ زيادة الاختيار بمقدار 1 غ",
+          "50–100 g; selectable in 1 g increments"
+        ],
+        "connection": [
+          "تطبيق لينك لاختيار المنحنى",
+          "LINK app for profile selection"
+        ]
+      },
+      "image_url": null,
+      "verified_at": "2026-10-10T00:00:00Z"
+    },
+    {
+      "name": "ROEST L200 Plus",
+      "brand": "ROEST",
+      "name_ar": "روست L200 بلس",
+      "source_url": "https://www.roestcoffee.com/products/sample-roasters/l200-plus",
+      "category": "roaster",
+      "description_ar": "محمصة عينات أسطوانية بالحمل الحراري لدفعات 50–200 غ، مع رصد الفرقعة الأولى والتحكم اليدوي أو التلقائي.",
+      "description_en": "Convection drum sample roaster for 50–200 g batches, with first-crack detection and manual or automatic control.",
+      "facts": {
+        "capacity": [
+          "50–200 غ للدفعة",
+          "50–200 g batch"
+        ],
+        "voltage": [
+          "نسخ 230 أو 115 أو 100 فولت",
+          "230, 115 or 100 V versions"
+        ],
+        "motor_power": [
+          "1650 واط",
+          "1650 W"
+        ],
+        "connection": [
+          "واي فاي وبرنامج روست كونكت",
+          "Wi-Fi and ROEST Connect"
+        ]
+      },
+      "image_url": "https://images.squarespace-cdn.com/content/v1/595a0771e6f2e180dc825946/18bbed08-4c96-46a4-a8e4-109829c231f5/l200+plus_front_opt.png",
+      "verified_at": "2026-10-10T00:00:00Z"
+    },
+    {
+      "name": "ROEST L200 Ultra",
+      "brand": "ROEST",
+      "name_ar": "روست L200 ألترا",
+      "source_url": "https://www.roestcoffee.com/products/sample-roasters/l200-ultra",
+      "category": "roaster",
+      "description_ar": "محمصة عينات 50–200 غ، بمسباري حرارة للبن وحساس ضغط ونمط تدفق معاكس.",
+      "description_en": "50–200 g sample roaster with dual bean-temperature probes, pressure sensing and Counterflow mode.",
+      "facts": {
+        "capacity": [
+          "50–200 غ للدفعة",
+          "50–200 g batch"
+        ],
+        "voltage": [
+          "نسخ 230 أو 115 أو 100 فولت",
+          "230, 115 or 100 V versions"
+        ],
+        "motor_power": [
+          "1650 واط",
+          "1650 W"
+        ],
+        "connection": [
+          "واي فاي وبرنامج روست كونكت",
+          "Wi-Fi and ROEST Connect"
+        ]
+      },
+      "image_url": "https://images.squarespace-cdn.com/content/v1/595a0771e6f2e180dc825946/20d9da82-0b98-4a40-8b05-04be3fa7f754/l200+ultra+black+front_opt.png",
+      "verified_at": "2026-10-10T00:00:00Z"
+    }
+  ],
+  "photo_checks": [
+    {
+      "name": "Behmor 2000AB Plus",
+      "url": "https://behmor.com/wp-content/themes/behmor/assets/img/1600AB-lg.png",
+      "status": "unavailable",
+      "error": "HTTP Error 406: Not Acceptable"
+    },
+    {
+      "name": "Behmor Jake",
+      "url": "https://behmor.com/wp-content/themes/behmor/assets/img/jake-access.jpg",
+      "status": "unavailable",
+      "error": "HTTP Error 406: Not Acceptable"
+    },
+    {
+      "name": "Fresh Roast SR540",
+      "url": "https://homeroastingsupplies.com/cdn/shop/products/Fresh_Roast_SR540s1.png?v=1772813445",
+      "status": "decoded",
+      "size": [
+        344,
+        564
+      ],
+      "sha256": "247c1a22bbc8a6a6a56b5b1c61b8c007b30b7fab89e9d6e4706e1a30e8223f54"
+    },
+    {
+      "name": "Fresh Roast SR800",
+      "url": "https://homeroastingsupplies.com/cdn/shop/files/SR800_1000_x_1500_px.png?v=1777305555",
+      "status": "decoded",
+      "size": [
+        1000,
+        1500
+      ],
+      "sha256": "4f71de6da88593e5087c27774651eb23c9183c071f91c51a85a06a270902eec5"
+    },
+    {
+      "name": "Fresh Roast SR900",
+      "url": "https://homeroastingsupplies.com/cdn/shop/files/11_1.jpg?v=1785167913",
+      "status": "decoded",
+      "size": [
+        2048,
+        2048
+      ],
+      "sha256": "67091beda5d325e0e0e08d5c4abec9c6550bc3df68cdad1006bb8dfae3c02729"
+    },
+    {
+      "name": "Nucleus LINK",
+      "url": "https://nucleuscoffeetools.com/wp-content/uploads/2023/03/Nucleus_ProductNavigation_Link_970x1190-885x1086.png",
+      "status": "unavailable",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "name": "ROEST L200 Plus",
+      "url": "https://images.squarespace-cdn.com/content/v1/595a0771e6f2e180dc825946/18bbed08-4c96-46a4-a8e4-109829c231f5/l200+plus_front_opt.png",
+      "status": "decoded",
+      "size": [
+        750,
+        750
+      ],
+      "sha256": "b4d32b451ed090015a2450bb8a6f8badc50f2e3cc6320fe139864978635c2740"
+    },
+    {
+      "name": "ROEST L200 Ultra",
+      "url": "https://images.squarespace-cdn.com/content/v1/595a0771e6f2e180dc825946/20d9da82-0b98-4a40-8b05-04be3fa7f754/l200+ultra+black+front_opt.png",
+      "status": "decoded",
+      "size": [
+        750,
+        750
+      ],
+      "sha256": "33c44875c998a36588d349d6c8d9a6840c3ef72f193ffdcbf19624c9a884e3ed"
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 
 ## Shipped surface
 
-`/[locale]/recommendations`, reachable through primary desktop/mobile navigation.
+As of 0.5.26, the For you interface and navigation entry are removed. Older `/{locale}/recommendations` links redirect to catalog discovery. The modules and tests below remain shared internal ranking utilities.
 Arabic and English messages live in `messages/recommendations/{ar,en}.json` and
 are merged by `src/i18n/request.ts`. Six mobile entries use shrinkable cells
 instead of the old 58px minimum; labels retain full accessible names.

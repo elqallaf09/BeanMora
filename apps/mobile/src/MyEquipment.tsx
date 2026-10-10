@@ -127,7 +127,7 @@ export function MyEquipment({
       !added &&
       !rows.some((r) => r.equipment_model_id === initialItem.id) ? (
         <Action
-          selected
+          variant="primary"
           title={(ar ? "إضافة: " : "Add: ") + initialItem.name}
           disabled={busy}
           onPress={() => void add()}
@@ -135,6 +135,7 @@ export function MyEquipment({
       ) : null}
       <Action
         title={ar ? "إضافة معدة من الكتالوج" : "Add equipment from catalog"}
+        variant="primary"
         onPress={browse}
       />
       {error ? (

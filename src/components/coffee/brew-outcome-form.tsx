@@ -80,7 +80,7 @@ export function BrewOutcomeForm({ recipeId = null, beanId = null, method, doseGr
       <h2 className="text-xl font-bold">{t('saved')}</h2>
       <p className="mt-2 text-sm">{t(submission.current?.payload.share_with_community ? 'savedShared' : 'savedPrivate')}</p>
       {!recipeId ? <p className="mt-2 text-sm">{t('unlinked')}</p> : null}
-      <Button asChild className="mt-4"><Link href="/recommendations">{t('seeRecommendations')}</Link></Button>
+      <Button asChild className="mt-4"><Link href="/discover?category=recipes">{t('browseRecipes')}</Link></Button>
     </section>
   );
 
