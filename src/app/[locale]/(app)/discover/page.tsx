@@ -90,7 +90,7 @@ export default async function DiscoverPage({
     redirect({ href: `/products${q ? `?q=${encodeURIComponent(q)}` : ""}`, locale });
   } else if (category === "recipes") {
     const doseMatch=q.trim().match(/^(\d+(?:\.\d+)?)\s*g?$/i);
-    let query = supabase.rpc('search_public_recipes',{p_query:doseMatch?'':q,p_method:method||null});
+    let query = supabase.rpc('search_public_recipes',{p_query:doseMatch?'':q,p_method:method||undefined});
     if(doseMatch)query=query.eq('dose_grams',Number(doseMatch[1]));
     const {data,error}=await query.select("id,title,title_ar,brew_method,dose_grams,water_grams,total_time_seconds,difficulty,created_at,user:profiles(name,username),bean:beans(name_ar,name_en)").order(sort==='name'?'title':'created_at',{ascending:sort==='name'}).limit(24);
     results=data??[];resultsError=error?t('errors.supabase'):null;

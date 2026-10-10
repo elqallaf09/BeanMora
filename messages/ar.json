@@ -27,7 +27,8 @@
     "sec": "ث",
     "grams": "غ",
     "celsius": "°م",
-    "beta": "تجريبي"
+    "beta": "تجريبي",
+    "saveError": "تعذّر حفظ العنصر. حاول مرة أخرى."
   },
   "errors": {
     "generic": "حدث خطأ غير متوقع. حاول مرة أخرى.",
@@ -347,7 +348,14 @@
     "writeComment": "اكتب تعليقًا...",
     "postComment": "نشر",
     "viewProfile": "عرض الملف الشخصي",
-    "brewersTitle": "محضّرون تستحق متابعتهم"
+    "brewersTitle": "محضّرون تستحق متابعتهم",
+    "postOptions": "خيارات المنشور",
+    "likeError": "تعذّر تحديث الإعجاب. حاول مرة أخرى.",
+    "followError": "تعذّر تحديث المتابعة. حاول مرة أخرى.",
+    "shareError": "تعذّر نسخ الرابط. حاول مرة أخرى.",
+    "reportError": "تعذّر إرسال البلاغ. حاول مرة أخرى.",
+    "reportSent": "تم إرسال البلاغ للمراجعة.",
+    "commentError": "تعذّر إرسال التعليق. حاول مرة أخرى."
   },
   "saved": {
     "title": "المحفوظات",
@@ -701,7 +709,8 @@
     "methodChemex": "Chemex",
     "methodFrenchPress": "فرنش برس",
     "methodColdBrew": "كولد برو",
-    "methodMokaPot": "موكا بوت"
+    "methodMokaPot": "موكا بوت",
+    "saveError": "تعذّر حفظ إعداد الحساب. خياراتك محفوظة هنا؛ حاول مرة أخرى."
   },
   "landing": {
     "headline": "اصنع قهوة تستحق كل رشفة",

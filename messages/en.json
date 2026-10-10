@@ -27,7 +27,8 @@
     "sec": "sec",
     "grams": "g",
     "celsius": "°C",
-    "beta": "Beta"
+    "beta": "Beta",
+    "saveError": "Could not save this item. Please try again."
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",
@@ -347,7 +348,14 @@
     "writeComment": "Write a comment...",
     "postComment": "Post",
     "viewProfile": "View profile",
-    "brewersTitle": "Brewers to follow"
+    "brewersTitle": "Brewers to follow",
+    "postOptions": "Post options",
+    "likeError": "Could not update your like. Please try again.",
+    "followError": "Could not update your follow. Please try again.",
+    "shareError": "Could not copy the link. Please try again.",
+    "reportError": "Could not send the report. Please try again.",
+    "reportSent": "Your report was submitted for review.",
+    "commentError": "Could not post your comment. Please try again."
   },
   "saved": {
     "title": "Saved",
@@ -701,7 +709,8 @@
     "methodChemex": "Chemex",
     "methodFrenchPress": "French Press",
     "methodColdBrew": "Cold Brew",
-    "methodMokaPot": "Moka Pot"
+    "methodMokaPot": "Moka Pot",
+    "saveError": "Could not save your account setup. Your choices are still here; please try again."
   },
   "landing": {
     "headline": "Brew coffee you'll actually love",

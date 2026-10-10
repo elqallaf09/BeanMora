@@ -66,7 +66,7 @@ export function BrewOutcomeForm({ recipeId = null, beanId = null, method, doseGr
         setFrozen(true);
       }
       const current = submission.current;
-      const result = await saveOutcome({ rpc: (name, args) => client.rpc(name, args).abortSignal(AbortSignal.timeout(15000)) }, current.id, current.payload);
+      const result = await saveOutcome({ rpc: (name, args) => client.rpc(name, { ...args, p_payload: { ...args.p_payload } }).abortSignal(AbortSignal.timeout(15000)) }, current.id, current.payload);
       if (!result.ok) { setError(result.error); return; }
       setSaved(true);
       onSaved?.(current.payload);

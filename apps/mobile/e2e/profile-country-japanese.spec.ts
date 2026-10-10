@@ -92,6 +92,8 @@ for (const ar of [true, false]) test(`${ar ? 'Arabic' : 'English'}: bio uses the
   const extras = page.getByTestId('profile-extra-sections');
   await expect(extras.getByRole('button', { name: ar ? 'المتابعون' : 'Followers', exact: true })).toHaveCount(0);
   await expect(extras.getByRole('button', { name: ar ? 'أتابع' : 'Following', exact: true })).toHaveCount(0);
+  await extras.getByRole('button', { name: ar ? 'إغلاق' : 'Close', exact: true }).click();
+  await expect(extras).toHaveCount(0);
   await page.getByRole('button', { name: ar ? 'تعديل الملف' : 'Edit profile', exact: true }).click();
   await page.getByLabel(ar ? 'نبذة عني' : 'Bio', { exact: true }).fill('Coffee lover · V60 and espresso');
   await page.getByRole('button', { name: ar ? 'حفظ الملف' : 'Save profile', exact: true }).click();

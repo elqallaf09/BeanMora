@@ -1,9 +1,10 @@
 import { useContext, useEffect, useRef, useState, type ComponentRef } from 'react';
 import { Platform, Pressable, ScrollView, View } from './native';
 import { Icon, Language, Txt, colors, type IconName } from './ui';
+import { PillButton } from './PillButton';
 
-/** Mockup 7: a compact, scrollable rail with an underline selection. */
-export function TabRail({ items, value, onChange, equal = false, compact = false, wrap = false, testID }: {
+/** Compact navigation with either underlines or soft pill controls. */
+export function TabRail({ items, value, onChange, equal = false, compact = false, wrap = false, testID, variant = 'underline' }: {
   items: { id: string; label: string; icon?: IconName }[];
   value: string;
   onChange: (id: string) => void;
@@ -11,6 +12,7 @@ export function TabRail({ items, value, onChange, equal = false, compact = false
   compact?: boolean;
   wrap?: boolean;
   testID?: string;
+  variant?: 'underline' | 'pills';
 }) {
   const ar = useContext(Language) === 'ar';
   const firstId = items[0]?.id;
@@ -24,9 +26,15 @@ export function TabRail({ items, value, onChange, equal = false, compact = false
     scroll.current?.scrollTo({ x: Math.max(0, Math.min(x, contentWidth - viewport)), animated: false });
   }, [ar, contentWidth, equal, wrap, firstId, positions, value, viewport]);
   const content = (
-    <View style={{ flexDirection: ar ? 'row-reverse' : 'row', flex: equal ? 1 : undefined, flexWrap: wrap ? 'wrap' : 'nowrap' }}>
+    <View style={{ flexDirection: ar ? 'row-reverse' : 'row', flex: equal ? 1 : undefined, flexWrap: wrap ? 'wrap' : 'nowrap', gap: variant === 'pills' ? 6 : 0 }}>
       {items.map(item => {
         const selected = item.id === value;
+        if (variant === 'pills') return <PillButton key={item.id} title={item.label} icon={item.icon} compact={compact} selected={selected}
+          labelLines={equal ? 2 : 1} style={{ flex: equal ? 1 : undefined }} onPress={() => onChange(item.id)}
+          onLayout={event => {
+            const { x, width } = event.nativeEvent.layout;
+            setPositions(previous => previous[item.id]?.x === x && previous[item.id]?.width === width ? previous : { ...previous, [item.id]: { x, width } });
+          }} />;
         return (
           <Pressable key={item.id} accessibilityRole="button"
             onLayout={event => {
@@ -46,10 +54,10 @@ export function TabRail({ items, value, onChange, equal = false, compact = false
       })}
     </View>
   );
-  return equal || wrap ? <View testID={testID} style={{ borderBottomWidth: 1, borderColor: colors.line }}>{content}</View> : (
+  return equal || wrap ? <View testID={testID} style={{ borderBottomWidth: variant === 'pills' ? 0 : 1, borderColor: colors.line }}>{content}</View> : (
     <ScrollView ref={scroll} testID={testID} horizontal showsHorizontalScrollIndicator={false}
       onLayout={event => setViewport(event.nativeEvent.layout.width)} onContentSizeChange={width => setContentWidth(width)}
-      style={{ flexGrow: 0, borderBottomWidth: 1, borderColor: colors.line }}
+      style={{ flexGrow: 0, borderBottomWidth: variant === 'pills' ? 0 : 1, borderColor: colors.line }}
       contentContainerStyle={{ flexGrow: 1, justifyContent: ar ? 'flex-end' : 'flex-start' }}>{content}</ScrollView>
   );
 }
