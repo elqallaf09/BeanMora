@@ -5,22 +5,9 @@ import { safeNextPath } from "@/lib/safe-next-path";
 /**
  * Google OAuth (and any other PKCE-flow provider) callback.
  *
- * This MUST live under `src/app/[locale]/...` — not `src/app/api/...`.
- * `src/app/[locale]/layout.tsx` is the only layout in this project that
- * renders `<html>`/`<body>` (see its own file comment); the bare root
- * layout at `src/app/layout.tsx` returns nothing but `children` because
- * every real page needs the resolved `locale` to pick RTL/LTR, fonts, and
- * translations. A route outside `[locale]` has no locale param and falls
- * back to that root layout alone for any HTML Next.js needs to render for
- * it (e.g. its own error page) — which is exactly why the previous
- * (never actually created) `/api/auth/callback` redirect target produced
- * "Missing <html> and <body> tags in the root layout": nothing was ever
- * listening at that path, and Next.js rendering a 404 for it under a
- * layout with no <html>/<body> is precisely that error.
- *
- * A Route Handler itself never renders React/HTML either way — it returns
- * a raw Response — so nesting it under `[locale]` costs nothing and buys
- * a real `locale` param straight from the URL.
+ * Keep the callback under `[locale]` so the validated language determines
+ * the success/failure redirects. Handlers return responses without rendering
+ * the locale document; unmatched URLs use the complete global 404 document.
  */
 
 const SUPPORTED_LOCALES = ["ar", "en"] as const;
