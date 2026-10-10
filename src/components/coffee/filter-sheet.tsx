@@ -1,9 +1,9 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { forwardRef, type ReactNode } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { SlidersHorizontal, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button, type ButtonProps } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 /**
@@ -16,15 +16,12 @@ import { cn } from "@/lib/utils";
  * component that a caller wraps in its own Root) so the trigger button and
  * the sheet content always share exactly one Radix Root instance.
  */
-export function FilterSheetTriggerButton({
-  label,
-  activeCount,
-}: {
+export const FilterSheetTriggerButton = forwardRef<HTMLButtonElement, ButtonProps & {
   label: string;
   activeCount?: number;
-}) {
+}>(({ label, activeCount, className, ...props }, ref) => {
   return (
-    <Button type="button" variant="outline" size="default" className="relative gap-2">
+    <Button type="button" variant="outline" size="default" className={cn("relative gap-2", className)} {...props} ref={ref}>
       <SlidersHorizontal className="h-4 w-4" aria-hidden />
       {label}
       {activeCount ? (
@@ -34,7 +31,8 @@ export function FilterSheetTriggerButton({
       ) : null}
     </Button>
   );
-}
+});
+FilterSheetTriggerButton.displayName = "FilterSheetTriggerButton";
 
 export function FilterSheet({
   open,

@@ -26,7 +26,7 @@ const nextConfig: NextConfig = {
       pathname: "/storage/v1/object/**",
     }],
   },
-  experimental: { optimizePackageImports: ["lucide-react"] },
+  experimental: { optimizePackageImports: ["lucide-react"], globalNotFound: true },
 };
 
 export default withNextIntl(nextConfig);

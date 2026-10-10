@@ -4,6 +4,8 @@ if (process.env.BEANMORA_SMOKE !== '1' || process.env.NEXT_PUBLIC_SUPABASE_URL !
 const user = {id:'00000000-0000-4000-8000-000000000099',aud:'authenticated',role:'authenticated',is_anonymous:true,app_metadata:{provider:'anonymous',providers:['anonymous']},user_metadata:{},identities:[],created_at:'2026-01-01T00:00:00Z'};
 const enc = value => Buffer.from(JSON.stringify(value)).toString('base64url');
 const access_token = `${enc({alg:'HS256',typ:'JWT'})}.${enc({sub:user.id,aud:'authenticated',role:'authenticated',is_anonymous:true,exp:Math.floor(Date.now()/1000)+3600})}.test-only-not-a-valid-signature`;
+const member = {...user,id:'00000000-0000-4000-8000-000000000088',email:'member@fixture.test',is_anonymous:false,app_metadata:{provider:'email',providers:['email']}};
+const memberToken = `${enc({alg:'HS256',typ:'JWT'})}.${enc({sub:member.id,aud:'authenticated',role:'authenticated',is_anonymous:false,exp:Math.floor(Date.now()/1000)+3600})}.test-only-not-a-valid-signature`;
 const server = createServer((req,res) => {
   res.setHeader('Content-Type','application/json');
   res.setHeader('Cache-Control','no-store');
@@ -11,18 +13,28 @@ const server = createServer((req,res) => {
   // PostgREST sends the selected schema on browser reads and writes. WebKit
   // correctly rejects a preflight when these headers are absent.
   res.setHeader('Access-Control-Allow-Headers','authorization,apikey,content-type,accept-profile,content-profile,prefer,x-client-info,x-supabase-api-version');
-  res.setHeader('Access-Control-Allow-Methods','GET,HEAD,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods','GET,HEAD,POST,PATCH,DELETE,OPTIONS');
   if(req.method==='OPTIONS'){res.writeHead(204);res.end();return;}
   const requestUrl=new URL(req.url,'http://127.0.0.1:54329');
   const path=requestUrl.pathname;
   if(path==='/health'){res.end('{}');return;}
   if(['/auth/v1/signup','/auth/v1/token'].includes(path) && req.method==='POST') {
     // Simulates isolated guest/password auth only. No real user, catalog item or brew is created.
-    res.end(JSON.stringify({access_token,token_type:'bearer',expires_in:3600,refresh_token:'test-only-refresh',user}));return;
+    let body='';
+    req.on('data',chunk=>{body+=chunk;});
+    req.on('end',()=>{
+      const isMember=path==='/auth/v1/token' && JSON.parse(body || '{}').email===member.email;
+      res.end(JSON.stringify({access_token:isMember?memberToken:access_token,token_type:'bearer',expires_in:3600,refresh_token:'test-only-refresh',user:isMember?member:user}));
+    });return;
   }
   if(path==='/auth/v1/user' && req.headers.authorization===`Bearer ${access_token}`){res.end(JSON.stringify(user));return;}
   if(['/rest/v1/rpc/search_public_beans','/rest/v1/rpc/search_public_recipes'].includes(path) && req.method==='POST'){res.setHeader('Content-Range','*/0');res.end('[]');return;}
+  if(path==='/auth/v1/user' && req.headers.authorization===`Bearer ${memberToken}`){res.end(JSON.stringify(member));return;}
   const detailId='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+  if(path==='/rest/v1/posts' && req.method==='GET' && req.headers.authorization===`Bearer ${memberToken}`){
+    const post={id:detailId,user_id:'00000000-0000-4000-8000-000000000077',body:'Community write fixture',visibility:'public',created_at:'2026-01-01T00:00:00Z',author:{id:'00000000-0000-4000-8000-000000000077',name:'Fixture Barista',username:'fixture_barista'},media:[],recipe:null,likes:[{count:2}],comment_list:[{count:0}]};
+    res.end(JSON.stringify(req.headers.accept?.includes('application/vnd.pgrst.object+json')?post:[post]));return;
+  }
   if(path==='/rest/v1/coffee_comments' && req.method==='GET' && requestUrl.searchParams.get('bean_id')===`eq.${detailId}`){
     res.end(JSON.stringify([{id:'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',body:'Bilingual coffee comment fixture',created_at:'2026-01-01T00:00:00Z',author:{name:'Fixture Barista',username:'fixture_barista'}}]));return;
   }

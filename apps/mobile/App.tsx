@@ -981,7 +981,7 @@ function Shell() {
                       title={t.recipes}
                       onPress={() => navigate('recipes')}
                     />
-                    <Action title={t.forYou} onPress={() => {}} selected />
+                    <Action title={t.forYou} onPress={() => navigate('forYou')} selected />
                   </View>
                   <Txt heading style={styles.title}>
                     {t.forYou}

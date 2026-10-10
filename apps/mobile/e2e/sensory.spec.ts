@@ -26,6 +26,28 @@ const unknown = {
   flavors: [{ flavor: 'citrus' }], images: [],
 };
 
+for (const locale of ['ar', 'en'] as const) test(`${locale}: source-open failures are visible and can be retried without a runtime error`, async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.route(photoUrl, route => route.fulfill({ contentType: 'image/svg+xml', body: photo }));
+  await page.route('https://mobilefixture.supabase.co/**', route => {
+    const beans = new URL(route.request().url()).pathname.endsWith('/beans');
+    return route.fulfill({ contentType: 'application/json', headers: { 'content-range': beans ? '0-0/1' : '*/0' }, body: JSON.stringify(beans ? [scored] : []) });
+  });
+  await page.goto('/');
+  if (locale === 'en') await setLanguage(page, 'en');
+  await page.getByRole('button', { name: locale === 'ar' ? scored.name_ar : scored.name_en, exact: true }).click();
+  const profile = page.getByTestId('coffee-sensory');
+  const link = profile.getByRole('link', { name: locale === 'ar' ? /درجات المحمصة.*عرض المصدر/ : /Roaster’s scale.*View source/ });
+  await page.evaluate(() => { window.open = () => { throw new Error('isolated unavailable URL handler'); }; });
+  await link.click();
+  await expect(profile.getByRole('alert')).toHaveText(locale === 'ar' ? 'تعذّر فتح الرابط. حاول مرة ثانية.' : 'Could not open the link. Try again.');
+  await page.evaluate(() => { window.open = () => null; });
+  await link.click();
+  await expect(profile.getByRole('alert')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
 for (const { locale, width } of [{ locale: 'ar', width: 320 }, { locale: 'en', width: 768 }] as const) {
   test(`${locale}: a full sourced personality preserves its scale and partial data keeps no empty bars`, async ({ page, context }) => {
     await page.setViewportSize({ width, height: 960 });

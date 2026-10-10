@@ -57,7 +57,8 @@ export function DiscoverToolbar({
   const [open, setOpen] = useState(false);
   const [staged, setStaged] = useState<DiscoverFilterState>(initialFilters);
 
-  const activeCount = Object.values(initialFilters).filter(Boolean).length;
+  const activeCount = Object.entries(initialFilters)
+    .filter(([key, value]) => Boolean(value) && (key !== "sort" || value !== "newest")).length;
 
   function buildUrl(next: { q?: string; filters?: DiscoverFilterState }) {
     const params = new URLSearchParams();
