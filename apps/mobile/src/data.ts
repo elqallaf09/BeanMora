@@ -22,6 +22,7 @@ import {
   type CoffeeSensoryData,
 } from './sensory';
 import { readRecipeDiscovery, type RecipeDiscovery } from './recipeDiscovery';
+import type { CoffeeRecipeMatch } from './xbloomMatching';
 export type CoffeeImageKind =
   'packaging' | 'product_artwork' | 'origin_photo' | 'unclassified';
 export interface CoffeeItem extends Coffee {
@@ -51,6 +52,7 @@ export interface RecipeSource {
 }
 export type { SourceBrew } from './sourceBrew';
 export interface RecipeItem extends Recipe {
+  coffeeMatch?: CoffeeRecipeMatch;
   localeContent?: Record<'ar' | 'en', Pick<RecipeItem, 'title' | 'notes' | 'author' | 'steps' | 'discovery'>>;
   originalTitle?: string;
   pours: ManualPour[];

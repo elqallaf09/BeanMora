@@ -1,4 +1,5 @@
 import { CatalogComments } from "./CatalogComments";
+import { XBloomMatchNotice } from './XBloomMatchNotice';
 import { useContext } from "react";
 import { ScrollView, View, useWindowDimensions } from "./native";
 import type { RecipeItem } from "./data";
@@ -139,6 +140,7 @@ export function RecipeDetail({
       showsVerticalScrollIndicator={false}
       contentContainerStyle={[coffeeStyles.page, { maxWidth: 780, gap: 12 }]}
     >
+      <XBloomMatchNotice recipe={recipe}/>
       <View
         style={{
           height: width < 600 ? 150 : 170,

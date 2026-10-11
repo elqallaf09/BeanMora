@@ -1,5 +1,8 @@
 /** Bilingual tasting-note labels and retrieval aliases. They do not assert a note for any coffee. */
 export const flavorTranslations: Record<string, string> = {
+  tea: "شاي",
+  cashew: "كاجو",
+  sugar: "سكر",
   allspice: "بهار حلو",
   amaretto: "أماريتو",
   "barley tea": "شاي الشعير",
