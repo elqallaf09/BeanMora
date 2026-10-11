@@ -180,11 +180,11 @@ export function publishedFlavorNotes(
     if (!description) continue;
     const labeled =
       description.match(
-        /\b(?:(?:tasting|flavou?r)\s+)?notes(?:\s+(?:as stated(?: by [^:.;\n]{1,60})?|on the product page|per [^:.;\n]{1,60}))?\s*(?::|：|\bof\b|["“])\s*([^.;\n"”]+)/i,
+        /\b(?:(?:tasting|flavou?r)\s+)?notes(?:\s*\([^)]{1,80}\)|\s+(?:as stated(?: by [^:.;\n]{1,60})?|on the product page|per [^:.;\n]{1,60}))?\s*(?::|：|\bof\b|["“])\s*([^.;\n"”]+)/i,
       ) ??
       description.match(/\bflavou?r\s*[:：]\s*([^.;\n]+)/i) ??
       description.match(
-        /(?:إيحاءات|ايحاءات|نكهات)(?:\s+(?:النكهة|النكهه|البن|القهوة))?\s*[:：]\s*([^.;\n]+)/,
+        /(?:إيحاءات|ايحاءات|نكهات)(?:\s+(?:النكهة|النكهه|البن|القهوة))?(?:\s+(?:بحسب|حسب)\s+[^:：.;\n]{1,60})?\s*[:：]\s*([^.;\n]+)/,
       );
     if (labeled?.[1]) return split(labeled[1]);
     // Several reviewed roasters open their description with a plain flavor list.

@@ -27,7 +27,7 @@ import { useLabels,
   styles,
   type IconName,
 } from './ui';
-import { catalogName, processLabel } from './localizedContent';
+import { catalogName, processLabel, modelLabel } from './localizedContent';
 import { methods } from './copy';
 import { METHODS, type Method } from './core/engine';
 import type { Bundle, CoffeeItem, RecipeItem, CoffeeImageKind } from './data';
@@ -40,6 +40,9 @@ import { recipeQuickFacts } from './recipeQuickFacts';
 import { useContentMedia } from './useContentMedia';
 import { catalogPhotoSource } from './catalogPhotoSource';
 import { useRotatingPicks } from './useRotatingPicks';
+import { useXBloomMatches } from './useXBloomMatches';
+import { XBloomMatchNotice } from './XBloomMatchNotice';
+import type { XBloomModel } from './xbloomMatching';
 
 export const artwork = {
   hero: require('../assets/images/home-banner.jpg'),
@@ -661,9 +664,16 @@ export function CoffeeDetail({
   );
   const methodChosen = useRef(false);
   const [photo, setPhoto] = useState(0);
-  const exactRecipe = related.find((r) => r.method === method);
+  const [xbloomModel, setXBloomModel] = useState<XBloomModel>('all');
+  const xbloom = useXBloomMatches(item, method === 'xbloom', xbloomModel, contentLocale(locale));
+  const xbloomRecipe = xbloom.items[0];
+  const exactRecipe = method === 'xbloom'
+    ? xbloomRecipe?.coffeeMatch?.match_kind === 'exact' ? xbloomRecipe : undefined
+    : related.find((r) => r.method === method);
+  const similarRecipe = xbloomRecipe?.coffeeMatch?.match_kind === 'similar' ? xbloomRecipe : undefined;
   const starter = useBrewStarter(method, !linked.busy && !exactRecipe, contentLocale(locale));
-  const recipe = exactRecipe ?? starter.recipe;
+  const recipe = exactRecipe ?? (method === 'xbloom' ? similarRecipe : starter.recipe);
+  const recipeBusy = method === 'xbloom' ? xbloom.busy : linked.busy || starter.busy;
   const methodKey = allowed.join('|');
   useEffect(() => setPhoto(0), [item.kind, item.id]);
   useEffect(() => {
@@ -674,6 +684,7 @@ export function CoffeeDetail({
   useEffect(() => {
     if (
       !methodChosen.current &&
+      (method !== 'xbloom' || !item.methods.includes('xbloom')) &&
       !linked.busy &&
       related.length &&
       !related.some((r) => r.method === method)
@@ -682,7 +693,7 @@ export function CoffeeDetail({
         related.find((r) => r.method === 'xbloom')?.method ?? related[0].method,
       );
     }
-  }, [linked.busy, related, method]);
+  }, [linked.busy, related, method, item.methods]);
   const process: Record<string, string> = {
     natural: L('معالجة طبيعية', 'Natural'),
     washed: L('مغسول', 'Washed'),
@@ -802,7 +813,11 @@ export function CoffeeDetail({
           allowed={allowed}
           all={false}
         />
-        {linked.busy || starter.busy ? (
+        {method === 'xbloom' ? <SelectionMenu label={L('جهاز xBloom','xBloom device','xBloomの機種')}
+          value={xbloomModel} onChange={value=>setXBloomModel(value as XBloomModel)}
+          items={(['all','Studio','Original'] as const).map(id=>({id,name:id==='all'
+            ? L('كل أجهزة xBloom','All xBloom devices','すべてのxBloom機種') : modelLabel(id,locale)}))} /> : null}
+        {recipeBusy ? (
           <View accessibilityLiveRegion="polite">
             <Txt style={styles.muted}>
               {L('جاري تحميل وصفات التحضير…', 'Loading brew recipes…')}
@@ -812,10 +827,13 @@ export function CoffeeDetail({
       </View>
       {recipe ? (
         <>
+          <XBloomMatchNotice recipe={recipe}/>
           <View style={s.infoSection}>
             <Txt heading style={s.infoHeading}>
               {exactRecipe
                 ? L('مقادير الوصفة المختارة', 'Selected recipe')
+                : similarRecipe
+                  ? L('مقادير الوصفة الأقرب', 'Closest recipe settings','近いレシピの設定')
                 : L('وصفة بداية عامة', 'General starting recipe')}
             </Txt>
             <View style={s.brewStats}>
@@ -852,7 +870,7 @@ export function CoffeeDetail({
               ))}
             </View>
           </View>
-          {!exactRecipe ? (
+          {!exactRecipe && !similarRecipe ? (
             <View testID="coffee-general-recipe">
               <Txt style={styles.muted}>
                 {ar
@@ -893,6 +911,8 @@ export function CoffeeDetail({
                   ? ar
                     ? 'وصفة ' + methods[locale][method] + ' لهذا البن'
                     : methods[locale][method] + ' recipe for this coffee'
+                  : similarRecipe
+                    ? L('الوصفة الأقرب لبنك','Closest recipe for your coffee','このコーヒーに近いレシピ')
                   : L('دليل التحضير العام', 'General brewing guide')}
               </Txt>
               <Txt numberOfLines={2} style={styles.muted}>
@@ -902,7 +922,7 @@ export function CoffeeDetail({
             <Icon name="arrow" size={20} />
           </Pressable>
         </>
-      ) : !linked.busy && !starter.busy ? (
+      ) : !recipeBusy ? (
         <View
           testID="coffee-browse-recipes"
           style={[
@@ -914,8 +934,10 @@ export function CoffeeDetail({
             {L('اختَر وصفة لكوبك', 'Choose a recipe for your cup')}
           </Txt>
           <Txt style={styles.muted}>
-            {linked.error || starter.error
+            {linked.error || starter.error || xbloom.error
               ? L('تعذّر تحميل الوصفات. يمكنك إعادة المحاولة أو استكشاف المكتبة.', 'Recipes could not be loaded. Retry or explore the library.')
+              : method === 'xbloom'
+                ? L('لا توجد وصفة خاصة أو معلومات كافية لترشيح وصفة مشابهة لهذا البن.','No exact recipe or enough published information to suggest a similar recipe for this coffee.','専用レシピまたは類似レシピを提案するための公開情報がありません。')
               : ar
                 ? 'استكشف إعدادات ' +
                   methods[locale][method] +
@@ -941,10 +963,19 @@ export function CoffeeDetail({
               onPress={starter.retry}
             />
           ) : null}
+          {xbloom.error ? <Action title={L('إعادة المحاولة','Try again')} onPress={xbloom.retry}/> : null}
         </View>
       ) : null}
+      {method === 'xbloom' ? xbloom.items.slice(1).map(r=><Pressable key={r.id}
+        accessibilityRole="button" accessibilityLabel={r.title} onPress={()=>openRecipe(r)} style={s.recommended}>
+        <Icon name="xbloom" color={colors.teal}/><View style={{flex:1,gap:3}}>
+          <Txt style={{fontWeight:'700'}}>{r.title}</Txt>
+          <Txt style={styles.muted}>{r.coffeeMatch?.device_model ?? 'xBloom'} · {r.coffeeMatch?.match_kind==='exact'
+            ? L('وصفة لهذا البن','Recipe for this coffee','このコーヒーのレシピ')
+            : L('وصفة مشابهة أخرى','Another similar recipe','別の類似レシピ')}</Txt>
+        </View><Icon name="arrow" size={18}/></Pressable>) : null}
       {related
-        .filter((r) => r.method === method && r.id !== recipe?.id)
+        .filter((r) => method !== 'xbloom' && r.method === method && r.id !== recipe?.id)
         .map((r) => (
           <Pressable
             key={r.id}

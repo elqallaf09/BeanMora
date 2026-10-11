@@ -11,13 +11,18 @@ import { brewCoach, type TasteSignal } from './brewCoach';
 import { GrinderPicker } from './GrinderPicker';
 import { Disclosure } from './Disclosure';
 import { emptyGrinderContext, parseGrinderContext, saveConfiguredBrew, type GrinderContext } from './core/grinder-context';
+import { coffeeBrewIds } from './xbloomMatching';
+import { XBloomMatchNotice } from './XBloomMatchNotice';
 export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe: RecipeItem; userId: string; done: () => void; measuredSeconds?: number }) {
   const locale = useContext(Language); const t = useCopy();
+  const brewIds = coffeeBrewIds(recipe);
+  const borrowed = recipe.coffeeMatch?.match_kind === 'similar';
   const [dose, setDose] = useState(recipe.dose === null ? '' : String(recipe.dose));
   const [water, setWater] = useState(recipe.water === null || recipe.waterUnit === 'ml' ? '' : String(recipe.water));
   const [seconds, setSeconds] = useState(measuredSeconds && Number.isInteger(measuredSeconds) && measuredSeconds > 0 ? String(measuredSeconds) : ''); const [outcome, setOutcome] = useState<Outcome | null>(null);
   const [grindSetting, setGrindSetting] = useState(recipe.grindSetting ?? '');
-  const [grinderContext, setGrinderContext] = useState<GrinderContext>(() => ({...emptyGrinderContext(),roasted_product_id:recipe.productId??null}));
+  const [grinderContext, setGrinderContext] = useState<GrinderContext>(() => ({...emptyGrinderContext(),roasted_product_id:brewIds.productId??null,
+    ...(borrowed ? {calibration:'Based on xBloom source recipe '+recipe.id} : {})}));
   const [brewed, setBrewed] = useState(false); const [modified, setModified] = useState(false); const [share, setShare] = useState(false);
   const [nextGrind, setNextGrind] = useState<'finer' | 'same' | 'coarser' | null>(null);
   const [tasteSignal,setTasteSignal]=useState<TasteSignal|null>(null);
@@ -31,11 +36,11 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
       const { data: { user }, error: authError } = await supabase.auth.getUser();
       if (authError || !user || user.is_anonymous || user.id !== userId) { setError(errors[locale].auth); return; }
       if (!pending.current) {
-        const payload = parseOutcome({ recipe_id: recipe.id, bean_id: recipe.beanId, brew_method: recipe.method,
+        const payload = parseOutcome({ recipe_id: brewIds.recipeId, bean_id: brewIds.beanId, brew_method: recipe.method,
           dose_grams: numberInput(dose), water_grams: numberInput(water),
           actual_time_seconds: seconds.trim() ? numberInput(seconds) ?? -1 : null,
-          outcome, status: modified ? 'brewed_with_modifications' : 'brewed_as_written',
-          share_with_community: share, next_grind_adjustment: nextGrind, taste_scores: {}, brewed });
+          outcome, status: modified || borrowed ? 'brewed_with_modifications' : 'brewed_as_written',
+          share_with_community: share && !borrowed, next_grind_adjustment: nextGrind, taste_scores: {}, brewed });
         if (!payload) { setError(errors[locale].invalid); return; }
         const context=parseGrinderContext({...grinderContext,grind_setting:grindSetting.trim()||null,taste_signal:tasteSignal});
         if (!context) {setError(locale==='ar'?'راجع تاريخ التحميص وبيانات الطاحونة.':'Check the roast date and grinder details.');return;}
@@ -48,10 +53,10 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
       const grind = grindSetting.trim();
       if (grind) {
         try{
-          const inventoryLookup = recipe.productId
-            ? supabase.from('user_bean_inventory').select('id').eq('user_id',userId).eq('roasted_product_id',recipe.productId).order('updated_at',{ascending:false}).limit(1).maybeSingle()
-            : recipe.beanId
-              ? supabase.from('user_bean_inventory').select('id').eq('user_id',userId).eq('legacy_bean_id',recipe.beanId).order('updated_at',{ascending:false}).limit(1).maybeSingle()
+          const inventoryLookup = brewIds.productId
+            ? supabase.from('user_bean_inventory').select('id').eq('user_id',userId).eq('roasted_product_id',brewIds.productId).order('updated_at',{ascending:false}).limit(1).maybeSingle()
+            : brewIds.beanId
+              ? supabase.from('user_bean_inventory').select('id').eq('user_id',userId).eq('legacy_bean_id',brewIds.beanId).order('updated_at',{ascending:false}).limit(1).maybeSingle()
               : null;
           if (inventoryLookup) {
             const inventory = await inventoryLookup;
@@ -63,7 +68,7 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
           }
         }catch{warnings.push(locale==='ar'?'تم حفظ الكوب، لكن تعذّر تحديث درجة الطحن في المخزون.':'The brew was saved, but the grind setting could not be synced to inventory.');}
       }
-      if (share) {
+      if (share && !borrowed) {
         const post = await supabase.from('posts').insert({
           user_id: userId,
           recipe_id: recipe.id,
@@ -88,6 +93,7 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
   }
   if (saved) return <View style={styles.content}><Txt heading style={styles.title}>{t.saved}</Txt>{auxiliaryWarning?<Txt style={styles.warning}>{auxiliaryWarning}</Txt>:share?<Txt style={styles.success}>{locale==='ar'?'تمت مشاركة التجربة في المجتمع.':'Your brew was shared to Community.'}</Txt>:null}<Action title={t.next} onPress={done} selected /></View>;
   return <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.content}>
+    <XBloomMatchNotice recipe={recipe}/>
     <View style={local.hero}><Txt heading style={local.heroTitle}>{locale==='ar'?'شلون كان الكوب؟':'How was the cup?'}</Txt><Txt style={local.heroNote}>{locale==='ar'?'سجّل النتيجة بسرعة ونحتفظ بالإعداد اللي نجح معاك.':'Log the result quickly so BeanMora can remember what worked.'}</Txt></View><View style={local.recipePill}><Txt style={local.recipeTitle}>{recipe.title}</Txt></View><Txt style={styles.muted}>{t.amountNote}</Txt>{recipe.waterUnit === 'ml' ? <Txt style={styles.muted}>{locale === 'ar' ? 'ماء المصدر بالملليلتر؛ أدخل وزن الماء الفعلي من الميزان بالجرام.' : 'Source water is in milliliters; enter the actual water weight from your scale in grams.'}</Txt> : null}
     <Field label={t.dose} value={dose} onChangeText={setDose} keyboardType="decimal-pad" editable={!locked} />
     <Field label={t.water} value={water} onChangeText={setWater} keyboardType="decimal-pad" editable={!locked} />
@@ -100,7 +106,7 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
     ] as const).map(([value,label])=><Action key={value} title={label} onPress={()=>{setTasteSignal(value);const coach=brewCoach(value);if(coach.grind)setNextGrind(coach.grind);}} selected={tasteSignal===value} disabled={locked}/>)}</View>{tasteSignal?<View style={local.coachResult}><Txt style={local.coachResultTitle}>{locale==='ar'?brewCoach(tasteSignal).ar:brewCoach(tasteSignal).en}</Txt><Txt style={local.coachNote}>{locale==='ar'?brewCoach(tasteSignal).reasonAr:brewCoach(tasteSignal).reasonEn}</Txt></View>:null}</View><View style={local.coachCard}><Txt style={local.coachTitle}>{locale==='ar'?'المحاولة الياية':'Next attempt'}</Txt><Txt style={local.coachNote}>{locale==='ar'?'إذا بتغيّر الطحن، احفظ التعديل المقصود عشان نقارن النتيجة بالمحاولة الحالية.':'Save the grind change you plan to try so we can compare it with this cup.'}</Txt><View style={styles.row}><Action title={locale==='ar'?'أنعم':'Finer'} onPress={()=>setNextGrind('finer')} selected={nextGrind==='finer'} disabled={locked}/><Action title={locale==='ar'?'نفس الطحن':'Same'} onPress={()=>setNextGrind('same')} selected={nextGrind==='same'} disabled={locked}/><Action title={locale==='ar'?'أخشن':'Coarser'} onPress={()=>setNextGrind('coarser')} selected={nextGrind==='coarser'} disabled={locked}/></View></View>
     <Txt>{t.modified}</Txt><Switch accessibilityLabel={t.modified} value={modified} onValueChange={setModified} disabled={locked} />
     <Txt>{t.brewed}</Txt><Switch accessibilityLabel={t.brewed} value={brewed} onValueChange={setBrewed} disabled={locked} />
-    <Txt>{t.share}</Txt><Switch accessibilityLabel={t.share} value={share} onValueChange={setShare} disabled={locked} /><Txt style={styles.muted}>{share?(locale==='ar'?'بعد الحفظ راح ينشئ BeanMora منشور مجتمع تلقائي من نفس التجربة والمقادير.':'After saving, BeanMora will create a community post from this exact brew and its measurements.'):t.shareNote}</Txt>
+    {borrowed ? <Txt style={styles.muted}>{locale==='ar'?'ستُحفظ النتيجة لبنك كتجربة بإعدادات مقتبسة.':'The result is saved for your coffee with borrowed recipe settings.'}</Txt> : <><Txt>{t.share}</Txt><Switch accessibilityLabel={t.share} value={share} onValueChange={setShare} disabled={locked} /><Txt style={styles.muted}>{share?(locale==='ar'?'بعد الحفظ راح ينشئ BeanMora منشور مجتمع تلقائي من نفس التجربة والمقادير.':'After saving, BeanMora will create a community post from this exact brew and its measurements.'):t.shareNote}</Txt></>}
     {error ? <Txt style={styles.error}>{error}</Txt> : null}
     {pending.current ? <Txt style={styles.warning}>{t.frozen}</Txt> : null}
     <Action title={busy ? t.saving : pending.current ? t.retry : t.save} onPress={() => void submit()} disabled={busy} selected />
