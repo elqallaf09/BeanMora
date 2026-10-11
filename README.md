@@ -127,7 +127,29 @@ e2e/                          Playwright specs
 
 ## Deployment
 
-Target is Vercel. Set the same environment variables from `.env.example` in
-the Vercel project settings (including the real anon key and, once needed,
-`SUPABASE_SERVICE_ROLE_KEY` as a server-only secret). No project-specific
-`vercel.json` is required for Phase 1.
+BeanMora is an independent project. Its release configuration belongs to Expo
+project `a3785113-b993-49fa-9986-e3dc96d63115` (`elqallaf09/beanmora-mobile`) and
+Supabase project `ubvzdglrwkkuaigmkjap`. Do not use another project's hosting,
+database, or credentials.
+
+The web release uses the React Native Web app in `apps/mobile` on **Expo Hosting**.
+Run the manual `.eas/workflows/deploy-web.yml` workflow from a reviewed commit
+whose web and mobile quality checks passed. The Expo GitHub integration's base
+directory is `/apps/mobile`. The workflow exports the web bundle and promotes
+the successful deployment to production using the project's `production`
+environment. It checks the Expo identity and exact Supabase project before
+installing dependencies, and verifies the installed security backports.
+
+Only `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` are
+needed for the public client; never place a service-role or secret key in an
+`EXPO_PUBLIC_*` variable. Register the verified web origin's auth callback URL
+in the BeanMora Supabase Auth URL configuration before relying on web OAuth,
+email confirmation, or password recovery. The Next.js app at the repository
+root remains available for local development; its presence does not establish
+a separate production deployment.
+
+For iOS, use the `production` build and submit profiles in `apps/mobile/eas.json`
+(bundle `com.beanmora.mobile`, App Store Connect app `6819935215`). A successful
+EAS submission uploads the build to Apple; verify Apple processing and tester
+availability separately. See [the release record](docs/RELEASE-2026-10-11.md)
+for the checked source and publishing status.
