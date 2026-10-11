@@ -1,3 +1,4 @@
+import { DetailColumns, detailStyles } from './DetailLayout';
 import { contentLocale } from './localeText';
 import { TabRail } from './TabRail';
 import { SelectionMenu } from './SelectionMenu';
@@ -694,110 +695,56 @@ export function CoffeeDetail({
       );
     }
   }, [linked.busy, related, method, item.methods]);
-  const process: Record<string, string> = {
-    natural: L('معالجة طبيعية', 'Natural'),
-    washed: L('مغسول', 'Washed'),
-    honey: L('عسلي', 'Honey'),
-    anaerobic: L('لاهوائي', 'Anaerobic'),
-  };
+  const detailFacts = item.details ? [
+    [L('المنطقة', 'Region'), item.details.region], [L('المزرعة', 'Farm'), item.details.farm],
+    [L('الارتفاع', 'Altitude'), item.details.altitude ? item.details.altitude + L(' متر', ' m') : null],
+    [L('وزن الكيس', 'Bag weight'), item.details.weight ? item.details.weight + L(' غ', ' g') : null],
+    [L('تاريخ التحميص', 'Roast date'), item.details.roastDate],
+  ].filter(([, value]) => value) : [];
   const numbers = recipe ? recipeQuickFacts(recipe, ar) : [];
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       keyboardShouldPersistTaps="handled"
-      contentContainerStyle={[s.page, { maxWidth: 780, gap: 18 }]}
+      testID="coffee-detail-scroll"
+      contentContainerStyle={detailStyles.page}
     >
-      <View
-        style={[
-          s.detailPhoto,
-          { height: Math.min(360, (Math.min(width, 780) - 36) * 0.83) },
-        ]}
-      >
-        <CoffeePhoto
-          uri={item.images[photo]}
-          uris={item.images}
-          kind={item.imageKind}
-          detail
-        />
-        {item.images.length > 1 ? (
-          <View style={s.galleryDots}>
-            {item.images.map((_, i) => (
-              <Pressable
-                key={i}
-                accessibilityRole="button"
-                accessibilityLabel={(L('صورة ', 'Photo ')) + (i + 1)}
-                onPress={() => setPhoto(i)}
-                style={[
-                  s.dot,
-                  {
-                    backgroundColor: i === photo ? colors.teal : '#C8BBB0',
-                  },
-                ]}
-              />
-            ))}
-          </View>
-        ) : null}
-        {item.images.length ? (
-          <Txt style={s.photoCount}>
-            {photo + 1}/{item.images.length}
-          </Txt>
-        ) : null}
-      </View>
-      <View style={s.detailTitleRow}>
-        <View style={{ flex: 1 }}>
-          <Txt heading style={styles.title}>
-            {item.name}
-          </Txt>
-          <Txt style={styles.muted}>
-            {[item.roaster, processLabel(item.process, locale)]
-              .filter(Boolean)
-              .join(' – ')}
-          </Txt>
+      <View testID="coffee-detail-hero" style={[detailStyles.hero, { flexDirection: ar ? 'row-reverse' : 'row' }]}>
+        <View testID="coffee-detail-photo" style={[detailStyles.photo, { height: width >= 600 ? 190 : 160 }]}>
+          <CoffeePhoto uri={item.images[photo]} uris={item.images} kind={item.imageKind} detail />
+          {item.images.length > 1 ? <View style={s.galleryDots}>
+            {item.images.map((_, i) => <Pressable key={i} accessibilityRole="button"
+              accessibilityLabel={L('صورة ', 'Photo ') + (i + 1)} onPress={() => setPhoto(i)}
+              style={[s.dot, { backgroundColor: i === photo ? colors.teal : '#C8BBB0' }]} />)}
+          </View> : null}
+          {item.images.length ? <Txt style={[s.photoCount, { right: 6, bottom: 6, paddingHorizontal: 6, fontSize: 12 }]}>{photo + 1}/{item.images.length}</Txt> : null}
         </View>
-        {item.origin ? (
-          <Txt
-            style={[
-              styles.muted,
-              { fontFamily: undefined, writingDirection: 'ltr' },
-            ]}
-          >
-            {originLabel(item.origin, ar)}
-          </Txt>
-        ) : null}
-      </View>
-      <CoffeeSensory
-        notes={item.flavors}
-        sensory={item.sensory}
-        roast={item.roast}
-        sourceUrl={item.sourceUrl}
-      />
-      {item.description ? (
-        <Txt style={{ fontSize: 14, lineHeight: 27 }}>{item.description}</Txt>
-      ) : null}
-      {item.details?<View style={{gap:6}}>{[[L('المنطقة', 'Region'),item.details.region],[L('المزرعة', 'Farm'),item.details.farm],[L('الارتفاع', 'Altitude'),item.details.altitude?item.details.altitude+(L(' متر', ' m')):null],[L('وزن الكيس', 'Bag weight'),item.details.weight?item.details.weight+(L(' غ', ' g')):null],[L('تاريخ التحميص', 'Roast date'),item.details.roastDate]].filter(([,value])=>value).map(([label,value])=><Txt key={label}>{label}: {value}</Txt>)}</View>:null}
-      {item.roasterSite?<SourceLink title={L('موقع المحمصة', 'Roaster website')} url={item.roasterSite}/>:null}
-      {item.variety ? (
-        <View style={styles.metaPill}>
-          <Txt style={styles.metaText}>
-            {L('السلالة: ', 'Variety: ')}
-            {catalogName(item.variety, locale)}
-          </Txt>
+        <View testID="coffee-detail-summary" style={detailStyles.copy}>
+          {item.origin ? <Txt style={[styles.muted, { fontSize: 12, fontFamily: undefined }]}>{originLabel(item.origin, ar)}</Txt> : null}
+          <Txt heading style={detailStyles.title}>{item.name}</Txt>
+          <Txt style={[styles.muted, detailStyles.text]}>{[item.roaster, processLabel(item.process, locale)].filter(Boolean).join(' – ')}</Txt>
+          {item.variety ? <Txt style={[styles.metaText, { lineHeight: 20 }]}>{L('السلالة: ', 'Variety: ')}{catalogName(item.variety, locale)}</Txt> : null}
         </View>
-      ) : null}
-      {addToBags ? (
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={L('أضف إلى أكياسي', 'Add to My Bags')}
-          onPress={() => addToBags(item)}
-          style={s.inventoryButton}
-        >
-          <Icon name="plus" size={18} color={colors.teal} />
-          <Txt style={s.inventoryButtonText}>
-            {L('أضف إلى أكياسي', 'Add to My Bags')}
-          </Txt>
-          <Icon name="arrow" size={17} color={colors.teal} />
-        </Pressable>
-      ) : null}
+      </View>
+      <DetailColumns testID="coffee-detail-information">
+        <CoffeeSensory compact notes={item.flavors} sensory={item.sensory} roast={item.roast} sourceUrl={item.sourceUrl} />
+        {item.description || detailFacts.length ? <View style={[styles.card, detailStyles.card]}>
+          {item.description ? <Txt style={detailStyles.text}>{item.description}</Txt> : null}
+          {detailFacts.length ? <View testID="coffee-detail-facts" style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8 }}>
+            {detailFacts.map(([label, value]) =>
+              <View key={label} style={{ flexBasis: '47%', flexGrow: 1, minWidth: 0, gap: 2 }}>
+                <Txt style={{ fontSize: 12, color: colors.muted }}>{label}</Txt>
+                <Txt style={detailStyles.text}>{value}</Txt>
+              </View>)}
+          </View> : null}
+        </View> : null}
+      </DetailColumns>
+      {addToBags ? <Pressable accessibilityRole="button" accessibilityLabel={L('أضف إلى أكياسي', 'Add to My Bags')}
+        onPress={() => addToBags(item)} style={[s.inventoryButton, { minHeight: 44 }]}>
+        <Icon name="plus" size={18} color={colors.teal} />
+        <Txt style={s.inventoryButtonText}>{L('أضف إلى أكياسي', 'Add to My Bags')}</Txt>
+        <Icon name="arrow" size={17} color={colors.teal} />
+      </Pressable> : null}
       <View style={s.section}>
         <SectionTitle
           title={L('اختر طريقة التحضير', 'Choose your brew method')}
@@ -838,7 +785,7 @@ export function CoffeeDetail({
             </Txt>
             <View style={s.brewStats}>
               {numbers.map((n) => (
-                <View key={n.key} style={s.brewStat}>
+                <View key={n.key} style={[s.brewStat, { width: width >= 600 ? '25%' : '50%', padding: 10 }]}>
                   <View
                     style={{
                       flexDirection: 'row',
@@ -885,10 +832,11 @@ export function CoffeeDetail({
               </Txt>
             </View>
           ) : null}
+          <DetailColumns testID="coffee-recipe-actions">
           <Pressable
             accessibilityRole="button"
             onPress={() => openRecipe(recipe)}
-            style={s.brewButton}
+            style={[s.brewButton, { flexGrow: 1 }]}
           >
             <Icon name="play" color="#FFF" size={18} />
             <Txt style={{ color: '#FFF', fontWeight: '700', fontSize: 16 }}>
@@ -921,6 +869,7 @@ export function CoffeeDetail({
             </View>
             <Icon name="arrow" size={20} />
           </Pressable>
+          </DetailColumns>
         </>
       ) : !recipeBusy ? (
         <View
@@ -966,6 +915,7 @@ export function CoffeeDetail({
           {xbloom.error ? <Action title={L('إعادة المحاولة','Try again')} onPress={xbloom.retry}/> : null}
         </View>
       ) : null}
+      <DetailColumns testID="coffee-related-recipes">
       {method === 'xbloom' ? xbloom.items.slice(1).map(r=><Pressable key={r.id}
         accessibilityRole="button" accessibilityLabel={r.title} onPress={()=>openRecipe(r)} style={s.recommended}>
         <Icon name="xbloom" color={colors.teal}/><View style={{flex:1,gap:3}}>
@@ -992,6 +942,7 @@ export function CoffeeDetail({
             <Icon name="arrow" size={18} />
           </Pressable>
         ))}
+      </DetailColumns>
       <GrinderSettings coffee={item} recipes={related} userId={userId}/>
       {linked.error ? (
         <View testID="coffee-recipes-error" style={styles.card}>
@@ -1013,18 +964,11 @@ export function CoffeeDetail({
           disabled={linked.busy}
         />
       ) : null}
-      {item.sourceUrl ? (
-        <SourceLink
-          title={L('فتح مصدر البيانات', 'Open data source')}
-          url={item.sourceUrl}
-        />
-      ) : null}
-      {item.imageSourceUrl && item.imageSourceUrl !== item.sourceUrl ? (
-        <SourceLink
-          title={L('مصدر صورة البن', 'Coffee photo source')}
-          url={item.imageSourceUrl}
-        />
-      ) : null}
+      <DetailColumns testID="coffee-detail-sources">
+        {item.sourceUrl ? <SourceLink compact title={L('فتح مصدر البيانات', 'Open data source')} url={item.sourceUrl} /> : null}
+        {item.roasterSite ? <SourceLink compact title={L('موقع المحمصة', 'Roaster website')} url={item.roasterSite} /> : null}
+        {item.imageSourceUrl && item.imageSourceUrl !== item.sourceUrl ? <SourceLink compact title={L('مصدر صورة البن', 'Coffee photo source')} url={item.imageSourceUrl} /> : null}
+      </DetailColumns>
       <CatalogComments key={item.kind+item.id} kind={item.kind==='product'?'product':'bean'} id={item.id}/>
     </ScrollView>
   );
@@ -1341,7 +1285,7 @@ const s = StyleSheet.create({
   infoSection: { gap: 0 },
   infoHeading: {
     alignSelf: 'flex-start',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '700',
     backgroundColor: colors.paper,
     paddingHorizontal: 15,

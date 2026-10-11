@@ -363,10 +363,10 @@ export function validateReview(
     Number.isInteger(rating) &&
     rating >= 1 &&
     rating <= 5 &&
-    text.trim().length >= 10 &&
-    text.trim().length <= 2000 &&
-    pros.trim().length <= 500 &&
-    cons.trim().length <= 500
+    Array.from(text.trim()).length >= 3 &&
+    Array.from(text.trim()).length <= 2000 &&
+    Array.from(pros.trim()).length <= 500 &&
+    Array.from(cons.trim()).length <= 500
   );
 }
 export const XBLOOM_RESOURCES = [

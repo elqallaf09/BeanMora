@@ -1,3 +1,4 @@
+import { DetailColumns, detailStyles } from './DetailLayout';
 import { EquipmentGallery } from './EquipmentGallery';
 import { matchesDeepSearch } from './core/deepSearch';
 import { coffeeSearchDocument } from './searchIndex';
@@ -744,151 +745,63 @@ export function EquipmentDetail({
     ).values(),
   ];
   return (
-    <ScrollView
-      testID="equipment-detail-scroll"
-      keyboardShouldPersistTaps="handled"
-      contentContainerStyle={[coffeeStyles.page, { maxWidth: 780 }]}
-    >
-      <View style={s.toolHero}>
-        <EquipmentGallery item={item} />
-        <Txt style={s.eyebrow}>
-          {categoryLabel(equipmentKind(item), locale)}
-        </Txt>
-        <Txt heading style={styles.title}>
-          {item.name}
-        </Txt>
-      </View>
-      <Action selected title={ar?'إضافة إلى معداتي':'Add to my equipment'} onPress={myEquipment}/>
-      <EquipmentUsage item={item}/>
-      <Txt>{g.intro}</Txt>
-      <Txt style={s.editorial}>
-        {ar
-          ? 'دليل BeanMora · المميزات والسلبيات تقييم تحريري، وآراء المشتركين أدناه.'
-          : 'BeanMora guide · Strengths and tradeoffs are editorial; member opinions appear below.'}
-      </Txt>
-      {[
-        {
-          title: ar ? 'المميزات' : 'Strengths',
-          entries: g.pros,
-          color: '#EAF0E7',
-        },
-        {
-          title: ar ? 'السلبيات وما يجب مراعاته' : 'Tradeoffs',
-          entries: g.cons,
-          color: '#F4EAE0',
-        },
-      ].map((block) => (
-        <View
-          key={block.title}
-          style={[styles.card, { backgroundColor: block.color }]}
-        >
-          <Txt heading style={styles.subtitle}>
-            {block.title}
-          </Txt>
-          {block.entries.map((text) => (
-            <Txt key={text}>• {text}</Txt>
-          ))}
+    <ScrollView testID="equipment-detail-scroll" keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false} contentContainerStyle={detailStyles.page}>
+      <View testID="equipment-detail-hero" style={[detailStyles.hero, { flexDirection: ar ? 'row-reverse' : 'row' }]}>
+        <View style={detailStyles.photo}><EquipmentGallery compact item={item} /></View>
+        <View testID="equipment-detail-summary" style={detailStyles.copy}>
+          <Txt style={s.eyebrow}>{categoryLabel(equipmentKind(item), locale)}</Txt>
+          <Txt heading style={detailStyles.title}>{item.name}</Txt>
+          <Action selected title={ar ? 'إضافة إلى معداتي' : 'Add to my equipment'} onPress={myEquipment} />
         </View>
-      ))}
-      <View style={styles.card}>
-        <Txt heading style={styles.subtitle}>
-          {ar ? 'الاستخدام والعناية' : 'Use and care'}
-        </Txt>
-        <Txt>{g.care}</Txt>
       </View>
-      {item.description ? (
-        <View style={styles.card}>
-          <Txt heading style={styles.subtitle}>
-            {ar ? 'تفاصيل الموديل' : 'Model details'}
-          </Txt>
-          <Txt>{item.description}</Txt>
-          {reviewedFacts(item, locale).map((fact) => (
-            <View
-              key={fact.key}
-              style={{
-                flexDirection: ar ? 'row-reverse' : 'row',
-                gap: 12,
-                borderTopWidth: 1,
-                borderColor: colors.line,
-                paddingTop: 8,
-              }}
-            >
-              <Txt style={[styles.label, { flex: 1 }]}>{fact.label}</Txt>
-              <Txt style={{ flex: 2, fontSize: 13 }}>{fact.value}</Txt>
-            </View>
-          ))}
+      <EquipmentUsage item={item} />
+      <Txt style={detailStyles.text}>{g.intro}</Txt>
+      <Txt style={s.editorial}>{ar
+        ? 'دليل BeanMora · المميزات والسلبيات تقييم تحريري، وآراء المشتركين أدناه.'
+        : 'BeanMora guide · Strengths and tradeoffs are editorial; member opinions appear below.'}</Txt>
+      <DetailColumns minWidth={360} testID="equipment-pros-cons">
+        {[{ title: ar ? 'المميزات' : 'Strengths', entries: g.pros, color: '#EAF0E7' },
+          { title: ar ? 'السلبيات وما يجب مراعاته' : 'Tradeoffs', entries: g.cons, color: '#F4EAE0' }].map(block =>
+          <View key={block.title} style={[styles.card, detailStyles.card, { backgroundColor: block.color, flex: 1 }]}>
+            <Txt heading style={detailStyles.heading}>{block.title}</Txt>
+            {block.entries.map(text => <Txt key={text} style={detailStyles.text}>• {text}</Txt>)}
+          </View>)}
+      </DetailColumns>
+      <DetailColumns testID="equipment-model-information">
+        {item.description || reviewedFacts(item, locale).length ? <View style={[styles.card, detailStyles.card]}>
+          <Txt heading style={detailStyles.heading}>{ar ? 'تفاصيل الموديل' : 'Model details'}</Txt>
+          {item.description ? <Txt style={detailStyles.text}>{item.description}</Txt> : null}
+          {reviewedFacts(item, locale).map(fact => <View key={fact.key} style={{ flexDirection: ar ? 'row-reverse' : 'row', gap: 8, borderTopWidth: 1, borderColor: colors.line, paddingTop: 6 }}>
+            <Txt style={[styles.label, { flex: 1 }]}>{fact.label}</Txt>
+            <Txt style={{ flex: 2, minWidth: 0, fontSize: 13, lineHeight: 20 }}>{fact.value}</Txt>
+          </View>)}
+        </View> : null}
+        <View style={[styles.card, detailStyles.card]}>
+          <Txt heading style={detailStyles.heading}>{ar ? 'الاستخدام والعناية' : 'Use and care'}</Txt>
+          <Txt style={detailStyles.text}>{g.care}</Txt>
+          {item.sourceUrl ? <SourceLink compact title={ar ? 'مواصفات الأداة من المصدر' : 'Manufacturer specifications'} url={item.sourceUrl} /> : null}
+          {item.verifiedAt ? <Txt style={s.editorial}>{ar ? 'آخر تحقق من المصدر: ' : 'Source checked: '}{new Date(item.verifiedAt).toLocaleDateString(locale + '-u-nu-latn')}</Txt> : null}
+          {reviewedSupportingSources(item).length ? <Disclosure title={ar ? 'مراجع المواصفات الإضافية' : 'Supporting manufacturer sources'}>
+            {reviewedSupportingSources(item).map((url, index) => <SourceLink key={url} compact title={(ar ? 'مرجع الشركة ' : 'Manufacturer reference ') + (index + 1)} url={url} />)}
+          </Disclosure> : null}
         </View>
-      ) : null}
-      {item.sourceUrl ? (
-        <SourceLink
-          title={
-            ar ? 'مواصفات الأداة من المصدر' : 'Manufacturer specifications'
-          }
-          url={item.sourceUrl}
-        />
-      ) : null}
-      {item.verifiedAt ? (
-        <Txt style={s.editorial}>
-          {ar ? 'آخر تحقق من المصدر: ' : 'Source checked: '}
-          {new Date(item.verifiedAt).toLocaleDateString(locale + '-u-nu-latn')}
-        </Txt>
-      ) : null}
-      {reviewedSupportingSources(item).length ? (
-        <Disclosure
-          title={
-            ar ? 'مراجع المواصفات الإضافية' : 'Supporting manufacturer sources'
-          }
-        >
-          {reviewedSupportingSources(item).map((url, index) => (
-            <SourceLink
-              key={url}
-              title={
-                (ar ? 'مرجع الشركة ' : 'Manufacturer reference ') + (index + 1)
-              }
-              url={url}
-            />
-          ))}
-        </Disclosure>
-      ) : null}
-      {item.methods.filter(isMethod).map((method) => (
-        <Disclosure
-          key={method}
-          title={
-            (ar ? 'دليل التحضير: ' : 'Brew guide: ') + methods[locale][method]
-          }
-        >
+      </DetailColumns>
+      <DetailColumns testID="equipment-brew-guides">
+        {item.methods.filter(isMethod).map(method => <Disclosure key={method} title={(ar ? 'دليل التحضير: ' : 'Brew guide: ') + methods[locale][method]}>
           <MethodGuide method={method} />
-        </Disclosure>
-      ))}
-      <SectionTitle
-        title={
-          ar ? 'وصفات مناسبة لطريقة الأداة' : 'Recipes for this brew method'
-        }
-      />
-      {catalogBusy && !related.length ? (
-        <ActivityIndicator color={colors.teal} />
-      ) : related.length ? (
-        related
-          .slice(0, 8)
-          .map((r) => (
-            <Action key={r.id} title={r.title} onPress={() => openRecipe(r)} />
-          ))
-      ) : (
-        <Txt style={styles.muted}>
-          {ar
-            ? 'لا توجد وصفة مسجلة لهذه الأداة بعد.'
-            : 'No recipe is listed for this tool yet.'}
-        </Txt>
-      )}
-      <EquipmentReviews
-        key={item.id + (userId ?? 'guest')}
-        modelId={item.id}
-        userId={userId}
-        login={login}
-      />
+        </Disclosure>)}
+      </DetailColumns>
+      <SectionTitle title={ar ? 'وصفات مناسبة لطريقة الأداة' : 'Recipes for this brew method'} />
+      {catalogBusy && !related.length ? <ActivityIndicator color={colors.teal} /> : related.length ?
+        <DetailColumns testID="equipment-related-recipes">{related.slice(0, 8).map(r =>
+          <Action compact key={r.id} title={r.title} onPress={() => openRecipe(r)} />)}</DetailColumns>
+        : <Txt style={styles.muted}>{ar ? 'لا توجد وصفة مسجلة لهذه الأداة بعد.' : 'No recipe is listed for this tool yet.'}</Txt>}
+      <EquipmentReviews key={item.id + (userId ?? 'guest')} modelId={item.id} userId={userId} login={login} />
     </ScrollView>
   );
 }
+
 function EquipmentReviews({
   modelId,
   userId,
@@ -916,6 +829,7 @@ function EquipmentReviews({
   const [cons, setCons] = useState('');
   const [experience, setExperience] =
     useState<EquipmentReview['experience']>('used');
+  const [editing, setEditing] = useState(false);
   const [writing, setWriting] = useState(false);
   const [message, setMessage] = useState('');
   const active = useRef(true);
@@ -996,8 +910,8 @@ function EquipmentReviews({
     if (!remove && !validateReview(rating, text, pros, cons)) {
       setMessage(
         ar
-          ? 'اختر تقييماً واكتب رأياً من 10 إلى 2000 حرف.'
-          : 'Choose a rating and write 10–2000 characters.',
+          ? 'اختر تقييماً واكتب رأياً من 3 إلى 2000 حرف.'
+          : 'Choose a rating and write 3–2000 characters.',
       );
       return;
     }
@@ -1058,6 +972,7 @@ function EquipmentReviews({
           setOwn({ ...payload, id: r.data.id, user_id: userId!, status: 'published',
             created_at: own?.created_at ?? new Date().toISOString() });
         }
+        setEditing(false);
         setMessage(
           ar
             ? remove
@@ -1117,6 +1032,58 @@ function EquipmentReviews({
     used: ar ? 'جرّبت الأداة' : 'I have used it',
     interested: ar ? 'مهتم بالأداة' : 'Interested in it',
   };
+  function draft(review: EquipmentReview) {
+    setRating(review.rating);
+    setText(review.review_text);
+    setPros(review.pros);
+    setCons(review.cons);
+    setExperience(review.experience);
+  }
+  function edit(review: EquipmentReview) {
+    if (writing || busy) return;
+    setOwn(review);
+    draft(review);
+    setMessage('');
+    setEditing(true);
+  }
+  const editor = <View testID="equipment-review-editor" style={[styles.card, detailStyles.card]}>
+    <Txt heading style={detailStyles.heading}>{own ? ar ? 'عدّل رأيك' : 'Edit your review' : ar ? 'شارك تجربتك' : 'Share your experience'}</Txt>
+    {message ? <View accessibilityLiveRegion="polite"><Txt style={styles.muted}>{message}</Txt></View> : null}
+    <Txt style={s.editorial}>{ar
+      ? 'رأي واحد لكل أداة. نوع التجربة تصريح منك ويمكنك تعديل رأيك.'
+      : 'One editable opinion per model. Experience is self-reported.'}</Txt>
+    {own?.status === 'hidden' ? <Txt style={styles.warning}>{ar ? 'رأيك مخفي بعد المراجعة. يمكنك حذفه.' : 'Your review is hidden after moderation. You can delete it.'}</Txt> : <>
+      <View style={s.stars}>{[1, 2, 3, 4, 5].map(n => <Pressable key={n} accessibilityRole="button"
+        accessibilityLabel={(ar ? 'تقييم ' : 'Rate ') + n + '/5'} accessibilityState={{ selected: rating === n }}
+        onPress={() => setRating(n)} style={s.star}>
+        <Icon name="star" filled={rating >= n} size={26} color="#B88836" />
+      </Pressable>)}</View>
+      <Chips items={Object.entries(experiences).map(([id, name]) => ({ id, name }))} value={experience} set={v => setExperience(v as EquipmentReview['experience'])} />
+      <Field label={ar ? 'رأيك وتجربتك' : 'Your review'} value={text} onChangeText={setText} multiline maxLength={2000} style={{ minHeight: 76 }} />
+      <Txt style={s.editorial}>{ar ? 'من 3 إلى 2000 حرف' : '3–2000 characters'}</Txt>
+      <DetailColumns>
+        <Field label={ar ? 'المميزات من تجربتك (اختياري)' : 'Your strengths (optional)'} value={pros} onChangeText={setPros} maxLength={500} />
+        <Field label={ar ? 'السلبيات من تجربتك (اختياري)' : 'Your tradeoffs (optional)'} value={cons} onChangeText={setCons} maxLength={500} />
+      </DetailColumns>
+      <Action title={writing ? ar ? 'جارٍ الحفظ…' : 'Saving…' : ar ? 'حفظ رأيي' : 'Save my review'}
+        onPress={() => void write()} disabled={writing || busy} selected />
+    </>}
+    {own ? <DetailColumns minWidth={360}>
+      <Action title={ar ? 'إلغاء التعديل' : 'Cancel editing'} onPress={() => { draft(own); setEditing(false); setMessage(''); }} disabled={writing} />
+      <Action title={ar ? 'حذف رأيي' : 'Delete my review'} onPress={() => void write(true)} disabled={writing || busy} />
+    </DetailColumns> : null}
+  </View>;
+  const visibleReviews = own ? [own, ...reviews.filter(review => review.user_id !== userId)] : reviews;
+  const reviewContent = (r: EquipmentReview) => <>
+    <View style={s.cardTop}>
+      <Txt style={{ flex: 1, fontWeight: '700' }}>{r.user_id === userId ? ar ? 'رأيك' : 'Your review' : ar ? 'عضو BeanMora' : 'BeanMora member'}</Txt>
+      <Icon name="star" size={16} filled color="#B88836" /><Txt>{r.rating}/5</Txt>
+    </View>
+    <Txt style={s.editorial}>{experiences[r.experience]} · {new Date(r.created_at).toLocaleDateString(locale + '-u-nu-latn')}</Txt>
+    <Txt style={detailStyles.text}>{r.review_text}</Txt>
+    {r.pros ? <Txt style={detailStyles.text}>{ar ? 'المميزات: ' : 'Strengths: '}{r.pros}</Txt> : null}
+    {r.cons ? <Txt style={detailStyles.text}>{ar ? 'السلبيات: ' : 'Tradeoffs: '}{r.cons}</Txt> : null}
+  </>;
   return (
     <View style={{ gap: 14 }}>
       <SectionTitle title={ar ? 'آراء المشتركين' : 'Member reviews'} />
@@ -1131,60 +1098,25 @@ function EquipmentReviews({
           </Txt>
         </View>
       ) : null}
-      {failed || busy ? (
-        <Empty
-          busy={busy}
-          error={failed}
-          retry={() => setRevision((r) => r + 1)}
-        />
-      ) : !reviews.length ? (
-        <Txt style={styles.muted}>
-          {ar
-            ? 'لا توجد آراء منشورة بعد. شارك أول تجربة.'
-            : 'No published opinions yet. Share the first experience.'}
-        </Txt>
-      ) : (
-        reviews.map((r) => (
-          <View key={r.id} style={styles.card}>
-            <View style={s.cardTop}>
-              <Txt style={{ flex: 1, fontWeight: '700' }}>
-                {r.user_id === userId
-                  ? ar
-                    ? 'رأيك'
-                    : 'Your review'
-                  : ar
-                    ? 'عضو BeanMora'
-                    : 'BeanMora member'}
-              </Txt>
-              <Icon name="star" size={16} filled color="#B88836" />
-              <Txt>{r.rating}/5</Txt>
-            </View>
-            <Txt style={s.editorial}>
-              {experiences[r.experience]} ·{' '}
-              {new Date(r.created_at).toLocaleDateString(locale + '-u-nu-latn')}
-            </Txt>
-            <Txt>{r.review_text}</Txt>
-            {r.pros ? (
-              <Txt>
-                {ar ? 'المميزات: ' : 'Strengths: '}
-                {r.pros}
-              </Txt>
-            ) : null}
-            {r.cons ? (
-              <Txt>
-                {ar ? 'السلبيات: ' : 'Tradeoffs: '}
-                {r.cons}
-              </Txt>
-            ) : null}
-            {r.user_id !== userId ? (
-              <Action
-                title={ar ? 'الإبلاغ عن هذا الرأي' : 'Report this review'}
-                onPress={() => (userId ? setReportId(r.id) : login())}
-              />
-            ) : null}
-          </View>
-        ))
-      )}
+      {message && own && !editing ? <View accessibilityLiveRegion="polite"><Txt style={styles.muted}>{message}</Txt></View> : null}
+      {failed || busy ? <Empty busy={busy} error={failed} retry={() => setRevision(r => r + 1)} /> : !visibleReviews.length ?
+        <Txt style={styles.muted}>{ar ? 'لا توجد آراء منشورة بعد. شارك أول تجربة.' : 'No published opinions yet. Share the first experience.'}</Txt> :
+        visibleReviews.map(r => <View key={r.id} testID={r.user_id === userId ? 'equipment-own-review' : undefined} style={[styles.card, detailStyles.card]}>
+          {r.user_id === userId ? <>
+            <Pressable accessibilityRole="button" accessibilityLabel={ar ? 'تعديل رأيك' : 'Edit your review'}
+              accessibilityState={{ expanded: editing }} disabled={writing || busy} onPress={() => edit(r)} style={{ gap: 8 }}>
+              {reviewContent(r)}
+              <View style={{ flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 6, minHeight: 44 }}>
+                <Icon name="edit" color={colors.teal} size={17} />
+                <Txt style={{ color: colors.teal, fontSize: 13 }}>{ar ? 'اضغط على رأيك لتعديله' : 'Tap your review to edit'}</Txt>
+              </View>
+            </Pressable>
+            {editing ? editor : null}
+          </> : <>
+            {reviewContent(r)}
+            <Action compact title={ar ? 'الإبلاغ عن هذا الرأي' : 'Report this review'} onPress={() => userId ? setReportId(r.id) : login()} />
+          </>}
+        </View>)}
       {!busy && !failed && summary && reviews.length < summary.review_count ? (
         <Action
           title={ar ? 'المزيد من الآراء' : 'More reviews'}
@@ -1211,117 +1143,9 @@ function EquipmentReviews({
           />
         </View>
       ) : null}
-      {userId ? (
-        <View style={styles.card}>
-          <Txt heading style={styles.subtitle}>
-            {ar
-              ? own
-                ? 'عدّل رأيك'
-                : 'شارك تجربتك'
-              : own
-                ? 'Edit your review'
-                : 'Share your experience'}
-          </Txt>
-          <Txt style={s.editorial}>
-            {ar
-              ? 'نوع التجربة تصريح منك؛ لا يعني شراءً موثّقاً. رأي واحد لكل أداة ويمكن تعديله.'
-              : 'Experience is self-reported, not a verified purchase. One editable opinion per model.'}
-          </Txt>
-          {own?.status === 'hidden' ? (
-            <Txt style={styles.warning}>
-              {ar
-                ? 'رأيك مخفي بعد المراجعة. يمكنك حذفه.'
-                : 'Your review is hidden after moderation. You can delete it.'}
-            </Txt>
-          ) : (
-            <>
-              <View style={s.stars}>
-                {[1, 2, 3, 4, 5].map((n) => (
-                  <Pressable
-                    key={n}
-                    accessibilityRole="button"
-                    accessibilityLabel={(ar ? 'تقييم ' : 'Rate ') + n + '/5'}
-                    accessibilityState={{ selected: rating === n }}
-                    onPress={() => setRating(n)}
-                    style={s.star}
-                  >
-                    <Icon
-                      name="star"
-                      filled={rating >= n}
-                      size={28}
-                      color="#B88836"
-                    />
-                  </Pressable>
-                ))}
-              </View>
-              <Chips
-                items={Object.entries(experiences).map(([id, name]) => ({
-                  id,
-                  name,
-                }))}
-                value={experience}
-                set={(v) => setExperience(v as EquipmentReview['experience'])}
-              />
-              <Field
-                label={ar ? 'رأيك وتجربتك' : 'Your review'}
-                value={text}
-                onChangeText={setText}
-                multiline
-                maxLength={2000}
-                style={{ minHeight: 100 }}
-              />
-              <Field
-                label={
-                  ar
-                    ? 'المميزات من تجربتك (اختياري)'
-                    : 'Your strengths (optional)'
-                }
-                value={pros}
-                onChangeText={setPros}
-                maxLength={500}
-              />
-              <Field
-                label={
-                  ar
-                    ? 'السلبيات من تجربتك (اختياري)'
-                    : 'Your tradeoffs (optional)'
-                }
-                value={cons}
-                onChangeText={setCons}
-                maxLength={500}
-              />
-              <Action
-                title={
-                  ar
-                    ? writing
-                      ? 'جارٍ الحفظ…'
-                      : 'حفظ رأيي'
-                    : writing
-                      ? 'Saving…'
-                      : 'Save my review'
-                }
-                onPress={() => void write()}
-                disabled={writing || busy}
-                selected
-              />
-            </>
-          )}
-          {own ? (
-            <Action
-              title={ar ? 'حذف رأيي' : 'Delete my review'}
-              onPress={() => void write(true)}
-              disabled={writing || busy}
-            />
-          ) : null}
-        </View>
-      ) : (
-        <Action
-          title={ar ? 'سجّل دخولك لكتابة رأيك' : 'Sign in to write a review'}
-          onPress={login}
-          selected
-        />
+      {userId ? !own ? editor : null : (
+        <Action title={ar ? 'سجّل دخولك لكتابة رأيك' : 'Sign in to write a review'} onPress={login} selected />
       )}
-      {message ? <Txt style={styles.muted}>{message}</Txt> : null}
     </View>
   );
 }
@@ -1843,7 +1667,7 @@ const s = StyleSheet.create({
     padding: 16,
     borderRadius: 16,
   },
-  stars: { flexDirection: 'row', gap: 7 },
+  stars: { flexDirection: 'row', gap: 4 },
   star: {
     minWidth: 44,
     minHeight: 48,

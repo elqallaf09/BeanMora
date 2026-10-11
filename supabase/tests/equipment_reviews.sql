@@ -13,8 +13,19 @@ insert into public.user_roles (user_id, role) select moderator_id, 'moderator' f
 select set_config('request.jwt.claims', jsonb_build_object('sub', owner_id, 'role', 'authenticated', 'is_anonymous', false)::text, true) from gear_fixture;
 set local role authenticated;
 insert into public.equipment_reviews (equipment_model_id, user_id, rating, review_text, experience)
-select model_id, owner_id, 4, 'Transaction-only equipment test review', 'used' from gear_fixture;
+select model_id, owner_id, 4, 'زين', 'used' from gear_fixture;
 do $$ begin
+  if not exists (select 1 from public.equipment_reviews where user_id = (select owner_id from gear_fixture) and review_text = 'زين') then
+    raise exception 'three-character opinion was not inserted';
+  end if;
+  update public.equipment_reviews set review_text = 'حلو' where user_id = (select owner_id from gear_fixture);
+  if not found then raise exception 'own three-character edit failed'; end if;
+  begin update public.equipment_reviews set review_text = '  ز  ' where user_id = (select owner_id from gear_fixture);
+    raise exception 'one-character opinion was accepted'; exception when check_violation then null; end;
+  begin update public.equipment_reviews set review_text = 'زي' where user_id = (select owner_id from gear_fixture);
+    raise exception 'two-character opinion was accepted'; exception when check_violation then null; end;
+  begin update public.equipment_reviews set review_text = repeat('ز', 2001) where user_id = (select owner_id from gear_fixture);
+    raise exception 'overlong opinion was accepted'; exception when check_violation then null; end;
   begin insert into public.equipment_reviews (equipment_model_id, user_id, rating, review_text, experience)
     select model_id, other_id, 4, 'Forged identity test review', 'used' from gear_fixture;
     raise exception 'forged identity was accepted'; exception when insufficient_privilege then null; end;

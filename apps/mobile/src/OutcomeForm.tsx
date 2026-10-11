@@ -13,16 +13,17 @@ import { Disclosure } from './Disclosure';
 import { emptyGrinderContext, parseGrinderContext, saveConfiguredBrew, type GrinderContext } from './core/grinder-context';
 import { coffeeBrewIds } from './xbloomMatching';
 import { XBloomMatchNotice } from './XBloomMatchNotice';
+import { CoffeeLabelMatchNotice } from './CoffeeLabelMatchNotice';
 export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe: RecipeItem; userId: string; done: () => void; measuredSeconds?: number }) {
   const locale = useContext(Language); const t = useCopy();
   const brewIds = coffeeBrewIds(recipe);
-  const borrowed = recipe.coffeeMatch?.match_kind === 'similar';
+  const borrowed = recipe.coffeeMatch?.match_kind === 'similar' || recipe.labelMatch?.match_kind === 'similar';
   const [dose, setDose] = useState(recipe.dose === null ? '' : String(recipe.dose));
   const [water, setWater] = useState(recipe.water === null || recipe.waterUnit === 'ml' ? '' : String(recipe.water));
   const [seconds, setSeconds] = useState(measuredSeconds && Number.isInteger(measuredSeconds) && measuredSeconds > 0 ? String(measuredSeconds) : ''); const [outcome, setOutcome] = useState<Outcome | null>(null);
   const [grindSetting, setGrindSetting] = useState(recipe.grindSetting ?? '');
   const [grinderContext, setGrinderContext] = useState<GrinderContext>(() => ({...emptyGrinderContext(),roasted_product_id:brewIds.productId??null,
-    ...(borrowed ? {calibration:'Based on xBloom source recipe '+recipe.id} : {})}));
+    ...(borrowed ? {calibration:'Based on source recipe '+recipe.id} : {})}));
   const [brewed, setBrewed] = useState(false); const [modified, setModified] = useState(false); const [share, setShare] = useState(false);
   const [nextGrind, setNextGrind] = useState<'finer' | 'same' | 'coarser' | null>(null);
   const [tasteSignal,setTasteSignal]=useState<TasteSignal|null>(null);
@@ -94,6 +95,7 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
   if (saved) return <View style={styles.content}><Txt heading style={styles.title}>{t.saved}</Txt>{auxiliaryWarning?<Txt style={styles.warning}>{auxiliaryWarning}</Txt>:share?<Txt style={styles.success}>{locale==='ar'?'تمت مشاركة التجربة في المجتمع.':'Your brew was shared to Community.'}</Txt>:null}<Action title={t.next} onPress={done} selected /></View>;
   return <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.content}>
     <XBloomMatchNotice recipe={recipe}/>
+    <CoffeeLabelMatchNotice recipe={recipe}/>
     <View style={local.hero}><Txt heading style={local.heroTitle}>{locale==='ar'?'شلون كان الكوب؟':'How was the cup?'}</Txt><Txt style={local.heroNote}>{locale==='ar'?'سجّل النتيجة بسرعة ونحتفظ بالإعداد اللي نجح معاك.':'Log the result quickly so BeanMora can remember what worked.'}</Txt></View><View style={local.recipePill}><Txt style={local.recipeTitle}>{recipe.title}</Txt></View><Txt style={styles.muted}>{t.amountNote}</Txt>{recipe.waterUnit === 'ml' ? <Txt style={styles.muted}>{locale === 'ar' ? 'ماء المصدر بالملليلتر؛ أدخل وزن الماء الفعلي من الميزان بالجرام.' : 'Source water is in milliliters; enter the actual water weight from your scale in grams.'}</Txt> : null}
     <Field label={t.dose} value={dose} onChangeText={setDose} keyboardType="decimal-pad" editable={!locked} />
     <Field label={t.water} value={water} onChangeText={setWater} keyboardType="decimal-pad" editable={!locked} />

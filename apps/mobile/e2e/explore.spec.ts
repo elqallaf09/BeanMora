@@ -397,6 +397,18 @@ for (const width of [320, 768]) {
     await expect(
       page.getByRole('heading', { name: 'Tradeoffs', exact: true }),
     ).toBeVisible();
+    const galleryBox = (await page.getByTestId('equipment-gallery').boundingBox())!;
+    const summaryBox = (await page.getByTestId('equipment-detail-summary').boundingBox())!;
+    expect(galleryBox.x + galleryBox.width).toBeLessThan(summaryBox.x);
+    expect(galleryBox.height).toBeLessThanOrEqual(225);
+    if (width >= 600) {
+      const blocks = page.getByTestId('equipment-pros-cons');
+      const strengthsBox = (await blocks.getByRole('heading', { name: 'Strengths', exact: true }).boundingBox())!;
+      const tradeoffsBox = (await blocks.getByRole('heading', { name: 'Tradeoffs', exact: true }).boundingBox())!;
+      expect(Math.abs(strengthsBox.y - tradeoffsBox.y)).toBeLessThan(2);
+      expect(tradeoffsBox.x).toBeGreaterThan(strengthsBox.x + strengthsBox.width);
+    }
+
     await expect(
       page.getByText('Model photo unavailable', { exact: true }),
     ).toBeVisible();
@@ -618,6 +630,10 @@ test('members can save, edit and delete their own equipment opinion with confirm
     page.getByText('Your review was saved.', { exact: true }),
   ).toBeVisible();
   await expect(
+    page.getByTestId('equipment-review-editor'),
+  ).toHaveCount(0);
+  await page.getByTestId('equipment-own-review').getByRole('button', { name: 'Edit your review', exact: true }).click();
+  await expect(
     page.getByRole('heading', { name: 'Edit your review', exact: true }),
   ).toBeVisible();
   await page
@@ -629,6 +645,7 @@ test('members can save, edit and delete their own equipment opinion with confirm
   await expect(
     page.getByText('Updated isolated brewing experience.', { exact: true }),
   ).toBeVisible();
+  await page.getByTestId('equipment-own-review').getByRole('button', { name: 'Edit your review', exact: true }).click();
   await page
     .getByRole('button', { name: 'Delete my review', exact: true })
     .click();

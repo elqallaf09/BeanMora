@@ -94,6 +94,7 @@ const beans = Array.from({ length: 8 }, (_, i) => ({
   name_ar:'قهوة الاختبار '+(i+1),name_en:'Design coffee '+(i+1),
   requires_review:false,is_published:true,suitable_for_v60:true,suitable_for_xbloom:true,suitable_for_espresso:true,
   roast_level:'light',origin_country:['Colombia','Ethiopia','Bolivia','Guatemala'][i%4],process:'natural',
+  origin_region:'Test region',farm:'Test farm',bag_weight_grams:250,
   roaster:{name_ar:'محمصة الاختبار',name_en:'Test roaster'},flavors:[{flavor:'chocolate'}],
   images:[{url:'https://photo-fixture.test/coffee.jpg',position:0,image_usage_status:'rights_confirmed'}],
 }));
@@ -136,6 +137,16 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
       expect(action!.x + action!.width).toBeLessThanOrEqual(viewport.width);
     }
     await expect(page.getByTestId('language-switcher')).toHaveCount(0);
+    await language.click();
+    const done = page.getByTestId('settings-done');
+    await expect(done).toBeVisible();
+    const doneBox = (await done.boundingBox())!;
+    expect(doneBox.width).toBeGreaterThanOrEqual(88);
+    expect(doneBox.height).toBeGreaterThanOrEqual(48);
+    expect(await done.getByText('تم', { exact: true }).evaluate(el => parseFloat(getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(18);
+    await done.click();
+    await expect(page.locator('[aria-modal="true"]')).toHaveCount(0);
+
     await setLanguage(page, 'en');
     await page.reload();
     await expect(page.getByRole('button',{name:'Settings',exact:true}).first()).toBeVisible();
@@ -161,6 +172,19 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
     await page.getByTestId('home-scroll').evaluate(el=>{el.scrollTop=0;});
     await page.getByRole('button',{name:beans[0].name_ar,exact:true}).click();
     await expect(page.getByRole('heading',{name:beans[0].name_ar})).toBeVisible();
+    const photoBox = (await page.getByTestId('coffee-detail-photo').boundingBox())!;
+    const summaryBox = (await page.getByTestId('coffee-detail-summary').boundingBox())!;
+    expect(photoBox.height).toBeLessThanOrEqual(190.5);
+    expect(photoBox.x).toBeGreaterThan(summaryBox.x + summaryBox.width);
+    expect(Math.abs(photoBox.y + photoBox.height / 2 - summaryBox.y - summaryBox.height / 2)).toBeLessThan(2);
+    if (viewport.width >= 600) {
+      const information = page.getByTestId('coffee-detail-information');
+      const sensoryBox = (await information.getByTestId('coffee-sensory').boundingBox())!;
+      const factsBox = (await information.getByTestId('coffee-detail-facts').boundingBox())!;
+      expect(sensoryBox.x).toBeGreaterThan(factsBox.x + factsBox.width);
+      expect(Math.abs(sensoryBox.y - factsBox.y)).toBeLessThan(20);
+    }
+    await page.screenshot({ path: info.outputPath(`compact-coffee-detail-${viewport.width}.png`), animations: 'disabled' });
     const detailPill = await language.boundingBox();
     expect(detailPill!.x).toBeGreaterThanOrEqual(0);
     expect(detailPill!.x + detailPill!.width).toBeLessThanOrEqual(viewport.width);

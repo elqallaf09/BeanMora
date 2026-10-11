@@ -40,7 +40,7 @@ export function RoastLevel({ roast, score }: { roast?: string | null; score?: Se
   return <View style={[s.roast, ar && { flexDirection: 'row-reverse' }]}><View style={{ flexDirection: 'row', gap: 4 }}>{[0,1,2,3,4].map(i => <Icon key={i} name="bean" size={17} color={i < filled ? colors.copper : '#D8CDBE'} filled={i < filled}/>)}</View><Txt style={{ fontSize: 12, color: colors.muted }}>{ar ? 'التحميص: ' : 'Roast: '}{index >= 0 ? names[index] : `${score!.value}/${score!.max}`}</Txt></View>;
 }
 
-export function CoffeeSensory({ notes, sensory, roast, sourceUrl }: { notes: string[]; sensory?: CoffeeSensoryData; roast?: string | null; sourceUrl?: string | null }) {
+export function CoffeeSensory({ notes, sensory, roast, sourceUrl, compact = false }: { notes: string[]; sensory?: CoffeeSensoryData; roast?: string | null; sourceUrl?: string | null; compact?: boolean }) {
   const ar = useContext(Language) === 'ar';
   const [sourceFailed, setSourceFailed] = useState(false);
   const complete = hasCompletePersonality(notes, sensory);
@@ -48,18 +48,18 @@ export function CoffeeSensory({ notes, sensory, roast, sourceUrl }: { notes: str
   const keys: SensoryKey[] = (['acidity', 'sweetness', 'body', 'fermentation'] as const).filter(key => sensory?.[key] || sensory?.descriptions?.[key]);
   const missing = missingPersonalityAttributes(sensory).map(key => labels[key]).join(ar ? '، ' : ', ');
   const source = safeUrl(keys.length ? sensory?.sourceUrl : sourceUrl);
-  return <View testID="coffee-sensory" style={[s.profile, complete && s.completeProfile]}>
+  return <View testID="coffee-sensory" style={[s.profile, complete && s.completeProfile, compact && { padding: 12, gap: 8, borderRadius: 16 }]}>
     <View testID={complete ? 'coffee-personality-complete' : 'coffee-personality-pending'} style={[s.profileHeader, ar && { flexDirection: 'row-reverse' }]}>
       <View style={s.profileIcon}><Icon name="bean" size={23} color={colors.copper}/></View>
-      <View style={{ flex: 1, gap: 2 }}><Txt heading style={styles.subtitle}>{complete ? ar ? 'شخصية البن' : 'Coffee personality' : notes.length || keys.length ? ar ? 'إيحاءات المحمصة' : 'Roaster tasting notes' : ar ? 'الطعم قيد التوثيق' : 'Taste details coming soon'}</Txt><Txt style={s.caption}>{complete ? ar ? 'الإيحاءات وملامح الكوب من وصف المحمصة' : 'Tasting notes and cup attributes from the roaster' : ar ? 'المعلومات المتوفرة من المحمصة' : 'Available information from the roaster'}</Txt></View>
+      <View style={{ flex: 1, gap: 2 }}><Txt heading style={[styles.subtitle, compact && { fontSize: 17, lineHeight: 24 }]}>{complete ? ar ? 'شخصية البن' : 'Coffee personality' : notes.length || keys.length ? ar ? 'إيحاءات المحمصة' : 'Roaster tasting notes' : ar ? 'الطعم قيد التوثيق' : 'Taste details coming soon'}</Txt><Txt style={s.caption}>{complete ? ar ? 'الإيحاءات وملامح الكوب من وصف المحمصة' : 'Tasting notes and cup attributes from the roaster' : ar ? 'المعلومات المتوفرة من المحمصة' : 'Available information from the roaster'}</Txt></View>
     </View>
     <RoastLevel roast={roast} score={sensory?.roast}/>
-    {notes.length ? <View testID="coffee-flavor-notes" style={{gap:8}}><Txt style={s.sectionLabel}>{ar ? 'إيحاءات البن والطعم' : 'Coffee tasting notes'}</Txt><FlavorNotes notes={notes} max={20}/></View> : null}
-    {keys.length ? <View style={[s.scales, ar && { flexDirection: 'row-reverse' }]}>{keys.map(key => {
+    {notes.length ? <View testID="coffee-flavor-notes" style={{gap:8}}><Txt style={s.sectionLabel}>{ar ? 'إيحاءات البن والطعم' : 'Coffee tasting notes'}</Txt><FlavorNotes notes={notes} compact={compact} max={20}/></View> : null}
+    {keys.length ? <View style={[s.scales, compact && { gap: 8, paddingTop: 10 }, ar && { flexDirection: 'row-reverse' }]}>{keys.map(key => {
       const metric = sensory?.[key];
       const description = sensory?.descriptions?.[key];
       const value = metric ? `${metric.value}/${metric.max}` : ar ? description!.ar : description!.en;
-      return <View key={key} testID={'coffee-attribute-'+key} style={s.scaleRow}><View style={[s.scaleHeading, ar && { flexDirection: 'row-reverse' }]}><Txt style={s.scaleTitle}>{labels[key]}</Txt>{metric ? <Txt style={s.scaleValue}>{value}</Txt> : null}</View>{metric ? <View accessibilityLabel={labels[key]+': '+value} style={s.track}><View style={[s.trackFill, { width: `${metric.value / metric.max * 100}%`, alignSelf: ar ? 'flex-end' : 'flex-start' }]}/></View> : null}{description ? <Txt style={s.description}>{ar ? description.ar : description.en}</Txt> : null}</View>;
+      return <View key={key} testID={'coffee-attribute-'+key} style={[s.scaleRow, compact && { flexBasis: '47%', padding: 8, gap: 6 }]}><View style={[s.scaleHeading, ar && { flexDirection: 'row-reverse' }]}><Txt style={s.scaleTitle}>{labels[key]}</Txt>{metric ? <Txt style={s.scaleValue}>{value}</Txt> : null}</View>{metric ? <View accessibilityLabel={labels[key]+': '+value} style={s.track}><View style={[s.trackFill, { width: `${metric.value / metric.max * 100}%`, alignSelf: ar ? 'flex-end' : 'flex-start' }]}/></View> : null}{description ? <Txt style={[s.description, compact && { fontSize: 13, lineHeight: 20 }]}>{ar ? description.ar : description.en}</Txt> : null}</View>;
     })}</View> : null}
     {!complete ? <View testID="coffee-personality-status"><Txt style={s.caption}>{!notes.length && !keys.length ? ar ? 'تظهر شخصية البن هنا بعد توثيق الإيحاءات والحموضة والحلاوة والقوام.' : 'The full personality appears here once tasting notes, acidity, sweetness and body are documented.' : !notes.length ? ar ? 'تظهر شخصية البن الكاملة بعد استكمال توثيق الإيحاءات'+(missing ? ' و'+missing : '')+'.' : 'The full personality awaits documented tasting notes'+(missing ? ', '+missing : '')+'.' : ar ? 'شخصية البن الكاملة بانتظار توثيق: '+missing+'.' : 'The full personality awaits documented '+missing+'.'}</Txt></View> : null}
     {source && (notes.length || keys.length) ? <Pressable accessibilityRole="link" onPress={() => { setSourceFailed(false); void Linking.openURL(source).catch(() => setSourceFailed(true)); }} style={s.source}><Txt style={s.sourceText}>{keys.some(key => sensory?.[key]) ? ar ? 'درجات المحمصة · عرض المصدر' : 'Roaster’s scale · View source' : ar ? 'وصف المحمصة · عرض المصدر' : 'Roaster’s description · View source'}</Txt><Icon name="arrow" color={colors.teal} size={16}/></Pressable> : null}

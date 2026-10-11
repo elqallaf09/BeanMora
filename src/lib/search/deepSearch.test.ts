@@ -4,6 +4,10 @@ it("Arabic names and displayed flavor labels retrieve original source text witho
   for (const [english, arabic] of [
     ["Kenya", "كينيا"],
     ["Colombia", "كولومبيا"],
+    ["Castillo", "كاستيلو"],
+    ["Brasil", "برازيل"],
+    ["البرازيل", "Brazil"],
+    ["Costa Rica", "كوستاريكا"],
     ["Gesha", "قيشا"],
     ["beeswax", "شمع العسل"],
     ["red currant", "كشمش أحمر"],

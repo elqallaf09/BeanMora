@@ -174,6 +174,6 @@ export function SearchScreen({
     );
   };
   return (
-    <RecipeCatalog {...recipeOptions} initialState={initialState} remember={remember} universal={universal} open={openRecipe} searchResults={universal ? renderResults : undefined} />
+    <RecipeCatalog {...recipeOptions} scanCoffees={coffees} initialState={initialState} remember={remember} universal={universal} open={openRecipe} searchResults={universal ? renderResults : undefined} />
   );
 }

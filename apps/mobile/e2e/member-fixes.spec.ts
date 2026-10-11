@@ -70,12 +70,17 @@ async function reply(route: Route, data: unknown, status = 200) {
 }
 async function setup(
   page: Page,
-  options: { failedSave?: boolean; failedSummary?: boolean } = {},
+  options: { failedSave?: boolean; failedSummary?: boolean; existingReview?: boolean; failedReview?: boolean; hiddenReview?: boolean } = {},
 ) {
   let saved = false,
     saveAttempts = 0,
-    own: Record<string, unknown> | null = null,
+    own: Record<string, unknown> | null = options.existingReview || options.hiddenReview ? {
+      id: "66666666-6666-4666-8666-666666666666", user_id: user.id, rating: 4,
+      review_text: "زين", pros: "", cons: "", experience: "used", status: options.hiddenReview ? "hidden" : "published",
+      created_at: "2026-10-09T12:00:00Z",
+    } : null,
     gear = false;
+  const reviewWrites: { method: string; body: Record<string, unknown> | null }[] = [];
   const saves: Record<string, unknown>[] = [],
     searches: Record<string, unknown>[] = [],
     brews: Record<string, unknown>[] = [];
@@ -229,6 +234,9 @@ async function setup(
       );
     if (path.endsWith("/equipment_reviews")) {
       if (req.method() !== "GET") {
+        reviewWrites.push({ method: req.method(), body: req.method() === "DELETE" ? null : req.postDataJSON() });
+        if (options.failedReview && reviewWrites.length === 1) return reply(route, { message: "isolated review failure" }, 503);
+        if (req.method() === "DELETE") { own = null; return reply(route, { id: "66666666-6666-4666-8666-666666666666" }); }
         const review = {
           id: "66666666-6666-4666-8666-666666666666",
           user_id: user.id,
@@ -241,7 +249,7 @@ async function setup(
       }
       return reply(
         route,
-        url.searchParams.has("user_id") ? own : own ? [own] : [],
+        url.searchParams.has("user_id") ? own : own && own.status !== "hidden" ? [own] : [],
       );
     }
     if (path.endsWith("/rpc/record_configured_brew_v1")) {
@@ -255,6 +263,7 @@ async function setup(
     saves,
     searches,
     brews,
+    reviewWrites,
     removeSaveElsewhere: () => {
       saved = false;
     },
@@ -471,4 +480,73 @@ test("expanded capsule menu finds Zill and Arabic flavor names at 320px", async 
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
+});
+
+for (const [width, ar] of [[320, true], [1536, false]] as const) {
+  test(`equipment review accepts three characters and edits inside the tapped opinion at ${width}`, async ({ page }, info) => {
+    await page.setViewportSize({ width, height: 1009 });
+    const { reviewWrites } = await setup(page);
+    await signIn(page);
+    if (ar) await setLanguage(page, 'ar');
+    await page.getByRole('button', { name: ar ? 'الرئيسية' : 'Home', exact: true }).click();
+    await page.getByRole('button', { name: ar ? 'أدوات القهوة' : 'Equipment', exact: true }).click();
+    await page.getByRole('button', { name: ar ? 'باراتزا إنكور ESP' : model.name, exact: true }).click();
+    await page.getByRole('button', { name: ar ? 'تقييم 4/5' : 'Rate 4/5', exact: true }).click();
+    const review = page.getByLabel(ar ? 'رأيك وتجربتك' : 'Your review', { exact: true });
+    const save = page.getByRole('button', { name: ar ? 'حفظ رأيي' : 'Save my review', exact: true });
+    await review.fill('زي'); await save.click();
+    await expect(page.getByText(ar ? 'اختر تقييماً واكتب رأياً من 3 إلى 2000 حرف.' : 'Choose a rating and write 3–2000 characters.', { exact: true })).toBeVisible();
+    expect(reviewWrites).toHaveLength(0);
+    await review.fill('زين'); await save.click();
+    const own = page.getByTestId('equipment-own-review');
+    await expect(own.getByText('زين', { exact: true })).toBeVisible();
+    await expect(page.getByTestId('equipment-review-editor')).toHaveCount(0);
+    await own.getByText('زين', { exact: true }).click();
+    const editor = own.getByTestId('equipment-review-editor');
+    await expect(editor).toBeVisible();
+    await expect(editor.getByLabel(ar ? 'رأيك وتجربتك' : 'Your review', { exact: true })).toHaveValue('زين');
+    await review.fill('حلو');
+    await page.getByRole('button', { name: ar ? 'إلغاء التعديل' : 'Cancel editing', exact: true }).click();
+    await expect(editor).toHaveCount(0); expect(reviewWrites).toHaveLength(1);
+    await own.getByText('زين', { exact: true }).click();
+    await expect(review).toHaveValue('زين');
+    await review.fill('حلو'); await save.click();
+    await expect(own.getByText('حلو', { exact: true })).toBeVisible();
+    await expect(editor).toHaveCount(0);
+    expect(reviewWrites.map(w => [w.method, w.body?.review_text])).toEqual([['POST', 'زين'], ['PATCH', 'حلو']]);
+    await page.screenshot({ path: info.outputPath('compact-equipment-own-review.png'), animations: 'disabled' });
+  });
+}
+test('inline equipment edit retains a failed draft and retries only the owner review', async ({ page }) => {
+  const { reviewWrites } = await setup(page, { existingReview: true, failedReview: true });
+  await signIn(page);
+  await page.getByRole('button', { name: 'Home', exact: true }).click();
+  await page.getByRole('button', { name: 'Equipment', exact: true }).click();
+  await page.getByRole('button', { name: model.name, exact: true }).click();
+  const own = page.getByTestId('equipment-own-review');
+  await own.getByText('زين', { exact: true }).click();
+  const editor = own.getByTestId('equipment-review-editor');
+  await editor.getByLabel('Your review', { exact: true }).fill('حلو');
+  await editor.getByRole('button', { name: 'Save my review', exact: true }).click();
+  await expect(editor.getByText('Save was not confirmed. Try again.', { exact: true })).toBeVisible();
+  await expect(editor.getByLabel('Your review', { exact: true })).toHaveValue('حلو');
+  await editor.getByRole('button', { name: 'Save my review', exact: true }).click();
+  await expect(editor).toHaveCount(0);
+  await expect(own.getByText('حلو', { exact: true })).toBeVisible();
+  expect(reviewWrites.map(w => w.method)).toEqual(['PATCH', 'PATCH']);
+});
+test('own moderated opinion opens inline for deletion without offering an edit write', async ({ page }) => {
+  const { reviewWrites } = await setup(page, { hiddenReview: true });
+  await signIn(page);
+  await page.getByRole('button', { name: 'Home', exact: true }).click();
+  await page.getByRole('button', { name: 'Equipment', exact: true }).click();
+  await page.getByRole('button', { name: model.name, exact: true }).click();
+  await page.getByTestId('equipment-own-review').getByText('زين', { exact: true }).click();
+  const editor = page.getByTestId('equipment-own-review').getByTestId('equipment-review-editor');
+  await expect(editor.getByText('Your review is hidden after moderation. You can delete it.', { exact: true })).toBeVisible();
+  await expect(editor.getByRole('button', { name: 'Save my review', exact: true })).toHaveCount(0);
+  await editor.getByRole('button', { name: 'Delete my review', exact: true }).click();
+  await expect(page.getByTestId('equipment-own-review')).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'Share your experience', exact: true })).toBeVisible();
+  expect(reviewWrites.map(w => w.method)).toEqual(['DELETE']);
 });

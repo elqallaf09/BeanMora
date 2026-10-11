@@ -88,12 +88,10 @@ for (const ar of [true, false]) test(`${ar ? 'Arabic' : 'English'}: bio uses the
   await page.getByRole('button', { name: ar ? 'تسجيل الدخول' : 'Sign in', exact: true }).click();
   await expect(page.getByTestId('profile-country-flag')).toContainText('🇯🇵');
   await expect(page.getByRole('button', { name: ar ? 'أضف نبذة عنك' : 'Add a bio', exact: true })).toHaveCount(0);
-  await page.getByRole('button', { name: ar ? 'المزيد من أقسام الحساب' : 'More profile sections', exact: true }).click();
-  const extras = page.getByTestId('profile-extra-sections');
-  await expect(extras.getByRole('button', { name: ar ? 'المتابعون' : 'Followers', exact: true })).toHaveCount(0);
-  await expect(extras.getByRole('button', { name: ar ? 'أتابع' : 'Following', exact: true })).toHaveCount(0);
-  await extras.getByRole('button', { name: ar ? 'إغلاق' : 'Close', exact: true }).click();
-  await expect(extras).toHaveCount(0);
+  const sections = page.getByTestId('profile-sections');
+  await expect(sections.getByRole('button')).toHaveCount(9);
+  for (const name of ar ? ['المتابعون', 'أتابع', 'التعليقات'] : ['Followers', 'Following', 'Comments']) await expect(sections.getByRole('button', { name, exact: true })).toBeVisible();
+  await expect(page.getByTestId('profile-extra-sections')).toHaveCount(0);
   await page.getByRole('button', { name: ar ? 'تعديل الملف' : 'Edit profile', exact: true }).click();
   await page.getByLabel(ar ? 'نبذة عني' : 'Bio', { exact: true }).fill('Coffee lover · V60 and espresso');
   await page.getByRole('button', { name: ar ? 'حفظ الملف' : 'Save profile', exact: true }).click();

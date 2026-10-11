@@ -134,6 +134,64 @@ export function recipePageQuery(
     .abortSignal(signal);
 }
 
+export type RecipeCriterion = { field: keyof RecipeDiscoveryFilters | 'query'; value: string };
+export type RecipeNearMatch = { matched: RecipeCriterion[]; missing: RecipeCriterion[] };
+export const recipeFilterLabels: Record<RecipeCriterion['field'], readonly [string,string]> = {
+  query: ['البحث','Search'], flavorNote: ['الإيحاء','Tasting note'], flavorFamily: ['النكهة','Flavor'],
+  creatorName: ['صانع الوصفة','Creator'], creatorCountry: ['بلد الصانع','Creator country'],
+  recipeCountry: ['منشأ الوصفة','Recipe origin'], recipeName: ['اسم الوصفة','Recipe name'],
+  servingStyle: ['التقديم','Serving'], coffeeType: ['السلالة','Variety'], coffeeName: ['البن','Coffee'],
+  coffeeOrigin: ['منشأ البن','Coffee origin'], roasterName: ['المحمصة','Roaster'], sourceName: ['المصدر','Source'],
+};
+export function recipeCriterionLabel(criterion: RecipeCriterion, ar: boolean): string {
+  const values: Record<string, readonly [string,string]> = {
+    chocolate:['شوكولاتة','Chocolate'],nutty:['مكسرات','Nutty'],fruity:['فواكه','Fruity'],
+    citrus:['حمضيات','Citrus'],floral:['زهور','Floral'],caramel:['كراميل','Caramel'],spice:['توابل','Spice'],
+    hot:['ساخن','Hot'],iced:['مثلج','Iced'],cold:['بارد','Cold'],cold_or_iced:['بارد ومثلج','Cold & iced'],
+  };
+  const value = criterion.field === 'flavorFamily' || criterion.field === 'servingStyle'
+    ? values[criterion.value]?.[ar ? 0 : 1] ?? criterion.value : criterion.value;
+  return `${recipeFilterLabels[criterion.field][ar ? 0 : 1]}: ${value}`;
+}
+function nearMatchCriteria(value: unknown): RecipeCriterion[] {
+  if (!Array.isArray(value)) return [];
+  return value.flatMap(item => item && typeof item === 'object'
+    && typeof item.field === 'string' && Object.hasOwn(recipeFilterLabels,item.field)
+    && typeof item.value === 'string' && item.value.trim()
+      ? [{ field:item.field as RecipeCriterion['field'],value:item.value.slice(0,160) }] : []).slice(0,80);
+}
+export function recipeSearchCriterionCount(search: RecipeSearch): number {
+  return search.query.trim().split(/[\s,،;؛]+/).filter(Boolean).length
+    + Object.entries(search.filters).reduce((count,[key,value]) => count + (key === 'servingStyle' ? 0
+      : key === 'flavorNote' ? value.split(/[,،;؛]+/).filter((v:string)=>v.trim()).length : value.trim() ? 1 : 0),0);
+}
+/** Exact public results always win; only an empty successful search can relax text facts. */
+export async function recipeCatalogPage(
+  db: Pick<SupabaseClient,'rpc'|'from'>, search: RecipeSearch, page: number, fields: string,
+  signal: AbortSignal, pageSize = RECIPE_PAGE_SIZE, near = false,
+) {
+  const matches: Record<string,RecipeNearMatch> = {};
+  if (!near) {
+    const exact = await recipePageQuery(db,search,page,fields,signal,pageSize);
+    if (exact.error || page > 0 || exact.data?.length || recipeSearchCriterionCount(search) < 2)
+      return { ...exact,near:false,matches };
+  }
+  const result = await db.rpc('search_public_recipe_near_matches',{
+    ...recipeSearchParams(search),p_limit:pageSize,p_offset:Math.max(0,page)*pageSize,
+  }).abortSignal(signal);
+  if (result.error) return { ...result,count:null,near,matches };
+  const ranked = (result.data ?? []) as { recipe_id:string; matched:unknown; missing:unknown; total_count:number|string }[];
+  if (!ranked.length) return { ...result,count:0,near,matches };
+  const ids = ranked.map(row=>row.recipe_id);
+  const recipes = await db.from('recipes').select(fields).eq('visibility','public').in('id',ids).abortSignal(signal);
+  if (recipes.error) return { ...recipes,count:null,near:true,matches };
+  const records = new Map((recipes.data ?? []).map(row=>[(row as unknown as {id:string}).id,row]));
+  for (const row of ranked) matches[row.recipe_id] = { matched:nearMatchCriteria(row.matched),missing:nearMatchCriteria(row.missing) };
+  const count = Number(ranked[0].total_count);
+  return { ...recipes,data:ids.flatMap(id=>records.has(id)?[records.get(id)!]:[]),
+    count:Number.isSafeInteger(count)&&count>=0?count:ids.length,near:true,matches };
+}
+
 export interface RecipeDiscoveryRow {
   source_brew_parameters?: unknown;
   source_author_name?: unknown;

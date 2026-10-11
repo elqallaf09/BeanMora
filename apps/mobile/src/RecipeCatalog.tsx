@@ -33,17 +33,20 @@ import {
   emptyRecipeFilters,
   readRecipeDiscovery,
   recipeFilterCount,
-  recipePageQuery,
+  recipeCatalogPage,
+  recipeCriterionLabel,
   RECIPE_DISCOVERY_FIELDS,
   RECIPE_PAGE_SIZE,
   type RecipeDiscovery,
   type RecipeDiscoveryFilters,
   type RecipeDiscoveryRow,
   type RecipeSourceFilter,
+  type RecipeNearMatch,
 } from './recipeDiscovery';
 import { methods } from './copy';
 import { FLAVORS, type Method } from './core/engine';
-type DiscoveredRecipe = RecipeItem & { discovery: RecipeDiscovery };
+import { ScanCoffeeButton } from './CoffeeLabelScanner';
+type DiscoveredRecipe = RecipeItem & { discovery: RecipeDiscovery; nearMatch?: RecipeNearMatch };
 function FilterChip({
   title,
   selected,
@@ -97,6 +100,7 @@ export function RecipeCatalog({
   header,
   locked = false,
   coffee,
+  scanCoffees = [],
   backToCoffee,
   universal = false,
   searchResults,
@@ -108,6 +112,7 @@ export function RecipeCatalog({
   header?: ReactNode;
   locked?: boolean;
   coffee?: CoffeeItem;
+  scanCoffees?: CoffeeItem[];
   backToCoffee?: () => void;
   universal?: boolean;
   searchResults?: (query: string) => ReactNode;
@@ -128,6 +133,8 @@ export function RecipeCatalog({
   const [error, setError] = useState(false);
   const [total, setTotal] = useState<number | null>(null);
   const [more, setMore] = useState(false);
+  const [nearMatches, setNearMatches] = useState(false);
+  const nearMode = useRef(false);
   const [revision, setRevision] = useState(0);
   const [source, setSource] = useState<RecipeSourceFilter>(initialState?.source ?? 'all');
   const [model, setModel] = useState(initialState?.model ?? 'all');
@@ -183,6 +190,8 @@ export function RecipeCatalog({
       setRows([]);
       setTotal(null);
       setMore(false);
+      setNearMatches(false);
+      nearMode.current = false;
     }
     // Editing invalidates an old request immediately; only settled search text
     // starts another request. The optional filter panel applies one draft at once.
@@ -192,13 +201,14 @@ export function RecipeCatalog({
       setBusy(false);
       return cancel;
     }
-    const query = recipePageQuery(
+    const query = recipeCatalogPage(
       supabase,
       { query: debounced, method, source, model, filters, coffee },
       page,
       `${RECIPE_FIELDS},${RECIPE_DISCOVERY_FIELDS}`,
       controller.signal,
       pageSize,
+      page > 0 && nearMode.current,
     );
     void (async () => {
       try {
@@ -213,7 +223,7 @@ export function RecipeCatalog({
         ).flatMap((r) => {
           const item = mapRecipe(r, locale);
           return item
-            ? [{ ...item, discovery: readRecipeDiscovery(r, contentLocale(locale)) }]
+            ? [{ ...item, discovery: readRecipeDiscovery(r, contentLocale(locale)), nearMatch: result.matches[r.id] }]
             : [];
         });
         setRows((previous) =>
@@ -225,6 +235,8 @@ export function RecipeCatalog({
                 ).values(),
               ],
         );
+        nearMode.current = result.near;
+        setNearMatches(result.near);
         setTotal(result.count);
         setMore(
           result.count != null
@@ -348,6 +360,7 @@ export function RecipeCatalog({
                     ? 'Grind, temperature and pours, all ready to explore.'
                     : 'Search the full library and open a recipe for its details and sources.'}
             </Txt>
+            {!coffee ? <ScanCoffeeButton openRecipe={open} method={method} coffees={scanCoffees} /> : null}
             {!locked ? (
               <MethodPicker
                 value={method}
@@ -490,6 +503,16 @@ export function RecipeCatalog({
               </Pressable>
             </View>
             {searchResults?.(debounced)}
+            {filterCount > 0 ? <View testID="recipe-active-filters" style={{ flexDirection: ar ? 'row-reverse' : 'row',flexWrap:'wrap',gap:6 }}>
+              {Object.entries(filters).filter(([,value])=>value.trim()).map(([field,value])=>{
+                const title = recipeCriterionLabel({field:field as keyof RecipeDiscoveryFilters,value},ar);
+                return <Pressable key={field} accessibilityRole="button" accessibilityLabel={(ar?'إزالة ':'Remove ')+title}
+                  onPress={()=>{invalidate();setFilters(previous=>({...previous,[field]:''}));setDraftFilters(previous=>({...previous,[field]:''}));}}
+                  style={{maxWidth:'100%',flexDirection:ar?'row-reverse':'row',alignItems:'center',gap:6,paddingHorizontal:10,minHeight:40,borderRadius:14,borderWidth:1,borderColor:colors.line,backgroundColor:colors.paper}}>
+                  <Txt style={{fontSize:12,flexShrink:1}}>{title}</Txt><Txt style={{fontSize:18,color:colors.teal}}>×</Txt>
+                </Pressable>;
+              })}
+            </View> : null}
             {hasSearch || filterCount > 0 ? (
               <View
                 style={{
@@ -526,8 +549,8 @@ export function RecipeCatalog({
                 {filterCount > 0 ? (
                   <Txt style={[styles.muted, { flex: 1, minWidth: 100 }]}>
                     {ar
-                      ? 'تُطبق الشروط معًا على المكتبة كاملة.'
-                      : 'Filters combine across the full library.'}
+                      ? 'نبحث عن كل الشروط معًا؛ إذا لم نجد مطابقة كاملة نعرض الأقرب مع سبب المطابقة.'
+                      : 'All criteria apply together. If none match fully, we show explained near matches.'}
                   </Txt>
                 ) : null}
               </View>
@@ -618,6 +641,10 @@ export function RecipeCatalog({
                 />
               </View>
             ) : null}
+            {nearMatches && rows.length > 0 ? <View testID="recipe-near-matches" style={[styles.card,{backgroundColor:'#EDF5F1',gap:6}]}>
+              <Txt heading style={styles.subtitle}>{ar?'لا توجد مطابقة كاملة؛ هذه أقرب الوصفات.':'No full match; these are the closest recipes.'}</Txt>
+              <Txt style={styles.muted}>{ar?'مرتبة حسب عدد الشروط المطابقة. طريقة التحضير والموديل والمصدر والتقديم تبقى كما اخترتها.':'Ranked by matching criteria. Your method, model, source and serving choices remain applied.'}</Txt>
+            </View> : null}
           </View>
         }
         ListEmptyComponent={
@@ -823,6 +850,10 @@ export function RecipeCatalog({
                   ''}
               </Txt>
               <FlavorNotes notes={item.discovery.flavorNotes} compact max={2} />
+              {item.nearMatch ? <View testID="recipe-near-match-reasons" style={{gap:4}}>
+                <Txt style={{fontSize:11,lineHeight:18,color:colors.teal}}>{ar?'يطابق: ':'Matches: '}{item.nearMatch.matched.map(c=>recipeCriterionLabel(c,ar)).join(ar?'، ':'; ')}</Txt>
+                <Txt style={{fontSize:11,lineHeight:18,color:colors.muted}}>{ar?'لم يطابق أو غير موثق: ':'Unmatched or undocumented: '}{item.nearMatch.missing.map(c=>recipeCriterionLabel(c,ar)).join(ar?'، ':'; ')}</Txt>
+              </View> : null}
               <View
                 style={[
                   catalogStyles.cardFooter,

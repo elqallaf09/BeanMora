@@ -1,6 +1,7 @@
 import { catalogSearchVocabulary } from "../catalog-names";
 import { flavorSearchVocabulary } from "./flavor-vocabulary";
 import { coffeeNameAliases } from "./coffee-name-aliases";
+import { coffeeLabelVocabulary } from "./coffee-label-vocabulary";
 /** Shared literal search vocabulary; expands retrieval terms without changing coffee facts. */
 export const searchVocabulary: readonly (readonly string[])[] = [
   ["rawi", "rawee", "راوي", "راوى"],
@@ -42,6 +43,7 @@ export const searchVocabulary: readonly (readonly string[])[] = [
   ...flavorSearchVocabulary,
   ...catalogSearchVocabulary,
   ...coffeeNameAliases,
+  ...coffeeLabelVocabulary,
   ["coffee", "قهوة", "القهوة", "بن", "البن"],
   ["gesha", "geisha", "قيشا", "قيشة", "غيشا", "جيشا"],
   ["zill", "زل", "زيل", "زِلّ"],

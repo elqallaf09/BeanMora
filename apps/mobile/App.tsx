@@ -36,6 +36,7 @@ import { contentLocale, isLocale, localeLabel } from './src/localeText';
 import { matchesIndexedSearch } from './src/core/deepSearch';
 import { indexedCoffeeSearchDocument } from './src/searchIndex';
 import { SearchScreen } from './src/SearchScreen';
+import { ScanCoffeeButton } from './src/CoffeeLabelScanner';
 import type { RecipeCatalogState } from './src/RecipeCatalog';
 import { flavorLabel } from './src/sensory';
 import type { EquipmentItem, RoasterItem } from './src/catalog';
@@ -973,6 +974,7 @@ function Shell() {
                           ? L('البن المحفوظ', 'Saved coffees')
                           : t.beans}
                       </Txt>
+                      <ScanCoffeeButton openRecipe={openRecipe} coffees={coffees} method={method} />
                       <MethodPicker value={method} onChange={setMethod} />
                       {tab !== 'favorites' ? <MethodGuide
                         key={method ?? 'all'}

@@ -52,6 +52,8 @@ export const flavorTranslations: Record<string, string> = {
   "myrtle liquor": "مشروب الآس",
   panela: "سكر قصب غير مكرر",
   "peanut butter": "زبدة الفول السوداني",
+  peanut: "فول سوداني",
+  peanuts: "فول سوداني",
   pecan: "بيكان",
   "pink grapefruit": "جريب فروت وردي",
   "raspberry candy": "حلوى توت العليق",
