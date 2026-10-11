@@ -796,7 +796,14 @@ test('a never-settling read finishes as a recoverable failure within the deadlin
   assert.deepEqual(result.coffees, []);
 });
 
-const { reviewedEquipmentGallery } = await import(pathToFileURL(temp + '/catalog.mjs').href);
+const { reviewedEquipmentGallery, validateReview } = await import(pathToFileURL(temp + '/catalog.mjs').href);
+test('equipment opinions accept three trimmed Unicode characters and preserve rating and length limits', () => {
+  for (const text of ['زين', '  حلو  ', '👍👍👍', 'ز'.repeat(2000)]) assert.equal(validateReview(4, text, '', ''), true);
+  for (const text of ['', '  ', 'ز', 'زي', '👍👍', 'ز'.repeat(2001)]) assert.equal(validateReview(4, text, '', ''), false);
+  for (const rating of [0, 6, 3.5]) assert.equal(validateReview(rating, 'زين', '', ''), false);
+  assert.equal(validateReview(4, 'زين', 'ز'.repeat(501), ''), false);
+  assert.equal(validateReview(4, 'زين', '', 'ز'.repeat(501)), false);
+});
 test('equipment gallery only exposes reviewed sourced photos, deduplicates and localizes alt text', () => {
   const photo = {url:'https://manufacturer.example/front.jpg', source_url:'https://manufacturer.example/model', usage_status:'source_linked', alt_ar:'أمام', alt_en:'Front'};
   const spec = {catalog:{schema_version:1,images:[photo,photo,{...photo,url:'javascript:alert(1)'},{...photo,url:'https://manufacturer.example/private.jpg',usage_status:'unreviewed'},{...photo,url:'https://manufacturer.example/no-source.jpg',source_url:''},{...photo,url:'https://manufacturer.example/side.jpg',usage_status:'rights_confirmed'}]}};

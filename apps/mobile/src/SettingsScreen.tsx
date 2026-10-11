@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import type { Session } from '@supabase/supabase-js';
-import { Modal, ScrollView, View } from './native';
+import { Modal, Pressable, ScrollView, View } from './native';
 import { SafeAreaView } from './native';
 import { useLabels, Action, Language, Txt, styles, colors } from './ui';
 import { useTheme, type Appearance } from './theme';
@@ -62,7 +62,11 @@ export function SettingsScreen({
               <Txt heading style={{ fontSize: 24, fontWeight: '700' }}>
                 {L('الإعدادات', 'Settings')}
               </Txt>
-              <Action compact title={L('تم', 'Done')} onPress={close} />
+              <Pressable testID="settings-done" accessibilityRole="button" accessibilityLabel={L('تم', 'Done')}
+                onPress={close} style={({ pressed }) => ({ minWidth: 88, minHeight: 48, paddingHorizontal: 18,
+                  borderRadius: 14, backgroundColor: colors.teal, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.65 : 1 })}>
+                <Txt style={{ fontSize: 18, lineHeight: 26, fontWeight: '700', color: '#FFFFFF', textAlign: 'center' }}>{L('تم', 'Done')}</Txt>
+              </Pressable>
             </View>
             <View style={[styles.card, { padding: 16, gap: 12 }]}>
               <Txt

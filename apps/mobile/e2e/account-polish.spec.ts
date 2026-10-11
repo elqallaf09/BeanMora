@@ -794,9 +794,10 @@ for (const scenario of [
     ).toHaveCount(4);
     await expect(
       page.getByTestId("profile-sections").getByRole("button"),
-    ).toHaveCount(5);
-    const more = page.getByTestId("profile-sections").getByRole("button", { name: ar ? "المزيد من أقسام الحساب" : "More profile sections", exact: true });
-    await expect(more).toHaveAttribute("aria-expanded", "false");
+    ).toHaveCount(9);
+    const sections = page.getByTestId("profile-sections");
+    const favorites = sections.getByRole("button", { name: ar ? "الوصفات المفضلة" : "Favorite recipes", exact: true });
+    await expect(sections.getByRole("button", { name: ar ? "المزيد من أقسام الحساب" : "More profile sections", exact: true })).toHaveCount(0);
     await expect(page.getByTestId("profile-extra-sections")).toHaveCount(0);
     const edit = profile.getByRole("button", {
       name: ar ? "تعديل الملف" : "Edit profile",
@@ -831,6 +832,7 @@ for (const scenario of [
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
     ).toBe(true);
+    await photo.scrollIntoViewIfNeeded();
     await expect(photo).toBeInViewport();
     await expect(coffeeHO).toBeInViewport();
     await page.waitForTimeout(1000);
@@ -839,14 +841,9 @@ for (const scenario of [
         `approved-profile-${width}-${ar ? "ar" : "en"}-${dark ? "dark" : "light"}.png`,
       ),
     });
-    await more.click();
-    const extras = page.getByTestId("profile-extra-sections");
-    await expect(extras.getByRole("button", { name: ar ? "الوصفات المفضلة" : "Favorite recipes", exact: true })).toBeVisible();
-    for (const name of ar ? ["المتابعون", "أتابع"] : ["Followers", "Following"]) await expect(extras.getByRole("button", { name, exact: true })).toHaveCount(0);
-    const menuBox = (await extras.boundingBox())!;
-    expect(menuBox.x).toBeGreaterThanOrEqual(0);
-    expect(menuBox.x + menuBox.width).toBeLessThanOrEqual(width);
-    await page.screenshot({ path: info.outputPath(`profile-menu-${width}-${ar ? "ar" : "en"}-${dark ? "dark" : "light"}.png`), animations: "disabled" });
+    for (const name of ar ? ["الوصفات المفضلة", "التعليقات", "الاستخلاص وركن القهوة", "المتابعون", "أتابع"] : ["Favorite recipes", "Comments", "Brews & coffee corner", "Followers", "Following"]) {
+      await expect(sections.getByRole("button", { name, exact: true })).toBeVisible();
+    }
     await selectProfileExtra(
       page,
       ar ? "الوصفات المفضلة" : "Favorite recipes",
@@ -858,7 +855,7 @@ for (const scenario of [
         exact: true,
       }),
     ).toBeVisible();
-    await expect(more).toHaveAttribute("aria-pressed", "true");
+    await expect(favorites).toHaveAttribute("aria-pressed", "true");
     await profile
       .getByRole("button", {
         name: ar ? "2 متابع" : "2 followers",

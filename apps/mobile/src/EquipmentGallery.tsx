@@ -5,7 +5,7 @@ import type { EquipmentItem } from './catalog';
 import { SourceLink } from './SourceLink';
 import { Action, Language, Txt, colors } from './ui';
 
-export function EquipmentGallery({ item }: { item: EquipmentItem }) {
+export function EquipmentGallery({ item, compact = false }: { item: EquipmentItem; compact?: boolean }) {
   const ar = useContext(Language) === 'ar';
   const { height } = useWindowDimensions();
   const [index, setIndex] = useState(0), [zoom, setZoom] = useState(false);
@@ -14,15 +14,15 @@ export function EquipmentGallery({ item }: { item: EquipmentItem }) {
   const selected = photos[Math.min(index, Math.max(0, photos.length - 1))];
   const label = (n: number) => ar ? `صورة ${n + 1} من ${photos.length} · ${item.name}` : `Photo ${n + 1} of ${photos.length} · ${item.name}`;
   return (
-    <View testID="equipment-gallery" style={{ width: '100%', gap: 10 }}>
+    <View testID="equipment-gallery" style={{ width: '100%', gap: compact ? 6 : 10 }}>
       <Pressable accessibilityRole="button" accessibilityLabel={ar ? 'تكبير صورة المعدّة' : 'Enlarge equipment photo'} disabled={!selected} onPress={() => setZoom(true)}>
-        <CatalogPhoto uri={selected?.url ?? null} alt={selected?.alt || item.name} height={240} />
+        <CatalogPhoto uri={selected?.url ?? null} alt={selected?.alt || item.name} height={compact ? 148 : 240} />
       </Pressable>
       {photos.length > 1 ? <>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }} style={{ flexGrow: 0 }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: compact ? 4 : 8 }} style={{ flexGrow: 0 }}>
           {photos.map((photo, n) => <Pressable key={photo.url} accessibilityRole="button" accessibilityLabel={label(n)} accessibilityState={{ selected: n === index }}
-            onPress={() => setIndex(n)} style={{ width: 72, padding: 3, borderRadius: 13, borderWidth: 2, borderColor: n === index ? colors.teal : 'transparent' }}>
-            <CatalogPhoto uri={photo.url} alt={label(n)} height={64} />
+            onPress={() => setIndex(n)} style={{ width: compact ? 48 : 72, padding: 3, borderRadius: 13, borderWidth: 2, borderColor: n === index ? colors.teal : 'transparent' }}>
+            <CatalogPhoto uri={photo.url} alt={label(n)} height={compact ? 44 : 64} />
           </Pressable>)}
         </ScrollView>
         <Txt style={{ color: colors.muted, fontSize: 12, textAlign: 'center' }}>{label(Math.min(index, photos.length - 1))}</Txt>

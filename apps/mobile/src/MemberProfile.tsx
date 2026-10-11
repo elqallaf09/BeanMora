@@ -27,7 +27,6 @@ import { ProfilePhotoActions } from "./ProfilePhotoActions";
 import { CommunityScreen } from "./CommunityScreen";
 import type { CoffeeItem, RecipeItem } from "./data";
 import { PillButton } from "./PillButton";
-import { ProfileSectionMenu } from "./ProfileSectionMenu";
 import { SelectionMenu } from "./SelectionMenu";
 import { categoryLabel } from "./catalog";
 import { catalogName, methodLabel } from "./localizedContent";
@@ -385,7 +384,6 @@ export function MemberProfile({
   const wide = width >= 700;
   const avatarSize = wide ? 112 : 80;
   const extraSections = sections.slice(4);
-  const menuSections = sections.slice(4, 7);
   const selectedExtra = extraSections.find((section) => section[0] === tab);
   const selectSection = (key: string) => {
     setTab(key);
@@ -806,10 +804,9 @@ export function MemberProfile({
               gap: 6,
             }}
           >
-            {sections.slice(0, 4).map((section, index) => <PillButton key={section[0]} compact title={L(section[1], section[2])}
-              icon={(['gear', 'bean', 'espresso', 'story'] as const)[index]} selected={tab === section[0]} onPress={() => selectSection(section[0])} />)}
-            <ProfileSectionMenu value={tab} onChange={selectSection} style={{ minWidth: 0 }}
-              items={menuSections.map((section, index) => ({ id: section[0], label: L(section[1], section[2]), icon: (['heart', 'comment', 'eye'] as const)[index] }))} />
+            {sections.map((section, index) => <PillButton key={section[0]} compact title={L(section[1], section[2])}
+              labelLines={2} style={wide ? { flexBasis: '23%', flexGrow: 1 } : { width: '48%', flexGrow: 1 }}
+              icon={(['gear', 'bean', 'espresso', 'story', 'heart', 'comment', 'eye', 'user', 'user'] as const)[index]} selected={tab === section[0]} onPress={() => selectSection(section[0])} />)}
           </View>
           {selectedExtra ? (
             <Txt heading style={styles.subtitle}>
