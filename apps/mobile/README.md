@@ -76,11 +76,14 @@ The Expo project's GitHub base directory must be `apps/mobile`. To upload a fini
 
 ## 0.5.30 web and iOS release
 
-The dedicated `.eas/workflows/release-0.5.30.yml` runs for the exact Git tag
-`release-0.5.30` through the existing Expo GitHub integration. First pass the
-release PR checks, merge, and wait for both GitHub quality workflows on that
-merged commit. Only then push the tag pointing to the same checked commit.
-Branch pushes do not publish this release.
+The dedicated `.eas/workflows/release-0.5.30.yml` matches pushes to the exact
+release branch `release-0.5.30` through the existing Expo GitHub integration.
+Create that branch at pre-release commit `bfaf13c`, which has no release workflow.
+Pass the release PR checks, merge, and wait for both GitHub quality workflows on
+the merged commit. Only then fast-forward the release branch to that same checked
+commit and verify the actual EAS event and run. Creating the branch alone does
+not establish a deployment. Pushes to `main` or unrelated branches do not trigger
+this workflow.
 
 The workflow publishes production web and builds a new production iOS archive;
 TestFlight submission waits for that build and uses its exact ID. Both publishing

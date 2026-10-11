@@ -531,7 +531,7 @@ function Shell() {
     {id:'addRecipe',label:L('إضافة وصفة', 'Add recipe'),compactLabel:L('أضف وصفة', 'Add recipe'),icon:'plus'},
     {id:'addBean',label:L('إضافة بن', 'Add coffee'),compactLabel:L('أضف بن', 'Add coffee'),icon:'plus'},
     {id:'myRecipes',label:L('وصفاتي المضافة', 'My recipes'),compactLabel:L('وصفاتي', 'My recipes'),icon:'espresso'},
-    {id:'myEquipment',label:L('معداتـي', 'My equipment'),compactLabel:L('معداتـي', 'My equipment', '自分の器具'),icon:'gear'},
+    {id:'myEquipment',label:L('معداتـي', 'My equipment'),compactLabel:L('معداتـي', 'My gear', '自分の器具'),icon:'gear'},
     {id:'bags',label:L('أكياسي', 'My bags'),icon:'bean'},
     {id:'roastLab',label:L('مختبر التحميص', 'Roast Lab'),compactLabel:L('التحميص', 'Roast Lab'),icon:'temp'},
   ];
@@ -566,8 +566,8 @@ function Shell() {
             items={[
               { id: 'beans', label: L('البن والإيحاءات', 'Coffee & taste'), compactLabel: L('البن', 'Coffee'), icon: 'bean' },
               { id: 'recipes', label: L('مكتبة الوصفات', 'Recipe library'), compactLabel: L('الوصفات', 'Recipes'), icon: 'espresso' },
-              { id: 'equipment', label: L('أدوات القهوة', 'Equipment'), compactLabel: L('الأدوات', 'Equipment'), icon: 'gear' },
-              { id: 'roasters', label: L('المحامص', 'Roasteries'), icon: 'espresso' },
+              { id: 'equipment', label: L('أدوات القهوة', 'Equipment'), compactLabel: L('الأدوات', 'Tools', '器具'), icon: 'gear' },
+              { id: 'roasters', label: L('المحامص', 'Roasteries'), compactLabel: L('المحامص', 'Roasters', 'ロースター'), icon: 'espresso' },
               ...extraLibraryItems,
             ]}
             onChange={openLibraryItem} />

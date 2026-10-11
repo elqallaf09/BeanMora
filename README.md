@@ -141,12 +141,15 @@ environment. It checks the Expo identity and exact Supabase project before
 installing dependencies, and verifies the installed security backports.
 
 Version **0.5.30** also has a dedicated `.eas/workflows/release-0.5.30.yml`
-workflow for the exact Git tag `release-0.5.30`. After the release PR passes,
-merge it, wait for both GitHub quality workflows on the merged commit, then push
-that tag pointing to the same checked commit. The tag publishes web and builds a
-new production iOS archive, then submits that exact build to TestFlight. It does
-not run on branch pushes. Manual web deployment and selected-build submission
-retain their separate workflows. See [the 0.5.30 release procedure](docs/RELEASE-0.5.30.md#release-procedure).
+workflow for pushes to the exact release branch `release-0.5.30`. Create that
+branch at pre-release commit `bfaf13c`, which has no release workflow. After the
+release PR passes, merge it and wait for both GitHub quality workflows on the
+merged commit. Then fast-forward the release branch to that same checked commit
+and observe the actual EAS run. Creating the branch alone does not establish a
+deployment. The workflow publishes web, builds iOS and submits that exact build
+to TestFlight; pushes to `main` or unrelated branches do not trigger it. Manual
+web deployment and selected-build submission retain their separate workflows.
+See [the 0.5.30 release procedure](docs/RELEASE-0.5.30.md#release-procedure).
 
 Only `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` are
 needed for the public client; never place a service-role or secret key in an

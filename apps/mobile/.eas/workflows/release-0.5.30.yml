@@ -2,7 +2,7 @@ name: Release BeanMora 0.5.30
 
 on:
   push:
-    tags:
+    branches:
       - release-0.5.30
 
 defaults:

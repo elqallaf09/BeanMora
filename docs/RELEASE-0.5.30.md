@@ -57,40 +57,48 @@ or Supabase Auth setting change is implied by this release.
 
 `apps/mobile/.eas/workflows/release-0.5.30.yml` uses the existing Expo GitHub
 integration with base directory `apps/mobile`. Its only GitHub trigger is the
-exact tag `release-0.5.30`; ordinary branch pushes do not publish. The existing
-manual web workflow and explicit-build-ID submission workflow remain separate.
+exact release branch `release-0.5.30`; pushes to `main`, unrelated branches or
+tags do not trigger it. The existing manual web workflow and explicit-build-ID
+submission workflow remain separate.
 
 1. Validate the new workflow from `apps/mobile`:
    `npx --yes eas-cli@24.12.1 workflow:validate .eas/workflows/release-0.5.30.yml`.
-2. Pass the release PR's existing quality checks, merge, then wait for both
+2. Create `release-0.5.30` at existing pre-release commit `bfaf13c`, which has no
+   release workflow. Branch creation alone is not evidence of an EAS trigger or
+   deployment.
+3. Pass the release PR's existing quality checks, merge, then wait for both
    GitHub quality workflows to pass on the final merged SHA.
-3. Push `release-0.5.30` pointing to that same checked SHA. Keep this release tag
-   fixed; do not reuse it for another commit. EAS starts from the tag push and
-   does not wait for separate GitHub Actions checks itself.
-4. Verify the EAS run and each job. Web publishes to the production Expo Hosting
+4. Fast-forward `release-0.5.30` from that pre-release commit to the same checked
+   merged SHA using the authenticated GitHub reference update with `force: false`.
+   This publishes the checked commit without a new artificial commit. EAS does
+   not wait for separate GitHub Actions checks itself. Observe the actual EAS
+   event and run before reporting that the release has started; a successful
+   reference update alone does not prove deployment.
+5. Verify each job. Web publishes to the production Expo Hosting
    URL while iOS builds with the production profile and `latest` native image.
    Submission runs only after the new iOS build succeeds and uses that exact
    build ID. Both deploy/build jobs check the BeanMora destination and public
    configuration before installation, set npm 11.19.1, and verify installed
    security backports. Existing production credentials and remote build counters
    are reused.
-5. Record the run, web deployment and native build IDs. Check the released web
+6. Record the run, web deployment and native build IDs. Check the released web
    version and behavior; verify Apple processing and TestFlight availability
    separately. Complete the Supabase URL and Google Branding settings above,
    then verify sign-in and recovery on the deployed browser and installed app.
 
 The workflow is prepared configuration, not evidence that 0.5.30 has been
-published. No release tag, deployment, native build or submission is created by
+published. No release branch, deployment, native build or submission is created by
 adding these files.
 
 Official references: [workflow triggers and job dependencies](https://docs.expo.dev/eas/workflows/syntax/),
 [build, deploy and submit jobs](https://docs.expo.dev/eas/workflows/pre-packaged-jobs/),
 [GitHub native build prerequisites](https://docs.expo.dev/build/building-from-github/),
+[GitHub API publishing through a reference update](https://docs.github.com/en/rest/guides/using-the-rest-api-to-interact-with-your-git-database),
 and [workflow validation](https://docs.expo.dev/eas/workflows/troubleshooting/).
 
 ## Verification and release status
 
-Local YAML and structural validation passed for the exact tag, unchanged web
+Local YAML and structural validation passed for the exact release branch, unchanged web
 job, matching iOS destination/security hooks, build-to-submit dependency and
 0.5.30 app version. The EAS CLI 24.12.1 `workflow:validate` command was attempted
 but required an Expo login before validating the file. Its authenticated schema
