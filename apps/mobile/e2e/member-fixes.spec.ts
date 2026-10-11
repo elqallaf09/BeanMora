@@ -489,7 +489,7 @@ for (const [width, ar] of [[320, true], [1536, false]] as const) {
     await signIn(page);
     if (ar) await setLanguage(page, 'ar');
     await page.getByRole('button', { name: ar ? 'الرئيسية' : 'Home', exact: true }).click();
-    await page.getByRole('button', { name: ar ? 'المعدات' : 'Equipment', exact: true }).click();
+    await page.getByRole('button', { name: ar ? 'أدوات القهوة' : 'Equipment', exact: true }).click();
     await page.getByRole('button', { name: ar ? 'باراتزا إنكور ESP' : model.name, exact: true }).click();
     await page.getByRole('button', { name: ar ? 'تقييم 4/5' : 'Rate 4/5', exact: true }).click();
     const review = page.getByLabel(ar ? 'رأيك وتجربتك' : 'Your review', { exact: true });

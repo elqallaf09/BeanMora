@@ -14,7 +14,8 @@ writeFileSync(temp + '/client.mjs', 'export const publicSupabase = null;\n');
 for (const file of ['xbloomMatching.ts','useXBloomMatches.ts','data.ts','guards.ts','sourceBrew.ts','manualBrew.ts',
   'sensory.ts','localizedContent.ts','foreignTitles.ts','copy.ts','localeText.ts','japaneseLabels.ts','recipeDiscovery.ts',
   'core/engine.ts','core/content-media.ts','core/flavor-vocabulary.ts','core/catalog-names.ts','core/catalog-foreign-titles.ts',
-  'core/outcome.ts','core/grinder-context.ts']) {
+  'core/outcome.ts','core/grinder-context.ts','coffeeLabel.ts','coffeeLabelMatches.ts','coffeeOcr.ts',
+  'core/deepSearch.ts','core/coffee-name-aliases.ts','core/coffee-label-vocabulary.ts']) {
   const source = readFileSync(new URL('../src/' + file, import.meta.url),'utf8');
   const output = ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText
     .replace(/from (["'])(\.\/[^"']+)\1/g,"from '$2.mjs'")
@@ -26,6 +27,9 @@ const { loadXBloomMatches } = await import(pathToFileURL(temp+'/useXBloomMatches
 const { mapCoffee, mapRecipe } = await import(pathToFileURL(temp+'/data.mjs').href);
 const { parseGrinderContext, emptyGrinderContext } = await import(pathToFileURL(temp+'/core/grinder-context.mjs').href);
 const { parseOutcome } = await import(pathToFileURL(temp+'/core/outcome.mjs').href);
+const { readCoffeeLabel, hasCoffeeLabelFacts } = await import(pathToFileURL(temp+'/coffeeLabel.mjs').href);
+const { coffeeLabelMatchParams, loadCoffeeLabelMatches } = await import(pathToFileURL(temp+'/coffeeLabelMatches.mjs').href);
+const { readCoffeeOcrEvent } = await import(pathToFileURL(temp+'/coffeeOcr.mjs').href);
 const BEAN = '22222222-2222-4222-8222-222222222222';
 const RECIPE = '11111111-1111-4111-8111-111111111111';
 const SOURCE_BEAN = '33333333-3333-4333-8333-333333333333';
@@ -42,6 +46,42 @@ const match = {recipe_id:RECIPE,match_kind:'similar',score:44,matching_notes:['t
 const db = fetch => createClient('https://xbloomfixture.supabase.co','sb_publishable_isolated_xbloom_fixture',
   {auth:{persistSession:false,autoRefreshToken:false},global:{fetch}});
 const json = value => new Response(JSON.stringify(value),{headers:{'content-type':'application/json'}});
+
+test('bag text extracts stated bilingual facts, leaves missing taste blank and rejects ambiguous growing origins',()=>{
+  const label = readCoffeeLabel('Coffee: Test estate\nOrigin: Brazil\nVariety: Castillo\nProcessing: Natural\nRoast: Light\nNotes: Chocolate, Caramel, Hazelnut');
+  assert.deepEqual(label,{name:'Test estate',origin:'Brazil',variety:'Castillo',process:'natural',roast:'light',notes:'Chocolate, Caramel, Hazelnut'});
+  const ar = readCoffeeLabel('اسم البن: بن تجربة\nالمنشأ: برازيل\nالسلالة: كاستيلو\nالمعالجة: مغسول\nالتحميص: فاتح\nالإيحاءات: شوكولاتة، كراميل');
+  assert.equal(ar.origin,'Brazil'); assert.equal(ar.variety,'Castillo'); assert.equal(ar.notes,'شوكولاتة، كراميل');
+  assert.equal(readCoffeeLabel('Roasted in Brazil\nCoffee: Untold estate').origin,'');
+  assert.equal(readCoffeeLabel('Origin: Brazil and Colombia').origin,'');
+  assert.equal(readCoffeeLabel('Origin: Brazil').notes,'');
+  assert.equal(hasCoffeeLabelFacts(readCoffeeLabel('Roast: Light')) ,false);
+});
+test('OCR bridge rejects other jobs and untrusted messages, preserves bounded visible text',()=>{
+  assert.equal(readCoffeeOcrEvent({channel:'other',type:'result',id:'a',text:'Brazil'},'a'),null);
+  assert.equal(readCoffeeOcrEvent({channel:'beanmora-coffee-ocr',type:'result',id:'old',text:'Brazil'},'a'),null);
+  assert.deepEqual(readCoffeeOcrEvent({channel:'beanmora-coffee-ocr',type:'result',id:'a',text:'Brazil'},'a'),{type:'result',text:'Brazil'});
+});
+test('label ranking parameters are literal and never guess a catalog ID from a name or scope V60 by xBloom model',()=>{
+  const label={name:'Brazil Castillo',origin:"Brazil %') OR true --",variety:'كاستيلو',process:'natural',roast:'light',notes:'Chocolate'};
+  const params=coffeeLabelMatchParams(label,'v60','Studio');
+  assert.equal(params.p_origin,label.origin); assert.equal(params.p_variety,'كاستيلو');
+  assert.equal(params.p_bean_id,null); assert.equal(params.p_product_id,null); assert.equal(params.p_model,null);
+});
+test('photo recommendation retains published source measurements and unknown coffee brews cannot become evidence for the source bean',async()=>{
+  const label=readCoffeeLabel('Origin: Indonesia\nNotes: Tea, Citrus');
+  const result=await loadCoffeeLabelMatches(db(async(input,init)=>{
+    const url=new URL(String(input));
+    if(url.pathname.endsWith('/rpc/recipes_for_coffee_label')){
+      const params=JSON.parse(init.body); assert.equal(params.p_bean_id,null);
+      return json([{...match,same_variety:false}]);
+    }
+    return json(url.pathname.endsWith('/recipes')?[rawRecipe]:[]);
+  }),label,'xbloom','Studio','en',new AbortController().signal);
+  assert.equal(result[0].dose,15); assert.equal(result[0].water,240); assert.equal(result[0].waterUnit,'ml');
+  assert.deepEqual(coffeeBrewIds(result[0]),{recipeId:null,beanId:null,productId:null});
+  assert.equal(result[0].labelMatch.label.origin,'Indonesia');
+});
 
 test('parenthesized publisher notes are recovered while unstated sensory intensities remain unknown',()=>{
   assert.deepEqual(coffee.flavors,['Plum','Dried mango','Citrus','Chinese tea','Cashew nuts']);

@@ -4,7 +4,7 @@
   "private": true,
   "main": "index.ts",
   "scripts": {
-    "postinstall": "node scripts/apply-tooling-security-patches.mjs",
+    "postinstall": "node scripts/apply-tooling-security-patches.mjs && node scripts/prepare-coffee-ocr.mjs",
     "verify:tooling-security": "node scripts/verify-tooling-security-patches.mjs",
     "prestart": "npm run verify:tooling-security",
     "preandroid": "npm run verify:tooling-security",
@@ -29,6 +29,8 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
     "@supabase/supabase-js": "2.57.4",
+    "@tesseract.js-data/ara": "1.0.0",
+    "@tesseract.js-data/eng": "1.0.0",
     "expo": "57.0.27",
     "expo-application": "57.0.3",
     "expo-asset": "57.0.19",
@@ -46,7 +48,9 @@
     "react-native-safe-area-context": "5.7.0",
     "react-native-svg": "15.15.4",
     "react-native-url-polyfill": "2.0.0",
-    "react-native-web": "0.21.2"
+    "react-native-web": "0.21.2",
+    "react-native-webview": "13.16.1",
+    "tesseract.js": "6.0.1"
   },
   "devDependencies": {
     "@playwright/test": "1.55.1",

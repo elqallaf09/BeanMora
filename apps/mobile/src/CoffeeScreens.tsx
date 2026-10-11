@@ -785,7 +785,7 @@ export function CoffeeDetail({
             </Txt>
             <View style={s.brewStats}>
               {numbers.map((n) => (
-                <View key={n.key} style={s.brewStat}>
+                <View key={n.key} style={[s.brewStat, { width: width >= 600 ? '25%' : '50%', padding: 10 }]}>
                   <View
                     style={{
                       flexDirection: 'row',
@@ -836,7 +836,7 @@ export function CoffeeDetail({
           <Pressable
             accessibilityRole="button"
             onPress={() => openRecipe(recipe)}
-            style={s.brewButton}
+            style={[s.brewButton, { flexGrow: 1 }]}
           >
             <Icon name="play" color="#FFF" size={18} />
             <Txt style={{ color: '#FFF', fontWeight: '700', fontSize: 16 }}>

@@ -1059,11 +1059,11 @@ function EquipmentReviews({
         <Icon name="star" filled={rating >= n} size={26} color="#B88836" />
       </Pressable>)}</View>
       <Chips items={Object.entries(experiences).map(([id, name]) => ({ id, name }))} value={experience} set={v => setExperience(v as EquipmentReview['experience'])} />
-      <Field label={ar ? 'رأيك وتجربتك' : 'Your review'} value={text} onChangeText={setText} multiline maxLength={4000} style={{ minHeight: 76 }} />
+      <Field label={ar ? 'رأيك وتجربتك' : 'Your review'} value={text} onChangeText={setText} multiline maxLength={2000} style={{ minHeight: 76 }} />
       <Txt style={s.editorial}>{ar ? 'من 3 إلى 2000 حرف' : '3–2000 characters'}</Txt>
       <DetailColumns>
-        <Field label={ar ? 'المميزات من تجربتك (اختياري)' : 'Your strengths (optional)'} value={pros} onChangeText={setPros} maxLength={1000} />
-        <Field label={ar ? 'السلبيات من تجربتك (اختياري)' : 'Your tradeoffs (optional)'} value={cons} onChangeText={setCons} maxLength={1000} />
+        <Field label={ar ? 'المميزات من تجربتك (اختياري)' : 'Your strengths (optional)'} value={pros} onChangeText={setPros} maxLength={500} />
+        <Field label={ar ? 'السلبيات من تجربتك (اختياري)' : 'Your tradeoffs (optional)'} value={cons} onChangeText={setCons} maxLength={500} />
       </DetailColumns>
       <Action title={writing ? ar ? 'جارٍ الحفظ…' : 'Saving…' : ar ? 'حفظ رأيي' : 'Save my review'}
         onPress={() => void write()} disabled={writing || busy} selected />
@@ -1667,7 +1667,7 @@ const s = StyleSheet.create({
     padding: 16,
     borderRadius: 16,
   },
-  stars: { flexDirection: 'row', gap: 7 },
+  stars: { flexDirection: 'row', gap: 4 },
   star: {
     minWidth: 44,
     minHeight: 48,

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import type { Method } from './core/engine';
 import { publicSupabase } from './client';
 import { mapRecipe, RECIPE_FIELDS, type CoffeeItem, type RecipeItem, type RecipeRow } from './data';
 import { RECIPE_DISCOVERY_FIELDS } from './recipeDiscovery';
@@ -10,13 +11,17 @@ export async function loadXBloomMatches(db: SupabaseClient, coffee: CoffeeItem, 
   const response = await db.rpc('xbloom_matches_for_coffee', xbloomMatchParams(coffee, model)).abortSignal(signal);
   if (response.error) throw new Error('xBloom matching unavailable');
   const matches = readXBloomMatches(response.data);
-  if (!matches.length) return { matches, recipes: [] as RecipeItem[] };
+  return { matches, recipes: await loadMatchRecipeDetails(db, matches, locale, 'xbloom', signal) };
+}
+
+export async function loadMatchRecipeDetails(db: SupabaseClient, matches: XBloomMatch[], locale: 'ar' | 'en', method: Method, signal: AbortSignal) {
+  if (!matches.length) return [] as RecipeItem[];
   const ids = matches.map(m => m.recipe_id);
   const [recipes, profiles] = await Promise.all([
     db.from('recipes').select(`${RECIPE_FIELDS},${RECIPE_DISCOVERY_FIELDS}`)
-      .in('id', ids).eq('visibility', 'public').eq('brew_method', 'xbloom').abortSignal(signal),
-    db.from('xbloom_recipe_profiles').select('recipe_id,device_model,grind_setting,dose_grams,water_grams,water_temp_c,pours')
-      .in('recipe_id', ids).eq('compatibility_status', 'compatible').abortSignal(signal),
+      .in('id', ids).eq('visibility', 'public').eq('brew_method', method).abortSignal(signal),
+    method === 'xbloom' ? db.from('xbloom_recipe_profiles').select('recipe_id,device_model,grind_setting,dose_grams,water_grams,water_temp_c,pours')
+      .in('recipe_id', ids).eq('compatibility_status', 'compatible').abortSignal(signal) : Promise.resolve({ data: [], error: null }),
   ]);
   if (recipes.error || profiles.error || !Array.isArray(recipes.data) || !Array.isArray(profiles.data))
     throw new Error('xBloom recipe details unavailable');
@@ -32,7 +37,7 @@ export async function loadXBloomMatches(db: SupabaseClient, coffee: CoffeeItem, 
     const recipe = mapRecipe(row, locale, byId.get(row.id) ?? null);
     return recipe ? [recipe] : [];
   });
-  return { matches, recipes: mapped };
+  return mapped;
 }
 
 export function useXBloomMatches(coffee: CoffeeItem, enabled: boolean, model: XBloomModel, locale: 'ar' | 'en') {

@@ -43,6 +43,7 @@ import {
 } from './recipeDiscovery';
 import { methods } from './copy';
 import { FLAVORS, type Method } from './core/engine';
+import { ScanCoffeeButton } from './CoffeeLabelScanner';
 type DiscoveredRecipe = RecipeItem & { discovery: RecipeDiscovery };
 function FilterChip({
   title,
@@ -97,6 +98,7 @@ export function RecipeCatalog({
   header,
   locked = false,
   coffee,
+  scanCoffees = [],
   backToCoffee,
   universal = false,
   searchResults,
@@ -108,6 +110,7 @@ export function RecipeCatalog({
   header?: ReactNode;
   locked?: boolean;
   coffee?: CoffeeItem;
+  scanCoffees?: CoffeeItem[];
   backToCoffee?: () => void;
   universal?: boolean;
   searchResults?: (query: string) => ReactNode;
@@ -348,6 +351,7 @@ export function RecipeCatalog({
                     ? 'Grind, temperature and pours, all ready to explore.'
                     : 'Search the full library and open a recipe for its details and sources.'}
             </Txt>
+            {!coffee ? <ScanCoffeeButton openRecipe={open} method={method} coffees={scanCoffees} /> : null}
             {!locked ? (
               <MethodPicker
                 value={method}

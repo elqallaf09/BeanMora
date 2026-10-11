@@ -5,6 +5,7 @@ const pairs = [
   ['../../../src/lib/community-social.ts', '../src/core/community-social.ts'],
   ['../../../src/lib/grinder-context.ts', '../src/core/grinder-context.ts'],
   ['../../../src/lib/search/coffee-name-aliases.ts', '../src/core/coffee-name-aliases.ts'],
+  ['../../../src/lib/search/coffee-label-vocabulary.ts', '../src/core/coffee-label-vocabulary.ts'],
   ['../../../src/lib/search/flavor-vocabulary.ts', '../src/core/flavor-vocabulary.ts'],
   ['../../../src/lib/coffee-curriculum.ts', '../src/core/coffee-curriculum.ts'],
   ['../../../src/lib/coffee-knowledge.ts', '../src/core/coffee-knowledge.ts'],

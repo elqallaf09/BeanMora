@@ -53,6 +53,7 @@ export interface RecipeSource {
 export type { SourceBrew } from './sourceBrew';
 export interface RecipeItem extends Recipe {
   coffeeMatch?: CoffeeRecipeMatch;
+  labelMatch?: import('./coffeeLabelMatches').LabelRecipeMatch;
   localeContent?: Record<'ar' | 'en', Pick<RecipeItem, 'title' | 'notes' | 'author' | 'steps' | 'discovery'>>;
   originalTitle?: string;
   pours: ManualPour[];

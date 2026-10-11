@@ -54,6 +54,11 @@ export function attachXBloomMatches(coffee: CoffeeItem, matches: XBloomMatch[], 
 /** A borrowed profile is logged against the coffee actually brewed. It must
  * not count as an attempt/evidence for the source recipe's original coffee. */
 export function coffeeBrewIds(recipe: RecipeItem) {
+  if (recipe.labelMatch?.match_kind === 'similar') {
+    const target = recipe.labelMatch.coffee;
+    return { recipeId: null, beanId: target ? target.kind === 'bean' ? target.id : target.beanId : null,
+      productId: target?.kind === 'product' ? target.id : null };
+  }
   const coffee = recipe.coffeeMatch?.match_kind === 'similar' ? recipe.coffeeMatch.coffee : null;
   return coffee ? { recipeId: null, beanId: coffee.kind === 'bean' ? coffee.id : coffee.beanId,
     productId: coffee.kind === 'product' ? coffee.id : null }
