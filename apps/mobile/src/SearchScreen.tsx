@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, type ComponentProps } from 'react';
+import { useContext, useEffect, useState, type ComponentProps, type ReactNode } from 'react';
 import { Pressable, View, useWindowDimensions } from './native';
 import { publicSupabase as supabase } from './client';
 import { loadRoasters, countryLabel, type RoasterItem } from './catalog';
@@ -11,6 +11,7 @@ import { Action, Language, Txt, colors, styles } from './ui';
 
 export function SearchScreen({
   recipeOptions,
+  intro,
   coffees,
   openCoffee,
   openRecipe,
@@ -23,6 +24,7 @@ export function SearchScreen({
   remember,
 }: {
   recipeOptions?: Omit<ComponentProps<typeof RecipeCatalog>,'open'|'searchResults'|'universal'>;
+  intro?: ReactNode;
   coffees: CoffeeItem[];
   savedIds: string[];
   saveCoffee: (coffee: CoffeeItem) => void;
@@ -174,6 +176,6 @@ export function SearchScreen({
     );
   };
   return (
-    <RecipeCatalog {...recipeOptions} scanCoffees={coffees} initialState={initialState} remember={remember} universal={universal} open={openRecipe} searchResults={universal ? renderResults : undefined} />
+    <RecipeCatalog {...recipeOptions} intro={intro} scanCoffees={coffees} initialState={initialState} remember={remember} universal={universal} open={openRecipe} searchResults={universal ? renderResults : undefined} />
   );
 }

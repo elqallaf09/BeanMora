@@ -8,6 +8,8 @@ import {
   decodeCatalog,
   encodeCatalog,
   mergeCatalog,
+  catalogReadFailed,
+  scheduleCatalogSave,
 } from './catalogCache';
 import type { Locale } from './copy';
 import { withDeadline } from './requestDeadline';
@@ -49,7 +51,7 @@ export function useCatalog(
     let active = true;
     let liveFinished = false;
     let publicComplete = false;
-    let cacheWrite: ReturnType<typeof requestIdleCallback> | undefined;
+    let cancelCacheSave: (() => void) | undefined;
     const key = catalogCacheKey(catalogScope, locale);
     setRefreshing(true);
     pending.current = true;
@@ -87,6 +89,7 @@ export function useCatalog(
             ...same,
             recipes: cache.data.recipes,
             recipeTotal: cache.data.recipeTotal,
+            limited: cache.data.limited || (same?.limited ?? false),
             owner,
             locale,
             stale: true,
@@ -102,13 +105,7 @@ export function useCatalog(
       onPublicReady: (next, complete) => {
         if (!active) return;
         // A failed live section must not replace the last-good disk snapshot.
-        if (
-          next.failures &&
-          Object.entries(next.failures).some(
-            ([section, failed]) => section !== 'personal' && failed,
-          )
-        )
-          return;
+        if (catalogReadFailed(next)) return;
         publicComplete = complete;
         setBundle((previous) => {
           const same =
@@ -121,6 +118,7 @@ export function useCatalog(
                 ...mergeCatalog(next, same),
                 recipes: same?.recipes ?? [],
                 recipeTotal: same?.recipeTotal ?? 0,
+                limited: next.limited || (same?.limited ?? false),
               };
           return {
             ...publicNext,
@@ -128,7 +126,7 @@ export function useCatalog(
             savedBeanIds: same?.savedBeanIds ?? [],
             owner,
             locale,
-            stale: same?.stale ?? false,
+            stale: complete ? false : (same?.stale ?? false),
             savedAt: same?.savedAt ?? null,
           };
         });
@@ -137,11 +135,7 @@ export function useCatalog(
       .then(async (next) => {
         if (!active) return;
         liveFinished = true;
-        const publicFailed =
-          !!next.failures &&
-          Object.entries(next.failures).some(
-            ([section, failed]) => section !== 'personal' && failed,
-          );
+        const publicFailed = catalogReadFailed(next);
         const cache = publicFailed ? await cached : null;
         if (!active) return;
         const savedAt = Date.now();
@@ -161,10 +155,10 @@ export function useCatalog(
           };
         });
         // Serialize the public snapshot after input/render work has had a chance to run.
-        cacheWrite = requestIdleCallback(() => {
+        cancelCacheSave = scheduleCatalogSave(() => {
           if (!active) return;
           const encoded = encodeCatalog(next, catalogScope, locale, savedAt);
-          if (encoded) void AsyncStorage.setItem(key, encoded).catch(() => {});
+          if (encoded) return AsyncStorage.setItem(key, encoded);
         });
       })
       .catch(() => {
@@ -184,7 +178,7 @@ export function useCatalog(
       });
     return () => {
       active = false;
-      if (cacheWrite !== undefined) cancelIdleCallback(cacheWrite);
+      cancelCacheSave?.();
     };
   }, [locale, owner, revision, automaticRevision]);
   return {

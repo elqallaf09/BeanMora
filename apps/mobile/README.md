@@ -29,7 +29,7 @@ npm start
 - Responsive phone/tablet catalogs, a fully scrolling home page, coffee galleries and linked recipe quantities.
 - Cream, copper and teal branding, a shared native/app-icon master, a Quicksand wordmark, illustrated flavor notes and source-backed sensory scales/descriptions. Unpublished metrics do not create empty bars or arbitrary ratings.
 - Independent equipment and roastery directories, model guides, roaster coffees and linked recipes. Members can write, edit, delete and report real equipment opinions; guests can browse.
-- A photo-led xBloom hub with 12 recipes per page, compact guide links, official/community and Studio/Original filters, sharing links, real source measurements and individual pours. Missing/broken xBloom covers use a bundled, labeled brewing illustration. Existing Origami and Kalita recipes are included.
+- A photo-led xBloom hub with 12 recipes per page, compact guide links, search across all public sources and models, sharing links, real source measurements and individual pours. Missing/broken xBloom covers use a bundled, labeled brewing illustration. Existing Origami and Kalita recipes are included.
 - Coffee detail prioritizes available linked recipes, reads xBloom dose/grind/per-pour temperatures, and offers sourced general brewing guides as clearly labeled starting points. A coffee without an exact xBloom recipe can open the recipe library.
 - Combined server-side discovery filters for flavor family/note, recipe creator, creator’s documented base country, recipe geography, title, hot/iced/cold serving, coffee type/name, roaster and coffee origin. Country fields have separate meanings; no creator nationality is inferred.
 - A reviewed international roaster batch with exact coffee/source matching, bilingual procedures or explicitly labelled published specifications, product photography and replayable provenance. Shared recipes are stored once and remain discoverable by each documented applicable coffee name.
@@ -73,6 +73,29 @@ Start the build manually. When its status is **Finished**, check that the build 
 Both EAS profiles explicitly select `production` variables and the Android `latest` build image. EAS now manages build numbers remotely with `autoIncrement: true` on both profiles; the user-facing version remains in app.json. On initial migration verify the remote counters exceed Android **25** and iOS **9**; an existing lower counter must be synchronized with `eas build:version:set` before delivery. The `preview` profile produces an internally distributed APK; the `production` profile produces an app bundle for Android or an App Store build for iOS. Build a new iOS archive before submitting it to TestFlight. Resubmitting an old archive keeps its duplicate build number. The standalone preview APK runs without Expo Go or a development server.
 
 The Expo project's GitHub base directory must be `apps/mobile`. To upload a finished iOS production archive from the dashboard, run `.eas/workflows/submit-ios.yml` and supply that archive's exact EAS `build_id`. The workflow is manual-only, has no default archive, and uses the stored production submission configuration. It uploads to App Store Connect/TestFlight; it does not release the app publicly to the App Store.
+
+## 0.5.30 web and iOS release
+
+The dedicated `.eas/workflows/release-0.5.30.yml` matches pushes to the exact
+release branch `release-0.5.30` through the existing Expo GitHub integration.
+Create that branch at pre-release commit `bfaf13c`, which has no release workflow.
+Pass the release PR checks, merge, and wait for both GitHub quality workflows on
+the merged commit. Only then fast-forward the release branch to that same checked
+commit and verify the actual EAS event and run. Creating the branch alone does
+not establish a deployment. Pushes to `main` or unrelated branches do not trigger
+this workflow.
+
+The workflow publishes production web and builds a new production iOS archive;
+TestFlight submission waits for that build and uses its exact ID. Both publishing
+jobs retain the destination, npm resolver and installed-security checks. iOS uses
+the production profile, `latest` native image and existing remote signing and
+submission credentials. `.eas/workflows/deploy-web.yml` remains manual web-only;
+`.eas/workflows/submit-ios.yml` remains manual with an explicit finished build ID.
+
+Run `npx --yes eas-cli@24.12.1 workflow:validate .eas/workflows/release-0.5.30.yml`
+from this directory before review. See the [release procedure and pending auth
+settings](../../docs/RELEASE-0.5.30.md#release-procedure). A successful upload still
+requires Apple processing and TestFlight availability verification.
 
 ## 0.5.16 mobile experience
 

@@ -67,12 +67,12 @@ for (const config of [{ width: 320, locale: 'ar' }, { width: 768, locale: 'en' }
       [ar ? 'اسم صانع الوصفة' : 'Recipe creator', "O'Neil"],
       [ar ? 'بلد عمل صانع الوصفة' : 'Creator’s operating country', 'Norway'],
       [ar ? 'المنشأ الجغرافي للوصفة' : 'Recipe’s geographic origin', 'Japan'],
-      [ar ? 'الموقع أو المصدر' : 'Website or source', 'source-fixture.test'],
       [ar ? 'اسم البن' : 'Coffee name', 'Coffee_1'],
       [ar ? 'نوع البن أو سلالته' : 'Coffee type or variety', 'SL28'],
       [ar ? 'بلد زراعة البن' : 'Coffee growing origin', 'Kenya'],
       [ar ? 'الشركة أو المحمصة' : 'Company or roaster', 'Roaster, Inc.'],
     ]) await panel.getByLabel(label, { exact: true }).fill(value);
+    await expect(panel.getByLabel(ar ? 'الموقع أو المصدر' : 'Website or source', { exact: true })).toHaveCount(0);
     // A complete debounce interval must still issue no requests for a draft.
     await page.waitForTimeout(400);
     expect(requests).toHaveLength(settledRequestCount);
@@ -86,9 +86,9 @@ for (const config of [{ width: 320, locale: 'ar' }, { width: 768, locale: 'en' }
       p_query: null, p_method: null, p_source: null, p_model: null,
       p_flavor_note: 'jasmine', p_flavor_family: 'floral', p_creator_name: "O'Neil", p_creator_country: 'Norway',
       p_recipe_country: 'Japan', p_recipe_name: 'Discovery recipe', p_serving_style: 'hot', p_coffee_type: 'SL28',
-      p_coffee_name: 'Coffee_1', p_coffee_origin: 'Kenya', p_roaster_name: 'Roaster, Inc.', p_source_name: 'source-fixture.test',
+      p_coffee_name: 'Coffee_1', p_coffee_origin: 'Kenya', p_roaster_name: 'Roaster, Inc.', p_source_name: null,
     } });
-    await expect(page.getByRole('button', { name: ar ? 'تصفية الوصفات، 12 مفعلة' : 'Filter recipes, 12 active', exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: ar ? 'تصفية الوصفات، 11 مفعلة' : 'Filter recipes, 11 active', exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: ar ? 'المزيد من الوصفات' : 'More recipes', exact: true })).not.toBeVisible();
     await page.getByRole('button', { name: ar ? 'مسح البحث والتصفية' : 'Clear search and filters', exact: true }).click();
     await expect(page.getByRole('button', { name: ar ? records[0].title_ar : records[0].title, exact: true })).toBeVisible();

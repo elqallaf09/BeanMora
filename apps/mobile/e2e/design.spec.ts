@@ -174,6 +174,7 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
     await expect(page.getByRole('heading',{name:beans[0].name_ar})).toBeVisible();
     const photoBox = (await page.getByTestId('coffee-detail-photo').boundingBox())!;
     const summaryBox = (await page.getByTestId('coffee-detail-summary').boundingBox())!;
+    // Browser transforms can report 190.000015 for a 190 CSS-pixel image.
     expect(photoBox.height).toBeLessThanOrEqual(190.5);
     expect(photoBox.x).toBeGreaterThan(summaryBox.x + summaryBox.width);
     expect(Math.abs(photoBox.y + photoBox.height / 2 - summaryBox.y - summaryBox.height / 2)).toBeLessThan(2);

@@ -314,7 +314,7 @@ test("account save retries a committed request, survives reopening and appears i
     page.getByRole("button", { name: "Save recipe", exact: true }),
   ).toBeVisible();
 });
-test("Arabic search, method, source and tasting filters survive recipe detail navigation", async ({
+test("Arabic search, method and tasting filters survive detail navigation across all sources", async ({
   page,
 }) => {
   const { searches } = await setup(page);
@@ -322,7 +322,7 @@ test("Arabic search, method, source and tasting filters survive recipe detail na
   await openRecipeLibrary(page, "ar");
   await chooseMethod(page, "ar", "V60");
   await page.getByLabel("ابحث عن وصفة", { exact: true }).fill("كينيا");
-  await page.getByRole("button", { name: "رسمي", exact: true }).click();
+  await expect(page.getByRole("button", { name: "رسمي", exact: true })).toHaveCount(0);
   await page
     .getByRole("button", { name: "تصفية الوصفات", exact: true })
     .click();
@@ -342,7 +342,9 @@ test("Arabic search, method, source and tasting filters survive recipe detail na
     .toMatchObject({
       p_query: "كينيا",
       p_method: "v60",
-      p_source: "official",
+      p_source: null,
+      p_model: null,
+      p_source_name: null,
       p_flavor_note: "كشمش أحمر",
     });
   await page

@@ -11,7 +11,7 @@ import { Icon, Language, Txt, colors, type IconName } from './ui';
 export function PillButton({
   title, icon, trailingIcon, onPress, selected, disabled = false, compact = false,
   count, leadingCount = false, dashed = false, labelLines = 1, style, onLayout,
-  accessibilityLabel, accessibilityState, variant = 'secondary',
+  accessibilityLabel, accessibilityState, variant = 'secondary', snug = false,
 }: {
   title: string;
   icon?: IconName;
@@ -21,6 +21,7 @@ export function PillButton({
   variant?: 'primary' | 'secondary';
   disabled?: boolean;
   compact?: boolean;
+  snug?: boolean;
   count?: number;
   leadingCount?: boolean;
   dashed?: boolean;
@@ -60,8 +61,8 @@ export function PillButton({
         onHoverIn={() => setHovered(true)} onHoverOut={() => setHovered(false)}
         style={({ pressed }) => ({
           ...row, flex: 1, minHeight: dashed ? 52 : 44,
-          paddingHorizontal: compact ? 10 : 16, paddingVertical: 6,
-          borderRadius: 999, borderWidth: 1, borderStyle: dashed && !primary ? 'dashed' : 'solid',
+          paddingHorizontal: snug ? 4 : compact ? 10 : 16, paddingVertical: snug ? 3 : 6,
+          borderRadius: snug ? 12 : 999, borderWidth: 1, borderStyle: dashed && !primary ? 'dashed' : 'solid',
           borderColor: focused ? palette.accent : primary ? colors.teal : selected ? palette.activeBorder : palette.border,
           backgroundColor: primary ? colors.teal : selected ? pressed ? palette.activePressed : palette.active : pressed ? palette.pressed : hovered ? palette.hover : palette.surface,
           opacity: disabled ? 0.45 : 1,

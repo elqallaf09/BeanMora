@@ -400,7 +400,8 @@ for (const width of [320, 768]) {
     const galleryBox = (await page.getByTestId('equipment-gallery').boundingBox())!;
     const summaryBox = (await page.getByTestId('equipment-detail-summary').boundingBox())!;
     expect(galleryBox.x + galleryBox.width).toBeLessThan(summaryBox.x);
-    expect(galleryBox.height).toBeLessThanOrEqual(225);
+    // 148 px preview + 6 px gap + a readable three-line source button (72 px).
+    expect(galleryBox.height).toBeLessThanOrEqual(226);
     if (width >= 600) {
       const blocks = page.getByTestId('equipment-pros-cons');
       const strengthsBox = (await blocks.getByRole('heading', { name: 'Strengths', exact: true }).boundingBox())!;
@@ -452,7 +453,7 @@ for (const width of [320, 768]) {
   });
 }
 
-test('full recipe pagination retries a failed page and filters sources and machine models', async ({
+test('full recipe pagination retries a failed page and includes every source and machine model', async ({
   page,
 }) => {
   let allowNextPage = false;
@@ -509,8 +510,9 @@ test('full recipe pagination retries a failed page and filters sources and machi
     .getByTestId('recipe-catalog')
     .getByRole('button', { name: 'xBloom', exact: true })
     .click();
-  await page.getByRole('button', { name: 'Official', exact: true }).click();
-  await page.getByRole('button', { name: 'Studio', exact: true }).click();
+  for (const name of ['Official', 'Community', 'All sources', 'Studio', 'Original', 'All models']) {
+    await expect(page.getByRole('button', { name, exact: true })).toHaveCount(0);
+  }
   await expect(
     page.getByRole('button', { name: 'Source recipe 0', exact: true }),
   ).toBeVisible();
@@ -519,17 +521,22 @@ test('full recipe pagination retries a failed page and filters sources and machi
       requestedParameters.some(
         (params) =>
           params.p_method === 'xbloom' &&
-          params.p_source === 'official' &&
-          params.p_model === 'Studio',
+          params.p_source === null &&
+          params.p_model === null &&
+          params.p_source_name === null,
       ),
     )
     .toBe(true);
   await expect(
     page.getByRole('button', { name: 'Source recipe 1', exact: true }),
-  ).toHaveCount(0);
+  ).toBeVisible();
   await expect(
     page.getByRole('button', { name: 'Source recipe 2', exact: true }),
-  ).toHaveCount(0);
+  ).toBeVisible();
+  await page.getByTestId('recipe-catalog').evaluate(el => { el.scrollTop = el.scrollHeight; });
+  await expect(page.getByTestId('library-navigation')).not.toBeInViewport();
+  await expect(page.getByTestId('app-header')).toBeInViewport();
+  await expect(page.getByTestId('bottom-navigation')).toBeInViewport();
   await page
     .getByRole('button', { name: 'Source recipe 0', exact: true })
     .click();

@@ -53,10 +53,41 @@ for (const { locale, width, height } of [
   await expect(profile.getByTestId('coffee-flavor-notes')).toContainText(locale === 'ar' ? 'كريمة اللوز' : 'Almond cream');
   await expect(profile.getByTestId('coffee-personality-status')).toHaveCount(0);
   await expect(profile.getByText(/\d\/5/)).toHaveCount(0);
+  // The compact personality card shares the detail row with coffee facts.
+  // Its attributes may wrap even on a wide viewport; preserve reading order,
+  // containment and separation instead of requiring every attribute in one row.
+  const { profileBox, attributes } = await profile.evaluate(element => {
+    const rectangle = (node: Element) => {
+      const { x, y, width, height } = node.getBoundingClientRect();
+      return { x, y, width, height };
+    };
+    return {
+      profileBox: rectangle(element),
+      attributes: Array.from(element.querySelectorAll('[data-testid^="coffee-attribute-"]')).map(rectangle),
+    };
+  });
+  expect(attributes).toHaveLength(3);
+  for (const [index, attribute] of attributes.entries()) {
+    expect(attribute.width).toBeGreaterThan(0);
+    expect(attribute.height).toBeGreaterThan(0);
+    expect(attribute.x).toBeGreaterThanOrEqual(profileBox.x - 0.5);
+    expect(attribute.x + attribute.width).toBeLessThanOrEqual(profileBox.x + profileBox.width + 0.5);
+    expect(attribute.y).toBeGreaterThanOrEqual(profileBox.y - 0.5);
+    expect(attribute.y + attribute.height).toBeLessThanOrEqual(profileBox.y + profileBox.height + 0.5);
+    const previous = attributes[index - 1];
+    if (!previous) continue;
+    if (Math.abs(attribute.y - previous.y) < 0.5) {
+      expect(locale === 'ar'
+        ? previous.x - attribute.x - attribute.width
+        : attribute.x - previous.x - previous.width).toBeGreaterThanOrEqual(-0.5);
+    } else {
+      expect(attribute.y).toBeGreaterThanOrEqual(previous.y + previous.height - 0.5);
+    }
+  }
   if (width >= 768) {
-    const acidity = await profile.getByTestId('coffee-attribute-acidity').boundingBox();
-    const sweetness = await profile.getByTestId('coffee-attribute-sweetness').boundingBox();
-    expect(locale === 'ar' ? acidity!.x - sweetness!.x : sweetness!.x - acidity!.x).toBeGreaterThan(0);
+    const [acidity, sweetness] = attributes;
+    expect(Math.abs(acidity.y - sweetness.y)).toBeLessThan(0.5);
+    expect(locale === 'ar' ? acidity.x - sweetness.x : sweetness.x - acidity.x).toBeGreaterThan(0);
   }
   await profile.screenshot({ path: testInfo.outputPath(`personality-${locale}-${width}.png`) });
   if (width === 768) {
