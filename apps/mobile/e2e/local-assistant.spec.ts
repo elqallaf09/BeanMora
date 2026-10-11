@@ -15,7 +15,7 @@ async function openAssistant(page: Page, offlineCatalog = false) {
       const query = route.request().postDataJSON();
       searches.push(query);
       data = query.p_kind === 'roaster'
-        ? [{ id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa0', kind: 'roaster', title_ar: 'ألتيتيود روسترز', title_en: 'Altitude Roasters', search_text: 'Altitude Roasters KW', summary_ar: '', summary_en: '', category: null, methods: [], facts: { country: 'KW' }, offers: [], source_url: 'https://altituderoasters.co/en/' }]
+        ? [{ id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa0', kind: 'roaster', title_ar: query.p_terms.includes('ark') ? 'آرك روسترز' : 'ألتيتيود روسترز', title_en: query.p_terms.includes('ark') ? 'A R K Roasters' : 'Altitude Roasters', search_text: query.p_terms.includes('ark') ? 'آرك روسترز A R K Roasters KW' : 'Altitude Roasters KW', summary_ar: '', summary_en: '', category: null, methods: [], facts: { country: 'KW' }, offers: [], source_url: query.p_terms.includes('ark') ? 'https://www.ark.com.kw/pages/about' : 'https://altituderoasters.co/en/' }]
         : [300, 400].map((amount, i) => ({ id: `aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa${i}`, kind: 'equipment', title_ar: `ماكينة ${i + 1}`, title_en: `Machine ${i + 1}`, search_text: 'espresso machine manual', summary_ar: '', summary_en: '', category: 'espresso_machine', methods: ['espresso'], facts: { operation: ['يدوي','Manual'], ...(i ? {} : { pressure_gauge: ['نعم','Yes'] }) }, offers: [{ amount, currency: 'USD', checked_at: new Date().toISOString(), region: 'US', url: 'https://seller.example/machine', availability: 'in_stock' }], source_url: 'https://seller.example/machine' }));
     }
     return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(data) });
@@ -84,6 +84,13 @@ test('Kuwaiti roaster search expands the country code before retrieval and displ
   await ask(page, 'محامص بالكويت');
   await expect(page.getByTestId('assistant-result')).toContainText('ألتيتيود روسترز');
   expect(network.searches).toEqual([expect.objectContaining({ p_kind: 'roaster', p_terms: expect.arrayContaining(['kuwait', 'kw']) })]);
+  expect(network.providerCalls()).toBe(0);
+});
+test('published spaced roaster names retain an explicit catalog search instead of returning every roaster', async ({ page }) => {
+  const network = await openAssistant(page);
+  await ask(page, 'محامص A R K');
+  await expect(page.getByTestId('assistant-result')).toContainText('آرك روسترز');
+  expect(network.searches).toEqual([expect.objectContaining({ p_kind: 'roaster', p_terms: expect.arrayContaining(['ark', 'a r k']) })]);
   expect(network.providerCalls()).toBe(0);
 });
 for (const english of [false, true]) test(`symptoms, water measurements and new lessons work offline (${english ? 'en' : 'ar'})`, async ({ page }) => {

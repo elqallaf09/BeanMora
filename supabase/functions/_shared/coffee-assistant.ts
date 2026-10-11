@@ -36,6 +36,9 @@ const notes = [
 // Reviewed catalog countries use both names and ISO codes. Expand codes for
 // retrieval and ranking without rewriting roaster records or ownership.
 const places = [['kuwait','الكويت','كويت','kw'],['saudi','السعودية','السعوديه','sa'],['riyadh','الرياض','رياض'],['jeddah','جدة','جده'],['uae','الإمارات','الامارات','ae'],['dubai','دبي'],['qatar','قطر','qa'],['bahrain','البحرين','bh'],['oman','عمان','om']];
+// Published spaced brand and Arabic catalog label, reviewed 2026-10-11:
+// https://www.ark.com.kw/pages/about . Keep matching at word boundaries.
+const catalogNames = [['ark','آرك','a r k','ارك']];
 const stop = new Set(normalizeSearch('ابي ابغى اريد عندي عندكم عنده عندها لي له لها فيه فيها عن من على الى في مع حق حقي هذا هذه شنو وش اي احسن افضل اقرب يناسب مناسبة مناسب نبي ابيها ممكن طلعلي يقوله يقولي سعر بسعر بسعره ميزانية ميزانيه بميزانية بميزانيه تحت لحد حدود ماكينة مكينة مكنة ممكينه ممكينة اله جهاز اجهزه معدات طاحونة طاحونه مطحنة مطحنه وصفة وصفه وصفات بن قهوة قهوه ايحاء ايحاءات ايحاءه طعم نكهة نكهه نكهات ابحث ابيهم ابيك اريدها دولار دولارات دينار كويتي ريال سعودي dollars dollar dinar riyal usd kwd sar machine espresso grinder recipe coffee roaster please find recommend want need for with under budget price best nearest closest have has tasting notes note flavor flavours flavor i a an the and or to me my of is it about tell show give up buy').split(' '));
 const methods: [string, string[]][] = [
   ['xbloom',['xbloom','x bloom','اكسبلوم','اكس بلوم','بالاكسبلوم']],
@@ -58,6 +61,7 @@ export function parseAssistantQuery(message: string, previous?: AssistantQuery |
   const q = normalizeSearch(digits.slice(0,1000));
   const foundMethods = methods.filter(([,aliases])=>aliases.some(alias=>q.includes(normalizeSearch(alias)))).map(([id])=>id);
   const foundNotes = notes.filter(group=>group.some(alias=>matchesAlias(q,alias))).map(group=>group[0]);
+  const foundNames = catalogNames.filter(group=>group.some(alias=>matchesAlias(q,alias))).map(group=>group[0]);
   const recipe = /وصف|تحضير|استخلاص|recipe|brew|ايحاء|نكه|طعم/.test(q) || foundNotes.length > 0;
   const gear = /ماكين|مكين|ممكين|اله|معدات|طاحون|مطحن|machine|grinder|equipment|kettle|\bscale\b/.test(q) || matchesAlias(q,'ميزان');
   const kind: AssistantKind | null = gear ? 'equipment' : recipe ? 'recipe' : /محمص|محامص|roaster/.test(q) ? 'roaster' : /حبوب|\bbeans?\b/.test(q) ? 'coffee' : previous?.kind ?? null;
@@ -74,15 +78,15 @@ export function parseAssistantQuery(message: string, previous?: AssistantQuery |
   const unknownTerms = q.split(/[^\p{L}\p{N}]+/u).map(word=>/^[وب]/.test(word)&&[...stop,...notes.flat(),...methods.flatMap(([,aliases])=>aliases)].some(alias=>normalizeSearch(alias)===word.slice(1))?word.slice(1):word).filter(word=>word.length > 2 && !stop.has(word) && !/^(\d|محامص|محمص|roasters?$|in$)/.test(word) && !methods.some(([,aliases])=>aliases.some(alias=>normalizeSearch(alias).includes(word))) && !notes.some(group=>group.some(alias=>normalizeSearch(alias).includes(word)))).map(word=>places.find(group=>group.some(alias=>normalizeSearch(alias)===word))?.[0]??word);
   const region = kind==='equipment' ? (/بالكويت|في الكويت|in kuwait/.test(q)?'KW':/بالسعوديه|في السعوديه|in saudi/.test(q)?'SA':previous?.region??null) : null;
   const availableOnly = kind==='equipment' && /متوفر|متاح|in stock|available/.test(q) && !/غير متوفر|نفاد|out of stock/.test(q) ? true : kind==='equipment' ? previous?.availableOnly??false : false;
-  const terms = [...new Set(kind==='recipe'&&foundNotes.length?foundNotes:[...foundNotes, ...unknownTerms.filter(term=>!(kind==='equipment'&&(/^(متوفر|متاح)/.test(term)||['available','stock'].includes(term)))&&!(region&&['kuwait','saudi','بالكويت','بالسعوديه'].includes(term)))])].slice(0,8);
+  const terms = [...new Set(kind==='recipe'&&foundNotes.length?foundNotes:[...foundNames, ...foundNotes, ...unknownTerms.filter(term=>!catalogNames.some(group=>group.some(alias=>normalizeSearch(alias)===term))&&!(kind==='equipment'&&(/^(متوفر|متاح)/.test(term)||['available','stock'].includes(term)))&&!(region&&['kuwait','saudi','بالكويت','بالسعوديه'].includes(term)))])].slice(0,8);
   return { kind, category, methods: foundMethods.length ? foundMethods : (gear || recipe) && kind !== previous?.kind ? [] : previous?.methods ?? [], terms: terms.length ? terms : !gear && !recipe ? previous?.terms ?? [] : [], amount, currency, region, availableOnly,
     clarification: amount !== null && (!Number.isFinite(amount) || amount <= 0) ? 'budget' : amount !== null && (!currency || currencies.length > 1) ? 'currency' : !kind ? 'intent' : null };
 }
 export function assistantSearchTerms(query: AssistantQuery): string[] {
-  return [...new Set(query.terms.flatMap(term=>[...notes,...places].find(group=>group[0]===term) ?? [term]))].slice(0,24);
+  return [...new Set(query.terms.flatMap(term=>[...notes,...places,...catalogNames].find(group=>group[0]===term) ?? [term]))].slice(0,24);
 }
 export function assistantTermLabel(term: string, locale: 'ar' | 'en'): string {
-  return locale === 'ar' ? ([...notes, ...places].find(group => group[0] === term)?.[1] ?? term) : term;
+  return locale === 'ar' ? ([...notes, ...places, ...catalogNames].find(group => group[0] === term)?.[1] ?? term) : term;
 }
 function recent(date: string, now: number, days: number): boolean {
   const time = Date.parse(date); return Number.isFinite(time) && time <= now + 60_000 && now-time <= days*86400000;

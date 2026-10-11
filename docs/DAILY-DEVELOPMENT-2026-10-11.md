@@ -6,13 +6,14 @@ Review recorded at 03:22 Asia/Kuwait. First daily review: preceding 24 hours and
 
 Started from main `07a3fe1be0e90bde45d281fc4100e96a1339b144`. No AGENTS.md or open PR was present. PRs #50, #54 and #55 were already merged; their UI/security work was retained. Both main workflows were green at the exact starting SHA ([web](https://github.com/elqallaf09/BeanMora/actions/runs/38085652582), [mobile](https://github.com/elqallaf09/BeanMora/actions/runs/38085652577)). Rechecked main while working: unchanged. Repository push/admin access available; auto-merge remains disabled and protection settings were not changed.
 
-Work branch: `daily/2026-10-11-coffee-expert`. Code merge is gated on both PR workflows. PR/merge state is discoverable from that branch and the repository Actions; this document does not equate a source merge with a release.
+Work branch: `daily/2026-10-11-coffee-expert`, [PR #56](https://github.com/elqallaf09/BeanMora/pull/56). Code merge is gated on both PR workflows. PR/merge state is discoverable from that PR and the repository Actions; this document does not equate a source merge with a release.
 
 ## Implemented
 
 - Local expert coaching now wins over broad water/grind lesson keywords when there is a brewing symptom or labeled measurement follow-up. Six previously failing Arabic/English cases now pass.
 - A new educational topic can exit the prior coaching context: a question about cold brew no longer inherits the preceding V60 diagnosis. Two language regressions and actual React Native Web interactions verify it.
 - Kuwait and other Gulf country names expand to their ISO catalog codes for retrieval and local ranking. A KW-coded roaster was previously missed by “محامص بالكويت”; the failing test was reproduced, fixed and checked against anonymous live RPC retrieval and the mobile UI.
+- ARK, the published spaced A R K name and its Arabic catalog label resolve to one explicit named search. Three failing brand tests were reproduced and fixed, including rejection of unrelated “Market”/“dark” substring matches. Live RPC retrieval with the expanded published-name terms returns the new roaster.
 - Added four bilingual, sourced lessons: flash brew/water/ice, cold extraction, bypass dilution and scaling filter recipes for two cups. The curriculum now has 48 topics including the six basic topics. These are reviewed knowledge and rule-based routing improvements; no model was trained, provider API enabled or subscription purchased.
 - The existing reviewed importer accepts separately dated batches and manufacturer guides without inventing a roastery or coffee lot. The historical 2026-10-04 release remains date-locked. Ownership, method, visibility and source guards remain intact. Added a CI gate for the new batch.
 
@@ -38,11 +39,11 @@ Knowledge references also include [HARIO Mizudashi](https://www.hario-usa.com/pr
 
 ## Fresh validation and coverage
 
-- Web: 278 Vitest tests, 31 recommendation tests, 37 brew-outcome tests; typecheck, lint, production Next build and 9 security regressions passed.
+- Web: 281 Vitest tests, 31 recommendation tests, 37 brew-outcome tests; typecheck, lint, production Next build and 9 security regressions passed.
 - Importer: 2 daily provenance/date/association tests; 5 existing importer tests, including generated SQL replay/ownership-conflict rollback in isolated PGlite, passed. Live PostgreSQL 17 rollback/import checks were separate.
 - Web browser: 58 scenarios passed in Desktop Chromium and 320 px mobile Chromium, using isolated fixtures. Fresh inventory is 53 page templates; both languages and both projects were traversed (212 route visits). Boundaries, auth redirects, admin denial, legal/404 recovery, discovery filters, onboarding, comments/likes/reports failure+retry and locale-preserving detail links were covered. This is route/scenario coverage, not proof that every possible user state/button is tested.
 - Mobile: core sync, typecheck, mobile test suite, 36 tooling exploit/integrity/audit-policy regressions and security audit policy passed. iOS, Android and web exports with source maps passed; affected build tools were absent from all three runtime bundles.
-- React Native Web: 11 expert/compact-page scenarios passed at widths 320, 390, 800 and 1280, including new offline Arabic/English lessons, coaching, context switching and KW search. Provider-request assertions were zero.
+- React Native Web: 12 expert/compact-page scenarios passed at widths 320, 390, 800 and 1280, including new offline Arabic/English lessons, coaching, context switching, KW search and published spaced-brand search. Provider-request assertions were zero.
 - Dependency state: root audit has zero findings. Mobile raw audit still reports 15 high findings; the existing installed security backports are verified, with zero risk exceptions. It must not be described as a clean raw audit.
 - Database: 92/92 public tables have RLS; six views have security_invoker=true. Security/performance advisors were reread; guest/role warnings need policy context, not blanket guest removal. No RLS/Storage permissions were changed. Current performance advisor groups: 8 auth initplan, 83 unused-index, 168 multiple-policy and 1 connection-allocation finding. These are investigation candidates, not measured bottlenecks.
 

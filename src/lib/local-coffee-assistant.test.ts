@@ -13,6 +13,13 @@ const offline: LocalAssistantDependencies = { search: async () => { throw new Er
 const ask = (q: string, history: LocalAssistantTurn[] = [], dependencies = deps, locale: 'ar' | 'en' = 'ar') => converseLocally(q, locale, history, dependencies);
 
 describe('local conversational coffee assistant', () => {
+  it.each(['محامص ARK', 'محامص A R K', 'محامص آرك'])('matches the published spaced brand for %s without accepting substrings', async question => {
+    const ark: AssistantDocument = { ...machine, id: 'ark-roaster', kind: 'roaster', category: null, methods: [], title_ar: 'آرك روسترز', title_en: 'A R K Roasters', search_text: 'آرك روسترز A R K Roasters KW', facts: { country: 'KW' }, offers: [] };
+    const unrelated = { ...ark, id: 'other-roaster', title_en: 'Market coffee', search_text: 'Market coffee with dark roast' };
+    const turn = await ask(question, [], { search: async () => ({ documents: [ark, unrelated], rates: [] }), now });
+    expect(localAssistantSearchTerms(turn.query)).toContain('a r k');
+    expect(turn.matches.map(m => m.document.id)).toEqual(['ark-roaster']);
+  });
   it('finds Kuwaiti roasters whose catalog country is the ISO code KW', async () => {
     const roaster: AssistantDocument = { ...machine, id: 'kw-roaster', kind: 'roaster', category: null, methods: [], title_ar: 'محمصة الكويت', title_en: 'Kuwait roaster', search_text: 'Altitude Roasters KW', facts: { country: 'KW' }, offers: [] };
     const lookup = vi.fn(async () => ({ documents: [roaster], rates: [] }));
