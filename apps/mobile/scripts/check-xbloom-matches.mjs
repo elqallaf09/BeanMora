@@ -55,6 +55,8 @@ test('bag text extracts stated bilingual facts, leaves missing taste blank and r
   assert.equal(readCoffeeLabel('Roasted in Brazil\nCoffee: Untold estate').origin,'');
   assert.equal(readCoffeeLabel('Origin: Brazil and Colombia').origin,'');
   assert.equal(readCoffeeLabel('Origin: Brazil').notes,'');
+  assert.equal(readCoffeeLabel('Origin: Indonesia\nWest Java\nCoffee: Frinsa estate').variety,'');
+  assert.equal(readCoffeeLabel('Origin: Colombia\nCastillo').variety,'Castillo');
   assert.equal(hasCoffeeLabelFacts(readCoffeeLabel('Roast: Light')) ,false);
 });
 test('OCR bridge rejects other jobs and untrusted messages, preserves bounded visible text',()=>{

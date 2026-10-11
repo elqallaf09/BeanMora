@@ -22,7 +22,7 @@ async function fixtures(page: Page, mode: 'success' | 'error' | 'empty' = 'succe
 }
 async function openScanner(page: Page, english = true) {
   await page.goto('/'); if (english) await setLanguage(page, 'en');
-  await page.getByTestId('library-navigation').getByRole('checkbox', { name: english ? 'Recipe library' : 'مكتبة الوصفات', exact: true }).click();
+  await page.getByTestId('library-navigation').getByRole('button', { name: english ? 'Recipe library' : 'مكتبة الوصفات', exact: true }).click();
   await page.getByRole('button', { name: english ? 'Scan coffee for a recipe' : 'صوّر البن واختر الوصفة', exact: true }).click();
   await expect(page.getByTestId('coffee-label-scanner')).toBeVisible();
 }

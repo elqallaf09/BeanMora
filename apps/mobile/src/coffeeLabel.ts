@@ -21,7 +21,11 @@ export function readCoffeeLabel(text: string): CoffeeLabel {
   const notes = noteLine || lines.find(l => /[,،;·]/u.test(l) && found(l, flavorSearchVocabulary).length >= 2) || '';
   const processLine = labeled('process(?:ing)?|المعالجة|معالجة') || lines.find(l => found(l, coffeeProcesses).length && !/notes|إيحاءات|نكهات|[,،]/iu.test(l)) || '';
   const roastLine = labeled('roast(?: level)?|التحميص|تحميص') || lines.find(l => /roast|تحميص/iu.test(l)) || '';
-  const varieties = found(labeled('variet(?:y|al|ies)|السلالة|سلالة') || lines.join(' '), coffeeVarieties);
+  const varietyLine = labeled('variet(?:y|al|ies)|السلالة|سلالة');
+  // Java may be a region. An unlabeled location/name must not become a variety.
+  const varieties = varietyLine ? found(varietyLine, coffeeVarieties) : coffeeVarieties
+    .filter(group => group[0] !== 'Java' && lines.some(line => group.some(alias => normalizeSearch(line) === normalizeSearch(alias))))
+    .map(group => group[0]);
   const processes = found(processLine, coffeeProcesses);
   const roasts = found(roastLine, coffeeRoasts);
   const name = labeled('coffee|name|اسم البن|الاسم') || lines.slice(0, 6).find(l => l.length >= 4 && l.length <= 100
