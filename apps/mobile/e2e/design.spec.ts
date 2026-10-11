@@ -107,6 +107,14 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
       if (path.endsWith('/auth/v1/settings')) return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({external:{google:true,apple:true}})});
       if (path.endsWith('/rpc/search_public_recipes')) return replyDiscovery(route, [recipe], beans);
       if (path.endsWith('/rpc/recipes_for_coffee')) return replyCoffeeRecipes(route, [recipe]);
+      if (path.endsWith('/rpc/xbloom_matches_for_coffee')) {
+        expect(route.request().method()).toBe('POST');
+        expect(route.request().postDataJSON()).toEqual({ p_bean_id: beans[0].id, p_model: null, p_limit: 3 });
+        return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([
+          { recipe_id: recipe.id, match_kind: 'exact', score: 10000, device_model: null,
+            matching_notes: [], matching_families: [], same_origin: false, same_process: false, same_roast: false },
+        ]) });
+      }
       return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(path.endsWith('/beans')?beans:path.endsWith('/recipes')?[recipe]:path.endsWith('/equipment_models')?[{id:'44444444-4444-4444-8444-444444444444',name:'Isolated scale model',category:'scale',requires_review:false,source_url:null,specifications:{catalog:{schema_version:1,name_ar:'ميزان اختبار معزول'}}}]:[])});
     });
     // A failed source image must be an explicit unavailable state, not a different product.
