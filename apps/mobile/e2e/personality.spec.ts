@@ -55,8 +55,8 @@ for (const { locale, width, height } of [
   await expect(profile.getByText(/\d\/5/)).toHaveCount(0);
   if (width >= 768) {
     const acidity = await profile.getByTestId('coffee-attribute-acidity').boundingBox();
-    const body = await profile.getByTestId('coffee-attribute-body').boundingBox();
-    expect(locale === 'ar' ? acidity!.x - body!.x : body!.x - acidity!.x).toBeGreaterThan(0);
+    const sweetness = await profile.getByTestId('coffee-attribute-sweetness').boundingBox();
+    expect(locale === 'ar' ? acidity!.x - sweetness!.x : sweetness!.x - acidity!.x).toBeGreaterThan(0);
   }
   await profile.screenshot({ path: testInfo.outputPath(`personality-${locale}-${width}.png`) });
   if (width === 768) {

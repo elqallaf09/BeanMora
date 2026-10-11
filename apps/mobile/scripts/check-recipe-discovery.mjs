@@ -44,6 +44,8 @@ const {
   recipeFilterCount,
   recipeSearchParams,
   recipePageQuery,
+  recipeCatalogPage,
+  recipeSearchCriterionCount,
   readRecipeDiscovery,
 } = await import(pathToFileURL(temp + '/recipeDiscovery.mjs').href);
 const search = (filters = {}) => ({
@@ -385,6 +387,47 @@ test('RPC errors remain errors so the catalog can retry without treating them as
   );
   assert.equal(result.data, null);
   assert.equal(result.error.message, 'Isolated request failed');
+});
+
+test('exact combined results win and do not invoke relaxed search', async () => {
+  const requests = [];
+  const db=database(async (url)=>{requests.push(new URL(url));return new Response('[{"id":"exact","title":"Full match"}]',{
+    headers:{'content-type':'application/json','content-range':'0-0/1'},
+  });});
+  const criteria=search({coffeeOrigin:'كولومبيا',roasterName:'محمصة',flavorNote:'كرز، شوكولاتة'});
+  const result=await recipeCatalogPage(db,criteria,0,'id,title',new AbortController().signal);
+  assert.equal(result.near,false);assert.equal(result.data[0].id,'exact');assert.equal(requests.length,1);
+  assert.equal(recipeSearchCriterionCount(criteria),4);
+});
+
+test('an empty exact search loads explained near matches in server rank order and preserves all fixed choices',async()=>{
+  const requests=[];const controller=new AbortController();
+  const db=database(async (url,init)=>{
+    const path=new URL(url).pathname;requests.push({url:new URL(url),init});
+    const data=path.endsWith('/search_public_recipe_near_matches') ? [
+      {recipe_id:'higher',matched:[{field:'coffeeOrigin',value:'كولومبيا'},{field:'flavorNote',value:'كرز'}],missing:[{field:'roasterName',value:'Missing'}],total_count:61},
+      {recipe_id:'lower',matched:[{field:'coffeeOrigin',value:'كولومبيا'}],missing:[{field:'flavorNote',value:'كرز'},{field:'roasterName',value:'Missing'}],total_count:61},
+    ] : path.endsWith('/recipes') ? [{id:'lower',title:'Lower'},{id:'higher',title:'Higher'}] : [];
+    return new Response(JSON.stringify(data),{headers:{'content-type':'application/json','content-range':'*/0'}});
+  });
+  const criteria={...search({coffeeOrigin:'كولومبيا',roasterName:'Missing',flavorNote:'كرز',servingStyle:'hot'}),method:'xbloom',model:'Studio',source:'official',coffee:{kind:'bean',id:'scoped'}};
+  const result=await recipeCatalogPage(db,criteria,0,'id,title',controller.signal);
+  assert.equal(result.near,true);assert.equal(result.count,61);assert.deepEqual(result.data.map(r=>r.id),['higher','lower']);
+  assert.deepEqual(result.matches.higher.missing,[{field:'roasterName',value:'Missing'}]);
+  assert.deepEqual(JSON.parse(requests[1].init.body),{...recipeSearchParams(criteria),p_limit:30,p_offset:0});
+  assert.equal(requests[2].url.searchParams.get('visibility'),'eq.public');
+  assert.equal(requests[2].init.signal,controller.signal);
+  const later=await recipeCatalogPage(db,criteria,1,'id,title',controller.signal,30,true);
+  assert.equal(JSON.parse(requests[3].init.body).p_offset,30);assert.equal(later.near,true);
+});
+
+test('errors and single unknown criteria never turn into unrelated suggestions',async()=>{
+  const requests=[];const db=database(async(url)=>{requests.push(new URL(url).pathname);return new Response('[]',{headers:{'content-type':'application/json','content-range':'*/0'}});});
+  const result=await recipeCatalogPage(db,search({roasterName:'Unknown'}),0,'id',new AbortController().signal);
+  assert.equal(result.near,false);assert.equal(requests.length,1);
+  const failed=database(async()=>new Response('{"message":"Unavailable"}',{status:503,headers:{'content-type':'application/json'}}));
+  const error=await recipeCatalogPage(failed,search({coffeeOrigin:'Colombia',roasterName:'Missing'}),0,'id',new AbortController().signal);
+  assert.equal(error.error.message,'Unavailable');assert.equal(error.near,false);
 });
 
 const { matchesDeepSearch, deepSearchText, matchesIndexedSearch } = await import(pathToFileURL(temp + '/core/deepSearch.mjs').href);

@@ -56,7 +56,7 @@ test('real free OCR reads a label, review binds facts only, source ml survive an
   await panel.getByRole('button', { name: 'Open recipe & source', exact: true }).click();
   await expect(page.getByTestId('recipe-detail')).toBeVisible();
   await expect(page.getByTestId('coffee-label-match-notice')).toContainText('similar coffee');
-  await expect(page.getByText('240 ml', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('recipe-source-facts').getByText('240 ml', { exact: true })).toBeVisible();
 });
 test('320 px Arabic manual review has no overflow and failed lookup keeps the details for retry', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 960 }); const params = await fixtures(page, 'error'); await openScanner(page, false);
