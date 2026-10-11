@@ -33,7 +33,9 @@ const notes = [
   ['hazelnut','بندق'], ['almond','لوز'], ['floral','زهور'], ['fruity','فواكه'],
   ['citrus','حمضيات'], ['cinnamon','قرفة','قرفه'], ['vanilla','فانيلا'],
 ];
-const places = [['kuwait','الكويت','كويت'],['saudi','السعودية','السعوديه'],['riyadh','الرياض','رياض'],['jeddah','جدة','جده'],['uae','الإمارات','الامارات'],['dubai','دبي'],['qatar','قطر'],['bahrain','البحرين'],['oman','عمان']];
+// Reviewed catalog countries use both names and ISO codes. Expand codes for
+// retrieval and ranking without rewriting roaster records or ownership.
+const places = [['kuwait','الكويت','كويت','kw'],['saudi','السعودية','السعوديه','sa'],['riyadh','الرياض','رياض'],['jeddah','جدة','جده'],['uae','الإمارات','الامارات','ae'],['dubai','دبي'],['qatar','قطر','qa'],['bahrain','البحرين','bh'],['oman','عمان','om']];
 const stop = new Set(normalizeSearch('ابي ابغى اريد عندي عندكم عنده عندها لي له لها فيه فيها عن من على الى في مع حق حقي هذا هذه شنو وش اي احسن افضل اقرب يناسب مناسبة مناسب نبي ابيها ممكن طلعلي يقوله يقولي سعر بسعر بسعره ميزانية ميزانيه بميزانية بميزانيه تحت لحد حدود ماكينة مكينة مكنة ممكينه ممكينة اله جهاز اجهزه معدات طاحونة طاحونه مطحنة مطحنه وصفة وصفه وصفات بن قهوة قهوه ايحاء ايحاءات ايحاءه طعم نكهة نكهه نكهات ابحث ابيهم ابيك اريدها دولار دولارات دينار كويتي ريال سعودي dollars dollar dinar riyal usd kwd sar machine espresso grinder recipe coffee roaster please find recommend want need for with under budget price best nearest closest have has tasting notes note flavor flavours flavor i a an the and or to me my of is it about tell show give up buy').split(' '));
 const methods: [string, string[]][] = [
   ['xbloom',['xbloom','x bloom','اكسبلوم','اكس بلوم','بالاكسبلوم']],

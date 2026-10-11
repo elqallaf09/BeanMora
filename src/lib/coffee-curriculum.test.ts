@@ -26,6 +26,8 @@ it.each([
   ['الفرقعة الأولى', 'development-time'], ['What does 9 bar mean?', 'pressure'],
   ['What is grinder retention?', 'retention'], ['How do I measure roast color?', 'roast-color'],
   ['Coffee flavor notes', 'flavor-notes'], ['What is a dual boiler?', 'boilers'],
+  ['القهوة المثلجة وماء التحضير والثلج', 'flash-brew'], ['What is cold brew?', 'cold-brew'],
+  ['شنو البايباس؟', 'bypass-dilution'], ['تكبير وصفة الترشيح لكوبين', 'batch-scaling'],
 ])('answers %s locally', async (question, id) => {
   const locale = /[\u0600-\u06FF]/.test(question) ? 'ar' : 'en';
   const turn = await converseLocally(question, locale, [], offline);

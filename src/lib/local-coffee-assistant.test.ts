@@ -13,6 +13,40 @@ const offline: LocalAssistantDependencies = { search: async () => { throw new Er
 const ask = (q: string, history: LocalAssistantTurn[] = [], dependencies = deps, locale: 'ar' | 'en' = 'ar') => converseLocally(q, locale, history, dependencies);
 
 describe('local conversational coffee assistant', () => {
+  it('finds Kuwaiti roasters whose catalog country is the ISO code KW', async () => {
+    const roaster: AssistantDocument = { ...machine, id: 'kw-roaster', kind: 'roaster', category: null, methods: [], title_ar: 'محمصة الكويت', title_en: 'Kuwait roaster', search_text: 'Altitude Roasters KW', facts: { country: 'KW' }, offers: [] };
+    const lookup = vi.fn(async () => ({ documents: [roaster], rates: [] }));
+    const turn = await ask('محامص بالكويت', [], { search: lookup, now });
+    expect(localAssistantSearchTerms(turn.query)).toContain('kw');
+    expect(turn.matches.map(m => m.document.id)).toEqual(['kw-roaster']);
+    expect(turn.matches[0].allTerms).toBe(true);
+  });
+  it.each([
+    ['استخلاص الإسبريسو بطيء وطحنه ناعمة', 'ar', 'slow', 'espresso'],
+    ['استخلاص الإسبريسو سريع بعد تغيير الطحن', 'ar', 'fast', 'espresso'],
+    ['قهوتي V60 حامضة بعد تغيير الماء', 'ar', 'sour', 'v60'],
+    ['My espresso shot is slow after changing grind', 'en', 'slow', 'espresso'],
+    ['My V60 is sour after changing water', 'en', 'sour', 'v60'],
+  ] as const)('coaches %s instead of answering a broad keyword lesson', async (question, locale, signal, method) => {
+    const turn = await ask(question, [], offline, locale);
+    expect(turn.intent).toBe('coach');
+    expect(turn.coach).toMatchObject({ signal, method });
+    expect(turn.sources?.[0].url).toContain('baristahustle.com');
+    expect(turn.knowledgeTopic).toBeUndefined();
+  });
+  it('keeps labeled water measurements in a coaching follow-up', async () => {
+    const first = await ask('قهوتي V60 حامضة', [], offline);
+    const next = await ask('جرعة 18 الماء 288 الوقت 150 ثانية', [first], offline);
+    expect(next.intent).toBe('coach');
+    expect(next.coach).toMatchObject({ signal: 'sour', method: 'v60', dose: 18, output: 288, seconds: 150 });
+    expect(next.answer).toContain('1:16');
+  });
+  it.each([['الكولد برو والاستخلاص البارد', 'ar'], ['What is cold brew?', 'en']] as const)('lets %s switch from coaching to a new lesson', async (question, locale) => {
+    const first = await ask('قهوتي V60 حامضة', [], offline);
+    const turn = await ask(question, [first], offline, locale);
+    expect(turn.intent).toBe('knowledge');
+    expect(turn.knowledgeTopic).toBe('cold-brew');
+  });
   it('preserves Kuwaiti budget follow-ups and resolves currency without model calls', async () => {
     const a = await ask('أبي ماكينة إسبريسو تحت ٤٨٠');
     expect(a.query).toMatchObject({ amount: 480, clarification: 'currency' });

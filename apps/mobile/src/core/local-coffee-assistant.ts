@@ -155,8 +155,7 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
     return reply(`${ar ? 'حساب النسبة المطلوبة' : 'Requested ratio calculation'}: ${number(dose)} g × ${number(ratio)} = ${number(dose * ratio)} g\n${outputLabel}: ${number(dose * ratio)} g\n${ar ? 'هذا حساب رياضي، وليس وصفة مختبرة. لا يحدد درجة الطحن أو الحرارة أو الوقت؛ تحقق من سعة أداتك.' : 'This is arithmetic, not a tested recipe. It does not set grind, temperature or time; check your brewer capacity.'}`, { intent: 'calculate', calculation, matches: selected, suggestions: ar ? ['خلها 20 غرام', 'غير النسبة إلى 1:15'] : ['Make it 20 g', 'Change ratio to 1:15'] });
   }
   const knowledge = !selection.explicit && !(compare && references.length) ? coffeeKnowledgeAnswer(question, locale, previous?.knowledgeTopic) : null;
-  if (knowledge) return reply(knowledge.answer, { intent: 'knowledge', knowledgeTopic: knowledge.topic, sources: knowledge.sources, suggestions: knowledge.suggestions });
-  if (compare || selection.explicit || (explain && references.length)) {
+  if ((compare && (references.length > 0 || !knowledge)) || selection.explicit || (explain && references.length)) {
     const chosen = selection.explicit ? selection.matches : compare ? references.slice(0, 3) : references.length === 1 ? references : [];
     if (selection.invalid || !chosen.length || (compare && chosen.length < 2)) return reply(ar ? 'ابحث عن الخيارات أولًا، ثم قل «اشرح الأول» أو «قارن الأول والثاني». اختر رقمًا من النتائج الظاهرة.' : 'Search for options first, then say “explain the first” or “compare the first and second”. Use a displayed result number.', { matches: references, query: previous?.query ?? query });
     // Revalidate dated offers locally before displaying references; never keep a stale price alive.
@@ -174,7 +173,7 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
     seconds: q.match(/(\d+(?:\.\d+)?)\s*(?:ثانيه|ثواني|seconds?|sec\b)/)?.[1],
   };
   const measurementFollowUp = previous?.intent === 'coach' && Object.values(measurements).some(Boolean);
-  const coachIntent = !/وصف|recipe|ايحاء|notes|احب|love/.test(q) && (sour || bitter || weak || /استخلاص.*بطي|استخلاص.*سريع|shot.*(?:slow|fast)|chok/.test(q) || (previous?.intent === 'coach' && methods.length > 0) || measurementFollowUp);
+  const coachIntent = !/وصف|recipe|ايحاء|notes|احب|love/.test(q) && (sour || bitter || weak || /استخلاص.*بطي|استخلاص.*سريع|shot.*(?:slow|fast)|chok/.test(q) || (previous?.intent === 'coach' && methods.length > 0 && !knowledge) || measurementFollowUp);
   if (coachIntent) {
     const signal = sour && bitter ? 'mixed' : sour ? 'sour' : bitter ? 'bitter' : weak ? 'weak' : /بطي|slow|chok/.test(q) ? 'slow' : /سريع|fast/.test(q) ? 'fast' : previous?.coach?.signal ?? 'unknown';
     const coach = { ...(previous?.intent === 'coach' ? previous.coach : {}), signal, method, ...Object.fromEntries(Object.entries(measurements).filter(([, value]) => value && positive(Number(value))).map(([key, value]) => [key, Number(value)])) };
@@ -187,6 +186,9 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
     if (positive(coach.dose) && positive(coach.output)) advice = `${ar ? 'حسب الأوزان التي ذكرتها، النسبة' : 'From the weights you provided, the ratio is'} 1:${number(coach.output / coach.dose)}${positive(coach.seconds) ? ` · ${number(coach.seconds)} s` : ''}.\n${advice}`;
     return reply(advice, { intent: 'coach', coach, followUp: ar ? 'اكتب الأوزان بهذا الشكل: جرعة 18، الناتج 36، الوقت 30 ثانية؛ هذه أمثلة لطريقة الإدخال وليست وصفة.' : 'Label measurements, for example: dose 18, yield 36, 30 seconds. These are input examples, not a recipe.', sources: [{ title: 'Barista Hustle — ' + (method === 'espresso' ? 'Espresso Compass' : 'Coffee Compass'), url: method === 'espresso' ? 'https://www.baristahustle.com/the-espresso-compass/' : 'https://www.baristahustle.com/coffee-compass/' }] });
   }
+  // Symptoms and labeled follow-up measurements take precedence over broad
+  // lesson keywords such as "water" and "grind". Catalog references stay first.
+  if (knowledge) return reply(knowledge.answer, { intent: 'knowledge', knowledgeTopic: knowledge.topic, sources: knowledge.sources, suggestions: knowledge.suggestions });
   if (methods.length && /شلون|كيف|طريقه|دليل|how|guide|use/.test(q)) {
     const guide = dependencies.guides?.[methods[0]];
     if (guide) return reply([ar ? guide.title_ar : guide.title, ar ? guide.intro_ar : guide.intro, ...(ar ? guide.tips_ar : guide.tips).map(t => '• ' + t)].join('\n'), { intent: 'guide', sources: [{ title: guide.source_name, url: guide.source }], suggestions: ar ? [`أبي وصفة ${methods[0]}`] : [`Find a ${methods[0]} recipe`] });

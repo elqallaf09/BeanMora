@@ -1,0 +1,362 @@
+{
+  "importId": "reviewed-catalog-2026-10-11",
+  "verifiedAt": "2026-10-11",
+  "batches": [
+    {
+      "region": "kuwait-and-manufacturer-guides",
+      "data": {
+        "roasters": [
+          {
+            "name": "A R K Roasters",
+            "name_ar": "آرك روسترز",
+            "country": "KW",
+            "website": "https://www.ark.com.kw",
+            "source_url": "https://www.ark.com.kw/pages/about"
+          },
+          {
+            "name": "Altitude Roasters",
+            "name_ar": "ألتيتيود روسترز",
+            "country": "KW",
+            "website": "https://altituderoasters.co/en/",
+            "source_url": "https://altituderoasters.co/en/"
+          }
+        ],
+        "coffees": [],
+        "recipes": [
+          {
+            "brew_method": "orea",
+            "recipe_type": "official_manufacturer",
+            "serving_style": "hot",
+            "source_author_name": "OREA",
+            "source_author_name_ar": "أوريا",
+            "dose_grams": 25,
+            "water_grams": 400,
+            "water_temp_c": 94,
+            "total_time_seconds": null,
+            "flavor_notes": [],
+            "flavor_notes_ar": [],
+            "slug": "orea-v4-easy-for-two",
+            "title": "OREA V4 — EASY FOR TWO",
+            "title_ar": "أوريا V4 — إيزي فور تو لكوبين",
+            "water_ml": 400,
+            "time_min_seconds": 210,
+            "time_max_seconds": 240,
+            "grinder_setting": "Coarse · Comandante C40 24–28 clicks",
+            "source_url": "https://www.orea.uk/guides-v4",
+            "source_brew_parameters": {
+              "manual": {
+                "equipment": "OREA V4 Narrow + FAST bottom",
+                "filter": "OREA Flat paper + Negotiator",
+                "grind_ar": "خشنة · Comandante C40 من 24 إلى 28 كليك",
+                "time_note": "3:30–4:00",
+                "time_note_ar": "من 3:30 إلى 4:00",
+                "scalable": false,
+                "notes": "Published water heading is 400 ml; timed cumulative pours reach 400 g. Settings belong to the named hardware.",
+                "notes_ar": "عنوان الماء في المصدر 400 ml؛ الصبات التراكمية الموزونة تصل إلى 400 g. ضبط الطحن خاص بالطاحونة والأداة المذكورتين."
+              },
+              "discovery": {
+                "serving_style_evidence": {
+                  "classification": "published",
+                  "basis": "publisher_hot_water_recipe_without_ice_or_chilling_step",
+                  "reviewed_at": "2026-10-11"
+                }
+              }
+            },
+            "steps": [
+              {
+                "title": "Brewer and filter",
+                "title_ar": "الأداة والفلتر",
+                "description": "Use OREA V4 Narrow + FAST bottom with OREA Flat paper + Negotiator. Add 25 g coffee and use water at 94°C.",
+                "description_ar": "استخدم OREA V4 Narrow + FAST bottom مع OREA Flat paper + Negotiator. أضف 25 g بن واستخدم ماء عند 94°C.",
+                "step_kind": "other"
+              },
+              {
+                "title": "Pour 1",
+                "title_ar": "الصبة 1",
+                "description": "At 0:00, add 100 g to reach 100 g cumulatively. Pour in a spiral.",
+                "description_ar": "عند 0:00، أضف 100 g ليصل الإجمالي إلى 100 g. صب بشكل حلزوني.",
+                "step_kind": "pour",
+                "start_at_seconds": 0
+              },
+              {
+                "title": "Pour 2",
+                "title_ar": "الصبة 2",
+                "description": "At 0:40, add 75 g to reach 175 g cumulatively. Pour in a spiral.",
+                "description_ar": "عند 0:40، أضف 75 g ليصل الإجمالي إلى 175 g. صب بشكل حلزوني.",
+                "step_kind": "pour",
+                "start_at_seconds": 40
+              },
+              {
+                "title": "Pour 3",
+                "title_ar": "الصبة 3",
+                "description": "At 1:25, add 75 g to reach 250 g cumulatively. Pour in a spiral.",
+                "description_ar": "عند 1:25، أضف 75 g ليصل الإجمالي إلى 250 g. صب بشكل حلزوني.",
+                "step_kind": "pour",
+                "start_at_seconds": 85
+              },
+              {
+                "title": "Pour 4",
+                "title_ar": "الصبة 4",
+                "description": "At 2:00, add 75 g to reach 325 g cumulatively. Pour in a spiral.",
+                "description_ar": "عند 2:00، أضف 75 g ليصل الإجمالي إلى 325 g. صب بشكل حلزوني.",
+                "step_kind": "pour",
+                "start_at_seconds": 120
+              },
+              {
+                "title": "Pour 5",
+                "title_ar": "الصبة 5",
+                "description": "At 2:45, add 75 g to reach 400 g cumulatively. Pour in a spiral.",
+                "description_ar": "عند 2:45، أضف 75 g ليصل الإجمالي إلى 400 g. صب بشكل حلزوني.",
+                "step_kind": "pour",
+                "start_at_seconds": 165
+              },
+              {
+                "title": "Finish and taste",
+                "title_ar": "نهاية التحضير والتذوق",
+                "description": "The published finish window is 3:30–4:00. Use drainage and taste to guide adjustment; the publisher treats timings as guides.",
+                "description_ar": "نطاق النهاية المنشور 3:30–4:00. راقب التصريف وتذوق لضبط التحضير؛ يقدم المصدر الأوقات كإرشاد.",
+                "step_kind": "drawdown"
+              }
+            ],
+            "pours": [
+              {
+                "water_grams": 100,
+                "start_at_seconds": 0
+              },
+              {
+                "water_grams": 75,
+                "start_at_seconds": 40
+              },
+              {
+                "water_grams": 75,
+                "start_at_seconds": 85
+              },
+              {
+                "water_grams": 75,
+                "start_at_seconds": 120
+              },
+              {
+                "water_grams": 75,
+                "start_at_seconds": 165
+              }
+            ],
+            "notes": "Published finish window 3:30–4:00; water/coffee ratio calculated from the timed g pours, not stated by the publisher. No named coffee lot.",
+            "notes_ar": "نطاق النهاية المنشور 3:30–4:00؛ تُحسب نسبة الماء إلى البن من صبات المصدر بالغرام وليست نسبة صرّح بها المصدر. لا يحدد المصدر محصول بن."
+          },
+          {
+            "brew_method": "orea",
+            "recipe_type": "official_manufacturer",
+            "serving_style": "hot",
+            "source_author_name": "DARA / OREA",
+            "source_author_name_ar": "دارا / أوريا",
+            "dose_grams": 24,
+            "water_grams": 400,
+            "water_temp_c": 92,
+            "total_time_seconds": null,
+            "flavor_notes": [],
+            "flavor_notes_ar": [],
+            "slug": "orea-v4-dara-for-two",
+            "title": "OREA V4 — DARA FOR TWO",
+            "title_ar": "أوريا V4 — دارا فور تو لكوبين",
+            "water_ml": 400,
+            "time_min_seconds": 170,
+            "time_max_seconds": 210,
+            "grinder_setting": "Medium-coarse · Comandante C40 22–26 clicks",
+            "source_url": "https://www.orea.uk/guides-v4",
+            "source_brew_parameters": {
+              "manual": {
+                "equipment": "OREA V4 Narrow + OPEN bottom",
+                "filter": "OREA Flat paper + Negotiator",
+                "grind_ar": "متوسطة إلى خشنة · Comandante C40 من 22 إلى 26 كليك",
+                "time_note": "2:50–3:30",
+                "time_note_ar": "من 2:50 إلى 3:30",
+                "scalable": false,
+                "notes": "OREA credits the original DARA recipe to DARA; this is its published two-cup adaptation. The 400 ml heading and 400 g cumulative pours are both retained.",
+                "notes_ar": "تنسب OREA أصل وصفة دارا إلى DARA؛ هذه نسخة الكوبين المنشورة. حُفظ عنوان الماء 400 ml والصبات التراكمية التي تصل إلى 400 g."
+              },
+              "discovery": {
+                "serving_style_evidence": {
+                  "classification": "published",
+                  "basis": "publisher_hot_water_recipe_without_ice_or_chilling_step",
+                  "reviewed_at": "2026-10-11"
+                }
+              }
+            },
+            "steps": [
+              {
+                "title": "Brewer and filter",
+                "title_ar": "الأداة والفلتر",
+                "description": "Use OREA V4 Narrow + OPEN bottom with OREA Flat paper + Negotiator. Add 24 g coffee and use water at 92°C.",
+                "description_ar": "استخدم OREA V4 Narrow + OPEN bottom مع OREA Flat paper + Negotiator. أضف 24 g بن واستخدم ماء عند 92°C.",
+                "step_kind": "other"
+              },
+              {
+                "title": "Pour 1",
+                "title_ar": "الصبة 1",
+                "description": "At 0:00, add 80 g to reach 80 g cumulatively. Pour in a spiral.",
+                "description_ar": "عند 0:00، أضف 80 g ليصل الإجمالي إلى 80 g. صب بشكل حلزوني.",
+                "step_kind": "pour",
+                "start_at_seconds": 0
+              },
+              {
+                "title": "Pour 2",
+                "title_ar": "الصبة 2",
+                "description": "At 0:40, add 100 g to reach 180 g cumulatively. Pour in a spiral.",
+                "description_ar": "عند 0:40، أضف 100 g ليصل الإجمالي إلى 180 g. صب بشكل حلزوني.",
+                "step_kind": "pour",
+                "start_at_seconds": 40
+              },
+              {
+                "title": "Pour 3",
+                "title_ar": "الصبة 3",
+                "description": "At 1:30, add 120 g to reach 300 g cumulatively. Pour in a spiral.",
+                "description_ar": "عند 1:30، أضف 120 g ليصل الإجمالي إلى 300 g. صب بشكل حلزوني.",
+                "step_kind": "pour",
+                "start_at_seconds": 90
+              },
+              {
+                "title": "Pour 4",
+                "title_ar": "الصبة 4",
+                "description": "At 2:20, add 100 g to reach 400 g cumulatively. Pour in a spiral.",
+                "description_ar": "عند 2:20، أضف 100 g ليصل الإجمالي إلى 400 g. صب بشكل حلزوني.",
+                "step_kind": "pour",
+                "start_at_seconds": 140
+              },
+              {
+                "title": "Finish and taste",
+                "title_ar": "نهاية التحضير والتذوق",
+                "description": "The published finish window is 2:50–3:30. Use drainage and taste to guide adjustment; the publisher treats timings as guides.",
+                "description_ar": "نطاق النهاية المنشور 2:50–3:30. راقب التصريف وتذوق لضبط التحضير؛ يقدم المصدر الأوقات كإرشاد.",
+                "step_kind": "drawdown"
+              }
+            ],
+            "pours": [
+              {
+                "water_grams": 80,
+                "start_at_seconds": 0
+              },
+              {
+                "water_grams": 100,
+                "start_at_seconds": 40
+              },
+              {
+                "water_grams": 120,
+                "start_at_seconds": 90
+              },
+              {
+                "water_grams": 100,
+                "start_at_seconds": 140
+              }
+            ],
+            "notes": "Published finish window 2:50–3:30; water/coffee ratio calculated from the timed g pours, not stated by the publisher. No named coffee lot.",
+            "notes_ar": "نطاق النهاية المنشور 2:50–3:30؛ تُحسب نسبة الماء إلى البن من صبات المصدر بالغرام وليست نسبة صرّح بها المصدر. لا يحدد المصدر محصول بن."
+          },
+          {
+            "brew_method": "orea",
+            "recipe_type": "official_manufacturer",
+            "serving_style": "hot",
+            "source_author_name": "OREA",
+            "source_author_name_ar": "أوريا",
+            "dose_grams": 10,
+            "water_grams": 200,
+            "water_temp_c": 96,
+            "total_time_seconds": null,
+            "flavor_notes": [],
+            "flavor_notes_ar": [],
+            "slug": "orea-v3-the-wide",
+            "title": "OREA V3 — THE WIDE",
+            "title_ar": "أوريا V3 — ذا وايد بنسبة واسعة",
+            "water_ml": 200,
+            "time_min_seconds": 210,
+            "time_max_seconds": 270,
+            "grinder_setting": "Fine · Comandante C40 14–17 clicks",
+            "source_url": "https://www.orea.uk/guides-v3",
+            "source_brew_parameters": {
+              "manual": {
+                "equipment": "OREA V3",
+                "filter": "OREA Flat paper + Negotiator",
+                "grind_ar": "ناعمة · Comandante C40 من 14 إلى 17 كليك",
+                "time_note": "3:30–4:30",
+                "time_note_ar": "من 3:30 إلى 4:30",
+                "scalable": false,
+                "notes": "The 200 ml water heading and cumulative pours totaling 200 g are both retained. Published clicks are specific to Comandante C40.",
+                "notes_ar": "حُفظ عنوان الماء 200 ml والصبات الموزونة التي يصل مجموعها إلى 200 g. الكليكات المنشورة خاصة بطاحونة Comandante C40."
+              },
+              "discovery": {
+                "serving_style_evidence": {
+                  "classification": "published",
+                  "basis": "publisher_hot_water_recipe_without_ice_or_chilling_step",
+                  "reviewed_at": "2026-10-11"
+                }
+              }
+            },
+            "steps": [
+              {
+                "title": "Brewer and filter",
+                "title_ar": "الأداة والفلتر",
+                "description": "Use OREA V3 with OREA Flat paper + Negotiator. Add 10 g coffee and use water at 96°C.",
+                "description_ar": "استخدم OREA V3 مع OREA Flat paper + Negotiator. أضف 10 g بن واستخدم ماء عند 96°C.",
+                "step_kind": "other"
+              },
+              {
+                "title": "Pour 1",
+                "title_ar": "الصبة 1",
+                "description": "At 0:00, add 50 g to reach 50 g cumulatively. Pour in a spiral.",
+                "description_ar": "عند 0:00، أضف 50 g ليصل الإجمالي إلى 50 g. صب بشكل حلزوني.",
+                "step_kind": "pour",
+                "start_at_seconds": 0
+              },
+              {
+                "title": "Pour 2",
+                "title_ar": "الصبة 2",
+                "description": "At 1:00, add 75 g to reach 125 g cumulatively. Split the pour between circular and central pouring.",
+                "description_ar": "عند 1:00، أضف 75 g ليصل الإجمالي إلى 125 g. قسّم الصبة بين الصب الدائري والصب في المركز.",
+                "step_kind": "pour",
+                "start_at_seconds": 60
+              },
+              {
+                "title": "Pour 3",
+                "title_ar": "الصبة 3",
+                "description": "At 2:00, add 75 g to reach 200 g cumulatively. Split the pour between circular and central pouring.",
+                "description_ar": "عند 2:00، أضف 75 g ليصل الإجمالي إلى 200 g. قسّم الصبة بين الصب الدائري والصب في المركز.",
+                "step_kind": "pour",
+                "start_at_seconds": 120
+              },
+              {
+                "title": "Finish and taste",
+                "title_ar": "نهاية التحضير والتذوق",
+                "description": "The published finish window is 3:30–4:30. Use drainage and taste to guide adjustment; the publisher treats timings as guides.",
+                "description_ar": "نطاق النهاية المنشور 3:30–4:30. راقب التصريف وتذوق لضبط التحضير؛ يقدم المصدر الأوقات كإرشاد.",
+                "step_kind": "drawdown"
+              }
+            ],
+            "pours": [
+              {
+                "water_grams": 50,
+                "start_at_seconds": 0
+              },
+              {
+                "water_grams": 75,
+                "start_at_seconds": 60
+              },
+              {
+                "water_grams": 75,
+                "start_at_seconds": 120
+              }
+            ],
+            "notes": "Published finish window 3:30–4:30; water/coffee ratio calculated from the timed g pours, not stated by the publisher. No named coffee lot.",
+            "notes_ar": "نطاق النهاية المنشور 3:30–4:30؛ تُحسب نسبة الماء إلى البن من صبات المصدر بالغرام وليست نسبة صرّح بها المصدر. لا يحدد المصدر محصول بن."
+          }
+        ],
+        "excluded": [
+          {
+            "url": "https://www.orea.uk/guides-v3",
+            "reason": "THE ICE shares 18 g coffee / 160 g pours / 140 g ice with the existing V4 OG ICED. No near-duplicate record added."
+          }
+        ]
+      }
+    }
+  ],
+  "photoChecks": [],
+  "corrections": []
+}
