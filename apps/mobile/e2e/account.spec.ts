@@ -101,12 +101,38 @@ test('Google uses PKCE, offers account selection and returns to a signed-in acco
   await page.getByRole('button', { name: 'Continue with Google', exact: true }).click();
   await expect.poll(() => exchange).toBe(true);
   expect(authorization?.searchParams.get('provider')).toBe('google');
-  expect(authorization?.searchParams.get('redirect_to')).toBe('http://127.0.0.1:8088');
+  expect(authorization?.searchParams.get('redirect_to')).toBe('http://127.0.0.1:8088/');
   expect(authorization?.searchParams.get('prompt')).toBe('select_account');
   expect(authorization?.searchParams.get('code_challenge_method')).toBe('s256');
   expect(authorization?.searchParams.get('code_challenge')).toBeTruthy();
+  await expect(page).toHaveURL('http://127.0.0.1:8088/');
   await page.getByRole('button', { name: 'Open account', exact: true }).click();
   await expect(page.getByTestId("account-screen")).toBeVisible();
+});
+
+test('a failed Google callback clears auth details from the address and can be retried', async ({ page }) => {
+  let authorization: URL | undefined;
+  await page.route(project + '/**', route => {
+    const url = new URL(route.request().url());
+    if (url.pathname.endsWith('/settings')) return reply(route, { external: { google: true, apple: false } });
+    if (url.pathname.endsWith('/authorize')) {
+      authorization = url;
+      return route.fulfill({ status: 302, headers: { location: 'http://127.0.0.1:8088/?language=ar#error=access_denied&error_description=cancelled' } });
+    }
+    return reply(route, []);
+  });
+  await page.goto('/?language=ar#access_token=stale&refresh_token=stale');
+  await expect(page).toHaveURL('http://127.0.0.1:8088/?language=ar');
+  await page.getByRole('button', { name: 'فتح حسابي', exact: true }).click();
+  await page.getByRole('button', { name: 'تابع باستخدام Google', exact: true }).click();
+  await expect.poll(() => authorization?.searchParams.get('redirect_to')).toBe('http://127.0.0.1:8088/');
+  const errorDialog = page.getByRole('dialog');
+  await expect(errorDialog).toContainText('تعذّر الدخول. تحقق من البريد وكلمة المرور وتأكيد البريد والاتصال.');
+  await expect(page).toHaveURL('http://127.0.0.1:8088/?language=ar');
+  await errorDialog.getByRole('button', { name: 'إغلاق', exact: true }).click();
+  await expect(errorDialog).toBeHidden();
+  await page.getByRole('button', { name: 'فتح حسابي', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'تابع باستخدام Google', exact: true })).toBeEnabled();
 });
 
 test('a disabled Google provider explains the problem without a broken redirect', async ({ page }) => {
@@ -128,6 +154,7 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup validates befo
     const path = new URL(route.request().url()).pathname;
     if (path.endsWith('/signup')) {
       signups++;
+      expect(new URL(route.request().url()).searchParams.get('redirect_to')).toBe('http://127.0.0.1:8088/');
       expect(route.request().postDataJSON().email).toBe('new@example.test');
       expect(route.request().postDataJSON().data).toMatchObject({ username: 'new_fixture', country: 'KW', phone: '+96550000000', language: ar ? 'ar' : 'en' });
       return reply(route, { user: { ...user, email: 'new@example.test' }, session: null });
@@ -182,7 +209,7 @@ for (const ar of [true, false])
       if (path.endsWith('/recover')) {
         recovery = true;
         expect(url.searchParams.get('redirect_to')).toBe(
-          'http://127.0.0.1:8088',
+          'http://127.0.0.1:8088/',
         );
         expect(route.request().postDataJSON().code_challenge).toBeTruthy();
         return reply(route, {});
@@ -230,6 +257,7 @@ for (const ar of [true, false])
     await expect.poll(() => recovery).toBe(true);
     await page.goto('/?code=isolated_recovery');
     await expect(page.getByTestId('password-recovery')).toBeVisible();
+    await expect(page).toHaveURL('http://127.0.0.1:8088/');
     const password = page.getByLabel(
       ar ? 'كلمة المرور الجديدة' : 'New password',
       { exact: true },

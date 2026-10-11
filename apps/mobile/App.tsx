@@ -223,11 +223,6 @@ function Shell() {
       if (post) { setCommunityPost(post[1]); setTab('community'); setDetail(null); return; }
       const result = await finishOAuth(url);
       if (result === 'recovery') showRecovery();
-      if (result && Platform.OS === 'web') {
-        const clean = new URL(window.location.href);
-        clean.searchParams.delete('code');
-        window.history.replaceState(window.history.state, '', clean.toString());
-      }
     };
     const {
       data: { subscription },
@@ -528,17 +523,17 @@ function Shell() {
   );
   const homeActive = tab === 'home' && !detail && !recording;
   const socialPage = ['account', 'community', 'members', 'memberProfile', 'messages'].includes(tab);
-  const extraLibraryItems: { id: Tab; label: string; icon: IconName }[] = [
+  const extraLibraryItems: { id: Tab; label: string; compactLabel?: string; icon: IconName }[] = [
     {id:'assistant',label:L('خبير القهوة', 'Coffee expert'),icon:'comment'},
     {id:'capsules',label:L('الكبسولات', 'Capsules'),icon:'espresso'},
-    {id:'savedRecipes',label:L('وصفاتي المحفوظة', 'Saved recipes'),icon:'heart'},
-    {id:'favorites',label:L('البن المحفوظ', 'Saved coffees'),icon:'bean'},
-    {id:'addRecipe',label:L('إضافة وصفة', 'Add recipe'),icon:'plus'},
-    {id:'addBean',label:L('إضافة بن', 'Add coffee'),icon:'plus'},
-    {id:'myRecipes',label:L('وصفاتي المضافة', 'My recipes'),icon:'espresso'},
-    {id:'myEquipment',label:L('معداتـي', 'My equipment'),icon:'gear'},
+    {id:'savedRecipes',label:L('وصفاتي المحفوظة', 'Saved recipes'),compactLabel:L('وصفات محفوظة', 'Saved recipes', '保存レシピ'),icon:'heart'},
+    {id:'favorites',label:L('البن المحفوظ', 'Saved coffees'),compactLabel:L('بن محفوظ', 'Saved coffee', '保存コーヒー'),icon:'bean'},
+    {id:'addRecipe',label:L('إضافة وصفة', 'Add recipe'),compactLabel:L('أضف وصفة', 'Add recipe'),icon:'plus'},
+    {id:'addBean',label:L('إضافة بن', 'Add coffee'),compactLabel:L('أضف بن', 'Add coffee'),icon:'plus'},
+    {id:'myRecipes',label:L('وصفاتي المضافة', 'My recipes'),compactLabel:L('وصفاتي', 'My recipes'),icon:'espresso'},
+    {id:'myEquipment',label:L('معداتـي', 'My equipment'),compactLabel:L('معداتـي', 'My equipment', '自分の器具'),icon:'gear'},
     {id:'bags',label:L('أكياسي', 'My bags'),icon:'bean'},
-    {id:'roastLab',label:L('مختبر التحميص', 'Roast Lab'),icon:'temp'},
+    {id:'roastLab',label:L('مختبر التحميص', 'Roast Lab'),compactLabel:L('التحميص', 'Roast Lab'),icon:'temp'},
   ];
   const openLibraryItem = (id: string) => {
     setLibraryMenu(false);
@@ -567,11 +562,11 @@ function Shell() {
     <>
       {!login && !detail && configured ? (
         <View style={s.libraryNav}>
-          <TabRail compact wrap variant="pills" testID="library-navigation" value={tab}
+          <TabRail compact wrap columns={width >= 900 ? 7 : width >= 600 ? 5 : 4} variant="pills" testID="library-navigation" value={tab}
             items={[
-              { id: 'beans', label: L('البن والإيحاءات', 'Coffee & taste'), icon: 'bean' },
-              { id: 'recipes', label: L('مكتبة الوصفات', 'Recipe library'), icon: 'espresso' },
-              { id: 'equipment', label: L('أدوات القهوة', 'Equipment'), icon: 'gear' },
+              { id: 'beans', label: L('البن والإيحاءات', 'Coffee & taste'), compactLabel: L('البن', 'Coffee'), icon: 'bean' },
+              { id: 'recipes', label: L('مكتبة الوصفات', 'Recipe library'), compactLabel: L('الوصفات', 'Recipes'), icon: 'espresso' },
+              { id: 'equipment', label: L('أدوات القهوة', 'Equipment'), compactLabel: L('الأدوات', 'Equipment'), icon: 'gear' },
               { id: 'roasters', label: L('المحامص', 'Roasteries'), icon: 'espresso' },
               ...extraLibraryItems,
             ]}
@@ -582,18 +577,22 @@ function Shell() {
         <View
           testID="catalog-connection-status"
           style={{
-            paddingHorizontal: 18,
-            paddingVertical: 8,
+            paddingHorizontal: 12,
+            paddingVertical: 6,
             maxWidth: 1120,
             width: '100%',
             alignSelf: 'center',
             backgroundColor: '#F3E7D5',
-            gap: 5,
+            flexDirection: ar ? 'row-reverse' : 'row',
+            alignItems: 'center',
+            gap: 10,
           }}
         >
-          <Txt style={{ fontSize: 12, lineHeight: 19 }}>
+          <Txt style={{ flex: 1, minWidth: 0, fontSize: 11, lineHeight: 17 }}>
             {data?.savedAt
-              ? (L('آخر بيانات متاحة: ', 'Last available data: ')) +
+              ? (data.stale && data.limited
+                  ? L('نسخة محفوظة جزئية: ', 'Partial saved copy: ', '保存済みの一部データ: ')
+                  : L('آخر بيانات متاحة: ', 'Last available data: ')) +
                 new Date(data.savedAt).toLocaleString(locale + '-u-nu-latn')
               : t.partial}
             {data?.savedAt
@@ -604,6 +603,7 @@ function Shell() {
           </Txt>
           {!refreshing ? (
             <Action
+              compact
               title={L('إعادة الاتصال', 'Reconnect')}
               onPress={refresh}
             />
@@ -655,7 +655,7 @@ function Shell() {
         {!login ? (
           <View
             testID="app-header"
-            style={[s.header, width < 360 && { paddingHorizontal: 10 }]}
+            style={[s.header, width < 600 && { height: 56, paddingVertical: 4 }, width < 360 && { paddingHorizontal: 10 }]}
           >
             {detail ? (
               <>
@@ -712,7 +712,7 @@ function Shell() {
             )}
           </View>
         ) : null}
-        {!homeActive && tab !== 'assistant' && !socialPage ? screenIntro : null}
+        {!homeActive && !['beans', 'favorites', 'recipes', 'search', 'assistant'].includes(tab) && !socialPage ? screenIntro : null}
         <ScreenTransition
           key={
             recording ? 'record' : detail ? detail.type + detail.item.id : tab
@@ -843,6 +843,7 @@ function Shell() {
                 />
               ) : tab === 'search' ? (
                 <SearchScreen
+                  intro={screenIntro}
                   initialState={recipeMemory.current.get(recipeMemoryKey)}
                   remember={state => { recipeMemory.current.set(recipeMemoryKey, state); }}
                                     coffees={data?.coffees ?? []}
@@ -863,6 +864,7 @@ function Shell() {
                 />
               ) : tab === 'recipes' ? (
                 <SearchScreen key={recipeEntry + (recipeCoffee?.id ?? '')}
+                  intro={screenIntro}
                   initialState={recipeMemory.current.get(recipeMemoryKey)}
                   remember={state => { recipeMemory.current.set(recipeMemoryKey, state); }}
                   coffees={data?.coffees??[]} savedIds={savedIds} saveCoffee={item=>void saveCoffee(item)}
@@ -969,6 +971,7 @@ function Shell() {
                   onRefresh={refresh}
                   ListHeaderComponent={
                     <View style={{ gap: 16, marginBottom: 4 }}>
+                      <View style={{ marginHorizontal: -18, marginTop: -12 }}>{screenIntro}</View>
                       <Txt heading style={styles.title}>
                         {tab === 'favorites'
                           ? L('البن المحفوظ', 'Saved coffees')
@@ -1143,9 +1146,9 @@ const s = StyleSheet.create({
     minHeight: 48,
     flexGrow: 0,
     flexShrink: 0,
-    paddingHorizontal: 18,
-    paddingTop: 4,
-    paddingBottom: 10,
+    paddingHorizontal: 12,
+    paddingTop: 2,
+    paddingBottom: 8,
   },
   headerActions: {
     flexDirection: 'row',

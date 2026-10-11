@@ -140,6 +140,14 @@ the successful deployment to production using the project's `production`
 environment. It checks the Expo identity and exact Supabase project before
 installing dependencies, and verifies the installed security backports.
 
+Version **0.5.30** also has a dedicated `.eas/workflows/release-0.5.30.yml`
+workflow for the exact Git tag `release-0.5.30`. After the release PR passes,
+merge it, wait for both GitHub quality workflows on the merged commit, then push
+that tag pointing to the same checked commit. The tag publishes web and builds a
+new production iOS archive, then submits that exact build to TestFlight. It does
+not run on branch pushes. Manual web deployment and selected-build submission
+retain their separate workflows. See [the 0.5.30 release procedure](docs/RELEASE-0.5.30.md#release-procedure).
+
 Only `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` are
 needed for the public client; never place a service-role or secret key in an
 `EXPO_PUBLIC_*` variable. Register the verified web origin's auth callback URL
@@ -147,6 +155,11 @@ in the BeanMora Supabase Auth URL configuration before relying on web OAuth,
 email confirmation, or password recovery. The Next.js app at the repository
 root remains available for local development; its presence does not establish
 a separate production deployment.
+
+The observed production web auth redirect still falls back to localhost until
+the [Supabase URL settings](docs/AUTH-REDIRECT-CONFIGURATION.md) are corrected.
+Google consent branding also remains an external configuration task; publishing
+the app does not apply either setting.
 
 For iOS, use the `production` build and submit profiles in `apps/mobile/eas.json`
 (bundle `com.beanmora.mobile`, App Store Connect app `6819935215`). A successful

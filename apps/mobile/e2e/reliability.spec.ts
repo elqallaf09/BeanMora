@@ -130,7 +130,11 @@ test('a superseded serving request cannot overwrite the latest choice', async ({
   } finally { release(); }
 });
 
-test('last-good catalog opens offline and a successful empty reconnect removes old records', async ({ page }) => {
+for (const idleCallbacks of [true, false]) test(`last-good catalog opens offline and a successful empty reconnect removes old records (idle API: ${idleCallbacks})`, async ({ page }) => {
+  if (!idleCallbacks) await page.addInitScript(() => {
+    Object.defineProperty(window, 'requestIdleCallback', { configurable: true, value: undefined });
+    Object.defineProperty(window, 'cancelIdleCallback', { configurable: true, value: undefined });
+  });
   let phase: 'online' | 'offline' | 'empty' = 'online';
   await page.route('https://mobilefixture.supabase.co/**', route => {
     const path = new URL(route.request().url()).pathname;
@@ -140,6 +144,7 @@ test('last-good catalog opens offline and a successful empty reconnect removes o
   await page.goto('/');
   await expect(page.getByRole('button', { name: bean.name_ar, exact: true })).toBeVisible();
   await expect.poll(() => page.evaluate(() => Object.keys(localStorage).filter(k => k.startsWith('beanmora-public-catalog-v2:')).length)).toBe(1);
+  await expect(page.getByTestId('catalog-connection-status')).toHaveCount(0);
   phase = 'offline'; await page.reload();
   await expect(page.getByRole('button', { name: bean.name_ar, exact: true })).toBeVisible();
   await expect(page.getByTestId('catalog-connection-status')).toContainText('آخر بيانات متاحة');
@@ -147,6 +152,47 @@ test('last-good catalog opens offline and a successful empty reconnect removes o
   phase = 'empty'; await page.getByRole('button', { name: 'إعادة الاتصال', exact: true }).click();
   await expect(page.getByTestId('catalog-connection-status')).toHaveCount(0);
   await expect(page.getByRole('button', { name: bean.name_ar, exact: true })).toHaveCount(0);
+});
+
+test('a device storage failure does not report a catalog connection failure', async ({ page }) => {
+  await page.addInitScript(() => {
+    const original = Storage.prototype.setItem;
+    const state = window as unknown as { catalogSaveAttempts: number };
+    state.catalogSaveAttempts = 0;
+    Storage.prototype.setItem = function (key, value) {
+      if (key.startsWith('beanmora-public-catalog-v2:')) {
+        state.catalogSaveAttempts += 1;
+        throw new DOMException('Storage full', 'QuotaExceededError');
+      }
+      return original.call(this, key, value);
+    };
+  });
+  await page.route('https://mobilefixture.supabase.co/**', route => {
+    const path = new URL(route.request().url()).pathname;
+    return reply(route, path.endsWith('/beans') ? [bean] : path.endsWith('/recipes') ? [records[0]] : []);
+  });
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/');
+  await expect(page.getByRole('button', { name: bean.name_ar, exact: true })).toBeVisible();
+  await expect.poll(() => page.evaluate(() => (window as unknown as { catalogSaveAttempts: number }).catalogSaveAttempts)).toBeGreaterThan(0);
+  await expect(page.getByTestId('catalog-connection-status')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
+test('a successful reconnect clears catalog failure when only optional device profiles are unavailable', async ({ page }) => {
+  let recovered = false;
+  await page.route('https://mobilefixture.supabase.co/**', route => {
+    const path = new URL(route.request().url()).pathname;
+    if (!recovered || path.endsWith('/xbloom_recipe_profiles')) return reply(route, { message: 'Isolated endpoint outage' }, 503);
+    return reply(route, path.endsWith('/beans') ? [bean] : path.endsWith('/recipes') ? [records[0]] : []);
+  });
+  await page.goto('/');
+  await expect(page.getByRole('button', { name: 'إعادة الاتصال', exact: true })).toBeVisible();
+  recovered = true;
+  await page.getByRole('button', { name: 'إعادة الاتصال', exact: true }).click();
+  await expect(page.getByRole('button', { name: bean.name_ar, exact: true })).toBeVisible();
+  await expect(page.getByTestId('catalog-connection-status')).toHaveCount(0);
 });
 
 test('saved recipe amounts and steps survive a reload and failed network, then can be removed', async ({ page }, info) => {

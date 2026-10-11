@@ -41,6 +41,7 @@ for (const file of [
 }
 const {
   emptyRecipeFilters,
+  restoreRecipeFilters,
   recipeFilterCount,
   recipeSearchParams,
   recipePageQuery,
@@ -56,7 +57,7 @@ const search = (filters = {}) => ({
   filters: { ...emptyRecipeFilters(), ...filters },
 });
 
-test('all discovery fields become independent bound parameters without filter-string interpolation', () => {
+test('visible discovery fields become independent bound parameters without filter-string interpolation', () => {
   const criteria = search({
     flavorNote: 'orange blossom',
     flavorFamily: 'floral',
@@ -89,7 +90,7 @@ test('all discovery fields become independent bound parameters without filter-st
     p_coffee_name: 'Coffee_1',
     p_coffee_origin: 'Kenya',
     p_roaster_name: 'Roaster, Inc.',
-    p_source_name: 'source.example/guide',
+    p_source_name: null,
   });
 });
 
@@ -106,20 +107,27 @@ test('trims and bounds input without stripping Arabic, accents, or literal punct
   assert.equal(recipeSearchParams(criteria).p_query.length, 160);
 });
 
-test('preserves method and official/community filters; xBloom model cannot restrict another method', () => {
+test('general discovery ignores removed source and model restrictions from an older state', () => {
   const criteria = {
     ...search(),
     method: 'xbloom',
     source: 'official',
     model: 'Studio',
   };
-  assert.equal(recipeSearchParams(criteria).p_model, 'Studio');
-  assert.equal(recipeSearchParams(criteria).p_source, 'official');
+  assert.equal(recipeSearchParams(criteria).p_model, null);
+  assert.equal(recipeSearchParams(criteria).p_source, null);
   criteria.method = 'chemex';
   criteria.source = 'community';
   assert.equal(recipeSearchParams(criteria).p_model, null);
   assert.equal(recipeSearchParams(criteria).p_method, 'chemex');
-  assert.equal(recipeSearchParams(criteria).p_source, 'community');
+  assert.equal(recipeSearchParams(criteria).p_source, null);
+  criteria.filters.sourceName = 'old-source.example';
+  assert.equal(recipeSearchParams(criteria).p_source_name, null);
+  const restored = restoreRecipeFilters(criteria.filters);
+  assert.equal(Object.hasOwn(restored, 'sourceName'), false);
+  assert.equal(recipeFilterCount(criteria.filters), 0);
+  assert.equal(recipeSearchCriterionCount(criteria), 0);
+  assert.deepEqual(restored, emptyRecipeFilters());
 });
 
 test('filter count ignores blank fields and reset objects are independent', () => {
@@ -400,21 +408,25 @@ test('exact combined results win and do not invoke relaxed search', async () => 
   assert.equal(recipeSearchCriterionCount(criteria),4);
 });
 
-test('an empty exact search loads explained near matches in server rank order and preserves all fixed choices',async()=>{
+test('an empty exact search ranks explained near matches across every source and model while retaining brew and coffee choices',async()=>{
   const requests=[];const controller=new AbortController();
   const db=database(async (url,init)=>{
     const path=new URL(url).pathname;requests.push({url:new URL(url),init});
     const data=path.endsWith('/search_public_recipe_near_matches') ? [
-      {recipe_id:'higher',matched:[{field:'coffeeOrigin',value:'كولومبيا'},{field:'flavorNote',value:'كرز'}],missing:[{field:'roasterName',value:'Missing'}],total_count:61},
+      {recipe_id:'higher',matched:[{field:'coffeeOrigin',value:'كولومبيا'},{field:'flavorNote',value:'كرز'},{field:'sourceName',value:'Retired source'}],missing:[{field:'roasterName',value:'Missing'}],total_count:61},
       {recipe_id:'lower',matched:[{field:'coffeeOrigin',value:'كولومبيا'}],missing:[{field:'flavorNote',value:'كرز'},{field:'roasterName',value:'Missing'}],total_count:61},
     ] : path.endsWith('/recipes') ? [{id:'lower',title:'Lower'},{id:'higher',title:'Higher'}] : [];
     return new Response(JSON.stringify(data),{headers:{'content-type':'application/json','content-range':'*/0'}});
   });
-  const criteria={...search({coffeeOrigin:'كولومبيا',roasterName:'Missing',flavorNote:'كرز',servingStyle:'hot'}),method:'xbloom',model:'Studio',source:'official',coffee:{kind:'bean',id:'scoped'}};
+  const criteria={...search({coffeeOrigin:'كولومبيا',roasterName:'Missing',flavorNote:'كرز',servingStyle:'hot',sourceName:'Retired source'}),method:'xbloom',model:'Studio',source:'official',coffee:{kind:'bean',id:'scoped'}};
   const result=await recipeCatalogPage(db,criteria,0,'id,title',controller.signal);
   assert.equal(result.near,true);assert.equal(result.count,61);assert.deepEqual(result.data.map(r=>r.id),['higher','lower']);
   assert.deepEqual(result.matches.higher.missing,[{field:'roasterName',value:'Missing'}]);
+  assert.deepEqual(result.matches.higher.matched,[{field:'coffeeOrigin',value:'كولومبيا'},{field:'flavorNote',value:'كرز'}]);
   assert.deepEqual(JSON.parse(requests[1].init.body),{...recipeSearchParams(criteria),p_limit:30,p_offset:0});
+  const nearParams=JSON.parse(requests[1].init.body);
+  assert.equal(nearParams.p_source,null);assert.equal(nearParams.p_model,null);assert.equal(nearParams.p_source_name,null);
+  assert.equal(nearParams.p_method,'xbloom');assert.equal(nearParams.p_serving_style,'hot');assert.equal(nearParams.p_bean_id,'scoped');
   assert.equal(requests[2].url.searchParams.get('visibility'),'eq.public');
   assert.equal(requests[2].init.signal,controller.signal);
   const later=await recipeCatalogPage(db,criteria,1,'id,title',controller.signal,30,true);
@@ -423,7 +435,7 @@ test('an empty exact search loads explained near matches in server rank order an
 
 test('errors and single unknown criteria never turn into unrelated suggestions',async()=>{
   const requests=[];const db=database(async(url)=>{requests.push(new URL(url).pathname);return new Response('[]',{headers:{'content-type':'application/json','content-range':'*/0'}});});
-  const result=await recipeCatalogPage(db,search({roasterName:'Unknown'}),0,'id',new AbortController().signal);
+  const result=await recipeCatalogPage(db,search({roasterName:'Unknown',sourceName:'Retired source'}),0,'id',new AbortController().signal);
   assert.equal(result.near,false);assert.equal(requests.length,1);
   const failed=database(async()=>new Response('{"message":"Unavailable"}',{status:503,headers:{'content-type':'application/json'}}));
   const error=await recipeCatalogPage(failed,search({coffeeOrigin:'Colombia',roasterName:'Missing'}),0,'id',new AbortController().signal);

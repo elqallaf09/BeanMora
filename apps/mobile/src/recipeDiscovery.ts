@@ -6,7 +6,6 @@ import { safeUrl } from './guards';
 export const RECIPE_PAGE_SIZE = 30;
 export const RECIPE_DISCOVERY_FIELDS =
   'serving_style,source_coffee_name,source_roaster_name,source_origin_country,source_varietal,source_tasting_notes';
-export type RecipeSourceFilter = 'all' | 'official' | 'community';
 export type ServingStyle = '' | 'hot' | 'iced' | 'cold';
 export type ServingFilter = ServingStyle | 'cold_or_iced';
 export interface RecipeDiscoveryFilters {
@@ -21,7 +20,6 @@ export interface RecipeDiscoveryFilters {
   coffeeName: string;
   coffeeOrigin: string;
   roasterName: string;
-  sourceName: string;
 }
 export const emptyRecipeFilters = (): RecipeDiscoveryFilters => ({
   flavorNote: '',
@@ -35,17 +33,22 @@ export const emptyRecipeFilters = (): RecipeDiscoveryFilters => ({
   coffeeName: '',
   coffeeOrigin: '',
   roasterName: '',
-  sourceName: '',
 });
+export function restoreRecipeFilters(saved?: Partial<RecipeDiscoveryFilters>): RecipeDiscoveryFilters {
+  // Only current, visible criteria survive a remembered search. Older clients
+  // also stored a source-name restriction that must no longer narrow results.
+  return Object.fromEntries(Object.entries(emptyRecipeFilters()).map(([key, fallback]) => {
+    const value = saved?.[key as keyof RecipeDiscoveryFilters];
+    return [key, typeof value === 'string' ? value : fallback];
+  })) as unknown as RecipeDiscoveryFilters;
+}
 export function recipeFilterCount(filters: RecipeDiscoveryFilters): number {
-  return Object.values(filters).filter((value) => value.trim().length > 0)
+  return Object.values(restoreRecipeFilters(filters)).filter((value) => value.trim().length > 0)
     .length;
 }
 export interface RecipeSearch {
   query: string;
   method?: Method;
-  source: RecipeSourceFilter;
-  model: string;
   filters: RecipeDiscoveryFilters;
   coffee?: { kind: 'bean' | 'product'; id: string };
 }
@@ -64,11 +67,10 @@ export function recipeSearchParams(search: RecipeSearch) {
       : {}),
     p_query: parameter(search.query),
     p_method: parameter(search.method),
-    p_source: search.source === 'all' ? null : search.source,
-    p_model:
-      search.method === 'xbloom' && search.model !== 'all'
-        ? parameter(search.model)
-        : null,
+    // General recipe discovery includes every public source and machine model,
+    // including when an older screen state still carries removed restrictions.
+    p_source: null,
+    p_model: null,
     p_flavor_note: parameter(f.flavorNote),
     p_flavor_family: parameter(f.flavorFamily),
     p_creator_name: parameter(f.creatorName),
@@ -80,7 +82,7 @@ export function recipeSearchParams(search: RecipeSearch) {
     p_coffee_name: parameter(f.coffeeName),
     p_coffee_origin: parameter(f.coffeeOrigin),
     p_roaster_name: parameter(f.roasterName),
-    p_source_name: parameter(f.sourceName),
+    p_source_name: null,
   };
 }
 function selectWithRecipeSortKeys(fields: string): string {
@@ -141,7 +143,7 @@ export const recipeFilterLabels: Record<RecipeCriterion['field'], readonly [stri
   creatorName: ['صانع الوصفة','Creator'], creatorCountry: ['بلد الصانع','Creator country'],
   recipeCountry: ['منشأ الوصفة','Recipe origin'], recipeName: ['اسم الوصفة','Recipe name'],
   servingStyle: ['التقديم','Serving'], coffeeType: ['السلالة','Variety'], coffeeName: ['البن','Coffee'],
-  coffeeOrigin: ['منشأ البن','Coffee origin'], roasterName: ['المحمصة','Roaster'], sourceName: ['المصدر','Source'],
+  coffeeOrigin: ['منشأ البن','Coffee origin'], roasterName: ['المحمصة','Roaster'],
 };
 export function recipeCriterionLabel(criterion: RecipeCriterion, ar: boolean): string {
   const values: Record<string, readonly [string,string]> = {
@@ -162,7 +164,7 @@ function nearMatchCriteria(value: unknown): RecipeCriterion[] {
 }
 export function recipeSearchCriterionCount(search: RecipeSearch): number {
   return search.query.trim().split(/[\s,،;؛]+/).filter(Boolean).length
-    + Object.entries(search.filters).reduce((count,[key,value]) => count + (key === 'servingStyle' ? 0
+    + Object.entries(restoreRecipeFilters(search.filters)).reduce((count,[key,value]) => count + (key === 'servingStyle' ? 0
       : key === 'flavorNote' ? value.split(/[,،;؛]+/).filter((v:string)=>v.trim()).length : value.trim() ? 1 : 0),0);
 }
 /** Exact public results always win; only an empty successful search can relax text facts. */

@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { setLanguage } from "./settings";
 
 const png = Buffer.from(
   "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/b1sAAAAASUVORK5CYII=",
@@ -86,6 +87,21 @@ for (const width of [320, 1536])
     await expect(
       nav.getByRole("button", { name: "المزيد", exact: true }),
     ).toHaveCount(0);
+    await expect(nav.getByRole("button")).toHaveCount(14);
+    const navigationSize = () => nav.getByRole("button").evaluateAll(nodes => {
+      const boxes = nodes.map(node => node.getBoundingClientRect());
+      return {
+        rows: new Set(boxes.map(box => Math.round(box.y))).size,
+        minWidth: Math.min(...boxes.map(box => box.width)),
+        minHeight: Math.min(...boxes.map(box => box.height)),
+        height: Math.max(...boxes.map(box => box.bottom)) - Math.min(...boxes.map(box => box.top)),
+      };
+    });
+    await expect.poll(async () => (await navigationSize()).rows).toBe(width < 600 ? 4 : 2);
+    const navSize = await navigationSize();
+    expect(navSize.minWidth).toBeGreaterThanOrEqual(44);
+    expect(navSize.minHeight).toBeGreaterThanOrEqual(44);
+    expect(navSize.height).toBeLessThanOrEqual(width < 600 ? 194 : 94);
     const picker = page.getByTestId("method-picker");
     const all = picker.getByRole("button", { name: "الكل", exact: true }),
       arrow = picker.getByRole("button", { name: /^كل طرق التحضير/ });
@@ -141,4 +157,22 @@ for (const width of [320, 1536])
     await expect(page.getByRole("button", { name: /^بن مختار/ })).toHaveCount(
       8,
     );
+    if (width === 320) {
+      await setLanguage(page, 'en');
+      await expect(nav.getByRole('button', { name: 'Coffee expert', exact: true })).toBeVisible();
+      await expect(nav.getByRole('button')).toHaveCount(14);
+      await expect.poll(async () => (await navigationSize()).rows).toBe(4);
+      expect((await navigationSize()).height).toBeLessThanOrEqual(194);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      // The clock is paused for pick rotation; finish the 190 ms screen entrance before capturing it.
+      await page.clock.runFor(250);
+      await expect.poll(() => nav.evaluate(node => {
+        for (let current: Element | null = node; current; current = current.parentElement) {
+          if (Number(getComputedStyle(current).opacity) < 1) return false;
+        }
+        return true;
+      })).toBe(true);
+      await expect(page.getByRole('button', { name: 'Coffee pick 0', exact: true })).toBeInViewport();
+      await page.screenshot({ path: info.outputPath('compact-coffees-english.png') });
+    }
   });

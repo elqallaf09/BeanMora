@@ -1,8 +1,8 @@
 import { useContext, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
-import { Platform, Pressable, View } from "./native";
+import { Pressable, View } from "./native";
 import { supabase } from "./client";
-import { nativeAuthRedirect } from "./oauthCallback";
+import { getAuthRedirect } from "./oauthCallback";
 import { useLabels, Action, Field, Icon, Language, Txt, colors, styles } from "./ui";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -34,8 +34,6 @@ export function AccountSecurity({
   const hasEmailPassword =
     session.user.app_metadata.provider === "email" ||
     session.user.identities?.some((i) => i.provider === "email");
-  const redirect =
-    Platform.OS === "web" ? window.location.origin : nativeAuthRedirect;
 
   const toggle = (next: "email" | "password") => {
     if (busy) return;
@@ -110,7 +108,7 @@ export function AccountSecurity({
         throw new Error("ACCOUNT_MISMATCH");
       const { error } = await supabase!.auth.updateUser(
         { email: next },
-        { emailRedirectTo: redirect },
+        { emailRedirectTo: getAuthRedirect() },
       );
       if (error) throw error;
       setRequestedEmail(next);
@@ -361,7 +359,7 @@ export function AccountSecurity({
               void request(async () => {
                 const { error } = await supabase!.auth.resetPasswordForEmail(
                   currentEmail,
-                  { redirectTo: redirect },
+                  { redirectTo: getAuthRedirect() },
                 );
                 if (error) throw error;
                 setCurrent("");

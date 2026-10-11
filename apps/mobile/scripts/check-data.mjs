@@ -76,7 +76,7 @@ const { recipeQuickFacts } = await import(
 const { isGeneralBrewGuide } = await import(
   pathToFileURL(temp + '/brewStarter.mjs').href
 );
-const { encodeCatalog, decodeCatalog, mergeCatalog, CACHE_MAX_AGE, storageFits } = await import(pathToFileURL(temp + '/catalogCache.mjs').href);
+const { encodeCatalog, decodeCatalog, mergeCatalog, CACHE_MAX_AGE, storageFits, catalogReadFailed, scheduleCatalogSave } = await import(pathToFileURL(temp + '/catalogCache.mjs').href);
 function database(tables) {
   return {
     from(name) {
@@ -670,6 +670,41 @@ test('public cache rejects a different project, language, future timestamp, expi
     assert.equal(decodeCatalog(corrupt, 'project-a', 'en', 1001), null);
   }
 });
+test('an oversized public catalog saves complete records within budget and discloses its offline subset', async () => {
+  const bundle = await loadData(database({ beans: [base] }), 'ar', null);
+  const recipe = mapRecipe({
+    id: 'large-recipe', title: 'Published brewing guide', title_ar: 'وصفة تحضير موثقة',
+    brew_method: 'v60', visibility: 'public', flavor_notes: [],
+    dose_grams: 18, water_grams: 288, water_temp_c: 94,
+    notes: 'Published detailed instructions. '.repeat(400), notes_ar: 'تعليمات التحضير المنشورة. '.repeat(400),
+    steps: [{ step_number: 1, title: 'Pour', title_ar: 'الصب', description: 'Pour 288 g.', description_ar: 'صب 288 غ.' }],
+    pours: [{ pour_number: 1, water_grams: 288, start_at_seconds: 0, is_bloom: false }],
+    equipment: [], sources: [{ source_url: 'https://publisher.example/recipe', source_name: 'Publisher', data_confidence: 'official' }],
+  }, 'ar');
+  bundle.recipes = Array.from({ length: 40 }, (_, i) => ({ ...recipe, id: `recipe-${i}` }));
+  bundle.recipeTotal = 3500;
+  bundle.limited = false;
+  bundle.savedBeanIds = ['private-saved-id'];
+  const original = JSON.stringify(bundle);
+  const originalJson = JSON.parse(original);
+  const encoded = encodeCatalog(bundle, 'project-a', 'ar', 1000);
+  assert.ok(encoded);
+  assert.equal(storageFits(encoded), true);
+  assert.equal(encoded.includes('private-saved-id'), false);
+  const restored = decodeCatalog(encoded, 'project-a', 'ar', 1001).data;
+  assert.equal(restored.limited, true);
+  assert.equal(restored.recipeTotal, 3500);
+  assert.deepEqual(restored.coffees, originalJson.coffees);
+  assert.ok(restored.recipes.length > 0 && restored.recipes.length < bundle.recipes.length);
+  for (const cached of restored.recipes) {
+    assert.deepEqual(cached, originalJson.recipes.find(row => row.id === cached.id));
+    assert.equal(cached.localeContent.ar.title, recipe.title);
+    assert.equal(cached.localeContent.en.title, 'Published brewing guide');
+    assert.equal(cached.sources[0].url, 'https://publisher.example/recipe');
+    assert.equal(cached.pours[0].grams, 288);
+  }
+  assert.equal(JSON.stringify(bundle), original);
+});
 test('failed public sections retain last-good data; successful empty reads remove old rows', async () => {
   const old = await loadData(database({ beans: [base] }), 'en', null);
   const empty = await loadData(database({}), 'en', null);
@@ -678,6 +713,83 @@ test('failed public sections retain last-good data; successful empty reads remov
   assert.equal(encodeCatalog(partial, 'project', 'en', Date.now()), null);
   assert.deepEqual(mergeCatalog(empty, old).coffees, []);
   assert.deepEqual(mergeCatalog(empty, old).recipes, []);
+});
+
+test('retained partial-cache sections remain labelled partial until complete live reads replace them', async () => {
+  const old = await loadData(database({ beans: [base] }), 'en', null);
+  old.limited = true;
+  const cache = decodeCatalog(encodeCatalog(old, 'project-a', 'en', 1000), 'project-a', 'en', 1001).data;
+  const empty = await loadData(database({}), 'en', null);
+  for (const section of ['beans', 'products', 'recipes']) {
+    const failed = { ...empty, warnings: true, failures: { ...empty.failures, [section]: true } };
+    assert.equal(failed.limited, false);
+    assert.equal(mergeCatalog(failed, cache).limited, true);
+  }
+  const replaced = mergeCatalog(empty, cache);
+  assert.equal(replaced.limited, false);
+  assert.deepEqual(replaced.coffees, []);
+  assert.deepEqual(replaced.recipes, []);
+  for (const section of ['profiles', 'personal'])
+    assert.equal(mergeCatalog({ ...empty, failures: { ...empty.failures, [section]: true } }, cache).limited, false);
+  assert.equal(mergeCatalog({ ...empty, limited: true }, old).limited, true);
+});
+
+test('optional device-profile failures keep fresh catalog rows without replacing the last complete disk snapshot', async () => {
+  const fresh = await loadData(database({ beans: [base] }), 'en', null);
+  const optionalFailure = { ...fresh, warnings: true, failures: { ...fresh.failures, profiles: true } };
+  assert.equal(catalogReadFailed(optionalFailure), false);
+  assert.equal(optionalFailure.warnings, true);
+  assert.equal(mergeCatalog(optionalFailure, null).coffees[0].id, base.id);
+  assert.equal(encodeCatalog(optionalFailure, 'project', 'en', Date.now()), null);
+  for (const section of ['beans', 'products', 'recipes'])
+    assert.equal(catalogReadFailed({ ...fresh, failures: { ...fresh.failures, [section]: true } }), true);
+  assert.equal(catalogReadFailed({ ...fresh, failures: { ...fresh.failures, personal: true } }), false);
+});
+
+function idleApi(context, request, cancel) {
+  for (const [key, value] of [['requestIdleCallback', request], ['cancelIdleCallback', cancel]]) {
+    const descriptor = Object.getOwnPropertyDescriptor(globalThis, key);
+    Object.defineProperty(globalThis, key, { configurable: true, writable: true, value });
+    context.after(() => {
+      if (descriptor) Object.defineProperty(globalThis, key, descriptor);
+      else delete globalThis[key];
+    });
+  }
+}
+
+test('catalog persistence works without idle APIs and cancellation prevents an obsolete save', async context => {
+  idleApi(context, undefined, undefined);
+  context.mock.timers.enable({ apis: ['setTimeout'] });
+  let writes = 0;
+  scheduleCatalogSave(() => { writes += 1; });
+  const cancel = scheduleCatalogSave(() => { writes += 10; });
+  cancel();
+  assert.equal(writes, 0);
+  context.mock.timers.tick(0);
+  await Promise.resolve();
+  assert.equal(writes, 1);
+});
+
+test('idle catalog persistence has a deadline and isolates thrown and rejected storage errors', async context => {
+  const tasks = [];
+  const cancelled = [];
+  idleApi(context, (run, options) => {
+    assert.equal(options.timeout, 1000);
+    tasks.push(run);
+    return tasks.length;
+  }, id => cancelled.push(id));
+  let writes = 0;
+  const cancel = scheduleCatalogSave(() => { writes += 1; });
+  cancel();
+  tasks[0]();
+  scheduleCatalogSave(() => { writes += 1; throw new Error('Storage full'); });
+  scheduleCatalogSave(() => { writes += 1; return Promise.reject(new Error('Storage unavailable')); });
+  tasks[1]();
+  tasks[2]();
+  await Promise.resolve();
+  await Promise.resolve();
+  assert.deepEqual(cancelled, [1]);
+  assert.equal(writes, 2);
 });
 
 test('device storage budgets count Arabic and emoji UTF-8 bytes, not only character count', () => {

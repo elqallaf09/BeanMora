@@ -1,5 +1,5 @@
 import { contentLocale } from './localeText';
-import { modelLabel, catalogName } from './localizedContent';
+import { catalogName } from './localizedContent';
 import { useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import {
   ActivityIndicator,
@@ -33,6 +33,7 @@ import {
   emptyRecipeFilters,
   readRecipeDiscovery,
   recipeFilterCount,
+  restoreRecipeFilters,
   recipeCatalogPage,
   recipeCriterionLabel,
   RECIPE_DISCOVERY_FIELDS,
@@ -40,43 +41,12 @@ import {
   type RecipeDiscovery,
   type RecipeDiscoveryFilters,
   type RecipeDiscoveryRow,
-  type RecipeSourceFilter,
   type RecipeNearMatch,
 } from './recipeDiscovery';
 import { methods } from './copy';
 import { FLAVORS, type Method } from './core/engine';
 import { ScanCoffeeButton } from './CoffeeLabelScanner';
 type DiscoveredRecipe = RecipeItem & { discovery: RecipeDiscovery; nearMatch?: RecipeNearMatch };
-function FilterChip({
-  title,
-  selected,
-  onPress,
-}: {
-  title: string;
-  selected: boolean;
-  onPress: () => void;
-}) {
-  return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={title}
-      accessibilityState={{ selected }}
-      onPress={onPress}
-      style={[catalogStyles.chip, selected && catalogStyles.chipSelected]}
-    >
-      <Txt
-        style={{
-          fontSize: 12,
-          lineHeight: 19,
-          fontWeight: '700',
-          color: selected ? '#FFF' : colors.brown,
-        }}
-      >
-        {title}
-      </Txt>
-    </Pressable>
-  );
-}
 const flavorLabels = {
   chocolate: ['شوكولاتة', 'Chocolate'],
   nutty: ['مكسرات', 'Nutty'],
@@ -89,8 +59,6 @@ const flavorLabels = {
 export type RecipeCatalogState = {
   search: string;
   method?: Method;
-  source: RecipeSourceFilter;
-  model: string;
   filters: RecipeDiscoveryFilters;
   draftFilters: RecipeDiscoveryFilters;
 };
@@ -98,6 +66,7 @@ export function RecipeCatalog({
   open,
   method: initialMethod,
   header,
+  intro,
   locked = false,
   coffee,
   scanCoffees = [],
@@ -110,6 +79,7 @@ export function RecipeCatalog({
   open: (r: RecipeItem) => void;
   method?: Method;
   header?: ReactNode;
+  intro?: ReactNode;
   locked?: boolean;
   coffee?: CoffeeItem;
   scanCoffees?: CoffeeItem[];
@@ -136,20 +106,16 @@ export function RecipeCatalog({
   const [nearMatches, setNearMatches] = useState(false);
   const nearMode = useRef(false);
   const [revision, setRevision] = useState(0);
-  const [source, setSource] = useState<RecipeSourceFilter>(initialState?.source ?? 'all');
-  const [model, setModel] = useState(initialState?.model ?? 'all');
-  const [filters, setFilters] = useState(initialState?.filters ?? emptyRecipeFilters);
-  const [draftFilters, setDraftFilters] = useState(initialState?.draftFilters ?? emptyRecipeFilters);
-  useEffect(() => { remember?.({ search, method, source, model, filters, draftFilters }); }, [search, method, source, model, filters, draftFilters, remember]);
+  const [filters, setFilters] = useState(() => restoreRecipeFilters(initialState?.filters));
+  const [draftFilters, setDraftFilters] = useState(() => restoreRecipeFilters(initialState?.draftFilters));
+  useEffect(() => { remember?.({ search, method, filters, draftFilters }); }, [search, method, filters, draftFilters, remember]);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const requestGeneration = useRef(0);
   const filterCount = recipeFilterCount(filters);
   const hasSearch = Boolean(
     search.trim() ||
     filterCount ||
-    source !== 'all' ||
-    (!locked && method) ||
-    (method === 'xbloom' && model !== 'all'),
+    (!locked && method),
   );
   const invalidate = () => {
     requestGeneration.current += 1;
@@ -163,8 +129,6 @@ export function RecipeCatalog({
     setDebounced('');
     setFilters(emptyRecipeFilters());
     setDraftFilters(emptyRecipeFilters());
-    setSource('all');
-    setModel('all');
     if (!locked) setMethod(undefined);
   };
   useEffect(() => {
@@ -203,7 +167,7 @@ export function RecipeCatalog({
     }
     const query = recipeCatalogPage(
       supabase,
-      { query: debounced, method, source, model, filters, coffee },
+      { query: debounced, method, filters, coffee },
       page,
       `${RECIPE_FIELDS},${RECIPE_DISCOVERY_FIELDS}`,
       controller.signal,
@@ -257,8 +221,6 @@ export function RecipeCatalog({
     method,
     search,
     debounced,
-    source,
-    model,
     filters,
     page,
     revision,
@@ -284,7 +246,8 @@ export function RecipeCatalog({
           setRevision((v) => v + 1);
         }}
         ListHeaderComponent={
-          <View style={{ gap: isXBloomHub ? 12 : 16, marginBottom: 8 }}>
+          <View style={{ gap: width < 600 ? 10 : isXBloomHub ? 12 : 16, marginBottom: 8 }}>
+            {intro ? <View style={{ marginHorizontal: -18, marginTop: -12 }}>{intro}</View> : null}
             {header}
             {coffee ? (
               <View
@@ -315,7 +278,7 @@ export function RecipeCatalog({
                 gap: 12,
               }}
             >
-              <Txt heading style={[styles.title, { flex: 1 }]}>
+              <Txt heading style={[styles.title, { flex: 1 }, width < 600 && { fontSize: 26, lineHeight: 34 }]}>
                 {universal
                   ? ar
                     ? 'ابحث عن كوبك القادم'
@@ -329,7 +292,7 @@ export function RecipeCatalog({
                       : 'Recipe library'}
               </Txt>
               {total !== null ? (
-                <View style={catalogStyles.count}>
+                <View style={[catalogStyles.count, width < 600 && { flexDirection: ar ? 'row-reverse' : 'row', gap: 4, paddingHorizontal: 9, paddingVertical: 4 }]}>
                   <Txt
                     style={{
                       color: colors.teal,
@@ -504,11 +467,11 @@ export function RecipeCatalog({
             </View>
             {searchResults?.(debounced)}
             {filterCount > 0 ? <View testID="recipe-active-filters" style={{ flexDirection: ar ? 'row-reverse' : 'row',flexWrap:'wrap',gap:6 }}>
-              {Object.entries(filters).filter(([,value])=>value.trim()).map(([field,value])=>{
+              {Object.entries(restoreRecipeFilters(filters)).filter(([,value])=>value.trim()).map(([field,value])=>{
                 const title = recipeCriterionLabel({field:field as keyof RecipeDiscoveryFilters,value},ar);
                 return <Pressable key={field} accessibilityRole="button" accessibilityLabel={(ar?'إزالة ':'Remove ')+title}
                   onPress={()=>{invalidate();setFilters(previous=>({...previous,[field]:''}));setDraftFilters(previous=>({...previous,[field]:''}));}}
-                  style={{maxWidth:'100%',flexDirection:ar?'row-reverse':'row',alignItems:'center',gap:6,paddingHorizontal:10,minHeight:40,borderRadius:14,borderWidth:1,borderColor:colors.line,backgroundColor:colors.paper}}>
+                  style={{maxWidth:'100%',flexDirection:ar?'row-reverse':'row',alignItems:'center',gap:6,paddingHorizontal:10,minHeight:44,borderRadius:14,borderWidth:1,borderColor:colors.line,backgroundColor:colors.paper}}>
                   <Txt style={{fontSize:12,flexShrink:1}}>{title}</Txt><Txt style={{fontSize:18,color:colors.teal}}>×</Txt>
                 </Pressable>;
               })}
@@ -555,81 +518,6 @@ export function RecipeCatalog({
                 ) : null}
               </View>
             ) : null}
-            <View
-              style={{
-                flexDirection:
-                  width >= 600 ? (ar ? 'row-reverse' : 'row') : 'column',
-                gap: 12,
-              }}
-            >
-              <View
-                style={[catalogStyles.filterGroup, width >= 600 && { flex: 1 }]}
-              >
-                <Txt style={catalogStyles.filterLabel}>
-                  {ar ? 'المصدر' : 'Source'}
-                </Txt>
-                <View
-                  style={{
-                    flexDirection: ar ? 'row-reverse' : 'row',
-                    flexWrap: 'wrap',
-                    gap: 8,
-                  }}
-                >
-                  {[
-                    ['all', ar ? 'كل المصادر' : 'All sources'],
-                    ['official', ar ? 'رسمي' : 'Official'],
-                    ['community', ar ? 'مجتمعي' : 'Community'],
-                  ].map(([id, title]) => (
-                    <FilterChip
-                      key={id}
-                      title={title}
-                      selected={source === id}
-                      onPress={() => {
-                        invalidate();
-                        setSource(id as RecipeSourceFilter);
-                      }}
-                    />
-                  ))}
-                </View>
-              </View>
-              {initialMethod === 'xbloom' || method === 'xbloom' ? (
-                <View
-                  style={[
-                    catalogStyles.filterGroup,
-                    width >= 600 && { flex: 1 },
-                  ]}
-                >
-                  <Txt style={catalogStyles.filterLabel}>
-                    {ar ? 'موديل الجهاز' : 'Your machine'}
-                  </Txt>
-                  <View
-                    style={{
-                      flexDirection: ar ? 'row-reverse' : 'row',
-                      flexWrap: 'wrap',
-                      gap: 8,
-                    }}
-                  >
-                    {['all', 'Studio', 'Original'].map((id) => (
-                      <FilterChip
-                        key={id}
-                        title={
-                          id === 'all'
-                            ? ar
-                              ? 'كل الموديلات'
-                              : 'All models'
-                            : modelLabel(id, locale)
-                        }
-                        selected={model === id}
-                        onPress={() => {
-                          invalidate();
-                          setModel(id);
-                        }}
-                      />
-                    ))}
-                  </View>
-                </View>
-              ) : null}
-            </View>
             {error && rows.length === 0 ? (
               <View style={styles.card}>
                 <Txt style={styles.error}>
@@ -643,7 +531,7 @@ export function RecipeCatalog({
             ) : null}
             {nearMatches && rows.length > 0 ? <View testID="recipe-near-matches" style={[styles.card,{backgroundColor:'#EDF5F1',gap:6}]}>
               <Txt heading style={styles.subtitle}>{ar?'لا توجد مطابقة كاملة؛ هذه أقرب الوصفات.':'No full match; these are the closest recipes.'}</Txt>
-              <Txt style={styles.muted}>{ar?'مرتبة حسب عدد الشروط المطابقة. طريقة التحضير والموديل والمصدر والتقديم تبقى كما اخترتها.':'Ranked by matching criteria. Your method, model, source and serving choices remain applied.'}</Txt>
+              <Txt style={styles.muted}>{ar?'مرتبة حسب عدد الشروط المطابقة. طريقة التحضير والتقديم تبقى كما اخترتها.':'Ranked by matching criteria. Your method and serving choices remain applied.'}</Txt>
             </View> : null}
           </View>
         }
@@ -1075,10 +963,6 @@ export function RecipeCatalog({
                         ? 'المنشأ الجغرافي للوصفة'
                         : 'Recipe’s geographic origin',
                     ],
-                    [
-                      'sourceName',
-                      ar ? 'الموقع أو المصدر' : 'Website or source',
-                    ],
                   ],
                 },
                 {
@@ -1181,13 +1065,6 @@ const catalogStyles = StyleSheet.create({
     paddingVertical: 7,
     alignItems: 'center',
     gap: 1,
-  },
-  filterGroup: { gap: 7 },
-  filterLabel: {
-    fontSize: 11,
-    lineHeight: 17,
-    color: colors.muted,
-    fontWeight: '700',
   },
   chip: {
     minHeight: 44,

@@ -4,13 +4,14 @@ import { Icon, Language, Txt, colors, type IconName } from './ui';
 import { PillButton } from './PillButton';
 
 /** Compact navigation with either underlines or soft pill controls. */
-export function TabRail({ items, value, onChange, equal = false, compact = false, wrap = false, testID, variant = 'underline' }: {
-  items: { id: string; label: string; icon?: IconName }[];
+export function TabRail({ items, value, onChange, equal = false, compact = false, wrap = false, columns, testID, variant = 'underline' }: {
+  items: { id: string; label: string; compactLabel?: string; icon?: IconName }[];
   value: string;
   onChange: (id: string) => void;
   equal?: boolean;
   compact?: boolean;
   wrap?: boolean;
+  columns?: number;
   testID?: string;
   variant?: 'underline' | 'pills';
 }) {
@@ -18,20 +19,27 @@ export function TabRail({ items, value, onChange, equal = false, compact = false
   const firstId = items[0]?.id;
   const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
   const [viewport, setViewport] = useState(0), [contentWidth, setContentWidth] = useState(0);
+  const [gridWidth, setGridWidth] = useState(0);
+  const gridColumns = columns && columns > 0 ? Math.floor(columns) : undefined;
+  const wrapped = wrap || Boolean(gridColumns);
   const [positions, setPositions] = useState<Record<string, { x: number; width: number }>>({});
   useEffect(() => {
-    if (equal || wrap || !viewport || !contentWidth) return;
+    if (equal || wrapped || !viewport || !contentWidth) return;
     const selected = positions[value] ?? (firstId ? positions[firstId] : undefined);
     const x = selected ? ar ? selected.x + selected.width - viewport : selected.x : ar ? contentWidth - viewport : 0;
     scroll.current?.scrollTo({ x: Math.max(0, Math.min(x, contentWidth - viewport)), animated: false });
-  }, [ar, contentWidth, equal, wrap, firstId, positions, value, viewport]);
+  }, [ar, contentWidth, equal, wrapped, firstId, positions, value, viewport]);
   const content = (
-    <View style={{ flexDirection: ar ? 'row-reverse' : 'row', flex: equal ? 1 : undefined, flexWrap: wrap ? 'wrap' : 'nowrap', gap: variant === 'pills' ? 6 : 0 }}>
+    <View onLayout={gridColumns ? event => setGridWidth(event.nativeEvent.layout.width) : undefined}
+      style={{ flexDirection: ar ? 'row-reverse' : 'row', flex: equal ? 1 : undefined, flexWrap: wrapped ? 'wrap' : 'nowrap', gap: variant === 'pills' ? 6 : 0 }}>
       {items.map(item => {
         const selected = item.id === value;
-        if (variant === 'pills') return <PillButton key={item.id} title={item.label} icon={item.icon} compact={compact} selected={selected}
-          labelLines={equal ? 2 : 1} style={{ flex: equal ? 1 : undefined }} onPress={() => onChange(item.id)}
-          onLayout={event => {
+        if (variant === 'pills') return <PillButton key={item.id} title={gridColumns ? item.compactLabel ?? item.label : item.label}
+          accessibilityLabel={item.label} icon={gridColumns ? undefined : item.icon} compact={compact} snug={Boolean(gridColumns)} selected={selected}
+          labelLines={equal || gridColumns ? 2 : 1}
+          style={gridColumns ? { width: gridWidth ? Math.floor((gridWidth - (gridColumns - 1) * 6) / gridColumns) : `${100 / gridColumns - 2}%` } : { flex: equal ? 1 : undefined }}
+          onPress={() => onChange(item.id)}
+          onLayout={gridColumns ? undefined : event => {
             const { x, width } = event.nativeEvent.layout;
             setPositions(previous => previous[item.id]?.x === x && previous[item.id]?.width === width ? previous : { ...previous, [item.id]: { x, width } });
           }} />;
@@ -54,7 +62,7 @@ export function TabRail({ items, value, onChange, equal = false, compact = false
       })}
     </View>
   );
-  return equal || wrap ? <View testID={testID} style={{ borderBottomWidth: variant === 'pills' ? 0 : 1, borderColor: colors.line }}>{content}</View> : (
+  return equal || wrapped ? <View testID={testID} style={{ borderBottomWidth: variant === 'pills' ? 0 : 1, borderColor: colors.line }}>{content}</View> : (
     <ScrollView ref={scroll} testID={testID} horizontal showsHorizontalScrollIndicator={false}
       onLayout={event => setViewport(event.nativeEvent.layout.width)} onContentSizeChange={width => setContentWidth(width)}
       style={{ flexGrow: 0, borderBottomWidth: variant === 'pills' ? 0 : 1, borderColor: colors.line }}

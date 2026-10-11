@@ -13,8 +13,9 @@ import * as WebBrowser from 'expo-web-browser';
 import type { Session } from '@supabase/supabase-js';
 import { supabase, authProviderEnabled } from './client';
 import {
+  cleanOAuthCallbackUrl,
   createOAuthCallbackHandler,
-  nativeAuthRedirect,
+  getAuthRedirect,
 } from './oauthCallback';
 import { artwork } from './CoffeeScreens';
 import { AppVersion } from './AppVersion';
@@ -36,12 +37,22 @@ import { useLabels,
 } from './ui';
 
 WebBrowser.maybeCompleteAuthSession();
-export const finishOAuth = supabase
-  ? createOAuthCallbackHandler(
-      supabase.auth,
-      Platform.OS === 'web' ? window.location.origin : nativeAuthRedirect,
-    )
-  : async () => {};
+let callbackHandler: ReturnType<typeof createOAuthCallbackHandler> | undefined;
+export async function finishOAuth(url: string) {
+  if (!supabase) return;
+  const redirect = getAuthRedirect();
+  callbackHandler ??= createOAuthCallbackHandler(supabase.auth, redirect);
+  try {
+    return await callbackHandler(url);
+  } finally {
+    // Failed/cancelled callbacks need cleaning too. Do not overwrite a page
+    // the user navigated to while the session exchange was in flight.
+    if (Platform.OS === 'web' && window.location.href === url) {
+      const clean = cleanOAuthCallbackUrl(url, redirect);
+      if (clean) window.history.replaceState(window.history.state, '', clean);
+    }
+  }
+}
 export function AccountScreen({
   session,
   profileContent,
@@ -145,10 +156,7 @@ export function AccountScreen({
           password: details.password,
           options: {
             data: details.metadata,
-            emailRedirectTo:
-              Platform.OS === 'web'
-                ? window.location.origin
-                : nativeAuthRedirect,
+            emailRedirectTo: getAuthRedirect(),
           },
         });
         if (error) throw error;
@@ -180,8 +188,7 @@ export function AccountScreen({
       const { error } = await supabase!.auth.resetPasswordForEmail(
         email.trim(),
         {
-          redirectTo:
-            Platform.OS === 'web' ? window.location.origin : nativeAuthRedirect,
+          redirectTo: getAuthRedirect(),
         },
       );
       if (error) throw error;
@@ -203,8 +210,7 @@ export function AccountScreen({
         );
         return;
       }
-      const redirectTo =
-        Platform.OS === 'web' ? window.location.origin : nativeAuthRedirect;
+      const redirectTo = getAuthRedirect();
       const { data, error } = await supabase!.auth.signInWithOAuth({
         provider,
         options: {
