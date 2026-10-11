@@ -1,0 +1,41 @@
+name: Publish BeanMora web
+
+on:
+  workflow_dispatch: {}
+
+defaults:
+  image: sdk-57
+  tools:
+    node: '22.16.0'
+
+jobs:
+  deploy_web:
+    name: Publish BeanMora to Expo Hosting
+    type: deploy
+    environment: production
+    params:
+      prod: true
+    hooks:
+      before_install_node_modules:
+        - name: Check BeanMora release destination
+          run: |
+            node --input-type=module <<'NODE'
+            import { readFileSync } from 'node:fs';
+            import { checkBuildConfig } from './scripts/check-build-config.mjs';
+            const { expo } = JSON.parse(readFileSync('./app.json', 'utf8'));
+            if (expo.owner !== 'elqallaf09' || expo.slug !== 'beanmora-mobile'
+              || expo.extra?.eas?.projectId !== 'a3785113-b993-49fa-9986-e3dc96d63115') {
+              throw new Error('Release destination must be the BeanMora Expo project.');
+            }
+            if (process.env.EXPO_PUBLIC_SUPABASE_URL !== 'https://ubvzdglrwkkuaigmkjap.supabase.co') {
+              throw new Error('BeanMora releases must use the BeanMora Supabase project.');
+            }
+            const issues = checkBuildConfig(process.env);
+            if (issues.length) throw new Error(issues.join('\n'));
+            console.log('BeanMora release destination and public configuration passed.');
+            NODE
+        - name: Reproducible npm resolver
+          run: npm install --global npm@11.19.1 --ignore-scripts
+      after_install_node_modules:
+        - name: Verify installed security backports
+          run: npm run verify:tooling-security
