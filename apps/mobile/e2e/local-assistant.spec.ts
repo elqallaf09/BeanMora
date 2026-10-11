@@ -12,8 +12,11 @@ async function openAssistant(page: Page, offlineCatalog = false) {
     if (offlineCatalog && /search_coffee_assistant|catalog_currency_rates/.test(path)) return route.abort();
     let data: unknown = [];
     if (path.endsWith('/rpc/search_coffee_assistant')) {
-      searches.push(route.request().postDataJSON());
-      data = [300, 400].map((amount, i) => ({ id: `aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa${i}`, kind: 'equipment', title_ar: `ماكينة ${i + 1}`, title_en: `Machine ${i + 1}`, search_text: 'espresso machine manual', summary_ar: '', summary_en: '', category: 'espresso_machine', methods: ['espresso'], facts: { operation: ['يدوي','Manual'], ...(i ? {} : { pressure_gauge: ['نعم','Yes'] }) }, offers: [{ amount, currency: 'USD', checked_at: new Date().toISOString(), region: 'US', url: 'https://seller.example/machine', availability: 'in_stock' }], source_url: 'https://seller.example/machine' }));
+      const query = route.request().postDataJSON();
+      searches.push(query);
+      data = query.p_kind === 'roaster'
+        ? [{ id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa0', kind: 'roaster', title_ar: query.p_terms.includes('ark') ? 'آرك روسترز' : 'ألتيتيود روسترز', title_en: query.p_terms.includes('ark') ? 'A R K Roasters' : 'Altitude Roasters', search_text: query.p_terms.includes('ark') ? 'آرك روسترز A R K Roasters KW' : 'Altitude Roasters KW', summary_ar: '', summary_en: '', category: null, methods: [], facts: { country: 'KW' }, offers: [], source_url: query.p_terms.includes('ark') ? 'https://www.ark.com.kw/pages/about' : 'https://altituderoasters.co/en/' }]
+        : [300, 400].map((amount, i) => ({ id: `aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa${i}`, kind: 'equipment', title_ar: `ماكينة ${i + 1}`, title_en: `Machine ${i + 1}`, search_text: 'espresso machine manual', summary_ar: '', summary_en: '', category: 'espresso_machine', methods: ['espresso'], facts: { operation: ['يدوي','Manual'], ...(i ? {} : { pressure_gauge: ['نعم','Yes'] }) }, offers: [{ amount, currency: 'USD', checked_at: new Date().toISOString(), region: 'US', url: 'https://seller.example/machine', availability: 'in_stock' }], source_url: 'https://seller.example/machine' }));
     }
     return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(data) });
   });
@@ -74,5 +77,34 @@ test('brewing guidance remains available when the catalog cannot be reached', as
   await panel.getByRole('button', { name: 'V60', exact: true }).click();
   await expect(panel).toContainText('أنعم قليلًا');
   await expect(panel.getByRole('button', { name: 'Barista Hustle — Coffee Compass', exact: true })).toBeVisible();
+  expect(network.providerCalls()).toBe(0);
+});
+test('Kuwaiti roaster search expands the country code before retrieval and displays the result', async ({ page }) => {
+  const network = await openAssistant(page);
+  await ask(page, 'محامص بالكويت');
+  await expect(page.getByTestId('assistant-result')).toContainText('ألتيتيود روسترز');
+  expect(network.searches).toEqual([expect.objectContaining({ p_kind: 'roaster', p_terms: expect.arrayContaining(['kuwait', 'kw']) })]);
+  expect(network.providerCalls()).toBe(0);
+});
+test('published spaced roaster names retain an explicit catalog search instead of returning every roaster', async ({ page }) => {
+  const network = await openAssistant(page);
+  await ask(page, 'محامص A R K');
+  await expect(page.getByTestId('assistant-result')).toContainText('آرك روسترز');
+  expect(network.searches).toEqual([expect.objectContaining({ p_kind: 'roaster', p_terms: expect.arrayContaining(['ark', 'a r k']) })]);
+  expect(network.providerCalls()).toBe(0);
+});
+for (const english of [false, true]) test(`symptoms, water measurements and new lessons work offline (${english ? 'en' : 'ar'})`, async ({ page }) => {
+  const network = await openAssistant(page, true);
+  if (english) await setLanguage(page, 'en');
+  const panel = page.getByTestId('coffee-assistant');
+  await ask(page, english ? 'My V60 is sour after changing water' : 'قهوتي V60 حامضة بعد تغيير الماء', english);
+  await expect(panel.getByRole('button', { name: 'Barista Hustle — Coffee Compass', exact: true })).toBeVisible();
+  await ask(page, english ? 'dose 18 water 288 150 seconds' : 'جرعة 18 الماء 288 الوقت 150 ثانية', english);
+  await expect(panel).toContainText('1:16');
+  await ask(page, english ? 'What is cold brew?' : 'الكولد برو والاستخلاص البارد', english);
+  await expect(panel.getByRole('button', { name: 'HARIO — Mizudashi', exact: true })).toBeVisible();
+  await ask(page, english ? 'Tell me more' : 'اشرح أكثر', english);
+  await expect(panel).toContainText(english ? 'Not every cold brew is a concentrate' : 'لا تفترض أن كل كولد برو مركز');
+  expect(network.searches).toHaveLength(0);
   expect(network.providerCalls()).toBe(0);
 });

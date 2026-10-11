@@ -1,10 +1,42 @@
-/** Editorial lessons, reviewed 2026-10-09. Model settings belong to their manuals. */
+/** Editorial lessons. New cold/bypass/scaling topics reviewed 2026-10-11. Model settings belong to their manuals. */
 export type CoffeeCourseGroup = 'beans' | 'grinding' | 'water' | 'equipment' | 'brewing' | 'roasting' | 'sensory';
 export interface CoffeeLesson {
   id: string; group: CoffeeCourseGroup; titles: [string, string]; keywords: RegExp; priority: number;
   ar: string; en: string; more: [string, string]; title: string; url: string;
 }
 export const COFFEE_CURRICULUM: CoffeeLesson[] = [
+  {
+    id: 'flash-brew', group: 'brewing', titles: ['القهوة المثلجة وماء التحضير والثلج', 'Flash brew, brew water and ice'], priority: 110,
+    keywords: /فلاش برو|flash brew|iced coffee|قهوه مثلج|القهوه المثلج|ماء التحضير والثلج|brew water and ice/,
+    ar: 'الفلاش برو يستخلص القهوة بماء ساخن فوق ثلج موزون. سجّل ماء الصب والثلج كلًا على حدة؛ الثلج ليس ماء يمر عبر البن، وليس كل وزن الماء والثلج هو وزن المشروب النهائي. مثال منشور لـ OREA V3: 18 g بن، 160 ml ماء عند 94°C و140 g ثلج. وصفة جهاز محدد وليست تحويلًا تلقائيًا لأي وصفة ساخنة.',
+    en: 'Flash brewing extracts coffee with hot water onto weighed ice. Record poured water and ice separately: ice does not pass through the grounds, and combined input water and ice are not the measured beverage yield. OREA’s V3 example uses 18 g coffee, 160 ml water at 94°C and 140 g ice. It is a device-specific published recipe, not an automatic conversion of any hot recipe.',
+    more: ['راجع مصدر الوصفة ونوع الفلتر والطاحونة. لا تضاعف ماء الصب بإضافة وزن الثلج إليه؛ افصل مرحلة الاستخلاص عن التبريد والتخفيف، ثم قارن الطعم بعد التحريك.', 'Check the recipe source, filter and grinder. Do not count ice as additional poured extraction water. Separate extraction from cooling and dilution, then compare taste after stirring.'],
+    title: 'OREA — V3 THE ICE', url: 'https://www.orea.uk/guides-v3',
+  },
+  {
+    id: 'cold-brew', group: 'brewing', titles: ['الكولد برو والاستخلاص البارد', 'Cold brew and cold extraction'], priority: 110,
+    keywords: /كولد برو|استخلاص بارد|الاستخلاص البارد|cold brew|cold extraction/,
+    ar: 'الكولد برو يستخلص البن بالماء البارد، بخلاف الفلاش برو الذي يستخدم ماء ساخنًا ثم يبرده الثلج. مثال HARIO Mizudashi ينقع البن في سلة ترشيح داخل الماء في الثلاجة. الجرعة والماء والمدة تتبع دليل مقاس الأداة والوصفة؛ سعة الإبريق المكتوبة ليست بالضرورة كمية ماء التحضير أو وزن الناتج.',
+    en: 'Cold brew extracts grounds with cold water, whereas flash brew uses hot water and then ice to chill it. HARIO’s Mizudashi steeps grounds in a filter basket in water in the refrigerator. Dose, water and time belong to the specific model size and recipe; stated pitcher capacity is not necessarily brew-water input or beverage weight.',
+    more: ['دوّن جرعة البن وماء النقع والمدة وناتج التصفية وأي ماء تخفيف بشكل منفصل. لا تفترض أن كل كولد برو مركز يحتاج تخفيفًا، ولا تنقل مقادير مقاس إبريق إلى مقاس آخر بلا دليل.', 'Record dose, steeping water, time, filtered yield and any dilution water separately. Not every cold brew is a concentrate that needs dilution. Do not transfer one pitcher size’s quantities to another without its guide.'],
+    title: 'HARIO — Mizudashi', url: 'https://www.hario-usa.com/products/mizudashi-cold-brew-coffee-pot',
+  },
+  {
+    id: 'bypass-dilution', group: 'brewing', titles: ['التخفيف والبايباس بعد الاستخلاص', 'Dilution and bypass after extraction'], priority: 110,
+    keywords: /بايباس|by.?pass|تخفيف.*(?:مشروب|قهوه|استخلاص)|dilut/,
+    ar: 'البايباس يضيف ماء لا يمر عبر البن إلى المشروب المستخلص. التخفيف يقلل تركيزه، لكنه لا يستخلص مواد إضافية من البن بعد فصل المشروب عنه. سجّل ماء التحضير وماء التخفيف والناتج المقاس منفصلة. إرشادات SCAA للبايباس تربط الوصفة بحجم الدفعة والطعم؛ لا توجد نسبة تخفيف واحدة لكل البن والأدوات.',
+    en: 'Bypass adds water that does not pass through the grounds to the extracted beverage. Dilution lowers concentration but does not extract more from grounds once the beverage is separated. Record brew water, dilution water and measured beverage yield separately. SCAA’s bypass guidance relates the recipe to batch volume and taste; no single dilution percentage suits every coffee and brewer.',
+    more: ['أضف ماء التخفيف بوزن مسجل وعلى مراحل وتذوق. المشروب المخفف والمشروب الذي مر فيه كل الماء عبر البن قد يختلفان حتى لو تساوى وزن التقديم. التخفيف وحده لا يعالج استخلاصًا غير متجانس.', 'Add weighed dilution water in stages and taste. A diluted beverage and one made with all water through the bed can differ even at equal serving weight. Dilution alone cannot correct uneven extraction.'],
+    title: 'SCAA — By-Pass Best Practices (2016)', url: 'https://scagermany.coffee/wp-content/uploads/2021/02/best-practices-bypass-brewing.pdf',
+  },
+  {
+    id: 'batch-scaling', group: 'brewing', titles: ['تكبير وصفة الترشيح لكوبين', 'Scaling a filter recipe for two cups'], priority: 110,
+    keywords: /تكبير.*وصف|وصفه.*كوبين|احضر.*كوبين|قهوه لشخصين|two cups|two people|scal.*(?:filter|recipe|batch)/,
+    ar: 'ضرب الجرعة والماء في العدد نفسه يحافظ على النسبة حسابيًا، لكنه يغير عمق طبقة البن والتدفق. استخدم وصفة منشورة لحجم الأداة. OREA V4 EASY FOR TWO يحدد 25 g بن و400 ml ماء، وطحنة أخشن من وصفته الفردية مع قاعدة FAST وفلتره المحدد. لا تضاعف أوقات الصب أو تنقل ضبط الطحن إلى جهاز آخر تلقائيًا.',
+    en: 'Multiplying dose and water by the same number preserves the arithmetic ratio but changes bed depth and flow. Use a published recipe for the brewer capacity. OREA’s V4 EASY FOR TWO uses 25 g coffee and 400 ml water, with a coarser grind than its single-cup version, FAST bottom and specified filter. Do not automatically double pour times or transfer grinder settings to another model.',
+    more: ['تحقق من سعة الأداة والفلتر، وسجل كل صبة والوقت النهائي كنطاق المصدر. غيّر عاملًا واحدًا وقارن الطعم؛ نسبة ثابتة لا تضمن استخلاصًا مطابقًا عند زيادة حجم الدفعة.', 'Check brewer and filter capacity. Record each pour and the publisher’s final-time range. Change one variable and compare taste; a fixed ratio does not guarantee identical extraction after scaling.'],
+    title: 'OREA — V4 EASY FOR TWO', url: 'https://www.orea.uk/guides-v4',
+  },
   {
     id: 'coffee-basics', group: 'beans', titles: ['من الشجرة إلى الكوب', 'From seed to cup'], priority: 20,
     keywords: /ما هي القهوه|شنو القهوه|شجره|كرزه|seed to cup|coffee cherry|what is coffee/,

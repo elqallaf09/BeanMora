@@ -126,9 +126,14 @@ function normalizedRoast(source) {
   return ROAST.has(value) ? value : null;
 }
 
-export function compileCatalog({ batches, photoChecks, snapshot, corrections, verifiedAt = '2026-10-04' }) {
+export function compileCatalog({ batches, photoChecks, snapshot, corrections, verifiedAt = '2026-10-04', importId = IMPORT_ID }) {
   assert.equal(snapshot.project_id, 'ubvzdglrwkkuaigmkjap', 'Unexpected project snapshot');
-  assert.equal(verifiedAt, '2026-10-04', 'This reviewed release has a fixed verification date');
+  if (importId === IMPORT_ID) assert.equal(verifiedAt, '2026-10-04', 'This reviewed release has a fixed verification date');
+  else {
+    assert.match(importId, /^reviewed-catalog-\d{4}-\d{2}-\d{2}$/);
+    assert.equal(importId, `reviewed-catalog-${verifiedAt}`, 'A new batch needs its own dated review identity');
+    assert.equal(new Date(verifiedAt).toISOString().slice(0, 10), verifiedAt, 'Invalid review date');
+  }
   const roasters = [], coffees = [], recipes = [], exclusions = [];
   const roasterMap = new Map(), coffeeMap = new Map(), slugs = new Set(), fingerprints = new Set();
   for (const { region, data } of batches) {
@@ -195,7 +200,9 @@ export function compileCatalog({ batches, photoChecks, snapshot, corrections, ve
         assert(r.expected_existing_parameters && r.source_upgrade_basis, `${r.slug}: a reviewed source upgrade requires expected values and evidence`);
         r.approved_previous_source_urls.forEach(url => httpsURL(url, `${r.slug} previous source`));
       }
-      const roaster = roasterMap.get(nameKey(r.roaster_name)); assert(roaster, `${r.slug}: unknown roaster`);
+      const roaster = roasterMap.get(nameKey(r.roaster_name));
+      // Manufacturer guides do not establish a roastery or a coffee lot.
+      assert(roaster || (r.recipe_type === 'official_manufacturer' && !r.roaster_name && !r.coffee_name), `${r.slug}: unknown roaster`);
       const coffee = r.coffee_name ? coffeeMap.get(`${roaster.key}\n${nameKey(r.coffee_name)}`) : null;
       assert(!r.coffee_name || coffee, `${r.slug}: named coffee is missing from the reviewed definitions`);
       const manual = normalizeManual(r);
@@ -213,24 +220,24 @@ export function compileCatalog({ batches, photoChecks, snapshot, corrections, ve
       families.forEach(family => assert(FAMILIES.has(family), `${r.slug}: invalid flavor family ${family}`));
       const sharedNames = unique([r.coffee_name, ...[manual.also_applies_to_coffees, manual.applies_to_coffee_names].filter(Array.isArray).flat().map(item => typeof item === 'string' ? item : item.coffee_name ?? item.name)]);
       const sharedCoffees = sharedNames.map(name => {
-        const linked = coffeeMap.get(`${roaster.key}\n${nameKey(name)}`);
+        const linked = roaster && coffeeMap.get(`${roaster.key}\n${nameKey(name)}`);
         assert(linked, `${r.slug}: shared coffee ${name} is not defined for this roaster`);
         return linked;
       });
       const discovery = compact({
-        creator_name: r.source_author_name, creator_name_ar: r.source_author_name_ar ?? (r.source_author_name === r.roaster_name ? roaster.name_ar : null),
+        creator_name: r.source_author_name, creator_name_ar: r.source_author_name_ar ?? (r.source_author_name === r.roaster_name ? roaster?.name_ar : null),
         creator_country: r.creator_country, creator_country_ar: r.creator_country_ar,
         recipe_country: r.recipe_country, recipe_country_ar: r.recipe_country_ar,
         coffee_origin: r.coffee_origin ?? coffee?.origin, coffee_origin_ar: r.coffee_origin_ar ?? coffee?.origin_ar,
         coffee_type: r.coffee_type ?? coffee?.coffee_type, coffee_type_ar: r.coffee_type_ar ?? coffee?.coffee_type_ar ?? TYPE_AR[r.coffee_type ?? coffee?.coffee_type],
         coffee_name: r.coffee_name, coffee_name_ar: r.coffee_name_ar ?? coffee?.name_ar,
         applicable_coffee_names: sharedCoffees.map(c => c.name), applicable_coffee_names_ar: sharedCoffees.map(c => c.name_ar).filter(present),
-        roaster_name: roaster.name, roaster_name_ar: roaster.name_ar,
+        roaster_name: roaster?.name, roaster_name_ar: roaster?.name_ar,
         flavor_notes: flavors, flavor_notes_ar: flavorsAr, flavor_families: families,
         serving_style: r.serving_style === 'unknown' ? null : r.serving_style, source_urls: sourceURLs,
       });
       params.discovery = { ...r.source_brew_parameters?.discovery, ...discovery };
-      params.global_roasters_import = compact({ import_id: IMPORT_ID, verified_at: verifiedAt, region, recipe_source_url: r.source_url, coffee_key: coffee?.key, coffee_source_url: coffee?.source_url, source_process: coffee?.process, source_roast_label: coffee?.roast, crop_note: coffee?.crop_note, photo_note: coffee?.photo.note });
+      params.global_roasters_import = compact({ import_id: importId, verified_at: verifiedAt, region, recipe_source_url: r.source_url, coffee_key: coffee?.key, coffee_source_url: coffee?.source_url, source_process: coffee?.process, source_roast_label: coffee?.roast, crop_note: coffee?.crop_note, photo_note: coffee?.photo.note });
       if (coffee?.photo.verified) Object.assign(params.global_roasters_import, { photo_kind: coffee.photo.image_kind, photo_source_url: coffee.source_url, photo_url: coffee.image_url });
       if (r.existing_recipe_id) params.global_roasters_import.source_upgrade = { existing_recipe_id: r.existing_recipe_id, previous_source_urls: r.approved_previous_source_urls, basis: r.source_upgrade_basis };
       if (r.steps?.some(step => present(step.start_at_seconds) || (step.step_kind && !STEP_KINDS.has(step.step_kind)))) {
@@ -270,12 +277,12 @@ export function compileCatalog({ batches, photoChecks, snapshot, corrections, ve
       }
       if (r.pour_sum_validated === true) assert(poursValidated, `${r.slug}: falsely validated pours`);
       if (r.video_url) httpsURL(r.video_url, `${r.slug} video`);
-      const fingerprint = JSON.stringify([roaster.key, sourceKey(r.source_url), r.brew_method, coffee?.key ?? null, r.dose_grams, r.water_grams, r.water_ml, r.serving_style]);
+      const fingerprint = JSON.stringify([roaster?.key ?? nameKey(r.source_author_name), sourceKey(r.source_url), r.brew_method, coffee?.key ?? null, r.dose_grams, r.water_grams, r.water_ml, r.serving_style]);
       assert(!fingerprints.has(fingerprint), `${r.slug}: repeated same-source recipe requires consolidation`); fingerprints.add(fingerprint);
       // Budget for PostgreSQL jsonb whitespace/escaping, whose serialized size is slightly larger.
       assert(Buffer.byteLength(JSON.stringify(params)) < 42000, `${r.slug}: metadata exceeds safe size`);
       recipes.push({
-        ...r, region, roaster_key: roaster.key, coffee_key: coffee?.key ?? null, bean_action: coffee?.action ?? 'not_applicable',
+        ...r, region, roaster_key: roaster?.key ?? null, coffee_key: coffee?.key ?? null, bean_action: coffee?.action ?? 'not_applicable',
         recipe_type: r.recipe_type ?? 'official_roaster', serving_style: r.serving_style ?? 'unknown',
         flavor_notes: flavors, steps, pours, source_type: sourceType(r.source_url), source_brew_parameters: params,
         water_temp_c_min: r.water_temp_c_min ?? manual.temperature_min_c ?? null,
@@ -301,7 +308,7 @@ export function compileCatalog({ batches, photoChecks, snapshot, corrections, ve
   const counts = { roasters: roasters.length, roaster_actions: count(roasters, 'action'), coffees: coffees.length, coffee_actions: count(coffees, 'action'), recipes: recipes.length, recipes_by_region: count(recipes, 'region'), recipes_by_method: count(recipes, 'brew_method'), recipes_by_serving: count(recipes, 'serving_style'), recipes_with_bean: recipes.filter(r => r.coffee_key && r.bean_action !== 'skip_no_verified_image').length, incomplete_recipes: recipes.filter(r => r.is_incomplete_source).length, corrections: corrections.length, exclusions: exclusions.length };
   counts.new_recipes = recipes.filter(r => !r.existing_recipe_id).length;
   counts.updated_recipes = recipes.filter(r => r.existing_recipe_id).length;
-  return { import_id: IMPORT_ID, project_id: snapshot.project_id, verified_at: verifiedAt, counts, roasters, coffees, recipes, corrections, exclusions };
+  return { import_id: importId, project_id: snapshot.project_id, verified_at: verifiedAt, counts, roasters, coffees, recipes, corrections, exclusions };
 }
 
 export function loadCatalog(directory = DEFAULT_DIRECTORY) {
