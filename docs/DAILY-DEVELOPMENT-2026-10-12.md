@@ -1,6 +1,6 @@
 # BeanMora maintenance — 2026-10-12
 
-Review started at 03:00 Asia/Kuwait; evidence through 03:25. Target: BeanMora `ubvzdglrwkkuaigmkjap` and Expo `elqallaf09/beanmora-mobile`. No unrelated project, deployment provider or secrets were changed.
+Review started at 03:00 Asia/Kuwait; evidence through 03:40, followed by final PR publication receipts. Target: BeanMora `ubvzdglrwkkuaigmkjap` and Expo `elqallaf09/beanmora-mobile`. No unrelated project, deployment provider or secrets were changed.
 
 ## Current work reviewed
 
@@ -13,6 +13,7 @@ Work is isolated in `daily/2026-10-12-coffee-context`. Final review, CI, merge a
 - Reproduced two failed Arabic/English tests: after an espresso cup with dose 18 g, yield 36 g and time 30 s, switching coaching to V60 incorrectly retained all three measurements and showed 1:2. The engine now retains measurements only within the same brewer, or while answering an initially unknown method. A new brewer needs new measurements. Switching by method alone also clears the old symptom and asks about the new cup.
 - Reproduced a separate failure: “اشرح الماء” after equipment results entered old-result explanation rather than the requested water lesson. A specific new lesson now wins over implicit old references. Explicit numbered result references and comparisons remain supported.
 - Added one bilingual lesson on immersion, percolation and French press, with original NCA/HARIO references. The lesson explains Switch valve stages and why espresso yield is not steeping water. Supporting source links are retained in local answers. The curriculum now has 49 topics including six basics. This expands reviewed knowledge and deterministic dialogue routing; no model training, paid AI call or subscription occurred.
+- A later direct production check of “محمصة ليمو” exposed two independent substring errors: حمص inside محمصة triggered roasting education, and ليمو was discarded as a partial token of ليمون. Reproduced both failures, bounded the roasting keyword, and made flavor-token exclusion use complete tokens. Regression coverage includes a second unrelated roaster, the actual retained search term, singular Arabic/prefixed Arabic/English names, and continued roasting education. A browser regression verifies the real retrieval call and displayed named result.
 - Production inspection showed Blue Bottle's author translated literally as “أزرق بوتتلي قهوة”. Added consistent Arabic display names for Blue Bottle, Partners, Cary Wong and Limu. Stored source names and IDs remain intact.
 - Regenerated the shared mobile core. Added browser regressions in both languages for the method change and both immersion sources, plus the lesson-after-shopping regression.
 
@@ -31,7 +32,7 @@ The generated transaction fingerprints all existing recipes, beans, roasters (in
 
 ## Verification and security
 
-Local checks: 301 root unit tests, 31 recommendation tests and 37 brew-outcome tests; all passed. Root/mobile TypeScript passed after fixing the supporting-source type. Root lint, production Next.js build, nine security regressions and clean dependency audit passed. Mobile unit/data/brewing/search/context checks passed; three-platform Expo export and runtime source-map inspection passed. Eleven assistant browser tests passed, including the three new regressions. CI additionally runs the full root/mobile browser suites before merge.
+Local checks: 306 root unit tests, 31 recommendation tests and 37 brew-outcome tests; all passed. Root/mobile TypeScript passed after fixing the supporting-source type. Root lint, production Next.js build, nine security regressions and clean dependency audit passed. Mobile unit/data/brewing/search/context checks passed; three-platform Expo export and runtime source-map inspection passed. Twelve assistant browser tests passed, including the four new regressions. CI additionally runs the full root/mobile browser suites before merge.
 
 Mobile raw npm audit still reports 15 high findings under upstream tooling version numbers. The existing gate verifies two installed security backports and passes with zero risk exceptions; mapped iOS/Android/web runtime bundles contain neither affected tooling module. This is not a clean raw mobile audit. Online Expo compatibility validation encountered an HTTP proxy timeout locally; offline bundled-package comparison passed with its reliability warning. CI's unchanged online compatibility and Expo Doctor checks remain mandatory before merge.
 
@@ -49,6 +50,8 @@ The credential-free redirect probe again returned HTTP 303 to `http://localhost:
 
 ## Coverage to continue
 
-This review directly covered production home/navigation/settings/version, recipe search/filter/details/source quantities and the public assistant/catalog paths, plus local bilingual assistant browser flows. CI expands coverage using dedicated fixtures. Carry forward yesterday's complete route inventory without recounting it as this run's manual coverage.
+This review directly covered production home/navigation/settings/version, recipe search/filter/details/source quantities, Limu/Partners directory search/details and the public assistant/catalog paths, plus local bilingual assistant browser flows. CI expands coverage using dedicated fixtures. Carry forward yesterday's complete route inventory without recounting it as this run's manual coverage.
+
+The roaster detail screen currently links recipes through an explicitly named bean/product only. No coffee lot is stated for either new recipe; source authorship is preserved, but a direct publisher-to-recipe directory section remains a useful future addition without fabricating a coffee association. The source-date display also follows browser time zone; a midnight UTC verification can appear one calendar day earlier in this browser.
 
 Next priorities: authenticated BeanMora Auth configuration, real sign-in/recovery on the published origin, TestFlight group availability, dedicated-test-account CoffeeHO/message/gallery/audio/video/Storage flows and native iPhone/Android/Huawei start/navigation measurements. No new native-device performance number is reported. Browser export/build duration is not startup latency. Remaining asset-size and first-navigation headroom investigations remain unmeasured improvement candidates.

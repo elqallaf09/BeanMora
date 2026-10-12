@@ -273,7 +273,7 @@ export const COFFEE_CURRICULUM: CoffeeLesson[] = [
   },
   {
     id: 'roast-stages', group: 'roasting', titles: ['مراحل التحميص من الأخضر إلى البني', 'Roast stages: green to brown'], priority: 35,
-    keywords: /مراحل.*(?:حمص|تحميص)|شلون.*(?:احمص|حمص)|طريقه الحمص|تحميص|حمص|roast stages|how.*roast|roasting/,
+    keywords: /مراحل.*(?:حمص|تحميص)|شلون.*(?:احمص|حمص)|طريقه الحمص|تحميص|(?:^|[^\p{L}\p{N}])(?:ال)?حمص(?=$|[^\p{L}\p{N}])|roast stages|how.*roast|roasting/u,
     ar: 'البن الأخضر مادة البداية وليس درجة تحميص. أثناء التسخين يصفرّ ثم يتحول إلى البني، وتتطور الروائح. الفرقعة الأولى حدث مسموع، يليها التطوير حتى إنزال البن والتبريد. سجل اللون والرائحة والصوت والمنحنى معًا؛ لا يوجد وقت أو حرارة نهاية واحدة لكل المكاين.',
     en: 'Green coffee is the raw starting material, not a roast level. Heating changes it toward yellow and then brown as aromas develop. First crack is an audible event, followed by development until drop and cooling. Record color, aroma, sound and the curve together; one endpoint time or temperature cannot fit every roaster.',
     more: ['للوصول لبني فاتح، استخدم حمصة مرجعية لمحمصتك وأنزل عند هدف لون وطعم مطور. للمتوسط أو الغامق عدّل نقطة النهاية تدريجيًا مع تبريد ثابت وتذوق مقارن.', 'For light brown, use a reference profile for your machine and a developed color-and-taste target. For medium or dark, adjust the endpoint gradually with consistent cooling and comparative tasting.'],

@@ -14,8 +14,9 @@ async function openAssistant(page: Page, offlineCatalog = false) {
     if (path.endsWith('/rpc/search_coffee_assistant')) {
       const query = route.request().postDataJSON();
       searches.push(query);
+      const namedLimu = query.p_terms.includes('ليمو') || query.p_terms.includes('limu');
       data = query.p_kind === 'roaster'
-        ? [{ id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa0', kind: 'roaster', title_ar: query.p_terms.includes('ark') ? 'آرك روسترز' : 'ألتيتيود روسترز', title_en: query.p_terms.includes('ark') ? 'A R K Roasters' : 'Altitude Roasters', search_text: query.p_terms.includes('ark') ? 'آرك روسترز A R K Roasters KW' : 'Altitude Roasters KW', summary_ar: '', summary_en: '', category: null, methods: [], facts: { country: 'KW' }, offers: [], source_url: query.p_terms.includes('ark') ? 'https://www.ark.com.kw/pages/about' : 'https://altituderoasters.co/en/' }]
+        ? [{ id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa0', kind: 'roaster', title_ar: namedLimu ? 'محمصة ليمو' : query.p_terms.includes('ark') ? 'آرك روسترز' : 'ألتيتيود روسترز', title_en: namedLimu ? 'Limu Roastery' : query.p_terms.includes('ark') ? 'A R K Roasters' : 'Altitude Roasters', search_text: namedLimu ? 'محمصة ليمو Limu Roastery KW' : query.p_terms.includes('ark') ? 'آرك روسترز A R K Roasters KW' : 'Altitude Roasters KW', summary_ar: '', summary_en: '', category: null, methods: [], facts: { country: 'KW' }, offers: [], source_url: namedLimu ? 'https://limukw.com/' : query.p_terms.includes('ark') ? 'https://www.ark.com.kw/pages/about' : 'https://altituderoasters.co/en/' }]
         : [300, 400].map((amount, i) => ({ id: `aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa${i}`, kind: 'equipment', title_ar: `ماكينة ${i + 1}`, title_en: `Machine ${i + 1}`, search_text: 'espresso machine manual', summary_ar: '', summary_en: '', category: 'espresso_machine', methods: ['espresso'], facts: { operation: ['يدوي','Manual'], ...(i ? {} : { pressure_gauge: ['نعم','Yes'] }) }, offers: [{ amount, currency: 'USD', checked_at: new Date().toISOString(), region: 'US', url: 'https://seller.example/machine', availability: 'in_stock' }], source_url: 'https://seller.example/machine' }));
     }
     return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(data) });
@@ -91,6 +92,13 @@ test('published spaced roaster names retain an explicit catalog search instead o
   await ask(page, 'محامص A R K');
   await expect(page.getByTestId('assistant-result')).toContainText('آرك روسترز');
   expect(network.searches).toEqual([expect.objectContaining({ p_kind: 'roaster', p_terms: expect.arrayContaining(['ark', 'a r k']) })]);
+  expect(network.providerCalls()).toBe(0);
+});
+test('the singular Arabic roaster query finds Limu instead of answering a roasting lesson', async ({ page }) => {
+  const network = await openAssistant(page);
+  await ask(page, 'محمصة ليمو');
+  await expect(page.getByTestId('assistant-result')).toContainText('محمصة ليمو');
+  expect(network.searches).toEqual([expect.objectContaining({ p_kind: 'roaster', p_terms: expect.arrayContaining(['ليمو']) })]);
   expect(network.providerCalls()).toBe(0);
 });
 for (const english of [false, true]) test(`symptoms, water measurements and new lessons work offline (${english ? 'en' : 'ar'})`, async ({ page }) => {

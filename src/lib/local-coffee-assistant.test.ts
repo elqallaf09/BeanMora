@@ -13,6 +13,17 @@ const offline: LocalAssistantDependencies = { search: async () => { throw new Er
 const ask = (q: string, history: LocalAssistantTurn[] = [], dependencies = deps, locale: 'ar' | 'en' = 'ar') => converseLocally(q, locale, history, dependencies);
 
 describe('local conversational coffee assistant', () => {
+  it.each(['محمصة ليمو', 'أبي محمصة ليمو', 'Limu roastery'])('retrieves a named roaster for %s instead of treating its name as roasting instruction', async question => {
+    const limu: AssistantDocument = { ...machine, id: 'limu-roaster', kind: 'roaster', category: null, methods: [], title_ar: 'محمصة ليمو', title_en: 'Limu Roastery', search_text: 'محمصة ليمو Limu Roastery KW', facts: { country: 'KW' }, offers: [] };
+    const unrelated = { ...limu, id: 'other-roaster', title_ar: 'محمصة أخرى', title_en: 'Other roaster', search_text: 'Other roaster KW' };
+    const lookup = vi.fn(async () => ({ documents: [limu, unrelated], rates: [] }));
+    const turn = await ask(question, [], { search: lookup, now });
+    expect(turn.intent).toBe('search');
+    expect(lookup).toHaveBeenCalledOnce();
+    expect(turn.query.terms).toContain(question.includes('Limu') ? 'limu' : 'ليمو');
+    expect(turn.matches.map(m => m.document.id)).toEqual(['limu-roaster']);
+    expect(turn.knowledgeTopic).toBeUndefined();
+  });
   it.each(['محامص ARK', 'محامص A R K', 'محامص آرك'])('matches the published spaced brand for %s without accepting substrings', async question => {
     const ark: AssistantDocument = { ...machine, id: 'ark-roaster', kind: 'roaster', category: null, methods: [], title_ar: 'آرك روسترز', title_en: 'A R K Roasters', search_text: 'آرك روسترز A R K Roasters KW', facts: { country: 'KW' }, offers: [] };
     const unrelated = { ...ark, id: 'other-roaster', title_en: 'Market coffee', search_text: 'Market coffee with dark roast' };

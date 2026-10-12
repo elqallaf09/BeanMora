@@ -23,6 +23,7 @@ it.each([
   ['شنو PID بالماكينة؟', 'pid'], ['ليش يصير تشانلنغ؟', 'channeling'],
   ['ما الفرق بين الشفرات المسطحة والمخروطية؟', 'burrs'], ['شلون اعاير الطاحونة؟', 'grinder-calibration'],
   ['ماي الماكينة', 'machine-water'], ['شنو RoR بالحمص؟', 'rate-of-rise'],
+  ['حمص', 'roast-stages'], ['شلون احمص البن؟', 'roast-stages'],
   ['الفرقعة الأولى', 'development-time'], ['What does 9 bar mean?', 'pressure'],
   ['What is grinder retention?', 'retention'], ['How do I measure roast color?', 'roast-color'],
   ['Coffee flavor notes', 'flavor-notes'], ['What is a dual boiler?', 'boilers'],
