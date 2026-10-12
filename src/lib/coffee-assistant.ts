@@ -1,3 +1,4 @@
+import { flavorSearchVocabulary } from './search/flavor-vocabulary';
 import { deepSearchText, normalizeSearch } from './search/deepSearch';
 
 export type AssistantKind = 'equipment' | 'recipe' | 'coffee' | 'roaster';
@@ -25,22 +26,14 @@ export interface AssistantMatch {
   document: AssistantDocument; matchedTerms: string[]; allTerms: boolean;
   price: { offer: CatalogOffer; converted: number; currency: AssistantCurrency; rateDates: string[]; rateSources: string[] } | null;
 }
-const notes = [
-  ['strawberry','فراولة','فراوله'], ['cola','كولا'], ['blueberry','توت ازرق'],
-  ['raspberry','توت العليق'], ['cherry','كرز'], ['chocolate','شوكولاتة','شوكولاته'],
-  ['caramel','كراميل'], ['peach','خوخ'], ['mango','مانجو'], ['pineapple','اناناس'],
-  ['orange','برتقال'], ['lemon','ليمون'], ['jasmine','ياسمين'], ['honey','عسل'],
-  ['hazelnut','بندق'], ['almond','لوز'], ['floral','زهور'], ['fruity','فواكه'],
-  ['citrus','حمضيات'], ['cinnamon','قرفة','قرفه'], ['vanilla','فانيلا'],
-  ['coconut','جوز الهند','جوزالهند','كوكونت','كوكونوت'],
-];
+const notes = flavorSearchVocabulary;
 // Reviewed catalog countries use both names and ISO codes. Expand codes for
 // retrieval and ranking without rewriting roaster records or ownership.
 const places = [['kuwait','الكويت','كويت','kw'],['saudi','السعودية','السعوديه','sa'],['riyadh','الرياض','رياض'],['jeddah','جدة','جده'],['uae','الإمارات','الامارات','ae'],['dubai','دبي'],['qatar','قطر','qa'],['bahrain','البحرين','bh'],['oman','عمان','om']];
 // Published spaced brand and Arabic catalog label, reviewed 2026-10-11:
 // https://www.ark.com.kw/pages/about . Keep matching at word boundaries.
 const catalogNames = [['ark','آرك','a r k','ارك']];
-const stop = new Set(normalizeSearch('ابي ابغى اريد عندي عندكم عنده عندها لي له لها فيه فيها عن من على الى في مع حق حقي هذا هذه شنو وش اي احسن افضل اقرب يناسب مناسبة مناسب نبي ابيها ممكن طلعلي يقوله يقولي سعر بسعر بسعره ميزانية ميزانيه بميزانية بميزانيه تحت لحد حدود ماكينة مكينة مكنة ممكينه ممكينة اله جهاز اجهزه معدات طاحونة طاحونه مطحنة مطحنه وصفة وصفه وصفات بن قهوة قهوه ايحاء ايحاءات ايحاءه طعم نكهة نكهه نكهات ابحث ابيهم ابيك اريدها دولار دولارات دينار كويتي ريال سعودي dollars dollar dinar riyal usd kwd sar machine espresso grinder recipe coffee roaster please find recommend want need for with under budget price best nearest closest have has tasting notes note flavor flavours flavor i a an the and or to me my of is it about tell show give up buy').split(' '));
+const stop = new Set(normalizeSearch('ابي ابغى اريد عندي عندكم عنده عندها لي له لها فيه فيها عن من على الى في مع حق حقي هذا هذه شنو وش اي احسن افضل اقرب يناسب مناسبة مناسب نبي ابيها ممكن طلعلي طلع طلع لي رشح اقترح تنصحني يقوله يقولي سعر بسعر بسعره ميزانية ميزانيه بميزانية بميزانيه تحت لحد حدود ماكينة مكينة مكنة ممكينه ممكينة اله جهاز اجهزه معدات طاحونة طاحونه مطحنة مطحنه وصفة وصفه وصفات بن حبوب beans bean قهوة قهوه ايحاء ايحاءات ايحاءه طعم نكهة نكهه نكهات نكهته نكتة نكته ابحث ابيهم ابيك اريدها دولار دولارات دينار كويتي ريال سعودي dollars dollar dinar riyal usd kwd sar machine espresso grinder recipe coffee roaster please find recommend want need for with under budget price best nearest closest have has tasting tastes taste notes note flavor flavors flavour flavours i a an the and or to me my of is it about tell show give up buy').split(' '));
 const methods: [string, string[]][] = [
   ['xbloom',['xbloom','x bloom','اكسبلوم','اكس بلوم','بالاكسبلوم']],
   ['espresso',['espresso','اسبرسو','اسبريسو','اسبر يسو','بالاسبرسو']],
@@ -48,10 +41,38 @@ const methods: [string, string[]][] = [
   ['chemex',['chemex','كيمكس']], ['french_press',['french press','فرنش برس']],
   ['cold_brew',['cold brew','كولد برو']], ['moka_pot',['moka','موكا بوت']],
 ];
-// Match complete notes: cola is not a match for chocolate / شوكولاتة.
-function matchesAlias(text:string,alias:string):boolean {
-  const escaped=normalizeSearch(alias).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-  return new RegExp('(?:^|[^\\p{L}\\p{N}])(?:و|ب|ال)?'+escaped+'(?=$|[^\\p{L}\\p{N}])','u').test(text);
+// Optional Arabic clitics apply to known words only, never arbitrary brand names.
+function aliasPattern(alias: string): string {
+  const escaped = normalizeSearch(alias).split(' ').map((word, index) => {
+    const literal = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return index && /[\u0600-\u06ff]/.test(word) && !word.startsWith('ال') ? '(?:ال)?' + literal : literal;
+  }).join(' ');
+  const prefix = /[\u0600-\u06ff]/.test(alias) ? '(?:[وف]?ب?ال|[وفب])?' : '';
+  return '(?:^|[^\\p{L}\\p{N}])' + prefix + escaped + '(?=$|[^\\p{L}\\p{N}])';
+}
+function matchesAlias(text: string, alias: string): boolean {
+  return new RegExp(aliasPattern(alias), 'u').test(text);
+}
+// Consume longest phrases first: جوز الهند is coconut, not walnut + India;
+// white chocolate and red wine remain specific notes, not two unrelated terms.
+const noteAliases = notes.flatMap(group => group.map(alias => ({ term: group[0], alias })))
+  .sort((a, b) => normalizeSearch(b.alias).length - normalizeSearch(a.alias).length);
+function extractNotes(text: string) {
+  let rest = text;
+  const found = new Set<string>();
+  for (const { term, alias } of noteAliases) {
+    rest = rest.replace(new RegExp(aliasPattern(alias), 'gu'), () => { found.add(term); return ' '; });
+  }
+  return { terms: notes.filter(group => found.has(group[0])).map(group => group[0]), rest };
+}
+/** Catalog requests take priority over broad educational keyword matches. */
+export function isCoffeeRecommendationRequest(message: string): boolean {
+  const q = normalizeSearch(message);
+  if (!['بن', 'حبوب', 'قهوه', 'coffee', 'bean', 'beans'].some(word => matchesAlias(q, word))) return false;
+  const request = /(?:احسن|افضل)\s+(?:نوع\s+)?(?:بن|حبوب|قهوه)(?:\s|$)|\bbest\s+(?:coffee|beans?)\b/.test(q)
+    || ['رشح', 'رشحلي', 'اقترح', 'تنصحني', 'عطني', 'عطيني', 'طلعلي', 'طلع لي', 'ابي', 'ابغي', 'ابغى', 'اريد', 'دورلي', 'نبي', 'want', 'recommend', 'find', 'give', 'looking for', 'buy'].some(word => matchesAlias(q, word));
+  const questionAboutMeaning = /يعني|معني|اشرح|ليش|لماذا|\b(?:mean|meaning|explain|why)\b/.test(q);
+  return !questionAboutMeaning && (request || (extractNotes(q).terms.length > 0 && /ايحاء|نكه|طعم|\b(?:notes?|flavou?rs?|taste)\b/.test(q)));
 }
 export function assistantSafeUrl(value: unknown): string | null {
   if (typeof value !== 'string') return null;
@@ -61,7 +82,8 @@ export function parseAssistantQuery(message: string, previous?: AssistantQuery |
   const digits = message.replace(/[٠-٩]/g,c=>String('٠١٢٣٤٥٦٧٨٩'.indexOf(c))).replace(/[۰-۹]/g,c=>String('۰۱۲۳۴۵۶۷۸۹'.indexOf(c))).replace(/٫/g,'.').replace(/٬/g,',');
   const q = normalizeSearch(digits.slice(0,1000));
   const foundMethods = methods.filter(([,aliases])=>aliases.some(alias=>q.includes(normalizeSearch(alias)))).map(([id])=>id);
-  const foundNotes = notes.filter(group=>group.some(alias=>matchesAlias(q,alias))).map(group=>group[0]);
+  const extracted = extractNotes(q);
+  const foundNotes = extracted.terms;
   const foundNames = catalogNames.filter(group=>group.some(alias=>matchesAlias(q,alias))).map(group=>group[0]);
   const recipe = /وصف|تحضير|استخلاص|recipe|brew|ايحاء|نكه|طعم/.test(q) || foundNotes.length > 0;
   const gear = /ماكين|مكين|ممكين|اله|معدات|طاحون|مطحن|machine|grinder|equipment|kettle|\bscale\b/.test(q) || matchesAlias(q,'ميزان');
@@ -77,10 +99,14 @@ export function parseAssistantQuery(message: string, previous?: AssistantQuery |
   const value = rawNumber ? Number(rawNumber.replace(/,(?=\d{3}(?:,|$))/g,'')) : null;
   const amount = budgetMentioned ? value : (gear && previous?.kind !== 'equipment') || (kind !== 'equipment') ? null : previous?.amount ?? null;
   // A partial flavor word can be a real brand: ليمو must not disappear inside ليمون.
-  const unknownTerms = q.split(/[^\p{L}\p{N}]+/u).map(word=>/^[وب]/.test(word)&&[...stop,...notes.flat(),...methods.flatMap(([,aliases])=>aliases)].some(alias=>normalizeSearch(alias)===word.slice(1))?word.slice(1):word).filter(word=>word.length > 2 && !stop.has(word) && !/^(\d|محامص|محمص|roasters?$|in$)/.test(word) && !methods.some(([,aliases])=>aliases.some(alias=>normalizeSearch(alias).includes(word))) && !notes.some(group=>group.some(alias=>normalizeSearch(alias).split(' ').includes(word)))).map(word=>places.find(group=>group.some(alias=>normalizeSearch(alias)===word))?.[0]??word);
+  const unknownTerms = extracted.rest.split(/[^\p{L}\p{N}]+/u)
+    .filter(word => word.length > 2 && ![...stop].some(alias => matchesAlias(word, alias))
+      && !/^(\d|محامص|محمص|roasters?$|in$)/.test(word)
+      && !methods.some(([, aliases]) => aliases.some(alias => normalizeSearch(alias).split(' ').includes(word))))
+    .map(word => places.find(group => group.some(alias => matchesAlias(word, alias)))?.[0] ?? word);
   const region = kind==='equipment' ? (/بالكويت|في الكويت|in kuwait/.test(q)?'KW':/بالسعوديه|في السعوديه|in saudi/.test(q)?'SA':previous?.region??null) : null;
   const availableOnly = kind==='equipment' && /متوفر|متاح|in stock|available/.test(q) && !/غير متوفر|نفاد|out of stock/.test(q) ? true : kind==='equipment' ? previous?.availableOnly??false : false;
-  const terms = [...new Set(kind==='recipe'&&foundNotes.length?foundNotes:[...foundNames, ...foundNotes, ...unknownTerms.filter(term=>!catalogNames.some(group=>group.some(alias=>normalizeSearch(alias)===term))&&!(kind==='equipment'&&(/^(متوفر|متاح)/.test(term)||['available','stock'].includes(term)))&&!(region&&['kuwait','saudi','بالكويت','بالسعوديه'].includes(term)))])].slice(0,8);
+  const terms = [...new Set([...foundNames, ...foundNotes, ...unknownTerms.filter(term=>!catalogNames.some(group=>group.some(alias=>normalizeSearch(alias)===term))&&!(kind==='equipment'&&(/^(متوفر|متاح)/.test(term)||['available','stock'].includes(term)))&&!(region&&['kuwait','saudi','بالكويت','بالسعوديه'].includes(term)))])].slice(0,8);
   return { kind, category, methods: foundMethods.length ? foundMethods : (gear || recipe) && kind !== previous?.kind ? [] : previous?.methods ?? [], terms: terms.length ? terms : !gear && !recipe ? previous?.terms ?? [] : [], amount, currency, region, availableOnly,
     clarification: amount !== null && (!Number.isFinite(amount) || amount <= 0) ? 'budget' : amount !== null && (!currency || currencies.length > 1) ? 'currency' : !kind ? 'intent' : null };
 }

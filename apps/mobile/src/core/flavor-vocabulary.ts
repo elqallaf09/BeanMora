@@ -219,4 +219,27 @@ export const flavorTranslations: Record<string, string> = {
   beeswax: "شمع العسل",
   "yellow peach": "خوخ أصفر",
 };
-export const flavorSearchVocabulary = Object.entries(flavorTranslations);
+const preferredFlavorAliases: string[][] = [
+  ['strawberry','فراولة','فراوله'], ['cola','كولا'], ['blueberry','توت ازرق'],
+  ['raspberry','توت العليق'], ['cherry','كرز'], ['chocolate','شوكولاتة','شوكولاته'],
+  ['caramel','كراميل'], ['peach','خوخ'], ['mango','مانجو'], ['pineapple','اناناس'],
+  ['orange','برتقال'], ['lemon','ليمون'], ['jasmine','ياسمين'], ['honey','عسل'],
+  ['hazelnut','بندق'], ['almond','لوز'], ['floral','زهور'], ['fruity','فواكه'],
+  ['citrus','حمضيات'], ['cinnamon','قرفة','قرفه'], ['vanilla','فانيلا'],
+  ['coconut','جوز الهند','جوزالهند','كوكونت','كوكونوت'],
+  ['cocoa','كاكاو','cacao','ككاو'],
+  ['wine','نبيذ','واين','winey','winy','wine-like','نبيذي'],
+  ['whisky','ويسكي','whiskey','وسكي'],
+];
+// Share one bilingual vocabulary between catalog retrieval and conversation.
+// Equal translated labels are synonyms; compound notes keep their own identity.
+export const flavorSearchVocabulary: readonly (readonly string[])[] = (() => {
+  const groups = preferredFlavorAliases.map(group => [...group]);
+  for (const [english, arabic] of Object.entries(flavorTranslations)) {
+    const group = groups.find(aliases => aliases.includes(english) || aliases.includes(arabic));
+    if (group) {
+      for (const alias of [english, arabic]) if (!group.includes(alias)) group.push(alias);
+    } else groups.push([english, arabic]);
+  }
+  return groups;
+})();
