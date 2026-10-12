@@ -474,12 +474,12 @@ for (const width of [320, 800, 1536])
     await expect(
       sections.getByRole("button", { name: "المعدات", exact: true }),
     ).toBeInViewport({ ratio: 1 });
-    await page.getByRole("button", { name: "وصفاتي (0)", exact: true }).click();
+    await sections.getByRole("button", { name: "الوصفات", exact: true }).click();
     await expect(
       sections.getByRole("button", { name: "الوصفات", exact: true }),
     ).toBeInViewport({ ratio: 1 });
-    await page
-      .getByRole("button", { name: "معدات القهوة (0)", exact: true })
+    await sections
+      .getByRole("button", { name: "المعدات", exact: true })
       .click();
     await expect(
       page.getByRole("button", { name: "حذف الحساب والبيانات", exact: true }),
@@ -789,13 +789,18 @@ for (const scenario of [
     await expect
       .poll(() => photo.evaluate((el) => (el as HTMLImageElement).naturalWidth))
       .toBeGreaterThan(1);
-    await expect(
-      page.getByTestId("profile-stats").getByRole("button"),
-    ).toHaveCount(4);
+    await expect(page.getByTestId("profile-stats")).toHaveCount(0);
     await expect(
       page.getByTestId("profile-sections").getByRole("button"),
     ).toHaveCount(7);
     const sections = page.getByTestId("profile-sections");
+    for (const name of ar ? ["المعدات", "البن", "الوصفات", "منشوراتي", "الوصفات المفضلة", "التعليقات", "الاستخلاص وركن القهوة"] : ["Equipment", "Coffee", "Recipes", "Posts", "Favorite recipes", "Comments", "Brews & coffee corner"]) {
+      await expect(profile.getByRole("button", { name, exact: true })).toHaveCount(1);
+    }
+    for (const name of ar ? ["المعدات", "البن"] : ["Equipment", "Coffee"]) {
+      await expect(sections.getByRole("button", { name, exact: true })).toContainText("1");
+    }
+    await expect(sections.locator('[aria-pressed="true"]')).toHaveCount(1);
     const favorites = sections.getByRole("button", { name: ar ? "الوصفات المفضلة" : "Favorite recipes", exact: true });
     await expect(sections.getByRole("button", { name: ar ? "المزيد من أقسام الحساب" : "More profile sections", exact: true })).toHaveCount(0);
     await expect(page.getByTestId("profile-extra-sections")).toHaveCount(0);
@@ -870,7 +875,7 @@ for (const scenario of [
     ).toBeVisible();
     await profile
       .getByRole("button", {
-        name: ar ? "أكياس البن (1)" : "Coffee bags (1)",
+        name: ar ? "البن" : "Coffee",
         exact: true,
       })
       .click();
