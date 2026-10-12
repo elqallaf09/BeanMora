@@ -2,21 +2,21 @@ import { test, expect, type Page } from '@playwright/test';
 import { setLanguage } from './settings';
 const id = '11111111-1111-4111-8111-111111111111';
 const recipe = { id, title: 'Public source profile', title_ar: 'وصفة المصدر المعزولة', brew_method: 'xbloom', visibility: 'public',
-  bean_id: null, roasted_product_id: null, flavor_notes: ['Chocolate', 'Caramel'], steps: [], equipment: [],
+  serving_style: 'hot', bean_id: null, roasted_product_id: null, flavor_notes: ['Chocolate', 'Caramel'], steps: [], equipment: [],
   source_coffee_name: 'Different source coffee', source_origin_country: 'Brazil',
   source_brew_parameters: { model: 'Studio', dose: 15, water_ml: 240, grind_size: 50, pours: [{ volume: 240, temperature: 92 }] } };
 async function fixtures(page: Page, mode: 'success' | 'error' | 'empty' = 'success') {
-  const parameters: Record<string, unknown>[] = []; let fail = mode === 'error';
+  const parameters: Record<string, unknown>[] = []; let fail = mode === 'error'; let serving = 'hot';
   await page.route('https://mobilefixture.supabase.co/**', async route => {
     const request = route.request(), path = new URL(request.url()).pathname;
-    if (path.endsWith('/rpc/recipes_for_coffee_label')) {
-      parameters.push(request.postDataJSON());
+    if (path.endsWith('/rpc/recipes_for_coffee_label_v2')) {
+      parameters.push(request.postDataJSON()); serving = request.postDataJSON().p_serving === 'cold_or_iced' ? 'iced' : 'hot';
       if (fail) { fail = false; return route.fulfill({ status: 400, contentType: 'application/json', body: '{"message":"isolated failure"}' }); }
       return route.fulfill({ contentType: 'application/json', body: JSON.stringify(mode === 'empty' ? [] : [{ recipe_id: id, match_kind: 'similar', score: 62,
         matching_notes: ['chocolate', 'caramel'], matching_families: ['chocolate', 'sweet'], same_origin: true, same_variety: false,
         same_process: false, same_roast: false, device_model: 'Studio' }]) });
     }
-    return route.fulfill({ contentType: 'application/json', headers: { 'content-range': '0-0/1' }, body: JSON.stringify(path.endsWith('/recipes') ? [recipe] : []) });
+    return route.fulfill({ contentType: 'application/json', headers: { 'content-range': '0-0/1' }, body: JSON.stringify(path.endsWith('/recipes') ? [{ ...recipe, serving_style: serving }] : []) });
   });
   return parameters;
 }
@@ -46,10 +46,21 @@ test('real free OCR reads a label, review binds facts only, source ml survive an
   await expect(panel.getByLabel('Coffee origin', { exact: true })).toHaveValue('Brazil', { timeout: 90000 });
   await expect(panel.getByLabel('Variety', { exact: true })).toHaveValue('Castillo');
   await expect(panel.getByLabel('Tasting notes on the bag', { exact: true })).toHaveValue(/Chocolate/);
-  await panel.getByRole('button', { name: 'Studio', exact: true }).click();
+  await expect(panel.getByRole('button', { name: 'Find the closest recipe', exact: true })).toBeDisabled();
+  await panel.getByRole('button', { name: 'Crop label and reread', exact: true }).click();
+  const crop = panel.getByTestId('coffee-crop-image');
+  await crop.scrollIntoViewIfNeeded();
+  const size = (await crop.boundingBox())!;
+  await crop.click({ position: { x: size.width * .01, y: size.height * .01 } });
+  await crop.click({ position: { x: size.width * .99, y: size.height * .99 } });
+  await expect(panel.getByTestId('coffee-crop-selection')).toBeVisible();
+  await panel.getByRole('button', { name: 'Read selected label', exact: true }).click();
+  await expect(panel.getByLabel('Coffee origin', { exact: true })).toHaveValue('Brazil', { timeout: 90000 });
+  await panel.getByRole('button', { name: 'I reviewed the label details', exact: true }).click();
   await panel.getByRole('button', { name: 'Find the closest recipe', exact: true }).click();
   await expect(panel.getByTestId('coffee-label-recipe')).toHaveCount(1);
-  expect(params[0]).toMatchObject({ p_origin: 'Brazil', p_variety: 'Castillo', p_model: 'Studio', p_bean_id: null, p_product_id: null });
+  await expect(panel.getByTestId('recipe-serving-badge')).toHaveText('Hot');
+  expect(params[0]).toMatchObject({ p_serving: null, p_limit: 6, p_origin: 'Brazil', p_variety: 'Castillo', p_model: null, p_bean_id: null, p_product_id: null });
   expect(params[0].p_notes).toContain('Chocolate');
   expect(requests.filter(r => r.method === 'POST').every(r => r.url.startsWith('https://mobilefixture.supabase.co/'))).toBe(true);
   expect(requests.filter(r => r.data).every(r => !r.data!.includes('base64'))).toBe(true);
@@ -78,5 +89,20 @@ test('missing source evidence shows an empty result without manufacturing parame
   const panel = page.getByTestId('coffee-label-scanner'); await panel.getByLabel('Coffee origin', { exact: true }).fill('Unknown origin');
   await panel.getByRole('button', { name: 'Find the closest recipe', exact: true }).click();
   await expect(panel.getByTestId('coffee-label-no-match')).toContainText('No close published recipe');
+  await expect(panel.getByTestId('coffee-label-recipe')).toHaveCount(0);
+});
+
+test('cold choice is sent before ranking and editing the facts clears stale recipes', async ({ page }) => {
+  const params = await fixtures(page); await openScanner(page, false);
+  const panel = page.getByTestId('coffee-label-scanner');
+  await panel.getByLabel('منشأ البن', { exact: true }).fill('اثيوبيا');
+  await panel.getByTestId('coffee-label-serving-filters').getByRole('button', { name: 'بارد', exact: true }).click();
+  await panel.getByRole('button', { name: 'اعثر على أقرب وصفة', exact: true }).click();
+  await expect(panel.getByTestId('coffee-label-recipe')).toHaveCount(1);
+  await expect(panel.getByTestId('recipe-serving-badge')).toHaveText('بارد · مثلّج');
+  await panel.getByTestId('coffee-label-recipe').scrollIntoViewIfNeeded();
+  await page.screenshot({ path: 'test-results/coffee-label-ar-mobile.png' });
+  expect(params[0]).toMatchObject({ p_origin: 'اثيوبيا', p_serving: 'cold_or_iced', p_limit: 6 });
+  await panel.getByLabel('منشأ البن', { exact: true }).fill('برازيل');
   await expect(panel.getByTestId('coffee-label-recipe')).toHaveCount(0);
 });
