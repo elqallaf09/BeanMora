@@ -20,6 +20,7 @@ export const flavorTranslations: Record<string, string> = {
   clean: "واضحة",
   clementine: "كلمنتينا",
   cola: "كولا",
+  coconut: "جوز الهند",
   cookies: "بسكويت",
   "creamy white chocolate": "شوكولاتة بيضاء كريمية",
   currants: "كشمش",

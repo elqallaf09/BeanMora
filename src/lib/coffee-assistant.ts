@@ -32,6 +32,7 @@ const notes = [
   ['orange','برتقال'], ['lemon','ليمون'], ['jasmine','ياسمين'], ['honey','عسل'],
   ['hazelnut','بندق'], ['almond','لوز'], ['floral','زهور'], ['fruity','فواكه'],
   ['citrus','حمضيات'], ['cinnamon','قرفة','قرفه'], ['vanilla','فانيلا'],
+  ['coconut','جوز الهند','جوزالهند','كوكونت','كوكونوت'],
 ];
 // Reviewed catalog countries use both names and ISO codes. Expand codes for
 // retrieval and ranking without rewriting roaster records or ownership.
@@ -125,6 +126,13 @@ export function assistantReply(query: AssistantQuery, matches: AssistantMatch[],
   if(query.clarification==='currency')return ar?'حدد عملة الميزانية: دولار أمريكي USD، دينار كويتي KWD، أو ريال سعودي SAR.':'Which budget currency: US dollars (USD), Kuwaiti dinars (KWD), or Saudi riyals (SAR)?';
   if(query.clarification==='budget')return ar?'اكتب ميزانية أكبر من صفر مع العملة.':'Enter a budget greater than zero and its currency.';
   if(query.clarification==='intent')return ar?'اسألني عن معدات وميزانيتها، أو وصفة حسب إيحاءات البن وطريقة التحضير، أو محمصة.':'Ask about equipment and a budget, a recipe for your tasting notes and brew method, or a roaster.';
+  if(query.kind==='coffee') {
+    const requested = query.terms.map(term=>assistantTermLabel(term,locale)).join(ar?'، ':', ');
+    if(!matches.length)return ar?`لم أجد بنًا منشورًا يطابق${requested?' «'+requested+'»':' طلبك'} في مكتبتنا. جرّب إيحاءً آخر أو اسم البن أو المحمصة.`:`I found no published coffee matching ${requested||'your request'} in our catalog. Try another tasting note, coffee or roaster name.`;
+    const best = matches[0], name = ar ? best.document.title_ar||best.document.title_en : best.document.title_en||best.document.title_ar;
+    const matched = best.matchedTerms.map(term=>assistantTermLabel(term,locale)).join(ar?'، ':', ');
+    return ar ? `${best.allTerms?'أقرب ترشيح لطلبك':'لم أجد بنًا يطابق كل طلبك؛ أقرب خيار جزئي'}: ${name}.${matched?'\nيطابق: '+matched+'، بحسب البيانات المنشورة.':''}\nراجع وصف المحمصة لمعرفة المعالجة والإيحاءات قبل الاختيار.` : `${best.allTerms?'My closest catalog recommendation':'No coffee matched everything; the closest partial match is'}: ${name}.${matched?'\nMatches: '+matched+', according to the published information.':''}\nCheck the roaster’s description for processing and tasting notes before choosing.`;
+  }
   if(!matches.length)return query.amount!==null?(ar?'لم أجد خيارًا بسعر موثّق ضمن هذه الميزانية. جرّب ميزانية أخرى أو ابحث دون سعر.':'I found no option with a documented price within this budget. Try another budget or search without a price.'):(ar?'لم أجد سجلًا منشورًا يطابق طلبك. جرّب اسم البن أو الجهاز أو المحمصة.':'I found no published record matching your request. Try a coffee, equipment or roaster name.');
   if(query.kind==='recipe'&&query.terms.length)return matches.some(match=>match.allTerms)?(ar?'هذه أقرب الوصفات حسب الإيحاءات المذكورة. تشابه الإيحاءات لا يعني أنها وصفة لنفس البن؛ افتح الوصفة لمراجعة المحصول والجهاز.':'These recipes match the requested notes. Matching notes does not mean the same coffee; open each recipe to review its coffee and equipment.'):(ar?'لم أجد وصفة تطابق كل الإيحاءات. هذه خيارات قريبة تطابق بعض الإيحاءات فقط.':'No recipe matched every requested note. These nearby options match only some notes.');
   return query.amount!==null?(ar?'هذه خيارات من دليلنا ضمن الميزانية بحسب أسعار مؤرخة. التحويل تقديري، والشحن والضرائب وتوفر المتجر تُراجع عند الشراء.':'These catalog options fit the budget using dated prices. Conversion is indicative; check shipping, taxes and seller availability before buying.'):(ar?'هذه السجلات الأقرب لطلبك من معلومات BeanMora المنشورة.':'These are the closest published BeanMora records for your request.');
