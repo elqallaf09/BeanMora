@@ -17,7 +17,8 @@ async function openAssistant(page: Page, offlineCatalog = false) {
       const namedLimu = query.p_terms.includes('ليمو') || query.p_terms.includes('limu');
       data = query.p_kind === 'roaster'
         ? [{ id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa0', kind: 'roaster', title_ar: namedLimu ? 'محمصة ليمو' : query.p_terms.includes('ark') ? 'آرك روسترز' : 'ألتيتيود روسترز', title_en: namedLimu ? 'Limu Roastery' : query.p_terms.includes('ark') ? 'A R K Roasters' : 'Altitude Roasters', search_text: namedLimu ? 'محمصة ليمو Limu Roastery KW' : query.p_terms.includes('ark') ? 'آرك روسترز A R K Roasters KW' : 'Altitude Roasters KW', summary_ar: '', summary_en: '', category: null, methods: [], facts: { country: 'KW' }, offers: [], source_url: namedLimu ? 'https://limukw.com/' : query.p_terms.includes('ark') ? 'https://www.ark.com.kw/pages/about' : 'https://altituderoasters.co/en/' }]
-        : query.p_kind === 'coffee' ? [{ id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaac0', kind: 'coffee', title_ar: 'بن مونتيبلانكو التجريبي', title_en: 'Fixture Monteblanco', search_text: 'Fixture Monteblanco Coconut Lemonade', summary_ar: 'جوز الهند والليمونادة؛ تخمير مشترك مع إضافات بحسب المصدر.', summary_en: 'Coconut and lemonade; co-fermented and infused according to the source.', category: null, methods: ['v60'], facts: { notes: ['Coconut', 'Lemonade'] }, offers: [], source_url: 'https://roaster.example/coffee' }]
+        : query.p_kind === 'coffee' ? [{ id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaac0', kind: 'coffee', title_ar: 'بن مونتيبلانكو التجريبي', title_en: 'Fixture Monteblanco', search_text: 'Fixture Monteblanco Coconut Lemonade', summary_ar: 'جوز الهند والليمونادة؛ تخمير مشترك مع إضافات بحسب المصدر.', summary_en: 'Coconut and lemonade; co-fermented and infused according to the source.', category: null, methods: ['v60'], facts: { notes: ['Coconut', 'Lemonade'] }, offers: [], source_url: 'https://roaster.example/coffee' },
+          ...[['cocoa', 'بن الكاكاو التجريبي', 'Cacao'], ['wine', 'بن واين التجريبي', 'Red Wine'], ['unrelated', 'بن غير مطابق', 'Whole coffee beans chocolate winegum']].map(([id, title, notes]) => ({ id, kind: 'coffee', title_ar: title, title_en: title, search_text: notes, summary_ar: notes, summary_en: notes, category: null, methods: [], facts: { notes: [notes] }, offers: [], source_url: 'https://roaster.example/coffee' }))]
         : [300, 400].map((amount, i) => ({ id: `aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa${i}`, kind: 'equipment', title_ar: `ماكينة ${i + 1}`, title_en: `Machine ${i + 1}`, search_text: 'espresso machine manual', summary_ar: '', summary_en: '', category: 'espresso_machine', methods: ['espresso'], facts: { operation: ['يدوي','Manual'], ...(i ? {} : { pressure_gauge: ['نعم','Yes'] }) }, offers: [{ amount, currency: 'USD', checked_at: new Date().toISOString(), region: 'US', url: 'https://seller.example/machine', availability: 'in_stock' }], source_url: 'https://seller.example/machine' }));
     }
     return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(data) });
@@ -46,6 +47,32 @@ test('the reported coconut question recommends coffee by name with its source, n
   await panel.getByRole('button', { name: 'اشرح الأول', exact: true }).click();
   await expect(panel).toContainText('تخمير مشترك مع إضافات');
   expect(network.searches).toHaveLength(1);
+  expect(network.providerCalls()).toBe(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
+test('reported Arabic cocoa, wine and whisky questions use the same catalog concepts as English', async ({ page }) => {
+  await page.setViewportSize({ width: 800, height: 1000 });
+  const network = await openAssistant(page);
+  const panel = page.getByTestId('coffee-assistant');
+  await ask(page, 'معالجات البن');
+  await expect(panel).toContainText('لا يعني إضافة عسل');
+  for (const [question, term, title] of [
+    ['طلعلي بن بطعم الككاو', 'cocoa', 'بن الكاكاو التجريبي'],
+    ['عطني بن نكته واين', 'wine', 'بن واين التجريبي'],
+    ['i want beans wine', 'wine', 'بن واين التجريبي'],
+  ]) {
+    await ask(page, question);
+    await expect(page.getByTestId('assistant-result')).toHaveCount(1);
+    await expect(page.getByTestId('assistant-result')).toContainText(title);
+    expect(network.searches.at(-1)).toEqual(expect.objectContaining({ p_kind: 'coffee', p_terms: expect.arrayContaining([term]) }));
+    expect((network.searches.at(-1) as { p_terms: string[] }).p_terms).not.toContain('beans');
+  }
+  await ask(page, 'شنو بن ايحاء ويسكي');
+  await expect(panel).toContainText('لم أجد بنًا منشورًا يطابق «ويسكي»');
+  await expect(page.getByTestId('assistant-result')).toHaveCount(0);
+  expect(network.searches).toHaveLength(4);
+  expect(network.searches.at(-1)).toEqual(expect.objectContaining({ p_kind: 'coffee', p_terms: expect.arrayContaining(['whisky', 'whiskey', 'ويسكي']) }));
   expect(network.providerCalls()).toBe(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });

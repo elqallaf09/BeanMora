@@ -13,6 +13,67 @@ const offline: LocalAssistantDependencies = { search: async () => { throw new Er
 const ask = (q: string, history: LocalAssistantTurn[] = [], dependencies = deps, locale: 'ar' | 'en' = 'ar') => converseLocally(q, locale, history, dependencies);
 
 describe('local conversational coffee assistant', () => {
+  it.each([
+    ['طلعلي بن بطعم الككاو', 'cocoa'],
+    ['طلعلي بن بطعم الكاكاو', 'cocoa'],
+    ['عطني بن نكته واين', 'wine'],
+    ['i want beans wine', 'wine'],
+    ['شنو بن ايحاء ويسكي', 'whisky'],
+    ['I want coffee with whiskey notes', 'whisky'],
+    ['أبي بن بالكاكاو', 'cocoa'],
+    ['أبي بن بإيحاءات الشوكولاتة البيضاء', 'white chocolate'],
+    ['Find beans with black currant notes', 'blackcurrant'],
+  ])('understands the full tasting-note request %s across languages', async (question, note) => {
+    const coffee: AssistantDocument = { ...recipe, id: 'matching-coffee', kind: 'coffee', title_ar: 'بن مطابق', search_text: note, facts: { notes: [note] } };
+    const unrelated = { ...coffee, id: 'unrelated', search_text: 'Whole coffee beans chocolate winegum India walnut' };
+    const lookup = vi.fn(async () => ({ documents: [unrelated, coffee, recipe], rates: [] }));
+    const turn = await ask(question, [], { search: lookup, now });
+    expect(turn.intent).toBe('search');
+    expect(turn.query).toMatchObject({ kind: 'coffee', terms: [note], clarification: null });
+    expect(turn.matches.map(m => m.document.id)).toEqual(['matching-coffee']);
+    expect(turn.answer).toContain('بن مطابق');
+    expect(turn.answer).not.toMatch(/يطابق:.*(?:beans|نكته|بطعم|طلعلي)/);
+  });
+  it('uses the same wine results for Arabic and English and excludes winegum', async () => {
+    const documents = ['Red Wine', 'White Wine', 'winey fruitiness', 'winegum', 'Whole coffee beans chocolate'].map((search_text, index) => ({ ...recipe, kind: 'coffee' as const, id: String(index), search_text }));
+    const lookup = { search: async () => ({ documents, rates: [] }), now };
+    const arabic = await ask('عطني بن نكته واين', [], lookup);
+    const english = await ask('i want beans wine', [], lookup);
+    expect(arabic.matches.map(m => m.document.id)).toEqual(['0', '1', '2']);
+    expect(english.matches.map(m => m.document.id)).toEqual(['0', '1', '2']);
+    expect(localAssistantSearchTerms(arabic.query)).toEqual(localAssistantSearchTerms(english.query));
+  });
+  it('reports missing whisky without substituting another note or a lesson', async () => {
+    const lookup = { search: async () => ({ documents: [{ ...recipe, kind: 'coffee' as const, search_text: 'Whole beans red wine chocolate' }], rates: [] }), now };
+    const turn = await ask('شنو بن ايحاء ويسكي', [], lookup);
+    expect(turn.intent).toBe('search');
+    expect(turn.matches).toEqual([]);
+    expect(turn.answer).toContain('«ويسكي»');
+  });
+  it('moves from processing education to cocoa and replaces wine with whisky in follow-ups', async () => {
+    const lookup = { search: async () => ({ documents: [{ ...recipe, kind: 'coffee' as const, search_text: 'Cacao' }], rates: [] }), now };
+    const lesson = await ask('معالجات البن', [], offline);
+    const cocoa = await ask('طلعلي بن بطعم الككاو', [lesson], lookup);
+    expect(cocoa.query).toMatchObject({ kind: 'coffee', terms: ['cocoa'] });
+    expect(cocoa.matches).toHaveLength(1);
+    const wine = await ask('عطني بن نكته واين', [cocoa], lookup);
+    const whisky = await ask('شنو بن ايحاء ويسكي', [wine], lookup);
+    expect(wine.query.terms).toEqual(['wine']);
+    expect(whisky.query.terms).toEqual(['whisky']);
+    expect(wine.matches).toEqual([]);
+    expect(whisky.matches).toEqual([]);
+  });
+  it('preserves the requested roaster or unknown note alongside recognized flavors', async () => {
+    const query = parseLocalAssistantQuery('أبي بن كاكاو من روستادو');
+    expect(query.terms).toEqual(['cocoa', 'روستادو']);
+    const turn = await ask('أبي بن كاكاو وزعفران', [], { search: async () => ({ documents: [{ ...recipe, kind: 'coffee' as const, search_text: 'Cacao' }], rates: [] }), now });
+    expect(turn.query.terms).toContain('وزعفران');
+    expect(turn.matches[0].allTerms).toBe(false);
+    expect(turn.answer).toContain('خيار جزئي');
+  });
+  it.each(['شنو يعني إيحاءات البن؟', 'ليش طعم البن كاكاو؟', 'What do wine notes in coffee mean?'])('keeps %s educational', async question => {
+    expect((await ask(question, [], offline)).intent).toBe('knowledge');
+  });
   const coconutCoffee: AssistantDocument = { ...recipe, id: 'coconut-coffee', kind: 'coffee', title_ar: 'مونتيبلانكو', title_en: 'Monteblanco', methods: ['v60'], search_text: 'Monteblanco Coconut Lemonade جوز الهند', summary_ar: 'إيحاءات جوز الهند والليمونادة. تخمير مشترك مع إضافات بحسب المحمصة.', summary_en: 'Coconut and lemonade. Co-fermented and infused according to the roaster.', facts: { notes: ['Coconut', 'Lemonade'], roaster: 'Test roaster' } };
   it.each([
     ['شنو احسن بن ايحاء جوز الهند', 'ar'],

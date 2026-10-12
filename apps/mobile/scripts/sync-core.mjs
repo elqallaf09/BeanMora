@@ -34,7 +34,7 @@ for (const [source, destination] of pairs) {
   const targetUrl = new URL(destination, import.meta.url);
   const raw = readFileSync(sourceUrl, 'utf8');
   const adapted = /deepSearch\.ts$/.test(source) ? raw.replace('../catalog-names', './catalog-names') : /grinder-context\.ts$/.test(source) ? raw.replace('./brewing/outcome', './outcome') : raw;
-  const content = /(?:coffee-assistant|coffee-knowledge)\.ts$/.test(source) ? adapted.replace(/(['"])\.\/search\/deepSearch\1/g, '$1./deepSearch$1') : adapted;
+  const content = /(?:coffee-assistant|coffee-knowledge)\.ts$/.test(source) ? adapted.replace(/(['"])\.\/search\/(deepSearch|flavor-vocabulary)\1/g, '$1./$2$1') : adapted;
   if (process.argv.includes('--check')) {
     if (readFileSync(targetUrl, 'utf8') !== content) throw new Error('Shared core drift: run npm run sync:core in apps/mobile');
   } else writeFileSync(targetUrl, content);

@@ -1,3 +1,4 @@
+import { isCoffeeRecommendationRequest } from './coffee-assistant';
 import { normalizeSearch } from "./search/deepSearch";
 import { COFFEE_CURRICULUM, type CoffeeCourseGroup, type CoffeeLesson } from './coffee-curriculum';
 /** Reviewed bilingual education. Product settings always remain with their source. */
@@ -109,7 +110,7 @@ export function coffeeKnowledgeAnswer(
   if (/ميزاني|دولار|دينار|ريال|budget|\b(?:usd|kwd|sar)\b|under \d/.test(q)) return null;
   // A request for a coffee recommendation is not a lesson about tasting notes.
   // Keep "best water for coffee" and "what do tasting notes mean?" educational.
-  if (/(?:احسن|افضل)\s+(?:نوع\s+)?(?:بن|حبوب|قهوه)(?:\s|$)|\bbest\s+(?:coffee|beans?)\b|(?:رشح|اقترح|تنصحني).*(?:بن|حبوب|قهوه)/.test(q)) return null;
+  if (isCoffeeRecommendationRequest(question)) return null;
   if (
     /ابي (?:بن|ماكين|مكين|طاحون|مطحن|غلاي|معدات|وصف)|ابحث|محامص|recommend|find|recipe with|buy|under \d|(?:افضل|best).*(?:طاحون|ماكين|grinder|machine)/.test(
       q,

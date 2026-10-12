@@ -337,7 +337,7 @@ export const COFFEE_CURRICULUM: CoffeeLesson[] = [
   },
   {
     id: 'flavor-notes', group: 'sensory', titles: ['الإيحاءات والرائحة والقوام', 'Flavor notes, aroma and texture'], priority: 75,
-    keywords: /ايحاء|نكه|flavo[u]?r notes|aroma|mouthfeel|texture|رائحه|قوام/,
+    keywords: /ايحاء|نكه|flavo[u]?r notes|aroma|mouthfeel|texture|رائحه|قوام|(?:ليش|لماذا|اشرح).*طعم|\bnotes\b.*\bmean(?:ing)?\b/,
     ar: 'الإيحاءات وصف لما يذكّرنا به الكوب، وليست دليلًا على إضافة فاكهة أو شوكولاتة. افصل الرائحة والطعم والحموضة والمرارة والقوام والأثر اللاحق. معجم World Coffee Research يقدم أوصافًا ومراجع حسية؛ وصف النكهة يختلف عن تقييم تفضيلك الشخصي.',
     en: 'Flavor notes describe what a cup reminds us of; they do not establish that fruit or chocolate was added. Separate aroma, flavor, acidity, bitterness, texture and aftertaste. World Coffee Research provides sensory descriptors and references; describing flavor differs from rating your preference.',
     more: ['ابدأ بفئة عامة مثل فاكهي أو مكسرات، ثم وصف أدق إذا تكرر إحساسك. تذوق الكوب وهو يبرد ودوّن الشدة بدل مطاردة كلمة العبوة.', 'Start with a broad family such as fruit or nuts, then narrow it if the sensation repeats. Taste as the cup cools and record intensity rather than chasing the bag label.'],
