@@ -161,7 +161,7 @@ export function temperatureLabel(recipe: RecipeItem, ar = false): string {
     m.bloom_temperature_c !== undefined ? `${m.bloom_temperature_c}°C ${ar ? 'للتزهير' : 'bloom'}` : null,
     m.main_temperature_c !== undefined ? `${m.main_temperature_c}°C ${ar ? 'للصبات التالية' : 'main pours'}` : null,
   ].filter(Boolean).join(' · ');
-  if (recipe.temperatureMin != null && recipe.temperatureMax != null) return `${recipe.temperatureMin}–${recipe.temperatureMax}°C`;
+  if (recipe.temperatureMin != null && recipe.temperatureMax != null) return `${recipe.temperatureMin === recipe.temperatureMax ? recipe.temperatureMin : `${recipe.temperatureMin}–${recipe.temperatureMax}`}°C`;
   if (m?.temperature_min_c !== undefined && m.temperature_max_c !== undefined) return `${m.temperature_min_c}–${m.temperature_max_c}°C`;
   const temperature = recipe.temperature ?? recipe.xBloom?.temp;
   if (temperature !== null && temperature !== undefined) return `${temperature}°C`;
