@@ -13,6 +13,17 @@ const offline: LocalAssistantDependencies = { search: async () => { throw new Er
 const ask = (q: string, history: LocalAssistantTurn[] = [], dependencies = deps, locale: 'ar' | 'en' = 'ar') => converseLocally(q, locale, history, dependencies);
 
 describe('local conversational coffee assistant', () => {
+  it.each(['محمصة ليمو', 'أبي محمصة ليمو', 'Limu roastery'])('retrieves a named roaster for %s instead of treating its name as roasting instruction', async question => {
+    const limu: AssistantDocument = { ...machine, id: 'limu-roaster', kind: 'roaster', category: null, methods: [], title_ar: 'محمصة ليمو', title_en: 'Limu Roastery', search_text: 'محمصة ليمو Limu Roastery KW', facts: { country: 'KW' }, offers: [] };
+    const unrelated = { ...limu, id: 'other-roaster', title_ar: 'محمصة أخرى', title_en: 'Other roaster', search_text: 'Other roaster KW' };
+    const lookup = vi.fn(async () => ({ documents: [limu, unrelated], rates: [] }));
+    const turn = await ask(question, [], { search: lookup, now });
+    expect(turn.intent).toBe('search');
+    expect(lookup).toHaveBeenCalledOnce();
+    expect(turn.query.terms).toContain(question.includes('Limu') ? 'limu' : 'ليمو');
+    expect(turn.matches.map(m => m.document.id)).toEqual(['limu-roaster']);
+    expect(turn.knowledgeTopic).toBeUndefined();
+  });
   it.each(['محامص ARK', 'محامص A R K', 'محامص آرك'])('matches the published spaced brand for %s without accepting substrings', async question => {
     const ark: AssistantDocument = { ...machine, id: 'ark-roaster', kind: 'roaster', category: null, methods: [], title_ar: 'آرك روسترز', title_en: 'A R K Roasters', search_text: 'آرك روسترز A R K Roasters KW', facts: { country: 'KW' }, offers: [] };
     const unrelated = { ...ark, id: 'other-roaster', title_en: 'Market coffee', search_text: 'Market coffee with dark roast' };
@@ -47,6 +58,16 @@ describe('local conversational coffee assistant', () => {
     expect(next.intent).toBe('coach');
     expect(next.coach).toMatchObject({ signal: 'sour', method: 'v60', dose: 18, output: 288, seconds: 150 });
     expect(next.answer).toContain('1:16');
+  });
+  it.each(['ar', 'en'] as const)('clears espresso measurements when coaching switches methods in %s', async locale => {
+    const first = await ask(locale === 'ar' ? 'قهوتي إسبريسو حامضة' : 'My espresso tastes sour', [], offline, locale);
+    const measured = await ask('dose 18 yield 36 time 30 seconds', [first], offline, locale);
+    const next = await ask(locale === 'ar' ? 'قهوتي V60 حامضة' : 'My V60 tastes sour', [measured], offline, locale);
+    expect(next.coach).toEqual({ signal: 'sour', method: 'v60' });
+    expect(next.answer).not.toContain('1:2');
+    const updated = await ask('dose 20 water 320 time 180 seconds', [next], offline, locale);
+    expect(updated.coach).toMatchObject({ dose: 20, output: 320, seconds: 180 });
+    expect(updated.answer).toContain('1:16');
   });
   it.each([['الكولد برو والاستخلاص البارد', 'ar'], ['What is cold brew?', 'en']] as const)('lets %s switch from coaching to a new lesson', async (question, locale) => {
     const first = await ask('قهوتي V60 حامضة', [], offline);
@@ -98,6 +119,20 @@ describe('local conversational coffee assistant', () => {
     const d = await ask('اشرح رقم 9', [a], offline);
     expect(d.intent).toBe('help');
     expect(d.answer).toContain('النتائج');
+  });
+  it('answers a new educational topic instead of explaining an unrelated previous machine', async () => {
+    const first = await ask('أبي ماكينة إسبريسو تحت 480 دولار');
+    const next = await ask('اشرح الماء', [first], offline);
+    expect(next.intent).toBe('knowledge');
+    expect(next.knowledgeTopic).toBe('water');
+    expect(next.answer).not.toContain('فلير');
+  });
+  it('asks about the new cup instead of reusing an old symptom when only the method changes', async () => {
+    const first = await ask('My espresso tastes sour', [], offline, 'en');
+    const next = await ask('V60', [first], offline, 'en');
+    expect(next.coach).toEqual({ signal: 'unknown', method: 'v60' });
+    expect(next.answer).toContain('Describe this cup');
+    expect(next.answer).not.toContain('finer');
   });
   it('requires explicit two results and does not substitute another reference', async () => {
     const a = await ask('أبي ماكينة إسبريسو تحت 350 دولار');

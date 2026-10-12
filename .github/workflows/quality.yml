@@ -39,7 +39,7 @@ jobs:
       - name: Dependency and CSS security regressions
         run: node scripts/test-security.mjs
       - name: Reviewed daily catalog provenance and import guards
-        run: node --test scripts/test-daily-catalog.mjs
+        run: node --test scripts/test-daily-catalog*.mjs
       - name: Unit, recommendation and brew outcome tests
         run: npm test
       - name: Application typecheck

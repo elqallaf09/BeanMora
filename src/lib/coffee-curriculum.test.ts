@@ -23,16 +23,22 @@ it.each([
   ['شنو PID بالماكينة؟', 'pid'], ['ليش يصير تشانلنغ؟', 'channeling'],
   ['ما الفرق بين الشفرات المسطحة والمخروطية؟', 'burrs'], ['شلون اعاير الطاحونة؟', 'grinder-calibration'],
   ['ماي الماكينة', 'machine-water'], ['شنو RoR بالحمص؟', 'rate-of-rise'],
+  ['حمص', 'roast-stages'], ['شلون احمص البن؟', 'roast-stages'],
   ['الفرقعة الأولى', 'development-time'], ['What does 9 bar mean?', 'pressure'],
   ['What is grinder retention?', 'retention'], ['How do I measure roast color?', 'roast-color'],
   ['Coffee flavor notes', 'flavor-notes'], ['What is a dual boiler?', 'boilers'],
   ['القهوة المثلجة وماء التحضير والثلج', 'flash-brew'], ['What is cold brew?', 'cold-brew'],
   ['شنو البايباس؟', 'bypass-dilution'], ['تكبير وصفة الترشيح لكوبين', 'batch-scaling'],
+  ['اشرح النقع والفرنش برس', 'immersion-percolation'], ['What is immersion brewing?', 'immersion-percolation'],
 ])('answers %s locally', async (question, id) => {
   const locale = /[\u0600-\u06FF]/.test(question) ? 'ar' : 'en';
   const turn = await converseLocally(question, locale, [], offline);
   expect(turn.knowledgeTopic).toBe(id);
   expect(turn.sources?.[0]?.url).toMatch(/^https:\/\//);
+});
+it('attributes the new immersion lesson to both reviewed primary sources', () => {
+  const lesson = coffeeLessonById('immersion-percolation', 'en')!;
+  expect(lesson.sources.map(source => new URL(source.url).hostname)).toEqual(['www.aboutcoffee.org', 'www.hario-usa.com']);
 });
 it('keeps budgets out of scale education and separates manufacturer water limits', () => {
   expect(coffeeKnowledgeAnswer('خل الميزانية ٣٥٠ دولار', 'ar', 'scales')).toBeNull();
