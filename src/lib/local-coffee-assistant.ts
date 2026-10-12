@@ -113,6 +113,11 @@ function referenceText(matches: AssistantMatch[], ar: boolean, compare: boolean)
         if (typeof content === 'string' && content.trim()) lines.push('• ' + content.slice(0, 600));
       }
       if (!compare && !steps.length) lines.push(ar ? 'خطوات هذه الوصفة غير منشورة؛ افتح المصدر.' : 'Steps are not published for this recipe; open its source.');
+    } else if (d.kind === 'coffee') {
+      const summary = ar ? d.summary_ar : d.summary_en;
+      if (summary?.trim()) lines.push(summary.trim().slice(0, 1000));
+      if (typeof f.roaster === 'string' && f.roaster.trim()) lines.push(`${ar ? 'المحمصة' : 'Roaster'}: ${f.roaster.trim().slice(0, 160)}`);
+      if (!summary?.trim()) lines.push(ar ? 'لا يوجد وصف منشور كافٍ لهذا البن؛ راجع المصدر الأصلي.' : 'There is not enough published description for this coffee; check the original source.');
     } else for (const key of keys) lines.push(`${factLabels[key][ar ? 0 : 1]}: ${textValue(f[key], ar) || missing}`);
     if (d.kind === 'equipment' && !keys.length) lines.push(ar ? 'لا توجد مواصفات موثقة تكفي للمقارنة.' : 'There are not enough documented specifications to compare.');
     return lines.join('\n');

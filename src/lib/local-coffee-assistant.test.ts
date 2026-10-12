@@ -13,6 +13,43 @@ const offline: LocalAssistantDependencies = { search: async () => { throw new Er
 const ask = (q: string, history: LocalAssistantTurn[] = [], dependencies = deps, locale: 'ar' | 'en' = 'ar') => converseLocally(q, locale, history, dependencies);
 
 describe('local conversational coffee assistant', () => {
+  const coconutCoffee: AssistantDocument = { ...recipe, id: 'coconut-coffee', kind: 'coffee', title_ar: 'مونتيبلانكو', title_en: 'Monteblanco', methods: ['v60'], search_text: 'Monteblanco Coconut Lemonade جوز الهند', summary_ar: 'إيحاءات جوز الهند والليمونادة. تخمير مشترك مع إضافات بحسب المحمصة.', summary_en: 'Coconut and lemonade. Co-fermented and infused according to the roaster.', facts: { notes: ['Coconut', 'Lemonade'], roaster: 'Test roaster' } };
+  it.each([
+    ['شنو احسن بن ايحاء جوز الهند', 'ar'],
+    ['أفضل بن بإيحاء جوز الهند', 'ar'],
+    ['رشح لي بن نكهته كوكونت', 'ar'],
+    ['What is the best coffee with coconut notes?', 'en'],
+    ['Recommend beans with coconut tasting notes', 'en'],
+  ] as const)('recommends a named coffee for %s rather than teaching tasting notes', async (question, locale) => {
+    const wrong = { ...coconutCoffee, id: 'india-coffee', title_ar: 'بن الهند', search_text: 'India walnut chocolate', facts: { notes: ['Walnut'] } };
+    const lookup = vi.fn(async () => ({ documents: [wrong, coconutCoffee, recipe], rates: [] }));
+    const turn = await ask(question, [], { search: lookup, now }, locale);
+    expect(turn.intent).toBe('search');
+    expect(turn.knowledgeTopic).toBeUndefined();
+    expect(turn.query.kind).toBe('coffee');
+    expect(turn.query.terms).toEqual(['coconut']);
+    expect(localAssistantSearchTerms(turn.query)).toEqual(expect.arrayContaining(['coconut', 'جوز الهند']));
+    expect(lookup).toHaveBeenCalledOnce();
+    expect(turn.matches.map(m => m.document.id)).toEqual(['coconut-coffee']);
+    expect(turn.answer).toContain(locale === 'ar' ? 'مونتيبلانكو' : 'Monteblanco');
+    expect(turn.answer).toContain(locale === 'ar' ? 'جوز الهند' : 'coconut');
+  });
+  it('reports an absent coffee honestly and does not substitute a recipe', async () => {
+    const turn = await ask('شنو احسن بن ايحاء جوز الهند', [], { search: async () => ({ documents: [{ ...recipe, search_text: 'coconut' }], rates: [] }), now });
+    expect(turn.matches).toEqual([]);
+    expect(turn.answer).toContain('لم أجد بنًا منشورًا');
+    expect(turn.answer).toContain('جوز الهند');
+  });
+  it('switches from a tasting lesson to a recommendation and explains the actual coffee description', async () => {
+    const lesson = await ask('شنو يعني إيحاءات البن؟', [], offline);
+    expect(lesson.intent).toBe('knowledge');
+    const found = await ask('شنو احسن بن ايحاء جوز الهند', [lesson], { search: async () => ({ documents: [coconutCoffee], rates: [] }), now });
+    expect(found.intent).toBe('search');
+    expect(found.matches).toHaveLength(1);
+    const details = await ask('اشرح الأول', [lesson, found], offline);
+    expect(details.intent).toBe('explain');
+    expect(details.answer).toContain('تخمير مشترك مع إضافات');
+  });
   it.each(['محمصة ليمو', 'أبي محمصة ليمو', 'Limu roastery'])('retrieves a named roaster for %s instead of treating its name as roasting instruction', async question => {
     const limu: AssistantDocument = { ...machine, id: 'limu-roaster', kind: 'roaster', category: null, methods: [], title_ar: 'محمصة ليمو', title_en: 'Limu Roastery', search_text: 'محمصة ليمو Limu Roastery KW', facts: { country: 'KW' }, offers: [] };
     const unrelated = { ...limu, id: 'other-roaster', title_ar: 'محمصة أخرى', title_en: 'Other roaster', search_text: 'Other roaster KW' };
