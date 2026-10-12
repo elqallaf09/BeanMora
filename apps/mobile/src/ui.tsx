@@ -189,6 +189,7 @@ export type IconName =
   | 'mail'
   | 'trash'
   | 'eye'
+  | 'eyes'
   | 'star'
   | 'gear'
   | 'apple'
@@ -376,6 +377,7 @@ export function Icon({
         <Circle cx="12" cy="12" r="3" />
       </>
     ),
+    eyes: <><Path d="M1 12s2-5 5-5 5 5 5 5-2 5-5 5-5-5-5-5ZM13 12s2-5 5-5 5 5 5 5-2 5-5 5-5-5-5-5Z" /><Circle cx="6" cy="12" r="2" /><Circle cx="18" cy="12" r="2" /></>,
     star: (
       <Path
         d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1Z"

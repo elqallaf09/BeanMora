@@ -794,7 +794,7 @@ for (const scenario of [
     ).toHaveCount(4);
     await expect(
       page.getByTestId("profile-sections").getByRole("button"),
-    ).toHaveCount(9);
+    ).toHaveCount(7);
     const sections = page.getByTestId("profile-sections");
     const favorites = sections.getByRole("button", { name: ar ? "الوصفات المفضلة" : "Favorite recipes", exact: true });
     await expect(sections.getByRole("button", { name: ar ? "المزيد من أقسام الحساب" : "More profile sections", exact: true })).toHaveCount(0);
@@ -841,7 +841,7 @@ for (const scenario of [
         `approved-profile-${width}-${ar ? "ar" : "en"}-${dark ? "dark" : "light"}.png`,
       ),
     });
-    for (const name of ar ? ["الوصفات المفضلة", "التعليقات", "الاستخلاص وركن القهوة", "المتابعون", "أتابع"] : ["Favorite recipes", "Comments", "Brews & coffee corner", "Followers", "Following"]) {
+    for (const name of ar ? ["الوصفات المفضلة", "التعليقات", "الاستخلاص وركن القهوة"] : ["Favorite recipes", "Comments", "Brews & coffee corner"]) {
       await expect(sections.getByRole("button", { name, exact: true })).toBeVisible();
     }
     await selectProfileExtra(

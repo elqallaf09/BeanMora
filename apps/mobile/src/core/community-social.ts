@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { contributionImage, requireMember } from './member-contributions';
+import type { MemberIdentity, NamedViews } from './member-social';
 
 export type SocialMedia = { id: string; uri: string; bytes: Uint8Array; type: 'image' | 'video'; mime: string; extension: string };
 export type DirectAudience = 'everyone' | 'followers' | 'off';
@@ -7,6 +8,44 @@ export type DirectConversation = { id: string; user_a: string; user_b: string; c
 export type DirectMessage = { id: string; conversation_id: string; sender_id: string; kind: 'text' | 'post' | 'audio'; body: string | null; post_id: string | null; audio_path: string | null; duration_seconds: number | null; expires_at: string; created_at: string; edited_at: string | null };
 export type CoffeeStory = { id: string; user_id: string; media_path: string; media_type: 'image' | 'video'; category: 'coffee' | 'brewing' | 'equipment' | 'coffee_corner'; caption: string; status: 'pending' | 'approved' | 'rejected'; expires_at: string | null; created_at: string; review_reason: string | null };
 export type SocialSanction = { strikes: number; banned_at: string | null; reason: string | null };
+
+export async function recordStoryView(db: SupabaseClient, storyId: string) {
+  const { error } = await db.rpc("record_coffee_story_view", {
+    p_story_id: storyId,
+  });
+  if (error) throw error;
+}
+export async function storyViewers(
+  db: SupabaseClient,
+  owner: string,
+  storyId: string,
+  offset = 0,
+): Promise<NamedViews> {
+  await requireMember(db, owner);
+  const { data, count, error } = await db
+    .from("coffee_story_views")
+    .select(
+      "viewed_at,member:profiles!coffee_story_views_viewer_id_fkey(id,name,username,avatar_url,is_private,country)",
+      { count: "exact" },
+    )
+    .eq("story_id", storyId)
+    .order("viewed_at", { ascending: false })
+    .range(offset, offset + 49);
+  if (error) throw error;
+  return {
+    rows: (data ?? []).flatMap((row) =>
+      row.member
+        ? [
+            {
+              ...(row.member as unknown as MemberIdentity),
+              viewed_at: row.viewed_at,
+            },
+          ]
+        : [],
+    ),
+    count: count ?? 0,
+  };
+}
 
 export function socialMediaType(bytes: Uint8Array, type: 'image' | 'video') {
   if (!bytes.length || bytes.length > 15 * 1024 * 1024) throw new Error('MEDIA_SIZE');

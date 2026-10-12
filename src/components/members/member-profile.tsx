@@ -6,6 +6,8 @@ import { createClient } from "@/lib/supabase/client";
 import {
   memberDirectory,
   memberProfile,
+  recordProfileVisit,
+  profileVisitors,
   ownUsername,
   updateMemberProfile,
   changeMemberFollow,
@@ -13,6 +15,7 @@ import {
   saveProfilePhoto,
   type MemberIdentity,
   type MemberProfileData,
+  type NamedViews,
 } from "@/lib/member-social";
 import {
   contributionImage,
@@ -23,6 +26,8 @@ import { catalogName } from "@/lib/catalog-names";
 import { accountCountryFlag, accountCountryName } from "@/lib/account-profile";
 import { ImageWithFallback } from "@/components/coffee/image-with-fallback";
 import { Button } from "@/components/ui/button";
+import { Eye } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 const card = "rounded-2xl border bg-white p-4";
 export function MemberDirectory() {
   const ar = useLocale() === "ar";
@@ -137,6 +142,8 @@ export function MemberProfilePanel({ username }: { username?: string }) {
       bio: "",
       is_private: false,
       share_collection: false,
+      hide_followers: false,
+      hide_following: false,
     }),
     [file, setFile] = useState<File | null>(null),
     [kind, setKind] = useState<"extraction" | "corner">("extraction"),
@@ -150,6 +157,43 @@ export function MemberProfilePanel({ username }: { username?: string }) {
     caption: string;
     path?: string;
   } | null>(null);
+  const [visitorsOpen, setVisitorsOpen] = useState(false),
+    [visitors, setVisitors] = useState<NamedViews | null>(null),
+    [visitorsError, setVisitorsError] = useState(""),
+    [visitorsBusy, setVisitorsBusy] = useState(false);
+  const visitorRequest = useRef(0);
+  useEffect(() => {
+    const requests = visitorRequest;
+    setVisitorsOpen(false);
+    setVisitors(null);
+    requests.current++;
+    return () => {
+      requests.current++;
+    };
+  }, [username, owner]);
+  async function loadVisitors(offset = 0) {
+    if (!owner) return;
+    const id = ++visitorRequest.current;
+    setVisitorsBusy(true);
+    setVisitorsError("");
+    try {
+      const next = await profileVisitors(createClient(), owner, offset);
+      if (id === visitorRequest.current)
+        setVisitors((old) => ({
+          count: next.count,
+          rows: offset ? [...(old?.rows ?? []), ...next.rows] : next.rows,
+        }));
+    } catch {
+      if (id === visitorRequest.current)
+        setVisitorsError(
+          ar
+            ? "تعذّر تحميل الزوّار. أعد المحاولة."
+            : "Could not load visitors. Please retry.",
+        );
+    } finally {
+      if (id === visitorRequest.current) setVisitorsBusy(false);
+    }
+  }
   useEffect(() => {
     let active = true;
     setLoading(true);
@@ -172,6 +216,8 @@ export function MemberProfilePanel({ username }: { username?: string }) {
             bio: profile.profile.bio ?? "",
             is_private: profile.profile.is_private,
             share_collection: profile.profile.share_collection ?? false,
+            hide_followers: profile.profile.hide_followers ?? false,
+            hide_following: profile.profile.hide_following ?? false,
           });
       }
     })()
@@ -186,6 +232,16 @@ export function MemberProfilePanel({ username }: { username?: string }) {
       active = false;
     };
   }, [username, revision, ar]);
+  const visited = useRef(new Set<string>());
+  useEffect(() => {
+    if (!owner || !data?.can_view || data.is_owner) return;
+    const key = owner + ":" + data.profile.id;
+    if (visited.current.has(key)) return;
+    visited.current.add(key);
+    void recordProfileVisit(createClient(), data.profile.id).catch(() =>
+      visited.current.delete(key),
+    );
+  }, [owner, data?.profile.id, data?.can_view, data?.is_owner]);
   async function run(action: () => Promise<void>) {
     if (busy) return;
     setBusy(true);
@@ -257,9 +313,19 @@ export function MemberProfilePanel({ username }: { username?: string }) {
       </Link>
       <header className={card + " space-y-3"}>
         <h1 className="break-words text-2xl font-bold">{p.name}</h1>
-        <p dir="ltr" className="flex items-center gap-2 break-all font-semibold">
+        <p
+          dir="ltr"
+          className="flex items-center gap-2 break-all font-semibold"
+        >
           <span>@{p.username}</span>
-          {accountCountryFlag(p.country) ? <span data-testid="profile-country-flag" aria-label={accountCountryName(p.country, locale)}>{accountCountryFlag(p.country)}</span> : null}
+          {accountCountryFlag(p.country) ? (
+            <span
+              data-testid="profile-country-flag"
+              aria-label={accountCountryName(p.country, locale)}
+            >
+              {accountCountryFlag(p.country)}
+            </span>
+          ) : null}
         </p>
         {p.bio ? (
           <p className="whitespace-pre-wrap break-words">{p.bio}</p>
@@ -278,22 +344,59 @@ export function MemberProfilePanel({ username }: { username?: string }) {
             size="sm"
             variant="secondary"
             onClick={() => setTab("followers")}
+            disabled={
+              data.can_view_followers === false || data.follower_count === null
+            }
           >
-            {data.follower_count} {ar ? "متابع" : "followers"}
+            {data.follower_count === null ? (
+              ar ? (
+                "المتابعون · خاص"
+              ) : (
+                "Followers · Private"
+              )
+            ) : (
+              <>
+                {data.follower_count} {ar ? "متابع" : "followers"}
+              </>
+            )}
           </Button>
           <Button
             size="sm"
             variant="secondary"
             onClick={() => setTab("following")}
+            disabled={
+              data.can_view_following === false || data.following_count === null
+            }
           >
-            {data.following_count} {ar ? "أتابع" : "following"}
+            {data.following_count === null ? (
+              ar ? (
+                "أتابع · خاص"
+              ) : (
+                "Following · Private"
+              )
+            ) : (
+              <>
+                {data.following_count} {ar ? "أتابع" : "following"}
+              </>
+            )}
           </Button>
         </div>
         {own ? (
           <div className="flex flex-wrap gap-2">
-          <Button onClick={() => setEditing((v) => !v)}>
-            {ar ? "تعديل الملف والخصوصية" : "Edit profile and privacy"}
-          </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label={ar ? "من زار حسابي" : "Profile visitors"}
+              onClick={() => {
+                setVisitorsOpen(true);
+                void loadVisitors();
+              }}
+            >
+              <Eye className="h-5 w-5" />
+            </Button>
+            <Button onClick={() => setEditing((v) => !v)}>
+              {ar ? "تعديل الملف والخصوصية" : "Edit profile and privacy"}
+            </Button>
           </div>
         ) : owner ? (
           <Button
@@ -328,6 +431,60 @@ export function MemberProfilePanel({ username }: { username?: string }) {
           </Link>
         )}
       </header>
+      {own ? (
+        <Dialog open={visitorsOpen} onOpenChange={setVisitorsOpen}>
+          <DialogContent className="max-h-[80vh] overflow-y-auto">
+            <DialogTitle>
+              {ar ? "من زار حسابي" : "Profile visitors"}
+            </DialogTitle>
+            <p>
+              {ar
+                ? "الزوّار المسجلون خلال آخر 30 يوم."
+                : "Signed-in visitors from the last 30 days."}
+            </p>
+            {visitors ? (
+              <p>
+                {visitors.count} {ar ? "مشاهد" : "viewers"}
+              </p>
+            ) : null}
+            {visitors?.rows.map((member) => (
+              <div key={member.id}>
+                <MemberLink member={member} />
+                <p className="text-sm">
+                  {new Date(member.viewed_at).toLocaleString(
+                    ar ? "ar-KW-u-nu-latn" : "en",
+                  )}
+                </p>
+              </div>
+            ))}
+            {!visitorsBusy && visitors?.count === 0 ? (
+              <p>
+                {ar
+                  ? "لا توجد زيارات مسجلة حتى الآن."
+                  : "No recorded visits yet."}
+              </p>
+            ) : null}
+            {visitorsError ? <p role="alert">{visitorsError}</p> : null}
+            {visitors && visitors.rows.length < visitors.count ? (
+              <Button
+                disabled={visitorsBusy}
+                onClick={() => void loadVisitors(visitors.rows.length)}
+              >
+                {ar ? "عرض المزيد" : "More visitors"}
+              </Button>
+            ) : null}
+            <Button disabled={visitorsBusy} onClick={() => void loadVisitors()}>
+              {visitorsBusy
+                ? ar
+                  ? "جارٍ التحميل…"
+                  : "Loading…"
+                : ar
+                  ? "تحديث الزوّار"
+                  : "Refresh visitors"}
+            </Button>
+          </DialogContent>
+        </Dialog>
+      ) : null}
       {error ? (
         <p role="alert" className="text-red-700">
           {error}
@@ -411,6 +568,30 @@ export function MemberProfilePanel({ username }: { username?: string }) {
               ? "عرض معداتي والبن والمفضلة لمن يستطيع مشاهدة ملفي"
               : "Show equipment, coffee and favorites to people who can view my profile"}
           </label>
+          {(["hide_followers", "hide_following"] as const).map((key) => (
+            <label key={key} className="flex min-h-11 items-center gap-3">
+              <input
+                type="checkbox"
+                disabled={busy}
+                checked={draft[key]}
+                onChange={(e) =>
+                  setDraft((v) => ({ ...v, [key]: e.target.checked }))
+                }
+              />
+              {key === "hide_followers"
+                ? ar
+                  ? "إخفاء المتابعين"
+                  : "Hide followers"
+                : ar
+                  ? "إخفاء من أتابع"
+                  : "Hide following"}
+            </label>
+          ))}
+          <p className="text-sm">
+            {ar
+              ? "القائمة المخفية وعددها يظهران لك وحدك، حتى عن المتابعين المقبولين."
+              : "A hidden list and its count are visible only to you, including for approved followers."}
+          </p>
           <Button disabled={busy} type="submit">
             {ar ? "حفظ الملف" : "Save profile"}
           </Button>
@@ -475,16 +656,18 @@ export function MemberProfilePanel({ username }: { username?: string }) {
             className="flex flex-wrap gap-2"
             aria-label={ar ? "أقسام الملف" : "Profile sections"}
           >
-            {sections.filter((s) => !["followers", "following"].includes(s[0])).map((s) => (
-              <Button
-                key={s[0]}
-                size="sm"
-                variant={tab === s[0] ? "default" : "secondary"}
-                onClick={() => setTab(s[0])}
-              >
-                {s[ar ? 1 : 2]}
-              </Button>
-            ))}
+            {sections
+              .filter((s) => !["followers", "following"].includes(s[0]))
+              .map((s) => (
+                <Button
+                  key={s[0]}
+                  size="sm"
+                  variant={tab === s[0] ? "default" : "secondary"}
+                  onClick={() => setTab(s[0])}
+                >
+                  {s[ar ? 1 : 2]}
+                </Button>
+              ))}
           </nav>
           {tab === "equipment" ? (
             <section className="space-y-3">

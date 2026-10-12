@@ -1,27 +1,30 @@
-import 'react-native-url-polyfill/auto';
-import { createClient } from '@supabase/supabase-js';
-import { sessionStorage } from './sessionStorage';
-import { Platform } from 'react-native';
-import { isPublicKey } from './guards';
-import { boundedFetch } from './requestDeadline';
-import appConfig from '../app.json';
+import "react-native-url-polyfill/auto";
+import { createClient } from "@supabase/supabase-js";
+import { sessionStorage, finishStoredOAuth } from "./sessionStorage";
+import { Platform } from "react-native";
+import { isPublicKey } from "./guards";
+import { boundedFetch } from "./requestDeadline";
+import appConfig from "../app.json";
 
-const url = process.env.EXPO_PUBLIC_SUPABASE_URL ?? '';
+const url = process.env.EXPO_PUBLIC_SUPABASE_URL ?? "";
 export const catalogScope = url;
 const authStorageKey =
-  'sb-' + url.replace(/^https:\/\//, '').split('.')[0] + '-auth-token';
-const key = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '';
+  "sb-" + url.replace(/^https:\/\//, "").split(".")[0] + "-auth-token";
+export function finishStoredAuthCallback() {
+  finishStoredOAuth(authStorageKey + "-code-verifier");
+}
+const key = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? "";
 export const configured =
   /^https:\/\/[a-z0-9]+\.supabase\.co$/.test(url) && isPublicKey(key);
-export async function authProviderEnabled(provider: 'apple' | 'google') {
+export async function authProviderEnabled(provider: "apple" | "google") {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 12000);
   try {
-    const response = await boundedFetch(url + '/auth/v1/settings', {
+    const response = await boundedFetch(url + "/auth/v1/settings", {
       headers: { apikey: key },
       signal: controller.signal,
     });
-    if (!response.ok) throw new Error('Could not read sign-in settings.');
+    if (!response.ok) throw new Error("Could not read sign-in settings.");
     const data = await response.json();
     return data.external?.[provider] === true;
   } finally {
@@ -30,7 +33,7 @@ export async function authProviderEnabled(provider: 'apple' | 'google') {
 }
 
 const requestHeaders = {
-  'X-Client-Info': `beanmora-mobile/${appConfig.expo.version} ${Platform.OS}/${Platform.OS === 'ios' ? appConfig.expo.ios.buildNumber : appConfig.expo.android.versionCode}`,
+  "X-Client-Info": `beanmora-mobile/${appConfig.expo.version} ${Platform.OS}/${Platform.OS === "ios" ? appConfig.expo.ios.buildNumber : appConfig.expo.android.versionCode}`,
 };
 
 // The SDK skips its auth client when accessToken is supplied. Returning null
@@ -52,7 +55,7 @@ export const supabase = configured
         // App handles PKCE explicitly on every platform so recovery intent
         // survives auth-js versions that discard it in URL auto-detection.
         detectSessionInUrl: false,
-        flowType: 'pkce',
+        flowType: "pkce",
       },
       global: { fetch: boundedFetch, headers: requestHeaders },
     })
@@ -64,15 +67,14 @@ export async function clearDeletedSession() {
   supabase.auth.stopAutoRefresh();
   const keys = [
     authStorageKey,
-    authStorageKey + '-code-verifier',
-    authStorageKey + '-user',
+    authStorageKey + "-code-verifier",
+    authStorageKey + "-user",
   ];
   try {
-    await supabase.auth.signOut({ scope: 'local' });
+    await supabase.auth.signOut({ scope: "local" });
   } finally {
-    if (Platform.OS === 'web')
-      keys.forEach((item) => window.localStorage.removeItem(item));
-    else {
+    finishStoredAuthCallback();
+    {
       const storage = sessionStorage;
       if (storage)
         await Promise.all(keys.map((item) => storage.removeItem(item)));

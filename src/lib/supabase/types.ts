@@ -2992,6 +2992,72 @@ export type Database = {
           },
         ]
       }
+      profile_visits: {
+        Row: {
+          profile_id: string
+          viewed_at: string
+          visitor_id: string
+        }
+        Insert: {
+          profile_id: string
+          viewed_at?: string
+          visitor_id: string
+        }
+        Update: {
+          profile_id?: string
+          viewed_at?: string
+          visitor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_visits_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profile_visits_visitor_id_fkey"
+            columns: ["visitor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      coffee_story_views: {
+        Row: {
+          story_id: string
+          viewed_at: string
+          viewer_id: string
+        }
+        Insert: {
+          story_id: string
+          viewed_at?: string
+          viewer_id: string
+        }
+        Update: {
+          story_id?: string
+          viewed_at?: string
+          viewer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coffee_story_views_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "coffee_stories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coffee_story_views_viewer_id_fkey"
+            columns: ["viewer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -3000,6 +3066,8 @@ export type Database = {
           cover_url: string | null
           created_at: string
           experience_level: string | null
+          hide_followers: boolean
+          hide_following: boolean
           id: string
           is_private: boolean
           is_verified: boolean
@@ -3016,6 +3084,8 @@ export type Database = {
           cover_url?: string | null
           created_at?: string
           experience_level?: string | null
+          hide_followers?: boolean
+          hide_following?: boolean
           id: string
           is_private?: boolean
           is_verified?: boolean
@@ -3032,6 +3102,8 @@ export type Database = {
           cover_url?: string | null
           created_at?: string
           experience_level?: string | null
+          hide_followers?: boolean
+          hide_following?: boolean
           id?: string
           is_private?: boolean
           is_verified?: boolean
@@ -5484,6 +5556,11 @@ export type Database = {
       }
     }
     Functions: {
+      record_coffee_story_view: {
+        Args: { p_story_id: string }
+        Returns: boolean
+      }
+      record_profile_visit: { Args: { p_profile_id: string }; Returns: boolean }
       add_owned_equipment: { Args: { p_model_id: string }; Returns: string }
       authorize_direct_cleanup: { Args: { p_token: string }; Returns: boolean }
       can_direct_message: { Args: { p_recipient: string }; Returns: boolean }
