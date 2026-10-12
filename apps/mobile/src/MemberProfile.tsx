@@ -407,6 +407,12 @@ export function MemberProfile({
     ["comments", "التعليقات", "Comments"],
     ["photos", "الاستخلاص وركن القهوة", "Brews & coffee corner"],
   ];
+  const sectionCounts: Record<string, number | undefined> = {
+    equipment: data.equipment?.length ?? 0,
+    beans: data.beans?.length ?? 0,
+    recipes: data.recipes?.length ?? 0,
+    photos: data.photos?.length ?? 0,
+  };
   const wide = width >= 700;
   const avatarSize = wide ? 112 : 80;
   const extraSections = sections.slice(4);
@@ -885,57 +891,6 @@ export function MemberProfile({
       ) : (
         <>
           <View
-            testID="profile-stats"
-            style={{
-              flexDirection: ar ? "row-reverse" : "row",
-              flexWrap: "wrap",
-              justifyContent: "space-between",
-              gap: 6,
-            }}
-          >
-            {(
-              [
-                [
-                  "equipment",
-                  data.equipment?.length ?? 0,
-                  L("معدات القهوة", "Equipment"),
-                  "gear",
-                ],
-                [
-                  "beans",
-                  data.beans?.length ?? 0,
-                  L("أكياس البن", "Coffee bags"),
-                  "bean",
-                ],
-                [
-                  "recipes",
-                  data.recipes?.length ?? 0,
-                  L("وصفاتي", "My recipes"),
-                  "espresso",
-                ],
-                [
-                  "photos",
-                  data.photos?.length ?? 0,
-                  L("الركن والاستخلاص", "Corner & brews"),
-                  "eye",
-                ],
-              ] as const
-            ).map(([key, count, label, icon]) => (
-              <PillButton
-                key={key}
-                title={label}
-                icon={icon}
-                count={count}
-                compact
-                labelLines={2}
-                selected={tab === key}
-                accessibilityLabel={label + " (" + count + ")"}
-                onPress={() => selectSection(key)}
-                style={wide ? { flex: 1 } : { width: "48%" }}
-              />
-            ))}
-          </View>
-          <View
             testID="profile-sections"
             style={{
               flexDirection: ar ? "row-reverse" : "row",
@@ -949,6 +904,7 @@ export function MemberProfile({
                 key={section[0]}
                 compact
                 title={L(section[1], section[2])}
+                count={sectionCounts[section[0]]}
                 labelLines={2}
                 style={
                   wide
