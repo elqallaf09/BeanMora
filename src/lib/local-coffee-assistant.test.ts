@@ -48,6 +48,16 @@ describe('local conversational coffee assistant', () => {
     expect(next.coach).toMatchObject({ signal: 'sour', method: 'v60', dose: 18, output: 288, seconds: 150 });
     expect(next.answer).toContain('1:16');
   });
+  it.each(['ar', 'en'] as const)('clears espresso measurements when coaching switches methods in %s', async locale => {
+    const first = await ask(locale === 'ar' ? 'قهوتي إسبريسو حامضة' : 'My espresso tastes sour', [], offline, locale);
+    const measured = await ask('dose 18 yield 36 time 30 seconds', [first], offline, locale);
+    const next = await ask(locale === 'ar' ? 'قهوتي V60 حامضة' : 'My V60 tastes sour', [measured], offline, locale);
+    expect(next.coach).toEqual({ signal: 'sour', method: 'v60' });
+    expect(next.answer).not.toContain('1:2');
+    const updated = await ask('dose 20 water 320 time 180 seconds', [next], offline, locale);
+    expect(updated.coach).toMatchObject({ dose: 20, output: 320, seconds: 180 });
+    expect(updated.answer).toContain('1:16');
+  });
   it.each([['الكولد برو والاستخلاص البارد', 'ar'], ['What is cold brew?', 'en']] as const)('lets %s switch from coaching to a new lesson', async (question, locale) => {
     const first = await ask('قهوتي V60 حامضة', [], offline);
     const turn = await ask(question, [first], offline, locale);
@@ -98,6 +108,20 @@ describe('local conversational coffee assistant', () => {
     const d = await ask('اشرح رقم 9', [a], offline);
     expect(d.intent).toBe('help');
     expect(d.answer).toContain('النتائج');
+  });
+  it('answers a new educational topic instead of explaining an unrelated previous machine', async () => {
+    const first = await ask('أبي ماكينة إسبريسو تحت 480 دولار');
+    const next = await ask('اشرح الماء', [first], offline);
+    expect(next.intent).toBe('knowledge');
+    expect(next.knowledgeTopic).toBe('water');
+    expect(next.answer).not.toContain('فلير');
+  });
+  it('asks about the new cup instead of reusing an old symptom when only the method changes', async () => {
+    const first = await ask('My espresso tastes sour', [], offline, 'en');
+    const next = await ask('V60', [first], offline, 'en');
+    expect(next.coach).toEqual({ signal: 'unknown', method: 'v60' });
+    expect(next.answer).toContain('Describe this cup');
+    expect(next.answer).not.toContain('finer');
   });
   it('requires explicit two results and does not substitute another reference', async () => {
     const a = await ask('أبي ماكينة إسبريسو تحت 350 دولار');

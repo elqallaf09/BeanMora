@@ -1,5 +1,5 @@
 import { normalizeSearch } from "./deepSearch";
-import { COFFEE_CURRICULUM, type CoffeeCourseGroup } from './coffee-curriculum';
+import { COFFEE_CURRICULUM, type CoffeeCourseGroup, type CoffeeLesson } from './coffee-curriculum';
 /** Reviewed bilingual education. Product settings always remain with their source. */
 const basics = [
   {
@@ -81,10 +81,11 @@ const basicLabels: Record<string, { group: CoffeeCourseGroup; titles: [string, s
   rest: { group: 'beans', titles: ['راحة البن بعد التحميص', 'Resting after roasting'], more: ['تذوق نفس البن في عدة أيام بنفس الوصفة وسجل التدفق والطعم. تاريخ التحميص وحده لا يحدد يوم الذروة لكل البن.', 'Taste the same coffee on several days with the same recipe, recording flow and taste. Roast date alone cannot predict a universal peak day.'] },
   roast: { group: 'roasting', titles: ['درجات التحميص', 'Roast levels'], more: ['الفاتح ليس مرادفًا لنقص التطوير، والغامق ليس مرادفًا للجودة المنخفضة. قارن لونًا وطعمًا مستهدفين، ولا تحكم من اسم الحمصة فقط.', 'Light does not mean underdeveloped, and dark does not automatically mean low quality. Compare intended color and flavor rather than judging roast names alone.'] },
 };
-const articles = [
+const articles: (CoffeeLesson & { suggestions: string[]; suggestionsEn: string[] })[] = [
   ...basics.map(row => ({ ...row, ...basicLabels[row.id], priority: row.id === 'water' ? 5 : 55 })),
   ...COFFEE_CURRICULUM.map(row => ({ ...row, suggestions: [] as string[], suggestionsEn: [] as string[] })),
 ];
+const lessonSources = (row: typeof articles[number]) => [{ title: row.title, url: row.url }, ...(row.supportingSources ?? [])];
 export const coffeeCourseGroups: Record<CoffeeCourseGroup, [string, string]> = {
   beans: ['البن والمعالجة', 'Beans and processing'], grinding: ['الطحن', 'Grinding'],
   water: ['الماء', 'Water'], equipment: ['المكاين والأدوات', 'Machines and tools'],
@@ -95,7 +96,7 @@ export function coffeeLearningTopics(locale: 'ar' | 'en') {
 }
 export function coffeeLessonById(id: string, locale: 'ar' | 'en') {
   const row = articles.find(row => row.id === id);
-  return row ? { title: row.titles[locale === 'ar' ? 0 : 1], answer: locale === 'ar' ? row.ar : row.en, more: row.more[locale === 'ar' ? 0 : 1], source: { title: row.title, url: row.url } } : null;
+  return row ? { title: row.titles[locale === 'ar' ? 0 : 1], answer: locale === 'ar' ? row.ar : row.en, more: row.more[locale === 'ar' ? 0 : 1], source: { title: row.title, url: row.url }, sources: lessonSources(row) } : null;
 }
 export function coffeeKnowledgeAnswer(
   question: string,
@@ -129,7 +130,7 @@ export function coffeeKnowledgeAnswer(
   return {
     topic: article.id,
     answer: followUp ? article.more[locale === 'ar' ? 0 : 1] : locale === "ar" ? article.ar : article.en,
-    sources: [{ title: article.title, url: article.url }],
+    sources: lessonSources(article),
     suggestions: [locale === 'ar' ? 'اشرح أكثر' : 'Tell me more', ...related.map(row => row.titles[locale === 'ar' ? 0 : 1])],
   };
 }

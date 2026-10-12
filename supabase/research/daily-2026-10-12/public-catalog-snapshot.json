@@ -1,0 +1,3613 @@
+{
+  "beans": [
+    {
+      "id": "08f9dfeb-375b-4578-bb24-8ca1639836c5",
+      "slug": "crossbridge-oasis-blend",
+      "name_en": "Oasis Blend",
+      "roaster_id": "68da6957-38e1-44ee-bdf8-715f0efc50b7",
+      "source_url": "https://web.archive.org/web/20190705142405/https://crossbridgecoffee.com/coffees/"
+    },
+    {
+      "id": "61bac2e2-5005-412d-a524-8d03ea072d9e",
+      "slug": "crossbridge-chelelektu",
+      "name_en": "Chelelektu",
+      "roaster_id": "68da6957-38e1-44ee-bdf8-715f0efc50b7",
+      "source_url": "https://crossbridgecoffee.com/"
+    },
+    {
+      "id": "7a095545-5136-4962-b17e-3cd4d872470c",
+      "slug": "crossbridge-chire",
+      "name_en": "Chire",
+      "roaster_id": "68da6957-38e1-44ee-bdf8-715f0efc50b7",
+      "source_url": "https://crossbridgecoffee.com/"
+    },
+    {
+      "id": "5c81bc4d-7a34-4ff4-8d23-2e8edda1db05",
+      "slug": "crossbridge-yemen-abu-wudiyyan",
+      "name_en": "Yemen Abu Wudiyyan",
+      "roaster_id": "68da6957-38e1-44ee-bdf8-715f0efc50b7",
+      "source_url": "https://crossbridgecoffee.com/"
+    },
+    {
+      "id": "594bc62d-5733-4de2-b192-2314d2c5a8c8",
+      "slug": "onyx-coffee-lab-monarch-f54f3910",
+      "name_en": "Monarch",
+      "roaster_id": "9dae4eb9-6ae7-4e32-9f32-a314272977a6",
+      "source_url": "https://onyxcoffeelab.com/products/monarch"
+    },
+    {
+      "id": "52e14e46-ab01-4510-9ad3-2e856d464e9b",
+      "slug": "onyx-coffee-lab-southern-weather-75e9d657",
+      "name_en": "Southern Weather",
+      "roaster_id": "9dae4eb9-6ae7-4e32-9f32-a314272977a6",
+      "source_url": "https://onyxcoffeelab.com/products/southern-weather"
+    },
+    {
+      "id": "92ec981b-2b35-4647-9f4a-2c0256c9930e",
+      "slug": "onyx-coffee-lab-tropical-weather-eb14f08f",
+      "name_en": "Tropical Weather",
+      "roaster_id": "9dae4eb9-6ae7-4e32-9f32-a314272977a6",
+      "source_url": "https://onyxcoffeelab.com/products/tropical-weather"
+    },
+    {
+      "id": "eaa5ca3d-91b4-41b1-a987-c6db49798149",
+      "slug": "onyx-coffee-lab-geometry-6d682a31",
+      "name_en": "Geometry",
+      "roaster_id": "9dae4eb9-6ae7-4e32-9f32-a314272977a6",
+      "source_url": "https://onyxcoffeelab.com/products/geometry"
+    },
+    {
+      "id": "4261f94c-e771-4fa0-8dd3-9eba1b97141f",
+      "slug": "onyx-coffee-lab-power-nap-cbada7ff",
+      "name_en": "Power Nap",
+      "roaster_id": "9dae4eb9-6ae7-4e32-9f32-a314272977a6",
+      "source_url": "https://onyxcoffeelab.com/products/power-nap"
+    },
+    {
+      "id": "c5078ed1-f9b4-4265-9767-5028aaef7dbd",
+      "slug": "onyx-coffee-lab-kenya-kamunyaka-aa-a675b4fc",
+      "name_en": "Kenya Kamunyaka AA",
+      "roaster_id": "9dae4eb9-6ae7-4e32-9f32-a314272977a6",
+      "source_url": "https://onyxcoffeelab.com/products/kenya-kamunyaka-aa"
+    },
+    {
+      "id": "5e75f821-1c4c-4022-be86-d6118238730c",
+      "slug": "onyx-coffee-lab-honduras-fredy-perez-5062f916",
+      "name_en": "Honduras Fredy Perez",
+      "roaster_id": "9dae4eb9-6ae7-4e32-9f32-a314272977a6",
+      "source_url": "https://onyxcoffeelab.com/products/honduras-fredy-perez"
+    },
+    {
+      "id": "438f3878-874a-4151-8b1f-fc994492872d",
+      "slug": "onyx-coffee-lab-ethiopia-agaro-yukro-g1-1f8e6029",
+      "name_en": "Ethiopia Agaro Yukro G1",
+      "roaster_id": "9dae4eb9-6ae7-4e32-9f32-a314272977a6",
+      "source_url": "https://onyxcoffeelab.com/products/ethiopia-agaro-yukro-g1"
+    },
+    {
+      "id": "76b2555d-9ff8-4a68-9c4a-4c2a0acf0b05",
+      "slug": "onyx-coffee-lab-costa-rica-las-lajas-natural-96b565e4",
+      "name_en": "Costa Rica Las Lajas Natural",
+      "roaster_id": "9dae4eb9-6ae7-4e32-9f32-a314272977a6",
+      "source_url": "https://onyxcoffeelab.com/products/costa-rica-las-lajas-natural-26"
+    },
+    {
+      "id": "97f1c922-0f62-4c14-b320-7793122d4da0",
+      "slug": "onyx-coffee-lab-mexico-oaxaca-yogondoy-gesha-1588e522",
+      "name_en": "Mexico Oaxaca Yogondoy Gesha",
+      "roaster_id": "9dae4eb9-6ae7-4e32-9f32-a314272977a6",
+      "source_url": "https://onyxcoffeelab.com/products/mexico-oaxaca-yogondoy-gesha"
+    },
+    {
+      "id": "9e239c55-3d07-4f3b-a097-e785a0729c0e",
+      "slug": "bahrainroastery-barista-elite-supremo",
+      "name_en": "Barista Elite Supremo Espresso",
+      "roaster_id": "2afdd3c4-2e39-4efc-bcce-76d912ee005f",
+      "source_url": "https://bahrainroastery.com/products/1-kg-barista-elite-supremo-espresso"
+    },
+    {
+      "id": "4e38c68a-3349-4790-8850-c4af6512d893",
+      "slug": "black-knight-masar-yemen",
+      "name_en": "Masar (Yemen)",
+      "roaster_id": "86cc2f9f-d233-44bb-af35-2a74d4e30afd",
+      "source_url": "https://b-k.coffee/products/masar-yemen-slow-dried-coffee-250g"
+    },
+    {
+      "id": "6f7530e6-839a-4b73-9cc2-1c3e5b6921f2",
+      "slug": "black-knight-meloraa-costa-rica",
+      "name_en": "Meloraa (Costa Rica)",
+      "roaster_id": "86cc2f9f-d233-44bb-af35-2a74d4e30afd",
+      "source_url": "https://b-k.coffee/products/ميلورا-كوستاريكا-عسلي-250-جرام"
+    },
+    {
+      "id": "c757b135-ba1b-43c9-a796-27e809decff0",
+      "slug": "black-knight-nardos-ethiopia",
+      "name_en": "Nardos (Ethiopia)",
+      "roaster_id": "86cc2f9f-d233-44bb-af35-2a74d4e30afd",
+      "source_url": "https://b-k.coffee/products/ناردوس-اثيوبيا-لاهوائي-250g"
+    },
+    {
+      "id": "144cdbc9-8e15-48a1-8489-f8042c0609e5",
+      "slug": "cafinto-bright-eye-speciality-blend",
+      "name_en": "Bright Eye -- Speciality Blend",
+      "roaster_id": "97d2e1cb-c0ba-441e-8280-ad3da8d65c10",
+      "source_url": "https://cafinto.com/specialty-coffee/"
+    },
+    {
+      "id": "110cff89-911e-4be4-92b4-f4e219d2c73d",
+      "slug": "cafinto-darkness-speciality-blend",
+      "name_en": "Darkness -- Speciality Blend",
+      "roaster_id": "97d2e1cb-c0ba-441e-8280-ad3da8d65c10",
+      "source_url": "https://cafinto.com/specialty-coffee/"
+    },
+    {
+      "id": "1d9acf03-7d41-4f5c-9a97-0b8845744016",
+      "slug": "cafinto-desert-speciality-blend",
+      "name_en": "Desert -- Speciality Blend",
+      "roaster_id": "97d2e1cb-c0ba-441e-8280-ad3da8d65c10",
+      "source_url": "https://cafinto.com/specialty-coffee/"
+    },
+    {
+      "id": "c6ff4d8f-b189-49c6-b0d3-eade4826be90",
+      "slug": "cafinto-el-kaif-speciality-blend",
+      "name_en": "El kaif -- Speciality Blend",
+      "roaster_id": "97d2e1cb-c0ba-441e-8280-ad3da8d65c10",
+      "source_url": "https://cafinto.com/specialty-coffee/"
+    },
+    {
+      "id": "deb0cb1d-09c3-41fe-8c4c-30bfca44ace4",
+      "slug": "onyx-coffee-lab-peru-la-margarita-gesha-cffd80bd",
+      "name_en": "Peru La Margarita Gesha",
+      "roaster_id": "9dae4eb9-6ae7-4e32-9f32-a314272977a6",
+      "source_url": "https://onyxcoffeelab.com/products/peru-la-margarita-gesha-26"
+    },
+    {
+      "id": "6205b2bf-35c2-4d2c-9e7b-15d01086331a",
+      "slug": "verve-coffee-roasters-buena-vista-dark-roast-9250ca4c",
+      "name_en": "Buena Vista Dark Roast",
+      "roaster_id": "5ee5fec5-753b-4c43-b510-a9765606a61a",
+      "source_url": "https://www.vervecoffee.com/products/buena-vista-dark-roast"
+    },
+    {
+      "id": "84676144-7f18-4159-8aff-200a27d380a1",
+      "slug": "verve-coffee-roasters-streetlevel-6b7d7404",
+      "name_en": "Streetlevel",
+      "roaster_id": "5ee5fec5-753b-4c43-b510-a9765606a61a",
+      "source_url": "https://www.vervecoffee.com/products/streetlevel"
+    },
+    {
+      "id": "7dd6f770-3049-4217-affb-3aaf5fbfc976",
+      "slug": "verve-coffee-roasters-seabright-house-blend-5c42f144",
+      "name_en": "Seabright House Blend",
+      "roaster_id": "5ee5fec5-753b-4c43-b510-a9765606a61a",
+      "source_url": "https://www.vervecoffee.com/products/seabright-house-blend"
+    },
+    {
+      "id": "e61e7a42-a262-4747-8f7d-e34af616ee5a",
+      "slug": "49th-parallel-coffee-roasters-epic-espresso-b345e49f",
+      "name_en": "Epic Espresso",
+      "roaster_id": "41e3a7f7-9143-4fff-a1ef-91fbfb85e971",
+      "source_url": "https://49thcoffee.com/products/epic-espresso"
+    },
+    {
+      "id": "7ac10351-ad1b-4d55-88a3-ef627ec2fd78",
+      "slug": "49th-parallel-coffee-roasters-blue-sky-espresso-0c26e7d7",
+      "name_en": "Blue Sky Espresso",
+      "roaster_id": "41e3a7f7-9143-4fff-a1ef-91fbfb85e971",
+      "source_url": "https://49thcoffee.com/products/blue-sky-espresso"
+    },
+    {
+      "id": "3ea282c0-f818-48ac-ae1a-5bf4220dd1be",
+      "slug": "five-elephant-kenya-thunguri-aa-filter",
+      "name_en": "Kenya Thunguri AA – Filter",
+      "roaster_id": "338f7bb7-2c58-4ce5-b88e-bfa6acb382da",
+      "source_url": "https://www.fiveelephant.com/products/kenya-thunguri-aa-filter"
+    },
+    {
+      "id": "6e7b4a15-fa7d-4024-af89-bca45178917a",
+      "slug": "cat-cloud-the-answer-99a8c6a5",
+      "name_en": "The Answer",
+      "roaster_id": "a5d4a14e-e7b6-402f-aa9f-72165072b51e",
+      "source_url": "https://catandcloud.com/products/answer"
+    },
+    {
+      "id": "ccb013f2-eced-46ed-945b-728bcec84fd8",
+      "slug": "cafinto-mystery-speciality-blend",
+      "name_en": "Mystery -- Speciality Blend",
+      "roaster_id": "97d2e1cb-c0ba-441e-8280-ad3da8d65c10",
+      "source_url": "https://cafinto.com/specialty-coffee/"
+    },
+    {
+      "id": "e2ceaf0e-34fe-44d4-b2eb-7a5a38f1983f",
+      "slug": "cafinto-old-lady-speciality-blend",
+      "name_en": "Old lady -- Speciality Blend",
+      "roaster_id": "97d2e1cb-c0ba-441e-8280-ad3da8d65c10",
+      "source_url": "https://cafinto.com/specialty-coffee/"
+    },
+    {
+      "id": "72555d6f-77c1-4e0c-9579-e3049e34d16e",
+      "slug": "cafinto-shepherd-speciality-blend",
+      "name_en": "Shepherd -- Speciality Blend",
+      "roaster_id": "97d2e1cb-c0ba-441e-8280-ad3da8d65c10",
+      "source_url": "https://cafinto.com/specialty-coffee/"
+    },
+    {
+      "id": "833898d9-79b4-4062-9b4a-aefa4c09e50c",
+      "slug": "cafinto-wild-arabian-speciality-blend",
+      "name_en": "Wild Arabian -- Speciality Blend",
+      "roaster_id": "97d2e1cb-c0ba-441e-8280-ad3da8d65c10",
+      "source_url": "https://cafinto.com/specialty-coffee/"
+    },
+    {
+      "id": "74bcdb41-3d01-409a-8c95-2e1bbb821204",
+      "slug": "cafinto-wilderness-speciality-blend",
+      "name_en": "Wilderness -- Speciality Blend",
+      "roaster_id": "97d2e1cb-c0ba-441e-8280-ad3da8d65c10",
+      "source_url": "https://cafinto.com/specialty-coffee/"
+    },
+    {
+      "id": "3e352196-03d4-4418-bc93-a14059e9453e",
+      "slug": "friedhats-kenya-gicherori-washed",
+      "name_en": "Kenya Gicherori Washed",
+      "roaster_id": "def9ece4-ad7c-4aeb-a6e9-b704a30eab05",
+      "source_url": "https://friedhats.com/products/kenya-gicherori-washed"
+    },
+    {
+      "id": "05dab7a3-7d48-43f2-b840-19e5e5073d77",
+      "slug": "doha-roastery-ethiopia-yirgacheffe",
+      "name_en": "Ethiopia Yirgacheffe Beans",
+      "roaster_id": "68ec359d-d64b-4f48-b8fb-3e9697055155",
+      "source_url": "https://www.doharoastery.com/products/746227b1-287d-41f2-95a2-d74aa2b2b8e3"
+    },
+    {
+      "id": "450ed2b1-59a8-4aab-8de0-51d59454174a",
+      "slug": "doha-roastery-yemen-rare-single-origin",
+      "name_en": "Yemen Rare Single Origin Coffee Beans",
+      "roaster_id": "68ec359d-d64b-4f48-b8fb-3e9697055155",
+      "source_url": "https://www.doharoastery.com/products/00271bf7-19bd-4336-9bf4-994196edf44f"
+    },
+    {
+      "id": "34aadf13-27f4-4922-9eb1-6bc29ae2d95f",
+      "slug": "cat-cloud-the-best-friends-blend-3c2105eb",
+      "name_en": "The Best Friends Blend",
+      "roaster_id": "a5d4a14e-e7b6-402f-aa9f-72165072b51e",
+      "source_url": "https://catandcloud.com/products/the-best-friends-blend"
+    },
+    {
+      "id": "16fa5168-f62e-4cd1-a85f-74a0088b32d2",
+      "slug": "olympia-coffee-big-truck-e50fa5e5",
+      "name_en": "Big Truck",
+      "roaster_id": "4fedfa91-157c-49dc-838b-4bd38b9a3d44",
+      "source_url": "https://www.olympiacoffee.com/products/big-truck"
+    },
+    {
+      "id": "26fe725d-36ba-4305-bf8c-67366f869b07",
+      "slug": "intelligentsia-coffee-black-cat-classic-espresso-3f2ad58c",
+      "name_en": "Black Cat Classic Espresso",
+      "roaster_id": "eaa8923e-14c3-4b33-97bc-272c4439c554",
+      "source_url": "https://www.intelligentsia.com/products/black-cat-classic-espresso"
+    },
+    {
+      "id": "ad71b376-7dd7-47e8-89fe-6c9ca5e4ae98",
+      "slug": "april-coffee-roasters-kayon-mountain-natural-heirloom-4213ddcd",
+      "name_en": "Kayon Mountain Natural Heirloom",
+      "roaster_id": "14e8a0d4-9c7e-426e-9280-6c06b99b78d4",
+      "source_url": "https://www.aprilcoffeeroasters.com/product/ethiopia-kayon-mountain-natural-heirloom-organic"
+    },
+    {
+      "id": "818426cb-1914-47ac-905c-0e053fd44d8d",
+      "slug": "april-coffee-roasters-kamavindi-washed-sl28-sl34-aa-bdbe0a87",
+      "name_en": "Kamavindi Washed SL28 & SL34 AA",
+      "roaster_id": "14e8a0d4-9c7e-426e-9280-6c06b99b78d4",
+      "source_url": "https://www.aprilcoffeeroasters.com/product/kamavindi-kenya-washed-mixed-varietals-aa"
+    },
+    {
+      "id": "14edf04f-ebbc-4ddf-83aa-6fd220652100",
+      "slug": "april-coffee-roasters-tadesse-washed-krume-ce01d4c5",
+      "name_en": "Tadesse Washed Krume",
+      "roaster_id": "14e8a0d4-9c7e-426e-9280-6c06b99b78d4",
+      "source_url": "https://www.aprilcoffeeroasters.com/product/tadesse-ethiopia-washed-krume-74158"
+    },
+    {
+      "id": "0ccdedd0-eed4-417b-88b4-debcf5933226",
+      "slug": "april-coffee-roasters-volcan-azul-washed-sl28-192a2e6a",
+      "name_en": "Volcan Azul Washed SL28",
+      "roaster_id": "14e8a0d4-9c7e-426e-9280-6c06b99b78d4",
+      "source_url": "https://www.aprilcoffeeroasters.com/product/volcan-azul-costa-rica-washed-sl28"
+    },
+    {
+      "id": "6df4299f-a17c-4c47-b90a-c3e17320ce70",
+      "slug": "workshop-coffee-reset-half-caff-a6c1a15e",
+      "name_en": "Reset Half Caff",
+      "roaster_id": "cfe024bc-327d-4cdc-b9ab-7e8f37ea353d",
+      "source_url": "https://workshopcoffee.com/products/reset"
+    },
+    {
+      "id": "6a81364a-eef6-4ad0-9f83-082d1c11704e",
+      "slug": "workshop-coffee-chakra-3f772aa0",
+      "name_en": "Chakra",
+      "roaster_id": "cfe024bc-327d-4cdc-b9ab-7e8f37ea353d",
+      "source_url": "https://workshopcoffee.com/products/chakra"
+    },
+    {
+      "id": "7f58042f-11b6-4e4b-a507-1dfee585dfb2",
+      "slug": "workshop-coffee-la-plata-decaf-b63c5251",
+      "name_en": "La Plata Decaf",
+      "roaster_id": "cfe024bc-327d-4cdc-b9ab-7e8f37ea353d",
+      "source_url": "https://workshopcoffee.com/products/la-plata-decaf"
+    },
+    {
+      "id": "9e27b2c9-8ffb-465e-8884-d5e71346e282",
+      "slug": "workshop-coffee-maidy-bocanegra-pink-bourbon-8f6296fc",
+      "name_en": "Maidy Bocanegra Pink Bourbon",
+      "roaster_id": "cfe024bc-327d-4cdc-b9ab-7e8f37ea353d",
+      "source_url": "https://workshopcoffee.com/products/maidy-bocanegra-pink-bourbon"
+    },
+    {
+      "id": "bc63a3af-a665-4878-a198-7f1ce7cfda4e",
+      "slug": "earth-brazil-cascavel-vermelha-natural",
+      "name_en": "Brazil Cascavel Vermelha (Natural)",
+      "roaster_id": "7738b7df-cef3-42ed-b8da-762a1c5f4b59",
+      "source_url": "https://kw.earthroastery.com/products/brazil-cascavel-vermelha-natural"
+    },
+    {
+      "id": "1090fec2-e4e1-4ff2-aec9-d00a3d8e054b",
+      "slug": "earth-ethiopia-korma-natural",
+      "name_en": "Ethiopia Korma (Natural)",
+      "roaster_id": "7738b7df-cef3-42ed-b8da-762a1c5f4b59",
+      "source_url": "https://kw.earthroastery.com/products/ethiopia-korma-natural"
+    },
+    {
+      "id": "d9f43409-6346-416d-a155-54c9fb730845",
+      "slug": "earth-indonesia-pantan-musara-washed",
+      "name_en": "Indonesia Pantan Musara (Washed)",
+      "roaster_id": "7738b7df-cef3-42ed-b8da-762a1c5f4b59",
+      "source_url": "https://kw.earthroastery.com/products/indonesia-pantan-musara-washed"
+    },
+    {
+      "id": "87162ebd-df97-48fc-b33f-bcc54c0d16fd",
+      "slug": "friedhats-costa-rica-adelina-fallas-honey",
+      "name_en": "Costa Rica Adelina Fallas Honey",
+      "roaster_id": "def9ece4-ad7c-4aeb-a6e9-b704a30eab05",
+      "source_url": "https://friedhats.com/products/costa-rica-ramiro-honey"
+    },
+    {
+      "id": "dbcf59f8-4e88-4f29-9e52-d37d3ab8228d",
+      "slug": "goldbox-costa-rica-red-honey",
+      "name_en": "Laymoon Twist (Costa Rica Red Honey)",
+      "roaster_id": "882c01ce-086c-4f93-8235-bf9e49a6e0dc",
+      "source_url": "https://goldboxroastery.com/collections/team-favourites/products/costa-rica-red-honey-copy"
+    },
+    {
+      "id": "c53534a9-10fc-49e8-a2e7-7f28878b6b6f",
+      "slug": "oru-mexico-altura-high-grown",
+      "name_en": "Mexico Altura High Grown",
+      "roaster_id": "6e5676b2-97e8-4331-9f8a-ab55b63c2ccc",
+      "source_url": "https://oruroasters.com/products/altura-high-grown-mexico"
+    },
+    {
+      "id": "ff4baed2-531f-4b88-9fb9-47ff55005d16",
+      "slug": "gardelli-specialty-coffees-la-torre-mejia-geisha-f770e9cf",
+      "name_en": "La Torre Mejia Geisha",
+      "roaster_id": "9c239353-d2d4-4515-8c66-0b31cd0a2cd1",
+      "source_url": "https://shop.gardellicoffee.com/coffees/813-la-torre-mejia-geisha-peru"
+    },
+    {
+      "id": "b5fd77a0-2bdc-4d6a-9a77-8c80ff057b62",
+      "slug": "gardelli-specialty-coffees-lalesa-ephtah-2daf911d",
+      "name_en": "Lalesa Ephtah",
+      "roaster_id": "9c239353-d2d4-4515-8c66-0b31cd0a2cd1",
+      "source_url": "https://shop.gardellicoffee.com/coffees/834-441-lalesa-ephtah-ethiopia"
+    },
+    {
+      "id": "88099947-007a-4de3-b43f-3cd904379c40",
+      "slug": "gardelli-specialty-coffees-cumbres-decaffeinated-239f3dad",
+      "name_en": "Cumbres Decaffeinated",
+      "roaster_id": "9c239353-d2d4-4515-8c66-0b31cd0a2cd1",
+      "source_url": "https://shop.gardellicoffee.com/coffees/821-425-cumbres-decaffeinated-colombia"
+    },
+    {
+      "id": "e6d21976-903b-41ff-b669-91a0fe8ee731",
+      "slug": "nomad-coffee-churupallana-2026-b0829c7c",
+      "name_en": "Churupallana 2026",
+      "roaster_id": "a009d523-d512-47cf-83e3-15eac3d740cb",
+      "source_url": "https://nomadcoffee.es/products/churupallana"
+    },
+    {
+      "id": "13e7e4ab-6eaf-4b79-9999-88e6274c2437",
+      "slug": "nomad-coffee-parainema-2026-2f9dd5c4",
+      "name_en": "Parainema 2026",
+      "roaster_id": "a009d523-d512-47cf-83e3-15eac3d740cb",
+      "source_url": "https://nomadcoffee.es/products/parainema"
+    },
+    {
+      "id": "9ab363ae-6cf9-4294-86b2-6394b0c374ae",
+      "slug": "nomad-coffee-pacas-2026-608ea4f9",
+      "name_en": "Pacas 2026",
+      "roaster_id": "a009d523-d512-47cf-83e3-15eac3d740cb",
+      "source_url": "https://nomadcoffee.es/products/pacas"
+    },
+    {
+      "id": "95a7a121-3052-401b-81c6-9e9adfe7e7d9",
+      "slug": "nomad-coffee-kafipamba-7ba53891",
+      "name_en": "Kafipamba",
+      "roaster_id": "a009d523-d512-47cf-83e3-15eac3d740cb",
+      "source_url": "https://nomadcoffee.es/products/kafipamba"
+    },
+    {
+      "id": "a5c82aeb-d960-475e-9377-d08d83dc1472",
+      "slug": "nomad-coffee-jhenrry-chavez-84262797",
+      "name_en": "Jhenrry Chávez",
+      "roaster_id": "a009d523-d512-47cf-83e3-15eac3d740cb",
+      "source_url": "https://nomadcoffee.es/products/jhenrry-chavez"
+    },
+    {
+      "id": "e759ac97-2511-4751-babd-9ee06c560ff6",
+      "slug": "dak-coffee-roasters-silky-way-211e8d39",
+      "name_en": "Silky Way",
+      "roaster_id": "847bfe5e-30d6-4c3e-9026-a24811226a15",
+      "source_url": "https://www.dakcoffeeroasters.com/product/silky-way/"
+    },
+    {
+      "id": "3f56d723-1c21-446d-937b-b915332c3721",
+      "slug": "dak-coffee-roasters-the-alchemist-5737b772",
+      "name_en": "The Alchemist",
+      "roaster_id": "847bfe5e-30d6-4c3e-9026-a24811226a15",
+      "source_url": "https://www.dakcoffeeroasters.com/product/the-alchemist/"
+    },
+    {
+      "id": "6e96e154-2162-47a8-90ff-8c69be6bccb3",
+      "slug": "dak-coffee-roasters-golden-waffle-4c96be11",
+      "name_en": "Golden Waffle",
+      "roaster_id": "847bfe5e-30d6-4c3e-9026-a24811226a15",
+      "source_url": "https://www.dakcoffeeroasters.com/product/golden-waffle/"
+    },
+    {
+      "id": "02f2f40a-77aa-41bf-b302-428e3cac2327",
+      "slug": "dak-coffee-roasters-juice-box-89ef551a",
+      "name_en": "Juice Box",
+      "roaster_id": "847bfe5e-30d6-4c3e-9026-a24811226a15",
+      "source_url": "https://www.dakcoffeeroasters.com/product/juice-box/"
+    },
+    {
+      "id": "6b6b4953-e7de-431c-9d8b-eb0d50842008",
+      "slug": "black-knight-lollit-ethiopia",
+      "name_en": "Lollit (Ethiopia)",
+      "roaster_id": "86cc2f9f-d233-44bb-af35-2a74d4e30afd",
+      "source_url": "https://b-k.coffee/products/لوليت-اثيوبيا-مجفف-g250"
+    },
+    {
+      "id": "607a472b-06f9-422c-88d5-b70fad7da399",
+      "slug": "goldbox-arabic-gahwa",
+      "name_en": "Arabic Gahwa",
+      "roaster_id": "882c01ce-086c-4f93-8235-bf9e49a6e0dc",
+      "source_url": "https://goldboxroastery.com/collections/coffee/products/arabic-gahwa"
+    },
+    {
+      "id": "208a6c4a-69ef-40b1-a999-1e35477489af",
+      "slug": "goldbox-bond-street-espresso-blend",
+      "name_en": "Bond Street Espresso Blend",
+      "roaster_id": "882c01ce-086c-4f93-8235-bf9e49a6e0dc",
+      "source_url": "https://goldboxroastery.com/collections/coffee/products/bond-street-espresso-blend"
+    },
+    {
+      "id": "40268f9b-0217-4d87-8871-1e2989f7ed0f",
+      "slug": "goldbox-brazil-rancho-grande",
+      "name_en": "Brazil Rancho Grande Estate",
+      "roaster_id": "882c01ce-086c-4f93-8235-bf9e49a6e0dc",
+      "source_url": "https://goldboxroastery.com/collections/subscription-coffee/products/rancho-grande-estate"
+    },
+    {
+      "id": "0b5561fa-ce79-400e-8e56-1d7e368b7958",
+      "slug": "goldbox-brazil-santa-lucia",
+      "name_en": "Brazil Santa Lucia",
+      "roaster_id": "882c01ce-086c-4f93-8235-bf9e49a6e0dc",
+      "source_url": "https://goldboxroastery.com/collections/subscription-coffee/products/brazil-santa-lucia"
+    },
+    {
+      "id": "cfcb6f79-d030-4414-b424-04e368a865cf",
+      "slug": "goldbox-colombia-la-cristalina",
+      "name_en": "Colombia La Cristalina",
+      "roaster_id": "882c01ce-086c-4f93-8235-bf9e49a6e0dc",
+      "source_url": "https://goldboxroastery.com/collections/team-favourites/products/colombia-la-cristalina"
+    },
+    {
+      "id": "ad3508b8-401d-43ca-ba92-53f5d99ba34f",
+      "slug": "goldbox-colombia-santa-ana",
+      "name_en": "Colombia Santa Ana",
+      "roaster_id": "882c01ce-086c-4f93-8235-bf9e49a6e0dc",
+      "source_url": "https://goldboxroastery.com/collections/subscription-coffee/products/colombia-santa-ana"
+    },
+    {
+      "id": "f70a61bf-f6e1-4499-a225-4aca9162ae1b",
+      "slug": "windrose-yemen-muhammad-zidan",
+      "name_en": "Yemen Muhammad Zidan - Natural",
+      "roaster_id": "5492b827-d06a-412b-945a-c5b7571fe4bb",
+      "source_url": "https://www.windrosecoffee.com/product/yemen-muhammad-zidan-natural/"
+    },
+    {
+      "id": "65cfb93d-2390-4f56-bd0a-b8a113d14c44",
+      "slug": "dak-coffee-roasters-caramello-9923d268",
+      "name_en": "Caramello",
+      "roaster_id": "847bfe5e-30d6-4c3e-9026-a24811226a15",
+      "source_url": "https://www.dakcoffeeroasters.com/product/caramello/"
+    },
+    {
+      "id": "0c5f94aa-021f-4719-ad53-c12ebb0ab6ae",
+      "slug": "dak-coffee-roasters-cream-donut-7b70cfa2",
+      "name_en": "Cream Donut",
+      "roaster_id": "847bfe5e-30d6-4c3e-9026-a24811226a15",
+      "source_url": "https://www.dakcoffeeroasters.com/product/cream-donut/"
+    },
+    {
+      "id": "9cd9d9c5-7d5f-447d-bf3d-e995993dfe94",
+      "slug": "dak-coffee-roasters-milky-cake-385347b2",
+      "name_en": "Milky Cake",
+      "roaster_id": "847bfe5e-30d6-4c3e-9026-a24811226a15",
+      "source_url": "https://www.dakcoffeeroasters.com/product/milky-cake/"
+    },
+    {
+      "id": "8f90c0ed-8128-4889-9903-acbfea71c0de",
+      "slug": "dak-coffee-roasters-berry-blues-dba46c71",
+      "name_en": "Berry Blues",
+      "roaster_id": "847bfe5e-30d6-4c3e-9026-a24811226a15",
+      "source_url": "https://www.dakcoffeeroasters.com/product/berry-blues/"
+    },
+    {
+      "id": "55fd8215-8003-4faa-b2db-207ccc6fb322",
+      "slug": "archers-coffee-black-diamond-9dd1ba10",
+      "name_en": "Black Diamond",
+      "roaster_id": "f49eb5b4-c2bc-4b0f-bd56-1405834e135a",
+      "source_url": "https://archerscoffee.com/products/black-diamond"
+    },
+    {
+      "id": "89f0b9ca-395f-4e80-9f81-c974c50756bb",
+      "slug": "archers-coffee-bittersweet-0c0f29ff",
+      "name_en": "Bittersweet",
+      "roaster_id": "f49eb5b4-c2bc-4b0f-bd56-1405834e135a",
+      "source_url": "https://archerscoffee.com/products/bittersweet"
+    },
+    {
+      "id": "f7cfb262-12c8-4196-9a5d-b2c3457cdd38",
+      "slug": "ona-coffee-raspberry-candy-272270ae",
+      "name_en": "Raspberry Candy",
+      "roaster_id": "a84b99b1-7e63-448c-adb4-7f2d996d1432",
+      "source_url": "https://onacoffee.com.au/products/raspberry-candy"
+    },
+    {
+      "id": "b94a01a1-97e6-48c5-a0c2-8d83233f6f50",
+      "slug": "ona-coffee-maple-75872426",
+      "name_en": "Maple",
+      "roaster_id": "a84b99b1-7e63-448c-adb4-7f2d996d1432",
+      "source_url": "https://onacoffee.com.au/products/maple"
+    },
+    {
+      "id": "1f735375-73e8-42af-a60f-dd54b9fba417",
+      "slug": "ona-coffee-aspen-1f083986",
+      "name_en": "Aspen",
+      "roaster_id": "a84b99b1-7e63-448c-adb4-7f2d996d1432",
+      "source_url": "https://onacoffee.com.au/products/aspen"
+    },
+    {
+      "id": "60119445-9afe-402a-82d3-66b5220d7cc1",
+      "slug": "ona-coffee-raspberry-candy-filter-8d45ff9b",
+      "name_en": "Raspberry Candy Filter",
+      "roaster_id": "a84b99b1-7e63-448c-adb4-7f2d996d1432",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/raspberry-candy-filter"
+    },
+    {
+      "id": "7ff8346e-067d-4bf7-ae5f-fd98986696d3",
+      "slug": "windrose-yemen-shaian-hiwar",
+      "name_en": "Yemen Shai'an Hiwar - Natural",
+      "roaster_id": "5492b827-d06a-412b-945a-c5b7571fe4bb",
+      "source_url": "https://www.windrosecoffee.com/product/yemen-shaian-hiwar/"
+    },
+    {
+      "id": "60b94781-170d-4ff7-a000-af6cf4353a64",
+      "slug": "ona-coffee-gargari-gutity-g1-red-1b85b58e",
+      "name_en": "Gargari Gutity G1 Red",
+      "roaster_id": "a84b99b1-7e63-448c-adb4-7f2d996d1432",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/gargari-gutity-g1-red-ethiopia-natural"
+    },
+    {
+      "id": "6a3921cb-473d-4414-ad59-cf17df6c8393",
+      "slug": "ona-coffee-kiambu-regional-c-382d0996",
+      "name_en": "Kiambu Regional C",
+      "roaster_id": "a84b99b1-7e63-448c-adb4-7f2d996d1432",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/kiambu-regional-c-kenya-washed"
+    },
+    {
+      "id": "807a5a4e-b255-427c-9e1f-152560d34ab4",
+      "slug": "ona-coffee-miramundo-79767fed",
+      "name_en": "Miramundo",
+      "roaster_id": "a84b99b1-7e63-448c-adb4-7f2d996d1432",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/miramundo-guatemala-natural"
+    },
+    {
+      "id": "730821bf-ca6f-4379-84e2-6659016af382",
+      "slug": "ona-coffee-el-angel-4ebc6b15",
+      "name_en": "El Ángel",
+      "roaster_id": "a84b99b1-7e63-448c-adb4-7f2d996d1432",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/el-angel-el-salvador-natural"
+    },
+    {
+      "id": "2e1adc92-6d89-4fd3-b522-c8c42493fb0d",
+      "slug": "ona-coffee-kaliluni-aa-41b0d4a4",
+      "name_en": "Kaliluni AA",
+      "roaster_id": "a84b99b1-7e63-448c-adb4-7f2d996d1432",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/kaliluni-aa-kenya-washed"
+    },
+    {
+      "id": "a2ba594d-8083-4af2-bb93-7eccc93bed2c",
+      "slug": "ona-coffee-yula-regional-lot-efd7120b",
+      "name_en": "Yula Regional Lot",
+      "roaster_id": "a84b99b1-7e63-448c-adb4-7f2d996d1432",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/yula-regional-lot-guatemala-washed"
+    },
+    {
+      "id": "9662ec49-1ce8-4f9f-97dc-4e630f78626a",
+      "slug": "ona-coffee-maguta-estate-lot-432-b65d6bc2",
+      "name_en": "Maguta Estate Lot 432",
+      "roaster_id": "a84b99b1-7e63-448c-adb4-7f2d996d1432",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/maguta-estate-lot-432-kenya-nitrogen-natural-indigo"
+    },
+    {
+      "id": "9b6ed51c-7a48-4946-83ab-b39a15e4c825",
+      "slug": "ona-coffee-elida-estate-torre-259f96a9",
+      "name_en": "Elida Estate Torre",
+      "roaster_id": "a84b99b1-7e63-448c-adb4-7f2d996d1432",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/elida-estate-torre-panama-drd-washed"
+    },
+    {
+      "id": "e23f078d-cee5-4687-9ae7-d4d68815ac28",
+      "slug": "ona-coffee-rungeto-c-af76f20f",
+      "name_en": "Rungeto C",
+      "roaster_id": "a84b99b1-7e63-448c-adb4-7f2d996d1432",
+      "source_url": "https://onacoffee.com.au/blogs/brewguides/rungeto-c-kenya-washed"
+    },
+    {
+      "id": "e2b5aa3c-797d-4e46-9f5c-1ff9bdee767a",
+      "slug": "code-black-coffee-3056-espresso-blend-5f5f0031",
+      "name_en": "3056 Espresso Blend",
+      "roaster_id": "2e83437a-4e8e-4604-9e8a-3bcbf96e9432",
+      "source_url": "https://codeblackcoffee.com.au/products/3056-espresso-blend-coffee"
+    },
+    {
+      "id": "a18911a7-32c5-43be-a885-71cd2e503378",
+      "slug": "code-black-coffee-seasonal-espresso-blend-2bf56ad6",
+      "name_en": "Seasonal Espresso Blend",
+      "roaster_id": "2e83437a-4e8e-4604-9e8a-3bcbf96e9432",
+      "source_url": "https://codeblackcoffee.com.au/products/seasonal-espresso-blend"
+    },
+    {
+      "id": "268429cc-3b76-4fb5-ad6f-330ef98d0b0e",
+      "slug": "goldbox-dark-sugars",
+      "name_en": "Dark Sugars",
+      "roaster_id": "882c01ce-086c-4f93-8235-bf9e49a6e0dc",
+      "source_url": "https://goldboxroastery.com/collections/coffee/products/dark-sugars"
+    },
+    {
+      "id": "0e4b731c-6607-4d0a-98f3-85f2b7562fb6",
+      "slug": "goldbox-ethiopia-hambela-halaka",
+      "name_en": "Ethiopia Hambela Halaka",
+      "roaster_id": "882c01ce-086c-4f93-8235-bf9e49a6e0dc",
+      "source_url": "https://goldboxroastery.com/collections/subscription-coffee/products/ethiopia-hambela-halaka"
+    },
+    {
+      "id": "c162490c-4357-47e8-af6f-974fbf34da15",
+      "slug": "goldbox-funky-weekend-blend",
+      "name_en": "Funky Weekend Blend",
+      "roaster_id": "882c01ce-086c-4f93-8235-bf9e49a6e0dc",
+      "source_url": "https://goldboxroastery.com/collections/coffee/products/funky-weekend-blend"
+    },
+    {
+      "id": "6ad6f1ba-0fd6-4604-8eb5-43dd7e14f2a0",
+      "slug": "goldbox-kenya-anaerobic",
+      "name_en": "Kenya Anaerobic",
+      "roaster_id": "882c01ce-086c-4f93-8235-bf9e49a6e0dc",
+      "source_url": "https://goldboxroastery.com/collections/team-favourites/products/kenya-anaerobic"
+    },
+    {
+      "id": "d9e2fa86-72e9-403a-ab70-e15d30d18cc8",
+      "slug": "goldbox-rocko-mountain",
+      "name_en": "Rocko Mountain",
+      "roaster_id": "882c01ce-086c-4f93-8235-bf9e49a6e0dc",
+      "source_url": "https://goldboxroastery.com/collections/coffee/products/rocko-mountain"
+    },
+    {
+      "id": "51423f52-16e6-450e-9c69-5ba6a554b00e",
+      "slug": "grey-colombia-decaf",
+      "name_en": "Colombia Decaf",
+      "roaster_id": "d8bc8dc4-ec9a-402a-ba3d-1c83ad88870c",
+      "source_url": "https://greydoha.qa/product/decaf"
+    },
+    {
+      "id": "33deb576-a65e-4fcb-ae79-b8ef79b84803",
+      "slug": "grey-finca-el-diviso",
+      "name_en": "Finca El Diviso",
+      "roaster_id": "d8bc8dc4-ec9a-402a-ba3d-1c83ad88870c",
+      "source_url": "https://greydoha.qa/product/el-diviso"
+    },
+    {
+      "id": "81e28b1c-86d4-4434-a88b-2a73e66ca0c0",
+      "slug": "code-black-coffee-ex-wife-espresso-blend-e71d401e",
+      "name_en": "Ex-Wife Espresso Blend",
+      "roaster_id": "2e83437a-4e8e-4604-9e8a-3bcbf96e9432",
+      "source_url": "https://codeblackcoffee.com.au/products/ex-wife-espresso-blend-coffee"
+    },
+    {
+      "id": "143de3d3-0598-4822-9413-076551901696",
+      "slug": "toby-s-estate-woolloomooloo-986aaab9",
+      "name_en": "Woolloomooloo",
+      "roaster_id": "5ed9e86d-0cbf-4213-8bcd-86a83a334cf3",
+      "source_url": "https://www.tobysestate.com.au/woolloomooloo/"
+    },
+    {
+      "id": "b907e24c-7fdb-4d0b-8f15-9b833aff50ff",
+      "slug": "toby-s-estate-broadway-95ad45e7",
+      "name_en": "Broadway",
+      "roaster_id": "5ed9e86d-0cbf-4213-8bcd-86a83a334cf3",
+      "source_url": "https://www.tobysestate.com.au/broadway/"
+    },
+    {
+      "id": "3921803c-b271-48d6-87fa-44f5f16283a1",
+      "slug": "toby-s-estate-rico-beba7bc3",
+      "name_en": "Rico",
+      "roaster_id": "5ed9e86d-0cbf-4213-8bcd-86a83a334cf3",
+      "source_url": "https://www.tobysestate.com.au/rico/"
+    },
+    {
+      "id": "5e8339f8-d9d7-408f-9972-762ea0333977",
+      "slug": "toby-s-estate-black-swan-48b18a55",
+      "name_en": "Black Swan",
+      "roaster_id": "5ed9e86d-0cbf-4213-8bcd-86a83a334cf3",
+      "source_url": "https://www.tobysestate.com.au/brew-guides/"
+    },
+    {
+      "id": "8c1ad673-2bf4-47a1-be37-b7d6e4ab480f",
+      "slug": "toby-s-estate-organic-blend-b66f36a7",
+      "name_en": "Organic Blend",
+      "roaster_id": "5ed9e86d-0cbf-4213-8bcd-86a83a334cf3",
+      "source_url": "https://www.tobysestate.com.au/organic-blend/"
+    },
+    {
+      "id": "a9a38a01-083c-44d6-9fda-12c42c44d337",
+      "slug": "toby-s-estate-decaf-3ce1f280",
+      "name_en": "Decaf",
+      "roaster_id": "5ed9e86d-0cbf-4213-8bcd-86a83a334cf3",
+      "source_url": "https://www.tobysestate.com.au/decaf/"
+    },
+    {
+      "id": "25de1337-2dd8-45b3-8b88-2df20dc647d2",
+      "slug": "toby-s-estate-brunswick-13d58070",
+      "name_en": "Brunswick",
+      "roaster_id": "5ed9e86d-0cbf-4213-8bcd-86a83a334cf3",
+      "source_url": "https://www.tobysestate.com.au/brunswick/"
+    },
+    {
+      "id": "1bb6ab9d-c59c-4d6d-961b-fd1d74f73481",
+      "slug": "five-senses-coffee-ardi-be105bb3",
+      "name_en": "Ardi",
+      "roaster_id": "102ab870-b16f-4541-8e05-6da51d47d29c",
+      "source_url": "https://fivesenses.com.au/products/ardi-ethiopia"
+    },
+    {
+      "id": "0a811cf1-102c-4fb6-85c5-6ff6e9588c22",
+      "slug": "grey-finca-el-bosque",
+      "name_en": "Finca El Bosque",
+      "roaster_id": "d8bc8dc4-ec9a-402a-ba3d-1c83ad88870c",
+      "source_url": "https://greydoha.qa/product/finca-el-bosque"
+    },
+    {
+      "id": "1c7b896b-35f0-4c03-8c7e-8695f32080a6",
+      "slug": "five-senses-coffee-umoja-washed-bffa1c95",
+      "name_en": "Umoja Washed",
+      "roaster_id": "102ab870-b16f-4541-8e05-6da51d47d29c",
+      "source_url": "https://fivesenses.com.au/products/umoja-washed-tanzania"
+    },
+    {
+      "id": "b407fc50-0bb0-49c1-b0b1-c648347e80c1",
+      "slug": "five-senses-coffee-sweater-weather-blend-89c39ff6",
+      "name_en": "Sweater Weather Blend",
+      "roaster_id": "102ab870-b16f-4541-8e05-6da51d47d29c",
+      "source_url": "https://fivesenses.com.au/products/sweater-weather-blend"
+    },
+    {
+      "id": "778874db-68c8-447f-8ad6-5b1d8ff1f992",
+      "slug": "grey-rivense-la-guaca",
+      "name_en": "Rivense La Guaca",
+      "roaster_id": "d8bc8dc4-ec9a-402a-ba3d-1c83ad88870c",
+      "source_url": "https://greydoha.qa/product/rivense-la-guaca"
+    },
+    {
+      "id": "59dd3b44-19f3-43e4-b88a-4092153a511d",
+      "slug": "grey-sunda-wanoja",
+      "name_en": "Sunda Wanoja",
+      "roaster_id": "d8bc8dc4-ec9a-402a-ba3d-1c83ad88870c",
+      "source_url": "https://greydoha.qa/product/sunda-wanoja"
+    },
+    {
+      "id": "443e7187-131e-407f-b1e9-8c34699c75db",
+      "slug": "haute-brazil-campo-das-vertentes",
+      "name_en": "Brazilian Coffee Beans",
+      "roaster_id": "0941a372-c6ce-4a1b-bffa-6ed7b45d6261",
+      "source_url": "https://hautecoffeeroasters.com/products/brazilian-coffee-beans"
+    },
+    {
+      "id": "884f86b5-3d5b-48d8-b6af-8a1d09bea559",
+      "slug": "haute-colombia-supremo",
+      "name_en": "Colombian Coffee Supremo",
+      "roaster_id": "0941a372-c6ce-4a1b-bffa-6ed7b45d6261",
+      "source_url": "https://hautecoffeeroasters.com/products/colombia-coffee-supremo"
+    },
+    {
+      "id": "25cebaa5-1eea-4ced-9ee8-4df141e4c973",
+      "slug": "haute-ethiopia-chelchele",
+      "name_en": "Ethiopia Chelchele",
+      "roaster_id": "0941a372-c6ce-4a1b-bffa-6ed7b45d6261",
+      "source_url": "https://hautecoffeeroasters.com/products/ethiopia-chelchele-coffee"
+    },
+    {
+      "id": "a7ca90ca-3de5-464d-9470-2e39a662fcea",
+      "slug": "oru-blend",
+      "name_en": "ORU Blend",
+      "roaster_id": "6e5676b2-97e8-4331-9f8a-ab55b63c2ccc",
+      "source_url": "https://oruroasters.com/products/oru-blend"
+    },
+    {
+      "id": "182ef429-0991-4916-aadb-741adc78178f",
+      "slug": "coffee-supreme-au-south-blend-5edb4464",
+      "name_en": "South Blend",
+      "roaster_id": "4a5b951c-4e10-43b1-94df-161b9586d481",
+      "source_url": "https://shopau.coffeesupreme.com/products/south-blend"
+    },
+    {
+      "id": "0fadd092-b676-4d06-a9bb-aebd41681486",
+      "slug": "jazean-khayalah-mountain",
+      "name_en": "Khayalah Mountain",
+      "roaster_id": "60931e33-d8ca-4480-9150-9e09dfdc0e6a",
+      "source_url": "https://store.jazeancoffee.com/"
+    },
+    {
+      "id": "015b13c8-fc4c-46b4-883c-326163b8d6a2",
+      "slug": "jazean-watad-mountain",
+      "name_en": "Watad Mountain",
+      "roaster_id": "60931e33-d8ca-4480-9150-9e09dfdc0e6a",
+      "source_url": "https://store.jazeancoffee.com/"
+    },
+    {
+      "id": "9975653b-1c43-47c7-bba9-0c668f6e2f9e",
+      "slug": "jeed-bombe-ethiopia-natural",
+      "name_en": "Bombe — Ethiopia — Natural",
+      "roaster_id": "89ec4bcb-5729-4b27-864e-12b0e9dd08f1",
+      "source_url": "https://jeedroastery.com/products/Bombe_Ethiopia_Natural"
+    },
+    {
+      "id": "c351b151-fda0-4bf7-9a21-6afdd628aaee",
+      "slug": "oru-uganda-mukhoto",
+      "name_en": "Uganda Mukhoto",
+      "roaster_id": "6e5676b2-97e8-4331-9f8a-ab55b63c2ccc",
+      "source_url": "https://oruroasters.com/products/uganda-mukhoto"
+    },
+    {
+      "id": "f3848b44-027c-4c95-a71e-3efe859d7c83",
+      "slug": "kurasu-rwanda-mbilima-soil-project-lot-0704",
+      "name_en": "Rwanda Mbilima Soil Project Lot.0704",
+      "roaster_id": "1ea22008-5944-4854-91cd-beacf2f92c9b",
+      "source_url": "https://kurasu.kyoto/products/rwanda-mbilima-soil-project-lot-0704light-roast"
+    },
+    {
+      "id": "a7c1dbad-fd86-489d-9aa8-f3490d162cae",
+      "slug": "methods-hambela-supernatural",
+      "name_en": "Hambela Supernatural",
+      "roaster_id": "0621d015-b01c-4c76-abb6-50b6443e859c",
+      "source_url": "https://methods.coffee/collections/coffee/products/hambela-supernatural"
+    },
+    {
+      "id": "2c268de1-8ee9-4890-b688-8d6d04c99b8a",
+      "slug": "42-coffee-colombia-sanchez-monteblanco",
+      "name_en": "Colombia Sanchez Finca Monteblanco",
+      "roaster_id": "bc18a667-ccc5-4514-bdac-95b1ca2abe97",
+      "source_url": "https://42coffeeroasters.com/product/colombia-sanchez-finca-monteblanco/"
+    },
+    {
+      "id": "91261847-9eea-4357-9779-d00ded9f2e86",
+      "slug": "49th-parallel-coffee-roasters-old-school-espresso-ea466f21",
+      "name_en": "Old School Espresso",
+      "roaster_id": "41e3a7f7-9143-4fff-a1ef-91fbfb85e971",
+      "source_url": "https://49thcoffee.com/products/old-school-espresso"
+    },
+    {
+      "id": "ef405312-ccd7-4529-9e67-9867cab84537",
+      "slug": "counter-culture-coffee-big-trouble-1eededa7",
+      "name_en": "Big Trouble",
+      "roaster_id": "0e5a1e3a-cd98-4507-b6d7-c9630ebd0d1f",
+      "source_url": "https://counterculturecoffee.com/products/big-trouble"
+    },
+    {
+      "id": "451b7bd4-d084-476a-a154-7f23350bb96c",
+      "slug": "julith-colombia-finca-zarza-papayo-natural",
+      "name_en": "Colombia Finca Zarza Fruit Forward Papayo Natural",
+      "roaster_id": "90786ee1-15d1-416b-adbe-b0a5c916fbea",
+      "source_url": "https://julithcoffee.com/colombia-finca-zarza-fruit-forward-papayo/"
+    },
+    {
+      "id": "c466eb6d-9017-4d72-a4d1-aefe824c1c70",
+      "slug": "ozone-costa-rica-granitos-ortiz-1800",
+      "name_en": "Costa Rica Granitos - Ortiz 1800, Catuai, Yellow Honey",
+      "roaster_id": "43f0d1bd-d50b-4e43-978d-6655821ae66e",
+      "source_url": "https://ozonecoffee.co.uk/products/costa-rica-granitos-ortiz-1800"
+    },
+    {
+      "id": "c5e2422d-311c-4cfc-91f7-58c310db389a",
+      "slug": "julith-panama-kotowa-silvia-marina-geisha-natural-lot-26-4320",
+      "name_en": "Panama Finca Kotowa Silvia Marina Geisha Natural Lot 26-4320",
+      "roaster_id": "90786ee1-15d1-416b-adbe-b0a5c916fbea",
+      "source_url": "https://julithcoffee.com/panama-kotowa-silvia-marina-geisha-natural-lot26-4320/"
+    },
+    {
+      "id": "2ee54616-a7f5-4447-8692-4ee85ef03567",
+      "slug": "julith-panama-janson-geisha-washed-lot-26-178",
+      "name_en": "Panama Janson Coffee Geisha Washed Lot 26-178",
+      "roaster_id": "90786ee1-15d1-416b-adbe-b0a5c916fbea",
+      "source_url": "https://julithcoffee.com/panama-janson-coffee-geisha-washed-lot-26-178/"
+    },
+    {
+      "id": "a1f1e8f6-60d3-49f3-b6e6-6458703db179",
+      "slug": "roastado-brazil-classic",
+      "name_en": "Brazil — Classic",
+      "roaster_id": "a7d4971e-187b-48bb-b907-f73ebc0e22da",
+      "source_url": "https://roastado.qa/products/brazil-classic"
+    },
+    {
+      "id": "67bbc2a1-f08d-4c1a-8b66-1e880c4d3244",
+      "slug": "kurasu-indonesia-frinsa-estate-weninggalih",
+      "name_en": "Indonesia Frinsa Estate Weninggalih",
+      "roaster_id": "1ea22008-5944-4854-91cd-beacf2f92c9b",
+      "source_url": "https://kurasu.kyoto/products/indonesia-frinsa-estate-weninggalih-light-roast"
+    },
+    {
+      "id": "0fd59367-2da9-4541-82d4-fc12a9218fad",
+      "slug": "roastado-colombia-decaf",
+      "name_en": "Colombia — Decaf",
+      "roaster_id": "a7d4971e-187b-48bb-b907-f73ebc0e22da",
+      "source_url": "https://roastado.qa/products/colombia-decaf"
+    },
+    {
+      "id": "1b58e3d2-6b7a-41b1-9c33-9527c30324e4",
+      "slug": "bahrainroastery-applewood-reserve",
+      "name_en": "AppleWood Reserve (Wood-Fired Coffee)",
+      "roaster_id": "2afdd3c4-2e39-4efc-bcce-76d912ee005f",
+      "source_url": "https://bahrainroastery.com/products/1-kg-applewood-reserve-wood-fired-coffee"
+    },
+    {
+      "id": "8c6568c7-32c5-488c-a19c-a962c90291aa",
+      "slug": "bahrainroastery-360-profile-blend",
+      "name_en": "360° Profile Blend",
+      "roaster_id": "2afdd3c4-2e39-4efc-bcce-76d912ee005f",
+      "source_url": "https://bahrainroastery.com/products/360-profile-blend"
+    },
+    {
+      "id": "47a423e8-720c-48b6-baaf-4fd7f8c2c982",
+      "slug": "tim-wendelboe-gachatha",
+      "name_en": "Gachatha",
+      "roaster_id": "6bf8cfee-0367-4751-8c1d-31ff5ec78fec",
+      "source_url": "https://timwendelboe.no/products/gachatha"
+    },
+    {
+      "id": "50e28b17-674d-4ee6-82f6-f9c0506bf5f8",
+      "slug": "camel-step-colombia-las-palmas",
+      "name_en": "Colombia Las Palmas",
+      "roaster_id": "c4dd7787-0c6e-4be2-b6e3-618598090873",
+      "source_url": "https://camelstep.com/products/%D9%83%D9%88%D9%84%D9%88%D9%85%D8%A8%D9%8A%D8%A7-%D9%84%D8%A7%D8%B3-%D8%A8%D8%A7%D9%84%D9%85%D8%A7%D8%B3"
+    },
+    {
+      "id": "842f8569-b4a0-4644-97b0-d4224a318a38",
+      "slug": "camel-step-costa-rica-baratila",
+      "name_en": "Costa Rica Barátila",
+      "roaster_id": "c4dd7787-0c6e-4be2-b6e3-618598090873",
+      "source_url": "https://camelstep.com/products/%D9%83%D9%88%D8%B3%D8%AA%D8%A7%D8%B1%D9%8A%D9%83%D8%A7-%D8%A8%D8%A7%D8%B1%D8%A7%D8%AA%D9%8A%D9%84%D8%A7"
+    },
+    {
+      "id": "e415d288-a2f7-4f0c-8281-d535304f77f2",
+      "slug": "camel-step-ethiopia-jininet",
+      "name_en": "Ethiopia Jininet",
+      "roaster_id": "c4dd7787-0c6e-4be2-b6e3-618598090873",
+      "source_url": "https://camelstep.com/products/%D8%A5%D8%AB%D9%8A%D9%88%D8%A8%D9%8A%D8%A7-%D8%AC%D9%8A%D9%86%D9%8A%D8%AA"
+    },
+    {
+      "id": "b3fb9a14-395b-4008-a1e0-ad2b017336fb",
+      "slug": "crossbridge-guatemala-roast",
+      "name_en": "Guatemala Roast",
+      "roaster_id": "68da6957-38e1-44ee-bdf8-715f0efc50b7",
+      "source_url": "https://crossbridgecoffee.com/"
+    },
+    {
+      "id": "1bf374c0-347c-4b65-9936-d119580eed88",
+      "slug": "doha-roastery-ethiopia-guji",
+      "name_en": "Ethiopia Guji Coffee Beans",
+      "roaster_id": "68ec359d-d64b-4f48-b8fb-3e9697055155",
+      "source_url": "https://www.doharoastery.com/products/344303c6-5a05-435b-9822-365e13bbe851"
+    },
+    {
+      "id": "385c9f0c-362c-4cf2-9b22-f4303ba79066",
+      "slug": "doha-roastery-india-single-origin",
+      "name_en": "India Single Origin Coffee Beans",
+      "roaster_id": "68ec359d-d64b-4f48-b8fb-3e9697055155",
+      "source_url": "https://www.doharoastery.com/products/22bc2a53-af25-41ce-bd2b-f31a649c4f05"
+    },
+    {
+      "id": "0dfd4f9b-047c-4697-8a5b-21d4d8a7466e",
+      "slug": "roastado-ethiopia-guji-filter",
+      "name_en": "Ethiopia Guji — Filter",
+      "roaster_id": "a7d4971e-187b-48bb-b907-f73ebc0e22da",
+      "source_url": "https://roastado.qa/products/ethiopia-guji-filter"
+    },
+    {
+      "id": "ead3b2c4-26db-422e-9cfd-d736fb00a123",
+      "slug": "the-barn-atlas-guatemala",
+      "name_en": "Atlas Coffee",
+      "roaster_id": "33e0f189-4b9c-4a3f-b094-557fc015b924",
+      "source_url": "https://thebarn.de/products/atlas-coffee"
+    },
+    {
+      "id": "8c5f9fc6-b04d-47ce-a22e-fa96d9acb187",
+      "slug": "the-barn-elemental-brazil",
+      "name_en": "Elemental Coffee",
+      "roaster_id": "33e0f189-4b9c-4a3f-b094-557fc015b924",
+      "source_url": "https://thebarn.de/products/elemental-coffee"
+    },
+    {
+      "id": "497ec9d7-f918-4630-b67a-b345d8369740",
+      "slug": "the-barn-genesis-ethiopia",
+      "name_en": "Genesis Coffee",
+      "roaster_id": "33e0f189-4b9c-4a3f-b094-557fc015b924",
+      "source_url": "https://thebarn.de/products/genesis-coffee"
+    },
+    {
+      "id": "350842f3-d45d-4c81-9f5e-f5fb13e5d3c3",
+      "slug": "verve-coffee-roasters-sermon-bb3b473d",
+      "name_en": "Sermon",
+      "roaster_id": "5ee5fec5-753b-4c43-b510-a9765606a61a",
+      "source_url": "https://www.vervecoffee.com/products/sermon"
+    },
+    {
+      "id": "0fd3e515-b22b-4b32-a215-4b6fc991b10a",
+      "slug": "workshop-coffee-pillar-53c30f62",
+      "name_en": "Pillar",
+      "roaster_id": "cfe024bc-327d-4cdc-b9ab-7e8f37ea353d",
+      "source_url": "https://workshopcoffee.com/products/pillar"
+    },
+    {
+      "id": "04013dd4-13df-471d-afeb-260d4238ae2f",
+      "slug": "black-knight-excelso-colombia",
+      "name_en": "Excelso (Colombia)",
+      "roaster_id": "86cc2f9f-d233-44bb-af35-2a74d4e30afd",
+      "source_url": "https://b-k.coffee/products/كولومبيا-اكسيلسو-مغسول-250g"
+    },
+    {
+      "id": "6cb87075-99cd-4ed8-aff8-0bb4992e5942",
+      "slug": "crossbridge-brazil-roast",
+      "name_en": "Brazil Roast",
+      "roaster_id": "68da6957-38e1-44ee-bdf8-715f0efc50b7",
+      "source_url": "https://crossbridgecoffee.com/"
+    },
+    {
+      "id": "b5625497-8196-4d3d-b0b5-79c2ddf7ac28",
+      "slug": "grey-mogiana",
+      "name_en": "Mogiana",
+      "roaster_id": "d8bc8dc4-ec9a-402a-ba3d-1c83ad88870c",
+      "source_url": "https://greydoha.qa/product/mogiana"
+    },
+    {
+      "id": "7ffc48be-9d5e-4b30-92c4-1218af89733c",
+      "slug": "42-coffee-ethiopia-bona-zuria",
+      "name_en": "Ethiopia Bona Zuria Fermented",
+      "roaster_id": "bc18a667-ccc5-4514-bdac-95b1ca2abe97",
+      "source_url": "https://42coffeeroasters.com/product/ethiopia-bona-zuria/"
+    },
+    {
+      "id": "75f025c8-f42b-4a8b-b909-c8c8d32b2193",
+      "slug": "jeed-aquiares-costa-rica-natural",
+      "name_en": "Aquiares — Costa Rica — Natural",
+      "roaster_id": "89ec4bcb-5729-4b27-864e-12b0e9dd08f1",
+      "source_url": "https://jeedroastery.com/products/Aquiares_Natural_Costa_Rica"
+    },
+    {
+      "id": "f6beacc2-7e19-498e-b510-ae5d2db0bf98",
+      "slug": "jeed-benti-nenqa-ethiopia-washed",
+      "name_en": "Benti Nenqa — Ethiopia — Washed",
+      "roaster_id": "89ec4bcb-5729-4b27-864e-12b0e9dd08f1",
+      "source_url": "https://jeedroastery.com/products/Benti_Nenqa_Ethiopia_Washed"
+    },
+    {
+      "id": "f9837777-54f5-4d58-887f-2955c5d4bec3",
+      "slug": "rawi-alba-250g",
+      "name_en": "Alba — 250 g",
+      "roaster_id": "1d8e1892-d74c-4100-91d5-12ececb885b0",
+      "source_url": "https://rawicoffee.com/shop/القهوة/حبوب-القهوة/ألبا-250-جرام/"
+    },
+    {
+      "id": "d5aab7a9-b869-49ab-9adf-7d1c1b3405b5",
+      "slug": "jebla-romario-250g",
+      "name_en": "Romario — Brazil",
+      "roaster_id": "616bb7de-35fd-4342-b1f7-f3d6766b6c24",
+      "source_url": "https://jeblacoffeeroasters.com/ar/products/روماريو-برازيل"
+    },
+    {
+      "id": "37c6d60c-9819-4e44-b776-79d33ac5a6dd",
+      "slug": "ozone-bolivia-gregorio-palli-anoxic-washed",
+      "name_en": "Bolivia Gregorio Palli, Anoxic Washed",
+      "roaster_id": "43f0d1bd-d50b-4e43-978d-6655821ae66e",
+      "source_url": "https://ozonecoffee.co.uk/products/bolivia-gregorio-palli-anoxic-washed"
+    },
+    {
+      "id": "608f0dc6-e082-4105-a48f-6be71a912e6b",
+      "slug": "roots-black-forest-blend",
+      "name_en": "Black Forest Blend",
+      "roaster_id": "c4ace273-10a8-4cb1-94b0-c487388b3ea1",
+      "source_url": "https://rootsroastery.net/en/product/black-forest-blend/"
+    },
+    {
+      "id": "6c900477-898b-46da-ba19-4d3c18ff52a2",
+      "slug": "roots-colombia-geisha-marcela",
+      "name_en": "Colombia Geisha Marcela",
+      "roaster_id": "c4ace273-10a8-4cb1-94b0-c487388b3ea1",
+      "source_url": "https://rootsroastery.net/en/product/colombia-geisha-marcelia/"
+    },
+    {
+      "id": "ceb93a1a-0af8-4e04-a8b3-60c92ee7d3b2",
+      "slug": "roots-ethiopia-hambella",
+      "name_en": "Ethiopia Hambella",
+      "roaster_id": "c4ace273-10a8-4cb1-94b0-c487388b3ea1",
+      "source_url": "https://rootsroastery.net/en/product/ethiopia-hambella/"
+    },
+    {
+      "id": "722d69fd-e014-4f60-8886-13d205a2a60e",
+      "slug": "windrose-ethiopia-aricha",
+      "name_en": "Ethiopia Aricha - Natural",
+      "roaster_id": "5492b827-d06a-412b-945a-c5b7571fe4bb",
+      "source_url": "https://www.windrosecoffee.com/product/ethiopia-aricha/"
+    },
+    {
+      "id": "a3a23ee8-8795-4d24-896f-a2e26f11d97d",
+      "slug": "la-cabra-shantawene",
+      "name_en": "Shantawene",
+      "roaster_id": "d172b091-7a52-4cab-87a1-cd96f2467355",
+      "source_url": "https://lacabra.com/products/shantawene"
+    },
+    {
+      "id": "5420327b-a1ab-4ae1-9b71-0bfda3ff0729",
+      "slug": "la-cabra-kii",
+      "name_en": "Kii",
+      "roaster_id": "d172b091-7a52-4cab-87a1-cd96f2467355",
+      "source_url": "https://lacabra.com/products/kii"
+    },
+    {
+      "id": "efa61109-183d-4508-9b8f-93abb90fa746",
+      "slug": "roasting-house-kenya-sasha",
+      "name_en": "Kenya Sasha",
+      "roaster_id": "d4000c4d-9bfd-4254-a243-dafb0b1c0fe0",
+      "source_url": "https://roastinghouse.sa/kenya-sasha.html"
+    },
+    {
+      "id": "ba1644de-de07-407f-9ec7-0425e8bbf264",
+      "slug": "roasting-house-colombia-chambaku",
+      "name_en": "Colombia Chambaku (Online Exclusive)",
+      "roaster_id": "d4000c4d-9bfd-4254-a243-dafb0b1c0fe0",
+      "source_url": "https://roastinghouse.sa/colombia-chambaku-online-exclusive.html"
+    },
+    {
+      "id": "b937e8e4-1d95-43f5-9de4-00c8b96e23c4",
+      "slug": "roasting-house-ecuador-geisha-72-honey",
+      "name_en": "Geisha 72 Honey Process",
+      "roaster_id": "d4000c4d-9bfd-4254-a243-dafb0b1c0fe0",
+      "source_url": "https://roastinghouse.sa/geisha-72-honey-process.html"
+    },
+    {
+      "id": "6e3c86c8-707a-4647-81ef-7425715770e1",
+      "slug": "vulcan-colombia-buesaco-natural",
+      "name_en": "Colombia — Buesaco — Natural",
+      "roaster_id": "e544e2da-0109-4952-ab84-a69afaa219bc",
+      "source_url": "https://www.vulcanroastery.com/collections/new-arrival/products/colombia-buesaco-natural"
+    },
+    {
+      "id": "6b1d138b-c3c9-46b5-8837-424de0f43d9c",
+      "slug": "vulcan-colombia-cerro-azul-honey-geisha",
+      "name_en": "Colombia — Cerro Azul — Honey Geisha (Competition Series)",
+      "roaster_id": "e544e2da-0109-4952-ab84-a69afaa219bc",
+      "source_url": "https://www.vulcanroastery.com/collections/all-coffee/products/colombia-cerro-azul-geisha-honey"
+    },
+    {
+      "id": "bfad0a19-95a0-4e0c-ad15-e5c154cc439c",
+      "slug": "coffeesheep-ethiopia-guji",
+      "name_en": "Ethiopia - Guji",
+      "roaster_id": "c596b6bd-cbad-4a7b-bcc0-f00b223a19ce",
+      "source_url": "https://thecoffeesheep.com/"
+    },
+    {
+      "id": "1d157986-8f1c-4aca-a2c8-2565706c151f",
+      "slug": "coffeesheep-peru-cajamarca",
+      "name_en": "Peru - Cajamarca",
+      "roaster_id": "c596b6bd-cbad-4a7b-bcc0-f00b223a19ce",
+      "source_url": "https://thecoffeesheep.com/"
+    },
+    {
+      "id": "959d3e4a-6afd-44ba-8ce3-9ec69aa5aa9c",
+      "slug": "vulcan-costa-rica-los-robles-natural-reposado",
+      "name_en": "Costa Rica — Los Robles — Natural Reposado",
+      "roaster_id": "e544e2da-0109-4952-ab84-a69afaa219bc",
+      "source_url": "https://www.vulcanroastery.com/collections/all-coffee/products/costa-rica-los-robles-natural-reposado-1"
+    },
+    {
+      "id": "57f2ceda-dbfc-4b81-afea-352b94676a21",
+      "slug": "vulcan-el-salvador-finca-colombia-natural-gesha",
+      "name_en": "El Salvador — Finca Colombia — Natural Gesha",
+      "roaster_id": "e544e2da-0109-4952-ab84-a69afaa219bc",
+      "source_url": "https://www.vulcanroastery.com/collections/vulcan-treasury-series/products/finca-colombia-gesha-el-salvador"
+    },
+    {
+      "id": "f4b1796a-0a5a-430a-b7d4-ba901bf6c07f",
+      "slug": "vulcan-ethiopia-bench-maji-natural",
+      "name_en": "Ethiopia — Bench Maji — Natural",
+      "roaster_id": "e544e2da-0109-4952-ab84-a69afaa219bc",
+      "source_url": "https://www.vulcanroastery.com/collections/all-coffee/products/ethiopia-bench-maji-natural"
+    },
+    {
+      "id": "6ef30e14-e594-4a0a-b82e-115b1d19b3ef",
+      "slug": "tim-wendelboe-finca-tamana-caturron",
+      "name_en": "Finca Tamana Caturron",
+      "roaster_id": "6bf8cfee-0367-4751-8c1d-31ff5ec78fec",
+      "source_url": "https://timwendelboe.no/products/finca-tamana-caturron"
+    },
+    {
+      "id": "e8b1b512-0a75-4a1d-9245-08ab91ae9b57",
+      "slug": "five-elephant-colombia-el-meson-filter",
+      "name_en": "Colombia El Mesón – Filter",
+      "roaster_id": "338f7bb7-2c58-4ce5-b88e-bfa6acb382da",
+      "source_url": "https://www.fiveelephant.com/products/colombia-el-meson-filter"
+    },
+    {
+      "id": "9e924239-bc7d-4eda-b25d-daf7a305106d",
+      "slug": "five-elephant-ethiopia-kello-lalesa-filter",
+      "name_en": "Ethiopia Kello Lalesa – Filter",
+      "roaster_id": "338f7bb7-2c58-4ce5-b88e-bfa6acb382da",
+      "source_url": "https://www.fiveelephant.com/products/ethiopia-kelloo-lalesa"
+    },
+    {
+      "id": "66c8f979-0e75-4b1e-b2ab-d5afe5655ffd",
+      "slug": "kurasu-kenya-gatomboya-ab",
+      "name_en": "Kenya Gatomboya AB",
+      "roaster_id": "1ea22008-5944-4854-91cd-beacf2f92c9b",
+      "source_url": "https://kurasu.kyoto/products/kenya-gatomboya-ab-light-roast"
+    },
+    {
+      "id": "4add029b-6ead-48d7-a327-8564b39c0a79",
+      "slug": "kurasu-colombia-hermides-meneses",
+      "name_en": "Colombia Hermides Meneses",
+      "roaster_id": "1ea22008-5944-4854-91cd-beacf2f92c9b",
+      "source_url": "https://kurasu.kyoto/products/colombia-hermides-meneses-light-roast"
+    },
+    {
+      "id": "017965b4-b799-43f1-ac33-4f140e62c689",
+      "slug": "kurasu-el-salvador-don-jaime",
+      "name_en": "El Salvador Don Jaime",
+      "roaster_id": "1ea22008-5944-4854-91cd-beacf2f92c9b",
+      "source_url": "https://kurasu.kyoto/products/el-salvador-don-jaimemedium-light-roast"
+    },
+    {
+      "id": "e4a32cdc-9621-4bf8-a05e-3ef1854d6f93",
+      "slug": "kurasu-el-salvador-emerson-vasquez-pacamara",
+      "name_en": "El Salvador Emerson Vasquez Pacamara",
+      "roaster_id": "1ea22008-5944-4854-91cd-beacf2f92c9b",
+      "source_url": "https://kurasu.kyoto/products/el-salvador-emerson-vasquez-pacamara-light-roast"
+    },
+    {
+      "id": "14207cab-a85e-4c08-87d8-7d5ef5bcff05",
+      "slug": "tim-wendelboe-los-pirineos-pacamara",
+      "name_en": "Los Pirineos Pacamara",
+      "roaster_id": "6bf8cfee-0367-4751-8c1d-31ff5ec78fec",
+      "source_url": "https://timwendelboe.no/products/los-pirineos-pacamara"
+    },
+    {
+      "id": "723f4cd0-4d24-4023-a973-bbc512bea8a8",
+      "slug": "la-cabra-julian-calderon-pink-bourbon",
+      "name_en": "Julian Calderón Pink Bourbon",
+      "roaster_id": "d172b091-7a52-4cab-87a1-cd96f2467355",
+      "source_url": "https://lacabra.com/products/julian-calderon-pink-bourbon"
+    },
+    {
+      "id": "559a7d46-790d-4b18-b173-9169d81d9c17",
+      "slug": "oru-ethiopia-guji-g1-masina",
+      "name_en": "Ethiopia Guji G1 Masina",
+      "roaster_id": "6e5676b2-97e8-4331-9f8a-ab55b63c2ccc",
+      "source_url": "https://oruroasters.com/products/ethiopia-muji-masina"
+    },
+    {
+      "id": "f7126f88-c7f3-43ed-a79d-579e04fb9212",
+      "slug": "42-coffee-ethiopia-goro-bedesa",
+      "name_en": "Ethiopia Goro Bedesa Fermented",
+      "roaster_id": "bc18a667-ccc5-4514-bdac-95b1ca2abe97",
+      "source_url": "https://42coffeeroasters.com/product/ethiopia-goro-bedesa-fermented/"
+    },
+    {
+      "id": "fb696f05-4728-44c4-bfe2-9c761e8c1b2b",
+      "slug": "80plus-elixir-brazil",
+      "name_en": "Elixir - Brazil",
+      "roaster_id": "78ee8e93-55b1-4dcb-9907-774f050ba032",
+      "source_url": "https://80pluscoffeebh.com/products/elixir-brazil"
+    },
+    {
+      "id": "8e4dfbdf-f285-4547-ac2e-81f58db66436",
+      "slug": "80plus-hambela-ethiopia",
+      "name_en": "HABMELA - Ethiopia (HAMBELA)",
+      "roaster_id": "78ee8e93-55b1-4dcb-9907-774f050ba032",
+      "source_url": "https://80pluscoffeebh.com/products/hambela-ethiopia-1"
+    },
+    {
+      "id": "1f582ab1-550a-4a42-a2ac-5d9e444119af",
+      "slug": "friedhats-ethiopia-bisrat-melaku-washed",
+      "name_en": "Ethiopia Bisrat Melaku Washed",
+      "roaster_id": "def9ece4-ad7c-4aeb-a6e9-b704a30eab05",
+      "source_url": "https://friedhats.com/products/ethiopia-bisrat-melaku-washed"
+    },
+    {
+      "id": "c0a4d04e-ce93-4452-bf89-37af9ce228d6",
+      "slug": "bahrainroastery-amberwood-reserve",
+      "name_en": "AmberWood Reserve (Wood-Fired Coffee)",
+      "roaster_id": "2afdd3c4-2e39-4efc-bcce-76d912ee005f",
+      "source_url": "https://bahrainroastery.com/products/1-kg-amberwood-reserve-wood-fired-coffee"
+    },
+    {
+      "id": "e556b549-4674-47b6-9efa-c92a0b2fd7cc",
+      "slug": "methods-papayo-hydro-natural",
+      "name_en": "Papayo Hydro Natural",
+      "roaster_id": "0621d015-b01c-4c76-abb6-50b6443e859c",
+      "source_url": "https://methods.coffee/collections/coffee/products/papayo-hydro-natural"
+    },
+    {
+      "id": "ca6c4c9c-dafc-44a6-a5a0-db336f84ad4a",
+      "slug": "methods-yirgacheffe-washed-halo-bariti",
+      "name_en": "Yirgacheffe Washed Halo Bariti",
+      "roaster_id": "0621d015-b01c-4c76-abb6-50b6443e859c",
+      "source_url": "https://methods.coffee/collections/coffee/products/yirgacheffe-washed-halo-bariti"
+    },
+    {
+      "id": "6642fc71-2ede-4cb2-b888-37789f1f4c83",
+      "slug": "oru-brazil-alta-mogiana",
+      "name_en": "Brazil Alta Mogiana",
+      "roaster_id": "6e5676b2-97e8-4331-9f8a-ab55b63c2ccc",
+      "source_url": "https://oruroasters.com/products/alta-mogiana-brazil"
+    },
+    {
+      "id": "29909e22-8890-45f2-8b20-b5390c56f01a",
+      "slug": "oru-colombia-catiope-bourbon",
+      "name_en": "Colombia Catiope Bourbon",
+      "roaster_id": "6e5676b2-97e8-4331-9f8a-ab55b63c2ccc",
+      "source_url": "https://oruroasters.com/products/colombia-catiope-bourbon"
+    },
+    {
+      "id": "3632b7a8-c652-4006-88bf-dfc1e814110a",
+      "slug": "oru-colombia-passion-fruit",
+      "name_en": "Colombia Passion Fruit",
+      "roaster_id": "6e5676b2-97e8-4331-9f8a-ab55b63c2ccc",
+      "source_url": "https://oruroasters.com/products/colombia-passion-fruit"
+    },
+    {
+      "id": "972a15e9-09ec-431a-8461-66984acce4df",
+      "slug": "oru-colombia-supremo",
+      "name_en": "Colombia Supremo",
+      "roaster_id": "6e5676b2-97e8-4331-9f8a-ab55b63c2ccc",
+      "source_url": "https://oruroasters.com/products/colombia-supremo"
+    },
+    {
+      "id": "8f2ca4cd-9c96-4d01-a2ae-f44101860380",
+      "slug": "ozone-el-salvador-finca-argentina-yellow-pacamara-natural",
+      "name_en": "El Salvador Finca Argentina, Yellow Pacamara, Natural",
+      "roaster_id": "43f0d1bd-d50b-4e43-978d-6655821ae66e",
+      "source_url": "https://ozonecoffee.co.uk/products/el-salvador-finca-argentina-yellow-pacamara-natural"
+    },
+    {
+      "id": "8842eae8-c9d0-4d9d-94dd-3cc42c11b749",
+      "slug": "raw-coffee-company-ethiopian-enaria",
+      "name_en": "Ethiopian Enaria",
+      "roaster_id": "814315d3-ccdd-424f-89eb-c6da674d401a",
+      "source_url": "https://rawcoffeecompany.com/products/ethiopian-enaria-coffee"
+    },
+    {
+      "id": "2c02ea17-b8d6-4d1d-8ee0-793981125713",
+      "slug": "raw-coffee-company-uganda-elgon-anaerobic-natural",
+      "name_en": "Uganda Elgon Anaerobic Natural",
+      "roaster_id": "814315d3-ccdd-424f-89eb-c6da674d401a",
+      "source_url": "https://rawcoffeecompany.com/products/uganda-elgon-anaerobic-natural-coffee"
+    },
+    {
+      "id": "7989ebe3-b23a-4d20-8bd2-5308d4869dc8",
+      "slug": "windrose-ecuador-finca-la-aurum",
+      "name_en": "Ecuador Finca La Aurum - Auction Lot",
+      "roaster_id": "5492b827-d06a-412b-945a-c5b7571fe4bb",
+      "source_url": "https://www.windrosecoffee.com/product/ecuador-finca-la-aurum-auction-lot/"
+    },
+    {
+      "id": "8cfefa25-4996-406d-b7e0-4e0a261ec81f",
+      "slug": "coffeesheep-yemen-kholani",
+      "name_en": "Yemen - Kholani",
+      "roaster_id": "c596b6bd-cbad-4a7b-bcc0-f00b223a19ce",
+      "source_url": "https://thecoffeesheep.com/"
+    },
+    {
+      "id": "0e0e6e24-f4f6-413e-bb91-5bdd5e17dde0",
+      "slug": "windrose-brazil-fazenda-samambaia",
+      "name_en": "Brazil Fazenda Samambaia",
+      "roaster_id": "5492b827-d06a-412b-945a-c5b7571fe4bb",
+      "source_url": "https://www.windrosecoffee.com/product/brazil-fazenda-samambaia/"
+    },
+    {
+      "id": "6a2d5237-dde9-4fcc-ab7d-e5109b3c4bd9",
+      "slug": "windrose-colombia-arcila",
+      "name_en": "Colombia Arcila - Anaerobic Honey",
+      "roaster_id": "5492b827-d06a-412b-945a-c5b7571fe4bb",
+      "source_url": "https://www.windrosecoffee.com/product/colombia-arcila-anaerobic-honey/"
+    },
+    {
+      "id": "8b336d45-fe93-434e-8faa-df2a3feb0aef",
+      "slug": "windrose-colombia-calderon",
+      "name_en": "Colombia Calderon - Anaerobic Natural",
+      "roaster_id": "5492b827-d06a-412b-945a-c5b7571fe4bb",
+      "source_url": "https://www.windrosecoffee.com/product/colombia-calderon-anaerobic-natural/"
+    },
+    {
+      "id": "081e9941-1213-48ae-ad8c-06910432ca24",
+      "slug": "windrose-dawn-blend",
+      "name_en": "Dawn - Crafted Filter Blend",
+      "roaster_id": "5492b827-d06a-412b-945a-c5b7571fe4bb",
+      "source_url": "https://www.windrosecoffee.com/product/dawn-crafted-filter-blend/"
+    },
+    {
+      "id": "b7da40da-ef3f-4eb7-a1f9-e7edc69bfc3d",
+      "slug": "windrose-dusk-blend",
+      "name_en": "Dusk - Crafted Espresso Blend",
+      "roaster_id": "5492b827-d06a-412b-945a-c5b7571fe4bb",
+      "source_url": "https://www.windrosecoffee.com/product/dusk-crafted-espresso-blend/"
+    },
+    {
+      "id": "24201a74-12d3-412e-b555-8eee05547a8f",
+      "slug": "windrose-kenya-ruiruiru",
+      "name_en": "Kenya Ruiruiru - Anaerobic Natural",
+      "roaster_id": "5492b827-d06a-412b-945a-c5b7571fe4bb",
+      "source_url": "https://www.windrosecoffee.com/product/kenya-ruiruiru-anaerobic-natural/"
+    },
+    {
+      "id": "645eac25-cff1-4331-a129-2b5dc6a4aa40",
+      "slug": "windrose-midnight-crafted-blend",
+      "name_en": "Midnight - Crafted Blend",
+      "roaster_id": "5492b827-d06a-412b-945a-c5b7571fe4bb",
+      "source_url": "https://www.windrosecoffee.com/product/midnight-crafted-blend/"
+    },
+    {
+      "id": "caa0ae7c-61ba-4ad2-bb7c-fa87083c5d73",
+      "slug": "windrose-png-sigri-peaberry",
+      "name_en": "Papua New Guinea Sigri Peaberry",
+      "roaster_id": "5492b827-d06a-412b-945a-c5b7571fe4bb",
+      "source_url": "https://www.windrosecoffee.com/product/papua-new-guinea-sigri-peaberry/"
+    },
+    {
+      "id": "504103ad-9407-4281-b5fb-9bc48839fc8d",
+      "slug": "windrose-twilight-crafted-blend",
+      "name_en": "Twilight - Crafted Blend",
+      "roaster_id": "5492b827-d06a-412b-945a-c5b7571fe4bb",
+      "source_url": "https://www.windrosecoffee.com/product/twilight-crafted-blend/"
+    },
+    {
+      "id": "60633536-42a2-47fe-aaa4-0b57ecbd7b46",
+      "slug": "windrose-yemen-shaian-hiwar-peaberry",
+      "name_en": "Yemen Shai'an Hiwar - Peaberry",
+      "roaster_id": "5492b827-d06a-412b-945a-c5b7571fe4bb",
+      "source_url": "https://www.windrosecoffee.com/product/yemen-shaian-hiwar-peaberry/"
+    },
+    {
+      "id": "d033447d-b45b-4a43-ab46-1e98cd074dfe",
+      "slug": "wings-coffee-doha-brazil",
+      "name_en": "Brazil",
+      "roaster_id": "7a50c6c2-426d-4a6f-8bf5-48f4eb935975",
+      "source_url": "https://wingscoffeedoha.com/shop/"
+    },
+    {
+      "id": "fb682f41-734a-4bd5-9a87-e16c0cbdb4a0",
+      "slug": "wings-coffee-doha-colombia-decaf",
+      "name_en": "Colombia Decaf Coffee",
+      "roaster_id": "7a50c6c2-426d-4a6f-8bf5-48f4eb935975",
+      "source_url": "https://wingscoffeedoha.com/shop/"
+    },
+    {
+      "id": "1ff611a4-e1a4-48f6-9f5f-889355fa150b",
+      "slug": "wings-coffee-doha-el-salvador-gourmet",
+      "name_en": "El Salvador -- Gourmet",
+      "roaster_id": "7a50c6c2-426d-4a6f-8bf5-48f4eb935975",
+      "source_url": "https://wingscoffeedoha.com/shop/"
+    },
+    {
+      "id": "30868992-2873-4042-9bf0-451c616aea76",
+      "slug": "wings-coffee-doha-el-salvador-natural",
+      "name_en": "El Salvador -- Natural",
+      "roaster_id": "7a50c6c2-426d-4a6f-8bf5-48f4eb935975",
+      "source_url": "https://wingscoffeedoha.com/shop/"
+    },
+    {
+      "id": "725f39a1-2709-434d-b5ff-5ab12ad1f7b2",
+      "slug": "wings-coffee-doha-ethiopia-guji",
+      "name_en": "Ethiopia -- Guji",
+      "roaster_id": "7a50c6c2-426d-4a6f-8bf5-48f4eb935975",
+      "source_url": "https://wingscoffeedoha.com/shop/"
+    },
+    {
+      "id": "f8270341-8ff4-4f38-9335-3fc2df4a8f67",
+      "slug": "48e-bani-ismail-yemen",
+      "name_en": "Bani Ismail | Yemen",
+      "roaster_id": "7ac12d12-ee3e-4e52-8988-e8f495bb5f40",
+      "source_url": "https://48e.co/products/bani-ismail-yemen"
+    },
+    {
+      "id": "a3c66b65-4330-4471-aea6-a4d4c888c92d",
+      "slug": "48e-bossa-nova-brazil",
+      "name_en": "Bossa Nova | Brazil",
+      "roaster_id": "7ac12d12-ee3e-4e52-8988-e8f495bb5f40",
+      "source_url": "https://48e.co/products/santa-lucia-brazil"
+    },
+    {
+      "id": "6b771104-0304-4ebd-8fed-f630d268160a",
+      "slug": "48e-freddy-mellado-peru",
+      "name_en": "Freddy Mellado | Peru",
+      "roaster_id": "7ac12d12-ee3e-4e52-8988-e8f495bb5f40",
+      "source_url": "https://48e.co/products/freddy-mellado-peru"
+    },
+    {
+      "id": "7b8b9ea2-109c-4a2f-b256-134fedc5a607",
+      "slug": "48e-guayata",
+      "name_en": "Guayata",
+      "roaster_id": "7ac12d12-ee3e-4e52-8988-e8f495bb5f40",
+      "source_url": "https://48e.co/products/guayata-colombia"
+    },
+    {
+      "id": "d2887ae7-d3f7-486b-b544-21d04ff0df54",
+      "slug": "48e-los-colores-el-salvador",
+      "name_en": "Los Colores | El Salvador",
+      "roaster_id": "7ac12d12-ee3e-4e52-8988-e8f495bb5f40",
+      "source_url": "https://48e.co/products/los-colores-el-salvador"
+    },
+    {
+      "id": "f8bfde66-fcf1-4161-bdd5-c9832178034b",
+      "slug": "48e-mameria-native-community-peru",
+      "name_en": "Mameria Native Community | Peru",
+      "roaster_id": "7ac12d12-ee3e-4e52-8988-e8f495bb5f40",
+      "source_url": "https://48e.co/products/mameria-native-community-peru"
+    },
+    {
+      "id": "3baa9332-4708-426c-89eb-b20cf0ea877f",
+      "slug": "48e-supernatural-karibu",
+      "name_en": "SuperNatural Karibu",
+      "roaster_id": "7ac12d12-ee3e-4e52-8988-e8f495bb5f40",
+      "source_url": "https://48e.co/products/supernatural-karibu-kenya"
+    },
+    {
+      "id": "0b326ce4-f838-47af-827a-30aa42b38172",
+      "slug": "48e-thageini-indigo-kenya",
+      "name_en": "Thageini Indigo | Kenya",
+      "roaster_id": "7ac12d12-ee3e-4e52-8988-e8f495bb5f40",
+      "source_url": "https://48e.co/products/thageini-indigo-kenya"
+    },
+    {
+      "id": "4384608f-ddd0-4919-956c-7e22371171f2",
+      "slug": "48e-tropical-canopy-ethiopia",
+      "name_en": "Tropical Canopy | Ethiopia",
+      "roaster_id": "7ac12d12-ee3e-4e52-8988-e8f495bb5f40",
+      "source_url": "https://48e.co/products/tropical-canopy-ethiopia"
+    },
+    {
+      "id": "8574ec7f-2dba-4159-8d99-7a102d35a91d",
+      "slug": "48e-yirgacheffe-chelchele",
+      "name_en": "Yirgacheffe Chelchele",
+      "roaster_id": "7ac12d12-ee3e-4e52-8988-e8f495bb5f40",
+      "source_url": "https://48e.co/products/yirgacheffe-chelchele-ethiopia"
+    },
+    {
+      "id": "0572cf80-9e66-42e4-8c7c-042c83bea9f2",
+      "slug": "archers-ethiopia-daye-bensa-hamasho",
+      "name_en": "Ethiopia Daye Bensa Hamasho Natural",
+      "roaster_id": "f49eb5b4-c2bc-4b0f-bd56-1405834e135a",
+      "source_url": "https://archerscoffee.com/products/ethiopia-daye-bensa-hamasho-natural-archers-lot-0126"
+    },
+    {
+      "id": "c6a39dd3-109d-474a-a96e-9f0fb5c10e0c",
+      "slug": "archers-ethiopia-rumudamo",
+      "name_en": "Ethiopia Rumudamo Anaerobic",
+      "roaster_id": "f49eb5b4-c2bc-4b0f-bd56-1405834e135a",
+      "source_url": "https://archerscoffee.com/products/ethiopia-rumudamo-anaerobic-mini-archers-lot-0102-26"
+    },
+    {
+      "id": "3ea7eceb-2c8f-4ffa-b60c-c88570540d47",
+      "slug": "archers-panama-janson-hacienda",
+      "name_en": "Panama Janson Family Hacienda",
+      "roaster_id": "f49eb5b4-c2bc-4b0f-bd56-1405834e135a",
+      "source_url": "https://archerscoffee.com/products/panama-janson-family-hacienda-lot-26-127"
+    },
+    {
+      "id": "0ec28062-0301-422d-8164-8d1fe177e483",
+      "slug": "48e-buenos-dias",
+      "name_en": "Buenos Dias",
+      "roaster_id": "7ac12d12-ee3e-4e52-8988-e8f495bb5f40",
+      "source_url": "https://48e.co/products/buenos-dias"
+    }
+  ],
+  "recipes": [
+    {
+      "id": "848dff5e-e4dc-474a-abe6-c12b2ba29be6",
+      "slug": "square-mile-choc-ice-cold-brew",
+      "title": "Square Mile — Choc Ice Cold Brew",
+      "dose_grams": null,
+      "brew_method": "cold_brew",
+      "water_grams": null,
+      "source_author_name": "Square Mile Coffee Roasters"
+    },
+    {
+      "id": "ed6c9438-6559-4cd2-bfd7-bc12c9398a46",
+      "slug": "square-mile-choc-ice-iced-aerocano",
+      "title": "Square Mile — Iced Aerocano",
+      "dose_grams": null,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Square Mile Coffee Roasters"
+    },
+    {
+      "id": "18196f61-ef99-46b6-ba95-24a0afcdcc0f",
+      "slug": "market-lane-pour-over",
+      "title": "Market Lane Coffee — Pour Over",
+      "dose_grams": 30,
+      "brew_method": "v60",
+      "water_grams": 500,
+      "source_author_name": null
+    },
+    {
+      "id": "0d01f2e6-d8cf-44f1-9f84-3c9c0848416d",
+      "slug": "origin-coffee-v60",
+      "title": "Origin Coffee Roasters — V60",
+      "dose_grams": 15,
+      "brew_method": "v60",
+      "water_grams": 250,
+      "source_author_name": null
+    },
+    {
+      "id": "0498181d-d15b-41a2-8ec9-832b4150455a",
+      "slug": "coffee-collective-french-press-guide",
+      "title": "Coffee Collective — French press 65 g / 1 litre",
+      "dose_grams": 65,
+      "brew_method": "french_press",
+      "water_grams": null,
+      "source_author_name": "Coffee Collective"
+    },
+    {
+      "id": "c71c878f-23bb-4e40-a64b-512dab9d7785",
+      "slug": "stumptown-coffee-french-press",
+      "title": "Stumptown Coffee Roasters — French Press",
+      "dose_grams": 56,
+      "brew_method": "french_press",
+      "water_grams": 850,
+      "source_author_name": "Stumptown Coffee Roasters"
+    },
+    {
+      "id": "3f3e6757-f688-4a32-b3cd-b5e872dabd9e",
+      "slug": "union-cold-brew-120g-1l",
+      "title": "Union — Cold Brew",
+      "dose_grams": 120,
+      "brew_method": "cold_brew",
+      "water_grams": null,
+      "source_author_name": "Union Hand-Roasted Coffee"
+    },
+    {
+      "id": "5167782d-02c4-4e62-9425-889d535d0ba1",
+      "slug": "union-iced-v60",
+      "title": "Union — Iced V60",
+      "dose_grams": 15,
+      "brew_method": "v60",
+      "water_grams": 250,
+      "source_author_name": "Union Hand-Roasted Coffee"
+    },
+    {
+      "id": "e56c765c-d32d-4301-bad5-9daf0e1b8e72",
+      "slug": "union-iced-aeropress",
+      "title": "Union — Iced AeroPress",
+      "dose_grams": 20,
+      "brew_method": "aeropress",
+      "water_grams": 100,
+      "source_author_name": "Union Hand-Roasted Coffee"
+    },
+    {
+      "id": "bd91cd7d-4b45-4cba-a4b4-0966c3705c7c",
+      "slug": "stumptown-filtron-cold-brew",
+      "title": "Stumptown — Filtron Cold Brew",
+      "dose_grams": 340.19,
+      "brew_method": "cold_brew",
+      "water_grams": null,
+      "source_author_name": "Stumptown Coffee Roasters"
+    },
+    {
+      "id": "d2035b8a-cbd1-4293-a318-5dc19967a541",
+      "slug": "tim-wendelboe-chilled-v60",
+      "title": "Tim Wendelboe — Chilled V60",
+      "dose_grams": 30,
+      "brew_method": "v60",
+      "water_grams": 500,
+      "source_author_name": "Tim Wendelboe"
+    },
+    {
+      "id": "412dae8e-1b66-40d9-939f-13174c1b8627",
+      "slug": "tobys-estate-decaf-espresso",
+      "title": "Toby's Estate — Decaf espresso",
+      "dose_grams": 24,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Toby's Estate"
+    },
+    {
+      "id": "1be11d07-3332-4bed-aa70-a6bc8121485b",
+      "slug": "orea-v4-og-iced",
+      "title": "OREA V4 — THE OG ICED",
+      "dose_grams": 18,
+      "brew_method": "orea",
+      "water_grams": 160,
+      "source_author_name": "OREA"
+    },
+    {
+      "id": "36144633-340e-456f-9130-5821ea9b9941",
+      "slug": "grey-finca-el-diviso-v60",
+      "title": "GREY Finca El Diviso — V60",
+      "dose_grams": 18,
+      "brew_method": "v60",
+      "water_grams": 270,
+      "source_author_name": null
+    },
+    {
+      "id": "6bbdef1b-344a-46ea-841b-44a5069bcca4",
+      "slug": "grey-sunda-wanoja-v60",
+      "title": "GREY Sunda Wanoja — V60",
+      "dose_grams": 18,
+      "brew_method": "v60",
+      "water_grams": 170,
+      "source_author_name": null
+    },
+    {
+      "id": "4e620993-b3ae-4e51-9dee-06265245d807",
+      "slug": "tim-wendelboe-aeropress-filter",
+      "title": "Tim Wendelboe — AeroPress filter-style",
+      "dose_grams": 14,
+      "brew_method": "aeropress",
+      "water_grams": 200,
+      "source_author_name": "Tim Wendelboe"
+    },
+    {
+      "id": "f5c61810-ac3b-4615-9f85-9c28f1132737",
+      "slug": "market-lane-aeropress",
+      "title": "Market Lane Coffee — Aeropress",
+      "dose_grams": 15,
+      "brew_method": "aeropress",
+      "water_grams": 200,
+      "source_author_name": null
+    },
+    {
+      "id": "0e8c9482-cd85-4a67-b650-0d8eab99dd99",
+      "slug": "crema-coffee-chemex",
+      "title": "Crema — Chemex 25 g / 400 g",
+      "dose_grams": 25,
+      "brew_method": "chemex",
+      "water_grams": 400,
+      "source_author_name": "Crema Coffee Roasters"
+    },
+    {
+      "id": "5aae0c24-74e3-4de4-8eda-e292879f40ff",
+      "slug": "kurasu-cold-brew-2026",
+      "title": "Kurasu — Cold Brew (2026 recipe)",
+      "dose_grams": 50,
+      "brew_method": "cold_brew",
+      "water_grams": 600,
+      "source_author_name": null
+    },
+    {
+      "id": "55069f5b-8b97-4307-b548-33c8c4624f92",
+      "slug": "crema-coffee-espresso",
+      "title": "Crema Coffee Roasters — Espresso",
+      "dose_grams": 18,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": null
+    },
+    {
+      "id": "b3731771-b6b8-477e-92cd-f8ae3dab9e10",
+      "slug": "equator-cold-brew",
+      "title": "Equator Coffees — Cold Brew Concentrate",
+      "dose_grams": 250,
+      "brew_method": "cold_brew",
+      "water_grams": 1000,
+      "source_author_name": null
+    },
+    {
+      "id": "608f33cb-088b-48bd-afa5-777579fbcbe6",
+      "slug": "coffee-collective-kalita-wave",
+      "title": "Coffee Collective — Kalita Wave",
+      "dose_grams": 16,
+      "brew_method": "kalita_wave",
+      "water_grams": 250,
+      "source_author_name": null
+    },
+    {
+      "id": "f58d9309-2e44-4e98-a4f5-3234c853c2f1",
+      "slug": "five-senses-ardi-ethiopia-espresso",
+      "title": "Five Senses Coffee — Ardi espresso",
+      "dose_grams": 22,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Five Senses Coffee"
+    },
+    {
+      "id": "3d3d565c-a314-4d43-8772-9c31b4b8b413",
+      "slug": "five-senses-umoja-washed-tanzania-espresso",
+      "title": "Five Senses Coffee — Umoja Washed espresso",
+      "dose_grams": 22,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Five Senses Coffee"
+    },
+    {
+      "id": "e4e01112-f33e-4770-9888-40ba035c7e72",
+      "slug": "la-cabra-v60",
+      "title": "La Cabra — V60",
+      "dose_grams": 15,
+      "brew_method": "v60",
+      "water_grams": 250,
+      "source_author_name": "La Cabra"
+    },
+    {
+      "id": "9e2e463d-c55f-48d1-9ff2-f7bcf77be4fb",
+      "slug": "blue-bottle-pour-over",
+      "title": "Blue Bottle Coffee — Pour Over",
+      "dose_grams": 20,
+      "brew_method": "pour_over",
+      "water_grams": 350,
+      "source_author_name": "Blue Bottle Coffee"
+    },
+    {
+      "id": "c6e1b667-ad6d-4b4a-8f97-138912b82b0f",
+      "slug": "blue-bottle-aeropress",
+      "title": "Blue Bottle Coffee — AeroPress",
+      "dose_grams": 15,
+      "brew_method": "aeropress",
+      "water_grams": 200,
+      "source_author_name": "Blue Bottle Coffee"
+    },
+    {
+      "id": "f4bd1ead-4c46-4f66-a909-5f2c75f41ae5",
+      "slug": "five-senses-sweater-weather-blend-espresso",
+      "title": "Five Senses Coffee — Sweater Weather Blend espresso",
+      "dose_grams": 21.5,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Five Senses Coffee"
+    },
+    {
+      "id": "a966f3c2-8321-492b-a366-6884763d797c",
+      "slug": "kurasu-may-2026-comparison-v60",
+      "title": "Kurasu — Brazil Inacio Urban May 2026 comparison V60",
+      "dose_grams": 12,
+      "brew_method": "v60",
+      "water_grams": 200,
+      "source_author_name": "Kurasu"
+    },
+    {
+      "id": "72950240-6dfa-4ab5-9d39-9fdc48140918",
+      "slug": "orea-v4-the-champ",
+      "title": "OREA V4 — THE CHAMP",
+      "dose_grams": 17,
+      "brew_method": "orea",
+      "water_grams": 270,
+      "source_author_name": "Martin Wölfl"
+    },
+    {
+      "id": "777014a6-ddce-465a-876e-c2b8e738d399",
+      "slug": "orea-v4-easy-for-two",
+      "title": "OREA V4 — EASY FOR TWO",
+      "dose_grams": 25,
+      "brew_method": "orea",
+      "water_grams": 400,
+      "source_author_name": "OREA"
+    },
+    {
+      "id": "084643ef-19e5-4363-b2ec-b78fcbed3e09",
+      "slug": "orea-v4-dara-for-two",
+      "title": "OREA V4 — DARA FOR TWO",
+      "dose_grams": 24,
+      "brew_method": "orea",
+      "water_grams": 400,
+      "source_author_name": "DARA / OREA"
+    },
+    {
+      "id": "6a36ed6f-f455-411a-859f-fc6a06755663",
+      "slug": "orea-v3-the-wide",
+      "title": "OREA V3 — THE WIDE",
+      "dose_grams": 10,
+      "brew_method": "orea",
+      "water_grams": 200,
+      "source_author_name": "OREA"
+    },
+    {
+      "id": "6dc23a42-9571-4772-b9c3-94aa6c05d7c0",
+      "slug": "kurasu-august-2026-comparison-flash-brew",
+      "title": "Kurasu — Kenya Kangocho AA Japanese flash-brew comparison",
+      "dose_grams": 15,
+      "brew_method": "pour_over",
+      "water_grams": 150,
+      "source_author_name": "Kurasu"
+    },
+    {
+      "id": "cb6a71e5-6186-4638-9767-e121abc4b3f4",
+      "slug": "coffee-supreme-au-south-blend-espresso",
+      "title": "Coffee Supreme AU — South Blend espresso",
+      "dose_grams": 20,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Coffee Supreme AU"
+    },
+    {
+      "id": "8ce5a400-26ab-4352-b1ac-56e2fc45309c",
+      "slug": "bialetti-moka-express-official",
+      "title": "Bialetti — Moka Express manufacturer guide",
+      "dose_grams": null,
+      "brew_method": "moka_pot",
+      "water_grams": null,
+      "source_author_name": "Bialetti"
+    },
+    {
+      "id": "af9b8f98-8a16-4b30-9150-1b94ef70494e",
+      "slug": "april-brewer-12g-200g-two-pour",
+      "title": "April Coffee — April Brewer 12 g / 200 g",
+      "dose_grams": 12,
+      "brew_method": "april",
+      "water_grams": 200,
+      "source_author_name": "April Coffee"
+    },
+    {
+      "id": "066ec085-a385-472d-b86d-e785511666fd",
+      "slug": "onyx-southern-weather-kalita-wave",
+      "title": "Onyx Southern Weather — Kalita Wave",
+      "dose_grams": 25,
+      "brew_method": "kalita_wave",
+      "water_grams": 300,
+      "source_author_name": "Onyx Coffee Lab"
+    },
+    {
+      "id": "0b0b1d1a-42e9-4ef6-bf3d-cd6cfd4101fe",
+      "slug": "onyx-tropical-weather-origami",
+      "title": "Onyx Tropical Weather — Origami",
+      "dose_grams": 15,
+      "brew_method": "origami",
+      "water_grams": 250,
+      "source_author_name": "Onyx Coffee Lab"
+    },
+    {
+      "id": "38003370-111d-4dcc-ac5b-4cef9fecf9a7",
+      "slug": "onyx-geometry-origami",
+      "title": "Onyx Geometry — Origami",
+      "dose_grams": 25,
+      "brew_method": "origami",
+      "water_grams": 400,
+      "source_author_name": "Onyx Coffee Lab"
+    },
+    {
+      "id": "8d4673f6-b910-4f42-bac0-120090067a0d",
+      "slug": "onyx-power-nap-kalita-wave",
+      "title": "Onyx Power Nap — Kalita Wave",
+      "dose_grams": 25,
+      "brew_method": "kalita_wave",
+      "water_grams": 400,
+      "source_author_name": "Onyx Coffee Lab"
+    },
+    {
+      "id": "c83b1b4e-763e-4566-bf8e-f788d8847bcd",
+      "slug": "onyx-kenya-kamunyaka-aa-origami",
+      "title": "Onyx Kenya Kamunyaka AA — Origami",
+      "dose_grams": 20,
+      "brew_method": "origami",
+      "water_grams": 320,
+      "source_author_name": "Onyx Coffee Lab"
+    },
+    {
+      "id": "fecc2cda-e352-4756-a4ce-2b374058a314",
+      "slug": "onyx-honduras-fredy-perez-origami",
+      "title": "Onyx Honduras Fredy Perez — Origami",
+      "dose_grams": 18,
+      "brew_method": "origami",
+      "water_grams": 270,
+      "source_author_name": "Onyx Coffee Lab"
+    },
+    {
+      "id": "346948f0-cf5b-43c0-8900-89edde4b0e32",
+      "slug": "onyx-ethiopia-agaro-yukro-g1-origami",
+      "title": "Onyx Ethiopia Agaro Yukro G1 — Origami",
+      "dose_grams": 18,
+      "brew_method": "origami",
+      "water_grams": 280,
+      "source_author_name": "Onyx Coffee Lab"
+    },
+    {
+      "id": "3b406e26-0df8-4845-89e8-1e1b76c95976",
+      "slug": "workshop-maidy-bocanegra-pink-bourbon-pourover",
+      "title": "Workshop — Maidy Bocanegra Pink Bourbon pour-over",
+      "dose_grams": 18,
+      "brew_method": "pour_over",
+      "water_grams": 300,
+      "source_author_name": "Workshop Coffee"
+    },
+    {
+      "id": "5cb2a5da-1cae-47fe-a1e2-40ad9fe6dd61",
+      "slug": "onyx-costa-rica-las-lajas-natural-26-origami",
+      "title": "Onyx Costa Rica Las Lajas Natural — Origami",
+      "dose_grams": 25,
+      "brew_method": "origami",
+      "water_grams": 400,
+      "source_author_name": "Onyx Coffee Lab"
+    },
+    {
+      "id": "bb5acfbb-5476-4838-aeb0-7b1a1e848511",
+      "slug": "gardelli-813-v60",
+      "title": "Gardelli — La Torre Mejia Geisha V60",
+      "dose_grams": 17,
+      "brew_method": "v60",
+      "water_grams": 250,
+      "source_author_name": "Rubens Gardelli"
+    },
+    {
+      "id": "8f1839aa-e85c-401b-9f6b-17f039de6d08",
+      "slug": "onyx-mexico-oaxaca-yogondoy-gesha-origami",
+      "title": "Onyx Mexico Oaxaca Yogondoy Gesha — Origami",
+      "dose_grams": 18,
+      "brew_method": "origami",
+      "water_grams": 275,
+      "source_author_name": "Onyx Coffee Lab"
+    },
+    {
+      "id": "725c633c-3a8b-4822-8abf-9ad77e0bed90",
+      "slug": "onyx-peru-la-margarita-gesha-26-origami",
+      "title": "Onyx Peru La Margarita Gesha — Origami",
+      "dose_grams": 15,
+      "brew_method": "origami",
+      "water_grams": 240,
+      "source_author_name": "Onyx Coffee Lab"
+    },
+    {
+      "id": "dcb00667-415e-4126-ae47-e1c628d815ee",
+      "slug": "gardelli-834-v60",
+      "title": "Gardelli — Lalesa Ephtah V60",
+      "dose_grams": 17,
+      "brew_method": "v60",
+      "water_grams": 250,
+      "source_author_name": "Rubens Gardelli"
+    },
+    {
+      "id": "7adf53ee-32bc-42a0-87c1-0a4e852c8e9a",
+      "slug": "onyx-monarch-espresso",
+      "title": "Onyx Monarch — Espresso",
+      "dose_grams": 19,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Onyx Coffee Lab"
+    },
+    {
+      "id": "f41bf3e8-850f-478b-b66d-8eb82741d947",
+      "slug": "onyx-southern-weather-espresso",
+      "title": "Onyx Southern Weather — Espresso",
+      "dose_grams": 20,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Onyx Coffee Lab"
+    },
+    {
+      "id": "020760d8-fb60-4b71-b63d-0e44c7d6d5aa",
+      "slug": "gardelli-821-v60",
+      "title": "Gardelli — Cumbres Decaffeinated V60",
+      "dose_grams": 17,
+      "brew_method": "v60",
+      "water_grams": 250,
+      "source_author_name": "Rubens Gardelli"
+    },
+    {
+      "id": "5933eaf3-eded-451f-b87d-7578e40234d0",
+      "slug": "onyx-tropical-weather-espresso",
+      "title": "Onyx Tropical Weather — Espresso",
+      "dose_grams": 19,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Onyx Coffee Lab"
+    },
+    {
+      "id": "71155f67-b01e-4b03-8790-23077460c9af",
+      "slug": "onyx-geometry-espresso",
+      "title": "Onyx Geometry — Espresso",
+      "dose_grams": 20,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Onyx Coffee Lab"
+    },
+    {
+      "id": "d8ee0552-4df0-4f08-a6a3-d84d5c934a25",
+      "slug": "nomad-parainema-espresso-2026",
+      "title": "NOMAD — Parainema 2026 espresso",
+      "dose_grams": 19,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "NOMAD Coffee"
+    },
+    {
+      "id": "ebbaebea-88cf-4646-8480-b4b8d2685ed4",
+      "slug": "onyx-power-nap-espresso",
+      "title": "Onyx Power Nap — Espresso",
+      "dose_grams": 19,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Onyx Coffee Lab"
+    },
+    {
+      "id": "e5cc1b0f-d19e-4526-ba88-d19ad9ea3a88",
+      "slug": "nomad-pacas-espresso-2026",
+      "title": "NOMAD — Pacas 2026 espresso",
+      "dose_grams": 18.5,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "NOMAD Coffee"
+    },
+    {
+      "id": "5b0cafd8-ded8-4507-b560-0a613bbc98c0",
+      "slug": "verve-buena-espresso",
+      "title": "Verve Buena Vista Dark Roast — Espresso",
+      "dose_grams": null,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Verve's Coffee Department"
+    },
+    {
+      "id": "e7d52158-c243-41b9-bf55-03e0d07ec470",
+      "slug": "verve-sermon-espresso",
+      "title": "Verve Sermon — Espresso",
+      "dose_grams": null,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Verve's Coffee Department"
+    },
+    {
+      "id": "deb6e331-c400-4137-8ef5-11973cbd20d6",
+      "slug": "verve-streetlevel-espresso",
+      "title": "Verve Streetlevel — Espresso",
+      "dose_grams": null,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Verve's Coffee Department"
+    },
+    {
+      "id": "7f0b937b-ad44-42a9-b1db-bf2c6bcbe9ee",
+      "slug": "verve-buena-french-press",
+      "title": "Verve Buena Vista Dark Roast — French Press",
+      "dose_grams": 35,
+      "brew_method": "french_press",
+      "water_grams": 525,
+      "source_author_name": "Verve's Coffee Department"
+    },
+    {
+      "id": "a6eae548-0391-4f25-b885-7a860d628743",
+      "slug": "verve-sermon-french-press",
+      "title": "Verve Sermon — French Press",
+      "dose_grams": 35,
+      "brew_method": "french_press",
+      "water_grams": 500,
+      "source_author_name": "Verve's Coffee Department"
+    },
+    {
+      "id": "045b05ec-e3f7-4152-8e7a-b1521d106eb4",
+      "slug": "verve-streetlevel-french-press",
+      "title": "Verve Streetlevel — French Press",
+      "dose_grams": 35,
+      "brew_method": "french_press",
+      "water_grams": 500,
+      "source_author_name": "Verve's Coffee Department"
+    },
+    {
+      "id": "f94b0699-6fe3-4cd2-a9eb-e0cccea57039",
+      "slug": "verve-seabright-aeropress",
+      "title": "Verve Seabright — AeroPress",
+      "dose_grams": 17,
+      "brew_method": "aeropress",
+      "water_grams": 255,
+      "source_author_name": "Verve's Coffee Department"
+    },
+    {
+      "id": "a2f25075-17b6-4492-839f-e3ed193396c6",
+      "slug": "nomad-kafipamba-espresso-archive",
+      "title": "NOMAD — Kafipamba espresso",
+      "dose_grams": 16.5,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "NOMAD Coffee"
+    },
+    {
+      "id": "26a33ddb-6335-4ddb-981d-91c237cc13fb",
+      "slug": "49th-parallel-epic-espresso",
+      "title": "49th Parallel Epic — Espresso",
+      "dose_grams": 18,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "49th Parallel Coffee Roasters"
+    },
+    {
+      "id": "3408abfc-ff47-4adf-b862-3c66d29e3c10",
+      "slug": "counter-culture-big-trouble-espresso",
+      "title": "Counter Culture Big Trouble — Espresso",
+      "dose_grams": 18,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Counter Culture Coffee"
+    },
+    {
+      "id": "5cc839ea-3ec3-47f3-ab24-806b06a86eac",
+      "slug": "cat-cloud-answer-espresso",
+      "title": "Cat & Cloud The Answer — Espresso",
+      "dose_grams": null,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Cat & Cloud"
+    },
+    {
+      "id": "1a08f41c-ebbc-42a7-ab19-740bde68e1ed",
+      "slug": "cat-cloud-the-best-friends-blend-espresso",
+      "title": "Cat & Cloud The Best Friends Blend — Espresso",
+      "dose_grams": null,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Cat & Cloud"
+    },
+    {
+      "id": "eb057e27-9da8-4875-bf83-00285cdf2546",
+      "slug": "olympia-big-truck-reyna-espresso",
+      "title": "Olympia Big Truck — Espresso",
+      "dose_grams": 18,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Reyna Callejo — Olympia Coffee"
+    },
+    {
+      "id": "803fa655-7c02-47f3-9248-8cfcf57e258b",
+      "slug": "intelligentsia-black-cat-classic-espresso",
+      "title": "Intelligentsia Black Cat Classic — Espresso",
+      "dose_grams": 18,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Intelligentsia Coffee"
+    },
+    {
+      "id": "0df5783d-fd0a-4547-ab89-f2376cf082a1",
+      "slug": "olympia-big-truck-chilled-concentrate",
+      "title": "Olympia Big Truck — Chilled pour-over concentrate",
+      "dose_grams": 20,
+      "brew_method": "pour_over",
+      "water_grams": 200,
+      "source_author_name": "Sam Schroeder and Reyna Callejo (Olympia Coffee)"
+    },
+    {
+      "id": "2f3d287c-278c-4893-a64a-828b3e285e1b",
+      "slug": "april-kayon-mountain-filter-2026",
+      "title": "April — Kayon Mountain filter",
+      "dose_grams": 13,
+      "brew_method": "pour_over",
+      "water_grams": 200,
+      "source_author_name": "April Coffee Roasters"
+    },
+    {
+      "id": "bac0ba50-f53e-4856-aa4e-c5c6b480e23a",
+      "slug": "april-kayon-mountain-espresso-2026",
+      "title": "April — Kayon Mountain espresso",
+      "dose_grams": 18,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "April Coffee Roasters"
+    },
+    {
+      "id": "e35f93fa-ad7d-4e53-abac-a8aca6d794b7",
+      "slug": "april-kamavindi-espresso-2026",
+      "title": "April — Kamavindi Washed SL28 & SL34 AA espresso",
+      "dose_grams": 20,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "April Coffee Roasters"
+    },
+    {
+      "id": "9a6ce505-1713-40c5-b07a-c1e413083850",
+      "slug": "april-tadesse-station-espresso-2026",
+      "title": "April — Tadesse Washed Krume espresso",
+      "dose_grams": 19,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "April Coffee Roasters"
+    },
+    {
+      "id": "15f1d5fe-7c45-40a8-b979-3c97cc6e694f",
+      "slug": "april-volcan-azul-washed-sl28-espresso-2026",
+      "title": "April — Volcan Azul washed SL28 espresso",
+      "dose_grams": 19,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "April Coffee Roasters"
+    },
+    {
+      "id": "919e308b-26d1-481a-8ac4-50a36f4b5bb6",
+      "slug": "workshop-chakra-espresso",
+      "title": "Workshop — Chakra espresso",
+      "dose_grams": 18,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Workshop Coffee"
+    },
+    {
+      "id": "1177433f-5a58-462e-9c80-ee3aefbbabf5",
+      "slug": "nomad-jhenrry-chavez-orea",
+      "title": "NOMAD — Jhenrry Chávez OREA V4",
+      "dose_grams": 18.5,
+      "brew_method": "orea",
+      "water_grams": 260,
+      "source_author_name": "NOMAD Coffee"
+    },
+    {
+      "id": "d4cca3cb-ac4d-4bbb-b2e6-332fb7e1effb",
+      "slug": "dak-general-filter-16-5g-250g",
+      "title": "DAK — general filter guide",
+      "dose_grams": 16.5,
+      "brew_method": "pour_over",
+      "water_grams": 250,
+      "source_author_name": "DAK Coffee Roasters"
+    },
+    {
+      "id": "b028e155-a50b-43b1-8c89-d690f01aa740",
+      "slug": "la-cabra-iced-v60-18g",
+      "title": "La Cabra — iced V60",
+      "dose_grams": 18,
+      "brew_method": "v60",
+      "water_grams": 180,
+      "source_author_name": "La Cabra"
+    },
+    {
+      "id": "4c718b4c-d4e9-4d2f-989a-9f0fc9fa424c",
+      "slug": "ona-raspberry-candy-espresso",
+      "title": "ONA Coffee — Raspberry Candy espresso",
+      "dose_grams": null,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "ONA Coffee"
+    },
+    {
+      "id": "1ed195f5-fd42-40dd-88c1-3fc254d970ab",
+      "slug": "ona-maple-espresso",
+      "title": "ONA Coffee — Maple espresso",
+      "dose_grams": 20.7,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "ONA Coffee"
+    },
+    {
+      "id": "ab5123ba-d5f1-48aa-b46d-9f7b5572160a",
+      "slug": "ona-aspen-espresso",
+      "title": "ONA Coffee — Aspen espresso",
+      "dose_grams": 20.7,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "ONA Coffee"
+    },
+    {
+      "id": "df388150-596f-40e7-a6ca-a2c5c113686a",
+      "slug": "ona-raspberry-candy-filter-v60",
+      "title": "ONA Coffee — Raspberry Candy Filter V60",
+      "dose_grams": 20,
+      "brew_method": "v60",
+      "water_grams": 300,
+      "source_author_name": "ONA Coffee"
+    },
+    {
+      "id": "abeb8816-f401-4bd9-8996-5fca7c49d0fe",
+      "slug": "ona-gargari-gutity-g1-red-ethiopia-natural-espresso",
+      "title": "ONA Coffee — Gargari Gutity G1 Red espresso",
+      "dose_grams": 20.7,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "ONA Coffee"
+    },
+    {
+      "id": "a5b83357-76d4-4f77-a84c-db4882727856",
+      "slug": "ona-kiambu-regional-c-kenya-washed-v60",
+      "title": "ONA Coffee — Kiambu Regional C V60",
+      "dose_grams": 20,
+      "brew_method": "v60",
+      "water_grams": 300,
+      "source_author_name": "ONA Coffee"
+    },
+    {
+      "id": "7b0cdc0e-cd57-4627-9f94-e50c7986c825",
+      "slug": "ona-miramundo-guatemala-natural-espresso",
+      "title": "ONA Coffee — Miramundo espresso",
+      "dose_grams": 20.3,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "ONA Coffee"
+    },
+    {
+      "id": "d6507e30-b1b3-4a04-a3b1-8b8c014a1a8e",
+      "slug": "ona-el-angel-el-salvador-natural-v60",
+      "title": "ONA Coffee — El Ángel V60",
+      "dose_grams": 20,
+      "brew_method": "v60",
+      "water_grams": 300,
+      "source_author_name": "ONA Coffee"
+    },
+    {
+      "id": "63ad43ee-83ba-4e6b-a43a-375587e3c80e",
+      "slug": "ona-kaliluni-aa-kenya-washed-espresso",
+      "title": "ONA Coffee — Kaliluni AA espresso",
+      "dose_grams": 20,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "ONA Coffee"
+    },
+    {
+      "id": "78b6e378-3143-4fa0-8de9-867e86e7e03a",
+      "slug": "ona-yula-regional-lot-guatemala-washed-v60",
+      "title": "ONA Coffee — Yula Regional Lot V60",
+      "dose_grams": 20,
+      "brew_method": "v60",
+      "water_grams": 300,
+      "source_author_name": "ONA Coffee"
+    },
+    {
+      "id": "5d54e61f-8be3-47d7-922e-87663cf81869",
+      "slug": "ona-maguta-estate-lot-432-kenya-nitrogen-natural-indigo-v60",
+      "title": "ONA Coffee — Maguta Estate Lot 432 V60",
+      "dose_grams": 20,
+      "brew_method": "v60",
+      "water_grams": 300,
+      "source_author_name": "ONA Coffee"
+    },
+    {
+      "id": "be0041a9-ce65-419a-b1f3-37d19a8236a9",
+      "slug": "ona-elida-estate-torre-panama-drd-washed-v60",
+      "title": "ONA Coffee — Elida Estate Torre V60",
+      "dose_grams": 20,
+      "brew_method": "v60",
+      "water_grams": 300,
+      "source_author_name": "ONA Coffee"
+    },
+    {
+      "id": "e60a74cf-5837-43d0-9995-b75cab97d4cb",
+      "slug": "ona-rungeto-c-kenya-washed-espresso",
+      "title": "ONA Coffee — Rungeto C espresso",
+      "dose_grams": 20.3,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "ONA Coffee"
+    },
+    {
+      "id": "b215abb6-c1a3-4452-880c-2fdb9f687724",
+      "slug": "equator-chemex",
+      "title": "Equator Coffees — Chemex 45 g / 720 g",
+      "dose_grams": 45,
+      "brew_method": "chemex",
+      "water_grams": 720,
+      "source_author_name": "Equator Coffees"
+    },
+    {
+      "id": "8a7a6e4d-1f22-4eab-ade6-fc0c8208851c",
+      "slug": "stumptown-chemex-42g-700g",
+      "title": "Stumptown — Chemex 42 g / 700 g",
+      "dose_grams": 42,
+      "brew_method": "chemex",
+      "water_grams": 700,
+      "source_author_name": "Stumptown Coffee Roasters"
+    },
+    {
+      "id": "47da3deb-fe7d-4e31-8a82-37e58d0b9b8e",
+      "slug": "blue-bottle-chemex-600g",
+      "title": "Blue Bottle — Chemex 600 g",
+      "dose_grams": null,
+      "brew_method": "chemex",
+      "water_grams": 600,
+      "source_author_name": "Blue Bottle Coffee"
+    },
+    {
+      "id": "9bbf1c13-0f4a-4763-b38f-a1c6580fe226",
+      "slug": "code-black-3056-espresso-blend-coffee",
+      "title": "Code Black Coffee — 3056 Espresso Blend espresso",
+      "dose_grams": 20,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Code Black Coffee"
+    },
+    {
+      "id": "d0ed9a08-fc6d-40ab-a9ae-c33cdd37aaf7",
+      "slug": "blue-bottle-moka-6cup",
+      "title": "Blue Bottle — Moka pot 6-cup",
+      "dose_grams": null,
+      "brew_method": "moka_pot",
+      "water_grams": 345,
+      "source_author_name": "Blue Bottle Coffee"
+    },
+    {
+      "id": "9e168164-8ee5-4ad2-9f65-2a6363ddf9d0",
+      "slug": "pact-moka-240ml",
+      "title": "Pact — Moka pot 240 ml",
+      "dose_grams": 24,
+      "brew_method": "moka_pot",
+      "water_grams": null,
+      "source_author_name": "Pact Coffee"
+    },
+    {
+      "id": "7f1e1caf-27c9-4d09-b9d3-eb053a6c0fa2",
+      "slug": "equator-aeropress",
+      "title": "Equator Coffees — AeroPress",
+      "dose_grams": 18,
+      "brew_method": "aeropress",
+      "water_grams": 200,
+      "source_author_name": "Equator Coffees"
+    },
+    {
+      "id": "9394e260-96c7-4d8c-9014-5a7ecd911240",
+      "slug": "wac-2021-maru-mallee",
+      "title": "Maru Mallee — 2021 World AeroPress Championship, 2 nd",
+      "dose_grams": 18,
+      "brew_method": "aeropress",
+      "water_grams": 186,
+      "source_author_name": "AeroPress"
+    },
+    {
+      "id": "19e53047-966f-48da-9319-1718cbd8f9e6",
+      "slug": "wac-2021-tuomas-merikanto",
+      "title": "Tuomas Merikanto — 2021 World AeroPress Championship, 1 st",
+      "dose_grams": 18,
+      "brew_method": "aeropress",
+      "water_grams": 200,
+      "source_author_name": "AeroPress"
+    },
+    {
+      "id": "30f42a73-58fb-4c64-8978-acb05adceaa7",
+      "slug": "code-black-seasonal-espresso-blend",
+      "title": "Code Black Coffee — Seasonal Espresso Blend espresso",
+      "dose_grams": 20,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Code Black Coffee"
+    },
+    {
+      "id": "9dcfe92c-9175-4210-988e-c8053c06669e",
+      "slug": "code-black-ex-wife-espresso-blend-coffee",
+      "title": "Code Black Coffee — Ex-Wife Espresso Blend espresso",
+      "dose_grams": 20,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Code Black Coffee"
+    },
+    {
+      "id": "a7effcbd-9d2e-4a2e-8a29-b1ee57591938",
+      "slug": "tobys-estate-woolloomooloo-espresso",
+      "title": "Toby's Estate — Woolloomooloo espresso",
+      "dose_grams": 24,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Toby's Estate"
+    },
+    {
+      "id": "946d8a00-7818-4c03-81b6-fbc350422a37",
+      "slug": "tobys-estate-broadway-espresso",
+      "title": "Toby's Estate — Broadway espresso",
+      "dose_grams": 24,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Toby's Estate"
+    },
+    {
+      "id": "a781c512-8227-448b-8301-d10d1b3cebec",
+      "slug": "tobys-estate-rico-espresso",
+      "title": "Toby's Estate — Rico espresso",
+      "dose_grams": 22,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Toby's Estate"
+    },
+    {
+      "id": "ad8cfbd7-619b-42b4-867b-4af5be24c613",
+      "slug": "wac-2023-tay-wipvasutt",
+      "title": "Tay Wipvasutt — 2023 World AeroPress Championship, 1 st",
+      "dose_grams": 18,
+      "brew_method": "aeropress",
+      "water_grams": 174,
+      "source_author_name": "AeroPress"
+    },
+    {
+      "id": "161e9f4f-4572-487e-bb87-dd824fa22206",
+      "slug": "drop-coffee-kalita-155",
+      "title": "Drop Coffee — Kalita Wave 155",
+      "dose_grams": 16,
+      "brew_method": "kalita_wave",
+      "water_grams": 260,
+      "source_author_name": "Drop Coffee Roasters"
+    },
+    {
+      "id": "1fe977da-2fa9-4538-905f-e26dd2b36f8e",
+      "slug": "drop-coffee-kalita-185",
+      "title": "Drop Coffee — Kalita Wave 185",
+      "dose_grams": 30,
+      "brew_method": "kalita_wave",
+      "water_grams": 500,
+      "source_author_name": "Drop Coffee Roasters"
+    },
+    {
+      "id": "5b6dbac8-4c8b-4b7d-92b8-decbcbe726aa",
+      "slug": "tobys-estate-black-swan-espresso",
+      "title": "Toby's Estate — Black Swan espresso",
+      "dose_grams": 22,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Toby's Estate"
+    },
+    {
+      "id": "ffb31dd3-ea7c-4fbc-89ed-2db7eb99bf20",
+      "slug": "drop-coffee-kalita-wave",
+      "title": "Drop Coffee Roasters — Kalita Wave",
+      "dose_grams": 16,
+      "brew_method": "kalita_wave",
+      "water_grams": 260,
+      "source_author_name": "Drop Coffee Roasters"
+    },
+    {
+      "id": "2da52045-8b40-4eeb-bc00-c8ea5c18a1c9",
+      "slug": "kurasu-kalita-wave",
+      "title": "Kurasu — Kalita Wave House Recipe",
+      "dose_grams": 15,
+      "brew_method": "kalita_wave",
+      "water_grams": 250,
+      "source_author_name": "Kurasu"
+    },
+    {
+      "id": "9fedc4e7-3a4c-4c1e-ab74-561f951bea95",
+      "slug": "equator-origami",
+      "title": "Equator Coffees — Origami Dripper",
+      "dose_grams": 22,
+      "brew_method": "origami",
+      "water_grams": 370,
+      "source_author_name": "Equator Coffees"
+    },
+    {
+      "id": "6bb5edee-62d1-4a63-bf12-4c8ec7b3801e",
+      "slug": "kurasu-origami",
+      "title": "Kurasu — Origami Dripper House Recipe",
+      "dose_grams": 15,
+      "brew_method": "origami",
+      "water_grams": 270,
+      "source_author_name": "Kurasu"
+    },
+    {
+      "id": "b93e7d45-b98b-40e2-972b-3b3960672d28",
+      "slug": "onyx-monarch-kalita-wave",
+      "title": "Onyx Monarch — Kalita Wave",
+      "dose_grams": 25,
+      "brew_method": "kalita_wave",
+      "water_grams": 400,
+      "source_author_name": "Onyx Coffee Lab"
+    },
+    {
+      "id": "246fa768-9ac9-456c-8f1c-2f638b4634aa",
+      "slug": "tobys-estate-organic-blend-espresso",
+      "title": "Toby's Estate — Organic Blend espresso",
+      "dose_grams": 23,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Toby's Estate"
+    },
+    {
+      "id": "392e0215-cada-4b53-9bee-3caa2890d93f",
+      "slug": "workshop-reset-espresso",
+      "title": "Workshop — Reset Half Caff espresso",
+      "dose_grams": 18,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Workshop Coffee"
+    },
+    {
+      "id": "ab049b04-1287-401f-b4b1-f7a7af53daae",
+      "slug": "workshop-reset-pourover",
+      "title": "Workshop — Reset Half Caff pour-over",
+      "dose_grams": 21,
+      "brew_method": "pour_over",
+      "water_grams": 300,
+      "source_author_name": "Workshop Coffee"
+    },
+    {
+      "id": "4a84b372-e7df-4c75-871f-e78e7826bf2b",
+      "slug": "workshop-chakra-pourover",
+      "title": "Workshop — Chakra pour-over",
+      "dose_grams": 21,
+      "brew_method": "pour_over",
+      "water_grams": 300,
+      "source_author_name": "Workshop Coffee"
+    },
+    {
+      "id": "476ca29f-eb12-4634-beb4-641937cdf0ff",
+      "slug": "workshop-la-plata-decaf-espresso",
+      "title": "Workshop — La Plata Decaf espresso",
+      "dose_grams": 18,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Workshop Coffee"
+    },
+    {
+      "id": "e7c5cf7a-39ab-4291-8107-76cd42ffa191",
+      "slug": "workshop-la-plata-decaf-pourover",
+      "title": "Workshop — La Plata Decaf pour-over",
+      "dose_grams": 21,
+      "brew_method": "pour_over",
+      "water_grams": 300,
+      "source_author_name": "Workshop Coffee"
+    },
+    {
+      "id": "a223d44a-c9bf-4a07-9e91-a9e13f6eca85",
+      "slug": "workshop-pillar-espresso",
+      "title": "Workshop — Pillar espresso",
+      "dose_grams": 18,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Workshop Coffee"
+    },
+    {
+      "id": "46ef5457-2f0a-471e-addf-864ae5627108",
+      "slug": "workshop-pillar-pourover",
+      "title": "Workshop — Pillar pour-over",
+      "dose_grams": 24,
+      "brew_method": "pour_over",
+      "water_grams": 300,
+      "source_author_name": "Workshop Coffee"
+    },
+    {
+      "id": "99b7e243-078c-43f9-a131-9c9d644471b9",
+      "slug": "square-mile-red-brick-current",
+      "title": "Square Mile — Red Brick espresso",
+      "dose_grams": 19,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Square Mile Coffee Roasters"
+    },
+    {
+      "id": "670c4255-adec-4514-8848-72c6a6a692f9",
+      "slug": "nomad-churupallana-espresso-2026",
+      "title": "NOMAD — Churupallana 2026 espresso",
+      "dose_grams": 17.5,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "NOMAD Coffee"
+    },
+    {
+      "id": "9f6a9d9c-aee6-4db0-91d8-1dfb3b4801a0",
+      "slug": "la-cabra-sagastume-typica-espresso-2023",
+      "title": "La Cabra — Sagastume Typica espresso base",
+      "dose_grams": 17,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "La Cabra"
+    },
+    {
+      "id": "4d0d3e47-d79e-41c0-802c-e61f1177dcf1",
+      "slug": "five-elephant-peter-budenz-aeropress-2022",
+      "title": "Peter Budenz — PNG Keto Tapasi AeroPress 2022",
+      "dose_grams": 18,
+      "brew_method": "aeropress",
+      "water_grams": 150,
+      "source_author_name": "Peter Budenz"
+    },
+    {
+      "id": "a09903e9-12f9-456e-bc5e-4694d74baff7",
+      "slug": "friedhats-lex-wenneker-cool-bloom-origami",
+      "title": "Friedhats / Lex Wenneker — cool-bloom Origami",
+      "dose_grams": 20,
+      "brew_method": "origami",
+      "water_grams": 300,
+      "source_author_name": "Lex Wenneker"
+    },
+    {
+      "id": "d0b13932-1865-4547-a9dd-4b40ca350f0a",
+      "slug": "archers-milk-espresso-150-180ml",
+      "title": "Archers — espresso for a 150–180 mL milk drink",
+      "dose_grams": null,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": "Archers Coffee"
+    },
+    {
+      "id": "6efdb08a-300e-46cc-adca-596e719d0777",
+      "slug": "orea-v4-dara",
+      "title": "OREA V4 — THE DARA",
+      "dose_grams": 12,
+      "brew_method": "orea",
+      "water_grams": 200,
+      "source_author_name": "DARA"
+    },
+    {
+      "id": "e7d9a70a-f141-4e6c-805c-f4e7cdd8724a",
+      "slug": "orea-v4-easy-does-it",
+      "title": "OREA V4 — EASY DOES IT",
+      "dose_grams": 16,
+      "brew_method": "orea",
+      "water_grams": 260,
+      "source_author_name": "OREA"
+    },
+    {
+      "id": "d6a8c1dd-04ce-4b50-b8c5-11204cb41b32",
+      "slug": "proud-mary-v60",
+      "title": "Proud Mary — V60",
+      "dose_grams": 15,
+      "brew_method": "v60",
+      "water_grams": 250,
+      "source_author_name": null
+    },
+    {
+      "id": "1ad7502f-63a2-4099-9ae8-4f3ac9b4a340",
+      "slug": "kurasu-hario-v60",
+      "title": "Kurasu — Hario V60 House Recipe",
+      "dose_grams": 12,
+      "brew_method": "v60",
+      "water_grams": 200,
+      "source_author_name": null
+    },
+    {
+      "id": "37bc1f6a-d552-4250-ac6c-f4ca2ab3947a",
+      "slug": "flair-58-starter-espresso",
+      "title": "Flair 58 — Starter Dial-In Espresso",
+      "dose_grams": 18,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": null
+    },
+    {
+      "id": "5a0fe3aa-9361-4eb1-aecd-f9a50c89158c",
+      "slug": "crema-coffee-v60",
+      "title": "Crema Coffee Roasters — V60",
+      "dose_grams": 15,
+      "brew_method": "v60",
+      "water_grams": 250,
+      "source_author_name": null
+    },
+    {
+      "id": "5c468276-7176-4b7f-8616-4297da285b72",
+      "slug": "heart-coffee-v60",
+      "title": "Heart Coffee Roasters — V60",
+      "dose_grams": 22,
+      "brew_method": "v60",
+      "water_grams": 360,
+      "source_author_name": null
+    },
+    {
+      "id": "af73a448-f795-494c-a382-c0bd0288ab19",
+      "slug": "grey-rivense-la-guaca-v60",
+      "title": "GREY Rivense La Guaca — V60",
+      "dose_grams": 18,
+      "brew_method": "v60",
+      "water_grams": 171,
+      "source_author_name": null
+    },
+    {
+      "id": "ca9424e8-189e-414b-8c53-769126e4e4ae",
+      "slug": "equator-espresso",
+      "title": "Equator Coffees — Espresso",
+      "dose_grams": 18,
+      "brew_method": "espresso",
+      "water_grams": null,
+      "source_author_name": null
+    },
+    {
+      "id": "d32d9c04-0072-4704-a89f-51c632d299f1",
+      "slug": "grey-finca-el-bosque-v60",
+      "title": "GREY Finca El Bosque — V60",
+      "dose_grams": 18,
+      "brew_method": "v60",
+      "water_grams": 272,
+      "source_author_name": null
+    }
+  ],
+  "roasters": [
+    {
+      "id": "891dd669-a763-4028-9339-17c85a75c9ec",
+      "slug": "a-r-k-roasters",
+      "country": "KW",
+      "name_en": "A R K Roasters",
+      "source_url": "https://www.ark.com.kw/pages/about",
+      "website_url": "https://www.ark.com.kw"
+    },
+    {
+      "id": "b06e0787-26a5-4519-bf02-5e8ca34fa204",
+      "slug": "altitude-roasters",
+      "country": "KW",
+      "name_en": "Altitude Roasters",
+      "source_url": "https://altituderoasters.co/en/",
+      "website_url": "https://altituderoasters.co/en/"
+    },
+    {
+      "id": "0621d015-b01c-4c76-abb6-50b6443e859c",
+      "slug": "methods-academy-and-roastery",
+      "country": "KW",
+      "name_en": "Methods Academy and Roastery",
+      "source_url": "https://methods.coffee/",
+      "website_url": "https://methods.coffee/"
+    },
+    {
+      "id": "1adcf096-c6e2-4a37-aad9-8d263debadfe",
+      "slug": "speak-coffee-roaster",
+      "country": "KW",
+      "name_en": "Speak Coffee Roaster",
+      "source_url": "https://speakcoffeeroaster.com/",
+      "website_url": "https://speakcoffeeroaster.com/"
+    },
+    {
+      "id": "c3685925-fb68-4525-acc6-a6c65fd9b25e",
+      "slug": "legacy-roastery",
+      "country": "KW",
+      "name_en": "Legacy Roastery",
+      "source_url": "https://www.legacyroastery.com/",
+      "website_url": "https://www.legacyroastery.com/"
+    },
+    {
+      "id": "70e67377-2490-4d8d-bffe-7b9a7798a65e",
+      "slug": "air-roastery",
+      "country": "KW",
+      "name_en": "Air Roastery",
+      "source_url": "https://airroastery.com/en/",
+      "website_url": "https://airroastery.com/en/"
+    },
+    {
+      "id": "1b9dc861-7314-44ec-bf91-ee0628e0794f",
+      "slug": "square-mile-coffee-roasters",
+      "country": "United Kingdom",
+      "name_en": "Square Mile Coffee Roasters",
+      "source_url": "https://shop.squaremilecoffee.com/pages/about-us",
+      "website_url": "https://shop.squaremilecoffee.com"
+    },
+    {
+      "id": "847bfe5e-30d6-4c3e-9026-a24811226a15",
+      "slug": "dak-coffee-roasters",
+      "country": "Netherlands",
+      "name_en": "DAK Coffee Roasters",
+      "source_url": "https://www.dakcoffeeroasters.com/about/",
+      "website_url": "https://www.dakcoffeeroasters.com"
+    },
+    {
+      "id": "37a8876e-8b0f-452b-b8d9-41bf8e39a877",
+      "slug": "proud-mary-coffee",
+      "country": "AU",
+      "name_en": "Proud Mary Coffee",
+      "source_url": "https://www.proudmarycoffee.com.au/",
+      "website_url": "https://www.proudmarycoffee.com.au/"
+    },
+    {
+      "id": "ccab835a-3a1d-41df-8883-3cc87fef34f6",
+      "slug": "drop-coffee-roasters",
+      "country": "SE",
+      "name_en": "Drop Coffee Roasters",
+      "source_url": "https://www.dropcoffee.com/",
+      "website_url": "https://www.dropcoffee.com/"
+    },
+    {
+      "id": "d172b091-7a52-4cab-87a1-cd96f2467355",
+      "slug": "la-cabra",
+      "country": "Denmark",
+      "name_en": "La Cabra",
+      "source_url": "https://lacabra.com/pages/about-la-cabra",
+      "website_url": "https://lacabra.com"
+    },
+    {
+      "id": "338f7bb7-2c58-4ce5-b88e-bfa6acb382da",
+      "slug": "five-elephant",
+      "country": "Germany",
+      "name_en": "Five Elephant",
+      "source_url": "https://www.fiveelephant.com/pages/contact",
+      "website_url": "https://www.fiveelephant.com"
+    },
+    {
+      "id": "a84b99b1-7e63-448c-adb4-7f2d996d1432",
+      "slug": "ona-coffee",
+      "country": "Australia",
+      "name_en": "ONA Coffee",
+      "source_url": "https://onacoffee.com.au/pages/about",
+      "website_url": "https://onacoffee.com.au"
+    },
+    {
+      "id": "2e83437a-4e8e-4604-9e8a-3bcbf96e9432",
+      "slug": "code-black-coffee",
+      "country": "Australia",
+      "name_en": "Code Black Coffee",
+      "source_url": "https://codeblackcoffee.com.au/products/3056-espresso-blend-coffee",
+      "website_url": "https://codeblackcoffee.com.au"
+    },
+    {
+      "id": "5ed9e86d-0cbf-4213-8bcd-86a83a334cf3",
+      "slug": "toby-s-estate",
+      "country": "Australia",
+      "name_en": "Toby's Estate",
+      "source_url": "https://www.tobysestate.com.au/organic-blend/",
+      "website_url": "https://www.tobysestate.com.au"
+    },
+    {
+      "id": "102ab870-b16f-4541-8e05-6da51d47d29c",
+      "slug": "five-senses-coffee",
+      "country": "Australia",
+      "name_en": "Five Senses Coffee",
+      "source_url": "https://fivesenses.com.au/pages/contact",
+      "website_url": "https://fivesenses.com.au"
+    },
+    {
+      "id": "1ea22008-5944-4854-91cd-beacf2f92c9b",
+      "slug": "kurasu",
+      "country": "Japan",
+      "name_en": "Kurasu",
+      "source_url": "https://kurasu.kyoto/pages/about-kurasu",
+      "website_url": "https://kurasu.kyoto"
+    },
+    {
+      "id": "4a5b951c-4e10-43b1-94df-161b9586d481",
+      "slug": "coffee-supreme-au",
+      "country": "Australia",
+      "name_en": "Coffee Supreme AU",
+      "source_url": "https://shopau.coffeesupreme.com/pages/about",
+      "website_url": "https://shopau.coffeesupreme.com"
+    },
+    {
+      "id": "c4e82a30-bcd9-49d1-8533-5c5fc91606f1",
+      "slug": "market-lane-coffee",
+      "country": "AU",
+      "name_en": "Market Lane Coffee",
+      "source_url": "https://marketlane.com.au/",
+      "website_url": "https://marketlane.com.au/"
+    },
+    {
+      "id": "5d6b198b-902d-4609-8832-6bc7c2f2f6d2",
+      "slug": "vol-1",
+      "country": "KW",
+      "name_en": "VOL.1",
+      "source_url": "https://vol1official.com/pages/locations",
+      "website_url": "https://vol1official.com/"
+    },
+    {
+      "id": "235cb5a0-f529-418d-af57-131d4a2aec33",
+      "slug": "elixir-bunn",
+      "country": "SA",
+      "name_en": "Elixir Bunn",
+      "source_url": "https://elixirbunn.com/ar-us/pages/فروعنا",
+      "website_url": "https://elixirbunn.com/"
+    },
+    {
+      "id": "fcd7c64f-c80b-4662-a671-38713c93aae9",
+      "slug": "sulalat",
+      "country": "SA",
+      "name_en": "Sulalat",
+      "source_url": "https://sulalat.com/en/pages/faqs",
+      "website_url": "https://sulalat.com/"
+    },
+    {
+      "id": "d4000c4d-9bfd-4254-a243-dafb0b1c0fe0",
+      "slug": "roasting-house",
+      "country": "SA",
+      "name_en": "Roasting House",
+      "source_url": "https://roastinghouse.sa/branches",
+      "website_url": "https://roastinghouse.sa/"
+    },
+    {
+      "id": "2b21c44e-b41e-4c76-bdf0-8c0abba95c1e",
+      "slug": "brew92",
+      "country": "SA",
+      "name_en": "Brew92",
+      "source_url": "https://www.brew92.com/locations",
+      "website_url": "https://www.brew92.com/"
+    },
+    {
+      "id": "9d8e16c2-c705-4351-9d44-c49a0d5e76fc",
+      "slug": "kiffa",
+      "country": "SA",
+      "name_en": "Kiffa",
+      "source_url": "https://kiffa.sa/pages/Branch",
+      "website_url": "https://kiffa.sa/"
+    },
+    {
+      "id": "2410ef51-079c-4b09-809b-3b93684dd132",
+      "slug": "sey-coffee",
+      "country": "US",
+      "name_en": "SEY Coffee",
+      "source_url": "https://www.seycoffee.com/pages/cafe",
+      "website_url": "https://www.seycoffee.com/"
+    },
+    {
+      "id": "989adb8f-3b38-4aad-b302-890037454739",
+      "slug": "coffee-collective",
+      "country": "DK",
+      "name_en": "Coffee Collective",
+      "source_url": "https://coffeecollective.dk/pages/coffee-shop/godthabsvej",
+      "website_url": "https://coffeecollective.dk/"
+    },
+    {
+      "id": "43f0d1bd-d50b-4e43-978d-6655821ae66e",
+      "slug": "ozone-coffee-roasters",
+      "country": "GB",
+      "name_en": "Ozone Coffee Roasters",
+      "source_url": "https://ozonecoffee.co.uk/",
+      "website_url": "https://ozonecoffee.co.uk/"
+    },
+    {
+      "id": "c37f452e-12c4-4ab7-a28b-e98037bc99bf",
+      "slug": "blue-bottle-coffee",
+      "country": "US",
+      "name_en": "Blue Bottle Coffee",
+      "source_url": "https://bluebottlecoffee.com/",
+      "website_url": "https://bluebottlecoffee.com/"
+    },
+    {
+      "id": "9dae4eb9-6ae7-4e32-9f32-a314272977a6",
+      "slug": "onyx-coffee-lab",
+      "country": "United States",
+      "name_en": "Onyx Coffee Lab",
+      "source_url": "https://onyxcoffeelab.com/pages/our-story",
+      "website_url": "https://onyxcoffeelab.com"
+    },
+    {
+      "id": "5ee5fec5-753b-4c43-b510-a9765606a61a",
+      "slug": "verve-coffee-roasters",
+      "country": "United States",
+      "name_en": "Verve Coffee Roasters",
+      "source_url": "https://www.vervecoffee.com/pages/story",
+      "website_url": "https://www.vervecoffee.com"
+    },
+    {
+      "id": "41e3a7f7-9143-4fff-a1ef-91fbfb85e971",
+      "slug": "49th-parallel-coffee-roasters",
+      "country": "Canada",
+      "name_en": "49th Parallel Coffee Roasters",
+      "source_url": "https://49thcoffee.com/pages/our-story",
+      "website_url": "https://49thcoffee.com"
+    },
+    {
+      "id": "0e5a1e3a-cd98-4507-b6d7-c9630ebd0d1f",
+      "slug": "counter-culture-coffee",
+      "country": "United States",
+      "name_en": "Counter Culture Coffee",
+      "source_url": "https://counterculturecoffee.com/pages/history",
+      "website_url": "https://counterculturecoffee.com"
+    },
+    {
+      "id": "a5d4a14e-e7b6-402f-aa9f-72165072b51e",
+      "slug": "cat-cloud",
+      "country": "United States",
+      "name_en": "Cat & Cloud",
+      "source_url": "https://catandcloud.com/pages/about-us",
+      "website_url": "https://catandcloud.com"
+    },
+    {
+      "id": "4fedfa91-157c-49dc-838b-4bd38b9a3d44",
+      "slug": "olympia-coffee",
+      "country": "United States",
+      "name_en": "Olympia Coffee",
+      "source_url": "https://www.olympiacoffee.com/pages/our-story",
+      "website_url": "https://www.olympiacoffee.com"
+    },
+    {
+      "id": "eaa8923e-14c3-4b33-97bc-272c4439c554",
+      "slug": "intelligentsia-coffee",
+      "country": "United States",
+      "name_en": "Intelligentsia Coffee",
+      "source_url": "https://www.intelligentsia.com/pages/our-story",
+      "website_url": "https://www.intelligentsia.com"
+    },
+    {
+      "id": "14e8a0d4-9c7e-426e-9280-6c06b99b78d4",
+      "slug": "april-coffee-roasters",
+      "country": "Denmark",
+      "name_en": "April Coffee Roasters",
+      "source_url": "https://www.aprilcoffeeroasters.com/pages/wholesale",
+      "website_url": "https://www.aprilcoffeeroasters.com"
+    },
+    {
+      "id": "cfe024bc-327d-4cdc-b9ab-7e8f37ea353d",
+      "slug": "workshop-coffee",
+      "country": "United Kingdom",
+      "name_en": "Workshop Coffee",
+      "source_url": "https://workshopcoffee.com/pages/terms-of-use",
+      "website_url": "https://workshopcoffee.com"
+    },
+    {
+      "id": "9c239353-d2d4-4515-8c66-0b31cd0a2cd1",
+      "slug": "gardelli-specialty-coffees",
+      "country": "Italy",
+      "name_en": "Gardelli Specialty Coffees",
+      "source_url": "https://shop.gardellicoffee.com/contact-us",
+      "website_url": "https://shop.gardellicoffee.com"
+    },
+    {
+      "id": "814315d3-ccdd-424f-89eb-c6da674d401a",
+      "slug": "raw-coffee-company",
+      "country": "AE",
+      "name_en": "RAW Coffee Company",
+      "source_url": "https://rawcoffeecompany.com/",
+      "website_url": "https://rawcoffeecompany.com/"
+    },
+    {
+      "id": "6e5676b2-97e8-4331-9f8a-ab55b63c2ccc",
+      "slug": "oru-roasters",
+      "country": "KW",
+      "name_en": "ORU Roasters",
+      "source_url": "https://oruroasters.com/",
+      "website_url": "https://oruroasters.com/"
+    },
+    {
+      "id": "7ac12d12-ee3e-4e52-8988-e8f495bb5f40",
+      "slug": "48-east-coffee-roasters",
+      "country": "KW",
+      "name_en": "48 East Coffee Roasters",
+      "source_url": "https://48e.co/",
+      "website_url": "https://48e.co/"
+    },
+    {
+      "id": "c4ace273-10a8-4cb1-94b0-c487388b3ea1",
+      "slug": "roots-roastery",
+      "country": "KW",
+      "name_en": "Roots Roastery",
+      "source_url": "https://rootsroastery.net/en/",
+      "website_url": "https://rootsroastery.net/en/"
+    },
+    {
+      "id": "d8bc8dc4-ec9a-402a-ba3d-1c83ad88870c",
+      "slug": "grey-specialty-coffee",
+      "country": "QA",
+      "name_en": "GREY",
+      "source_url": "https://greydoha.qa/",
+      "website_url": "https://greydoha.qa/"
+    },
+    {
+      "id": "882c01ce-086c-4f93-8235-bf9e49a6e0dc",
+      "slug": "gold-box-roastery",
+      "country": "AE",
+      "name_en": "Gold Box Roastery",
+      "source_url": "https://goldboxroastery.com/",
+      "website_url": "https://goldboxroastery.com/"
+    },
+    {
+      "id": "5492b827-d06a-412b-945a-c5b7571fe4bb",
+      "slug": "windrose-coffee",
+      "country": "OM",
+      "name_en": "Windrose Coffee",
+      "source_url": "https://www.windrosecoffee.com/",
+      "website_url": "https://www.windrosecoffee.com/"
+    },
+    {
+      "id": "2afdd3c4-2e39-4efc-bcce-76d912ee005f",
+      "slug": "bahrain-roastery",
+      "country": "BH",
+      "name_en": "Bahrain Roastery",
+      "source_url": "https://bahrainroastery.com/",
+      "website_url": "https://bahrainroastery.com/"
+    },
+    {
+      "id": "7738b7df-cef3-42ed-b8da-762a1c5f4b59",
+      "slug": "earth-roastery",
+      "country": "KW",
+      "name_en": "Earth Roastery",
+      "source_url": "https://kw.earthroastery.com/",
+      "website_url": "https://kw.earthroastery.com/"
+    },
+    {
+      "id": "68ec359d-d64b-4f48-b8fb-3e9697055155",
+      "slug": "doha-roastery",
+      "country": "QA",
+      "name_en": "Doha Roastery",
+      "source_url": "https://www.doharoastery.com/",
+      "website_url": "https://www.doharoastery.com/"
+    },
+    {
+      "id": "78ee8e93-55b1-4dcb-9907-774f050ba032",
+      "slug": "80-plus-speciality-coffee-roastery",
+      "country": "BH",
+      "name_en": "80+ Speciality Coffee Roastery",
+      "source_url": "https://80pluscoffeebh.com/",
+      "website_url": "https://80pluscoffeebh.com/"
+    },
+    {
+      "id": "3935d665-aa0f-4e01-8274-4fd09254c30e",
+      "slug": "medd-cafe-and-roastery",
+      "country": "SA",
+      "name_en": "Medd Cafe and Roastery",
+      "source_url": "https://meddcoffee.com/en/",
+      "website_url": "https://meddcoffee.com/"
+    },
+    {
+      "id": "89ec4bcb-5729-4b27-864e-12b0e9dd08f1",
+      "slug": "jeed-roastery",
+      "country": "SA",
+      "name_en": "Jeed Roastery",
+      "source_url": "https://jeedroastery.com/en/",
+      "website_url": "https://jeedroastery.com/"
+    },
+    {
+      "id": "86cc2f9f-d233-44bb-af35-2a74d4e30afd",
+      "slug": "black-knight-roastery",
+      "country": "SA",
+      "name_en": "Black Knight Roastery",
+      "source_url": "https://b-k.coffee/en/",
+      "website_url": "https://b-k.coffee/"
+    },
+    {
+      "id": "c4dd7787-0c6e-4be2-b6e3-618598090873",
+      "slug": "camel-step-coffee-roasters",
+      "country": "SA",
+      "name_en": "Camel Step Coffee Roasters",
+      "source_url": "https://camelstep.com/en/",
+      "website_url": "https://camelstep.com/"
+    },
+    {
+      "id": "bc18a667-ccc5-4514-bdac-95b1ca2abe97",
+      "slug": "42-coffee-roasters",
+      "country": "AE",
+      "name_en": "42 Coffee Roasters",
+      "source_url": "https://42coffeeroasters.com/",
+      "website_url": "https://42coffeeroasters.com/"
+    },
+    {
+      "id": "f49eb5b4-c2bc-4b0f-bd56-1405834e135a",
+      "slug": "archers-coffee",
+      "country": "AE",
+      "name_en": "Archers Coffee",
+      "source_url": "https://archerscoffee.com/",
+      "website_url": "https://archerscoffee.com/"
+    },
+    {
+      "id": "0941a372-c6ce-4a1b-bffa-6ed7b45d6261",
+      "slug": "haute-coffee-roasters",
+      "country": "AE",
+      "name_en": "Haute Coffee Roasters",
+      "source_url": "https://hautecoffeeroasters.com/",
+      "website_url": "https://hautecoffeeroasters.com/"
+    },
+    {
+      "id": "def9ece4-ad7c-4aeb-a6e9-b704a30eab05",
+      "slug": "friedhats-coffee-roasters",
+      "country": "NL",
+      "name_en": "Friedhats Coffee Roasters",
+      "source_url": "https://friedhats.com/",
+      "website_url": "https://friedhats.com/"
+    },
+    {
+      "id": "a009d523-d512-47cf-83e3-15eac3d740cb",
+      "slug": "nomad-coffee",
+      "country": "ES",
+      "name_en": "Nomad Coffee",
+      "source_url": "https://www.nomadcoffee.es/",
+      "website_url": "https://www.nomadcoffee.es/"
+    },
+    {
+      "id": "33e0f189-4b9c-4a3f-b094-557fc015b924",
+      "slug": "the-barn-coffee-roasters",
+      "country": "DE",
+      "name_en": "THE BARN Coffee Roasters",
+      "source_url": "https://thebarn.de/",
+      "website_url": "https://thebarn.de/"
+    },
+    {
+      "id": "a7d4971e-187b-48bb-b907-f73ebc0e22da",
+      "slug": "roastado-specialty-coffee",
+      "country": "QA",
+      "name_en": "Roastado Specialty Coffee",
+      "source_url": "https://roastado.qa/",
+      "website_url": "https://roastado.qa/"
+    },
+    {
+      "id": "e544e2da-0109-4952-ab84-a69afaa219bc",
+      "slug": "vulcan-coffee-roastery",
+      "country": "QA",
+      "name_en": "Vulcan Coffee Roastery",
+      "source_url": "https://www.vulcanroastery.com/",
+      "website_url": "https://www.vulcanroastery.com/"
+    },
+    {
+      "id": "7a50c6c2-426d-4a6f-8bf5-48f4eb935975",
+      "slug": "wings-coffee-doha",
+      "country": "QA",
+      "name_en": "Wings Coffee Doha",
+      "source_url": "https://wingscoffeedoha.com/",
+      "website_url": "https://wingscoffeedoha.com/"
+    },
+    {
+      "id": "60931e33-d8ca-4480-9150-9e09dfdc0e6a",
+      "slug": "jazean",
+      "country": "SA",
+      "name_en": "Jazean",
+      "source_url": "https://jazeancoffee.com/",
+      "website_url": "https://jazeancoffee.com/"
+    },
+    {
+      "id": "c596b6bd-cbad-4a7b-bcc0-f00b223a19ce",
+      "slug": "coffeesheep",
+      "country": "BH",
+      "name_en": "The Coffeesheep Roastery",
+      "source_url": "https://thecoffeesheep.com/",
+      "website_url": "https://thecoffeesheep.com/"
+    },
+    {
+      "id": "97d2e1cb-c0ba-441e-8280-ad3da8d65c10",
+      "slug": "cafinto",
+      "country": "OM",
+      "name_en": "CAFINTO",
+      "source_url": "https://cafinto.com/specialty-coffee/",
+      "website_url": "https://cafinto.com/"
+    },
+    {
+      "id": "5bca67ab-2767-4fbc-aaf9-ae54e830734c",
+      "slug": "adalla-secrets",
+      "country": "OM",
+      "name_en": "A'dalla Secrets",
+      "source_url": "https://www.a-dalla.com/",
+      "website_url": "https://www.a-dalla.com/"
+    },
+    {
+      "id": "90786ee1-15d1-416b-adbe-b0a5c916fbea",
+      "slug": "julith-coffee-roastery",
+      "country": "AE",
+      "name_en": "Julith Coffee Roastery",
+      "source_url": "https://julithcoffee.com/",
+      "website_url": "https://julithcoffee.com/"
+    },
+    {
+      "id": "23f7890d-6260-47fc-b5cd-b0fa849a957a",
+      "slug": "black22",
+      "country": "BH",
+      "name_en": "Black22 Coffee Bar & Roastery",
+      "source_url": "https://www.black22.net/",
+      "website_url": "https://www.black22.net/"
+    },
+    {
+      "id": "68da6957-38e1-44ee-bdf8-715f0efc50b7",
+      "slug": "crossbridge-coffee",
+      "country": "OM",
+      "name_en": "Crossbridge Coffee",
+      "source_url": "https://crossbridgecoffee.com/",
+      "website_url": "https://crossbridgecoffee.com/"
+    },
+    {
+      "id": "0eb557d5-0ee2-4c3f-8cd6-8155e17d70f3",
+      "slug": "monmouth-coffee-company",
+      "country": "GB",
+      "name_en": "Monmouth Coffee Company",
+      "source_url": "https://www.monmouthcoffee.co.uk/",
+      "website_url": "https://www.monmouthcoffee.co.uk/"
+    },
+    {
+      "id": "8b77c326-e98e-4d56-a784-86248ca529c7",
+      "slug": "mattina-artisan-roastery",
+      "country": "AE",
+      "name_en": "Mattina Artisan Roastery",
+      "source_url": "https://mattinacoffee.com/",
+      "website_url": "https://mattinacoffee.com/"
+    },
+    {
+      "id": "8d6d3569-3cda-4dad-b6ee-7dcaa2830ef7",
+      "slug": "falcon-coffee-roasters",
+      "country": "AE",
+      "name_en": "Falcon Coffee Roasters",
+      "source_url": "https://www.falconroasters.com/",
+      "website_url": "https://www.falconroasters.com/"
+    },
+    {
+      "id": "25e9f959-16c9-4026-92b0-0e34ed370f71",
+      "slug": "blacksmith-coffee-company",
+      "country": "AE",
+      "name_en": "Blacksmith Coffee Company",
+      "source_url": "https://blacksmith.ae/",
+      "website_url": "https://blacksmith.ae/"
+    },
+    {
+      "id": "6eadfa5f-0f2b-4454-8ae6-3bf3aa11779c",
+      "slug": "union-hand-roasted-coffee",
+      "country": "GB",
+      "name_en": "Union Hand-Roasted Coffee",
+      "source_url": "https://unionroasted.com/pages/about",
+      "website_url": "https://unionroasted.com"
+    },
+    {
+      "id": "4268b926-9ea7-4ac0-98a8-e2b001479fe4",
+      "slug": "stumptown-coffee-roasters",
+      "country": "US",
+      "name_en": "Stumptown Coffee Roasters",
+      "source_url": "https://www.stumptowncoffee.com/pages/portland-division-cafe",
+      "website_url": "https://www.stumptowncoffee.com"
+    },
+    {
+      "id": "6bf8cfee-0367-4751-8c1d-31ff5ec78fec",
+      "slug": "tim-wendelboe",
+      "country": "NO",
+      "name_en": "Tim Wendelboe",
+      "source_url": "https://timwendelboe.no/pages/copy-of-our-story",
+      "website_url": "https://timwendelboe.no"
+    },
+    {
+      "id": "ae829b3c-fbfb-486f-9366-4a698a59c08a",
+      "slug": "jebena-specialty-coffee",
+      "country": "AE",
+      "name_en": "Jebena Specialty Coffee",
+      "source_url": "https://jebenacoffees.com/",
+      "website_url": "https://jebenacoffees.com/"
+    },
+    {
+      "id": "e8dc4034-230e-4627-b3b2-8ebd9d4c3dc1",
+      "slug": "three-coffee",
+      "country": "AE",
+      "name_en": "THREE Coffee",
+      "source_url": "https://threecoffee.com/",
+      "website_url": "https://threecoffee.com/"
+    },
+    {
+      "id": "eeae124b-8df5-43e0-aca9-4f0e0d0bbbf9",
+      "slug": "koppi-roasters",
+      "country": "SE",
+      "name_en": "Koppi Roasters",
+      "source_url": "https://koppi.se/",
+      "website_url": "https://koppi.se/"
+    },
+    {
+      "id": "3ff45399-896d-40cf-b649-f5127da12775",
+      "slug": "roast-specialty-coffee",
+      "country": "AE",
+      "name_en": "ROAST Specialty Coffee × Cha Cha Chai",
+      "source_url": "https://roastdubai.com/",
+      "website_url": "https://roastdubai.com/"
+    },
+    {
+      "id": "95f2d88c-2cef-4957-9d7a-2b1d67830fa8",
+      "slug": "mokha-1450",
+      "country": "AE",
+      "name_en": "Mokha 1450",
+      "source_url": "https://mokha1450.com/",
+      "website_url": "https://mokha1450.com/"
+    },
+    {
+      "id": "1d8e1892-d74c-4100-91d5-12ececb885b0",
+      "slug": "rawi-coffee",
+      "country": "Kuwait",
+      "name_en": "Rawi Coffee Roastery",
+      "source_url": "https://rawicoffee.com/shop/",
+      "website_url": "https://rawicoffee.com/"
+    },
+    {
+      "id": "616bb7de-35fd-4342-b1f7-f3d6766b6c24",
+      "slug": "jebla-coffee",
+      "country": "Kuwait",
+      "name_en": "Jebla Coffee Roasters",
+      "source_url": "https://jeblacoffee.com/",
+      "website_url": "https://jeblacoffeeroasters.com/"
+    },
+    {
+      "id": "e84e8602-1091-4e1e-8705-9eaf4bd71733",
+      "slug": "tandem-coffee-roasters",
+      "country": "US",
+      "name_en": "Tandem Coffee Roasters",
+      "source_url": "https://www.tandemcoffee.com/pages/our-story",
+      "website_url": "https://www.tandemcoffee.com/"
+    },
+    {
+      "id": "a1f76557-8c4d-4777-92d0-3b4fc29bd374",
+      "slug": "passenger-coffee",
+      "country": "US",
+      "name_en": "Passenger Coffee",
+      "source_url": "https://drinkpassenger.com/",
+      "website_url": "https://drinkpassenger.com/"
+    }
+  ],
+  "project_id": "ubvzdglrwkkuaigmkjap"
+}

@@ -108,3 +108,29 @@ for (const english of [false, true]) test(`symptoms, water measurements and new 
   expect(network.searches).toHaveLength(0);
   expect(network.providerCalls()).toBe(0);
 });
+for (const english of [false, true]) test(`a new brewer clears old measurements and immersion sources work offline (${english ? 'en' : 'ar'})`, async ({ page }) => {
+  const network = await openAssistant(page, true);
+  if (english) await setLanguage(page, 'en');
+  const panel = page.getByTestId('coffee-assistant');
+  await ask(page, english ? 'My espresso tastes sour' : 'قهوتي إسبريسو حامضة', english);
+  await ask(page, 'dose 18 yield 36 time 30 seconds', english);
+  await expect(panel).toContainText('1:2');
+  await ask(page, english ? 'My V60 tastes sour' : 'قهوتي V60 حامضة', english);
+  await expect(panel).not.toContainText('1:2');
+  await ask(page, 'dose 20 water 320 time 180 seconds', english);
+  await expect(panel).toContainText('1:16');
+  await ask(page, english ? 'Explain French press immersion' : 'اشرح النقع والفرنش برس', english);
+  await expect(panel.getByRole('button', { name: 'NCA — French press', exact: true })).toBeVisible();
+  await expect(panel.getByRole('button', { name: 'HARIO — Switch with Partners Coffee', exact: true })).toBeVisible();
+  expect(network.searches).toHaveLength(0);
+  expect(network.providerCalls()).toBe(0);
+});
+test('a specific lesson replaces previous shopping results', async ({ page }) => {
+  await openAssistant(page);
+  const panel = page.getByTestId('coffee-assistant');
+  await ask(page, 'أبي ماكينة إسبريسو تحت 480 دولار');
+  await expect(page.getByTestId('assistant-result')).toHaveCount(2);
+  await ask(page, 'اشرح الماء');
+  await expect(panel).toContainText('TDS وحده');
+  await expect(page.getByTestId('assistant-result')).toHaveCount(0);
+});

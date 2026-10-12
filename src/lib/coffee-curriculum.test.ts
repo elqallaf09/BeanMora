@@ -28,11 +28,16 @@ it.each([
   ['Coffee flavor notes', 'flavor-notes'], ['What is a dual boiler?', 'boilers'],
   ['القهوة المثلجة وماء التحضير والثلج', 'flash-brew'], ['What is cold brew?', 'cold-brew'],
   ['شنو البايباس؟', 'bypass-dilution'], ['تكبير وصفة الترشيح لكوبين', 'batch-scaling'],
+  ['اشرح النقع والفرنش برس', 'immersion-percolation'], ['What is immersion brewing?', 'immersion-percolation'],
 ])('answers %s locally', async (question, id) => {
   const locale = /[\u0600-\u06FF]/.test(question) ? 'ar' : 'en';
   const turn = await converseLocally(question, locale, [], offline);
   expect(turn.knowledgeTopic).toBe(id);
   expect(turn.sources?.[0]?.url).toMatch(/^https:\/\//);
+});
+it('attributes the new immersion lesson to both reviewed primary sources', () => {
+  const lesson = coffeeLessonById('immersion-percolation', 'en')!;
+  expect(lesson.sources.map(source => new URL(source.url).hostname)).toEqual(['www.aboutcoffee.org', 'www.hario-usa.com']);
 });
 it('keeps budgets out of scale education and separates manufacturer water limits', () => {
   expect(coffeeKnowledgeAnswer('خل الميزانية ٣٥٠ دولار', 'ar', 'scales')).toBeNull();

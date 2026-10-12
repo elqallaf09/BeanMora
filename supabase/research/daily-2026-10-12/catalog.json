@@ -1,0 +1,389 @@
+{
+  "import_id": "reviewed-catalog-2026-10-12",
+  "project_id": "ubvzdglrwkkuaigmkjap",
+  "verified_at": "2026-10-12",
+  "counts": {
+    "roasters": 3,
+    "roaster_actions": {
+      "create": 2,
+      "reuse_exact": 1
+    },
+    "coffees": 0,
+    "coffee_actions": {},
+    "recipes": 2,
+    "recipes_by_region": {
+      "kuwait-and-underrepresented-methods": 2
+    },
+    "recipes_by_method": {
+      "french_press": 1,
+      "switch": 1
+    },
+    "recipes_by_serving": {
+      "hot": 2
+    },
+    "recipes_with_bean": 0,
+    "incomplete_recipes": 1,
+    "corrections": 0,
+    "exclusions": 2,
+    "new_recipes": 2,
+    "updated_recipes": 0
+  },
+  "roasters": [
+    {
+      "name": "Limu Roastery",
+      "name_ar": "محمصة ليمو",
+      "country": "KW",
+      "website": "https://limukw.com/",
+      "source_url": "https://limukw.com/",
+      "key": "roaster-a057460a23a9fc2e",
+      "identity": "limu roastery\nlimukw.com",
+      "name_key": "limu roastery",
+      "host_key": "limukw.com",
+      "region": "kuwait-and-underrepresented-methods",
+      "slug": "limu-roastery",
+      "existing_id": null,
+      "action": "create"
+    },
+    {
+      "name": "Partners Coffee",
+      "name_ar": "بارتنرز كوفي",
+      "country": "US",
+      "website": "https://www.partnerscoffee.com/",
+      "source_url": "https://www.partnerscoffee.com/pages/our-story",
+      "key": "roaster-76e14f1a576d1d1f",
+      "identity": "partners coffee\npartnerscoffee.com",
+      "name_key": "partners coffee",
+      "host_key": "partnerscoffee.com",
+      "region": "kuwait-and-underrepresented-methods",
+      "slug": "partners-coffee",
+      "existing_id": null,
+      "action": "create"
+    },
+    {
+      "name": "Blue Bottle Coffee",
+      "name_ar": "بلو بوتل كوفي",
+      "country": "US",
+      "website": "https://bluebottlecoffee.com",
+      "source_url": "https://bluebottlecoffee.com/us/eng/brew-guides/french-press",
+      "key": "roaster-a8ebaf914fc3e457",
+      "identity": "blue bottle coffee\nbluebottlecoffee.com",
+      "name_key": "blue bottle coffee",
+      "host_key": "bluebottlecoffee.com",
+      "region": "kuwait-and-underrepresented-methods",
+      "slug": "blue-bottle-coffee",
+      "existing_id": "c37f452e-12c4-4ab7-a28b-e98037bc99bf",
+      "action": "reuse_exact"
+    }
+  ],
+  "coffees": [],
+  "recipes": [
+    {
+      "slug": "blue-bottle-french-press-30g-350g",
+      "title": "Blue Bottle — French Press 30 g / 350 g",
+      "title_ar": "بلو بوتل — فرنش برس 30 g / 350 g",
+      "brew_method": "french_press",
+      "recipe_type": "official_roaster",
+      "roaster_name": "Blue Bottle Coffee",
+      "source_author_name": "Blue Bottle Coffee",
+      "source_author_name_ar": "بلو بوتل كوفي",
+      "serving_style": "hot",
+      "dose_grams": 30,
+      "water_grams": 350,
+      "water_temp_c": null,
+      "water_temp_c_min": 96.1,
+      "water_temp_c_max": 98.9,
+      "total_time_seconds": 240,
+      "grinder_setting": "Coarse",
+      "flavor_notes": [],
+      "flavor_notes_ar": [],
+      "source_url": "https://bluebottlecoffee.com/us/eng/brew-guides/french-press",
+      "source_brew_parameters": {
+        "manual": {
+          "equipment": "French press",
+          "grind_ar": "خشنة",
+          "temperature_note": "205–210°F; Celsius endpoints calculated and rounded to 0.1°C.",
+          "temperature_note_ar": "205–210°F؛ طرفا نطاق الحرارة محوّلان حسابيًا إلى °C ومقرّبان إلى 0.1°C.",
+          "time_note": "4 minutes steeping, then about 20 seconds to plunge.",
+          "time_note_ar": "نقع 4 دقائق ثم كبس نحو 20 ثانية.",
+          "scalable": false
+        },
+        "discovery": {
+          "serving_style_evidence": {
+            "classification": "published",
+            "basis": "publisher_hot_water_recipe_without_ice_or_chilling_step",
+            "reviewed_at": "2026-10-12"
+          },
+          "creator_name": "Blue Bottle Coffee",
+          "creator_name_ar": "بلو بوتل كوفي",
+          "applicable_coffee_names": [],
+          "applicable_coffee_names_ar": [],
+          "roaster_name": "Blue Bottle Coffee",
+          "roaster_name_ar": "بلو بوتل كوفي",
+          "flavor_notes": [],
+          "flavor_notes_ar": [],
+          "flavor_families": [],
+          "serving_style": "hot",
+          "source_urls": [
+            "https://bluebottlecoffee.com/us/eng/brew-guides/french-press"
+          ]
+        },
+        "global_roasters_import": {
+          "import_id": "reviewed-catalog-2026-10-12",
+          "verified_at": "2026-10-12",
+          "region": "kuwait-and-underrepresented-methods",
+          "recipe_source_url": "https://bluebottlecoffee.com/us/eng/brew-guides/french-press",
+          "source_steps": [
+            {
+              "step_number": 1,
+              "source_step_kind": "other"
+            },
+            {
+              "step_number": 2,
+              "source_step_kind": "pour",
+              "start_at_seconds": 0
+            },
+            {
+              "step_number": 3,
+              "source_step_kind": "press",
+              "start_at_seconds": 240
+            },
+            {
+              "step_number": 4,
+              "source_step_kind": "serve"
+            }
+          ]
+        }
+      },
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Grind 30 g coarsely. Heat water to 205–210°F.",
+          "description_ar": "اطحن 30 g خشنًا وسخّن الماء إلى 205–210°F.",
+          "step_kind": "other",
+          "step_number": 1
+        },
+        {
+          "title": "Add water",
+          "title_ar": "إضافة الماء",
+          "description": "Tare the press. Start the timer, add 350 g water and gently stir.",
+          "description_ar": "صفّر الميزان. ابدأ المؤقت، أضف 350 g ماء وحرّك بلطف.",
+          "step_kind": "pour",
+          "start_at_seconds": 0,
+          "step_number": 2
+        },
+        {
+          "title": "Steep and press",
+          "title_ar": "النقع والكبس",
+          "description": "Cover with the plunger raised. At 4:00, plunge slowly for about 20 seconds.",
+          "description_ar": "غطّ الإبريق والمكبس مرفوع. عند 4:00 اكبس بهدوء لنحو 20 ثانية.",
+          "step_kind": "press",
+          "start_at_seconds": 240,
+          "duration_seconds": 20,
+          "step_number": 3
+        },
+        {
+          "title": "Decant",
+          "title_ar": "نقل المشروب",
+          "description": "Pour immediately; transfer any remainder to another vessel.",
+          "description_ar": "قدّم فورًا وانقل المتبقي إلى وعاء آخر.",
+          "step_kind": "serve",
+          "step_number": 4
+        }
+      ],
+      "pours": [
+        {
+          "water_grams": 350,
+          "start_at_seconds": 0,
+          "is_bloom": false,
+          "pour_number": 1
+        }
+      ],
+      "region": "kuwait-and-underrepresented-methods",
+      "roaster_key": "roaster-a8ebaf914fc3e457",
+      "coffee_key": null,
+      "bean_action": "not_applicable",
+      "source_type": "official_website",
+      "is_incomplete_source": false,
+      "pour_sum_validated": true,
+      "source_process": null,
+      "source_varietal": null,
+      "cover_image_url": null
+    },
+    {
+      "slug": "partners-cary-wong-switch-15g-240g",
+      "title": "Cary Wong / Partners Coffee — HARIO Switch 15 g / 240 g",
+      "title_ar": "كاري وونغ / بارتنرز — هاريو سويتش 15 g / 240 g",
+      "brew_method": "switch",
+      "recipe_type": "verified_barista",
+      "roaster_name": "Partners Coffee",
+      "source_author_name": "Cary Wong",
+      "source_author_name_ar": "كاري وونغ",
+      "serving_style": "hot",
+      "dose_grams": 15,
+      "water_grams": 240,
+      "water_temp_c": null,
+      "total_time_seconds": 240,
+      "grinder_setting": "Medium-fine",
+      "flavor_notes": [],
+      "flavor_notes_ar": [],
+      "source_url": "https://www.hario-usa.com/blogs/recipes-and-more-from-friends/v60-switch-recipe-with-partners-coffee",
+      "source_brew_parameters": {
+        "manual": {
+          "equipment": "HARIO V60 Switch",
+          "grind_ar": "متوسطة إلى ناعمة",
+          "temperature_note": "Hot water; no numeric temperature published.",
+          "temperature_note_ar": "ماء ساخن؛ لم ينشر المصدر درجة رقمية.",
+          "scalable": false
+        },
+        "discovery": {
+          "serving_style_evidence": {
+            "classification": "published",
+            "basis": "publisher_hot_water_recipe_without_ice_or_chilling_step",
+            "reviewed_at": "2026-10-12"
+          },
+          "creator_name": "Cary Wong",
+          "creator_name_ar": "كاري وونغ",
+          "applicable_coffee_names": [],
+          "applicable_coffee_names_ar": [],
+          "roaster_name": "Partners Coffee",
+          "roaster_name_ar": "بارتنرز كوفي",
+          "flavor_notes": [],
+          "flavor_notes_ar": [],
+          "flavor_families": [],
+          "serving_style": "hot",
+          "source_urls": [
+            "https://www.hario-usa.com/blogs/recipes-and-more-from-friends/v60-switch-recipe-with-partners-coffee"
+          ]
+        },
+        "global_roasters_import": {
+          "import_id": "reviewed-catalog-2026-10-12",
+          "verified_at": "2026-10-12",
+          "region": "kuwait-and-underrepresented-methods",
+          "recipe_source_url": "https://www.hario-usa.com/blogs/recipes-and-more-from-friends/v60-switch-recipe-with-partners-coffee",
+          "source_steps": [
+            {
+              "step_number": 1,
+              "source_step_kind": "other"
+            },
+            {
+              "step_number": 2,
+              "source_step_kind": "bloom",
+              "start_at_seconds": 0
+            },
+            {
+              "step_number": 3,
+              "source_step_kind": "pour",
+              "start_at_seconds": 40
+            },
+            {
+              "step_number": 4,
+              "source_step_kind": "pour",
+              "start_at_seconds": 75
+            },
+            {
+              "step_number": 5,
+              "source_step_kind": "drawdown",
+              "start_at_seconds": 150
+            }
+          ]
+        }
+      },
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Use 15 g medium-fine coffee and hot water.",
+          "description_ar": "استخدم 15 g بن بطحنة متوسطة إلى ناعمة وماء ساخن.",
+          "step_kind": "other",
+          "step_number": 1
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "البلوم",
+          "description": "Valve open: pour 30 g during 0:00–0:10.",
+          "description_ar": "الصمام مفتوح: صب 30 g خلال 0:00–0:10.",
+          "step_kind": "bloom",
+          "start_at_seconds": 0,
+          "duration_seconds": 10,
+          "step_number": 2
+        },
+        {
+          "title": "Second pour",
+          "title_ar": "الصبة الثانية",
+          "description": "Keep open; at 0:40–0:55 add 110 g to reach 140 g.",
+          "description_ar": "أبق الصمام مفتوحًا؛ خلال 0:40–0:55 أضف 110 g ليصل الإجمالي إلى 140 g.",
+          "step_kind": "pour",
+          "start_at_seconds": 40,
+          "duration_seconds": 15,
+          "step_number": 3
+        },
+        {
+          "title": "Close and fill",
+          "title_ar": "الإغلاق والتعبئة",
+          "description": "At 1:15, close the valve; add 100 g to reach 240 g.",
+          "description_ar": "عند 1:15 أغلق الصمام وأضف 100 g ليصل الإجمالي إلى 240 g.",
+          "step_kind": "pour",
+          "start_at_seconds": 75,
+          "step_number": 4
+        },
+        {
+          "title": "Release",
+          "title_ar": "التصريف",
+          "description": "At 2:30 open the valve. At 4:00 close it and remove the dripper.",
+          "description_ar": "عند 2:30 افتح الصمام. عند 4:00 أغلقه وأزل الأداة.",
+          "step_kind": "drawdown",
+          "start_at_seconds": 150,
+          "step_number": 5
+        }
+      ],
+      "pours": [
+        {
+          "water_grams": 30,
+          "start_at_seconds": 0,
+          "is_bloom": true,
+          "duration_seconds": 10,
+          "pour_number": 1
+        },
+        {
+          "water_grams": 110,
+          "start_at_seconds": 40,
+          "is_bloom": false,
+          "duration_seconds": 15,
+          "pour_number": 2
+        },
+        {
+          "water_grams": 100,
+          "start_at_seconds": 75,
+          "is_bloom": false,
+          "pour_number": 3
+        }
+      ],
+      "region": "kuwait-and-underrepresented-methods",
+      "roaster_key": "roaster-76e14f1a576d1d1f",
+      "coffee_key": null,
+      "bean_action": "not_applicable",
+      "source_type": "official_website",
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "is_incomplete_source": true,
+      "pour_sum_validated": true,
+      "source_process": null,
+      "source_varietal": null,
+      "cover_image_url": null
+    }
+  ],
+  "corrections": [],
+  "exclusions": [
+    {
+      "region": "kuwait-and-underrepresented-methods",
+      "url": "https://roasterystudio.com/",
+      "reason": "Official search excerpts identify Kuwait, but the original page returned no readable body during this review; not imported."
+    },
+    {
+      "region": "kuwait-and-underrepresented-methods",
+      "url": "https://global.hario.com/MUSD%20Recipe%20%26%20Interview.pdf",
+      "reason": "Original guide could not be fetched; no facts imported from search snippets."
+    }
+  ]
+}

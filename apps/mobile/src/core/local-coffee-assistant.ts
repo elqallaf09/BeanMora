@@ -155,7 +155,7 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
     return reply(`${ar ? 'حساب النسبة المطلوبة' : 'Requested ratio calculation'}: ${number(dose)} g × ${number(ratio)} = ${number(dose * ratio)} g\n${outputLabel}: ${number(dose * ratio)} g\n${ar ? 'هذا حساب رياضي، وليس وصفة مختبرة. لا يحدد درجة الطحن أو الحرارة أو الوقت؛ تحقق من سعة أداتك.' : 'This is arithmetic, not a tested recipe. It does not set grind, temperature or time; check your brewer capacity.'}`, { intent: 'calculate', calculation, matches: selected, suggestions: ar ? ['خلها 20 غرام', 'غير النسبة إلى 1:15'] : ['Make it 20 g', 'Change ratio to 1:15'] });
   }
   const knowledge = !selection.explicit && !(compare && references.length) ? coffeeKnowledgeAnswer(question, locale, previous?.knowledgeTopic) : null;
-  if ((compare && (references.length > 0 || !knowledge)) || selection.explicit || (explain && references.length)) {
+  if ((compare && (references.length > 0 || !knowledge)) || selection.explicit || (explain && references.length && !knowledge)) {
     const chosen = selection.explicit ? selection.matches : compare ? references.slice(0, 3) : references.length === 1 ? references : [];
     if (selection.invalid || !chosen.length || (compare && chosen.length < 2)) return reply(ar ? 'ابحث عن الخيارات أولًا، ثم قل «اشرح الأول» أو «قارن الأول والثاني». اختر رقمًا من النتائج الظاهرة.' : 'Search for options first, then say “explain the first” or “compare the first and second”. Use a displayed result number.', { matches: references, query: previous?.query ?? query });
     // Revalidate dated offers locally before displaying references; never keep a stale price alive.
@@ -173,11 +173,15 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
     seconds: q.match(/(\d+(?:\.\d+)?)\s*(?:ثانيه|ثواني|seconds?|sec\b)/)?.[1],
   };
   const measurementFollowUp = previous?.intent === 'coach' && Object.values(measurements).some(Boolean);
+  // Espresso yield and filter water are different measurements. Keep an
+  // unanswered method clarification, but start fresh for a different brewer.
+  const previousCoach = previous?.intent === 'coach' && (!methods.length || !previous.coach?.method || methods[0] === previous.coach.method) ? previous.coach : undefined;
   const coachIntent = !/وصف|recipe|ايحاء|notes|احب|love/.test(q) && (sour || bitter || weak || /استخلاص.*بطي|استخلاص.*سريع|shot.*(?:slow|fast)|chok/.test(q) || (previous?.intent === 'coach' && methods.length > 0 && !knowledge) || measurementFollowUp);
   if (coachIntent) {
-    const signal = sour && bitter ? 'mixed' : sour ? 'sour' : bitter ? 'bitter' : weak ? 'weak' : /بطي|slow|chok/.test(q) ? 'slow' : /سريع|fast/.test(q) ? 'fast' : previous?.coach?.signal ?? 'unknown';
-    const coach = { ...(previous?.intent === 'coach' ? previous.coach : {}), signal, method, ...Object.fromEntries(Object.entries(measurements).filter(([, value]) => value && positive(Number(value))).map(([key, value]) => [key, Number(value)])) };
+    const signal = sour && bitter ? 'mixed' : sour ? 'sour' : bitter ? 'bitter' : weak ? 'weak' : /بطي|slow|chok/.test(q) ? 'slow' : /سريع|fast/.test(q) ? 'fast' : previousCoach?.signal ?? 'unknown';
+    const coach = { ...previousCoach, signal, method, ...Object.fromEntries(Object.entries(measurements).filter(([, value]) => value && positive(Number(value))).map(([key, value]) => [key, Number(value)])) };
     if (!method) return reply(ar ? 'حتى أحدد الخطوة المناسبة: تستخدم إسبريسو أم V60 أم طريقة ثانية؟' : 'Which method are you using: espresso, V60 or another brewer?', { intent: 'coach', coach, suggestions: ['Espresso', 'V60'] });
+    if (signal === 'unknown') return reply(ar ? 'بدأنا لطريقة جديدة. اذكر مشكلة هذا الكوب وطريقة التحضير وجرعة البن والماء أو الناتج والوقت؛ لا أنقل قياسات الكوب السابق.' : 'We are starting a new brewing method. Describe this cup’s problem, dose, water or yield, and time; the previous cup’s measurements do not carry over.', { intent: 'coach', coach });
     let advice: string;
     if (signal === 'mixed') advice = ar ? 'اجتماع الحموضة والمرارة قد يدل على استخلاص غير متجانس. راجع توزيع البن وانتظام مرور الماء قبل تغيير الطحن.' : 'Sourness together with bitterness can indicate uneven extraction. Check grounds distribution and even water flow before changing grind.';
     else if (signal === 'weak') advice = ar ? 'الخفة وحدها لا تحدد اتجاه الطحن. اذكر جرعة البن ووزن الماء أو ناتج الإسبريسو لنراجع النسبة.' : 'Weakness alone does not tell us which way to move the grind. Give the dose and water weight or espresso yield so we can review the ratio.';

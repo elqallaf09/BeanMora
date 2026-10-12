@@ -1,10 +1,20 @@
-/** Editorial lessons. New cold/bypass/scaling topics reviewed 2026-10-11. Model settings belong to their manuals. */
+/** Editorial lessons. Immersion topic reviewed 2026-10-12. Model settings belong to their manuals. */
 export type CoffeeCourseGroup = 'beans' | 'grinding' | 'water' | 'equipment' | 'brewing' | 'roasting' | 'sensory';
 export interface CoffeeLesson {
   id: string; group: CoffeeCourseGroup; titles: [string, string]; keywords: RegExp; priority: number;
   ar: string; en: string; more: [string, string]; title: string; url: string;
+  supportingSources?: { title: string; url: string }[];
 }
 export const COFFEE_CURRICULUM: CoffeeLesson[] = [
+  {
+    id: 'immersion-percolation', group: 'brewing', titles: ['النقع والترشيح والفرنش برس', 'Immersion, percolation and French press'], priority: 100,
+    keywords: /نقع|النقع|فرنش برس|french press|immersion|percolation/,
+    ar: 'في الفرنش برس ينقع البن في الماء ثم يفصله مكبس بفلتر معدني. في الترشيح يمر الماء عبر طبقة البن. السويتش يجمع المرحلتين بصمامه؛ اتبع أوقات فتحه وإغلاقه في الوصفة. جرعة الإسبريسو وناتجه لا يمثلان ماء النقع؛ سجّل قياسات جديدة عند تغيير الطريقة.',
+    en: 'French press steeps coffee in water before a metal-filter plunger separates it. Percolation moves water through a bed of grounds. A Switch combines stages using its valve; follow the recipe’s open and close times. Espresso yield does not represent steeping water. Record fresh measurements when changing methods.',
+    more: ['للفرنش برس، اكبس بهدوء وانقل المشروب بعد التحضير. نظّف الإبريق والفلتر بعد الاستخدام؛ بقايا البن والزيوت تؤثر في الكوب التالي.', 'Plunge gently and decant after brewing. Clean the French press and filter after use; leftover grounds and oils affect the next cup.'],
+    title: 'NCA — French press', url: 'https://www.aboutcoffee.org/brewing/french-press-coffee/',
+    supportingSources: [{ title: 'HARIO — Switch with Partners Coffee', url: 'https://www.hario-usa.com/blogs/recipes-and-more-from-friends/v60-switch-recipe-with-partners-coffee' }],
+  },
   {
     id: 'flash-brew', group: 'brewing', titles: ['القهوة المثلجة وماء التحضير والثلج', 'Flash brew, brew water and ice'], priority: 110,
     keywords: /فلاش برو|flash brew|iced coffee|قهوه مثلج|القهوه المثلج|ماء التحضير والثلج|brew water and ice/,
