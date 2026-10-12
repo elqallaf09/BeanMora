@@ -107,7 +107,10 @@ export function createOAuthCallbackHandler(
       if (exchanges.size > 10) exchanges.delete(exchanges.keys().next().value!);
       return result;
     } catch (error) {
-      exchanges.delete(code);
+      // Browser callbacks have consumed their proof; duplicate events share the
+      // failure. Preserve the native handler's explicit retry contract.
+      if (!['http:', 'https:'].includes(allowed.protocol)) exchanges.delete(code);
+      if (exchanges.size > 10) exchanges.delete(exchanges.keys().next().value!);
       throw error;
     }
   };

@@ -11,7 +11,7 @@ import {
 } from './native';
 import * as WebBrowser from 'expo-web-browser';
 import type { Session } from '@supabase/supabase-js';
-import { supabase, authProviderEnabled } from './client';
+import { supabase, authProviderEnabled, finishStoredAuthCallback } from './client';
 import {
   cleanOAuthCallbackUrl,
   createOAuthCallbackHandler,
@@ -47,9 +47,12 @@ export async function finishOAuth(url: string) {
   } finally {
     // Failed/cancelled callbacks need cleaning too. Do not overwrite a page
     // the user navigated to while the session exchange was in flight.
-    if (Platform.OS === 'web' && window.location.href === url) {
+    if (Platform.OS === 'web') {
       const clean = cleanOAuthCallbackUrl(url, redirect);
-      if (clean) window.history.replaceState(window.history.state, '', clean);
+      if (clean && window.location.href === url) {
+        finishStoredAuthCallback();
+        window.history.replaceState(window.history.state, '', clean);
+      }
     }
   }
 }
@@ -111,6 +114,7 @@ export function AccountScreen({
       ACCOUNT_CONFIRMATION: L('كلمتا المرور غير متطابقتين.', 'The passwords do not match.'),
     };
     if (fieldErrors[message]) return fieldErrors[message];
+    if (message === 'OAUTH_STORAGE_UNAVAILABLE') return L('اسمح بحفظ بيانات الموقع في المتصفح ثم أعد تسجيل الدخول عبر Google.', 'Allow site storage in your browser, then try Google sign-in again.', 'ブラウザでサイトデータの保存を許可して、Googleログインを再試行してください。');
     const lower = message.toLowerCase();
     return lower.startsWith('oauth_') ||
       lower.includes('code verifier') ||
@@ -211,6 +215,9 @@ export function AccountScreen({
         return;
       }
       const redirectTo = getAuthRedirect();
+      // OAuth URL generation in auth-js does not wait for client recovery.
+      // Finish stale-session cleanup before creating the new PKCE proof.
+      await supabase!.auth.getSession();
       const { data, error } = await supabase!.auth.signInWithOAuth({
         provider,
         options: {

@@ -21,6 +21,9 @@ import {
 import { IconButton, Language, Txt } from "./ui";
 import { MemberAvatar } from "./MemberAvatar";
 import { useContentMedia } from "./useContentMedia";
+import { ViewInsights } from "./ViewInsights";
+import { supabase } from "./client";
+import { recordStoryView } from "./core/community-social";
 import type { CoffeeStory } from "./core/community-social";
 import type { MemberIdentity } from "./core/member-social";
 
@@ -60,10 +63,31 @@ export function StoryViewer({
     ),
     [progress, setProgress] = useState(0);
   const current = stories[index];
-  const paused = held || busy || suspended || !foreground;
+  const [viewersOpen, setViewersOpen] = useState(false),
+    [readyId, setReadyId] = useState("");
+  const recorded = useRef(new Set<string>());
+  const paused = held || busy || suspended || viewersOpen || !foreground;
+  useEffect(() => {
+    if (
+      !supabase ||
+      !owner ||
+      !current ||
+      owner === current.user_id ||
+      readyId !== current.id ||
+      paused
+    )
+      return;
+    const key = owner + ":" + current.id;
+    if (recorded.current.has(key)) return;
+    recorded.current.add(key);
+    void recordStoryView(supabase, current.id).catch(() =>
+      recorded.current.delete(key),
+    );
+  }, [owner, current?.id, readyId, paused]);
   const step = useCallback(
     (direction: number) => {
       setHeld(false);
+      setViewersOpen(false);
       if (index + direction >= stories.length) close();
       else if (index + direction >= 0) {
         setProgress(0);
@@ -131,6 +155,7 @@ export function StoryViewer({
               paused={Boolean(paused)}
               next={() => step(1)}
               progress={setProgress}
+              viewable={() => setReadyId(current.id)}
             />
             <View style={[StyleSheet.absoluteFill, { flexDirection: "row" }]}>
               {[ar ? 1 : -1, ar ? -1 : 1].map((direction) => (
@@ -270,7 +295,7 @@ export function StoryViewer({
                 pointerEvents="none"
                 style={{
                   position: "absolute",
-                  bottom: 30,
+                  bottom: owner === current.user_id ? 80 : 30,
                   left: 16,
                   right: 16,
                   backgroundColor: "#0007",
@@ -287,6 +312,23 @@ export function StoryViewer({
               </View>
             ) : null}
           </View>
+          {owner && owner === current.user_id ? (
+            <ViewInsights
+              key={current.id}
+              kind="story"
+              owner={owner}
+              target={current.id}
+              onOpenChange={setViewersOpen}
+              buttonStyle={{
+                position: "absolute",
+                bottom: 18,
+                left: 24,
+                backgroundColor: "#0009",
+                borderRadius: 18,
+                zIndex: 2,
+              }}
+            />
+          ) : null}
           {overlay}
         </SafeAreaView>
       </SafeAreaProvider>
@@ -298,11 +340,13 @@ function StoryMedia({
   paused,
   next,
   progress,
+  viewable,
 }: {
   story: CoffeeStory;
   paused: boolean;
   next: () => void;
   progress: (n: number) => void;
+  viewable: () => void;
 }) {
   const ar = useContext(Language) === "ar";
   const url = useContentMedia("storage://coffee-stories/" + story.media_path);
@@ -351,6 +395,7 @@ function StoryMedia({
       next={next}
       progress={progress}
       failed={() => setFailed(true)}
+      viewable={viewable}
     />
   ) : (
     <Image
@@ -358,7 +403,10 @@ function StoryMedia({
       resizeMode="contain"
       accessibilityLabel={story.caption || (ar ? "قصة قهوة" : "Coffee story")}
       style={{ flex: 1, width: "100%" }}
-      onLoad={() => setReady(true)}
+      onLoad={() => {
+        setReady(true);
+        viewable();
+      }}
       onError={() => setFailed(true)}
     />
   );
@@ -369,12 +417,14 @@ function StoryVideo({
   next,
   progress,
   failed,
+  viewable,
 }: {
   url: string;
   paused: boolean;
   next: () => void;
   progress: (n: number) => void;
   failed: () => void;
+  viewable: () => void;
 }) {
   const player = useVideoPlayer(url, (p) => {
     p.loop = false;
@@ -385,6 +435,8 @@ function StoryVideo({
     onFail = useRef(failed);
   advance.current = next;
   onFail.current = failed;
+  const onViewable = useRef(viewable);
+  onViewable.current = viewable;
   useEffect(() => {
     if (paused) player.pause();
     else player.play();
@@ -393,6 +445,7 @@ function StoryVideo({
   useEffect(() => {
     const end = player.addListener("playToEnd", () => advance.current());
     const time = player.addListener("timeUpdate", (event) => {
+      if (event.currentTime > 0 && player.playing) onViewable.current();
       if (player.duration > 0)
         progress(Math.min(1, event.currentTime / player.duration));
     });

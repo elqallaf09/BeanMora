@@ -1,7 +1,7 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as SecureStore from 'expo-secure-store';
-import { randomUUID } from 'expo-crypto';
-import { createSecureSessionStorage } from './core/secure-session-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
+import { randomUUID } from "expo-crypto";
+import { createSecureSessionStorage } from "./core/secure-session-storage";
 
 const options = {
   keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
@@ -15,3 +15,6 @@ export const sessionStorage = createSecureSessionStorage(
   AsyncStorage,
   randomUUID,
 );
+export function finishStoredOAuth(_key: string) {
+  /* Native exchange consumes its secure verifier. */
+}

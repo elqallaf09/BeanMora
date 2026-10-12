@@ -20,12 +20,16 @@ export type MemberProfileData = {
   profile: MemberIdentity & {
     bio: string | null;
     share_collection: boolean | null;
+    hide_followers?: boolean;
+    hide_following?: boolean;
   };
   can_view: boolean;
   is_owner: boolean;
   relationship: "pending" | "accepted" | null;
-  follower_count: number;
-  following_count: number;
+  follower_count: number | null;
+  following_count: number | null;
+  can_view_followers?: boolean;
+  can_view_following?: boolean;
   followers?: MemberIdentity[];
   following?: MemberIdentity[];
   requests?: MemberIdentity[];
@@ -109,6 +113,8 @@ export async function updateMemberProfile(
     bio: string;
     is_private: boolean;
     share_collection: boolean;
+    hide_followers?: boolean;
+    hide_following?: boolean;
   },
 ) {
   await requireMember(db, owner);
@@ -133,6 +139,51 @@ export async function updateMemberProfile(
       error?.code === "23505" ? "USERNAME_TAKEN" : "PROFILE_SAVE",
     );
   return username;
+}
+
+export type NamedView = MemberIdentity & { viewed_at: string };
+export type NamedViews = { rows: NamedView[]; count: number };
+
+/** Caller identity and access are checked by the server, never supplied by the client. */
+export async function recordProfileVisit(
+  db: SupabaseClient,
+  profileId: string,
+) {
+  const { error } = await db.rpc("record_profile_visit", {
+    p_profile_id: profileId,
+  });
+  if (error) throw error;
+}
+export async function profileVisitors(
+  db: SupabaseClient,
+  owner: string,
+  offset = 0,
+): Promise<NamedViews> {
+  await requireMember(db, owner);
+  const { data, count, error } = await db
+    .from("profile_visits")
+    .select(
+      "viewed_at,member:profiles!profile_visits_visitor_id_fkey(id,name,username,avatar_url,is_private,country)",
+      { count: "exact" },
+    )
+    .eq("profile_id", owner)
+    .gte("viewed_at", new Date(Date.now() - 30 * 86400000).toISOString())
+    .order("viewed_at", { ascending: false })
+    .range(offset, offset + 49);
+  if (error) throw error;
+  return {
+    rows: (data ?? []).flatMap((row) =>
+      row.member
+        ? [
+            {
+              ...(row.member as unknown as MemberIdentity),
+              viewed_at: row.viewed_at,
+            },
+          ]
+        : [],
+    ),
+    count: count ?? 0,
+  };
 }
 
 /** Upload into the authenticated owner's public avatar folder, then verify the profile write. */

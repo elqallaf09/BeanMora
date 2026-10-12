@@ -409,8 +409,8 @@ test('DM editing keeps original expiry, failed changes keep drafts, deletion and
 test('all profile sections stay visible and the message entry is an icon above the profile', async ({ page }, info) => {
   await page.setViewportSize({ width: 1536, height: 1009 }); await fixture(page); await login(page); await setLanguage(page, 'ar');
   const primary = page.getByTestId('profile-sections');
-  for (const name of ['المعدات', 'البن', 'الوصفات', 'منشوراتي', 'الوصفات المفضلة', 'التعليقات', 'الاستخلاص وركن القهوة', 'المتابعون', 'أتابع']) await expect(primary.getByRole('button', { name, exact: true })).toBeVisible();
-  await expect(primary.getByRole('button')).toHaveCount(9);
+  for (const name of ['المعدات', 'البن', 'الوصفات', 'منشوراتي', 'الوصفات المفضلة', 'التعليقات', 'الاستخلاص وركن القهوة']) await expect(primary.getByRole('button', { name, exact: true })).toBeVisible();
+  await expect(primary.getByRole('button')).toHaveCount(7);
   await expect(primary.getByRole('button', { name: 'المزيد من أقسام الحساب', exact: true })).toHaveCount(0);
   await expect(page.getByTestId('profile-extra-sections')).toHaveCount(0);
   await primary.getByRole('button', { name: 'التعليقات', exact: true }).click();
