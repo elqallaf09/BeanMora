@@ -64,6 +64,17 @@ test('OCR bridge rejects other jobs and untrusted messages, preserves bounded vi
   assert.equal(readCoffeeOcrEvent({channel:'beanmora-coffee-ocr',type:'result',id:'old',text:'Brazil'},'a'),null);
   assert.deepEqual(readCoffeeOcrEvent({channel:'beanmora-coffee-ocr',type:'result',id:'a',text:'Brazil'},'a'),{type:'result',text:'Brazil'});
 });
+test('label parsing rejects OCR debris and handles multiline bilingual headings beyond the bag logo',()=>{
+  assert.equal(readCoffeeLabel('SE oe\nNotes: Grape, Fruit').name, '');
+  const label = readCoffeeLabel('HISTORY ROASTERY\nSpecialty coffee\n250 g\nLot 14\n2026\nPacked fresh\nOrigin\nEthiopia\nVariety\nHeirloom\nProcessing\nNatural\nNotes\nGrape, Strawberry');
+  assert.equal(label.origin, 'Ethiopia'); assert.equal(label.variety, 'Heirloom');
+  assert.equal(label.process, 'natural'); assert.equal(label.notes, 'Grape, Strawberry');
+  const ar = readCoffeeLabel('المنشأ\nإثيوبيا\nالسلالة\nهيرلوم\nالإيحاءات\nعنب، فراولة');
+  assert.equal(ar.origin, 'Ethiopia'); assert.equal(ar.variety, 'Heirloom'); assert.equal(ar.notes, 'عنب، فراولة');
+  assert.equal(readCoffeeLabel('Origin:\nNotes: Chocolate').origin, '');
+  assert.equal(readCoffeeLabel('Roasted in Brazil\nOrigin: Ethiopia').origin, 'Ethiopia');
+  assert.equal(readCoffeeLabel('Coffee: SE oe').name, '');
+});
 test('label ranking parameters are literal and never guess a catalog ID from a name or scope V60 by xBloom model',()=>{
   const label={name:'Brazil Castillo',origin:"Brazil %') OR true --",variety:'كاستيلو',process:'natural',roast:'light',notes:'Chocolate'};
   const params=coffeeLabelMatchParams(label,'v60','Studio');
@@ -74,7 +85,7 @@ test('photo recommendation retains published source measurements and unknown cof
   const label=readCoffeeLabel('Origin: Indonesia\nNotes: Tea, Citrus');
   const result=await loadCoffeeLabelMatches(db(async(input,init)=>{
     const url=new URL(String(input));
-    if(url.pathname.endsWith('/rpc/recipes_for_coffee_label')){
+    if(url.pathname.endsWith('/rpc/recipes_for_coffee_label_v2')){
       const params=JSON.parse(init.body); assert.equal(params.p_bean_id,null);
       return json([{...match,same_variety:false}]);
     }
@@ -83,6 +94,17 @@ test('photo recommendation retains published source measurements and unknown cof
   assert.equal(result[0].dose,15); assert.equal(result[0].water,240); assert.equal(result[0].waterUnit,'ml');
   assert.deepEqual(coffeeBrewIds(result[0]),{recipeId:null,beanId:null,productId:null});
   assert.equal(result[0].labelMatch.label.origin,'Indonesia');
+});
+test('cold selection is a bound server-side criterion before the result limit',async()=>{
+  const label=readCoffeeLabel('Origin: Ethiopia\nNotes: Grape');
+  let called=false;
+  await loadCoffeeLabelMatches(db(async(input,init)=>{
+    assert.ok(String(input).endsWith('/rpc/recipes_for_coffee_label_v2'));
+    const params=JSON.parse(init.body);
+    assert.equal(params.p_serving,'cold_or_iced'); assert.equal(params.p_limit,6); called=true;
+    return json([]);
+  }),label,'xbloom','all','ar',new AbortController().signal,null,'cold_or_iced');
+  assert.ok(called);
 });
 
 test('parenthesized publisher notes are recovered while unstated sensory intensities remain unknown',()=>{

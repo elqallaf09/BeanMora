@@ -9,16 +9,17 @@ export type LabelRecipeMatch = XBloomMatch & {
   label: CoffeeLabel;
   coffee?: Pick<CoffeeItem, 'id' | 'kind' | 'beanId'>;
 };
-export function coffeeLabelMatchParams(label: CoffeeLabel, method: Method, model: XBloomModel, coffee?: CoffeeItem | null) {
+export type LabelServing = '' | 'hot' | 'cold_or_iced';
+export function coffeeLabelMatchParams(label: CoffeeLabel, method: Method, model: XBloomModel, coffee?: CoffeeItem | null, serving: LabelServing = '') {
   return { p_origin: label.origin.trim().slice(0,160) || null, p_variety: label.variety.trim().slice(0,160) || null,
     p_process: label.process.trim().slice(0,160) || null, p_roast: label.roast.trim().slice(0,160) || null,
     p_notes: label.notes.trim().slice(0,1000) || null, p_method: method,
     p_model: method === 'xbloom' && model !== 'all' ? model : null,
-    p_bean_id: coffee?.kind === 'bean' ? coffee.id : null, p_product_id: coffee?.kind === 'product' ? coffee.id : null, p_limit: 3 };
+    p_bean_id: coffee?.kind === 'bean' ? coffee.id : null, p_product_id: coffee?.kind === 'product' ? coffee.id : null, p_limit: 6, p_serving: serving || null };
 }
 export async function loadCoffeeLabelMatches(db: SupabaseClient, label: CoffeeLabel, method: Method, model: XBloomModel,
-  locale: 'ar' | 'en', signal: AbortSignal, coffee?: CoffeeItem | null): Promise<RecipeItem[]> {
-  const { data, error } = await db.rpc('recipes_for_coffee_label', coffeeLabelMatchParams(label, method, model, coffee)).abortSignal(signal);
+  locale: 'ar' | 'en', signal: AbortSignal, coffee?: CoffeeItem | null, serving: LabelServing = ''): Promise<RecipeItem[]> {
+  const { data, error } = await db.rpc('recipes_for_coffee_label_v2', coffeeLabelMatchParams(label, method, model, coffee, serving)).abortSignal(signal);
   if (error) throw new Error('LABEL_MATCH_UNAVAILABLE');
   const matches = readXBloomMatches(data);
   const recipes = await loadMatchRecipeDetails(db, matches, locale, method, signal);
