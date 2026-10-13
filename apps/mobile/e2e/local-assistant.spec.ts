@@ -189,3 +189,20 @@ test('a specific lesson replaces previous shopping results', async ({ page }) =>
   await expect(panel).toContainText('TDS وحده');
   await expect(page.getByTestId('assistant-result')).toHaveCount(0);
 });
+for (const english of [false, true]) test(`colloquial weights and espresso flow coaching stay local (${english ? 'en' : 'ar'})`, async ({ page }) => {
+  const network = await openAssistant(page, true);
+  if (english) await setLanguage(page, 'en');
+  const panel = page.getByTestId('coffee-assistant');
+  await ask(page, english ? 'My espresso is sour dose: 18 yield: 36 time: 30 seconds' : 'الإسبريسو حامض جرعة ١٨ غرام خرج ٣٦ غرام في ٣٠ ثانية', english);
+  await expect(panel).toContainText('1:2');
+  await ask(page, english ? 'My espresso shot is fast' : 'استخلاص الإسبريسو سريع', english);
+  await expect(panel).toContainText(english ? 'finer' : 'أنعم');
+  await expect(panel.getByRole('button', { name: 'Flair — Dialing in espresso', exact: true })).toBeVisible();
+  await ask(page, english ? 'My espresso shot is slow' : 'استخلاص الإسبريسو بطيء', english);
+  await expect(panel).toContainText(english ? 'coarser' : 'أخشن');
+  await ask(page, english ? 'yield: 36 ml' : 'الناتج: 36 مل', english);
+  await expect(panel).not.toContainText('1:2');
+  await expect(panel).toContainText(english ? 'milliliters' : 'الملليلتر');
+  expect(network.searches).toHaveLength(0);
+  expect(network.providerCalls()).toBe(0);
+});

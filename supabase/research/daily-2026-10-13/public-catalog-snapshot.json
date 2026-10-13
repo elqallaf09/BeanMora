@@ -1,0 +1,887 @@
+{
+  "project_id": "ubvzdglrwkkuaigmkjap",
+  "beans": [],
+  "roasters": [
+    {
+      "id": "891dd669-a763-4028-9339-17c85a75c9ec",
+      "slug": "a-r-k-roasters",
+      "country": "KW",
+      "name_ar": "آرك روسترز",
+      "name_en": "A R K Roasters",
+      "source_url": "https://www.ark.com.kw/pages/about",
+      "website_url": "https://www.ark.com.kw",
+      "requires_review": false
+    },
+    {
+      "id": "b06e0787-26a5-4519-bf02-5e8ca34fa204",
+      "slug": "altitude-roasters",
+      "country": "KW",
+      "name_ar": "ألتيتيود روسترز",
+      "name_en": "Altitude Roasters",
+      "source_url": "https://altituderoasters.co/en/",
+      "website_url": "https://altituderoasters.co/en/",
+      "requires_review": false
+    },
+    {
+      "id": "0621d015-b01c-4c76-abb6-50b6443e859c",
+      "slug": "methods-academy-and-roastery",
+      "country": "KW",
+      "name_ar": "ميثودز أكاديمي آند روستري",
+      "name_en": "Methods Academy and Roastery",
+      "source_url": "https://methods.coffee/",
+      "website_url": "https://methods.coffee/",
+      "requires_review": true
+    },
+    {
+      "id": "1adcf096-c6e2-4a37-aad9-8d263debadfe",
+      "slug": "speak-coffee-roaster",
+      "country": "KW",
+      "name_ar": "سبيك كوفي روستر",
+      "name_en": "Speak Coffee Roaster",
+      "source_url": "https://speakcoffeeroaster.com/",
+      "website_url": "https://speakcoffeeroaster.com/",
+      "requires_review": true
+    },
+    {
+      "id": "c3685925-fb68-4525-acc6-a6c65fd9b25e",
+      "slug": "legacy-roastery",
+      "country": "KW",
+      "name_ar": "ليجاسي روستري",
+      "name_en": "Legacy Roastery",
+      "source_url": "https://www.legacyroastery.com/",
+      "website_url": "https://www.legacyroastery.com/",
+      "requires_review": true
+    },
+    {
+      "id": "70e67377-2490-4d8d-bffe-7b9a7798a65e",
+      "slug": "air-roastery",
+      "country": "KW",
+      "name_ar": "إير روستري",
+      "name_en": "Air Roastery",
+      "source_url": "https://airroastery.com/en/",
+      "website_url": "https://airroastery.com/en/",
+      "requires_review": true
+    },
+    {
+      "id": "1b9dc861-7314-44ec-bf91-ee0628e0794f",
+      "slug": "square-mile-coffee-roasters",
+      "country": "United Kingdom",
+      "name_ar": "سكوير مايل",
+      "name_en": "Square Mile Coffee Roasters",
+      "source_url": "https://shop.squaremilecoffee.com/pages/about-us",
+      "website_url": "https://shop.squaremilecoffee.com",
+      "requires_review": false
+    },
+    {
+      "id": "847bfe5e-30d6-4c3e-9026-a24811226a15",
+      "slug": "dak-coffee-roasters",
+      "country": "Netherlands",
+      "name_ar": "داك كوفي روسترز",
+      "name_en": "DAK Coffee Roasters",
+      "source_url": "https://www.dakcoffeeroasters.com/about/",
+      "website_url": "https://www.dakcoffeeroasters.com",
+      "requires_review": false
+    },
+    {
+      "id": "37a8876e-8b0f-452b-b8d9-41bf8e39a877",
+      "slug": "proud-mary-coffee",
+      "country": "AU",
+      "name_ar": "براود ميري (غير مؤكد)",
+      "name_en": "Proud Mary Coffee",
+      "source_url": "https://www.proudmarycoffee.com.au/",
+      "website_url": "https://www.proudmarycoffee.com.au/",
+      "requires_review": false
+    },
+    {
+      "id": "ccab835a-3a1d-41df-8883-3cc87fef34f6",
+      "slug": "drop-coffee-roasters",
+      "country": "SE",
+      "name_ar": "دروب كوفي (غير مؤكد)",
+      "name_en": "Drop Coffee Roasters",
+      "source_url": "https://www.dropcoffee.com/",
+      "website_url": "https://www.dropcoffee.com/",
+      "requires_review": false
+    },
+    {
+      "id": "d172b091-7a52-4cab-87a1-cd96f2467355",
+      "slug": "la-cabra",
+      "country": "Denmark",
+      "name_ar": "لا كابرا",
+      "name_en": "La Cabra",
+      "source_url": "https://lacabra.com/pages/about-la-cabra",
+      "website_url": "https://lacabra.com",
+      "requires_review": false
+    },
+    {
+      "id": "338f7bb7-2c58-4ce5-b88e-bfa6acb382da",
+      "slug": "five-elephant",
+      "country": "Germany",
+      "name_ar": "فايف إليفنت",
+      "name_en": "Five Elephant",
+      "source_url": "https://www.fiveelephant.com/pages/contact",
+      "website_url": "https://www.fiveelephant.com",
+      "requires_review": false
+    },
+    {
+      "id": "a84b99b1-7e63-448c-adb4-7f2d996d1432",
+      "slug": "ona-coffee",
+      "country": "Australia",
+      "name_ar": "أونا كوفي",
+      "name_en": "ONA Coffee",
+      "source_url": "https://onacoffee.com.au/pages/about",
+      "website_url": "https://onacoffee.com.au",
+      "requires_review": false
+    },
+    {
+      "id": "2e83437a-4e8e-4604-9e8a-3bcbf96e9432",
+      "slug": "code-black-coffee",
+      "country": "Australia",
+      "name_ar": "كود بلاك كوفي",
+      "name_en": "Code Black Coffee",
+      "source_url": "https://codeblackcoffee.com.au/products/3056-espresso-blend-coffee",
+      "website_url": "https://codeblackcoffee.com.au",
+      "requires_review": false
+    },
+    {
+      "id": "5ed9e86d-0cbf-4213-8bcd-86a83a334cf3",
+      "slug": "toby-s-estate",
+      "country": "Australia",
+      "name_ar": "توبيز إستيت",
+      "name_en": "Toby's Estate",
+      "source_url": "https://www.tobysestate.com.au/organic-blend/",
+      "website_url": "https://www.tobysestate.com.au",
+      "requires_review": false
+    },
+    {
+      "id": "102ab870-b16f-4541-8e05-6da51d47d29c",
+      "slug": "five-senses-coffee",
+      "country": "Australia",
+      "name_ar": "فايف سينسز كوفي",
+      "name_en": "Five Senses Coffee",
+      "source_url": "https://fivesenses.com.au/pages/contact",
+      "website_url": "https://fivesenses.com.au",
+      "requires_review": false
+    },
+    {
+      "id": "1ea22008-5944-4854-91cd-beacf2f92c9b",
+      "slug": "kurasu",
+      "country": "Japan",
+      "name_ar": "كوراسو",
+      "name_en": "Kurasu",
+      "source_url": "https://kurasu.kyoto/pages/about-kurasu",
+      "website_url": "https://kurasu.kyoto",
+      "requires_review": false
+    },
+    {
+      "id": "4a5b951c-4e10-43b1-94df-161b9586d481",
+      "slug": "coffee-supreme-au",
+      "country": "Australia",
+      "name_ar": "كوفي سوبريم أستراليا",
+      "name_en": "Coffee Supreme AU",
+      "source_url": "https://shopau.coffeesupreme.com/pages/about",
+      "website_url": "https://shopau.coffeesupreme.com",
+      "requires_review": false
+    },
+    {
+      "id": "c4e82a30-bcd9-49d1-8533-5c5fc91606f1",
+      "slug": "market-lane-coffee",
+      "country": "AU",
+      "name_ar": "ماركت لين كوفي (غير مؤكد)",
+      "name_en": "Market Lane Coffee",
+      "source_url": "https://marketlane.com.au/",
+      "website_url": "https://marketlane.com.au/",
+      "requires_review": false
+    },
+    {
+      "id": "5d6b198b-902d-4609-8832-6bc7c2f2f6d2",
+      "slug": "vol-1",
+      "country": "KW",
+      "name_ar": "فوليوم ون",
+      "name_en": "VOL.1",
+      "source_url": "https://vol1official.com/pages/locations",
+      "website_url": "https://vol1official.com/",
+      "requires_review": false
+    },
+    {
+      "id": "235cb5a0-f529-418d-af57-131d4a2aec33",
+      "slug": "elixir-bunn",
+      "country": "SA",
+      "name_ar": "إكسير البن",
+      "name_en": "Elixir Bunn",
+      "source_url": "https://elixirbunn.com/ar-us/pages/فروعنا",
+      "website_url": "https://elixirbunn.com/",
+      "requires_review": false
+    },
+    {
+      "id": "fcd7c64f-c80b-4662-a671-38713c93aae9",
+      "slug": "sulalat",
+      "country": "SA",
+      "name_ar": "سلالات",
+      "name_en": "Sulalat",
+      "source_url": "https://sulalat.com/en/pages/faqs",
+      "website_url": "https://sulalat.com/",
+      "requires_review": false
+    },
+    {
+      "id": "d4000c4d-9bfd-4254-a243-dafb0b1c0fe0",
+      "slug": "roasting-house",
+      "country": "SA",
+      "name_ar": "بيت التحميص",
+      "name_en": "Roasting House",
+      "source_url": "https://roastinghouse.sa/branches",
+      "website_url": "https://roastinghouse.sa/",
+      "requires_review": false
+    },
+    {
+      "id": "2b21c44e-b41e-4c76-bdf0-8c0abba95c1e",
+      "slug": "brew92",
+      "country": "SA",
+      "name_ar": "برو 92",
+      "name_en": "Brew92",
+      "source_url": "https://www.brew92.com/locations",
+      "website_url": "https://www.brew92.com/",
+      "requires_review": false
+    },
+    {
+      "id": "9d8e16c2-c705-4351-9d44-c49a0d5e76fc",
+      "slug": "kiffa",
+      "country": "SA",
+      "name_ar": "كِفّة",
+      "name_en": "Kiffa",
+      "source_url": "https://kiffa.sa/pages/Branch",
+      "website_url": "https://kiffa.sa/",
+      "requires_review": false
+    },
+    {
+      "id": "2410ef51-079c-4b09-809b-3b93684dd132",
+      "slug": "sey-coffee",
+      "country": "US",
+      "name_ar": "سيي",
+      "name_en": "SEY Coffee",
+      "source_url": "https://www.seycoffee.com/pages/cafe",
+      "website_url": "https://www.seycoffee.com/",
+      "requires_review": false
+    },
+    {
+      "id": "989adb8f-3b38-4aad-b302-890037454739",
+      "slug": "coffee-collective",
+      "country": "DK",
+      "name_ar": "كوفي كولكتيف",
+      "name_en": "Coffee Collective",
+      "source_url": "https://coffeecollective.dk/pages/coffee-shop/godthabsvej",
+      "website_url": "https://coffeecollective.dk/",
+      "requires_review": false
+    },
+    {
+      "id": "5d59a6b7-0db8-47a2-9354-e935fd90663b",
+      "slug": "limu-roastery",
+      "country": "KW",
+      "name_ar": "محمصة ليمو",
+      "name_en": "Limu Roastery",
+      "source_url": "https://limukw.com/",
+      "website_url": "https://limukw.com/",
+      "requires_review": false
+    },
+    {
+      "id": "7c1f809f-839c-4240-a857-c33fe2bf9093",
+      "slug": "partners-coffee",
+      "country": "US",
+      "name_ar": "بارتنرز كوفي",
+      "name_en": "Partners Coffee",
+      "source_url": "https://www.partnerscoffee.com/pages/our-story",
+      "website_url": "https://www.partnerscoffee.com/",
+      "requires_review": false
+    },
+    {
+      "id": "43f0d1bd-d50b-4e43-978d-6655821ae66e",
+      "slug": "ozone-coffee-roasters",
+      "country": "GB",
+      "name_ar": "أوزون كوفي روسترز",
+      "name_en": "Ozone Coffee Roasters",
+      "source_url": "https://ozonecoffee.co.uk/",
+      "website_url": "https://ozonecoffee.co.uk/",
+      "requires_review": true
+    },
+    {
+      "id": "c37f452e-12c4-4ab7-a28b-e98037bc99bf",
+      "slug": "blue-bottle-coffee",
+      "country": "US",
+      "name_ar": "بلو بوتل كوفي",
+      "name_en": "Blue Bottle Coffee",
+      "source_url": "https://bluebottlecoffee.com/",
+      "website_url": "https://bluebottlecoffee.com/",
+      "requires_review": true
+    },
+    {
+      "id": "9dae4eb9-6ae7-4e32-9f32-a314272977a6",
+      "slug": "onyx-coffee-lab",
+      "country": "United States",
+      "name_ar": "أونيكس كوفي لاب",
+      "name_en": "Onyx Coffee Lab",
+      "source_url": "https://onyxcoffeelab.com/pages/our-story",
+      "website_url": "https://onyxcoffeelab.com",
+      "requires_review": false
+    },
+    {
+      "id": "5ee5fec5-753b-4c43-b510-a9765606a61a",
+      "slug": "verve-coffee-roasters",
+      "country": "United States",
+      "name_ar": "فيرف كوفي روسترز",
+      "name_en": "Verve Coffee Roasters",
+      "source_url": "https://www.vervecoffee.com/pages/story",
+      "website_url": "https://www.vervecoffee.com",
+      "requires_review": false
+    },
+    {
+      "id": "41e3a7f7-9143-4fff-a1ef-91fbfb85e971",
+      "slug": "49th-parallel-coffee-roasters",
+      "country": "Canada",
+      "name_ar": "49 بارالل",
+      "name_en": "49th Parallel Coffee Roasters",
+      "source_url": "https://49thcoffee.com/pages/our-story",
+      "website_url": "https://49thcoffee.com",
+      "requires_review": false
+    },
+    {
+      "id": "0e5a1e3a-cd98-4507-b6d7-c9630ebd0d1f",
+      "slug": "counter-culture-coffee",
+      "country": "United States",
+      "name_ar": "كاونتر كالتشر",
+      "name_en": "Counter Culture Coffee",
+      "source_url": "https://counterculturecoffee.com/pages/history",
+      "website_url": "https://counterculturecoffee.com",
+      "requires_review": false
+    },
+    {
+      "id": "a5d4a14e-e7b6-402f-aa9f-72165072b51e",
+      "slug": "cat-cloud",
+      "country": "United States",
+      "name_ar": "كات آند كلاود",
+      "name_en": "Cat & Cloud",
+      "source_url": "https://catandcloud.com/pages/about-us",
+      "website_url": "https://catandcloud.com",
+      "requires_review": false
+    },
+    {
+      "id": "4fedfa91-157c-49dc-838b-4bd38b9a3d44",
+      "slug": "olympia-coffee",
+      "country": "United States",
+      "name_ar": "أولمبيا كوفي",
+      "name_en": "Olympia Coffee",
+      "source_url": "https://www.olympiacoffee.com/pages/our-story",
+      "website_url": "https://www.olympiacoffee.com",
+      "requires_review": false
+    },
+    {
+      "id": "eaa8923e-14c3-4b33-97bc-272c4439c554",
+      "slug": "intelligentsia-coffee",
+      "country": "United States",
+      "name_ar": "إنتليجنسيا",
+      "name_en": "Intelligentsia Coffee",
+      "source_url": "https://www.intelligentsia.com/pages/our-story",
+      "website_url": "https://www.intelligentsia.com",
+      "requires_review": false
+    },
+    {
+      "id": "14e8a0d4-9c7e-426e-9280-6c06b99b78d4",
+      "slug": "april-coffee-roasters",
+      "country": "Denmark",
+      "name_ar": "أبريل كوفي روسترز",
+      "name_en": "April Coffee Roasters",
+      "source_url": "https://www.aprilcoffeeroasters.com/pages/wholesale",
+      "website_url": "https://www.aprilcoffeeroasters.com",
+      "requires_review": false
+    },
+    {
+      "id": "cfe024bc-327d-4cdc-b9ab-7e8f37ea353d",
+      "slug": "workshop-coffee",
+      "country": "United Kingdom",
+      "name_ar": "وركشوب كوفي",
+      "name_en": "Workshop Coffee",
+      "source_url": "https://workshopcoffee.com/pages/terms-of-use",
+      "website_url": "https://workshopcoffee.com",
+      "requires_review": false
+    },
+    {
+      "id": "9c239353-d2d4-4515-8c66-0b31cd0a2cd1",
+      "slug": "gardelli-specialty-coffees",
+      "country": "Italy",
+      "name_ar": "غارديلي",
+      "name_en": "Gardelli Specialty Coffees",
+      "source_url": "https://shop.gardellicoffee.com/contact-us",
+      "website_url": "https://shop.gardellicoffee.com",
+      "requires_review": false
+    },
+    {
+      "id": "814315d3-ccdd-424f-89eb-c6da674d401a",
+      "slug": "raw-coffee-company",
+      "country": "AE",
+      "name_ar": "رو كوفي كومباني",
+      "name_en": "RAW Coffee Company",
+      "source_url": "https://rawcoffeecompany.com/",
+      "website_url": "https://rawcoffeecompany.com/",
+      "requires_review": false
+    },
+    {
+      "id": "6e5676b2-97e8-4331-9f8a-ab55b63c2ccc",
+      "slug": "oru-roasters",
+      "country": "KW",
+      "name_ar": "أورو روسترز",
+      "name_en": "ORU Roasters",
+      "source_url": "https://oruroasters.com/",
+      "website_url": "https://oruroasters.com/",
+      "requires_review": false
+    },
+    {
+      "id": "7ac12d12-ee3e-4e52-8988-e8f495bb5f40",
+      "slug": "48-east-coffee-roasters",
+      "country": "KW",
+      "name_ar": "48 إيست لتحميص القهوة",
+      "name_en": "48 East Coffee Roasters",
+      "source_url": "https://48e.co/",
+      "website_url": "https://48e.co/",
+      "requires_review": false
+    },
+    {
+      "id": "c4ace273-10a8-4cb1-94b0-c487388b3ea1",
+      "slug": "roots-roastery",
+      "country": "KW",
+      "name_ar": "روتس روستري",
+      "name_en": "Roots Roastery",
+      "source_url": "https://rootsroastery.net/en/",
+      "website_url": "https://rootsroastery.net/en/",
+      "requires_review": false
+    },
+    {
+      "id": "d8bc8dc4-ec9a-402a-ba3d-1c83ad88870c",
+      "slug": "grey-specialty-coffee",
+      "country": "QA",
+      "name_ar": "جراي سبيشالتي كوفي",
+      "name_en": "GREY",
+      "source_url": "https://greydoha.qa/",
+      "website_url": "https://greydoha.qa/",
+      "requires_review": false
+    },
+    {
+      "id": "882c01ce-086c-4f93-8235-bf9e49a6e0dc",
+      "slug": "gold-box-roastery",
+      "country": "AE",
+      "name_ar": "جولد بوكس روستري",
+      "name_en": "Gold Box Roastery",
+      "source_url": "https://goldboxroastery.com/",
+      "website_url": "https://goldboxroastery.com/",
+      "requires_review": false
+    },
+    {
+      "id": "5492b827-d06a-412b-945a-c5b7571fe4bb",
+      "slug": "windrose-coffee",
+      "country": "OM",
+      "name_ar": "ويندروز كوفي",
+      "name_en": "Windrose Coffee",
+      "source_url": "https://www.windrosecoffee.com/",
+      "website_url": "https://www.windrosecoffee.com/",
+      "requires_review": false
+    },
+    {
+      "id": "2afdd3c4-2e39-4efc-bcce-76d912ee005f",
+      "slug": "bahrain-roastery",
+      "country": "BH",
+      "name_ar": "باحرين روستري",
+      "name_en": "Bahrain Roastery",
+      "source_url": "https://bahrainroastery.com/",
+      "website_url": "https://bahrainroastery.com/",
+      "requires_review": false
+    },
+    {
+      "id": "7738b7df-cef3-42ed-b8da-762a1c5f4b59",
+      "slug": "earth-roastery",
+      "country": "KW",
+      "name_ar": "إيرث روستري",
+      "name_en": "Earth Roastery",
+      "source_url": "https://kw.earthroastery.com/",
+      "website_url": "https://kw.earthroastery.com/",
+      "requires_review": false
+    },
+    {
+      "id": "68ec359d-d64b-4f48-b8fb-3e9697055155",
+      "slug": "doha-roastery",
+      "country": "QA",
+      "name_ar": "دوحة روستري",
+      "name_en": "Doha Roastery",
+      "source_url": "https://www.doharoastery.com/",
+      "website_url": "https://www.doharoastery.com/",
+      "requires_review": false
+    },
+    {
+      "id": "78ee8e93-55b1-4dcb-9907-774f050ba032",
+      "slug": "80-plus-speciality-coffee-roastery",
+      "country": "BH",
+      "name_ar": "إيتي بلس سبيشالتي كوفي روستري",
+      "name_en": "80+ Speciality Coffee Roastery",
+      "source_url": "https://80pluscoffeebh.com/",
+      "website_url": "https://80pluscoffeebh.com/",
+      "requires_review": false
+    },
+    {
+      "id": "3935d665-aa0f-4e01-8274-4fd09254c30e",
+      "slug": "medd-cafe-and-roastery",
+      "country": "SA",
+      "name_ar": "مقهى ومحمصة مد",
+      "name_en": "Medd Cafe and Roastery",
+      "source_url": "https://meddcoffee.com/en/",
+      "website_url": "https://meddcoffee.com/",
+      "requires_review": false
+    },
+    {
+      "id": "89ec4bcb-5729-4b27-864e-12b0e9dd08f1",
+      "slug": "jeed-roastery",
+      "country": "SA",
+      "name_ar": "محمصة جيد",
+      "name_en": "Jeed Roastery",
+      "source_url": "https://jeedroastery.com/en/",
+      "website_url": "https://jeedroastery.com/",
+      "requires_review": false
+    },
+    {
+      "id": "86cc2f9f-d233-44bb-af35-2a74d4e30afd",
+      "slug": "black-knight-roastery",
+      "country": "SA",
+      "name_ar": "بلاك نايت",
+      "name_en": "Black Knight Roastery",
+      "source_url": "https://b-k.coffee/en/",
+      "website_url": "https://b-k.coffee/",
+      "requires_review": false
+    },
+    {
+      "id": "c4dd7787-0c6e-4be2-b6e3-618598090873",
+      "slug": "camel-step-coffee-roasters",
+      "country": "SA",
+      "name_ar": "خطوة جمل",
+      "name_en": "Camel Step Coffee Roasters",
+      "source_url": "https://camelstep.com/en/",
+      "website_url": "https://camelstep.com/",
+      "requires_review": false
+    },
+    {
+      "id": "bc18a667-ccc5-4514-bdac-95b1ca2abe97",
+      "slug": "42-coffee-roasters",
+      "country": "AE",
+      "name_ar": "42 كوفي روستارز",
+      "name_en": "42 Coffee Roasters",
+      "source_url": "https://42coffeeroasters.com/",
+      "website_url": "https://42coffeeroasters.com/",
+      "requires_review": false
+    },
+    {
+      "id": "f49eb5b4-c2bc-4b0f-bd56-1405834e135a",
+      "slug": "archers-coffee",
+      "country": "AE",
+      "name_ar": "آرتشرز كوفي",
+      "name_en": "Archers Coffee",
+      "source_url": "https://archerscoffee.com/",
+      "website_url": "https://archerscoffee.com/",
+      "requires_review": false
+    },
+    {
+      "id": "0941a372-c6ce-4a1b-bffa-6ed7b45d6261",
+      "slug": "haute-coffee-roasters",
+      "country": "AE",
+      "name_ar": "أوت كوفي روستارز",
+      "name_en": "Haute Coffee Roasters",
+      "source_url": "https://hautecoffeeroasters.com/",
+      "website_url": "https://hautecoffeeroasters.com/",
+      "requires_review": false
+    },
+    {
+      "id": "def9ece4-ad7c-4aeb-a6e9-b704a30eab05",
+      "slug": "friedhats-coffee-roasters",
+      "country": "NL",
+      "name_ar": "فريدهاتس كوفي روسترز",
+      "name_en": "Friedhats Coffee Roasters",
+      "source_url": "https://friedhats.com/",
+      "website_url": "https://friedhats.com/",
+      "requires_review": false
+    },
+    {
+      "id": "a009d523-d512-47cf-83e3-15eac3d740cb",
+      "slug": "nomad-coffee",
+      "country": "ES",
+      "name_ar": "نوماد كوفي",
+      "name_en": "Nomad Coffee",
+      "source_url": "https://www.nomadcoffee.es/",
+      "website_url": "https://www.nomadcoffee.es/",
+      "requires_review": false
+    },
+    {
+      "id": "33e0f189-4b9c-4a3f-b094-557fc015b924",
+      "slug": "the-barn-coffee-roasters",
+      "country": "DE",
+      "name_ar": "ذا بارن كوفي روسترز",
+      "name_en": "THE BARN Coffee Roasters",
+      "source_url": "https://thebarn.de/",
+      "website_url": "https://thebarn.de/",
+      "requires_review": false
+    },
+    {
+      "id": "a7d4971e-187b-48bb-b907-f73ebc0e22da",
+      "slug": "roastado-specialty-coffee",
+      "country": "QA",
+      "name_ar": "روستادو سبيشالتي كوفي",
+      "name_en": "Roastado Specialty Coffee",
+      "source_url": "https://roastado.qa/",
+      "website_url": "https://roastado.qa/",
+      "requires_review": false
+    },
+    {
+      "id": "e544e2da-0109-4952-ab84-a69afaa219bc",
+      "slug": "vulcan-coffee-roastery",
+      "country": "QA",
+      "name_ar": "فولكان كوفي روستري",
+      "name_en": "Vulcan Coffee Roastery",
+      "source_url": "https://www.vulcanroastery.com/",
+      "website_url": "https://www.vulcanroastery.com/",
+      "requires_review": false
+    },
+    {
+      "id": "7a50c6c2-426d-4a6f-8bf5-48f4eb935975",
+      "slug": "wings-coffee-doha",
+      "country": "QA",
+      "name_ar": "وينجز كوفي الدوحة",
+      "name_en": "Wings Coffee Doha",
+      "source_url": "https://wingscoffeedoha.com/",
+      "website_url": "https://wingscoffeedoha.com/",
+      "requires_review": false
+    },
+    {
+      "id": "60931e33-d8ca-4480-9150-9e09dfdc0e6a",
+      "slug": "jazean",
+      "country": "SA",
+      "name_ar": "جازيان",
+      "name_en": "Jazean",
+      "source_url": "https://jazeancoffee.com/",
+      "website_url": "https://jazeancoffee.com/",
+      "requires_review": false
+    },
+    {
+      "id": "c596b6bd-cbad-4a7b-bcc0-f00b223a19ce",
+      "slug": "coffeesheep",
+      "country": "BH",
+      "name_ar": "كوفي شيب",
+      "name_en": "The Coffeesheep Roastery",
+      "source_url": "https://thecoffeesheep.com/",
+      "website_url": "https://thecoffeesheep.com/",
+      "requires_review": false
+    },
+    {
+      "id": "97d2e1cb-c0ba-441e-8280-ad3da8d65c10",
+      "slug": "cafinto",
+      "country": "OM",
+      "name_ar": "كافينتو (بحث تقريبي غير موثق)",
+      "name_en": "CAFINTO",
+      "source_url": "https://cafinto.com/specialty-coffee/",
+      "website_url": "https://cafinto.com/",
+      "requires_review": false
+    },
+    {
+      "id": "5bca67ab-2767-4fbc-aaf9-ae54e830734c",
+      "slug": "adalla-secrets",
+      "country": "OM",
+      "name_ar": "أدالا سيكرتس (بحث تقريبي غير موثق)",
+      "name_en": "A'dalla Secrets",
+      "source_url": "https://www.a-dalla.com/",
+      "website_url": "https://www.a-dalla.com/",
+      "requires_review": false
+    },
+    {
+      "id": "90786ee1-15d1-416b-adbe-b0a5c916fbea",
+      "slug": "julith-coffee-roastery",
+      "country": "AE",
+      "name_ar": "جوليث كوفي روستري",
+      "name_en": "Julith Coffee Roastery",
+      "source_url": "https://julithcoffee.com/",
+      "website_url": "https://julithcoffee.com/",
+      "requires_review": false
+    },
+    {
+      "id": "23f7890d-6260-47fc-b5cd-b0fa849a957a",
+      "slug": "black22",
+      "country": "BH",
+      "name_ar": "بلاك 22",
+      "name_en": "Black22 Coffee Bar & Roastery",
+      "source_url": "https://www.black22.net/",
+      "website_url": "https://www.black22.net/",
+      "requires_review": false
+    },
+    {
+      "id": "68da6957-38e1-44ee-bdf8-715f0efc50b7",
+      "slug": "crossbridge-coffee",
+      "country": "OM",
+      "name_ar": "كروس بريدج كوفي",
+      "name_en": "Crossbridge Coffee",
+      "source_url": "https://crossbridgecoffee.com/",
+      "website_url": "https://crossbridgecoffee.com/",
+      "requires_review": false
+    },
+    {
+      "id": "0eb557d5-0ee2-4c3f-8cd6-8155e17d70f3",
+      "slug": "monmouth-coffee-company",
+      "country": "GB",
+      "name_ar": "مونماوث كوفي (غير مؤكد)",
+      "name_en": "Monmouth Coffee Company",
+      "source_url": "https://www.monmouthcoffee.co.uk/",
+      "website_url": "https://www.monmouthcoffee.co.uk/",
+      "requires_review": false
+    },
+    {
+      "id": "8b77c326-e98e-4d56-a784-86248ca529c7",
+      "slug": "mattina-artisan-roastery",
+      "country": "AE",
+      "name_ar": "ماتينا آرتيزان روستري (غير مؤكد)",
+      "name_en": "Mattina Artisan Roastery",
+      "source_url": "https://mattinacoffee.com/",
+      "website_url": "https://mattinacoffee.com/",
+      "requires_review": false
+    },
+    {
+      "id": "8d6d3569-3cda-4dad-b6ee-7dcaa2830ef7",
+      "slug": "falcon-coffee-roasters",
+      "country": "AE",
+      "name_ar": "فالكون كوفي روستري (غير مؤكد)",
+      "name_en": "Falcon Coffee Roasters",
+      "source_url": "https://www.falconroasters.com/",
+      "website_url": "https://www.falconroasters.com/",
+      "requires_review": false
+    },
+    {
+      "id": "25e9f959-16c9-4026-92b0-0e34ed370f71",
+      "slug": "blacksmith-coffee-company",
+      "country": "AE",
+      "name_ar": "بلاك سميث كوفي كومباني (غير مؤكد)",
+      "name_en": "Blacksmith Coffee Company",
+      "source_url": "https://blacksmith.ae/",
+      "website_url": "https://blacksmith.ae/",
+      "requires_review": false
+    },
+    {
+      "id": "6eadfa5f-0f2b-4454-8ae6-3bf3aa11779c",
+      "slug": "union-hand-roasted-coffee",
+      "country": "GB",
+      "name_ar": "يونيون هاند روستد كوفي",
+      "name_en": "Union Hand-Roasted Coffee",
+      "source_url": "https://unionroasted.com/pages/about",
+      "website_url": "https://unionroasted.com",
+      "requires_review": false
+    },
+    {
+      "id": "4268b926-9ea7-4ac0-98a8-e2b001479fe4",
+      "slug": "stumptown-coffee-roasters",
+      "country": "US",
+      "name_ar": "ستامبتاون كوفي روسترز",
+      "name_en": "Stumptown Coffee Roasters",
+      "source_url": "https://www.stumptowncoffee.com/pages/portland-division-cafe",
+      "website_url": "https://www.stumptowncoffee.com",
+      "requires_review": false
+    },
+    {
+      "id": "6bf8cfee-0367-4751-8c1d-31ff5ec78fec",
+      "slug": "tim-wendelboe",
+      "country": "NO",
+      "name_ar": "تيم ويندلبو",
+      "name_en": "Tim Wendelboe",
+      "source_url": "https://timwendelboe.no/pages/copy-of-our-story",
+      "website_url": "https://timwendelboe.no",
+      "requires_review": false
+    },
+    {
+      "id": "ae829b3c-fbfb-486f-9366-4a698a59c08a",
+      "slug": "jebena-specialty-coffee",
+      "country": "AE",
+      "name_ar": "جبنا سبشلتي كوفي (غير مؤكد)",
+      "name_en": "Jebena Specialty Coffee",
+      "source_url": "https://jebenacoffees.com/",
+      "website_url": "https://jebenacoffees.com/",
+      "requires_review": false
+    },
+    {
+      "id": "e8dc4034-230e-4627-b3b2-8ebd9d4c3dc1",
+      "slug": "three-coffee",
+      "country": "AE",
+      "name_ar": "ثري كوفي (غير مؤكد)",
+      "name_en": "THREE Coffee",
+      "source_url": "https://threecoffee.com/",
+      "website_url": "https://threecoffee.com/",
+      "requires_review": false
+    },
+    {
+      "id": "eeae124b-8df5-43e0-aca9-4f0e0d0bbbf9",
+      "slug": "koppi-roasters",
+      "country": "SE",
+      "name_ar": "كوبي (غير مؤكد)",
+      "name_en": "Koppi Roasters",
+      "source_url": "https://koppi.se/",
+      "website_url": "https://koppi.se/",
+      "requires_review": false
+    },
+    {
+      "id": "3ff45399-896d-40cf-b649-f5127da12775",
+      "slug": "roast-specialty-coffee",
+      "country": "AE",
+      "name_ar": "روست سبشلتي كوفي (غير مؤكد)",
+      "name_en": "ROAST Specialty Coffee × Cha Cha Chai",
+      "source_url": "https://roastdubai.com/",
+      "website_url": "https://roastdubai.com/",
+      "requires_review": false
+    },
+    {
+      "id": "95f2d88c-2cef-4957-9d7a-2b1d67830fa8",
+      "slug": "mokha-1450",
+      "country": "AE",
+      "name_ar": "موكا 1450 (غير مؤكد)",
+      "name_en": "Mokha 1450",
+      "source_url": "https://mokha1450.com/",
+      "website_url": "https://mokha1450.com/",
+      "requires_review": true
+    },
+    {
+      "id": "1d8e1892-d74c-4100-91d5-12ececb885b0",
+      "slug": "rawi-coffee",
+      "country": "Kuwait",
+      "name_ar": "محمصة راوي",
+      "name_en": "Rawi Coffee Roastery",
+      "source_url": "https://rawicoffee.com/shop/",
+      "website_url": "https://rawicoffee.com/",
+      "requires_review": false
+    },
+    {
+      "id": "616bb7de-35fd-4342-b1f7-f3d6766b6c24",
+      "slug": "jebla-coffee",
+      "country": "Kuwait",
+      "name_ar": "محمصة جبلة",
+      "name_en": "Jebla Coffee Roasters",
+      "source_url": "https://jeblacoffee.com/",
+      "website_url": "https://jeblacoffeeroasters.com/",
+      "requires_review": false
+    },
+    {
+      "id": "e84e8602-1091-4e1e-8705-9eaf4bd71733",
+      "slug": "tandem-coffee-roasters",
+      "country": "US",
+      "name_ar": "تاندم كوفي روسترز (غير مؤكد)",
+      "name_en": "Tandem Coffee Roasters",
+      "source_url": "https://www.tandemcoffee.com/pages/our-story",
+      "website_url": "https://www.tandemcoffee.com/",
+      "requires_review": false
+    },
+    {
+      "id": "a1f76557-8c4d-4777-92d0-3b4fc29bd374",
+      "slug": "passenger-coffee",
+      "country": "US",
+      "name_ar": "باسنجر كوفي (غير مؤكد)",
+      "name_en": "Passenger Coffee",
+      "source_url": "https://drinkpassenger.com/",
+      "website_url": "https://drinkpassenger.com/",
+      "requires_review": false
+    }
+  ]
+}
+

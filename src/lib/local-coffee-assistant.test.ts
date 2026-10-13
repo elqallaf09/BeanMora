@@ -14,6 +14,37 @@ const ask = (q: string, history: LocalAssistantTurn[] = [], dependencies = deps,
 
 describe('local conversational coffee assistant', () => {
   it.each([
+    ['الإسبريسو حامض جرعة ١٨ غرام خرج ٣٦ غرام في ٣٠ ثانية', 18, 36, 30],
+    ['قهوتي إسبريسو حامضة جرعتي: ۱۸٫۵ غرام طلعت ۳۷ غرام في ۲۸ ثواني', 18.5, 37, 28],
+    ['My espresso is sour dose: 18 yield: 36 time: 30 seconds', 18, 36, 30],
+    ['الإسبريسو حامض الجرعة: 18 الناتج: 36 الوقت 30 ثانية', 18, 36, 30],
+  ])('reads labeled and colloquial mass measurements: %s', async (question, dose, output, seconds) => {
+    const turn = await ask(question as string, [], offline);
+    expect(turn.coach).toMatchObject({ dose, output, seconds, method: 'espresso' });
+    expect(turn.answer).toContain('1:2');
+  });
+  it.each(['ar', 'en'] as const)('gives different sourced espresso flow advice in %s', async locale => {
+    const fast = await ask(locale === 'ar' ? 'استخلاص الإسبريسو سريع' : 'My espresso shot is fast', [], offline, locale);
+    const slow = await ask(locale === 'ar' ? 'استخلاص الإسبريسو بطيء' : 'My espresso shot is slow', [], offline, locale);
+    expect(fast.answer).toContain(locale === 'ar' ? 'أنعم' : 'finer');
+    expect(slow.answer).toContain(locale === 'ar' ? 'أخشن' : 'coarser');
+    expect(fast.answer).not.toBe(slow.answer);
+    expect(fast.sources?.some(source => new URL(source.url).hostname === 'flairespresso.com')).toBe(true);
+  });
+  it.each(['الناتج 36 ml', 'طلع 36 ثانية', 'ماء 9 بار', 'الناتج 0.036 kg', 'ماء 92 °C'])('does not treat other units as mass: %s', async question => {
+    const first = await ask('قهوتي إسبريسو حامضة جرعة 18', [], offline);
+    const turn = await ask(question, [first], offline);
+    expect(turn.coach?.output).toBeUndefined();
+    expect(turn.answer).not.toContain('1:2');
+  });
+  it('clears an invalid supplied measurement instead of using the previous cup value', async () => {
+    const first = await ask('قهوتي إسبريسو حامضة جرعة 18 الناتج 36 الوقت 30 ثانية', [], offline);
+    const next = await ask('جرعة: 0', [first], offline);
+    expect(next.coach?.dose).toBeUndefined();
+    expect(next.answer).toContain('أكبر من صفر');
+    expect(next.answer).not.toContain('1:2');
+  });
+  it.each([
     ['طلعلي بن بطعم الككاو', 'cocoa'],
     ['طلعلي بن بطعم الكاكاو', 'cocoa'],
     ['عطني بن نكته واين', 'wine'],

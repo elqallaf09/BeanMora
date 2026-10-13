@@ -1,4 +1,4 @@
-/** Editorial lessons. Immersion topic reviewed 2026-10-12. Model settings belong to their manuals. */
+/** Editorial lessons. Espresso dial-in reviewed 2026-10-13. Model settings belong to their manuals. */
 export type CoffeeCourseGroup = 'beans' | 'grinding' | 'water' | 'equipment' | 'brewing' | 'roasting' | 'sensory';
 export interface CoffeeLesson {
   id: string; group: CoffeeCourseGroup; titles: [string, string]; keywords: RegExp; priority: number;
@@ -6,6 +6,14 @@ export interface CoffeeLesson {
   supportingSources?: { title: string; url: string }[];
 }
 export const COFFEE_CURRICULUM: CoffeeLesson[] = [
+  {
+    id: 'espresso-dial-in', group: 'brewing', titles: ['ضبط وصفة الإسبريسو', 'Dialing in espresso'], priority: 110,
+    keywords: /ضبط.*(?:اسبرسو|اسبريسو)|دايل ان|dial.?in.*espresso|dialing in espresso/,
+    ar: 'اضبط الإسبريسو بقياس الجرعة والناتج والوقت. ثبّت الجرعة والناتج ثم قارن تغيير الطحن: الأنعم يبطئ التدفق والأخشن يسرّعه غالبًا. وصفة فلير 58 بلس نقطة بداية لجهاز وسلة محددين؛ لا تنقل وقتها أو ضغطها إلى كل ماكينة.',
+    en: 'Dial in espresso by weighing dose and yield and recording time. Hold dose and yield fixed while adjusting grind: finer usually slows flow and coarser speeds it up. Flair 58 Plus guidance is a starting point for its machine and basket; do not transfer its time or pressure to every machine.',
+    more: ['غيّر عاملًا واحدًا وسجّل الطعم. اذكر هل الوقت يشمل الترطيب المسبق، ولا تطلب رقم طاحونة دون معرفة موديلها.', 'Change one variable and record taste. State whether timing includes preinfusion; a grinder number requires its model.'],
+    title: 'Flair — Dialing in espresso', url: 'https://flairespresso.com/blogs/news/dialing-in-flair-58-plus-manual-espresso-maker',
+  },
   {
     id: 'immersion-percolation', group: 'brewing', titles: ['النقع والترشيح والفرنش برس', 'Immersion, percolation and French press'], priority: 100,
     keywords: /نقع|النقع|فرنش برس|french press|immersion|percolation/,

@@ -39,6 +39,15 @@ const textValue = (v: unknown, ar: boolean): string => Array.isArray(v) && v.len
 const title = (d: AssistantDocument, ar: boolean) => ar ? d.title_ar || d.title_en : d.title_en || d.title_ar;
 const positive = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v) && v > 0;
 const number = (v: number) => String(Math.round(v * 100) / 100);
+const massUnits = 'غرام|جرام|غ|جم|grams?|g';
+const otherUnits = 'كيلوغرام|كيلوجرام|كيلو|كغ|kg|kilograms?|oz|ounces?|lbs?|pounds?|ملليلتر|مل|ml|millilit(?:er|re)s?|لتر|lit(?:er|re)s?|بار|bars?|ثانيه|ثواني|seconds?|sec|s|دقيقه|دقائق|minutes?|min|°c|درجه';
+function coachingMass(q: string, labels: string, requireUnit = false) {
+  const match = q.match(new RegExp('(?:^|[^\\p{L}\\p{N}])(?:' + labels + ')\\s*[:=]?\\s*(-?\\d+(?:\\.\\d+)?)(?![\\d.])\\s*(' + massUnits + '|' + otherUnits + ')?(?![\\p{L}\\p{N}])', 'u'));
+  if (!match) return undefined;
+  const grams = match[2] && new RegExp('^(?:' + massUnits + ')$', 'u').test(match[2]);
+  // Never turn an explicitly supplied volume, pressure or time into grams.
+  return (match[2] && !grams) || (requireUnit && !grams) ? 'invalid' : match[1];
+}
 
 export function localAssistantSearchTerms(query: AssistantQuery) {
   return [...new Set(assistantSearchTerms(query).flatMap(term => gearAliases.find(group => group[0] === term) ?? [term]))].slice(0, 32);
@@ -173,9 +182,9 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
   const bitter = /مراره|جفاف|\bbitter\b|\bdry\b/.test(negated) || has(negated, 'مر') || has(negated, 'مره');
   const weak = /خفيفه|مائي|ضعيف|\bweak\b|\bwatery\b/.test(negated);
   const measurements = {
-    dose: q.match(/(?:جرعه|جرعتي|dose)\s*(\d+(?:\.\d+)?)/)?.[1],
-    output: q.match(/(?:ناتج|الناتج|ماء|الماء|yield|output|water)\s*(\d+(?:\.\d+)?)/)?.[1],
-    seconds: q.match(/(\d+(?:\.\d+)?)\s*(?:ثانيه|ثواني|seconds?|sec\b)/)?.[1],
+    dose: coachingMass(q, 'الجرعه|جرعه|جرعتي|dose'),
+    output: coachingMass(q, 'ناتج|الناتج|ماء|الماء|yield|output|water') ?? coachingMass(q, 'خرج|طلع|طلعت|نزل', true),
+    seconds: q.match(/(?:^|[^\d.])(-?\d+(?:\.\d+)?)\s*(?:ثانيه|ثواني|seconds?|sec|s)(?![\p{L}\p{N}])/u)?.[1],
   };
   const measurementFollowUp = previous?.intent === 'coach' && Object.values(measurements).some(Boolean);
   // Espresso yield and filter water are different measurements. Keep an
@@ -185,15 +194,24 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
   if (coachIntent) {
     const signal = sour && bitter ? 'mixed' : sour ? 'sour' : bitter ? 'bitter' : weak ? 'weak' : /بطي|slow|chok/.test(q) ? 'slow' : /سريع|fast/.test(q) ? 'fast' : previousCoach?.signal ?? 'unknown';
     const coach = { ...previousCoach, signal, method, ...Object.fromEntries(Object.entries(measurements).filter(([, value]) => value && positive(Number(value))).map(([key, value]) => [key, Number(value)])) };
+    const limits = { dose: 1000, output: 10000, seconds: 604800 };
+    const invalid = (Object.keys(measurements) as (keyof typeof measurements)[]).filter(key => measurements[key] !== undefined && (!positive(Number(measurements[key])) || Number(measurements[key]) > limits[key]));
+    if (invalid.length) {
+      for (const key of invalid) delete coach[key];
+      return reply(ar ? 'اكتب الجرعة والناتج أو ماء التحضير بالغرام، والوقت بالثواني. القيم يجب أن تكون أكبر من صفر وضمن حدود التحضير؛ لا أحوّل الملليلتر أو الضغط إلى وزن، ولا أستخدم القياس القديم بدل قيمة غير صالحة.' : 'Use grams for dose and yield or brew water, and seconds for time. Values must be positive and within brewing limits; I do not convert milliliters or pressure to mass, or reuse an old measurement in place of an invalid value.', { intent: 'coach', coach });
+    }
     if (!method) return reply(ar ? 'حتى أحدد الخطوة المناسبة: تستخدم إسبريسو أم V60 أم طريقة ثانية؟' : 'Which method are you using: espresso, V60 or another brewer?', { intent: 'coach', coach, suggestions: ['Espresso', 'V60'] });
     if (signal === 'unknown') return reply(ar ? 'بدأنا لطريقة جديدة. اذكر مشكلة هذا الكوب وطريقة التحضير وجرعة البن والماء أو الناتج والوقت؛ لا أنقل قياسات الكوب السابق.' : 'We are starting a new brewing method. Describe this cup’s problem, dose, water or yield, and time; the previous cup’s measurements do not carry over.', { intent: 'coach', coach });
     let advice: string;
     if (signal === 'mixed') advice = ar ? 'اجتماع الحموضة والمرارة قد يدل على استخلاص غير متجانس. راجع توزيع البن وانتظام مرور الماء قبل تغيير الطحن.' : 'Sourness together with bitterness can indicate uneven extraction. Check grounds distribution and even water flow before changing grind.';
     else if (signal === 'weak') advice = ar ? 'الخفة وحدها لا تحدد اتجاه الطحن. اذكر جرعة البن ووزن الماء أو ناتج الإسبريسو لنراجع النسبة.' : 'Weakness alone does not tell us which way to move the grind. Give the dose and water weight or espresso yield so we can review the ratio.';
-    else if (method === 'espresso') advice = ar ? 'ثبّت جرعة البن وسجّل وزن المشروب والوقت. لا أقدر أحدد رقم طاحونة من الطعم وحده. راجع تجانس التوزيع أولًا، ثم عدّل عاملًا واحدًا وقارن الطعم.' : 'Keep the dose fixed and record beverage yield and time. Taste alone cannot determine a grinder setting. Check even distribution first, then change one variable and compare taste.';
+    else if (method === 'espresso') {
+      const flow = signal === 'fast' ? (ar ? 'إذا كان الشوت أسرع من وصفتك المعتادة، جرّب طحنًا أنعم قليلًا بعد مراجعة تجانس التوزيع.' : 'If the shot is faster than your usual recipe, try a slightly finer grind after checking even distribution.') : signal === 'slow' ? (ar ? 'إذا كان الشوت أبطأ من وصفتك المعتادة، جرّب طحنًا أخشن قليلًا وراجع نظافة السلة وتجانس التوزيع.' : 'If the shot is slower than your usual recipe, try a slightly coarser grind and check basket cleanliness and even distribution.') : '';
+      advice = flow + (flow ? '\n' : '') + (ar ? 'ثبّت الجرعة والناتج وطريقة حساب الوقت، ثم عدّل عاملًا واحدًا وقارن الطعم. لا أقدر أحدد رقم طاحونة من الطعم وحده؛ لا توجد مدة واحدة مناسبة لكل البن والأجهزة.' : 'Keep dose, yield and the timing convention fixed, then change one variable and compare taste. Taste alone cannot determine a grinder setting; no single duration suits every coffee and machine.');
+    }
     else advice = signal === 'sour' || signal === 'fast' ? (ar ? 'جرّب طحنًا أنعم قليلًا مع تثبيت بقية الوصفة، ثم قارن الطعم. الحموضة وحدها لا تثبت نقص الاستخلاص.' : 'Try a slightly finer grind while keeping the rest of the recipe fixed, then compare taste. Sourness alone does not prove under-extraction.') : (ar ? 'جرّب طحنًا أخشن قليلًا مع تثبيت بقية الوصفة، ثم قارن الطعم. تأكد أيضًا من نظافة الفلتر وانتظام الصب.' : 'Try a slightly coarser grind while keeping the rest of the recipe fixed, then compare taste. Also check the filter and even pouring.');
     if (positive(coach.dose) && positive(coach.output)) advice = `${ar ? 'حسب الأوزان التي ذكرتها، النسبة' : 'From the weights you provided, the ratio is'} 1:${number(coach.output / coach.dose)}${positive(coach.seconds) ? ` · ${number(coach.seconds)} s` : ''}.\n${advice}`;
-    return reply(advice, { intent: 'coach', coach, followUp: ar ? 'اكتب الأوزان بهذا الشكل: جرعة 18، الناتج 36، الوقت 30 ثانية؛ هذه أمثلة لطريقة الإدخال وليست وصفة.' : 'Label measurements, for example: dose 18, yield 36, 30 seconds. These are input examples, not a recipe.', sources: [{ title: 'Barista Hustle — ' + (method === 'espresso' ? 'Espresso Compass' : 'Coffee Compass'), url: method === 'espresso' ? 'https://www.baristahustle.com/the-espresso-compass/' : 'https://www.baristahustle.com/coffee-compass/' }] });
+    return reply(advice, { intent: 'coach', coach, followUp: ar ? 'اكتب الأوزان بهذا الشكل: جرعة 18، الناتج 36، الوقت 30 ثانية؛ هذه أمثلة لطريقة الإدخال وليست وصفة.' : 'Label measurements, for example: dose 18, yield 36, 30 seconds. These are input examples, not a recipe.', sources: [{ title: 'Barista Hustle — ' + (method === 'espresso' ? 'Espresso Compass' : 'Coffee Compass'), url: method === 'espresso' ? 'https://www.baristahustle.com/the-espresso-compass/' : 'https://www.baristahustle.com/coffee-compass/' }, ...(method === 'espresso' && ['fast', 'slow'].includes(signal) ? [{ title: 'Flair — Dialing in espresso', url: 'https://flairespresso.com/blogs/news/dialing-in-flair-58-plus-manual-espresso-maker' }] : [])] });
   }
   // Symptoms and labeled follow-up measurements take precedence over broad
   // lesson keywords such as "water" and "grind". Catalog references stay first.
