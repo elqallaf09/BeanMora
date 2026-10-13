@@ -1,4 +1,4 @@
-import { assistantReply, assistantSafeUrl, assistantSearchTerms, parseAssistantQuery, rankAssistantDocuments, type AssistantDocument, type AssistantMatch, type AssistantQuery, type CatalogRate } from './coffee-assistant';
+import { assistantReply, assistantSafeUrl, assistantSearchTerms, hasEquipmentIntent, parseAssistantQuery, rankAssistantDocuments, type AssistantDocument, type AssistantMatch, type AssistantQuery, type CatalogRate } from './coffee-assistant';
 import { factLabels } from './equipment-facts';
 import { normalizeSearch } from './search/deepSearch';
 import { coffeeKnowledgeAnswer } from './coffee-knowledge';
@@ -61,7 +61,7 @@ export function parseLocalAssistantQuery(message: string, previous?: AssistantQu
   for (const group of gearAliases) for (const alias of group.slice(1)) q = q.replace(new RegExp('(?:^|\\s)(?:و|ب|ال)?' + escape(norm(alias)) + '(?=$|\\s|[،,.?؟])', 'gu'), ' ' + group[0]);
   const foundMethods = methodOf(q);
   const recipe = /وصف|تحضير|recipe|brew/.test(q);
-  const gear = /ماكين|مكين|ممكين|معدات|طاحون|مطحن|machine|grinder|equipment|غلاي|kettle|\bscale\b/.test(q) || has(q, 'ميزان');
+  const gear = hasEquipmentIntent(q);
   const roaster = /محامص|محمص|roaster/.test(q);
   const beans = /حبوب|\bbeans?\b/.test(q) || ((has(q, 'بن') || has(q, 'قهوه') || has(q, 'coffee')) && !recipe && !gear && !roaster && !/عندي|have/.test(q));
   const budgetFollowUp = /ميزاني|سعر|حدود|تحت|ارخص|budget|under|cheaper|price/.test(q) || /^(?:\d+[,.\d]*\s*)?(?:usd|kwd|sar|دولار|دينار|ريال)/.test(q);
@@ -143,6 +143,7 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
   const methods = methodOf(q), method = methods[0] ?? previous?.calculation?.method ?? previous?.coach?.method ?? previous?.query.methods[0] ?? null;
   const references = previous?.matches ?? [];
   const selection = selectedResults(q, references);
+  const shopping = query.kind === 'equipment' && query.purchaseIntent === true;
   const compare = /قارن|مقارنه|الفرق|compare|comparison|difference/.test(q);
   const explain = /اشرح|تفاصيل|مواصفات|خطوات|explain|details|specs|steps|ليش|why/.test(q);
   const ratioMatch = q.match(/1\s*[:/]\s*(-?\d+(?:\.\d+)?)/);
@@ -168,8 +169,8 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
     const outputLabel = brewMethod === 'espresso' ? (ar ? 'ناتج الإسبريسو المستهدف' : 'Target espresso beverage yield') : (ar ? 'ماء التحضير' : 'Brew water');
     return reply(`${ar ? 'حساب النسبة المطلوبة' : 'Requested ratio calculation'}: ${number(dose)} g × ${number(ratio)} = ${number(dose * ratio)} g\n${outputLabel}: ${number(dose * ratio)} g\n${ar ? 'هذا حساب رياضي، وليس وصفة مختبرة. لا يحدد درجة الطحن أو الحرارة أو الوقت؛ تحقق من سعة أداتك.' : 'This is arithmetic, not a tested recipe. It does not set grind, temperature or time; check your brewer capacity.'}`, { intent: 'calculate', calculation, matches: selected, suggestions: ar ? ['خلها 20 غرام', 'غير النسبة إلى 1:15'] : ['Make it 20 g', 'Change ratio to 1:15'] });
   }
-  const knowledge = !selection.explicit && !(compare && references.length) ? coffeeKnowledgeAnswer(question, locale, previous?.knowledgeTopic) : null;
-  if ((compare && (references.length > 0 || !knowledge)) || selection.explicit || (explain && references.length && !knowledge)) {
+  const knowledge = !shopping && !selection.explicit && !(compare && references.length) ? coffeeKnowledgeAnswer(question, locale, previous?.knowledgeTopic) : null;
+  if (!shopping && ((compare && (references.length > 0 || !knowledge)) || selection.explicit || (explain && references.length && !knowledge))) {
     const chosen = selection.explicit ? selection.matches : compare ? references.slice(0, 3) : references.length === 1 ? references : [];
     if (selection.invalid || !chosen.length || (compare && chosen.length < 2)) return reply(ar ? 'ابحث عن الخيارات أولًا، ثم قل «اشرح الأول» أو «قارن الأول والثاني». اختر رقمًا من النتائج الظاهرة.' : 'Search for options first, then say “explain the first” or “compare the first and second”. Use a displayed result number.', { matches: references, query: previous?.query ?? query });
     // Revalidate dated offers locally before displaying references; never keep a stale price alive.
@@ -229,7 +230,8 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
     const published = norm(textValue(d.facts?.operation, false) + ' ' + textValue(d.facts?.operation, true));
     return (gearAliases.find(g => g[0] === operation) ?? [operation]).some(alias => has(published, alias));
   }) : searched.documents;
-  const matches = rankAssistantDocuments(documents, query, searched.rates, now);
+  const selectedEquipment = shopping && selection.explicit ? new Set(selection.matches.filter(match => match.document.kind === 'equipment').map(match => match.document.id)) : null;
+  const matches = rankAssistantDocuments(selectedEquipment ? documents.filter(document => selectedEquipment.has(document.id)) : documents, query, searched.rates, now);
   return reply(assistantReply(query, matches, locale), { intent: 'search', matches, sources: [], suggestions: matches.length >= 2 ? (ar ? ['قارن الأول والثاني', 'اشرح الأول'] : ['Compare the first and second', 'Explain the first']) : matches.length ? (ar ? ['اشرح الأول'] : ['Explain the first']) : query.amount !== null ? (ar ? ['ابحث بدون ميزانية'] : ['Search without budget']) : [] });
 }
 

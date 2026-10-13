@@ -292,9 +292,13 @@ export function CoffeeAssistant({
                         </Txt>
                         <Action
                           title={
-                            ar
-                              ? "السعر وموقع البائع"
-                              : "Price and seller website"
+                            turn.query.purchaseIntent
+                              ? ar
+                                ? "موقع البائع"
+                                : "Seller website"
+                              : ar
+                                ? "السعر وموقع البائع"
+                                : "Price and seller website"
                           }
                           onPress={() => void visit(match.price?.offer.url)}
                         />
@@ -306,6 +310,15 @@ export function CoffeeAssistant({
                           : "No recent verified price for this option."}
                       </Txt>
                     ) : null}
+                    {(match.purchaseLinks ?? [])
+                      .filter(link => link.url !== assistantSafeUrl(match.price?.offer.url))
+                      .map(link => (
+                        <Action
+                          key={link.url}
+                          title={(ar ? "موقع البائع: " : "Seller website: ") + link.seller}
+                          onPress={() => void visit(link.url)}
+                        />
+                      ))}
                     <View style={styles.row}>
                       {match.document.kind === "equipment" ||
                       match.document.kind === "recipe" ? (
@@ -320,7 +333,7 @@ export function CoffeeAssistant({
                           }
                         />
                       ) : null}
-                      {assistantSafeUrl(match.document.source_url) ? (
+                      {!turn.query.purchaseIntent && assistantSafeUrl(match.document.source_url) ? (
                         <Action
                           compact
                           title={ar ? "المصدر الأصلي" : "Original source"}
