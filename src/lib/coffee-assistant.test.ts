@@ -1,8 +1,17 @@
 import { describe, expect, it } from 'vitest';
-import { assistantSafeUrl, convertCatalogPrice, parseAssistantQuery, rankAssistantDocuments, type AssistantDocument, type CatalogOffer, type CatalogRate } from './coffee-assistant';
+import { assistantReply, assistantSafeUrl, convertCatalogPrice, parseAssistantQuery, rankAssistantDocuments, type AssistantDocument, type CatalogOffer, type CatalogRate } from './coffee-assistant';
 
 const now = Date.parse('2026-10-08T12:00:00Z');
 const stamp = new Date(now).toISOString();
+it.each(['ar', 'en'] as const)('describes a recipe publisher search without inventing flavor matching in %s', locale => {
+  const query = parseAssistantQuery('cold brew recipe blue bottle');
+  const document: AssistantDocument = { id: 'cold', kind: 'recipe', slug: null, title_ar: 'كولد برو', title_en: 'Cold brew', summary_ar: '', summary_en: '', search_text: 'blue bottle cold brew', source_url: 'https://www.hario-usa.com/', category: null, methods: ['cold_brew'], facts: {}, offers: [] };
+  const exact = assistantReply(query, [{ document, allTerms: true, matchedTerms: query.terms, price: null }], locale);
+  const partial = assistantReply(query, [{ document, allTerms: false, matchedTerms: ['blue'], price: null }], locale);
+  expect(exact).not.toMatch(/إيحاء|notes/);
+  expect(partial).not.toMatch(/إيحاء|notes/);
+  expect(partial).toContain(locale === 'ar' ? 'بعض شروط البحث' : 'some search terms');
+});
 const offer: CatalogOffer = { amount: 399, currency: 'USD', url: 'https://seller.example/product', checked_at: stamp, region: 'US', availability: 'in_stock' };
 const equipment: AssistantDocument = { id: 'machine', kind: 'equipment', slug: null, title_ar: 'ماكينة', title_en: 'Machine', summary_ar: '', summary_en: '', search_text: 'espresso machine', source_url: offer.url, category: 'espresso_machine', methods: ['espresso'], facts: {}, offers: [offer], verified_at: stamp };
 const rates: CatalogRate[] = [

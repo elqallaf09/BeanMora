@@ -10,6 +10,8 @@ Added one bilingual espresso dial-in lesson; the curriculum now has **50 topics 
 
 Primary knowledge source: https://flairespresso.com/blogs/news/dialing-in-flair-58-plus-manual-espresso-maker — reviewed 2026-10-13. Device-specific pressure/temperature targets are not applied to arbitrary machines.
 
+Direct production retrieval found an additional misleading sentence: asking for a cold recipe by Blue Bottle's name claimed a tasting-note match without any requested note. Reproduced two failing Arabic/English reply tests. Exact and partial recipe replies now describe search-term matching and retain the source/coffee/equipment review limit. Regenerated both web/mobile modules. All 104 affected assistant/curriculum tests passed after this follow-up.
+
 ## Actually committed catalog records
 
 **1 new cold recipe, 2 new Gulf roasters, 4 bilingual steps, 1 water addition**. Totals: **3456 → 3457 recipes; 88 → 90 roasters**. Existing Blue Bottle identity reused; no beans, prices or third-party images added.
@@ -27,6 +29,8 @@ Used the current reviewed compiler/importer. Untouched recipes/roasters/beans/st
 Local root unit/recommendation/outcome checks passed before the final small label/unit additions; all affected assistant/curriculum tests passed again after them (95 tests). Root/mobile TypeScript and root lint passed. Three-platform Expo export and source-map tooling isolation passed: iOS 987, Android 984, web 660 runtime source entries; no braces/node-forge runtime module. Root audit reports zero findings. Mobile raw audit still reports 15 high upstream tooling-version findings; two installed security backports verify with zero exceptions. Do not call the raw mobile audit clean.
 
 Local browser regressions could not launch because the locked Chromium executable is absent. This is a local testing-tool limit, not an application failure. The unchanged CI workflow uses its pinned Playwright browser image and must run all new and existing browser regressions before merge. Final feature/main CI, merge and release receipts are recorded in the PR.
+
+A read-only EXPLAIN ANALYZE of the live cold-recipe assistant RPC returned one row in **22.079 ms execution / 0.105 ms planning**, with 4348 shared cache hits and zero shared disk reads. This is one server-side sample with warm buffers, not a baseline comparison, network latency, device startup or navigation measurement. No unmeasured speedup is claimed.
 
 Direct public coverage: home counts, settings/version, recipe Arabic search/serving filter/details/source metadata, new Gulf roaster directory search and read-only assistant retrieval. Existing isolated CI coverage continues for login/profile/viewer/privacy, CoffeeHO/media/messages, inventory, languages and navigation. No real-user record or account was modified for tests. Native device startup/navigation on iPhone/Android/Huawei, real dedicated-account sign-in/recovery, tester-group availability and media capture remain pending. The export lists a 2.1 MB filter-coffee illustration and a 2.3 MB web JS bundle; these are artifact sizes, not measured startup latency. Asset delivery/compression is a future measurement candidate.
 
