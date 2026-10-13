@@ -1,0 +1,121 @@
+{
+  "importId": "reviewed-catalog-2026-10-13",
+  "verifiedAt": "2026-10-13",
+  "batches": [
+    {
+      "region": "gulf-and-cold-brew",
+      "data": {
+        "roasters": [
+          {
+            "name": "Caffeine Lab",
+            "name_ar": "كافيين لاب",
+            "country": "SA",
+            "website": "https://caffeinelab.me/",
+            "source_url": "https://caffeinelab.me/ar/pages/about-us"
+          },
+          {
+            "name": "Emirati Coffee",
+            "name_ar": "إماراتي كوفي",
+            "country": "AE",
+            "website": "https://www.emiraticoffee.com/",
+            "source_url": "https://www.emiraticoffee.com/"
+          },
+          {
+            "name": "Blue Bottle Coffee",
+            "name_ar": "بلو بوتل كوفي",
+            "country": "US",
+            "website": "https://bluebottlecoffee.com/",
+            "source_url": "https://www.hario-usa.com/blogs/cold-brew-recipes-and-guides/blue-bottle-cold-brew-recipe"
+          }
+        ],
+        "coffees": [],
+        "recipes": [
+          {
+            "slug": "blue-bottle-hario-bottle-cold-brew-68g-750g",
+            "title": "Blue Bottle — HARIO Bottle Cold Brew 68 g / 750 g",
+            "title_ar": "بلو بوتل — كولد برو بزجاجة هاريو 68 g / 750 g",
+            "brew_method": "cold_brew",
+            "recipe_type": "official_roaster",
+            "roaster_name": "Blue Bottle Coffee",
+            "source_author_name": "Blue Bottle Coffee",
+            "source_author_name_ar": "بلو بوتل كوفي",
+            "serving_style": "cold",
+            "dose_grams": 68,
+            "water_grams": 750,
+            "water_temp_c": null,
+            "total_time_seconds": null,
+            "grinder_setting": "Coarse, similar to French press",
+            "flavor_notes": [],
+            "flavor_notes_ar": [],
+            "source_url": "https://www.hario-usa.com/blogs/cold-brew-recipes-and-guides/blue-bottle-cold-brew-recipe",
+            "source_brew_parameters": {
+              "manual": {
+                "equipment": "HARIO Cold Brew Bottle",
+                "grind_ar": "خشنة، قريبة من الفرنش برس",
+                "temperature_note": "Room-temperature steeping; no numerical temperature published.",
+                "temperature_note_ar": "نقع بدرجة حرارة الغرفة؛ لا توجد درجة رقمية منشورة.",
+                "time_note": "Up to 18 hours; an upper bound, not a fixed target or published minimum.",
+                "time_note_ar": "حتى 18 ساعة؛ حد أعلى، وليس مدة ثابتة أو حدًا أدنى منشورًا.",
+                "steep_duration_upper_seconds": 64800,
+                "scalable": false
+              },
+              "discovery": {
+                "serving_style_evidence": {
+                  "classification": "published",
+                  "basis": "publisher_explicit_cold_brew",
+                  "reviewed_at": "2026-10-13"
+                }
+              }
+            },
+            "steps": [
+              {
+                "title": "Prepare grounds",
+                "title_ar": "تجهيز البن",
+                "description": "Grind 68 g coarsely and attach the filled filter case to the bottle top.",
+                "description_ar": "اطحن 68 g خشنًا وثبّت حافظة البن المعبأة بأعلى الزجاجة.",
+                "step_kind": "other"
+              },
+              {
+                "title": "Fill and seal",
+                "title_ar": "التعبئة والإغلاق",
+                "description": "Add 750 g water, lower the filter into the bottle, seal and shake gently.",
+                "description_ar": "أضف 750 g ماء، أدخل الفلتر وأغلق الزجاجة ورجّها بلطف.",
+                "step_kind": "pour"
+              },
+              {
+                "title": "Steep",
+                "title_ar": "النقع",
+                "description": "Steep at room temperature for up to 18 hours.",
+                "description_ar": "انقع بدرجة حرارة الغرفة لمدة تصل إلى 18 ساعة.",
+                "step_kind": "steep"
+              },
+              {
+                "title": "Filter and serve",
+                "title_ar": "إزالة الفلتر والتقديم",
+                "description": "Shake gently, remove the grounds case and reattach the top. Serve cold; keep sealed and refrigerated.",
+                "description_ar": "رجّ بلطف وأزل حافظة البن ثم أعد الغطاء. قدّم باردًا واحفظ مغلقًا في الثلاجة.",
+                "step_kind": "serve"
+              }
+            ],
+            "pours": [
+              {
+                "water_grams": 750,
+                "start_at_seconds": null,
+                "is_bloom": false
+              }
+            ]
+          }
+        ],
+        "excluded": [
+          {
+            "url": "https://bluebottlecoffee.com/us/eng/brew-guides/moka-pot",
+            "reason": "The same six-cup Blue Bottle method already exists under blue-bottle-moka-6cup with its CDN source URL; reused as research context, not imported or counted again."
+          }
+        ]
+      }
+    }
+  ],
+  "photoChecks": [],
+  "corrections": []
+}
+
