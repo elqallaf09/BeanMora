@@ -5,7 +5,7 @@ const now = Date.parse('2026-10-08T12:00:00Z');
 const stamp = new Date(now).toISOString();
 it.each(['ar', 'en'] as const)('describes a recipe publisher search without inventing flavor matching in %s', locale => {
   const query = parseAssistantQuery('cold brew recipe blue bottle');
-  const document: AssistantDocument = { id: 'cold', kind: 'recipe', slug: null, title_ar: 'كولد برو', title_en: 'Cold brew', summary_ar: '', summary_en: '', search_text: 'blue bottle cold brew', source_url: 'https://www.hario-usa.com/', category: null, methods: ['cold_brew'], facts: {}, offers: [] };
+  const document: AssistantDocument = { id: 'cold', kind: 'recipe', slug: null, title_ar: 'كولد برو', title_en: 'Cold brew', summary_ar: '', summary_en: '', search_text: 'blue bottle cold brew', source_url: 'https://www.hario-usa.com/', category: null, methods: ['cold_brew'], facts: {}, offers: [], verified_at: stamp };
   const exact = assistantReply(query, [{ document, allTerms: true, matchedTerms: query.terms, price: null }], locale);
   const partial = assistantReply(query, [{ document, allTerms: false, matchedTerms: ['blue'], price: null }], locale);
   expect(exact).not.toMatch(/إيحاء|notes/);
