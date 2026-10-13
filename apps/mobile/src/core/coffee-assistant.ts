@@ -7,7 +7,7 @@ export interface AssistantQuery {
   kind: AssistantKind | null; category: string | null; methods: string[];
   terms: string[]; amount: number | null; currency: AssistantCurrency | null;
   clarification: 'currency' | 'budget' | 'intent' | null;
-  region?: 'KW' | 'SA' | 'US' | null; availableOnly?: boolean;
+  region?: 'KW' | 'SA' | 'US' | null; availableOnly?: boolean; purchaseIntent?: boolean;
 }
 export interface CatalogOffer {
   amount: number; currency: AssistantCurrency; url: string; checked_at: string;
@@ -25,6 +25,7 @@ export interface AssistantDocument {
 export interface AssistantMatch {
   document: AssistantDocument; matchedTerms: string[]; allTerms: boolean;
   price: { offer: CatalogOffer; converted: number; currency: AssistantCurrency; rateDates: string[]; rateSources: string[] } | null;
+  purchaseLinks?: { url: string; seller: string; region: string }[];
 }
 const notes = flavorSearchVocabulary;
 // Reviewed catalog countries use both names and ISO codes. Expand codes for
@@ -52,6 +53,18 @@ function aliasPattern(alias: string): string {
 }
 function matchesAlias(text: string, alias: string): boolean {
   return new RegExp(aliasPattern(alias), 'u').test(text);
+}
+const equipmentPlurals = ['مكائن', 'مكاين', 'مكنة', 'طواحين', 'مطاحن', 'machines', 'grinders', 'kettles', 'scales'];
+const shoppingWords = ['موقع', 'مواقع', 'متجر', 'متاجر', 'محل', 'محلات', 'بيع', 'لبيع', 'يبيع', 'تبيع', 'يبع', 'شراء', 'لشراء', 'اشتري', 'اشتريها', 'اشتريه', 'ينباع', 'رابط', 'روابط', 'online', 'website', 'websites', 'site', 'sites', 'shop', 'shops', 'store', 'stores', 'retailer', 'retailers', 'seller', 'sellers', 'buy', 'purchase', 'sell', 'sells', 'selling'];
+export function isEquipmentShoppingRequest(message: string): boolean {
+  const q = normalizeSearch(message);
+  return shoppingWords.some(word => matchesAlias(q, word));
+}
+/** Explicit equipment and shopping requests must replace an older coffee topic. */
+export function hasEquipmentIntent(message: string): boolean {
+  const q = normalizeSearch(message);
+  return /ماكين|مكين|ممكين|معدات|طاحون|مطحن|machine|grinder|equipment|غلاي|kettle|\bscale\b/.test(q)
+    || equipmentPlurals.some(word => matchesAlias(q, word)) || ['آلة', 'جهاز', 'أجهزة', 'ميزان'].some(word => matchesAlias(q, word));
 }
 // Consume longest phrases first: جوز الهند is coconut, not walnut + India;
 // white chocolate and red wine remain specific notes, not two unrelated terms.
@@ -86,9 +99,11 @@ export function parseAssistantQuery(message: string, previous?: AssistantQuery |
   const foundNotes = extracted.terms;
   const foundNames = catalogNames.filter(group=>group.some(alias=>matchesAlias(q,alias))).map(group=>group[0]);
   const recipe = /وصف|تحضير|استخلاص|recipe|brew|ايحاء|نكه|طعم/.test(q) || foundNotes.length > 0;
-  const gear = /ماكين|مكين|ممكين|اله|معدات|طاحون|مطحن|machine|grinder|equipment|kettle|\bscale\b/.test(q) || matchesAlias(q,'ميزان');
+  const gear = hasEquipmentIntent(q);
   const kind: AssistantKind | null = gear ? 'equipment' : recipe ? 'recipe' : /محمص|محامص|roaster/.test(q) ? 'roaster' : /حبوب|\bbeans?\b/.test(q) ? 'coffee' : previous?.kind ?? null;
-  const category = /طاحون|مطحن|grinder/.test(q) ? 'grinder' : /غلاي|kettle/.test(q) ? 'kettle' : matchesAlias(q,'ميزان') || /\bscale\b/.test(q) ? 'scale' : gear && foundMethods.includes('espresso') ? 'espresso_machine' : gear && foundMethods.includes('xbloom') ? 'xbloom' : gear ? null : kind === previous?.kind ? previous?.category ?? null : null;
+  const purchaseFollowUp = /ميزاني|سعر|دولار|دينار|ريال|budget|price|under|\b(?:usd|kwd|sar)\b|متوفر|متاح|in stock|available|بالكويت|في الكويت|بالسعوديه|في السعوديه|in kuwait|in saudi/.test(q) || /^\d+(?:[.,]\d+)?$/.test(q);
+  const purchaseIntent = kind === 'equipment' && (isEquipmentShoppingRequest(q) || (!gear && purchaseFollowUp && previous?.purchaseIntent === true));
+  const category = /طاحون|مطحن|طواحين|مطاحن|grinder/.test(q) ? 'grinder' : /غلاي|kettle/.test(q) ? 'kettle' : matchesAlias(q,'ميزان') || /\bscale\b/.test(q) ? 'scale' : gear && foundMethods.includes('espresso') ? 'espresso_machine' : gear && foundMethods.includes('xbloom') ? 'xbloom' : gear ? null : kind === previous?.kind ? previous?.category ?? null : null;
   const currencies: AssistantCurrency[] = [];
   if (/(?:\b|\d)usd\b|\$|دولار/.test(q)) currencies.push('USD');
   if (/(?:\b|\d)kwd\b|دينار|د\.?\s?ك(?:\s|$)/.test(q)) currencies.push('KWD');
@@ -101,13 +116,15 @@ export function parseAssistantQuery(message: string, previous?: AssistantQuery |
   // A partial flavor word can be a real brand: ليمو must not disappear inside ليمون.
   const unknownTerms = extracted.rest.split(/[^\p{L}\p{N}]+/u)
     .filter(word => word.length > 2 && ![...stop].some(alias => matchesAlias(word, alias))
+      && !(kind === 'equipment' && equipmentPlurals.some(alias => matchesAlias(word, alias)))
+      && !(purchaseIntent && [...shoppingWords, 'وين', 'where', 'can', 'looking', 'looking for', 'first', 'second', 'third', 'الأول', 'الثاني', 'الثالث'].some(alias => matchesAlias(word, alias)))
       && !/^(\d|محامص|محمص|roasters?$|in$)/.test(word)
-      && !methods.some(([, aliases]) => aliases.some(alias => normalizeSearch(alias).split(' ').includes(word))))
+      && !methods.some(([, aliases]) => aliases.some(alias => normalizeSearch(alias).split(' ').some(part => matchesAlias(word, part)))))
     .map(word => places.find(group => group.some(alias => matchesAlias(word, alias)))?.[0] ?? word);
   const region = kind==='equipment' ? (/بالكويت|في الكويت|in kuwait/.test(q)?'KW':/بالسعوديه|في السعوديه|in saudi/.test(q)?'SA':previous?.region??null) : null;
   const availableOnly = kind==='equipment' && /متوفر|متاح|in stock|available/.test(q) && !/غير متوفر|نفاد|out of stock/.test(q) ? true : kind==='equipment' ? previous?.availableOnly??false : false;
   const terms = [...new Set([...foundNames, ...foundNotes, ...unknownTerms.filter(term=>!catalogNames.some(group=>group.some(alias=>normalizeSearch(alias)===term))&&!(kind==='equipment'&&(/^(متوفر|متاح)/.test(term)||['available','stock'].includes(term)))&&!(region&&['kuwait','saudi','بالكويت','بالسعوديه'].includes(term)))])].slice(0,8);
-  return { kind, category, methods: foundMethods.length ? foundMethods : (gear || recipe) && kind !== previous?.kind ? [] : previous?.methods ?? [], terms: terms.length ? terms : !gear && !recipe ? previous?.terms ?? [] : [], amount, currency, region, availableOnly,
+  return { kind, category, methods: foundMethods.length ? foundMethods : (gear || recipe) && kind !== previous?.kind ? [] : previous?.methods ?? [], terms: terms.length ? terms : !gear && !recipe ? previous?.terms ?? [] : [], amount, currency, region, availableOnly, purchaseIntent,
     clarification: amount !== null && (!Number.isFinite(amount) || amount <= 0) ? 'budget' : amount !== null && (!currency || currencies.length > 1) ? 'currency' : !kind ? 'intent' : null };
 }
 export function assistantSearchTerms(query: AssistantQuery): string[] {
@@ -134,7 +151,10 @@ export function rankAssistantDocuments(documents: AssistantDocument[], query: As
     const search = deepSearchText(document.search_text);
     const matchedTerms = query.terms.filter(term=>assistantSearchTerms({...query,terms:[term]}).some(alias=>matchesAlias(search,alias)));
     if (query.terms.length && !matchedTerms.length) return [];
-    const prices = (Array.isArray(document.offers)?document.offers:[]).flatMap(offer=>{
+    const offers = (Array.isArray(document.offers) ? document.offers : []).filter(offer =>
+      assistantSafeUrl(offer.url) && (!query.region || (offer.region === query.region && !offer.excluded_destinations?.includes(query.region)))
+      && (!query.availableOnly || (offer.availability === 'in_stock' && recent(offer.checked_at, now, 14))));
+    const prices = offers.flatMap(offer=>{
       if (query.region && (offer.region !== query.region || offer.excluded_destinations?.includes(query.region))) return [];
       if (query.availableOnly && offer.availability !== 'in_stock') return [];
       const currency = query.currency ?? (rates.some(rate=>rate.currency==='KWD')?'KWD':offer.currency);
@@ -143,8 +163,13 @@ export function rankAssistantDocuments(documents: AssistantDocument[], query: As
       const effectiveCurrency = converted ? currency : offer.currency;
       return price && (query.amount===null || price.converted<=query.amount) ? [{offer,currency:effectiveCurrency,...price}] : [];
     }).sort((a,b)=>Number(a.offer.availability==='out_of_stock')-Number(b.offer.availability==='out_of_stock') || (a.currency===b.currency?a.converted-b.converted:0));
-    if ((query.amount!==null || query.region || query.availableOnly) && !prices.length) return [];
-    return [{document,matchedTerms,allTerms:matchedTerms.length===query.terms.length,price:prices[0]??null}];
+    const purchaseLinks = query.purchaseIntent ? [...new Map((query.amount !== null ? prices.map(price => price.offer) : offers).map(offer => {
+      const url = assistantSafeUrl(offer.url)!;
+      return [url, { url, seller: offer.seller?.trim().slice(0, 160) || new URL(url).hostname.replace(/^www\./, ''), region: offer.region }] as const;
+    })).values()].slice(0, 3) : undefined;
+    if (query.purchaseIntent && !purchaseLinks?.length) return [];
+    if ((query.amount!==null || (!query.purchaseIntent && (query.region || query.availableOnly))) && !prices.length) return [];
+    return [{document,matchedTerms,allTerms:matchedTerms.length===query.terms.length,price:prices[0]??null,purchaseLinks}];
   }).sort((a,b)=>Number(b.allTerms)-Number(a.allTerms) || b.matchedTerms.length-a.matchedTerms.length || Number(a.price?.offer.availability==='out_of_stock')-Number(b.price?.offer.availability==='out_of_stock') || (a.price?.currency===b.price?.currency?(a.price?.converted??Infinity)-(b.price?.converted??Infinity):0) || a.document.id.localeCompare(b.document.id)).slice(0,6);
 }
 export function assistantReply(query: AssistantQuery, matches: AssistantMatch[], locale: 'ar'|'en'): string {
@@ -152,6 +177,12 @@ export function assistantReply(query: AssistantQuery, matches: AssistantMatch[],
   if(query.clarification==='currency')return ar?'حدد عملة الميزانية: دولار أمريكي USD، دينار كويتي KWD، أو ريال سعودي SAR.':'Which budget currency: US dollars (USD), Kuwaiti dinars (KWD), or Saudi riyals (SAR)?';
   if(query.clarification==='budget')return ar?'اكتب ميزانية أكبر من صفر مع العملة.':'Enter a budget greater than zero and its currency.';
   if(query.clarification==='intent')return ar?'اسألني عن معدات وميزانيتها، أو وصفة حسب إيحاءات البن وطريقة التحضير، أو محمصة.':'Ask about equipment and a budget, a recipe for your tasting notes and brew method, or a roaster.';
+  if(query.kind==='equipment' && query.purchaseIntent) {
+    if(!matches.length)return query.amount!==null
+      ? (ar?'لم أجد رابط بائع بسعر حديث موثق ضمن ميزانيتك. جرّب البحث بدون ميزانية.':'I found no seller link with a recent verified price within your budget. Try searching without a budget.')
+      : (ar?'لم أجد روابط بائعين موثقة تطابق طلبك في كتالوغنا. جرّب اسم جهاز أو دولة أخرى.':'I found no documented seller links matching your request in our catalog. Try an equipment name or another country.');
+    return ar?'هذه روابط بائعين للمعدات التي طلبتها، من بيانات كتالوغنا. افتح «موقع البائع» للشراء، وراجع السعر والتوفر والشحن إلى بلدك في المتجر.':'These are catalog seller links for the equipment you requested. Open “Seller website” to buy and check current price, availability and shipping to your country at the store.';
+  }
   if(query.kind==='coffee') {
     const requested = query.terms.map(term=>assistantTermLabel(term,locale)).join(ar?'، ':', ');
     if(!matches.length)return ar?`لم أجد بنًا منشورًا يطابق${requested?' «'+requested+'»':' طلبك'} في مكتبتنا. جرّب إيحاءً آخر أو اسم البن أو المحمصة.`:`I found no published coffee matching ${requested||'your request'} in our catalog. Try another tasting note, coffee or roaster name.`;

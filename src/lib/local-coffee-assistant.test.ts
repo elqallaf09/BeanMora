@@ -13,6 +13,48 @@ const offline: LocalAssistantDependencies = { search: async () => { throw new Er
 const ask = (q: string, history: LocalAssistantTurn[] = [], dependencies = deps, locale: 'ar' | 'en' = 'ar') => converseLocally(q, locale, history, dependencies);
 
 describe('local conversational coffee assistant', () => {
+  it.each(['موقع بيع مكائن اسبرسو', 'أبي موقع لبيع مكائن إسبريسو', 'وين أشتري مكائن اسبرسو', 'Where can I buy an espresso machine?'])('answers %s with equipment seller links after a coffee recommendation', async question => {
+    const coffee: AssistantDocument = { ...recipe, id: 'coffee', kind: 'coffee', title_ar: 'بن جوز الهند', search_text: 'coconut', methods: [], facts: {}, offers: [] };
+    const lookup = vi.fn(async () => ({ documents: [coffee, machine, second, recipe], rates: [] }));
+    const dependencies = { search: lookup, now };
+    const first = await ask('أبي بن جوز الهند', [], dependencies);
+    expect(first.query.kind).toBe('coffee');
+    const turn = await ask(question, [first], dependencies);
+    expect(turn.intent).toBe('search');
+    expect(turn.query).toMatchObject({ kind: 'equipment', category: 'espresso_machine', terms: [], purchaseIntent: true, clarification: null });
+    expect(turn.matches.map(match => match.document.id)).toEqual(['m1', 'm2']);
+    expect(turn.matches.every(match => !!match.purchaseLinks?.length)).toBe(true);
+    expect(turn.answer).toContain('روابط بائعين');
+    expect(turn.answer).not.toMatch(/بن جوز الهند|خيار جزئي|sensory/i);
+    expect(localAssistantSearchTerms(turn.query)).toEqual([]);
+  });
+  it('keeps a selected-machine purchase follow-up in the catalog instead of explaining it', async () => {
+    const first = await ask('أبي ماكينة إسبريسو تحت 480 دولار');
+    const turn = await ask('وين أشتري الثاني؟', [first]);
+    expect(turn.intent).toBe('search');
+    expect(turn.query.purchaseIntent).toBe(true);
+    expect(turn.matches.map(match => match.document.id)).toEqual(['m2']);
+    expect(turn.matches[0].purchaseLinks?.[0].url).toBe(second.offers[0].url);
+  });
+  it('can compare shopping results and switch to a new lesson without reusing the buying intent', async () => {
+    const first = await ask('موقع بيع مكائن اسبرسو');
+    const compared = await ask('قارن الأول والثاني', [first], offline);
+    expect(compared.intent).toBe('compare');
+    const lesson = await ask('اشرح الماء', [first], offline);
+    expect(lesson.intent).toBe('knowledge');
+    expect(lesson.knowledgeTopic).toBe('water');
+    expect(lesson.query.purchaseIntent).toBe(false);
+  });
+  it('keeps a coffee or recipe buying request from becoming a machine search', () => {
+    expect(parseLocalAssistantQuery('أبي موقع لبيع بن إسبريسو')).toMatchObject({ kind: 'coffee', purchaseIntent: false });
+    expect(parseLocalAssistantQuery('موقع وصفات إسبريسو')).toMatchObject({ kind: 'recipe', purchaseIntent: false });
+  });
+  it('answers honestly when seller links are missing instead of falling back to a coffee', async () => {
+    const turn = await ask('موقع بيع مكائن اسبرسو', [], { search: async () => ({ documents: [{ ...machine, offers: [] }, recipe], rates: [] }), now });
+    expect(turn.query.kind).toBe('equipment');
+    expect(turn.matches).toEqual([]);
+    expect(turn.answer).toContain('لم أجد روابط بائعين موثقة');
+  });
   it.each([
     ['الإسبريسو حامض جرعة ١٨ غرام خرج ٣٦ غرام في ٣٠ ثانية', 18, 36, 30],
     ['قهوتي إسبريسو حامضة جرعتي: ۱۸٫۵ غرام طلعت ۳۷ غرام في ۲۸ ثواني', 18.5, 37, 28],

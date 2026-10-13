@@ -21,6 +21,29 @@ const rates: CatalogRate[] = [
 ];
 
 describe('coffee assistant catalog constraints', () => {
+  it.each(['موقع بيع مكائن اسبرسو', 'أبي موقع لبيع مكائن الإسبريسو', 'وين أشتري مكائن إسبريسو', 'ابي مواقع تبيع مكاين اسبرسو', 'website selling espresso machines', 'Where can I buy an espresso machine?'])('routes the seller request %s to equipment without searching for shopping filler', question => {
+    const query = parseAssistantQuery(question);
+    expect(query).toMatchObject({ kind: 'equipment', category: 'espresso_machine', purchaseIntent: true, terms: [], clarification: null });
+    const matches = rankAssistantDocuments([equipment], query, rates, now);
+    expect(matches).toHaveLength(1);
+    expect(matches[0].purchaseLinks).toEqual([{ url: offer.url, seller: 'seller.example', region: 'US' }]);
+  });
+  it('retains a documented seller URL without claiming an expired price or stock status', () => {
+    const document = { ...equipment, offers: [{ ...offer, checked_at: '2026-09-01' }] };
+    const shopping = parseAssistantQuery('موقع بيع مكائن اسبرسو');
+    const matches = rankAssistantDocuments([document], shopping, rates, now);
+    expect(matches[0].price).toBeNull();
+    expect(matches[0].purchaseLinks?.[0].url).toBe(offer.url);
+    expect(rankAssistantDocuments([document], { ...shopping, amount: 480, currency: 'USD' }, rates, now)).toEqual([]);
+    expect(rankAssistantDocuments([document], { ...shopping, availableOnly: true }, rates, now)).toEqual([]);
+  });
+  it('does not present manufacturer references as seller links or ignore country and shipping exclusions', () => {
+    const query = parseAssistantQuery('موقع بيع مكائن اسبرسو');
+    expect(rankAssistantDocuments([{ ...equipment, offers: [] }], query, rates, now)).toEqual([]);
+    expect(rankAssistantDocuments([{ ...equipment, offers: [{ ...offer, url: 'javascript:alert(1)' }] }], query, rates, now)).toEqual([]);
+    expect(rankAssistantDocuments([equipment], { ...query, region: 'KW' }, rates, now)).toEqual([]);
+    expect(rankAssistantDocuments([{ ...equipment, offers: [{ ...offer, region: 'KW', excluded_destinations: ['KW'] }] }], { ...query, region: 'KW' }, rates, now)).toEqual([]);
+  });
   it('recognizes an Arabic budget without changing the requested currency', () => {
     const query = parseAssistantQuery('أبي ماكينة إسبريسو تحت ٤٨٠ دولار');
     expect(query).toMatchObject({ kind: 'equipment', category: 'espresso_machine', amount: 480, currency: 'USD', clarification: null });

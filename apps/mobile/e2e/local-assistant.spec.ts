@@ -1,7 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 import { setLanguage } from './settings';
 
-async function openAssistant(page: Page, offlineCatalog = false) {
+async function openAssistant(page: Page, offlineCatalog = false, expiredOffer = false) {
   let providerCalls = 0;
   const searches: unknown[] = [];
   await page.route('**/*', route => {
@@ -19,7 +19,7 @@ async function openAssistant(page: Page, offlineCatalog = false) {
         ? [{ id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa0', kind: 'roaster', title_ar: namedLimu ? 'محمصة ليمو' : query.p_terms.includes('ark') ? 'آرك روسترز' : 'ألتيتيود روسترز', title_en: namedLimu ? 'Limu Roastery' : query.p_terms.includes('ark') ? 'A R K Roasters' : 'Altitude Roasters', search_text: namedLimu ? 'محمصة ليمو Limu Roastery KW' : query.p_terms.includes('ark') ? 'آرك روسترز A R K Roasters KW' : 'Altitude Roasters KW', summary_ar: '', summary_en: '', category: null, methods: [], facts: { country: 'KW' }, offers: [], source_url: namedLimu ? 'https://limukw.com/' : query.p_terms.includes('ark') ? 'https://www.ark.com.kw/pages/about' : 'https://altituderoasters.co/en/' }]
         : query.p_kind === 'coffee' ? [{ id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaac0', kind: 'coffee', title_ar: 'بن مونتيبلانكو التجريبي', title_en: 'Fixture Monteblanco', search_text: 'Fixture Monteblanco Coconut Lemonade', summary_ar: 'جوز الهند والليمونادة؛ تخمير مشترك مع إضافات بحسب المصدر.', summary_en: 'Coconut and lemonade; co-fermented and infused according to the source.', category: null, methods: ['v60'], facts: { notes: ['Coconut', 'Lemonade'] }, offers: [], source_url: 'https://roaster.example/coffee' },
           ...[['cocoa', 'بن الكاكاو التجريبي', 'Cacao'], ['wine', 'بن واين التجريبي', 'Red Wine'], ['unrelated', 'بن غير مطابق', 'Whole coffee beans chocolate winegum']].map(([id, title, notes]) => ({ id, kind: 'coffee', title_ar: title, title_en: title, search_text: notes, summary_ar: notes, summary_en: notes, category: null, methods: [], facts: { notes: [notes] }, offers: [], source_url: 'https://roaster.example/coffee' }))]
-        : [300, 400].map((amount, i) => ({ id: `aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa${i}`, kind: 'equipment', title_ar: `ماكينة ${i + 1}`, title_en: `Machine ${i + 1}`, search_text: 'espresso machine manual', summary_ar: '', summary_en: '', category: 'espresso_machine', methods: ['espresso'], facts: { operation: ['يدوي','Manual'], ...(i ? {} : { pressure_gauge: ['نعم','Yes'] }) }, offers: [{ amount, currency: 'USD', checked_at: new Date().toISOString(), region: 'US', url: 'https://seller.example/machine', availability: 'in_stock' }], source_url: 'https://seller.example/machine' }));
+        : [300, 400].map((amount, i) => ({ id: `aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa${i}`, kind: 'equipment', title_ar: `ماكينة ${i + 1}`, title_en: `Machine ${i + 1}`, search_text: 'espresso machine manual', summary_ar: '', summary_en: '', category: 'espresso_machine', methods: ['espresso'], facts: { operation: ['يدوي','Manual'], ...(i ? {} : { pressure_gauge: ['نعم','Yes'] }) }, offers: [{ amount, currency: 'USD', checked_at: new Date(Date.now() - (expiredOffer ? 30 * 86400000 : 0)).toISOString(), region: 'US', url: 'https://seller.example/machine', availability: 'in_stock' }], source_url: 'https://seller.example/machine' }));
     }
     return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(data) });
   });
@@ -31,6 +31,45 @@ async function ask(page: Page, question: string, english = false) {
   await page.getByLabel(english ? 'Your coffee question' : 'سؤالك عن القهوة', { exact: true }).fill(question);
   await page.getByRole('button', { name: english ? 'Send' : 'إرسال', exact: true }).click();
 }
+
+for (const english of [false, true]) test(`espresso seller websites replace a previous coffee topic (${english ? 'en' : 'ar'})`, async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 1000 });
+  const network = await openAssistant(page);
+  if (english) await setLanguage(page, 'en');
+  const panel = page.getByTestId('coffee-assistant');
+  await ask(page, english ? 'Recommend beans with coconut notes' : 'أبي بن جوز الهند', english);
+  await expect(page.getByTestId('assistant-result')).toHaveCount(1);
+  await ask(page, english ? 'A website selling espresso machines' : 'موقع بيع مكائن اسبرسو', english);
+  const results = page.getByTestId('assistant-result');
+  await expect(results).toHaveCount(2);
+  await expect(results.nth(0)).toContainText(english ? 'Machine 1' : 'ماكينة 1');
+  await expect(results.nth(1)).toContainText(english ? 'Machine 2' : 'ماكينة 2');
+  await expect(panel.getByRole('button', { name: english ? 'Seller website' : 'موقع البائع', exact: true })).toHaveCount(2);
+  await expect(results.getByRole('button', { name: english ? 'Original source' : 'المصدر الأصلي', exact: true })).toHaveCount(0);
+  const shop = panel.getByRole('button', { name: english ? 'Seller website' : 'موقع البائع', exact: true }).first();
+  await shop.scrollIntoViewIfNeeded();
+  await page.context().route('https://seller.example/**', route => route.fulfill({ contentType: 'text/html', body: '<p>Isolated seller fixture</p>' }));
+  const destination = page.waitForEvent('popup');
+  await shop.click();
+  const seller = await destination;
+  expect(seller.url()).toBe('https://seller.example/machine');
+  await seller.close();
+  expect(network.searches.at(-1)).toEqual(expect.objectContaining({ p_kind: 'equipment', p_category: 'espresso_machine', p_methods: ['espresso'], p_terms: [] }));
+  expect(network.providerCalls()).toBe(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
+test('seller websites stay usable when their documented prices have expired', async ({ page }) => {
+  const network = await openAssistant(page, false, true);
+  await ask(page, 'موقع بيع مكائن اسبرسو');
+  const results = page.getByTestId('assistant-result');
+  await expect(results).toHaveCount(2);
+  await expect(results.first()).toContainText('لا يتوفر سعر حديث موثق');
+  await expect(results.first().getByRole('button', { name: 'موقع البائع: seller.example', exact: true })).toBeVisible();
+  await expect(results.first()).not.toContainText('300 USD');
+  await expect(results.first()).not.toContainText('متوفر حسب آخر تحقق');
+  expect(network.providerCalls()).toBe(0);
+});
 
 test('the reported coconut question recommends coffee by name with its source, not a sensory lesson', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 960 });
