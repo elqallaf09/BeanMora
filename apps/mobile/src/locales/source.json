@@ -3888,7 +3888,8 @@
     "en": "Check the source for the ice amount; no unpublished quantity is added.",
     "ar": "راجع كمية الثلج في المصدر؛ لا أضيف مقدارًا غير منشور.",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -5374,7 +5375,8 @@
     "en": "Compare the first and second",
     "ar": "قارن الأول والثاني",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -8043,7 +8045,8 @@
     "en": "Explain the first",
     "ar": "اشرح الأول",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -12394,7 +12397,8 @@
     "en": "Matching recipes",
     "ar": "الوصفات المطابقة",
     "files": [
-      "src/SearchScreen.tsx"
+      "src/SearchScreen.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -12865,7 +12869,8 @@
     "en": "Model unspecified by source",
     "ar": "الموديل غير مذكور بالمصدر",
     "files": [
-      "src/GrinderSettings.tsx"
+      "src/GrinderSettings.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -13869,7 +13874,8 @@
     "en": "No matching recipes.",
     "ar": "لا توجد نتائج مطابقة.",
     "files": [
-      "src/RecipeCatalog.tsx"
+      "src/RecipeCatalog.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -18476,7 +18482,8 @@
     "en": "Scan coffee for a recipe",
     "ar": "صوّر البن واختر الوصفة",
     "files": [
-      "src/CoffeeLabelScanner.tsx"
+      "src/CoffeeLabelScanner.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -19563,6 +19570,14 @@
     "ar": "المصدر والتفاصيل",
     "files": [
       "src/EquipmentCompare.tsx"
+    ]
+  },
+  {
+    "en": "Source brew settings; water is in ml. Open the original link for device-specific instructions. Total brew time was not published.",
+    "ar": "إعدادات التحضير من المصدر؛ الماء بالملليلتر. افتح الرابط الأصلي لتعليمات الجهاز. وقت التحضير الكلي غير منشور.",
+    "files": [
+      "src/assistantCatalogText.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -21770,7 +21785,8 @@
     "en": "Try another term or fewer filters. Recipes without the requested source information do not match that filter.",
     "ar": "جرّب كلمة أخرى أو قلّل شروط البحث. المعلومات غير المذكورة في المصدر لا تدخل ضمن النتائج المصفّاة.",
     "files": [
-      "src/RecipeCatalog.tsx"
+      "src/RecipeCatalog.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {

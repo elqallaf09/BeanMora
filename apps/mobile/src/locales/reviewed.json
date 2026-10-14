@@ -168,7 +168,7 @@
     " · peak ({0} after roast)": " · 飲み頃（焙煎後 {0}）",
     "Pour to a cumulative {0}ml (final).": "総量が {0}ml になるまで注いでください（最後の注湯）。",
     "Pour to a cumulative {0}ml.": "総量が {0}ml になるまで注いでください。",
-    "Water: {0} ml; source temperature: {1}; flow: {2} ml/s; pause: {3} s. Check the original link for pouring pattern.": "水: {0} ml、出典の温度: {1}、流量: {2} ml/s、停止時間: {3} s。注湯パターンは元のリンクで確認してください。",
+    "Water: {0} ml; source temperature: {1}; flow: {2} ml/s; pause: {3} s. Check the original link for pouring pattern.": "水量：{0} ml、出典の湯温：{1}、流量：{2} ml/s、停止時間：{3} s。注湯パターンは元のリンクで確認してください。",
     "Matches in the published recipe data: ": "公開レシピで確認できる条件: ",
     "Not confirmed in this recipe: ": "このレシピで確認できない条件: ",
     "Not reported by the source": "出典に記載なし",
@@ -791,7 +791,7 @@
     "{0} recipe for this coffee": "この豆の {0} レシピ",
     "The full personality awaits documented {0}.": "豆の特徴をすべて表示するには、{0} の情報が必要です。",
     "The full personality awaits documented tasting notes{0}.": "豆の特徴をすべて表示するには、風味{0} の情報が必要です。",
-    "unspecified": "記載なし",
+    "unspecified": "未記載",
     "At 0:30, pour an additional 55g of water in a steady circular pattern, to 100g.": "0:30に、一定の円を描くように55gを加え、合計100gにします。",
     "At 1:00, pour again until you reach 150g.": "1:00に再び注ぎ、合計150gにします。",
     "Dark roast · 6 capsules · 10–12 finjals per capsule. Zill machines only. Contains milk derivatives.": "深煎り · 6カプセル · 1カプセルあたり10–12フィンジャーン。Zillマシン専用。乳由来成分を含みます。",
@@ -2256,7 +2256,12 @@
     "Matching recipes": "一致するレシピ",
     "No matching recipes.": "条件に一致するレシピがありません。",
     "Try another term or fewer filters. Recipes without the requested source information do not match that filter.": "検索語を変えるか、フィルターを減らしてください。指定した情報がないレシピは、その条件には一致しません。",
-    "Scan coffee for a recipe": "コーヒーをスキャンしてレシピを探す"
+    "Scan coffee for a recipe": "コーヒーをスキャンしてレシピを探す",
+    "Source brew settings; water is in ml. Open the original link for device-specific instructions. Total brew time was not published.": "出典の抽出設定です。水量の単位はmlです。器具の詳しい手順は元のリンクで確認してください。総抽出時間は公開されていません。",
+    "Check the source for the ice amount; no unpublished quantity is added.": "出典で氷の量を確認してください。公開されていない量は追加しません。",
+    "Compare the first and second": "1番目と2番目の結果を比較",
+    "Explain the first": "1番目の結果を説明",
+    "Model unspecified by source": "出典にモデルの記載なし"
   },
   "fr": {
     "Home": "Accueil",
@@ -2427,7 +2432,7 @@
     " · peak ({0} after roast)": " · apogée ({0} après torréfaction)",
     "Pour to a cumulative {0}ml (final).": "Versez jusqu’à un total de {0}ml (dernier versement).",
     "Pour to a cumulative {0}ml.": "Versez jusqu’à un total de {0}ml.",
-    "Water: {0} ml; source temperature: {1}; flow: {2} ml/s; pause: {3} s. Check the original link for pouring pattern.": "Eau : {0} ml ; température de la source : {1} ; débit : {2} ml/s ; pause : {3} s. Consultez le lien original pour le motif de versement.",
+    "Water: {0} ml; source temperature: {1}; flow: {2} ml/s; pause: {3} s. Check the original link for pouring pattern.": "Eau : {0} ml ; température indiquée par la source : {1} ; débit : {2} ml/s ; pause : {3} s. Consultez le lien d’origine pour le schéma de versement.",
     "Matches in the published recipe data: ": "Correspondances dans la recette publiée : ",
     "Not confirmed in this recipe: ": "Non confirmé dans cette recette : ",
     "Not reported by the source": "Non indiqué par la source",
@@ -4607,7 +4612,12 @@
     "Matching recipes": "Recettes correspondantes",
     "No matching recipes.": "Aucune recette ne correspond.",
     "Try another term or fewer filters. Recipes without the requested source information do not match that filter.": "Essayez un autre terme ou moins de filtres. Une recette qui ne contient pas l’information demandée ne correspond pas à ce filtre.",
-    "Scan coffee for a recipe": "Scanner un café pour trouver une recette"
+    "Scan coffee for a recipe": "Scanner un café pour trouver une recette",
+    "Source brew settings; water is in ml. Open the original link for device-specific instructions. Total brew time was not published.": "Réglages d’extraction publiés par la source ; l’eau est indiquée en ml. Consultez le lien d’origine pour les instructions propres à la machine. Le temps total d’extraction n’a pas été publié.",
+    "Check the source for the ice amount; no unpublished quantity is added.": "Consultez la source pour la quantité de glace ; aucune quantité non publiée n’est ajoutée.",
+    "Compare the first and second": "Comparer les résultats 1 et 2",
+    "Explain the first": "Expliquer le premier résultat",
+    "Model unspecified by source": "Modèle non précisé dans la source"
   },
   "it": {
     "Home": "Home",
@@ -4778,7 +4788,7 @@
     " · peak ({0} after roast)": " · apice ({0} dopo la tostatura)",
     "Pour to a cumulative {0}ml (final).": "Versa fino a un totale di {0}ml (ultimo versamento).",
     "Pour to a cumulative {0}ml.": "Versa fino a un totale di {0}ml.",
-    "Water: {0} ml; source temperature: {1}; flow: {2} ml/s; pause: {3} s. Check the original link for pouring pattern.": "Acqua: {0} ml; temperatura della fonte: {1}; flusso: {2} ml/s; pausa: {3} s. Consulta il link originale per lo schema di versamento.",
+    "Water: {0} ml; source temperature: {1}; flow: {2} ml/s; pause: {3} s. Check the original link for pouring pattern.": "Acqua: {0} ml; temperatura indicata dalla fonte: {1}; portata: {2} ml/s; pausa: {3} s. Consulta il link originale per lo schema di versamento.",
     "Matches in the published recipe data: ": "Corrispondenze nei dati pubblicati: ",
     "Not confirmed in this recipe: ": "Non confermato in questa ricetta: ",
     "Not reported by the source": "Non indicato dalla fonte",
@@ -6958,7 +6968,12 @@
     "Matching recipes": "Ricette corrispondenti",
     "No matching recipes.": "Nessuna ricetta corrispondente.",
     "Try another term or fewer filters. Recipes without the requested source information do not match that filter.": "Prova un altro termine o riduci i filtri. Le ricette prive dell’informazione richiesta non soddisfano quel filtro.",
-    "Scan coffee for a recipe": "Scansiona un caffè per trovare una ricetta"
+    "Scan coffee for a recipe": "Scansiona un caffè per trovare una ricetta",
+    "Source brew settings; water is in ml. Open the original link for device-specific instructions. Total brew time was not published.": "Impostazioni di estrazione dalla fonte; l’acqua è indicata in ml. Apri il link originale per le istruzioni del dispositivo. Il tempo totale di estrazione non è stato pubblicato.",
+    "Check the source for the ice amount; no unpublished quantity is added.": "Controlla nella fonte la quantità di ghiaccio; non vengono aggiunte quantità non pubblicate.",
+    "Compare the first and second": "Confronta i risultati 1 e 2",
+    "Explain the first": "Spiega il primo risultato",
+    "Model unspecified by source": "Modello non specificato nella fonte"
   },
   "es": {
     "Home": "Inicio",
@@ -7129,7 +7144,7 @@
     " · peak ({0} after roast)": " · punto óptimo ({0} después del tueste)",
     "Pour to a cumulative {0}ml (final).": "Vierte hasta un total de {0}ml (último vertido).",
     "Pour to a cumulative {0}ml.": "Vierte hasta un total de {0}ml.",
-    "Water: {0} ml; source temperature: {1}; flow: {2} ml/s; pause: {3} s. Check the original link for pouring pattern.": "Agua: {0} ml; temperatura de la fuente: {1}; flujo: {2} ml/s; pausa: {3} s. Consulta el enlace original para el patrón de vertido.",
+    "Water: {0} ml; source temperature: {1}; flow: {2} ml/s; pause: {3} s. Check the original link for pouring pattern.": "Agua: {0} ml; temperatura indicada por la fuente: {1}; caudal: {2} ml/s; pausa: {3} s. Consulta el enlace original para el patrón de vertido.",
     "Matches in the published recipe data: ": "Coincidencias en la receta publicada: ",
     "Not confirmed in this recipe: ": "No confirmado en esta receta: ",
     "Not reported by the source": "No indicado en la fuente",
@@ -9309,7 +9324,12 @@
     "Matching recipes": "Recetas coincidentes",
     "No matching recipes.": "No hay recetas coincidentes.",
     "Try another term or fewer filters. Recipes without the requested source information do not match that filter.": "Prueba otro término o reduce los filtros. Las recetas sin la información solicitada no coinciden con ese filtro.",
-    "Scan coffee for a recipe": "Escanea un café para encontrar una receta"
+    "Scan coffee for a recipe": "Escanea un café para encontrar una receta",
+    "Source brew settings; water is in ml. Open the original link for device-specific instructions. Total brew time was not published.": "Ajustes de preparación de la fuente; el agua se indica en ml. Abre el enlace original para consultar las instrucciones del equipo. No se publicó el tiempo total de preparación.",
+    "Check the source for the ice amount; no unpublished quantity is added.": "Consulta la fuente para conocer la cantidad de hielo; no se añaden cantidades que no estén publicadas.",
+    "Compare the first and second": "Comparar los resultados 1 y 2",
+    "Explain the first": "Explica el primer resultado",
+    "Model unspecified by source": "Modelo no indicado en la fuente"
   },
   "pt-BR": {
     "Home": "Início",
@@ -9480,7 +9500,7 @@
     " · peak ({0} after roast)": " · auge ({0} após a torra)",
     "Pour to a cumulative {0}ml (final).": "Despeje até um total de {0}ml (último despejo).",
     "Pour to a cumulative {0}ml.": "Despeje até um total de {0}ml.",
-    "Water: {0} ml; source temperature: {1}; flow: {2} ml/s; pause: {3} s. Check the original link for pouring pattern.": "Água: {0} ml; temperatura da fonte: {1}; fluxo: {2} ml/s; pausa: {3} s. Consulte o link original para o padrão de despejo.",
+    "Water: {0} ml; source temperature: {1}; flow: {2} ml/s; pause: {3} s. Check the original link for pouring pattern.": "Água: {0} ml; temperatura informada pela fonte: {1}; vazão: {2} ml/s; pausa: {3} s. Consulte o link original para ver como despejar a água.",
     "Matches in the published recipe data: ": "Correspondências na receita publicada: ",
     "Not confirmed in this recipe: ": "Não confirmado nesta receita: ",
     "Not reported by the source": "Não informado pela fonte",
@@ -11660,7 +11680,12 @@
     "Matching recipes": "Receitas correspondentes",
     "No matching recipes.": "Nenhuma receita corresponde.",
     "Try another term or fewer filters. Recipes without the requested source information do not match that filter.": "Tente outro termo ou reduza os filtros. Receitas sem a informação solicitada não correspondem a esse filtro.",
-    "Scan coffee for a recipe": "Escaneie um café para encontrar uma receita"
+    "Scan coffee for a recipe": "Escaneie um café para encontrar uma receita",
+    "Source brew settings; water is in ml. Open the original link for device-specific instructions. Total brew time was not published.": "Configurações de preparo da fonte; a água está em ml. Abra o link original para ver as instruções do equipamento. O tempo total de preparo não foi publicado.",
+    "Check the source for the ice amount; no unpublished quantity is added.": "Confira a quantidade de gelo na fonte; nenhuma quantidade não publicada é acrescentada.",
+    "Compare the first and second": "Compare os resultados 1 e 2",
+    "Explain the first": "Explique o primeiro resultado",
+    "Model unspecified by source": "Modelo não informado na fonte"
   },
   "zh-CN": {
     "Home": "首页",
@@ -12226,7 +12251,7 @@
     "Spout": "壶嘴",
     "Stovetop brewing; pot size determines boiler and basket fill.": "在炉灶上冲煮，壶的大小决定水仓与粉篮的填充量。",
     "Tasting saved.": "品鉴记录已保存。",
-    "unspecified": "未提供",
+    "unspecified": "未说明",
     "ch": "ch",
     "gh": "gh",
     "kh": "kh",
@@ -13824,7 +13849,7 @@
     "Coffee shortcuts": "咖啡快捷入口",
     "Coffee story": "咖啡动态",
     "coffeeHO accounts": "coffeeHO 账户",
-    "Compare the first and second": "对比第一个和第二个",
+    "Compare the first and second": "对比结果1和结果2",
     "Concentrated coffee with repeatable recipes.": "浓缩咖啡，配方便于重复制作。",
     "Confirm block": "确认屏蔽",
     "Confirm delete post": "确认删除帖子",
@@ -13865,7 +13890,7 @@
     "Espresso machines": "意式浓缩咖啡机",
     "Espresso pressure and flow": "意式压力与流速",
     "Experiment: three outcomes from one coffee": "实验：同一咖啡的三种结果",
-    "Explain the first": "解释第一个",
+    "Explain the first": "解释第一个结果",
     "Explore coffees and recipes right away": "立即探索咖啡与配方",
     "Explore now": "立即探索",
     "Explore the effects of grind and water temperature.": "探索研磨度与水温的影响。",
@@ -14267,6 +14292,8 @@
     "Water ": "水 ",
     "Your result: ": "你的结果: ",
     "Maltesers": "Maltesers",
-    "Coffees, tasting notes, roasters and recipes. Search in all supported languages.": "咖啡、风味、烘焙商与配方。支持使用所有提供的语言搜索。"
+    "Coffees, tasting notes, roasters and recipes. Search in all supported languages.": "咖啡、风味、烘焙商与配方。支持使用所有提供的语言搜索。",
+    "Source brew settings; water is in ml. Open the original link for device-specific instructions. Total brew time was not published.": "来源提供的萃取设置，水量单位为ml。请打开原始链接查看设备的具体操作说明。来源未公布总萃取时间。",
+    "Check the source for the ice amount; no unpublished quantity is added.": "请在来源中确认冰块用量；不添加来源未公布的数值。"
   }
 }

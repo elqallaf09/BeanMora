@@ -4,6 +4,7 @@ import { systemText } from './localeText';
 import { randomUUID } from 'expo-crypto';
 import { createMessageTrace, tracedMessage, type MessageTrace } from './messageTrace';
 import { assistantInput } from './assistantInput';
+import { assistantCatalogSummary } from './assistantCatalogText';
 import { useContext, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Linking, ScrollView, View } from "./native";
 import { Action, Field, Language, Txt, colors, styles } from "./ui";
@@ -259,10 +260,7 @@ export function CoffeeAssistant({
                       </Txt>
                     ) : null}
                     <Txt numberOfLines={2} style={styles.muted}>
-                      {(ar
-                        ? match.document.summary_ar
-                        : match.document.summary_en
-                      )?.slice(0, 180)}
+                      {assistantCatalogSummary(locale, match.document.summary_ar, match.document.summary_en).slice(0, 180)}
                     </Txt>
 
                     {Object.entries(match.document.facts ?? {})

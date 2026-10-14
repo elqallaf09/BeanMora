@@ -493,7 +493,7 @@
   "Check the recipe source, filter and grinder. Do not count ice as additional poured extraction water. Separate extraction from cooling and dilution, then compare taste after stirring.": "请检查配方来源、滤纸和磨豆机。冰块不能算作额外注入粉层的萃取用水。区分萃取、冷却与稀释，并在搅拌后比较口味。",
   "Check the roast date and grinder details.": "请检查烘焙日期与磨豆机详情。",
   "Check the roaster’s description for processing and tasting notes before choosing.": "选择前请查看烘焙商说明，确认处理方式和风味描述。",
-  "Check the source for the ice amount; no unpublished quantity is added.": "查看冰的来源;没有未公布的数量添加。",
+  "Check the source for the ice amount; no unpublished quantity is added.": "请在来源中确认冰块用量；不添加来源未公布的数值。",
   "Check your email to confirm your account.": "查看您的电子邮件以确认您的账户。",
   "Check: {0}": "请检查：{0}",
   "Check: shorten the submission details and try again.": "检查:简短提交详细信息,然后再试一次。",
@@ -678,7 +678,7 @@
   "Compare drawdown and taste; change one variable in the next trial.": "比较抽取和口味;在下一个试验中更改一个变量。",
   "Compare output weight and taste over repeated brews. Stop for rubbing sounds or faults rather than masking them with a speed change.": "多次比较出液重量与口味。如出现摩擦声或故障应停止，不要通过改变转速掩盖问题。",
   "Compare roasts": "对比烘焙",
-  "Compare the first and second": "对比第一个和第二个",
+  "Compare the first and second": "对比结果1和结果2",
   "Compare time and taste with the same dose and grind and rinse after use.": "保持粉量与研磨一致比较时间和口味，使用后冲洗。",
   "Compare two lots using one recipe. Record variety, processing, roast and brew date to separate coffee differences from recipe changes.": "用同一配方对比两个批次，记录品种、处理、烘焙日期与冲煮日期，以区分咖啡差异和配方差异。",
   "Compare two or three tools, explore specifications and read member experiences.": "比较两个或三个工具,探索规格,并阅读会员体验。",
@@ -1020,7 +1020,7 @@
   "Experiment with dose, ratio and grind.": "尝试调整粉量、比例与研磨。",
   "Experiment with grind, dose and pressure technique.": "尝试调整研磨、粉量与施压方式。",
   "Experiment: three outcomes from one coffee": "实验：同一咖啡的三种结果",
-  "Explain the first": "解释第一个",
+  "Explain the first": "解释第一个结果",
   "Explainable matching, not an AI confidence score. Community evidence is not loaded in this mobile preview.": "可解释的匹配,不是人工智能信任评分. 社区证据不被加载在此移动预览中。",
   "Explore ": "探索 ",
   "Explore {0} settings and choose a recipe for your coffee and taste.": "探索 {0} 设置,并选择您的咖啡和口味的配方。",
@@ -2827,7 +2827,7 @@
   "Unmatched or undocumented: ": "未匹配或未证实： ",
   "Unrated": "未评分",
   "Unsave: ": "取消收藏： ",
-  "unspecified": "未提供",
+  "unspecified": "未说明",
   "Unspecified": "未提供",
   "Unspecified machine": "未说明的机器",
   "Until flow ends": "直到流量结束",
@@ -3081,5 +3081,6 @@
   "芦田家 - Peru": "芦田家 - Peru",
   "花魁 Brew by Fu Roastery®️": "花魁 Brew by Fu Roastery®️",
   "花魁(冰) Brew by Fu Roastery®️": "花魁(冰) Brew by Fu Roastery®️",
-  "Coffees, tasting notes, roasters and recipes. Search in all supported languages.": "咖啡、风味、烘焙商与配方。支持使用所有提供的语言搜索。"
+  "Coffees, tasting notes, roasters and recipes. Search in all supported languages.": "咖啡、风味、烘焙商与配方。支持使用所有提供的语言搜索。",
+  "Source brew settings; water is in ml. Open the original link for device-specific instructions. Total brew time was not published.": "来源提供的萃取设置，水量单位为ml。请打开原始链接查看设备的具体操作说明。来源未公布总萃取时间。"
 }

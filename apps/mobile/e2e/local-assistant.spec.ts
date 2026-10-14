@@ -16,7 +16,7 @@ async function openAssistant(page: Page, offlineCatalog = false, expiredOffer = 
       searches.push(query);
       // Return wrong-style and wrong-brewer records too: the client must retain
       // the user's constraints even if a backend response is inconsistent.
-      const base = { kind: 'recipe', category: null, offers: [], methods: ['xbloom'], source_url: 'https://recipe.example/coconut', summary_ar: 'وصفة منشورة لجوز الهند.', summary_en: 'Published coconut recipe.', facts: { dose: 15, water: null, temperature: 90, grind: '57', notes: ['Coconut'], serving_style: 'iced', source_brew: { water_ml: 150, model: 'Original' }, steps: [{ description_ar: 'صب 45 مل حسب المصدر.', description_en: 'Pour 45 ml as published.' }] } };
+      const base = { kind: 'recipe', category: null, offers: [], methods: ['xbloom'], source_url: 'https://recipe.example/coconut', summary_ar: 'إعدادات التحضير من المصدر؛ الماء بالملليلتر. افتح الرابط الأصلي لتعليمات الجهاز. وقت التحضير الكلي غير منشور.', summary_en: 'Source brew settings; water is in ml. Open the original link for device-specific instructions. Total brew time was not published.', facts: { dose: 15, water: null, temperature: 90, grind: '57', notes: ['Coconut'], serving_style: 'iced', source_brew: { water_ml: 150, model: 'Original' }, steps: [{ description_ar: 'صب 45 مل حسب المصدر.', description_en: 'Pour 45 ml as published.' }, {description_ar:'الماء: 35 مل · حرارة المصدر: 92 · التدفق: غير منشور · التوقف: 19 ث. راجع نمط الصب في رابط المصدر.',description_en:'Water: 35 ml; source temperature: 92; flow: unspecified ml/s; pause: 19 s. Check the original link for pouring pattern.'}] } };
       data = [
         { ...base, id: 'cold-coconut', title_ar: 'وصفة جوز الهند الباردة', title_en: 'Cold coconut recipe', search_text: 'coconut xbloom' },
         { ...base, id: 'hot-both', title_ar: 'وصفة حارة', title_en: 'Hot recipe', search_text: 'coconut honey xbloom', facts: { ...base.facts, serving_style: 'hot' } },
@@ -316,6 +316,9 @@ for(const language of newLanguages) test(`localized cold recipe search retains o
   await expect(panel).toContainText(language.cold);
   await expect(panel).toContainText('15 g');await expect(panel).toContainText('150 ml');
   await expect(panel).toContainText('57');await expect(panel).toContainText('Original');
+  await expect(panel).not.toContainText('Source brew settings; water is in ml.');
+  await expect(panel).not.toContainText('unspecified');
+  await expect(panel).toContainText('35 ml');await expect(panel).toContainText('92');await expect(panel).toContainText('19');
   await expect(panel).not.toContainText('No recipe matched every search term.');
   expect(network.searches.at(-1)).toMatchObject({p_methods:['xbloom'],p_serving_style:'cold',p_limit:60});
   expect(network.providerCalls()).toBe(0);

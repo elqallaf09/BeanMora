@@ -18,6 +18,7 @@ function moduleAt(file){
 const {localeLabel,SUPPORTED_LOCALES,isLocale}=moduleAt(path.join(root,'localeText.ts'));
 const {assistantInput}=moduleAt(path.join(root,'assistantInput.ts'));
 const {createMessageTrace,tracedMessage}=moduleAt(path.join(root,'messageTrace.ts'));
+const {assistantCatalogSummary,importedRecipeSummary}=moduleAt(path.join(root,'assistantCatalogText.ts'));
 const {parseLocalAssistantQuery,converseLocally}=moduleAt(path.join(root,'core/local-coffee-assistant.ts'));
 const {flavorDisplay}=moduleAt(path.join(root,'sensory.ts'));
 const {matchesDeepSearch,canonicalSearchQuery}=moduleAt(path.join(root,'core/deepSearch.ts'));
@@ -59,6 +60,17 @@ for(const [locale,question] of Object.entries(questions)){
   const captured=trace.snapshot(message+': 18 g × 16 = 288 g\n'+userTitle);
   const answer=tracedMessage(captured,captured.answer,locale);
   assert.ok(!answer.includes('__bm_'));assert.ok(!answer.includes('Requested ratio calculation'));assert.ok(answer.endsWith('Save'));assert.ok(answer.includes('18 g × 16 = 288 g'));
+  const summary=assistantCatalogSummary(locale,null,importedRecipeSummary);
+  assert.notEqual(summary,importedRecipeSummary,locale+' must translate the importer notice');
+  assert.ok(summary.includes('ml'));
+  assert.equal(assistantCatalogSummary(locale,null,'Original publisher prose: Save / unspecified'),'Original publisher prose: Save / unspecified');
+  const sourcePour='Water: 35 ml; source temperature: 92; flow: unspecified ml/s; pause: 19 s. Check the original link for pouring pattern.';
+  const pour=localeLabel(locale,'الماء: 35 مل · حرارة المصدر: 92 · التدفق: غير منشور · التوقف: 19 ث. راجع نمط الصب في رابط المصدر.',sourcePour);
+  assert.ok(!pour.includes('unspecified'),locale+' must translate the importer missing-value sentinel');
+  for(const value of ['35','92','19','ml/s'])assert.ok(pour.includes(value),locale+' changed source pour fact '+value);
+  const publisherTrace=createMessageTrace('publisher-title');
+  const publisherTitle=publisherTrace.value('اسم منشور','unspecified');
+  assert.equal(tracedMessage(publisherTrace.snapshot(publisherTitle),publisherTitle,locale),'unspecified');
   const dynamic=localeLabel(locale,'الصبة 57','Pour 57');assert.ok(dynamic.includes('57'));assert.notEqual(dynamic,'Pour 57');
   const result=await converseLocally(input,'en',[],{search:async()=>({documents:[],rates:[]}),translate:trace.label,translateValue:trace.value});
   assert.equal(result.query.kind,'recipe');assert.equal(result.query.servingStyle,'cold');
