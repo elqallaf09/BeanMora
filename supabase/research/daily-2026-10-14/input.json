@@ -1,0 +1,272 @@
+{
+  "importId": "reviewed-catalog-2026-10-14",
+  "verifiedAt": "2026-10-14",
+  "batches": [
+    {
+      "region": "gulf-and-moka",
+      "data": {
+        "roasters": [
+          {
+            "name": "Harenna Roastery",
+            "name_ar": "محمصة هارينا",
+            "country": "SA",
+            "website": "https://harennaroastery.com/",
+            "source_url": "https://harennaroastery.com/dbErwra"
+          },
+          {
+            "name": "Al-Gharb Coffee Roasters",
+            "name_ar": "الغرب لتحميص القهوة",
+            "country": "PT",
+            "website": "https://www.al-gharb.coffee/",
+            "source_url": "https://www.al-gharb.coffee/"
+          }
+        ],
+        "coffees": [
+          {
+            "name": "Cauca — Colombia",
+            "name_ar": "كاوكا — كولومبيا",
+            "roaster": "Harenna Roastery",
+            "origin": "Colombia",
+            "origin_ar": "كولومبيا",
+            "process": "Washed",
+            "source_url": "https://harennaroastery.com/dbErwra",
+            "flavor_notes": [
+              "Fruity",
+              "Caramel",
+              "Citrus"
+            ],
+            "flavor_notes_ar": [
+              "فواكه",
+              "كراميل",
+              "حمضيات"
+            ]
+          }
+        ],
+        "recipes": [
+          {
+            "recipe_type": "official_roaster",
+            "roaster_name": "Harenna Roastery",
+            "source_author_name": "Harenna Roastery",
+            "source_author_name_ar": "محمصة هارينا",
+            "coffee_name": "Cauca — Colombia",
+            "coffee_name_ar": "كاوكا — كولومبيا",
+            "coffee_origin": "Colombia",
+            "coffee_origin_ar": "كولومبيا",
+            "serving_style": "unknown",
+            "source_url": "https://harennaroastery.com/dbErwra",
+            "water_grams": null,
+            "grinder_setting": null,
+            "flavor_notes": [
+              "Fruity",
+              "Caramel",
+              "Citrus"
+            ],
+            "flavor_notes_ar": [
+              "فواكه",
+              "كراميل",
+              "حمضيات"
+            ],
+            "pours": [],
+            "slug": "harenna-cauca-v60-20g-300ml",
+            "title": "Harenna Cauca — V60 20 g / 300 ml",
+            "title_ar": "هارينا كاوكا — V60 20 g / 300 ml",
+            "brew_method": "v60",
+            "dose_grams": 20,
+            "water_ml": 300,
+            "water_temp_c": null,
+            "total_time_seconds": 165,
+            "source_brew_parameters": {
+              "manual": {
+                "equipment": "V60",
+                "source_ratio_text": "1:15 (publisher-stated; water published in ml)",
+                "water_ml": 300,
+                "scalable": false,
+                "serving_note": "Serving style not explicitly stated; retained as unknown.",
+                "source_pours": [
+                  {
+                    "cumulative_ml": 40,
+                    "source_time_seconds": 30
+                  },
+                  {
+                    "cumulative_ml": 100,
+                    "source_time_seconds": 60
+                  },
+                  {
+                    "cumulative_ml": 180,
+                    "source_time_seconds": 90
+                  },
+                  {
+                    "cumulative_ml": 240,
+                    "source_time_seconds": 120
+                  },
+                  {
+                    "cumulative_ml": 300,
+                    "source_time_seconds": 165
+                  }
+                ],
+                "time_note": "Publisher gives these pour times without specifying start versus completion.",
+                "time_note_ar": "المصدر يذكر أوقات الصبات دون توضيح هل هي للبداية أم نهاية الصبة.",
+                "temperature_note": "The source prints 90° without naming the unit; no Celsius value is assumed.",
+                "temperature_note_ar": "المصدر يذكر 90° دون تسمية الوحدة؛ لم نفترض قيمة بالسيلسيوس."
+              }
+            },
+            "steps": [
+              {
+                "title": "First pour",
+                "title_ar": "الصبة الأولى",
+                "description": "Use 20 g coffee; the first pour is 40 ml with a published time of 0:30.",
+                "description_ar": "استخدم 20 g بن؛ الصبة الأولى 40 ml ووقتها المنشور 0:30.",
+                "step_kind": "pour"
+              },
+              {
+                "title": "Second pour",
+                "title_ar": "الصبة الثانية",
+                "description": "Reach a cumulative 100 ml; published time 1:00.",
+                "description_ar": "أكمل إلى إجمالي 100 ml؛ الوقت المنشور 1:00.",
+                "step_kind": "pour"
+              },
+              {
+                "title": "Third pour",
+                "title_ar": "الصبة الثالثة",
+                "description": "Reach a cumulative 180 ml; published time 1:30.",
+                "description_ar": "أكمل إلى إجمالي 180 ml؛ الوقت المنشور 1:30.",
+                "step_kind": "pour"
+              },
+              {
+                "title": "Fourth pour",
+                "title_ar": "الصبة الرابعة",
+                "description": "Reach a cumulative 240 ml; published time 2:00.",
+                "description_ar": "أكمل إلى إجمالي 240 ml؛ الوقت المنشور 2:00.",
+                "step_kind": "pour"
+              },
+              {
+                "title": "Final pour",
+                "title_ar": "الصبة الأخيرة",
+                "description": "Reach a cumulative 300 ml; the published final time is 2:45.",
+                "description_ar": "أكمل إلى إجمالي 300 ml؛ الوقت النهائي المنشور 2:45.",
+                "step_kind": "pour"
+              }
+            ]
+          },
+          {
+            "recipe_type": "official_roaster",
+            "roaster_name": "Harenna Roastery",
+            "source_author_name": "Harenna Roastery",
+            "source_author_name_ar": "محمصة هارينا",
+            "coffee_name": "Cauca — Colombia",
+            "coffee_name_ar": "كاوكا — كولومبيا",
+            "coffee_origin": "Colombia",
+            "coffee_origin_ar": "كولومبيا",
+            "serving_style": "unknown",
+            "source_url": "https://harennaroastery.com/dbErwra",
+            "water_grams": null,
+            "grinder_setting": null,
+            "flavor_notes": [
+              "Fruity",
+              "Caramel",
+              "Citrus"
+            ],
+            "flavor_notes_ar": [
+              "فواكه",
+              "كراميل",
+              "حمضيات"
+            ],
+            "pours": [],
+            "slug": "harenna-cauca-espresso-18g-33ml",
+            "title": "Harenna Cauca — Espresso 18 g / 33 ml",
+            "title_ar": "هارينا كاوكا — إسبريسو 18 g / 33 ml",
+            "brew_method": "espresso",
+            "dose_grams": 18,
+            "water_temp_c": null,
+            "total_time_seconds": 28,
+            "yield_ml": 33,
+            "source_brew_parameters": {
+              "manual": {
+                "equipment": "Espresso machine; model not published",
+                "yield_ml": 33,
+                "scalable": false,
+                "time_note": "28 seconds; timing convention is not published.",
+                "time_note_ar": "28 ثانية؛ طريقة بدء حساب الوقت غير منشورة.",
+                "temperature_note": "The source prints 90° without naming the unit; no Celsius value is assumed.",
+                "temperature_note_ar": "المصدر يذكر 90° دون تسمية الوحدة؛ لم نفترض قيمة بالسيلسيوس."
+              }
+            },
+            "steps": [
+              {
+                "title": "Published parameters",
+                "title_ar": "المقادير المنشورة",
+                "description": "Use 18 g coffee at 90°C; the source lists 33 ml espresso in 28 seconds. Grinder, machine model and preparation steps are not published.",
+                "description_ar": "استخدم 18 g بن عند 90°C؛ المصدر يذكر 33 ml إسبريسو خلال 28 ثانية. موديل الماكينة والطاحونة وخطوات تجهيز البن غير منشورة.",
+                "step_kind": "other"
+              }
+            ]
+          },
+          {
+            "slug": "al-gharb-moka-pot-source-guide",
+            "title": "Al-Gharb — Moka Pot Guide",
+            "title_ar": "الغرب — دليل الموكا بوت",
+            "brew_method": "moka_pot",
+            "recipe_type": "official_roaster",
+            "roaster_name": "Al-Gharb Coffee Roasters",
+            "source_author_name": "Al-Gharb Coffee Roasters",
+            "source_author_name_ar": "الغرب لتحميص القهوة",
+            "source_url": "https://www.al-gharb.coffee/recipes/moka-pot",
+            "serving_style": "unknown",
+            "dose_grams": null,
+            "water_grams": null,
+            "water_temp_c": null,
+            "total_time_seconds": 300,
+            "grinder_setting": null,
+            "flavor_notes": [],
+            "flavor_notes_ar": [],
+            "source_brew_parameters": {
+              "manual": {
+                "equipment": "Moka pot; size not specified",
+                "servings_text": "2–4 cups (publisher-stated; no cup volume)",
+                "scalable": false,
+                "time_note": "Publisher lists 5 minutes; no detailed timing convention.",
+                "time_note_ar": "المصدر يذكر 5 دقائق دون تفصيل لطريقة حساب الوقت."
+              }
+            },
+            "steps": [
+              {
+                "title": "Prepare the pot",
+                "title_ar": "تجهيز الإبريق",
+                "description": "Check the valve, fill the base to just below it, fill the coffee basket and assemble the pot. No dose or water weight is published.",
+                "description_ar": "افحص الصمام، واملأ القاعدة إلى ما دونه، واملأ سلة البن ثم أغلق الإبريق. وزن البن والماء غير منشورين.",
+                "step_kind": "other"
+              },
+              {
+                "title": "Heat",
+                "title_ar": "التسخين",
+                "description": "Place over medium heat; the source describes bubbling and hissing when done.",
+                "description_ar": "ضعه على حرارة متوسطة؛ يصف المصدر صوت الفقاعات والهسهسة عند الانتهاء.",
+                "step_kind": "other"
+              },
+              {
+                "title": "Serve",
+                "title_ar": "التقديم",
+                "description": "Serve the brewed coffee. The source does not specify a hot/cold serving label.",
+                "description_ar": "قدّم القهوة؛ المصدر لا يحدد تصنيف التقديم حارًا أو باردًا.",
+                "step_kind": "serve"
+              }
+            ],
+            "pours": []
+          }
+        ],
+        "excluded": [
+          {
+            "url": "https://talacoffeeroasters.com/brew-guides/clever",
+            "reason": "The current method taxonomy has no Clever-specific category; do not relabel it as another brewer."
+          },
+          {
+            "url": "https://cleverroaster.com/en/",
+            "reason": "Roastery country was not established from the opened primary page; not imported."
+          }
+        ]
+      }
+    }
+  ],
+  "photoChecks": [],
+  "corrections": []
+}

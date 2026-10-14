@@ -228,6 +228,18 @@ test('a specific lesson replaces previous shopping results', async ({ page }) =>
   await expect(panel).toContainText('TDS وحده');
   await expect(page.getByTestId('assistant-result')).toHaveCount(0);
 });
+for (const english of [false, true]) test(`direct espresso flow complaints stay local (${english ? 'en' : 'ar'})`, async ({ page }) => {
+  const network = await openAssistant(page, true);
+  if (english) await setLanguage(page, 'en');
+  const panel = page.getByTestId('coffee-assistant');
+  await ask(page, english ? 'Espresso is fast, dose:18 yield:36, 30 seconds' : 'الإسبريسو سريع جرعة:18 الناتج:36 في 30 ثانية', english);
+  await expect(panel).toContainText('1:2');
+  await expect(panel).toContainText(english ? 'finer' : 'أنعم');
+  await ask(page, english ? 'Espresso is too slow' : 'الإسبريسو بطيء', english);
+  await expect(panel).toContainText(english ? 'coarser' : 'أخشن');
+  expect(network.searches).toHaveLength(0);
+  expect(network.providerCalls()).toBe(0);
+});
 for (const english of [false, true]) test(`colloquial weights and espresso flow coaching stay local (${english ? 'en' : 'ar'})`, async ({ page }) => {
   const network = await openAssistant(page, true);
   if (english) await setLanguage(page, 'en');

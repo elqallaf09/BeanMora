@@ -1,4 +1,4 @@
-/** Editorial lessons. Espresso dial-in reviewed 2026-10-13. Model settings belong to their manuals. */
+/** Editorial lessons. Moka safety reviewed 2026-10-14. Model settings belong to their manuals. */
 export type CoffeeCourseGroup = 'beans' | 'grinding' | 'water' | 'equipment' | 'brewing' | 'roasting' | 'sensory';
 export interface CoffeeLesson {
   id: string; group: CoffeeCourseGroup; titles: [string, string]; keywords: RegExp; priority: number;
@@ -6,6 +6,14 @@ export interface CoffeeLesson {
   supportingSources?: { title: string; url: string }[];
 }
 export const COFFEE_CURRICULUM: CoffeeLesson[] = [
+  {
+    id: 'moka-safety', group: 'brewing', titles: ['الموكا بوت وصمام الأمان', 'Moka pot and safety valve'], priority: 115,
+    keywords: /موكا بوت|وعاء الموكا|صمام.*امان|moka pot|moka express|safety valve/,
+    ar: 'في موكا إكسبرس، املأ القاعدة إلى ما دون صمام الأمان، وضع البن دون كبسه. توصي بياليتي بحرارة منخفضة إلى متوسطة؛ أبقِ لهب الغاز بعيدًا عن جوانب الإبريق، وارفعه عن الحرارة عند امتلائه. لا تفترض جرعة أو كمية ماء ثابتة لكل أحجام الموكا.',
+    en: 'For Moka Express, fill the base below the safety valve and add grounds without tamping. Bialetti recommends low-to-medium heat; keep a gas flame from reaching up the sides and remove the pot from heat when full. Different pot sizes do not share one fixed dose or water amount.',
+    more: ['راجع دليل موديلك قبل الاستخدام والتنظيف، ولا تنقل تعليمات التوافق مع الموقد إلى كل موديلات الموكا. دليل بياليتي يربط مدة التحضير بحجم الإبريق وشدة الحرارة، وليست رقمًا عامًا للطاحونة أو وصفة موحدة.', 'Use your model’s instructions for operation, cleaning and hob compatibility. Bialetti relates brewing duration to pot size and heat intensity; it is not a universal grinder setting or recipe.'],
+    title: 'Bialetti — How to use the Moka Express', url: 'https://bialetti-cookware.zendesk.com/hc/en-us/articles/5416235346322-How-to-use-the-Moka-Express',
+  },
   {
     id: 'espresso-dial-in', group: 'brewing', titles: ['ضبط وصفة الإسبريسو', 'Dialing in espresso'], priority: 110,
     keywords: /ضبط.*(?:اسبرسو|اسبريسو)|دايل ان|dial.?in.*espresso|dialing in espresso/,

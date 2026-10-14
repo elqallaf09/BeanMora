@@ -191,7 +191,10 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
   // Espresso yield and filter water are different measurements. Keep an
   // unanswered method clarification, but start fresh for a different brewer.
   const previousCoach = previous?.intent === 'coach' && (!methods.length || !previous.coach?.method || methods[0] === previous.coach.method) ? previous.coach : undefined;
-  const coachIntent = !/وصف|recipe|ايحاء|notes|احب|love/.test(q) && (sour || bitter || weak || /استخلاص.*بطي|استخلاص.*سريع|shot.*(?:slow|fast)|chok/.test(q) || (previous?.intent === 'coach' && methods.length > 0 && !knowledge) || measurementFollowUp);
+  // Require a direct flow statement, not merely an equipment request that
+  // mentions fast shipping or a fast machine. Both languages can omit “shot”.
+  const directFlow = methods.includes('espresso') && /(?:\bespresso\b|اسبر(?:ي)?سو)\s+(?:(?:is|shot|extraction|flow|flows)\s+)*(?:(?:too|very)\s+)?(?:fast\b|slow\b|سريع|بطي)/.test(q);
+  const coachIntent = !shopping && !/وصف|recipe|ايحاء|notes|احب|love/.test(q) && (sour || bitter || weak || directFlow || /استخلاص.*بطي|استخلاص.*سريع|shot.*(?:slow|fast)|chok/.test(q) || (previous?.intent === 'coach' && methods.length > 0 && !knowledge) || measurementFollowUp);
   if (coachIntent) {
     const signal = sour && bitter ? 'mixed' : sour ? 'sour' : bitter ? 'bitter' : weak ? 'weak' : /بطي|slow|chok/.test(q) ? 'slow' : /سريع|fast/.test(q) ? 'fast' : previousCoach?.signal ?? 'unknown';
     const coach = { ...previousCoach, signal, method, ...Object.fromEntries(Object.entries(measurements).filter(([, value]) => value && positive(Number(value))).map(([key, value]) => [key, Number(value)])) };
