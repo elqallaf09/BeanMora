@@ -78,7 +78,7 @@
             "source_brew_parameters": {
               "manual": {
                 "equipment": "V60",
-                "source_ratio_text": "1:15 (publisher-stated; water published in ml)",
+                "source_ratio_text": "1:15",
                 "water_ml": 300,
                 "scalable": false,
                 "serving_note": "Serving style not explicitly stated; retained as unknown.",
@@ -104,8 +104,8 @@
                     "source_time_seconds": 165
                   }
                 ],
-                "time_note": "Publisher gives these pour times without specifying start versus completion.",
-                "time_note_ar": "المصدر يذكر أوقات الصبات دون توضيح هل هي للبداية أم نهاية الصبة.",
+                "time_note": "Final time 2:45; individual pour times are not identified as starts or completions.",
+                "time_note_ar": "الوقت النهائي 2:45؛ أوقات الصبات لا تحدد بداية الصبة أو نهايتها.",
                 "temperature_note": "The source prints 90° without naming the unit; no Celsius value is assumed.",
                 "temperature_note_ar": "المصدر يذكر 90° دون تسمية الوحدة؛ لم نفترض قيمة بالسيلسيوس."
               }
@@ -182,7 +182,7 @@
             "yield_ml": 33,
             "source_brew_parameters": {
               "manual": {
-                "equipment": "Espresso machine; model not published",
+                "equipment": "Espresso machine",
                 "yield_ml": 33,
                 "scalable": false,
                 "time_note": "28 seconds; timing convention is not published.",
@@ -221,7 +221,7 @@
             "flavor_notes_ar": [],
             "source_brew_parameters": {
               "manual": {
-                "equipment": "Moka pot; size not specified",
+                "equipment": "Moka pot",
                 "servings_text": "2–4 cups (publisher-stated; no cup volume)",
                 "scalable": false,
                 "time_note": "Publisher lists 5 minutes; no detailed timing convention.",

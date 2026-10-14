@@ -41,6 +41,19 @@ const { loadData, mapRecipe } = await import(
 const { sourceBrew } = await import(
   pathToFileURL(temp + '/sourceBrew.mjs').href
 );
+test('manual source milliliters are displayed as milliliters without invented grams', () => {
+  const row = { id: 'source-ml', title: 'Source V60', brew_method: 'v60', visibility: 'public', dose_grams: 20, water_grams: null, source_brew_parameters: { manual: { water_ml: 300 } } };
+  const mapped = mapRecipe(row, 'ar');
+  assert.equal(mapped.water, 300);
+  assert.equal(mapped.waterUnit, 'ml');
+  assert.equal(sourceBrew({ water_ml: 250, manual: { water_ml: 300 } }).water_ml, 250);
+  for (const value of [0, -1, Infinity, 50000, '300']) assert.equal(sourceBrew({ manual: { water_ml: value } }).water_ml, undefined);
+});
+test('recipe author prefers the publisher-provided localized source name', () => {
+  const row = { id: 'source-author', title: 'Source V60', brew_method: 'v60', visibility: 'public', source_author_name: 'Harenna Roastery', source_brew_parameters: { discovery: { creator_name: 'Harenna Roastery', creator_name_ar: 'محمصة هارينا' } } };
+  assert.equal(mapRecipe(row, 'ar').author, 'محمصة هارينا');
+  assert.equal(mapRecipe(row, 'en').author, 'Harenna Roastery');
+});
 test('source settings preserve explicit off flags and zero pattern without inventing missing values', () => {
   const source = sourceBrew({
     pours: [
