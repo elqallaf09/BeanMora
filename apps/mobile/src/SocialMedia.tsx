@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext, useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { randomUUID } from 'expo-crypto';
@@ -27,24 +28,27 @@ export async function chooseSocialMedia(type: 'image' | 'video', camera = false)
 }
 
 export function SocialMediaView({ source, type, label }: { source: string; type: 'image' | 'video'; label: string }) {
+  const i18nUi = useLabels();
   const url = useContentMedia(source);
   const ar = useContext(Language) === 'ar';
-  if (!url) return <Txt style={styles.muted}>{ar ? 'جارٍ تحميل الوسائط…' : 'Loading media…'}</Txt>;
+  if (!url) return <Txt style={styles.muted}>{ar ? 'جارٍ تحميل الوسائط…' : i18nUi('جارٍ تحميل الوسائط…', 'Loading media…')}</Txt>;
   return type === 'video' ? <Video key={url} url={url} label={label} /> : <Image source={{ uri: url }} accessibilityLabel={label} resizeMode="contain" style={{ width: '100%', height: 260, borderRadius: 14, backgroundColor: colors.cream }} />;
 }
 function Video({ url, label }: { url: string; label: string }) {
+  const i18nUi = useLabels();
   const player = useVideoPlayer(url);
   const ar = useContext(Language) === 'ar';
   const [failed, setFailed] = useState(false);
   useEffect(() => { const listener = player.addListener('statusChange', event => setFailed(event.status === 'error')); return () => listener.remove(); }, [player]);
-  return <View accessibilityLabel={label} style={{ gap: 6 }}><VideoView accessibilityLabel={label} player={player} nativeControls contentFit="contain" style={{ width: '100%', height: 260, borderRadius: 14 }} />{failed ? <Txt accessibilityRole="alert" style={styles.error}>{ar ? 'تعذّر تشغيل الفيديو على هذا الجهاز.' : 'This video could not be played on this device.'}</Txt> : null}</View>;
+  return <View accessibilityLabel={label} style={{ gap: 6 }}><VideoView accessibilityLabel={label} player={player} nativeControls contentFit="contain" style={{ width: '100%', height: 260, borderRadius: 14 }} />{failed ? <Txt accessibilityRole="alert" style={styles.error}>{ar ? 'تعذّر تشغيل الفيديو على هذا الجهاز.' : i18nUi('تعذّر تشغيل الفيديو على هذا الجهاز.', 'This video could not be played on this device.')}</Txt> : null}</View>;
 }
 export function MediaChoices({ choose, disabled, camera = false }: { choose: (type: 'image' | 'video', camera?: boolean) => void; disabled: boolean; camera?: boolean }) {
+  const i18nUi = useLabels();
   const ar = useContext(Language) === 'ar';
   return <View style={[styles.row, { flexWrap: 'wrap', flexDirection: ar ? 'row-reverse' : 'row' }]}>
-    <Action compact title={ar ? 'صورة' : 'Photo'} disabled={disabled} onPress={() => choose('image')} />
-    <Action compact title={ar ? 'فيديو' : 'Video'} disabled={disabled} onPress={() => choose('video')} />
-    {camera ? <Action compact title={ar ? 'تصوير الآن' : 'Take photo'} disabled={disabled} onPress={() => choose('image', true)} /> : null}
-    {camera ? <Action compact title={ar ? 'تصوير فيديو' : 'Record video'} disabled={disabled} onPress={() => choose('video', true)} /> : null}
+    <Action compact title={ar ? 'صورة' : i18nUi('صورة', 'Photo')} disabled={disabled} onPress={() => choose('image')} />
+    <Action compact title={ar ? 'فيديو' : i18nUi('فيديو', 'Video')} disabled={disabled} onPress={() => choose('video')} />
+    {camera ? <Action compact title={ar ? 'تصوير الآن' : i18nUi('تصوير الآن', 'Take photo')} disabled={disabled} onPress={() => choose('image', true)} /> : null}
+    {camera ? <Action compact title={ar ? 'تصوير فيديو' : i18nUi('تصوير فيديو', 'Record video')} disabled={disabled} onPress={() => choose('video', true)} /> : null}
   </View>;
 }

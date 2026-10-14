@@ -8,6 +8,8 @@ export interface AssistantQuery {
   terms: string[]; amount: number | null; currency: AssistantCurrency | null;
   clarification: 'currency' | 'budget' | 'intent' | null;
   region?: 'KW' | 'SA' | 'US' | null; availableOnly?: boolean; purchaseIntent?: boolean;
+  servingStyle?: 'hot' | 'cold' | null;
+  noteTerms?: string[];
 }
 export interface CatalogOffer {
   amount: number; currency: AssistantCurrency; url: string; checked_at: string;
@@ -26,6 +28,7 @@ export interface AssistantMatch {
   document: AssistantDocument; matchedTerms: string[]; allTerms: boolean;
   price: { offer: CatalogOffer; converted: number; currency: AssistantCurrency; rateDates: string[]; rateSources: string[] } | null;
   purchaseLinks?: { url: string; seller: string; region: string }[];
+  confirmedNotes?: string[];
 }
 const notes = flavorSearchVocabulary;
 // Reviewed catalog countries use both names and ISO codes. Expand codes for
@@ -53,6 +56,21 @@ function aliasPattern(alias: string): string {
 }
 function matchesAlias(text: string, alias: string): boolean {
   return new RegExp(aliasPattern(alias), 'u').test(text);
+}
+/** A machine mentioned as the brewer is not a request to buy that machine. */
+export function hasRecipeIntent(message: string): boolean {
+  const q = normalizeSearch(message);
+  return ['وصفة', 'وصفات', 'recipe', 'recipes'].some(alias => matchesAlias(q, alias));
+}
+const servingAliases = {
+  cold: ['بارد', 'باردة', 'مثلج', 'مثلجة', 'ايس', 'ايسد', 'cold', 'iced', 'ice'],
+  hot: ['حار', 'حارة', 'ساخن', 'ساخنة', 'hot'],
+};
+export function assistantRecipeServingStyle(document: AssistantDocument): 'hot' | 'cold' | 'iced' | null {
+  const brew = document.facts?.source_brew as Record<string, unknown> | undefined;
+  const discovery = brew?.discovery as Record<string, unknown> | undefined;
+  const style = document.facts?.serving_style ?? discovery?.serving_style;
+  return style === 'hot' || style === 'cold' || style === 'iced' ? style : null;
 }
 const equipmentPlurals = ['مكائن', 'مكاين', 'مكنة', 'طواحين', 'مطاحن', 'machines', 'grinders', 'kettles', 'scales'];
 const shoppingWords = ['موقع', 'مواقع', 'متجر', 'متاجر', 'محل', 'محلات', 'بيع', 'لبيع', 'يبيع', 'تبيع', 'يبع', 'شراء', 'لشراء', 'اشتري', 'اشتريها', 'اشتريه', 'ينباع', 'رابط', 'روابط', 'online', 'website', 'websites', 'site', 'sites', 'shop', 'shops', 'store', 'stores', 'retailer', 'retailers', 'seller', 'sellers', 'buy', 'purchase', 'sell', 'sells', 'selling'];
@@ -100,10 +118,14 @@ export function parseAssistantQuery(message: string, previous?: AssistantQuery |
   const foundNames = catalogNames.filter(group=>group.some(alias=>matchesAlias(q,alias))).map(group=>group[0]);
   const recipe = /وصف|تحضير|استخلاص|recipe|brew|ايحاء|نكه|طعم/.test(q) || foundNotes.length > 0;
   const gear = hasEquipmentIntent(q);
-  const kind: AssistantKind | null = gear ? 'equipment' : recipe ? 'recipe' : /محمص|محامص|roaster/.test(q) ? 'roaster' : /حبوب|\bbeans?\b/.test(q) ? 'coffee' : previous?.kind ?? null;
+  const kind: AssistantKind | null = hasRecipeIntent(q) ? 'recipe' : gear ? 'equipment' : recipe ? 'recipe' : /محمص|محامص|roaster/.test(q) ? 'roaster' : /حبوب|\bbeans?\b/.test(q) ? 'coffee' : previous?.kind ?? null;
   const purchaseFollowUp = /ميزاني|سعر|دولار|دينار|ريال|budget|price|under|\b(?:usd|kwd|sar)\b|متوفر|متاح|in stock|available|بالكويت|في الكويت|بالسعوديه|في السعوديه|in kuwait|in saudi/.test(q) || /^\d+(?:[.,]\d+)?$/.test(q);
   const purchaseIntent = kind === 'equipment' && (isEquipmentShoppingRequest(q) || (!gear && purchaseFollowUp && previous?.purchaseIntent === true));
-  const category = /طاحون|مطحن|طواحين|مطاحن|grinder/.test(q) ? 'grinder' : /غلاي|kettle/.test(q) ? 'kettle' : matchesAlias(q,'ميزان') || /\bscale\b/.test(q) ? 'scale' : gear && foundMethods.includes('espresso') ? 'espresso_machine' : gear && foundMethods.includes('xbloom') ? 'xbloom' : gear ? null : kind === previous?.kind ? previous?.category ?? null : null;
+  const category = kind !== 'equipment' ? null : /طاحون|مطحن|طواحين|مطاحن|grinder/.test(q) ? 'grinder' : /غلاي|kettle/.test(q) ? 'kettle' : matchesAlias(q,'ميزان') || /\bscale\b/.test(q) ? 'scale' : gear && foundMethods.includes('espresso') ? 'espresso_machine' : gear && foundMethods.includes('xbloom') ? 'xbloom' : gear ? null : kind === previous?.kind ? previous?.category ?? null : null;
+  const requestedStyles = (['cold', 'hot'] as const).filter(style => servingAliases[style].some(alias => matchesAlias(q, alias)));
+  const servingStyle = kind === 'recipe' ? requestedStyles.length === 1 ? requestedStyles[0] : requestedStyles.length ? null : previous?.kind === 'recipe' ? previous.servingStyle ?? null : null : null;
+  const noteRequest = ['إيحاء', 'إيحاءات', 'إيحاءة', 'نكهة', 'نكهات', 'طعم', 'notes', 'flavor', 'flavors', 'flavour', 'flavours', 'taste'].some(alias => matchesAlias(q, alias));
+  const noteTerms = kind === 'recipe' ? noteRequest ? foundNotes : !gear && !recipe ? previous?.noteTerms ?? [] : [] : [];
   const currencies: AssistantCurrency[] = [];
   if (/(?:\b|\d)usd\b|\$|دولار/.test(q)) currencies.push('USD');
   if (/(?:\b|\d)kwd\b|دينار|د\.?\s?ك(?:\s|$)/.test(q)) currencies.push('KWD');
@@ -119,12 +141,13 @@ export function parseAssistantQuery(message: string, previous?: AssistantQuery |
       && !(kind === 'equipment' && equipmentPlurals.some(alias => matchesAlias(word, alias)))
       && !(purchaseIntent && [...shoppingWords, 'وين', 'where', 'can', 'looking', 'looking for', 'first', 'second', 'third', 'الأول', 'الثاني', 'الثالث'].some(alias => matchesAlias(word, alias)))
       && !/^(\d|محامص|محمص|roasters?$|in$)/.test(word)
+      && !(kind === 'recipe' && Object.values(servingAliases).flat().some(alias => matchesAlias(word, alias)))
       && !methods.some(([, aliases]) => aliases.some(alias => normalizeSearch(alias).split(' ').some(part => matchesAlias(word, part)))))
     .map(word => places.find(group => group.some(alias => matchesAlias(word, alias)))?.[0] ?? word);
   const region = kind==='equipment' ? (/بالكويت|في الكويت|in kuwait/.test(q)?'KW':/بالسعوديه|في السعوديه|in saudi/.test(q)?'SA':previous?.region??null) : null;
   const availableOnly = kind==='equipment' && /متوفر|متاح|in stock|available/.test(q) && !/غير متوفر|نفاد|out of stock/.test(q) ? true : kind==='equipment' ? previous?.availableOnly??false : false;
   const terms = [...new Set([...foundNames, ...foundNotes, ...unknownTerms.filter(term=>!catalogNames.some(group=>group.some(alias=>normalizeSearch(alias)===term))&&!(kind==='equipment'&&(/^(متوفر|متاح)/.test(term)||['available','stock'].includes(term)))&&!(region&&['kuwait','saudi','بالكويت','بالسعوديه'].includes(term)))])].slice(0,8);
-  return { kind, category, methods: foundMethods.length ? foundMethods : (gear || recipe) && kind !== previous?.kind ? [] : previous?.methods ?? [], terms: terms.length ? terms : !gear && !recipe ? previous?.terms ?? [] : [], amount, currency, region, availableOnly, purchaseIntent,
+  return { kind, category, methods: foundMethods.length ? foundMethods : (gear || recipe) && kind !== previous?.kind ? [] : previous?.methods ?? [], terms: terms.length ? terms : !gear && !recipe ? previous?.terms ?? [] : [], amount, currency, region, availableOnly, purchaseIntent, servingStyle, noteTerms,
     clarification: amount !== null && (!Number.isFinite(amount) || amount <= 0) ? 'budget' : amount !== null && (!currency || currencies.length > 1) ? 'currency' : !kind ? 'intent' : null };
 }
 export function assistantSearchTerms(query: AssistantQuery): string[] {
@@ -148,8 +171,18 @@ export function rankAssistantDocuments(documents: AssistantDocument[], query: As
   return documents.flatMap(document=>{
     if (query.kind==='equipment' && query.category==='grinder' && query.methods.length && !document.methods.some(method=>query.methods.includes(method))) return [];
     if (document.kind !== query.kind || (query.category && document.category !== query.category) || (query.methods.length && query.kind==='recipe' && !document.methods.some(method=>query.methods.includes(method)))) return [];
+    if (query.kind === 'recipe' && query.servingStyle) {
+      const style = assistantRecipeServingStyle(document);
+      if (query.servingStyle === 'cold' ? style !== 'cold' && style !== 'iced' : style !== 'hot') return [];
+    }
     const search = deepSearchText(document.search_text);
-    const matchedTerms = query.terms.filter(term=>assistantSearchTerms({...query,terms:[term]}).some(alias=>matchesAlias(search,alias)));
+    const rawNotes = document.facts?.notes;
+    const publishedNotes = deepSearchText(typeof rawNotes === 'string' ? rawNotes : Array.isArray(rawNotes) ? rawNotes.filter(note => typeof note === 'string').join(' ') : '');
+    const noteTerms = query.kind === 'recipe' ? query.noteTerms ?? [] : [];
+    const confirmedNotes = noteTerms.filter(term => assistantSearchTerms({ ...query, terms: [term] }).some(alias => matchesAlias(publishedNotes, alias)));
+    // Honey processing is not a honey tasting note. Sparse catalog records may
+    // remain nearby search results, but cannot claim confirmed flavor matching.
+    const matchedTerms = query.terms.filter(term=>assistantSearchTerms({...query,terms:[term]}).some(alias=>matchesAlias(noteTerms.includes(term) && publishedNotes ? publishedNotes : search,alias)));
     if (query.terms.length && !matchedTerms.length) return [];
     const offers = (Array.isArray(document.offers) ? document.offers : []).filter(offer =>
       assistantSafeUrl(offer.url) && (!query.region || (offer.region === query.region && !offer.excluded_destinations?.includes(query.region)))
@@ -169,28 +202,41 @@ export function rankAssistantDocuments(documents: AssistantDocument[], query: As
     })).values()].slice(0, 3) : undefined;
     if (query.purchaseIntent && !purchaseLinks?.length) return [];
     if ((query.amount!==null || (!query.purchaseIntent && (query.region || query.availableOnly))) && !prices.length) return [];
-    return [{document,matchedTerms,allTerms:matchedTerms.length===query.terms.length,price:prices[0]??null,purchaseLinks}];
-  }).sort((a,b)=>Number(b.allTerms)-Number(a.allTerms) || b.matchedTerms.length-a.matchedTerms.length || Number(a.price?.offer.availability==='out_of_stock')-Number(b.price?.offer.availability==='out_of_stock') || (a.price?.currency===b.price?.currency?(a.price?.converted??Infinity)-(b.price?.converted??Infinity):0) || a.document.id.localeCompare(b.document.id)).slice(0,6);
+    return [{document,matchedTerms,allTerms:matchedTerms.length===query.terms.length && confirmedNotes.length===noteTerms.length,price:prices[0]??null,purchaseLinks,confirmedNotes}];
+  }).sort((a,b)=>Number(b.allTerms)-Number(a.allTerms) || (b.confirmedNotes?.length ?? 0)-(a.confirmedNotes?.length ?? 0) || b.matchedTerms.length-a.matchedTerms.length || Number(a.price?.offer.availability==='out_of_stock')-Number(b.price?.offer.availability==='out_of_stock') || (a.price?.currency===b.price?.currency?(a.price?.converted??Infinity)-(b.price?.converted??Infinity):0) || a.document.id.localeCompare(b.document.id)).slice(0,6);
 }
-export function assistantReply(query: AssistantQuery, matches: AssistantMatch[], locale: 'ar'|'en'): string {
+export function assistantReply(query: AssistantQuery, matches: AssistantMatch[], locale: 'ar'|'en', translate?: (arabic:string,english:string)=>string, translateValue?: (arabic:string,english:string)=>string): string {
   const ar=locale==='ar';
-  if(query.clarification==='currency')return ar?'حدد عملة الميزانية: دولار أمريكي USD، دينار كويتي KWD، أو ريال سعودي SAR.':'Which budget currency: US dollars (USD), Kuwaiti dinars (KWD), or Saudi riyals (SAR)?';
-  if(query.clarification==='budget')return ar?'اكتب ميزانية أكبر من صفر مع العملة.':'Enter a budget greater than zero and its currency.';
-  if(query.clarification==='intent')return ar?'اسألني عن معدات وميزانيتها، أو وصفة حسب إيحاءات البن وطريقة التحضير، أو محمصة.':'Ask about equipment and a budget, a recipe for your tasting notes and brew method, or a roaster.';
+  const L=translate??((arabic:string,english:string)=>ar?arabic:english);
+  const V=translateValue??((arabic:string,english:string)=>ar?arabic:english);
+  const termLabel=(term:string)=>notes.some(group=>group[0]===term)||places.some(group=>group[0]===term)?L(assistantTermLabel(term,'ar'),assistantTermLabel(term,'en')):assistantTermLabel(term,locale);
+  if(query.clarification==='currency')return L('حدد عملة الميزانية: دولار أمريكي USD، دينار كويتي KWD، أو ريال سعودي SAR.', 'Which budget currency: US dollars (USD), Kuwaiti dinars (KWD), or Saudi riyals (SAR)?');
+  if(query.clarification==='budget')return L('اكتب ميزانية أكبر من صفر مع العملة.', 'Enter a budget greater than zero and its currency.');
+  if(query.clarification==='intent')return L('اسألني عن معدات وميزانيتها، أو وصفة حسب إيحاءات البن وطريقة التحضير، أو محمصة.', 'Ask about equipment and a budget, a recipe for your tasting notes and brew method, or a roaster.');
   if(query.kind==='equipment' && query.purchaseIntent) {
     if(!matches.length)return query.amount!==null
-      ? (ar?'لم أجد رابط بائع بسعر حديث موثق ضمن ميزانيتك. جرّب البحث بدون ميزانية.':'I found no seller link with a recent verified price within your budget. Try searching without a budget.')
-      : (ar?'لم أجد روابط بائعين موثقة تطابق طلبك في كتالوغنا. جرّب اسم جهاز أو دولة أخرى.':'I found no documented seller links matching your request in our catalog. Try an equipment name or another country.');
-    return ar?'هذه روابط بائعين للمعدات التي طلبتها، من بيانات كتالوغنا. افتح «موقع البائع» للشراء، وراجع السعر والتوفر والشحن إلى بلدك في المتجر.':'These are catalog seller links for the equipment you requested. Open “Seller website” to buy and check current price, availability and shipping to your country at the store.';
+      ? (L('لم أجد رابط بائع بسعر حديث موثق ضمن ميزانيتك. جرّب البحث بدون ميزانية.', 'I found no seller link with a recent verified price within your budget. Try searching without a budget.'))
+      : (L('لم أجد روابط بائعين موثقة تطابق طلبك في كتالوغنا. جرّب اسم جهاز أو دولة أخرى.', 'I found no documented seller links matching your request in our catalog. Try an equipment name or another country.'));
+    return L('هذه روابط بائعين للمعدات التي طلبتها، من بيانات كتالوغنا. افتح «موقع البائع» للشراء، وراجع السعر والتوفر والشحن إلى بلدك في المتجر.', 'These are catalog seller links for the equipment you requested. Open “Seller website” to buy and check current price, availability and shipping to your country at the store.');
   }
   if(query.kind==='coffee') {
-    const requested = query.terms.map(term=>assistantTermLabel(term,locale)).join(ar?'، ':', ');
-    if(!matches.length)return ar?`لم أجد بنًا منشورًا يطابق${requested?' «'+requested+'»':' طلبك'} في مكتبتنا. جرّب إيحاءً آخر أو اسم البن أو المحمصة.`:`I found no published coffee matching ${requested||'your request'} in our catalog. Try another tasting note, coffee or roaster name.`;
-    const best = matches[0], name = ar ? best.document.title_ar||best.document.title_en : best.document.title_en||best.document.title_ar;
-    const matched = best.matchedTerms.map(term=>assistantTermLabel(term,locale)).join(ar?'، ':', ');
-    return ar ? `${best.allTerms?'أقرب ترشيح لطلبك':'لم أجد بنًا يطابق كل طلبك؛ أقرب خيار جزئي'}: ${name}.${matched?'\nيطابق: '+matched+'، بحسب البيانات المنشورة.':''}\nراجع وصف المحمصة لمعرفة المعالجة والإيحاءات قبل الاختيار.` : `${best.allTerms?'My closest catalog recommendation':'No coffee matched everything; the closest partial match is'}: ${name}.${matched?'\nMatches: '+matched+', according to the published information.':''}\nCheck the roaster’s description for processing and tasting notes before choosing.`;
+    const requested = query.terms.map(term=>termLabel(term)).join(ar?'، ':', ');
+    if(!matches.length)return L(`لم أجد بنًا منشورًا يطابق${requested?' «'+requested+'»':' طلبك'} في مكتبتنا. جرّب إيحاءً آخر أو اسم البن أو المحمصة.`, `I found no published coffee matching ${requested||'your request'} in our catalog. Try another tasting note, coffee or roaster name.`);
+    const best = matches[0], name = V(best.document.title_ar||best.document.title_en,best.document.title_en||best.document.title_ar);
+    const matched = best.matchedTerms.map(term=>termLabel(term)).join(ar?'، ':', ');
+    const heading = best.allTerms ? L('أقرب ترشيح لطلبك', 'My closest catalog recommendation') : L('لم أجد بنًا يطابق كل طلبك؛ أقرب خيار جزئي', 'No coffee matched everything; the closest partial match is');
+    return `${heading}: ${name}.${matched?'\n'+L('يطابق: ', 'Matches: ')+matched+L('، بحسب البيانات المنشورة.', ', according to the published information.'):''}\n${L('راجع وصف المحمصة لمعرفة المعالجة والإيحاءات قبل الاختيار.', 'Check the roaster’s description for processing and tasting notes before choosing.')}`;
   }
-  if(!matches.length)return query.amount!==null?(ar?'لم أجد خيارًا بسعر موثّق ضمن هذه الميزانية. جرّب ميزانية أخرى أو ابحث دون سعر.':'I found no option with a documented price within this budget. Try another budget or search without a price.'):(ar?'لم أجد سجلًا منشورًا يطابق طلبك. جرّب اسم البن أو الجهاز أو المحمصة.':'I found no published record matching your request. Try a coffee, equipment or roaster name.');
-  if(query.kind==='recipe'&&query.terms.length)return matches.some(match=>match.allTerms)?(ar?'هذه الوصفات تطابق شروط البحث في بياناتها المنشورة. افتح كل وصفة لمراجعة البن والمقادير والجهاز في مصدرها.':'These recipes match your search terms in their published data. Open each recipe to review its coffee, quantities and equipment in the source.'):(ar?'لم أجد وصفة تطابق كل شروط البحث. هذه خيارات قريبة تطابق بعض شروط البحث فقط.':'No recipe matched every search term. These nearby options match some search terms only.');
-  return query.amount!==null?(ar?'هذه خيارات من دليلنا ضمن الميزانية بحسب أسعار مؤرخة. التحويل تقديري، والشحن والضرائب وتوفر المتجر تُراجع عند الشراء.':'These catalog options fit the budget using dated prices. Conversion is indicative; check shipping, taxes and seller availability before buying.'):(ar?'هذه السجلات الأقرب لطلبك من معلومات BeanMora المنشورة.':'These are the closest published BeanMora records for your request.');
+  if (query.kind === 'recipe') {
+    const style = query.servingStyle === 'cold' ? (L(' باردة', ' cold')) : query.servingStyle === 'hot' ? (L(' حارة', ' hot')) : '';
+    if (!matches.length) return L(`لم أجد وصفة${style} منشورة تطابق طريقة التحضير وكلمات بحثك. جرّب إيحاءً واحدًا أو اسم البن، أو اطلب وصفات الجهاز بدون إيحاءات.`, `I found no published${style} recipe matching the brewer and your search terms. Try one tasting note, the coffee name, or recipes for this brewer without tasting notes.`);
+    const best = matches[0];
+    const name = V(best.document.title_ar || best.document.title_en,best.document.title_en || best.document.title_ar);
+    const matched = best.matchedTerms.filter(term => !query.noteTerms?.includes(term) || best.confirmedNotes?.includes(term));
+    const missing = query.terms.filter(term => !matched.includes(term)).map(term => termLabel(term));
+    const lead = best.allTerms ? (L(`أقرب وصفة${style} لطلبك: ${name}.`, `Closest published${style} recipe: ${name}.`)) : (L(`لم أجد وصفة تطابق كل شروط البحث. هذه خيارات قريبة تطابق بعض شروط البحث فقط. أقرب وصفة${style}: ${name}.`, `No recipe matched every search term. These nearby options match some search terms only. Closest${style} recipe: ${name}.`));
+    return [lead, matched.length ? (L('يطابق في بيانات الوصفة: ', 'Matches in the published recipe data: ')) + matched.map(term => termLabel(term)).join(ar ? '، ' : ', ') + '.' : '', missing.length ? (L('غير مثبت في هذه الوصفة: ', 'Not confirmed in this recipe: ')) + missing.join(ar ? '، ' : ', ') + '.' : '', L('راجع البن والمقادير والجهاز في المصدر الأصلي؛ تطابق كلمات البحث لا يثبت أن الوصفة مختبرة مع بنّك.', 'Check the coffee, quantities and brewer in the original source; matching search words does not mean this recipe was tested with your coffee.')].filter(Boolean).join('\n');
+  }
+  if(!matches.length)return query.amount!==null?(L('لم أجد خيارًا بسعر موثّق ضمن هذه الميزانية. جرّب ميزانية أخرى أو ابحث دون سعر.', 'I found no option with a documented price within this budget. Try another budget or search without a price.')):(L('لم أجد سجلًا منشورًا يطابق طلبك. جرّب اسم البن أو الجهاز أو المحمصة.', 'I found no published record matching your request. Try a coffee, equipment or roaster name.'));
+  return query.amount!==null?(L('هذه خيارات من دليلنا ضمن الميزانية بحسب أسعار مؤرخة. التحويل تقديري، والشحن والضرائب وتوفر المتجر تُراجع عند الشراء.', 'These catalog options fit the budget using dated prices. Conversion is indicative; check shipping, taxes and seller availability before buying.')):(L('هذه السجلات الأقرب لطلبك من معلومات BeanMora المنشورة.', 'These are the closest published BeanMora records for your request.'));
 }

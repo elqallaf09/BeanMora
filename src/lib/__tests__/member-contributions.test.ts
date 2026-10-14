@@ -23,6 +23,16 @@ it("normalizes Arabic measurements while retaining explicit privacy and ordered 
   expect(p.steps).toEqual(["Bloom coffee", "Pour remaining water"]);
   expect(p.visibility).toBe("private");
 });
+it("accepts local decimal keyboards across eight locales and preserves member prose", () => {
+  for (const locale of ['ar','en','ja','fr','it','es','pt-BR','zh-CN'] as const) {
+    const name = 'カフェ · café · 咖啡 · قهوة';
+    const dose = ['fr','it','es','pt-BR'].includes(locale) ? '18,5' : '１８．５';
+    const p = contributionPayload('recipe', {...recipe, name, dose, water: '２９６'}, locale);
+    expect(p).toMatchObject({name, dose: '18.5', water: '296', locale, visibility: 'private'});
+    for (const invalid of ['1,234.5','1.234,5','1 234','1,2,3'])
+      expect(() => contributionPayload('recipe', {...recipe, dose: invalid}, locale)).toThrow();
+  }
+});
 it("rejects malformed HTTPS links, temperatures, dates and incomplete steps", () => {
   for (const url of [
     "javascript:alert(1)",

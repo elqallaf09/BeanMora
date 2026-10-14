@@ -1,4 +1,4 @@
-import { createContext, useContext, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, type ReactNode } from 'react';
 import {
   Animated,
   Platform,
@@ -34,7 +34,7 @@ export const Language = createContext<Locale>('ar');
 export const useCopy = () => copy[useContext(Language)];
 export function useLabels() {
   const locale = useContext(Language);
-  return (arabic: string, english: string, japanese?: string) => localeLabel(locale, arabic, english, japanese);
+  return useCallback((arabic: string, english: string, japanese?: string) => localeLabel(locale, arabic, english, japanese), [locale]);
 }
 export function Txt({
   children,
@@ -49,10 +49,12 @@ export function Txt({
   numberOfLines?: number;
   accessibilityRole?: TextProps['accessibilityRole'];
 }) {
-  const rtl = useContext(Language) === 'ar';
+  const locale = useContext(Language);
+  const rtl = locale === 'ar';
   const weight = StyleSheet.flatten(style)?.fontWeight;
   return (
     <Text
+      accessibilityLanguage={locale}
       accessibilityRole={accessibilityRole ?? (heading ? 'header' : undefined)}
       numberOfLines={numberOfLines}
       style={[
@@ -502,6 +504,7 @@ export function Brand({
   large?: boolean;
   compact?: boolean;
 }) {
+  const i18nUi = useLabels();
   const ar = useContext(Language) === 'ar';
   const ink = light ? '#FFFDF7' : '#140E0B';
   const height = large ? 90 : compact ? 30 : 46;
@@ -519,7 +522,7 @@ export function Brand({
       <Image
         source={require('../assets/brand/mark.png')}
         resizeMode="contain"
-        accessibilityLabel="BeanMora logo"
+        accessibilityLabel={i18nUi('شعار BeanMora','BeanMora logo')}
         style={{ height, width: (height * 695) / 1188 }}
       />
       <View style={{ alignItems: 'center', gap: large ? 3 : 0 }}>
@@ -545,7 +548,7 @@ export function Brand({
             writingDirection: 'ltr',
           }}
         >
-          {ar ? 'وصفات القهوة وأكثر' : 'Coffee Recipes & More'}
+          {ar ? 'وصفات القهوة وأكثر' : i18nUi('وصفات القهوة وأكثر', 'Coffee Recipes & More')}
         </Text>
       </View>
     </View>

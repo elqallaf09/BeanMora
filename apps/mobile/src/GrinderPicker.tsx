@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { contentLocale } from './localeText';
 import { useContext, useEffect, useState } from "react";
 import { View } from "./native";
@@ -22,6 +23,7 @@ export function GrinderPicker({
   method: string;
   disabled?: boolean;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language),
     ar = locale === "ar";
   const [gear, setGear] = useState<EquipmentItem[]>([]),
@@ -53,12 +55,12 @@ export function GrinderPicker({
     : null;
   const roastNames = ar
     ? ["فاتح", "متوسط فاتح", "متوسط", "متوسط داكن", "داكن"]
-    : ["Light", "Medium light", "Medium", "Medium dark", "Dark"];
-  const none = { id: "", name: ar ? "غير محدد" : "Not specified" };
+    : [i18nUi("فاتح", "Light"), i18nUi("متوسط فاتح", "Medium light"), i18nUi("متوسط", "Medium"), i18nUi("متوسط داكن", "Medium dark"), i18nUi("داكن", "Dark")];
+  const none = { id: "", name: ar ? "غير محدد" : i18nUi("غير محدد", "Not specified") };
   return (
     <View testID="grinder-setup" style={{ gap: 12 }}>
       <SelectionMenu
-        label={ar ? "موديل الطاحونة" : "Grinder model"}
+        label={ar ? "موديل الطاحونة" : i18nUi("موديل الطاحونة", "Grinder model")}
         value={value.grinder_model_id ?? ""}
         items={[
           none,
@@ -70,7 +72,7 @@ export function GrinderPicker({
         disabled={disabled}
       />
       <SelectionMenu
-        label={ar ? "جهاز التحضير" : "Brewing device"}
+        label={ar ? "جهاز التحضير" : i18nUi("جهاز التحضير", "Brewing device")}
         value={value.brewer_model_id ?? ""}
         items={[
           none,
@@ -91,7 +93,7 @@ export function GrinderPicker({
         disabled={disabled}
       />
       <SelectionMenu
-        label={ar ? "درجة تحميص البن" : "Coffee roast level"}
+        label={ar ? "درجة تحميص البن" : i18nUi("درجة تحميص البن", "Coffee roast level")}
         value={value.roast_level ?? ""}
         items={[
           none,
@@ -104,7 +106,7 @@ export function GrinderPicker({
         label={
           ar
             ? "تاريخ التحميص YYYY-MM-DD (اختياري)"
-            : "Roast date YYYY-MM-DD (optional)"
+            : i18nUi("تاريخ التحميص YYYY-MM-DD (اختياري)", "Roast date YYYY-MM-DD (optional)")
         }
         value={value.roast_date ?? ""}
         onChangeText={(v) => update("roast_date", v)}
@@ -115,7 +117,7 @@ export function GrinderPicker({
         label={
           ar
             ? "معايرة الصفر ونوع الشفرات (اختياري)"
-            : "Zero calibration and burrs (optional)"
+            : i18nUi("معايرة الصفر ونوع الشفرات (اختياري)", "Zero calibration and burrs (optional)")
         }
         value={value.calibration ?? ""}
         onChangeText={(v) => update("calibration", v)}
@@ -125,13 +127,13 @@ export function GrinderPicker({
       {start ? (
         <View style={[styles.card, { gap: 6 }]}>
           <Txt heading>
-            {ar ? "بداية المصنع: " : "Manufacturer start: "}
+            {ar ? "بداية المصنع: " : i18nUi("بداية المصنع: ", "Manufacturer start: ")}
             {start.setting}
           </Txt>
           <Txt style={styles.muted}>{start.note[contentLocale(locale)]}</Txt>
           <SourceLink
             compact
-            title={ar ? "مصدر درجات الطحن" : "Grind setting source"}
+            title={ar ? "مصدر درجات الطحن" : i18nUi("مصدر درجات الطحن", "Grind setting source")}
             url={start.source}
           />
         </View>
@@ -139,14 +141,14 @@ export function GrinderPicker({
         <Txt style={styles.muted}>
           {ar
             ? "كل درجة تُحفظ مع موديلها والبن والحمصة. لا نحول أرقام طاحونة إلى أخرى."
-            : "Each setting stays linked to its grinder, coffee and roast. Settings are not converted between grinders."}
+            : i18nUi("كل درجة تُحفظ مع موديلها والبن والحمصة. لا نحول أرقام طاحونة إلى أخرى.", "Each setting stays linked to its grinder, coffee and roast. Settings are not converted between grinders.")}
         </Txt>
       )}
       {failed ? (
         <Txt style={styles.warning}>
           {ar
             ? "تعذّر تحميل الموديلات. يمكن حفظ التجربة بدون اختيار جهاز."
-            : "Models could not load. You can save your brew without choosing a device."}
+            : i18nUi("تعذّر تحميل الموديلات. يمكن حفظ التجربة بدون اختيار جهاز.", "Models could not load. You can save your brew without choosing a device.")}
         </Txt>
       ) : null}
     </View>

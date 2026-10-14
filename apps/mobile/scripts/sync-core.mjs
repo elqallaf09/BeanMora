@@ -1,5 +1,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 const pairs = [
+  ['../../../src/lib/app-locales.ts', '../src/core/app-locales.ts'],
+  ['../../../src/lib/account-country-names.ts', '../src/core/account-country-names.ts'],
   ['../../../src/lib/account-profile.ts', '../src/core/account-profile.ts'],
   ['../../../src/lib/account-countries.ts', '../src/core/account-countries.ts'],
   ['../../../src/lib/community-social.ts', '../src/core/community-social.ts'],
@@ -7,6 +9,7 @@ const pairs = [
   ['../../../src/lib/search/coffee-name-aliases.ts', '../src/core/coffee-name-aliases.ts'],
   ['../../../src/lib/search/coffee-label-vocabulary.ts', '../src/core/coffee-label-vocabulary.ts'],
   ['../../../src/lib/search/flavor-vocabulary.ts', '../src/core/flavor-vocabulary.ts'],
+  ['../../../src/lib/search/multilingual-vocabulary.ts', '../src/core/multilingual-vocabulary.ts'],
   ['../../../src/lib/coffee-curriculum.ts', '../src/core/coffee-curriculum.ts'],
   ['../../../src/lib/coffee-knowledge.ts', '../src/core/coffee-knowledge.ts'],
   ['../../../src/lib/local-coffee-assistant.ts', '../src/core/local-coffee-assistant.ts'],

@@ -21,6 +21,39 @@ const rates: CatalogRate[] = [
 ];
 
 describe('coffee assistant catalog constraints', () => {
+  it.each(['طلعلي وصفة قهوه باردة حق مكينة اكسبلوم لي بن ايحاءة جوز الهند وعسل', 'Find a cold recipe for my xBloom machine with coconut and honey notes'])('treats the machine as a brewer in an explicit recipe request: %s', question => {
+    const query = parseAssistantQuery(question);
+    expect(query).toMatchObject({ kind: 'recipe', category: null, methods: ['xbloom'], servingStyle: 'cold', purchaseIntent: false });
+    expect(new Set(query.terms)).toEqual(new Set(['coconut', 'honey']));
+    const base: AssistantDocument = { ...equipment, kind: 'recipe', category: null, offers: [], methods: ['xbloom'], search_text: 'coconut honey' };
+    const matches = rankAssistantDocuments([
+      { ...base, id: 'hot', facts: { serving_style: 'hot' } },
+      { ...base, id: 'unknown', facts: {} },
+      { ...base, id: 'wrong-brewer', methods: ['v60'], facts: { serving_style: 'iced' } },
+      { ...base, id: 'cold', facts: { serving_style: 'cold' } },
+      { ...base, id: 'iced', facts: { serving_style: 'iced' } },
+    ], query, [], now);
+    expect(matches.map(match => match.document.id)).toEqual(['cold', 'iced']);
+  });
+  it('uses a published discovery serving style when no top-level style is present', () => {
+    const query = parseAssistantQuery('وصفة xBloom مثلجة');
+    const document: AssistantDocument = { ...equipment, kind: 'recipe', category: null, offers: [], methods: ['xbloom'], facts: { source_brew: { discovery: { serving_style: 'iced' } } } };
+    expect(rankAssistantDocuments([document], query, [], now)).toHaveLength(1);
+    expect(rankAssistantDocuments([document], parseAssistantQuery('وصفة xBloom حارة'), [], now)).toHaveLength(0);
+  });
+  it('prefers published tasting notes and does not treat honey processing as a honey flavor', () => {
+    const query = parseAssistantQuery('وصفة xBloom باردة بإيحاء جوز الهند وعسل');
+    const base: AssistantDocument = { ...equipment, kind: 'recipe', category: null, offers: [], methods: ['xbloom'], search_text: 'coconut honey processed', facts: { serving_style: 'iced' } };
+    const matches = rankAssistantDocuments([
+      { ...base, id: 'processing-only', search_text: 'Honey processed', facts: { ...base.facts, notes: ['Mango'] } },
+      { ...base, id: 'sparse-title', search_text: 'Coconut Honey', facts: { ...base.facts, notes: [] } },
+      { ...base, id: 'confirmed', search_text: 'Honey', facts: { ...base.facts, notes: ['Honey'] } },
+    ], query, [], now);
+    expect(matches.map(match => match.document.id)).toEqual(['confirmed', 'sparse-title']);
+    expect(matches[0]).toMatchObject({ allTerms: false, confirmedNotes: ['honey'] });
+    expect(matches[1]).toMatchObject({ allTerms: false, confirmedNotes: [] });
+    expect(assistantReply(query, matches, 'ar')).toContain('غير مثبت في هذه الوصفة: جوز الهند');
+  });
   it.each(['موقع بيع مكائن اسبرسو', 'أبي موقع لبيع مكائن الإسبريسو', 'وين أشتري مكائن إسبريسو', 'ابي مواقع تبيع مكاين اسبرسو', 'website selling espresso machines', 'Where can I buy an espresso machine?'])('routes the seller request %s to equipment without searching for shopping filler', question => {
     const query = parseAssistantQuery(question);
     expect(query).toMatchObject({ kind: 'equipment', category: 'espresso_machine', purchaseIntent: true, terms: [], clarification: null });
@@ -76,9 +109,9 @@ describe('coffee assistant catalog constraints', () => {
     expect(query.terms).toEqual(['strawberry', 'cola']);
     const recipe = { ...equipment, kind: 'recipe' as const, category: null, offers: [], methods: ['v60'] };
     const matches = rankAssistantDocuments([
-      { ...recipe, id: 'partial', search_text: 'strawberry chocolate' },
-      { ...recipe, id: 'full', search_text: 'strawberry cola' },
-      { ...recipe, id: 'wrong', search_text: 'chocolate' },
+      { ...recipe, id: 'partial', search_text: 'strawberry chocolate', facts: { notes: ['Strawberry', 'Chocolate'] } },
+      { ...recipe, id: 'full', search_text: 'strawberry cola', facts: { notes: ['Strawberry', 'Cola'] } },
+      { ...recipe, id: 'wrong', search_text: 'chocolate', facts: { notes: ['Chocolate'] } },
     ], query, [], now);
     expect(matches.map(match => [match.document.id, match.allTerms])).toEqual([['full', true], ['partial', false]]);
   });

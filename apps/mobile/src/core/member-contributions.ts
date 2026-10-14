@@ -175,13 +175,14 @@ export const initialContribution = (
   kind === "recipe" ? { method: "v60", visibility: "private" } : {};
 const digits = (v: string) =>
   v
+    .normalize('NFKC')
     .replace(/[٠-٩]/g, (c) => String(c.charCodeAt(0) - 1632))
     .replace(/[۰-۹]/g, (c) => String(c.charCodeAt(0) - 1776))
     .replace(/٫/g, ".");
 export function contributionPayload(
   kind: ContributionKind,
   values: Record<string, string>,
-  locale: "ar" | "en",
+  locale: import('./app-locales').AppLocale,
 ) {
   const result: Record<string, string | string[]> = { locale };
   const fail = (f: ContributionField) => {
@@ -199,6 +200,7 @@ export function contributionPayload(
     if (f.choices && !f.choices.some((x) => x[0] === value)) fail(f);
     if (f.numeric && value) {
       value = digits(value);
+      if (['fr','it','es','pt-BR'].includes(locale) && /^\d+,\d+$/.test(value)) value = value.replace(',', '.');
       const n = Number(value);
       const max =
         f.key === "temperature"

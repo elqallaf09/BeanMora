@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext, useEffect, useState } from 'react';
 import { AppState, Share, View } from './native';
 import type { RecipeItem } from './data';
@@ -22,7 +23,8 @@ export function GuidedBrew({
   recipe: RecipeItem;
   record: (seconds?: number) => void;
 }) {
-  const ar = useContext(Language) === 'ar';
+  const i18nUi = useLabels();
+  const locale = useContext(Language), ar = locale === 'ar';
   const [clock, setClock] = useState(emptyClock);
   const [now, setNow] = useState(Date.now);
   const [dose, setDose] = useState(String(recipe.dose ?? ''));
@@ -47,16 +49,16 @@ export function GuidedBrew({
     !!recipe.dose &&
     !!recipe.water &&
     recipe.waterUnit === 'g';
-  const factor = scalable ? scaleChemex(recipe, numberInput(dose)) : 1;
+  const factor = scalable ? scaleChemex(recipe, numberInput(dose, locale)) : 1;
   const invalid = scalable && factor === null;
   const changed = factor !== null && factor !== 1;
   const seconds = Math.floor(elapsedMs(clock, now) / 1000);
   const guideTime =
-    timeLabel(recipe, ar) === '—'
+    i18nUi(timeLabel(recipe,true),timeLabel(recipe,false)) === '—'
       ? ar
         ? 'حسب انتهاء التدفق'
-        : 'Follow the end of the flow'
-      : timeLabel(recipe, ar);
+        : i18nUi('حسب انتهاء التدفق', 'Follow the end of the flow')
+      : i18nUi(timeLabel(recipe,true),timeLabel(recipe,false));
   const target = manual?.time_max_seconds ?? recipe.seconds;
   const pours = scaledPours(recipe.pours, factor ?? 1);
   const timed = pours.filter((p) => p.at !== null);
@@ -83,22 +85,22 @@ export function GuidedBrew({
           changed
             ? ar
               ? 'كمية محسوبة من الوصفة'
-              : 'Calculated batch adaptation'
+              : i18nUi('كمية محسوبة من الوصفة', 'Calculated batch adaptation')
             : ar
               ? 'مقادير المصدر'
-              : 'Source recipe',
-          `${ar ? 'البن' : 'Coffee'}: ${changed ? `${numberInput(dose)} g` : doseLabel(recipe)}`,
-          `${recipe.method === 'espresso' ? (ar ? 'الناتج' : 'Yield') : ar ? 'ماء التحضير' : 'Brew water'}: ${changed && recipe.water ? `${Math.round(recipe.water * (factor ?? 1) * 10) / 10} ${recipe.waterUnit}` : waterLabel(recipe, ar)}`,
-          `${ar ? 'الوقت الإرشادي' : 'Guide time'}: ${timeLabel(recipe, ar)}`,
+              : i18nUi('مقادير المصدر', 'Source recipe'),
+          `${ar ? 'البن' : i18nUi('البن', 'Coffee')}: ${changed ? `${numberInput(dose, locale)} g` : doseLabel(recipe)}`,
+          `${recipe.method === 'espresso' ? (ar ? 'الناتج' : i18nUi('الناتج', 'Yield')) : ar ? 'ماء التحضير' : i18nUi('ماء التحضير', 'Brew water')}: ${changed && recipe.water ? `${Math.round(recipe.water * (factor ?? 1) * 10) / 10} ${recipe.waterUnit}` : i18nUi(waterLabel(recipe,true),waterLabel(recipe,false))}`,
+          `${ar ? 'الوقت الإرشادي' : i18nUi('الوقت الإرشادي', 'Guide time')}: ${i18nUi(timeLabel(recipe,true),timeLabel(recipe,false))}`,
           manual?.example_pours
             ? ar
               ? 'الصبات مثال ضمن نطاق المصدر.'
-              : 'Pours are an example within source ranges.'
+              : i18nUi('الصبات مثال ضمن نطاق المصدر.', 'Pours are an example within source ranges.')
             : null,
           ar ? manual?.pour_note_ar : manual?.pour_note,
           ...pours.map(
             (p) =>
-              `${p.at !== null ? formatTime(p.at) : '—'} · +${p.grams} g · ${ar ? 'الميزان' : 'scale'} ${p.cumulative} g`,
+              `${p.at !== null ? formatTime(p.at) : '—'} · +${p.grams} g · ${ar ? 'الميزان' : i18nUi('الميزان', 'scale')} ${p.cumulative} g`,
           ),
           recipe.sourceBrew.pours?.length
             ? JSON.stringify(recipe.sourceBrew)
@@ -118,10 +120,10 @@ export function GuidedBrew({
       {scalable ? (
         <View style={styles.card}>
           <Txt heading style={styles.subtitle}>
-            {ar ? 'احسب كمية أقل' : 'Calculate a smaller batch'}
+            {ar ? 'احسب كمية أقل' : i18nUi('احسب كمية أقل', 'Calculate a smaller batch')}
           </Txt>
           <Field
-            label={ar ? 'جرعة البن للحساب (g)' : 'Coffee dose to calculate (g)'}
+            label={ar ? 'جرعة البن للحساب (g)' : i18nUi('جرعة البن للحساب (g)', 'Coffee dose to calculate (g)')}
             value={dose}
             onChangeText={setDose}
             keyboardType="decimal-pad"
@@ -131,18 +133,18 @@ export function GuidedBrew({
             <Txt style={styles.error}>
               {ar
                 ? `أدخل جرعة من 10 إلى ${recipe.dose} g.`
-                : `Enter a dose from 10 to ${recipe.dose} g.`}
+                : i18nUi(`أدخل جرعة من 10 إلى ${recipe.dose} g.`, `Enter a dose from 10 to ${recipe.dose} g.`)}
             </Txt>
           ) : (
             <Txt>
-              {ar ? 'إجمالي ماء التحضير: ' : 'Total brew water: '}
+              {ar ? 'إجمالي ماء التحضير: ' : i18nUi('إجمالي ماء التحضير: ', 'Total brew water: ')}
               {Math.round(recipe.water! * factor! * 10) / 10} g
             </Txt>
           )}
           <Txt style={styles.muted}>
             {ar
               ? 'الحساب يحافظ على النسبة؛ الكمية المعدّلة ليست الوصفة الأصلية. استخدم فلتر الحجم المناسب، وراقب التصريف لأن الوقت يتغير مع الكمية.'
-              : 'The ratio is preserved; a changed batch is an adaptation. Match the filter to the brewer and check drawdown because timing may change.'}
+              : i18nUi('الحساب يحافظ على النسبة؛ الكمية المعدّلة ليست الوصفة الأصلية. استخدم فلتر الحجم المناسب، وراقب التصريف لأن الوقت يتغير مع الكمية.', 'The ratio is preserved; a changed batch is an adaptation. Match the filter to the brewer and check drawdown because timing may change.')}
           </Txt>
         </View>
       ) : null}
@@ -180,11 +182,11 @@ export function GuidedBrew({
                   fontWeight: '700',
                 }}
               >
-                {ar ? 'مؤقت التحضير' : 'Brew timer'}
+                {ar ? 'مؤقت التحضير' : i18nUi('مؤقت التحضير', 'Brew timer')}
               </Txt>
             </View>
             <Txt style={{ color: '#EADFD2', fontSize: 12, lineHeight: 18 }}>
-              {(ar ? 'الوقت الإرشادي: ' : 'Guide time: ') + guideTime}
+              {(ar ? 'الوقت الإرشادي: ' : i18nUi('الوقت الإرشادي: ', 'Guide time: ')) + guideTime}
             </Txt>
           </View>
           <View testID="brew-elapsed">
@@ -233,10 +235,10 @@ export function GuidedBrew({
                 clock.mode === 'paused'
                   ? ar
                     ? 'استئناف المؤقت'
-                    : 'Resume timer'
+                    : i18nUi('استئناف المؤقت', 'Resume timer')
                   : ar
                     ? 'ابدأ التحضير'
-                    : 'Start brewing'
+                    : i18nUi('ابدأ التحضير', 'Start brewing')
               }
               onPress={() => act('start')}
               disabled={!!invalid}
@@ -244,19 +246,19 @@ export function GuidedBrew({
           ) : null}
           {clock.mode === 'running' ? (
             <Action
-              title={ar ? 'إيقاف مؤقت' : 'Pause timer'}
+              title={ar ? 'إيقاف مؤقت' : i18nUi('إيقاف مؤقت', 'Pause timer')}
               onPress={() => act('pause')}
             />
           ) : null}
           {clock.mode === 'running' || clock.mode === 'paused' ? (
             <Action
-              title={ar ? 'أنهيت التحضير' : 'Finish brewing'}
+              title={ar ? 'أنهيت التحضير' : i18nUi('أنهيت التحضير', 'Finish brewing')}
               onPress={() => act('finish')}
             />
           ) : null}
           {clock.mode !== 'idle' ? (
             <Action
-              title={ar ? 'تصفير المؤقت' : 'Reset timer'}
+              title={ar ? 'تصفير المؤقت' : i18nUi('تصفير المؤقت', 'Reset timer')}
               onPress={() => act('reset')}
             />
           ) : null}
@@ -265,7 +267,7 @@ export function GuidedBrew({
           <Txt style={{ color: '#FFF' }}>
             {ar
               ? 'انتهى الوقت الإرشادي؛ تحقق من التدفق. المؤقت لا يوقف النار أو الجهاز.'
-              : 'The guide time has passed. Check the flow; the timer does not control heat or equipment.'}
+              : i18nUi('انتهى الوقت الإرشادي؛ تحقق من التدفق. المؤقت لا يوقف النار أو الجهاز.', 'The guide time has passed. Check the flow; the timer does not control heat or equipment.')}
           </Txt>
         ) : null}
         {clock.mode === 'finished' ? (
@@ -273,18 +275,18 @@ export function GuidedBrew({
             <Txt style={{ color: '#FFF' }}>
               {ar
                 ? 'انتهى المؤقت. راجع الكميات الفعلية قبل حفظ النتيجة.'
-                : 'Timer finished. Check actual amounts before saving your result.'}
+                : i18nUi('انتهى المؤقت. راجع الكميات الفعلية قبل حفظ النتيجة.', 'Timer finished. Check actual amounts before saving your result.')}
             </Txt>
             {changed ? (
               <Txt style={{ color: '#FFF' }}>
                 {ar
                   ? 'غيّرت كمية الحساب؛ أدخل الكميات الفعلية واختر «حضّرتها مع تعديلات» في نموذج النتيجة.'
-                  : 'You changed the batch. Enter actual amounts and choose “Brewed with modifications” in the result form.'}
+                  : i18nUi('غيّرت كمية الحساب؛ أدخل الكميات الفعلية واختر «حضّرتها مع تعديلات» في نموذج النتيجة.', 'You changed the batch. Enter actual amounts and choose “Brewed with modifications” in the result form.')}
               </Txt>
             ) : null}
             <Action
               title={
-                ar ? 'سجّل النتيجة بالوقت المقاس' : 'Record with measured time'
+                ar ? 'سجّل النتيجة بالوقت المقاس' : i18nUi('سجّل النتيجة بالوقت المقاس', 'Record with measured time')
               }
               onPress={() => record(seconds > 0 ? seconds : undefined)}
             />
@@ -294,19 +296,19 @@ export function GuidedBrew({
       {pours.length ? (
         <View style={{ gap: 8 }}>
           <Txt heading style={styles.subtitle}>
-            {ar ? 'خطة الصبات' : 'Pour plan'}
+            {ar ? 'خطة الصبات' : i18nUi('خطة الصبات', 'Pour plan')}
           </Txt>
           {manual?.example_pours ? (
             <Txt style={styles.warning}>
               {ar
                 ? 'الخطة مثال باستخدام حدود نطاق المصدر؛ اتبع النطاق والتدفق المذكورين.'
-                : 'This plan uses source-range endpoints as an example. Follow the published range and flow.'}
+                : i18nUi('الخطة مثال باستخدام حدود نطاق المصدر؛ اتبع النطاق والتدفق المذكورين.', 'This plan uses source-range endpoints as an example. Follow the published range and flow.')}
             </Txt>
           ) : null}
           <Txt style={styles.muted}>
             {ar
               ? '«الميزان» هو إجمالي الماء التراكمي؛ + تعني كمية هذه الصبة فقط.'
-              : 'Scale means cumulative water; + means only the water added in that pour.'}
+              : i18nUi('«الميزان» هو إجمالي الماء التراكمي؛ + تعني كمية هذه الصبة فقط.', 'Scale means cumulative water; + means only the water added in that pour.')}
           </Txt>
           {(ar ? manual?.pour_note_ar : manual?.pour_note) ? (
             <Txt>{ar ? manual?.pour_note_ar : manual?.pour_note}</Txt>
@@ -315,7 +317,7 @@ export function GuidedBrew({
             <Txt style={styles.warning}>
               {ar
                 ? 'مجموع الصبات يختلف عن إجمالي المصدر؛ راجع الرابط قبل التحضير.'
-                : 'Pour amounts differ from the source total. Check the source before brewing.'}
+                : i18nUi('مجموع الصبات يختلف عن إجمالي المصدر؛ راجع الرابط قبل التحضير.', 'Pour amounts differ from the source total. Check the source before brewing.')}
             </Txt>
           ) : null}
           {pours.map((p) => (
@@ -336,21 +338,21 @@ export function GuidedBrew({
                   {manual?.dilution_pour_numbers?.includes(p.number)
                     ? ar
                       ? 'التخفيف بعد الكبس'
-                      : 'Dilute after pressing'
+                      : i18nUi('التخفيف بعد الكبس', 'Dilute after pressing')
                     : p.bloom
                       ? ar
                         ? 'التزهير'
-                        : 'Bloom'
+                        : i18nUi('التزهير', 'Bloom')
                       : ar
                         ? `الصبة ${p.number}`
-                        : `Pour ${p.number}`}
+                        : i18nUi(`الصبة ${p.number}`, `Pour ${p.number}`)}
                 </Txt>
                 <Txt style={{ fontFamily: undefined, writingDirection: 'ltr' }}>
                   {p.at !== null
                     ? formatTime(p.at)
                     : ar
                       ? 'حسب التدفق'
-                      : 'Follow flow'}
+                      : i18nUi('حسب التدفق', 'Follow flow')}
                 </Txt>
               </View>
               <View
@@ -369,7 +371,7 @@ export function GuidedBrew({
                   +{p.grams} g
                 </Txt>
                 <Txt style={{ fontSize: 20, fontWeight: '700' }}>
-                  {ar ? '· الميزان:' : '· Scale:'}
+                  {ar ? '· الميزان:' : i18nUi('· الميزان:', '· Scale:')}
                 </Txt>
                 <Txt
                   style={{
@@ -386,7 +388,7 @@ export function GuidedBrew({
         </View>
       ) : null}
       <Action
-        title={ar ? 'مشاركة الوصفة والإعدادات' : 'Share recipe and settings'}
+        title={ar ? 'مشاركة الوصفة والإعدادات' : i18nUi('مشاركة الوصفة والإعدادات', 'Share recipe and settings')}
         onPress={() => void share()}
         disabled={!!invalid}
       />
@@ -394,7 +396,7 @@ export function GuidedBrew({
         <Txt style={styles.error}>
           {ar
             ? 'تعذّرت المشاركة. حاول مرة أخرى.'
-            : 'Sharing failed. Try again.'}
+            : i18nUi('تعذّرت المشاركة. حاول مرة أخرى.', 'Sharing failed. Try again.')}
         </Txt>
       ) : null}
     </View>

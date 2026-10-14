@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext, useEffect, useState, type ComponentProps, type ReactNode } from 'react';
 import { Pressable, View, useWindowDimensions } from './native';
 import { publicSupabase as supabase } from './client';
@@ -36,6 +37,7 @@ export function SearchScreen({
   browseCoffees: (query: string) => void;
   browseRoasters: (query: string) => void;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const universal = recipeOptions === undefined;
@@ -96,7 +98,7 @@ export function SearchScreen({
     return (
       <View testID="universal-search-results" style={{ gap: 12 }}>
         <SectionTitle
-          title={`${ar ? 'البن والإيحاءات' : 'Coffees & tasting notes'} · ${matches.length}`}
+          title={`${ar ? 'البن والإيحاءات' : i18nUi('البن والإيحاءات', 'Coffees & tasting notes')} · ${matches.length}`}
         />
         <View
           style={{
@@ -120,15 +122,15 @@ export function SearchScreen({
           <Txt style={styles.muted}>
             {ar
               ? 'لا يوجد بن مطابق في الكتالوغ الحالي.'
-              : 'No matching coffee in the current catalog.'}
+              : i18nUi('لا يوجد بن مطابق في الكتالوغ الحالي.', 'No matching coffee in the current catalog.')}
           </Txt>
         ) : null}
         <Action
-          title={ar ? 'عرض كل نتائج البن' : 'View all coffee results'}
+          title={ar ? 'عرض كل نتائج البن' : i18nUi('عرض كل نتائج البن', 'View all coffee results')}
           onPress={() => browseCoffees(query)}
         />
         <SectionTitle
-          title={`${ar ? 'المحامص' : 'Roasters'} · ${roasterMatches.length}`}
+          title={`${ar ? 'المحامص' : i18nUi('المحامص', 'Roasters')} · ${roasterMatches.length}`}
         />
         <View style={{ gap: 8 }}>
           {roasterMatches.slice(0, 4).map((r) => (
@@ -145,7 +147,7 @@ export function SearchScreen({
                 <Txt style={{ color: colors.teal, fontSize: 12 }}>
                   {ar
                     ? 'لديها بن يطابق بحثك'
-                    : 'Has coffee matching your search'}
+                    : i18nUi('لديها بن يطابق بحثك', 'Has coffee matching your search')}
                 </Txt>
               ) : null}
             </Pressable>
@@ -153,24 +155,24 @@ export function SearchScreen({
         </View>
         {busy ? (
           <Txt style={styles.muted}>
-            {ar ? 'جارٍ تحميل المحامص…' : 'Loading roasters…'}
+            {ar ? 'جارٍ تحميل المحامص…' : i18nUi('جارٍ تحميل المحامص…', 'Loading roasters…')}
           </Txt>
         ) : null}
         {error ? (
           <Action
-            title={ar ? 'إعادة تحميل المحامص' : 'Retry roasters'}
+            title={ar ? 'إعادة تحميل المحامص' : i18nUi('إعادة تحميل المحامص', 'Retry roasters')}
             onPress={() => setRevision((v) => v + 1)}
           />
         ) : null}
         <Action
-          title={ar ? 'عرض كل نتائج المحامص' : 'View all roaster results'}
+          title={ar ? 'عرض كل نتائج المحامص' : i18nUi('عرض كل نتائج المحامص', 'View all roaster results')}
           onPress={() => browseRoasters(query)}
         />
-        <SectionTitle title={ar ? 'الوصفات المطابقة' : 'Matching recipes'} />
+        <SectionTitle title={ar ? 'الوصفات المطابقة' : i18nUi('الوصفات المطابقة', 'Matching recipes')} />
         <Txt style={styles.muted}>
           {ar
             ? 'فلاتر التحضير والتقديم أدناه تخص الوصفات. الوصفات تبحث في المكتبة كاملة.'
-            : 'Brew and serving filters apply to recipes. Recipes search the full library.'}
+            : i18nUi('فلاتر التحضير والتقديم أدناه تخص الوصفات. الوصفات تبحث في المكتبة كاملة.', 'Brew and serving filters apply to recipes. Recipes search the full library.')}
         </Txt>
       </View>
     );

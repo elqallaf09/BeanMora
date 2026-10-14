@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext, useEffect, useState } from "react";
 import { ScrollView, View } from "./native";
 import { supabase } from "./client";
@@ -23,6 +24,7 @@ export function MyEquipment({
   browse: () => void;
   initialItem?: EquipmentItem | null;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language),
     ar = locale === "ar";
   const [rows, setRows] = useState<Row[]>([]),
@@ -106,11 +108,11 @@ export function MyEquipment({
         <Txt>
           {ar
             ? "سجّل الدخول لإدارة معداتك."
-            : "Sign in to manage your equipment."}
+            : i18nUi("سجّل الدخول لإدارة معداتك.", "Sign in to manage your equipment.")}
         </Txt>
         <Action
           selected
-          title={ar ? "تسجيل الدخول" : "Sign in"}
+          title={ar ? "تسجيل الدخول" : i18nUi("تسجيل الدخول", "Sign in")}
           onPress={login}
         />
       </View>
@@ -121,20 +123,20 @@ export function MyEquipment({
       contentContainerStyle={{ padding: 18, gap: 14 }}
     >
       <Txt heading style={styles.title}>
-        {ar ? "معداتـي" : "My equipment"}
+        {ar ? "معداتـي" : i18nUi("معداتـي", "My equipment")}
       </Txt>
       {initialItem &&
       !added &&
       !rows.some((r) => r.equipment_model_id === initialItem.id) ? (
         <Action
           variant="primary"
-          title={(ar ? "إضافة: " : "Add: ") + initialItem.name}
+          title={(ar ? "إضافة: " : i18nUi("إضافة: ", "Add: ")) + initialItem.name}
           disabled={busy}
           onPress={() => void add()}
         />
       ) : null}
       <Action
-        title={ar ? "إضافة معدة من الكتالوج" : "Add equipment from catalog"}
+        title={ar ? "إضافة معدة من الكتالوج" : i18nUi("إضافة معدة من الكتالوج", "Add equipment from catalog")}
         variant="primary"
         onPress={browse}
       />
@@ -142,23 +144,23 @@ export function MyEquipment({
         <Txt accessibilityRole="alert" style={styles.error}>
           {ar
             ? "تعذّر إتمام العملية. حاول مرة أخرى."
-            : "Could not complete the action. Try again."}
+            : i18nUi("تعذّر إتمام العملية. حاول مرة أخرى.", "Could not complete the action. Try again.")}
         </Txt>
       ) : null}
       {removed ? (
         <View style={styles.card}>
           <Txt>
-            {ar ? "تمت الإزالة من معداتك." : "Removed from your equipment."}
+            {ar ? "تمت الإزالة من معداتك." : i18nUi("تمت الإزالة من معداتك.", "Removed from your equipment.")}
           </Txt>
           <Action
-            title={ar ? "تراجع عن الحذف" : "Undo removal"}
+            title={ar ? "تراجع عن الحذف" : i18nUi("تراجع عن الحذف", "Undo removal")}
             disabled={busy}
             onPress={() => void archive(removed, false)}
           />
         </View>
       ) : null}
       {!busy && !rows.length ? (
-        <Txt>{ar ? "لم تضف معدات بعد." : "No equipment added yet."}</Txt>
+        <Txt>{ar ? "لم تضف معدات بعد." : i18nUi("لم تضف معدات بعد.", "No equipment added yet.")}</Txt>
       ) : null}
       {rows.map((row) => (
         <View key={row.id} style={[styles.card, { padding: 16, gap: 8 }]}>
@@ -181,12 +183,12 @@ export function MyEquipment({
           <Txt heading>
             {catalog.find((c) => c.id === row.equipment_model_id)?.name ??
               row.custom_name ??
-              (ar ? "معدة" : "Equipment")}
+              (ar ? "معدة" : i18nUi("معدة", "Equipment"))}
           </Txt>
-          <Action title={ar ? "حذف من معداتي" : "Remove from my equipment"} disabled={busy} onPress={() => { setError(false); setConfirm(row.id); }} />
+          <Action title={ar ? "حذف من معداتي" : i18nUi("حذف من معداتي", "Remove from my equipment")} disabled={busy} onPress={() => { setError(false); setConfirm(row.id); }} />
         </View>
       ))}
-      <ConfirmDialog visible={Boolean(confirm)} title={ar ? 'حذف المعدة' : 'Remove equipment'} message={ar ? 'إزالة هذه المعدة من معداتك؟ سجل التحضير يبقى محفوظًا.' : 'Remove this equipment? Brew history will be preserved.'} confirmLabel={ar ? 'تأكيد الحذف' : 'Confirm removal'} busy={busy} error={error ? (ar ? 'تعذّر حذف المعدة. حاول مرة أخرى.' : 'Could not remove equipment. Try again.') : undefined} onCancel={() => setConfirm(null)} onConfirm={() => { if (confirm) void archive(confirm, true); }} />
+      <ConfirmDialog visible={Boolean(confirm)} title={ar ? 'حذف المعدة' : i18nUi('حذف المعدة', 'Remove equipment')} message={ar ? 'إزالة هذه المعدة من معداتك؟ سجل التحضير يبقى محفوظًا.' : i18nUi('إزالة هذه المعدة من معداتك؟ سجل التحضير يبقى محفوظًا.', 'Remove this equipment? Brew history will be preserved.')} confirmLabel={ar ? 'تأكيد الحذف' : i18nUi('تأكيد الحذف', 'Confirm removal')} busy={busy} error={error ? (ar ? 'تعذّر حذف المعدة. حاول مرة أخرى.' : i18nUi('تعذّر حذف المعدة. حاول مرة أخرى.', 'Could not remove equipment. Try again.')) : undefined} onCancel={() => setConfirm(null)} onConfirm={() => { if (confirm) void archive(confirm, true); }} />
     </ScrollView>
   );
 }

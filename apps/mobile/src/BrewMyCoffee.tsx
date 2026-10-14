@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { contentLocale } from './localeText';
 import { useContext, useEffect, useState } from 'react';
 import {
@@ -58,6 +59,7 @@ export function BrewMyCoffee({
   browse: () => void;
   openRecipe: (r: RecipeItem) => void;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const [inventoryState, setInventory] = useState<{
@@ -116,7 +118,7 @@ export function BrewMyCoffee({
         );
       } catch {
         if (active)
-          setError(ar ? 'تعذّر تحميل أكياسك.' : 'Could not load your bags.');
+          setError(ar ? 'تعذّر تحميل أكياسك.' : i18nUi('تعذّر تحميل أكياسك.', 'Could not load your bags.'));
       } finally {
         if (active) setBusy(false);
       }
@@ -126,7 +128,7 @@ export function BrewMyCoffee({
       active = false;
       controller.abort();
     };
-  }, [userId, ar, revision]);
+  }, [userId, ar, revision, i18nUi]);
 
   const catalogRows: InventoryRow[] = coffees.map(item => ({ id: 'catalog:' + item.kind + ':' + item.id, roasted_product_id: item.kind === 'product' ? item.id : null, legacy_bean_id: item.beanId ?? item.id, preferred_recipe_id: null, last_grind_setting: null, remaining_weight_grams: null, opened_at: null, updated_at: '' }));
   const choices = [...inventory, ...catalogRows];
@@ -230,7 +232,7 @@ export function BrewMyCoffee({
           setError(
             ar
               ? 'تعذّر تحديث بعض الوصفات. أعد المحاولة.'
-              : 'Some recipes could not update. Try again.',
+              : i18nUi('تعذّر تحديث بعض الوصفات. أعد المحاولة.', 'Some recipes could not update. Try again.'),
           );
         for (const result of results) {
           if (result.error) continue;
@@ -288,7 +290,7 @@ export function BrewMyCoffee({
           setError(
             ar
               ? 'تعذّر تحميل وصفات هذا الكيس.'
-              : 'Could not load recipes for this bag.',
+              : i18nUi('تعذّر تحميل وصفات هذا الكيس.', 'Could not load recipes for this bag.'),
           );
       } finally {
         if (active) setRecipesBusy(false);
@@ -309,7 +311,7 @@ export function BrewMyCoffee({
     method,
     serving,
     recipePage,
-  ]);
+  , i18nUi]);
 
   const visibleBase = candidates.filter(
     (row) =>
@@ -364,12 +366,12 @@ export function BrewMyCoffee({
       <View style={s.header}>
         <View style={{ flex: 1 }}>
           <Txt heading style={styles.title}>
-            {ar ? 'حضّر قهوتي' : 'Brew my coffee'}
+            {ar ? 'حضّر قهوتي' : i18nUi('حضّر قهوتي', 'Brew my coffee')}
           </Txt>
           <Txt style={styles.muted}>
             {ar
               ? 'اختر البن وطريقة التحضير.'
-              : 'Choose your coffee and brew method.'}
+              : i18nUi('اختر البن وطريقة التحضير.', 'Choose your coffee and brew method.')}
           </Txt>
         </View>
         <View style={s.headerIcon}>
@@ -377,9 +379,9 @@ export function BrewMyCoffee({
         </View>
       </View>
 
-      <Txt style={s.sectionTitle}>{ar ? '1. البن' : '1. Coffee'}</Txt>
+      <Txt style={s.sectionTitle}>{ar ? '1. البن' : i18nUi('1. البن', '1. Coffee')}</Txt>
       {busy ? <ActivityIndicator color={colors.teal} /> : null}
-      {choices.length ? <SelectionMenu label={ar ? 'اختيار البن' : 'Choose coffee'} value={selected?.id ?? ''} items={choices.flatMap(row => { const item = coffeeFor(row); return item ? [{ id: row.id, name: item.name, note: item.roaster + (row.id.startsWith('catalog:') ? ar ? ' · الكتالوغ' : ' · Catalog' : ar ? ' · أكياسي' : ' · My bags') }] : []; })} onChange={id => { setSelectedId(id); setMethod(undefined); setMethodTouched(false); setServing('all'); }} /> : <Action title={ar ? 'اكتشف البن' : 'Discover coffee'} onPress={browse} />}
+      {choices.length ? <SelectionMenu label={ar ? 'اختيار البن' : i18nUi('اختيار البن', 'Choose coffee')} value={selected?.id ?? ''} items={choices.flatMap(row => { const item = coffeeFor(row); return item ? [{ id: row.id, name: item.name, note: item.roaster + (row.id.startsWith('catalog:') ? ar ? ' · الكتالوغ' : i18nUi(' · الكتالوغ', ' · Catalog') : ar ? ' · أكياسي' : i18nUi(' · أكياسي', ' · My bags')) }] : []; })} onChange={id => { setSelectedId(id); setMethod(undefined); setMethodTouched(false); setServing('all'); }} /> : <Action title={ar ? 'اكتشف البن' : i18nUi('اكتشف البن', 'Discover coffee')} onPress={browse} />}
 
       {selected && coffee ? (
         <>
@@ -396,7 +398,7 @@ export function BrewMyCoffee({
               <Txt style={styles.muted}>{coffee.roaster}</Txt>
               {selected.last_grind_setting ? (
                 <Txt style={s.savedSetting}>
-                  {ar ? 'آخر طحنة: ' : 'Last grind: '}
+                  {ar ? 'آخر طحنة: ' : i18nUi('آخر طحنة: ', 'Last grind: ')}
                   {selected.last_grind_setting}
                 </Txt>
               ) : null}
@@ -404,19 +406,19 @@ export function BrewMyCoffee({
           </View>
 
           <Txt style={s.sectionTitle}>
-            {ar ? '2. طريقة التحضير' : '2. Brew method'}
+            {ar ? '2. طريقة التحضير' : i18nUi('2. طريقة التحضير', '2. Brew method')}
           </Txt>
-          <SelectionMenu label={ar ? 'اختيار طريقة التحضير' : 'Choose brew method'} value={method ?? ''} items={availableMethods.map(id => ({ id, name: methods[locale][id] }))} onChange={id => { if (isMethod(id)) { setRecipePage(0); setMethod(id); setMethodTouched(true); } }} />
+          <SelectionMenu label={ar ? 'اختيار طريقة التحضير' : i18nUi('اختيار طريقة التحضير', 'Choose brew method')} value={method ?? ''} items={availableMethods.map(id => ({ id, name: methods[locale][id] }))} onChange={id => { if (isMethod(id)) { setRecipePage(0); setMethod(id); setMethodTouched(true); } }} />
 
           <Txt style={s.sectionTitle}>
-            {ar ? '3. التقديم' : '3. Serving style'}
+            {ar ? '3. التقديم' : i18nUi('3. التقديم', '3. Serving style')}
           </Txt>
           <View style={s.servingRow}>
             {(
               [
-                ['all', ar ? 'الكل' : 'Any'],
-                ['hot', ar ? 'حار' : 'Hot'],
-                ['cold_or_iced', ar ? 'بارد ومثلّج' : 'Cold & iced'],
+                ['all', ar ? 'الكل' : i18nUi('الكل', 'Any')],
+                ['hot', ar ? 'حار' : i18nUi('حار', 'Hot')],
+                ['cold_or_iced', ar ? 'بارد ومثلّج' : i18nUi('بارد ومثلّج', 'Cold & iced')],
               ] as const
             ).map(([id, label]) => (
               <Pressable
@@ -439,7 +441,7 @@ export function BrewMyCoffee({
           </View>
 
           <Txt style={s.sectionTitle}>
-            {ar ? '4. أفضل نقطة بداية' : '4. Best starting point'}
+            {ar ? '4. أفضل نقطة بداية' : i18nUi('4. أفضل نقطة بداية', '4. Best starting point')}
           </Txt>
           {recipesBusy || starter.busy ? (
             <ActivityIndicator color={colors.teal} />
@@ -457,23 +459,23 @@ export function BrewMyCoffee({
                   <Txt style={s.recommendTitle}>{recommended.recipe.title}</Txt>
                   <Txt style={styles.muted}>
                     {methods[locale][recommended.recipe.method]}
-                    {recommended.general ? ar ? ' · وصفة عامة، اضبطها حسب بنّك' : ' · General guide; adjust for your coffee' : ''}
+                    {recommended.general ? ar ? ' · وصفة عامة، اضبطها حسب بنّك' : i18nUi(' · وصفة عامة، اضبطها حسب بنّك', ' · General guide; adjust for your coffee') : ''}
                     {recommended.recipe.id === selected.preferred_recipe_id
                       ? ar
                         ? ' · أفضل وصفة محفوظة'
-                        : ' · Saved best recipe'
+                        : i18nUi(' · أفضل وصفة محفوظة', ' · Saved best recipe')
                       : recommended.exact
                         ? ar
                           ? ' · مطابقة لهذا المنتج'
-                          : ' · Exact product match'
+                          : i18nUi(' · مطابقة لهذا المنتج', ' · Exact product match')
                         : recommendedReasons.includes('exactEquipment')
                           ? ar
                             ? ' · مطابقة لمعداتك'
-                            : ' · Matches your equipment'
+                            : i18nUi(' · مطابقة لمعداتك', ' · Matches your equipment')
                           : recommendedReasons.includes('gearMethod')
                             ? ar
                               ? ' · مناسبة لطريقتك'
-                              : ' · Fits your brew gear'
+                              : i18nUi(' · مناسبة لطريقتك', ' · Fits your brew gear')
                             : ''}
                   </Txt>
                 </View>
@@ -493,7 +495,7 @@ export function BrewMyCoffee({
                 style={s.primary}
               >
                 <Txt style={s.primaryText}>
-                  {ar ? 'ابدأ بهذه الوصفة' : 'Start this recipe'}
+                  {ar ? 'ابدأ بهذه الوصفة' : i18nUi('ابدأ بهذه الوصفة', 'Start this recipe')}
                 </Txt>
                 <Icon name="play" size={17} color="#FFF" />
               </Pressable>
@@ -503,12 +505,12 @@ export function BrewMyCoffee({
               <Txt style={s.emptyTitle}>
                 {ar
                   ? 'ما لقينا وصفة مطابقة بهالشروط'
-                  : 'No exact recipe matches these choices'}
+                  : i18nUi('ما لقينا وصفة مطابقة بهالشروط', 'No exact recipe matches these choices')}
               </Txt>
               <Txt style={styles.muted}>
                 {ar
                   ? 'جرّب طريقة ثانية أو اكتشف الوصفات.'
-                  : 'Try another method or explore recipes.'}
+                  : i18nUi('جرّب طريقة ثانية أو اكتشف الوصفات.', 'Try another method or explore recipes.')}
               </Txt>
             </View>
           )}
@@ -516,7 +518,7 @@ export function BrewMyCoffee({
           {visible.length > 1 ? (
             <View style={s.more}>
               <Txt style={s.sectionTitle}>
-                {ar ? 'بدائل مناسبة' : 'Other matching recipes'}
+                {ar ? 'بدائل مناسبة' : i18nUi('بدائل مناسبة', 'Other matching recipes')}
               </Txt>
               {visible.slice(1).map((row) => (
                 <Pressable
@@ -547,7 +549,7 @@ export function BrewMyCoffee({
           {moreRecipes ? (
             <Action
               title={
-                ar ? 'المزيد من الوصفات المطابقة' : 'More matching recipes'
+                ar ? 'المزيد من الوصفات المطابقة' : i18nUi('المزيد من الوصفات المطابقة', 'More matching recipes')
               }
               onPress={() => setRecipePage((p) => p + 1)}
               disabled={recipesBusy}
@@ -559,7 +561,7 @@ export function BrewMyCoffee({
         <View style={{ gap: 8 }}>
           <Txt style={styles.warning}>{error}</Txt>
           <Action
-            title={ar ? 'إعادة المحاولة' : 'Try again'}
+            title={ar ? 'إعادة المحاولة' : i18nUi('إعادة المحاولة', 'Try again')}
             onPress={() => setRevision((v) => v + 1)}
             disabled={busy || recipesBusy}
           />

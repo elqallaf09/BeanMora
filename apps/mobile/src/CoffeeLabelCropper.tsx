@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext, useState } from 'react';
 import { Image, Platform, Pressable, View, useWindowDimensions } from './native';
 import { Action, Language, Txt, colors } from './ui';
@@ -7,6 +8,7 @@ import type { CoffeeOcrCrop } from './coffeeOcr';
 export function CoffeeLabelCropper({ photo, apply, cancel }: {
   photo: { uri: string; width: number; height: number }; apply: (crop: CoffeeOcrCrop) => void; cancel: () => void;
 }) {
+  const i18nUi = useLabels();
   const ar = useContext(Language) === 'ar';
   const screen = useWindowDimensions();
   const aspect = photo.width / photo.height;
@@ -14,8 +16,8 @@ export function CoffeeLabelCropper({ photo, apply, cancel }: {
   const [start, setStart] = useState<{ x: number; y: number } | null>(null);
   const [crop, setCrop] = useState<CoffeeOcrCrop | null>(null);
   return <View testID="coffee-label-cropper" style={{ gap: 8 }}>
-    <Txt style={{ fontSize: 13 }}>{ar ? 'اضغط زاوية الملصق ثم الزاوية المقابلة لتحديد الكتابة فقط.' : 'Tap one label corner, then the opposite corner to select only the text.'}</Txt>
-    <Pressable testID="coffee-crop-image" accessibilityRole="button" accessibilityLabel={ar ? 'تحديد حدود الملصق' : 'Select label bounds'}
+    <Txt style={{ fontSize: 13 }}>{ar ? 'اضغط زاوية الملصق ثم الزاوية المقابلة لتحديد الكتابة فقط.' : i18nUi('اضغط زاوية الملصق ثم الزاوية المقابلة لتحديد الكتابة فقط.', 'Tap one label corner, then the opposite corner to select only the text.')}</Txt>
+    <Pressable testID="coffee-crop-image" accessibilityRole="button" accessibilityLabel={ar ? 'تحديد حدود الملصق' : i18nUi('تحديد حدود الملصق', 'Select label bounds')}
       style={{ width, height, alignSelf: 'center' }} onPress={event => {
         let { locationX, locationY } = event.nativeEvent;
         if (Platform.OS === 'web') {
@@ -40,9 +42,9 @@ export function CoffeeLabelCropper({ photo, apply, cancel }: {
         width: crop.width * width, height: crop.height * height, borderWidth: 2, borderColor: colors.teal, backgroundColor: '#147B7022' }} /> : null}
     </Pressable>
     <View style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8 }}>
-      <Action compact variant="primary" title={ar ? 'قراءة الجزء المحدد' : 'Read selected label'} disabled={!crop} onPress={() => crop && apply(crop)} />
-      <Action compact title={ar ? 'تحديد من جديد' : 'Reset selection'} onPress={() => { setStart(null); setCrop(null); }} />
-      <Action compact title={ar ? 'إلغاء' : 'Cancel'} onPress={cancel} />
+      <Action compact variant="primary" title={ar ? 'قراءة الجزء المحدد' : i18nUi('قراءة الجزء المحدد', 'Read selected label')} disabled={!crop} onPress={() => crop && apply(crop)} />
+      <Action compact title={ar ? 'تحديد من جديد' : i18nUi('تحديد من جديد', 'Reset selection')} onPress={() => { setStart(null); setCrop(null); }} />
+      <Action compact title={ar ? 'إلغاء' : i18nUi('إلغاء', 'Cancel')} onPress={cancel} />
     </View>
   </View>;
 }

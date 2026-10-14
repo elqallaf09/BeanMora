@@ -8,3 +8,6 @@ playwright-report/
 test-results/
 *.tsbuildinfo
 public/coffee-ocr/
+
+# Local Supabase CLI cache
+supabase/.temp/

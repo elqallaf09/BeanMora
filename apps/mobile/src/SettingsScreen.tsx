@@ -5,6 +5,7 @@ import { SafeAreaView } from './native';
 import { useLabels, Action, Language, Txt, styles, colors } from './ui';
 import { useTheme, type Appearance } from './theme';
 import type { Locale } from './copy';
+import { languageOptions } from './localeText';
 import { AppVersion } from './AppVersion';
 import { LegalLinks } from './LegalLinks';
 import { SettingsAccount } from './SettingsAccount';
@@ -96,10 +97,9 @@ export function SettingsScreen({
               >
                 {L('اللغة', 'Language')}
               </Txt>
-              <TabRail equal testID="settings-language" value={locale}
-                items={[{ id: 'ar', label: 'العربية' }, { id: 'en', label: 'English' }, { id: 'ja', label: '日本語' }]}
+              <TabRail wrap variant="pills" columns={2} testID="settings-language" value={locale}
+                items={languageOptions}
                 onChange={value => changeLanguage(value as Locale)} />
-              {locale === 'ja' ? <Txt style={styles.muted}>日本語は初期対応です。カタログと投稿は元の言語で表示される場合があります。</Txt> : null}
             </View>
             {session ? (
               <SettingsSocial key={'social-' + session.user.id} owner={session.user.id} />

@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext } from 'react';
 import { View } from './native';
 import Svg, { Circle, Line, Polyline, Text as SvgText } from 'react-native-svg';
@@ -9,6 +10,7 @@ export function RoastCurve({
 }: {
   series: { name: string; points: RoastPoint[] }[];
 }) {
+  const i18nUi = useLabels();
   const ar = useContext(Language) === 'ar';
   const lines = series.map((s) => ({
     ...s,
@@ -28,7 +30,7 @@ export function RoastCurve({
         <Txt style={styles.muted}>
           {ar
             ? 'أضف قراءات الحرارة من الماكينة ليظهر منحنى الحمصة.'
-            : 'Add measured machine temperatures to display the roast curve.'}
+            : i18nUi('أضف قراءات الحرارة من الماكينة ليظهر منحنى الحمصة.', 'Add measured machine temperatures to display the roast curve.')}
         </Txt>
       </View>
     );
@@ -44,7 +46,7 @@ export function RoastCurve({
       style={[styles.card, { marginBottom: 0, padding: 10 }]}
     >
       <Txt heading style={{ fontWeight: '700', fontSize: 16 }}>
-        {ar ? 'منحنى حرارة البن' : 'Bean temperature curve'}
+        {ar ? 'منحنى حرارة البن' : i18nUi('منحنى حرارة البن', 'Bean temperature curve')}
       </Txt>
       <Svg
         width="100%"
@@ -53,7 +55,7 @@ export function RoastCurve({
         accessibilityLabel={
           ar
             ? 'منحنى القراءات المسجلة للحرارة مقابل الوقت'
-            : 'Recorded bean temperature against time'
+            : i18nUi('منحنى القراءات المسجلة للحرارة مقابل الوقت', 'Recorded bean temperature against time')
         }
       >
         {[0, 1, 2, 3, 4].map((i) => (
@@ -142,7 +144,7 @@ export function RoastCurve({
       <Txt style={{ fontSize: 11, color: colors.muted }}>
         {ar
           ? 'النقاط هي قراءاتك المسجّلة؛ الخط يصل بينها.'
-          : 'Points are your recorded measurements; lines connect them.'}
+          : i18nUi('النقاط هي قراءاتك المسجّلة؛ الخط يصل بينها.', 'Points are your recorded measurements; lines connect them.')}
       </Txt>
     </View>
   );

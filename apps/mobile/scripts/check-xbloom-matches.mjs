@@ -1,3 +1,4 @@
+import {prepareLocaleFixture,withLocaleRequire} from './locale-test-fixture.mjs';
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
@@ -9,6 +10,7 @@ import { createClient } from '@supabase/supabase-js';
 const require = createRequire(import.meta.url);
 const temp = mkdtempSync(tmpdir() + '/beanmora-xbloom-matches-');
 mkdirSync(temp + '/core');
+prepareLocaleFixture(temp);
 after(() => rmSync(temp, { recursive: true, force: true }));
 writeFileSync(temp + '/client.mjs', 'export const publicSupabase = null;\n');
 for (const file of ['xbloomMatching.ts','useXBloomMatches.ts','data.ts','guards.ts','sourceBrew.ts','manualBrew.ts',
@@ -20,7 +22,7 @@ for (const file of ['xbloomMatching.ts','useXBloomMatches.ts','data.ts','guards.
   const output = ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText
     .replace(/from (["'])(\.\/[^"']+)\1/g,"from '$2.mjs'")
     .replace(/from 'react'/g,`from '${pathToFileURL(require.resolve('react')).href}'`);
-  writeFileSync(temp + '/' + file.replace('.ts','.mjs'),output);
+  writeFileSync(temp + '/' + file.replace('.ts','.mjs'),withLocaleRequire(file,output));
 }
 const { readXBloomMatches, attachXBloomMatches, xbloomMatchParams, coffeeBrewIds } = await import(pathToFileURL(temp+'/xbloomMatching.mjs').href);
 const { loadXBloomMatches } = await import(pathToFileURL(temp+'/useXBloomMatches.mjs').href);

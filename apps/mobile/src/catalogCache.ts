@@ -1,5 +1,6 @@
 import type { Bundle, CoffeeItem, RecipeItem } from './data';
 import { emptyProfile, isMethod } from './core/engine';
+import type { Locale } from './localeText';
 
 export const CACHE_VERSION = 2;
 export const CACHE_MAX_AGE = 7 * 86400000;
@@ -16,7 +17,6 @@ function storageBytes(value: string): number {
   return bytes;
 }
 export const storageFits = (value: string): boolean => storageBytes(value) <= MAX_STORAGE_BYTES;
-type Locale = 'ar' | 'en' | 'ja';
 export type PublicCatalog = Pick<Bundle, 'coffees' | 'recipes' | 'recipeTotal' | 'limited'>;
 export const catalogCacheKey = (project: string, locale: Locale) => `beanmora-public-catalog-v2:${project}:${locale}`;
 

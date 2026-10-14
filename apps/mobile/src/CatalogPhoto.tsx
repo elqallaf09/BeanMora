@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext, useEffect, useState } from "react";
 import { Image, StyleSheet, View } from "./native";
 import { Icon, Language, Txt, colors, type IconName } from "./ui";
@@ -14,6 +15,7 @@ export function CatalogPhoto({
   height?: number;
   alt?: string;
 }) {
+  const i18nUi = useLabels();
   const ar = useContext(Language) === "ar";
   const [failed, setFailed] = useState(false);
   useEffect(() => setFailed(false), [uri]);
@@ -22,7 +24,7 @@ export function CatalogPhoto({
       {uri && !failed ? (
         <Image
           accessibilityLabel={
-            alt ?? (ar ? "صورة الأداة من مصدرها" : "Equipment photo from its source")
+            alt ?? (ar ? "صورة الأداة من مصدرها" : i18nUi("صورة الأداة من مصدرها", "Equipment photo from its source"))
           }
           source={{ uri }}
           resizeMode="contain"
@@ -42,7 +44,7 @@ export function CatalogPhoto({
               height <= 100 && { fontSize: 9, lineHeight: 14 },
             ]}
           >
-            {ar ? "صورة الموديل غير متوفرة" : "Model photo unavailable"}
+            {ar ? "صورة الموديل غير متوفرة" : i18nUi("صورة الموديل غير متوفرة", "Model photo unavailable")}
           </Txt>
         </>
       )}

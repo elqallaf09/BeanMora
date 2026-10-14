@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { Image, View, type ImageSourcePropType } from './native';
 import { useContext } from 'react';
 import type { Method } from './core/engine';
@@ -14,9 +15,10 @@ const photos: Partial<Record<Method, ImageSourcePropType>> = {
 };
 export const hasMethodPhoto = (method: Method) => !!photos[method];
 export function MethodPhoto({ method }: { method: Method }) {
+  const i18nUi = useLabels();
   const ar = useContext(Language) === 'ar';
   return <View testID={`method-photo-${method}`} style={{ flex: 1, overflow: 'hidden' }}>
-    <Image source={photos[method]} resizeMode="cover" style={{ width: '100%', height: '100%' }} accessibilityLabel={ar ? 'صورة توضيحية للتحضير منشأة لـBeanMora' : 'Brewing illustration created for BeanMora'}/>
-    <View style={{ position: 'absolute', bottom: 6, right: 6, backgroundColor: '#FFF6E7E8', borderRadius: 6, paddingHorizontal: 7, paddingVertical: 2 }}><Txt style={{ fontSize: 10, lineHeight: 14 }}>{ar ? 'صورة توضيحية · BeanMora' : 'Illustration · BeanMora'}</Txt></View>
+    <Image source={photos[method]} resizeMode="cover" style={{ width: '100%', height: '100%' }} accessibilityLabel={ar ? 'صورة توضيحية للتحضير منشأة لـBeanMora' : i18nUi('صورة توضيحية للتحضير منشأة لـBeanMora', 'Brewing illustration created for BeanMora')}/>
+    <View style={{ position: 'absolute', bottom: 6, right: 6, backgroundColor: '#FFF6E7E8', borderRadius: 6, paddingHorizontal: 7, paddingVertical: 2 }}><Txt style={{ fontSize: 10, lineHeight: 14 }}>{ar ? 'صورة توضيحية · BeanMora' : i18nUi('صورة توضيحية · BeanMora', 'Illustration · BeanMora')}</Txt></View>
   </View>;
 }

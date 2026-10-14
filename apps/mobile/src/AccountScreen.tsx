@@ -205,12 +205,10 @@ export function AccountScreen({
     await request(async () => {
       if (!(await authProviderEnabled(provider))) {
         setError(
-          ar
-            ? 'تسجيل ' +
+          L('تسجيل ' +
                 (provider === 'apple' ? 'Apple' : 'Google') +
-                ' غير مفعّل حالياً. يمكنك الدخول بالبريد الإلكتروني.'
-            : (provider === 'apple' ? 'Apple' : 'Google') +
-                ' sign-in is not enabled. Use email to sign in.',
+                ' غير مفعّل حالياً. يمكنك الدخول بالبريد الإلكتروني.', (provider === 'apple' ? 'Apple' : 'Google') +
+                ' sign-in is not enabled. Use email to sign in.'),
         );
         return;
       }

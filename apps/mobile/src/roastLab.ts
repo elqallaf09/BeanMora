@@ -137,14 +137,18 @@ export const ROAST_FIELDS =
   'id,user_id,green_coffee_id,roaster_equipment_id,parent_roast_id,title,batch_number,roast_date,notes,status,visibility,updated_at,green_weight_g,roasted_weight_g,total_time_seconds,charge_temp_c,drop_temp_c,ambient_temp_c,green_temp_c,target_roast_level,roast_level,agtron_whole,agtron_ground,weight_loss_percent,public_coffee,events:roast_events(event_type,elapsed_seconds,bean_temp_c,environment_temp_c,notes)';
 export const clockTime = (seconds: number) =>
   `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
-export const normalizedNumber = (value: string) =>
-  value
+export const normalizedNumber = (value: string, locale = 'en') => {
+  let normalized = value
+    .normalize('NFKC')
     .trim()
     .replace(/[٠-٩]/g, (x) => String(x.charCodeAt(0) - 1632))
     .replace(/[۰-۹]/g, (x) => String(x.charCodeAt(0) - 1776))
     .replace(/٫/g, '.');
-export function parseRoastNumber(value: string): number | null {
-  const v = normalizedNumber(value);
+  if (['fr','it','es','pt-BR'].includes(locale) && /^-?\d+,\d+$/.test(normalized)) normalized = normalized.replace(',', '.');
+  return normalized;
+};
+export function parseRoastNumber(value: string, locale = 'en'): number | null {
+  const v = normalizedNumber(value, locale);
   if (!/^-?\d+(?:\.\d+)?$/.test(v)) return null;
   const n = Number(v);
   return Number.isFinite(n) ? n : null;

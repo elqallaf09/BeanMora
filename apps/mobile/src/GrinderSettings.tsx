@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext, useEffect, useState } from "react";
 import { View } from "./native";
 import { supabase, publicSupabase } from "./client";
@@ -43,6 +44,7 @@ export function GrinderSettings({
   recipes: RecipeItem[];
   userId: string | null;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language),
     ar = locale === "ar";
   const [rows, setRows] = useState<SettingRow[]>([]),
@@ -102,16 +104,16 @@ export function GrinderSettings({
   const name = (id: string | null) => gear.find((g) => g.id === id)?.name;
   return (
     <Disclosure
-      title={ar ? "درجات الطحن لهذا البن" : "Grind settings for this coffee"}
-      subtitle={ar ? "حسب الطاحونة والحمصة" : "By grinder and roast"}
+      title={ar ? "درجات الطحن لهذا البن" : i18nUi("درجات الطحن لهذا البن", "Grind settings for this coffee")}
+      subtitle={ar ? "حسب الطاحونة والحمصة" : i18nUi("حسب الطاحونة والحمصة", "By grinder and roast")}
       testID="coffee-grinder-settings"
     >
       <Txt style={styles.muted}>
         {ar
           ? "الدرجة تخص موديل الطاحونة ومعايرة الصفر والحمصة والجرعة. نفس الرقم على طاحونتين يعطي نتائج مختلفة."
-          : "A setting belongs to its grinder, zero calibration, roast and dose. The same number on two grinders can produce different results."}
+          : i18nUi("الدرجة تخص موديل الطاحونة ومعايرة الصفر والحمصة والجرعة. نفس الرقم على طاحونتين يعطي نتائج مختلفة.", "A setting belongs to its grinder, zero calibration, roast and dose. The same number on two grinders can produce different results.")}
       </Txt>
-      <Txt heading>{ar ? "تجاربي المحفوظة" : "My saved trials"}</Txt>
+      <Txt heading>{ar ? "تجاربي المحفوظة" : i18nUi("تجاربي المحفوظة", "My saved trials")}</Txt>
       {rows.map((row) => {
         const context = parseGrinderContext(row.grinder_context);
         const outcome = (row.outcome_submission as { outcome?: string } | null)
@@ -120,11 +122,11 @@ export function GrinderSettings({
           <View key={row.id} style={[styles.card, { gap: 5 }]}>
             <Txt heading>
               {name(context?.grinder_model_id ?? null) ??
-                (ar ? "طاحونة غير مسجلة" : "Grinder not recorded")}{" "}
+                (ar ? "طاحونة غير مسجلة" : i18nUi("طاحونة غير مسجلة", "Grinder not recorded"))}{" "}
               · {context?.grind_setting ?? row.grind_setting ?? "—"}
             </Txt>
             <Txt>
-              {coffee.roaster} · {roastLabel(context?.roast_level ?? null, ar)}
+              {coffee.roaster} · {i18nUi(roastLabel(context?.roast_level ?? null,true),roastLabel(context?.roast_level ?? null,false))}
             </Txt>
             <Txt style={styles.muted}>
               {[
@@ -139,13 +141,13 @@ export function GrinderSettings({
             <Txt>
               {[
                 row.dose_grams
-                  ? row.dose_grams + (ar ? " غ بن" : " g coffee")
+                  ? row.dose_grams + (ar ? " غ بن" : i18nUi(" غ بن", " g coffee"))
                   : null,
                 row.water_grams
-                  ? row.water_grams + (ar ? " غ ماء" : " g water")
+                  ? row.water_grams + (ar ? " غ ماء" : i18nUi(" غ ماء", " g water"))
                   : null,
                 row.actual_time_seconds
-                  ? row.actual_time_seconds + (ar ? " ث" : " s")
+                  ? row.actual_time_seconds + (ar ? " ث" : i18nUi(" ث", " s"))
                   : null,
               ]
                 .filter(Boolean)
@@ -153,13 +155,15 @@ export function GrinderSettings({
             </Txt>
             {outcome ? (
               <Txt style={styles.muted}>
-                {(ar ? "تقييمك: " : "Your result: ") +
-                  ({
+                {(ar ? "تقييمك: " : i18nUi("تقييمك: ", "Your result: ")) +
+                  i18nUi(({
                     excellent: ["ممتاز", "Excellent"],
                     good: ["جيد", "Good"],
                     needs_adjustment: ["يحتاج تعديل", "Needs adjustment"],
                     poor: ["غير موفق", "Poor"],
-                  }[outcome]?.[ar ? 0 : 1] ?? outcome)}
+                  }[outcome]?.[0] ?? outcome),({
+                    excellent: ["ممتاز", "Excellent"], good: ["جيد", "Good"], needs_adjustment: ["يحتاج تعديل", "Needs adjustment"], poor: ["غير موفق", "Poor"],
+                  }[outcome]?.[1] ?? outcome))}
               </Txt>
             ) : null}
           </View>
@@ -169,19 +173,19 @@ export function GrinderSettings({
         <Txt style={styles.muted}>
           {ar
             ? "بعد التحضير، سجّل موديل الطاحونة ودرجتها والحمصة؛ تظهر المقارنة هنا."
-            : "After brewing, record your grinder, setting and roast to compare trials here."}
+            : i18nUi("بعد التحضير، سجّل موديل الطاحونة ودرجتها والحمصة؛ تظهر المقارنة هنا.", "After brewing, record your grinder, setting and roast to compare trials here.")}
         </Txt>
       ) : null}
       {failed ? (
         <Action
-          title={ar ? "إعادة تحميل درجاتي" : "Reload my settings"}
+          title={ar ? "إعادة تحميل درجاتي" : i18nUi("إعادة تحميل درجاتي", "Reload my settings")}
           onPress={() => setRevision((n) => n + 1)}
         />
       ) : null}
       {sourced.length ? (
         <>
           <Txt heading>
-            {ar ? "إعدادات الوصفات المنشورة" : "Published recipe settings"}
+            {ar ? "إعدادات الوصفات المنشورة" : i18nUi("إعدادات الوصفات المنشورة", "Published recipe settings")}
           </Txt>
           {sourced.map((r) => {
             const model =
@@ -200,19 +204,19 @@ export function GrinderSettings({
                       : model
                     : ar
                       ? "الموديل غير مذكور بالمصدر"
-                      : "Model unspecified by source"}{" "}
+                      : i18nUi("الموديل غير مذكور بالمصدر", "Model unspecified by source")}{" "}
                   · {r.grindSetting}
                 </Txt>
                 <Txt>{r.title}</Txt>
                 <Txt style={styles.muted}>
                   {ar
                     ? "إعداد منشور لهذه الوصفة؛ يحتاج ضبطًا لنفس الحمصة والجرعة والمعايرة."
-                    : "Published for this recipe; dial in for the same roast, dose and calibration."}
+                    : i18nUi("إعداد منشور لهذه الوصفة؛ يحتاج ضبطًا لنفس الحمصة والجرعة والمعايرة.", "Published for this recipe; dial in for the same roast, dose and calibration.")}
                 </Txt>
                 <SourceLink
                   compact
                   url={r.sources[0].url}
-                  title={ar ? "مصدر الإعداد" : "Setting source"}
+                  title={ar ? "مصدر الإعداد" : i18nUi("مصدر الإعداد", "Setting source")}
                 />
               </View>
             );

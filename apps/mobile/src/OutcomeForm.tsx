@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext, useRef, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Switch, View } from './native';
 import { randomUUID } from 'expo-crypto';
@@ -15,6 +16,7 @@ import { coffeeBrewIds } from './xbloomMatching';
 import { XBloomMatchNotice } from './XBloomMatchNotice';
 import { CoffeeLabelMatchNotice } from './CoffeeLabelMatchNotice';
 export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe: RecipeItem; userId: string; done: () => void; measuredSeconds?: number }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language); const t = useCopy();
   const brewIds = coffeeBrewIds(recipe);
   const borrowed = recipe.coffeeMatch?.match_kind === 'similar' || recipe.labelMatch?.match_kind === 'similar';
@@ -38,13 +40,13 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
       if (authError || !user || user.is_anonymous || user.id !== userId) { setError(errors[locale].auth); return; }
       if (!pending.current) {
         const payload = parseOutcome({ recipe_id: brewIds.recipeId, bean_id: brewIds.beanId, brew_method: recipe.method,
-          dose_grams: numberInput(dose), water_grams: numberInput(water),
-          actual_time_seconds: seconds.trim() ? numberInput(seconds) ?? -1 : null,
+          dose_grams: numberInput(dose, locale), water_grams: numberInput(water, locale),
+          actual_time_seconds: seconds.trim() ? numberInput(seconds, locale) ?? -1 : null,
           outcome, status: modified || borrowed ? 'brewed_with_modifications' : 'brewed_as_written',
           share_with_community: share && !borrowed, next_grind_adjustment: nextGrind, taste_scores: {}, brewed });
         if (!payload) { setError(errors[locale].invalid); return; }
         const context=parseGrinderContext({...grinderContext,grind_setting:grindSetting.trim()||null,taste_signal:tasteSignal});
-        if (!context) {setError(locale==='ar'?'راجع تاريخ التحميص وبيانات الطاحونة.':'Check the roast date and grinder details.');return;}
+        if (!context) {setError(locale==='ar'?'راجع تاريخ التحميص وبيانات الطاحونة.':i18nUi('راجع تاريخ التحميص وبيانات الطاحونة.', 'Check the roast date and grinder details.'));return;}
         pending.current = { id: randomUUID(), payload, context };
       }
       const response = await saveConfiguredBrew(supabase, pending.current.id, pending.current.payload, pending.current.context);
@@ -67,7 +69,7 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
               if(sync.error) throw sync.error;
             }
           }
-        }catch{warnings.push(locale==='ar'?'تم حفظ الكوب، لكن تعذّر تحديث درجة الطحن في المخزون.':'The brew was saved, but the grind setting could not be synced to inventory.');}
+        }catch{warnings.push(locale==='ar'?'تم حفظ الكوب، لكن تعذّر تحديث درجة الطحن في المخزون.':i18nUi('تم حفظ الكوب، لكن تعذّر تحديث درجة الطحن في المخزون.', 'The brew was saved, but the grind setting could not be synced to inventory.'));}
       }
       if (share && !borrowed) {
         const post = await supabase.from('posts').insert({
@@ -85,30 +87,30 @@ export function OutcomeForm({ recipe, userId, done, measuredSeconds }: { recipe:
           visibility: 'public',
           is_hidden: false,
         });
-        if (post.error && post.error.code!=='23505') warnings.push(locale==='ar'?'تم حفظ الكوب، لكن تعذرت مشاركته تلقائيًا. تقدر تشاركه لاحقًا من المجتمع.':'The brew was saved, but automatic sharing failed. You can share it later from Community.');
+        if (post.error && post.error.code!=='23505') warnings.push(locale==='ar'?'تم حفظ الكوب، لكن تعذرت مشاركته تلقائيًا. تقدر تشاركه لاحقًا من المجتمع.':i18nUi('تم حفظ الكوب، لكن تعذرت مشاركته تلقائيًا. تقدر تشاركه لاحقًا من المجتمع.', 'The brew was saved, but automatic sharing failed. You can share it later from Community.'));
       }
       setAuxiliaryWarning(warnings.join(' '));
       setSaved(true);
     } catch { setError(errors[locale].retry); }
     finally { inFlight.current = false; setBusy(false); }
   }
-  if (saved) return <View style={styles.content}><Txt heading style={styles.title}>{t.saved}</Txt>{auxiliaryWarning?<Txt style={styles.warning}>{auxiliaryWarning}</Txt>:share?<Txt style={styles.success}>{locale==='ar'?'تمت مشاركة التجربة في المجتمع.':'Your brew was shared to Community.'}</Txt>:null}<Action title={t.next} onPress={done} selected /></View>;
+  if (saved) return <View style={styles.content}><Txt heading style={styles.title}>{t.saved}</Txt>{auxiliaryWarning?<Txt style={styles.warning}>{auxiliaryWarning}</Txt>:share?<Txt style={styles.success}>{locale==='ar'?'تمت مشاركة التجربة في المجتمع.':i18nUi('تمت مشاركة التجربة في المجتمع.', 'Your brew was shared to Community.')}</Txt>:null}<Action title={t.next} onPress={done} selected /></View>;
   return <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.content}>
     <XBloomMatchNotice recipe={recipe}/>
     <CoffeeLabelMatchNotice recipe={recipe}/>
-    <View style={local.hero}><Txt heading style={local.heroTitle}>{locale==='ar'?'شلون كان الكوب؟':'How was the cup?'}</Txt><Txt style={local.heroNote}>{locale==='ar'?'سجّل النتيجة بسرعة ونحتفظ بالإعداد اللي نجح معاك.':'Log the result quickly so BeanMora can remember what worked.'}</Txt></View><View style={local.recipePill}><Txt style={local.recipeTitle}>{recipe.title}</Txt></View><Txt style={styles.muted}>{t.amountNote}</Txt>{recipe.waterUnit === 'ml' ? <Txt style={styles.muted}>{locale === 'ar' ? 'ماء المصدر بالملليلتر؛ أدخل وزن الماء الفعلي من الميزان بالجرام.' : 'Source water is in milliliters; enter the actual water weight from your scale in grams.'}</Txt> : null}
+    <View style={local.hero}><Txt heading style={local.heroTitle}>{locale==='ar'?'شلون كان الكوب؟':i18nUi('شلون كان الكوب؟', 'How was the cup?')}</Txt><Txt style={local.heroNote}>{locale==='ar'?'سجّل النتيجة بسرعة ونحتفظ بالإعداد اللي نجح معاك.':i18nUi('سجّل النتيجة بسرعة ونحتفظ بالإعداد اللي نجح معاك.', 'Log the result quickly so BeanMora can remember what worked.')}</Txt></View><View style={local.recipePill}><Txt style={local.recipeTitle}>{recipe.title}</Txt></View><Txt style={styles.muted}>{t.amountNote}</Txt>{recipe.waterUnit === 'ml' ? <Txt style={styles.muted}>{locale === 'ar' ? 'ماء المصدر بالملليلتر؛ أدخل وزن الماء الفعلي من الميزان بالجرام.' : i18nUi('ماء المصدر بالملليلتر؛ أدخل وزن الماء الفعلي من الميزان بالجرام.', 'Source water is in milliliters; enter the actual water weight from your scale in grams.')}</Txt> : null}
     <Field label={t.dose} value={dose} onChangeText={setDose} keyboardType="decimal-pad" editable={!locked} />
     <Field label={t.water} value={water} onChangeText={setWater} keyboardType="decimal-pad" editable={!locked} />
     <Field label={t.seconds} value={seconds} onChangeText={setSeconds} keyboardType="number-pad" editable={!locked} />
-    <Disclosure title={locale==='ar'?'الطاحونة والجهاز والحمصة':'Grinder, device and roast'}><GrinderPicker value={grinderContext} change={setGrinderContext} method={recipe.method} disabled={locked}/></Disclosure>
-    <Field maxLength={100} label={locale==='ar'?'درجة الطحن الفعلية':'Actual grind setting'} value={grindSetting} onChangeText={setGrindSetting} editable={!locked} placeholder={locale==='ar'?'مثال: 5E أو 22 clicks':'e.g. 5E or 22 clicks'} />
+    <Disclosure title={locale==='ar'?'الطاحونة والجهاز والحمصة':i18nUi('الطاحونة والجهاز والحمصة', 'Grinder, device and roast')}><GrinderPicker value={grinderContext} change={setGrinderContext} method={recipe.method} disabled={locked}/></Disclosure>
+    <Field maxLength={100} label={locale==='ar'?'درجة الطحن الفعلية':i18nUi('درجة الطحن الفعلية', 'Actual grind setting')} value={grindSetting} onChangeText={setGrindSetting} editable={!locked} placeholder={locale==='ar'?'مثال: 5E أو 22 clicks':i18nUi('مثال: 5E أو 22 clicks', 'e.g. 5E or 22 clicks')} />
     <Txt style={local.sectionLabel}>{t.outcome}</Txt><View style={local.outcomeGrid}>{OUTCOMES.map((o,index) => <Pressable key={o} accessibilityRole="button" accessibilityLabel={outcomes[locale][o]} accessibilityState={{selected:outcome===o,disabled:locked}} disabled={locked} onPress={()=>setOutcome(o)} style={[local.outcomeCard,outcome===o&&local.outcomeSelected]}><Txt style={local.outcomeEmoji}>{['◎','○','△','×'][index]}</Txt><Txt style={[local.outcomeText,outcome===o&&{color:'#FFF'}]}>{outcomes[locale][o]}</Txt></Pressable>)}</View>
-    <View style={local.tasteCard}><Txt style={local.coachTitle}>{locale==='ar'?'شنو كان أوضح شي بالطعم؟':'What stood out most?'}</Txt><View style={styles.row}>{([
-      ['sharp_sour',locale==='ar'?'حامض/حاد':'Sharp sour'],['bitter_dry',locale==='ar'?'مر/جاف':'Bitter/dry'],['thin_weak',locale==='ar'?'خفيف/ضعيف':'Thin/weak'],['balanced',locale==='ar'?'متوازن':'Balanced'],['other',locale==='ar'?'شي ثاني':'Other']
-    ] as const).map(([value,label])=><Action key={value} title={label} onPress={()=>{setTasteSignal(value);const coach=brewCoach(value);if(coach.grind)setNextGrind(coach.grind);}} selected={tasteSignal===value} disabled={locked}/>)}</View>{tasteSignal?<View style={local.coachResult}><Txt style={local.coachResultTitle}>{locale==='ar'?brewCoach(tasteSignal).ar:brewCoach(tasteSignal).en}</Txt><Txt style={local.coachNote}>{locale==='ar'?brewCoach(tasteSignal).reasonAr:brewCoach(tasteSignal).reasonEn}</Txt></View>:null}</View><View style={local.coachCard}><Txt style={local.coachTitle}>{locale==='ar'?'المحاولة الياية':'Next attempt'}</Txt><Txt style={local.coachNote}>{locale==='ar'?'إذا بتغيّر الطحن، احفظ التعديل المقصود عشان نقارن النتيجة بالمحاولة الحالية.':'Save the grind change you plan to try so we can compare it with this cup.'}</Txt><View style={styles.row}><Action title={locale==='ar'?'أنعم':'Finer'} onPress={()=>setNextGrind('finer')} selected={nextGrind==='finer'} disabled={locked}/><Action title={locale==='ar'?'نفس الطحن':'Same'} onPress={()=>setNextGrind('same')} selected={nextGrind==='same'} disabled={locked}/><Action title={locale==='ar'?'أخشن':'Coarser'} onPress={()=>setNextGrind('coarser')} selected={nextGrind==='coarser'} disabled={locked}/></View></View>
+    <View style={local.tasteCard}><Txt style={local.coachTitle}>{locale==='ar'?'شنو كان أوضح شي بالطعم؟':i18nUi('شنو كان أوضح شي بالطعم؟', 'What stood out most?')}</Txt><View style={styles.row}>{([
+      ['sharp_sour',locale==='ar'?'حامض/حاد':i18nUi('حامض/حاد', 'Sharp sour')],['bitter_dry',locale==='ar'?'مر/جاف':i18nUi('مر/جاف', 'Bitter/dry')],['thin_weak',locale==='ar'?'خفيف/ضعيف':i18nUi('خفيف/ضعيف', 'Thin/weak')],['balanced',locale==='ar'?'متوازن':i18nUi('متوازن', 'Balanced')],['other',locale==='ar'?'شي ثاني':i18nUi('شي ثاني', 'Other')]
+    ] as const).map(([value,label])=><Action key={value} title={label} onPress={()=>{setTasteSignal(value);const coach=brewCoach(value);if(coach.grind)setNextGrind(coach.grind);}} selected={tasteSignal===value} disabled={locked}/>)}</View>{tasteSignal?<View style={local.coachResult}><Txt style={local.coachResultTitle}>{locale==='ar'?brewCoach(tasteSignal).ar:brewCoach(tasteSignal).en}</Txt><Txt style={local.coachNote}>{locale==='ar'?brewCoach(tasteSignal).reasonAr:brewCoach(tasteSignal).reasonEn}</Txt></View>:null}</View><View style={local.coachCard}><Txt style={local.coachTitle}>{locale==='ar'?'المحاولة الياية':i18nUi('المحاولة الياية', 'Next attempt')}</Txt><Txt style={local.coachNote}>{locale==='ar'?'إذا بتغيّر الطحن، احفظ التعديل المقصود عشان نقارن النتيجة بالمحاولة الحالية.':i18nUi('إذا بتغيّر الطحن، احفظ التعديل المقصود عشان نقارن النتيجة بالمحاولة الحالية.', 'Save the grind change you plan to try so we can compare it with this cup.')}</Txt><View style={styles.row}><Action title={locale==='ar'?'أنعم':i18nUi('أنعم', 'Finer')} onPress={()=>setNextGrind('finer')} selected={nextGrind==='finer'} disabled={locked}/><Action title={locale==='ar'?'نفس الطحن':i18nUi('نفس الطحن', 'Same')} onPress={()=>setNextGrind('same')} selected={nextGrind==='same'} disabled={locked}/><Action title={locale==='ar'?'أخشن':i18nUi('أخشن', 'Coarser')} onPress={()=>setNextGrind('coarser')} selected={nextGrind==='coarser'} disabled={locked}/></View></View>
     <Txt>{t.modified}</Txt><Switch accessibilityLabel={t.modified} value={modified} onValueChange={setModified} disabled={locked} />
     <Txt>{t.brewed}</Txt><Switch accessibilityLabel={t.brewed} value={brewed} onValueChange={setBrewed} disabled={locked} />
-    {borrowed ? <Txt style={styles.muted}>{locale==='ar'?'ستُحفظ النتيجة لبنك كتجربة بإعدادات مقتبسة.':'The result is saved for your coffee with borrowed recipe settings.'}</Txt> : <><Txt>{t.share}</Txt><Switch accessibilityLabel={t.share} value={share} onValueChange={setShare} disabled={locked} /><Txt style={styles.muted}>{share?(locale==='ar'?'بعد الحفظ راح ينشئ BeanMora منشور مجتمع تلقائي من نفس التجربة والمقادير.':'After saving, BeanMora will create a community post from this exact brew and its measurements.'):t.shareNote}</Txt></>}
+    {borrowed ? <Txt style={styles.muted}>{locale==='ar'?'ستُحفظ النتيجة لبنك كتجربة بإعدادات مقتبسة.':i18nUi('ستُحفظ النتيجة لبنك كتجربة بإعدادات مقتبسة.', 'The result is saved for your coffee with borrowed recipe settings.')}</Txt> : <><Txt>{t.share}</Txt><Switch accessibilityLabel={t.share} value={share} onValueChange={setShare} disabled={locked} /><Txt style={styles.muted}>{share?(locale==='ar'?'بعد الحفظ راح ينشئ BeanMora منشور مجتمع تلقائي من نفس التجربة والمقادير.':i18nUi('بعد الحفظ راح ينشئ BeanMora منشور مجتمع تلقائي من نفس التجربة والمقادير.', 'After saving, BeanMora will create a community post from this exact brew and its measurements.')):t.shareNote}</Txt></>}
     {error ? <Txt style={styles.error}>{error}</Txt> : null}
     {pending.current ? <Txt style={styles.warning}>{t.frozen}</Txt> : null}
     <Action title={busy ? t.saving : pending.current ? t.retry : t.save} onPress={() => void submit()} disabled={busy} selected />

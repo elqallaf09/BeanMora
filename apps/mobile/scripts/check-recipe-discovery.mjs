@@ -1,3 +1,4 @@
+import {prepareLocaleFixture,withLocaleRequire} from './locale-test-fixture.mjs';
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import {
@@ -14,6 +15,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const temp = mkdtempSync(tmpdir() + '/beanmora-discovery-');
 mkdirSync(temp + '/core');
+prepareLocaleFixture(temp);
 after(() => rmSync(temp, { recursive: true, force: true }));
 for (const file of [
   'core/catalog-names.ts', 'core/catalog-foreign-titles.ts', 'localizedContent.ts',
@@ -37,7 +39,7 @@ for (const file of [
       },
     })
     .outputText.replace(/from (["'])(\.\/[^"']+)\1/g, "from '$2.mjs'");
-  writeFileSync(temp + '/' + file.replace('.ts', '.mjs'), output);
+  writeFileSync(temp + '/' + file.replace('.ts', '.mjs'), withLocaleRequire(file,output));
 }
 const {
   emptyRecipeFilters,

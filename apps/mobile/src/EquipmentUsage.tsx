@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext } from "react";
 import { View } from "./native";
 import type { EquipmentItem } from "./catalog";
@@ -425,6 +426,7 @@ const zill: Steps = [
   ],
 ];
 export function EquipmentUsage({ item }: { item: EquipmentItem }) {
+  const i18nUi = useLabels();
   const ar = useContext(Language) === "ar";
   const original = item.originalName ?? item.name;
   const isZill = /zill|زِل|زيل|زل/i.test(original);
@@ -475,28 +477,28 @@ export function EquipmentUsage({ item }: { item: EquipmentItem }) {
         : usage.other));
   return (
     <Disclosure
-      title={ar ? "شلون تستخدمها؟" : "How to use it"}
+      title={ar ? "شلون تستخدمها؟" : i18nUi("شلون تستخدمها؟", "How to use it")}
       testID="equipment-how-to"
     >
       <Txt style={styles.muted}>
         {isZill
           ? ar
             ? "جهاز كبسولات للقهوة العربية من مشروع كويتي."
-            : "An Arabic-coffee capsule machine from a Kuwaiti project."
+            : i18nUi("جهاز كبسولات للقهوة العربية من مشروع كويتي.", "An Arabic-coffee capsule machine from a Kuwaiti project.")
           : ar
             ? "خطوات عملية لنوع الأداة؛ تعليمات الموديل هي المرجع للجرعة والتسخين والتنظيف."
-            : "Practical steps for this type of equipment; the model manual governs dosing, heating and cleaning."}
+            : i18nUi("خطوات عملية لنوع الأداة؛ تعليمات الموديل هي المرجع للجرعة والتسخين والتنظيف.", "Practical steps for this type of equipment; the model manual governs dosing, heating and cleaning.")}
       </Txt>
       {steps.map(([arabic, english], i) => (
         <View key={i} style={{ gap: 4 }}>
           <Txt>
-            {i + 1}. {ar ? arabic : english}
+            {i + 1}. {i18nUi(arabic, english)}
           </Txt>
         </View>
       ))}
       {item.sourceUrl ? (
         <SourceLink
-          title={ar ? "الموديل لدى المصنع" : "Model at the manufacturer"}
+          title={ar ? "الموديل لدى المصنع" : i18nUi("الموديل لدى المصنع", "Model at the manufacturer")}
           url={item.sourceUrl}
         />
       ) : null}
@@ -505,7 +507,7 @@ export function EquipmentUsage({ item }: { item: EquipmentItem }) {
           title={
             ar
               ? "فيديوهات نسبريسو — اختر موديلك"
-              : "Nespresso videos — choose your model"
+              : i18nUi("فيديوهات نسبريسو — اختر موديلك", "Nespresso videos — choose your model")
           }
           url="https://www.youtube.com/channel/UCdrsm2O-1i3zl5K0lVOEC2A/playlists?shelf_id=6&sort=dd&view=50"
         />
@@ -513,7 +515,7 @@ export function EquipmentUsage({ item }: { item: EquipmentItem }) {
       {/aiden/i.test(original) ? (
         <SourceLink
           title={
-            ar ? "شرح Aiden والطحن بالفيديو" : "Aiden grind setup video guide"
+            ar ? "شرح Aiden والطحن بالفيديو" : i18nUi("شرح Aiden والطحن بالفيديو", "Aiden grind setup video guide")
           }
           url="https://help.fellowproducts.com/hc/en-us/articles/29101533994267-How-should-I-dial-in-my-grinder-when-brewing-with-Aiden-Getting-Started-With-Aiden-Pt-3"
         />
@@ -523,7 +525,7 @@ export function EquipmentUsage({ item }: { item: EquipmentItem }) {
           title={
             ar
               ? "دليل Encore ESP ودرجات البداية"
-              : "Encore ESP manual and starting settings"
+              : i18nUi("دليل Encore ESP ودرجات البداية", "Encore ESP manual and starting settings")
           }
           url="https://assets.breville.com/ZCG495/manual-encoreesp-v1-0-en-010923.pdf"
         />
@@ -531,7 +533,7 @@ export function EquipmentUsage({ item }: { item: EquipmentItem }) {
       {original === "Comandante C40 MK4" ? (
         <SourceLink
           title={
-            ar ? "درجات C40 ومعايرة الصفر" : "C40 settings and zero calibration"
+            ar ? "درجات C40 ومعايرة الصفر" : i18nUi("درجات C40 ومعايرة الصفر", "C40 settings and zero calibration")
           }
           url="https://comandantegrinder.co.uk/pages/frequently-asked-questions"
         />

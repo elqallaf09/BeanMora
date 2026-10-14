@@ -1,4 +1,5 @@
-import { contentLocale } from './localeText';
+import { useLabels } from './ui';
+import { uiMessage } from './localeText';
 import { useContext, useRef, useState } from "react";
 import { Image, Pressable, ScrollView, View } from "./native";
 import * as ImagePicker from "expo-image-picker";
@@ -26,6 +27,7 @@ export function ContributionForm({
   login: () => void;
   done: () => void;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language),
     ar = locale === "ar";
   const [values, setValues] = useState(() => initialContribution(kind));
@@ -63,7 +65,7 @@ export function ContributionForm({
       setError(
         ar
           ? "اختر صورة بصيغة JPEG أو PNG أو WebP لا تتجاوز ٥ ميغابايت."
-          : "Choose a JPEG, PNG or WebP image under 5 MB.",
+          : i18nUi("اختر صورة بصيغة JPEG أو PNG أو WebP لا تتجاوز ٥ ميغابايت.", "Choose a JPEG, PNG or WebP image under 5 MB."),
       );
     }
   };
@@ -73,12 +75,12 @@ export function ContributionForm({
     setBusy(true);
     try {
       if (!attempt.current) {
-        const payload = contributionPayload(kind, values, contentLocale(locale));
+        const payload = contributionPayload(kind, values, locale);
         if (photo && !rights)
           throw new Error(
             ar
               ? "أكد أنك تملك حق مشاركة الصورة."
-              : "Confirm you can share this image.",
+              : i18nUi("أكد أنك تملك حق مشاركة الصورة.", "Confirm you can share this image."),
           );
         attempt.current = { id: randomUUID(), payload };
         setLocked(true);
@@ -100,10 +102,10 @@ export function ContributionForm({
       const message = e instanceof Error ? e.message : "";
       setError(
         /^(تحقق|أكد|Check:|Confirm)/.test(message)
-          ? message
+          ? uiMessage(locale,message)
           : ar
             ? "تعذّر تأكيد الحفظ. تحقق من اتصالك وحسابك، ثم أعد المحاولة بنفس البيانات."
-            : "Could not confirm saving. Check your connection and account, then retry with the same details.",
+            : i18nUi("تعذّر تأكيد الحفظ. تحقق من اتصالك وحسابك، ثم أعد المحاولة بنفس البيانات.", "Could not confirm saving. Check your connection and account, then retry with the same details."),
       );
     } finally {
       setBusy(false);
@@ -115,11 +117,11 @@ export function ContributionForm({
         <Txt>
           {ar
             ? "سجّل دخولك لإضافة وصفة أو بن وصورته."
-            : "Sign in to add a recipe or coffee and its image."}
+            : i18nUi("سجّل دخولك لإضافة وصفة أو بن وصورته.", "Sign in to add a recipe or coffee and its image.")}
         </Txt>
         <Action
           selected
-          title={ar ? "تسجيل الدخول" : "Sign in"}
+          title={ar ? "تسجيل الدخول" : i18nUi("تسجيل الدخول", "Sign in")}
           onPress={login}
         />
       </View>
@@ -131,12 +133,12 @@ export function ContributionForm({
           {kind === "bean"
             ? ar
               ? "تمت إضافة البن إلى أكياسك. يظهر في الكتالوج العام بعد المراجعة."
-              : "Coffee added to your bags. It appears in the public catalog after review."
+              : i18nUi("تمت إضافة البن إلى أكياسك. يظهر في الكتالوج العام بعد المراجعة.", "Coffee added to your bags. It appears in the public catalog after review.")
             : ar
               ? "تم حفظ الوصفة وخطواتها بنجاح."
-              : "Recipe and steps saved successfully."}
+              : i18nUi("تم حفظ الوصفة وخطواتها بنجاح.", "Recipe and steps saved successfully.")}
         </Txt>
-        <Action selected title={ar ? "تم" : "Done"} onPress={done} />
+        <Action selected title={ar ? "تم" : i18nUi("تم", "Done")} onPress={done} />
       </View>
     );
   return (
@@ -148,19 +150,19 @@ export function ContributionForm({
         {kind === "recipe"
           ? ar
             ? "إضافة وصفة"
-            : "Add a recipe"
+            : i18nUi("إضافة وصفة", "Add a recipe")
           : ar
             ? "إضافة بن"
-            : "Add coffee"}
+            : i18nUi("إضافة بن", "Add coffee")}
       </Txt>
       <Txt style={styles.muted}>
         {ar
           ? "الحقول المميزة بنجمة مطلوبة. اترك المعلومة غير المعروفة فارغة."
-          : "Starred fields are required. Leave unknown details blank."}
+          : i18nUi("الحقول المميزة بنجمة مطلوبة. اترك المعلومة غير المعروفة فارغة.", "Starred fields are required. Leave unknown details blank.")}
       </Txt>
       {contributionFields[kind].map((f) => (
         <View key={f.key} style={{ gap: 6 }}>
-          <Txt>{(ar ? f.ar : f.en) + (f.required ? " *" : "")}</Txt>
+          <Txt>{(i18nUi(f.ar,f.en)) + (f.required ? " *" : "")}</Txt>
           {f.choices ? (
             <View
               style={{
@@ -173,7 +175,7 @@ export function ContributionForm({
                 <Action
                   compact
                   key={c[0]}
-                  title={c[ar ? 1 : 2]}
+                  title={i18nUi(c[1],c[2])}
                   selected={(values[f.key] ?? "") === c[0]}
                   disabled={busy || locked}
                   onPress={() => setValues((v) => ({ ...v, [f.key]: c[0] }))}
@@ -182,7 +184,7 @@ export function ContributionForm({
             </View>
           ) : (
             <Field
-              label={ar ? f.ar : f.en}
+              label={i18nUi(f.ar,f.en)}
               value={values[f.key] ?? ""}
               editable={!busy && !locked}
               onChangeText={(text) =>
@@ -198,21 +200,21 @@ export function ContributionForm({
       ))}
       {photo ? (
         <Image
-          accessibilityLabel={ar ? "الصورة المختارة" : "Selected image"}
+          accessibilityLabel={ar ? "الصورة المختارة" : i18nUi("الصورة المختارة", "Selected image")}
           source={{ uri: photo.uri }}
           style={{ width: "100%", height: 190, borderRadius: 12 }}
           resizeMode="contain"
         />
       ) : null}
       <Action
-        title={ar ? "اختيار صورة (اختياري)" : "Choose image (optional)"}
+        title={ar ? "اختيار صورة (اختياري)" : i18nUi("اختيار صورة (اختياري)", "Choose image (optional)")}
         disabled={busy || locked}
         onPress={() => void pick()}
       />
       {photo ? (
         <>
           <Action
-            title={ar ? "إزالة الصورة" : "Remove image"}
+            title={ar ? "إزالة الصورة" : i18nUi("إزالة الصورة", "Remove image")}
             disabled={busy || locked}
             onPress={() => {
               setPhoto(null);
@@ -230,7 +232,7 @@ export function ContributionForm({
               {(rights ? "☑ " : "☐ ") +
                 (ar
                   ? "أملك حق مشاركة هذه الصورة"
-                  : "I have permission to share this image")}
+                  : i18nUi("أملك حق مشاركة هذه الصورة", "I have permission to share this image"))}
             </Txt>
           </Pressable>
         </>
@@ -246,14 +248,14 @@ export function ContributionForm({
           busy
             ? ar
               ? "جارٍ الحفظ…"
-              : "Saving…"
+              : i18nUi("جارٍ الحفظ…", "Saving…")
             : locked
               ? ar
                 ? "إعادة تأكيد الحفظ"
-                : "Retry saving"
+                : i18nUi("إعادة تأكيد الحفظ", "Retry saving")
               : ar
                 ? "حفظ"
-                : "Save"
+                : i18nUi("حفظ", "Save")
         }
         disabled={busy}
         onPress={() => void submit()}

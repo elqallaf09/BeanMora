@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { requireMember } from "./member-contributions";
+import type { AppLocale } from './app-locales';
 export type CommentTarget = "recipe" | "bean" | "product";
 export type CatalogComment = {
   id: string;
@@ -31,7 +32,7 @@ export async function addCatalogComment(
   target: string,
   id: string,
   body: string,
-  locale: "ar" | "en" | "ja",
+  locale: AppLocale,
 ) {
   const owner = await requireMember(db);
   const text = body.trim();

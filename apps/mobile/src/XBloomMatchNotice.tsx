@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { View } from './native';
 import { Language, Txt, styles, useLabels } from './ui';
 import type { RecipeItem } from './data';
-import { flavorLabel } from './sensory';
+import { flavorDisplay } from './sensory';
 import { contentLocale } from './localeText';
 
 export function XBloomMatchNotice({ recipe }: { recipe: RecipeItem }) {
@@ -13,7 +13,7 @@ export function XBloomMatchNotice({ recipe }: { recipe: RecipeItem }) {
     floral: L('زهرية','Floral','フローラル'), chocolate: L('شوكولاتة','Chocolate','チョコレート'),
     nutty: L('مكسرات','Nutty','ナッツ'), sweet: L('حلاوة','Sweet','甘い'), tea: L('شاي','Tea','お茶'), spice: L('توابل','Spice','スパイス') };
   const reasons = [
-    match.matching_notes.length ? L('إيحاءات مشتركة: ','Shared notes: ','共通の風味：') + match.matching_notes.map(n=>flavorLabel(n,ar)).join('، ') : null,
+    match.matching_notes.length ? L('إيحاءات مشتركة: ','Shared notes: ','共通の風味：') + match.matching_notes.map(n=>flavorDisplay(n,locale)).join('، ') : null,
     !match.matching_notes.length && match.matching_families.length ? L('عائلات إيحاءات متشابهة: ','Similar flavor families: ','似た風味：') + match.matching_families.map(f=>families[f]??f).join('، ') : null,
     match.same_origin ? L('نفس بلد المنشأ','Same origin country','同じ原産国') : null,
     match.same_process ? L('نفس المعالجة','Same processing method','同じ精製方法') : null,

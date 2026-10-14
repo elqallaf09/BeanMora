@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { AudioModule, RecordingPresets, setAudioModeAsync, useAudioPlayer, useAudioPlayerStatus, useAudioRecorder, useAudioRecorderState } from 'expo-audio';
 import { AppState, Platform, View } from './native';
@@ -6,6 +7,7 @@ import { useContentMedia } from './useContentMedia';
 
 export type VoiceDraft = { uri: string; seconds: number; mime: string; extension: string };
 export function RecordVoice({ saved, disabled, onRecordingChange }: { saved: (voice: VoiceDraft) => void; disabled: boolean; onRecordingChange: (value: boolean) => void }) {
+  const i18nUi = useLabels();
   const ar = useContext(Language) === 'ar';
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -26,7 +28,7 @@ export function RecordVoice({ saved, disabled, onRecordingChange }: { saved: (vo
         saved({ uri, seconds, mime: webm ? 'audio/webm' : 'audio/mp4', extension: webm ? 'webm' : 'm4a' });
       }
       await setAudioModeAsync({ allowsRecording: false, shouldPlayInBackground: false });
-    } catch { if (alive.current) setError(ar ? 'تعذّر تجهيز التسجيل. حاول مرة ثانية.' : 'Could not prepare recording. Try again.'); }
+    } catch { if (alive.current) setError(ar ? 'تعذّر تجهيز التسجيل. حاول مرة ثانية.' : i18nUi('تعذّر تجهيز التسجيل. حاول مرة ثانية.', 'Could not prepare recording. Try again.')); }
     finally { inFlight.current = false; if (alive.current) setBusy(false); }
   };
   useEffect(() => { onRecordingChange(busy || state.isRecording); }, [busy, state.isRecording, onRecordingChange]);
@@ -49,12 +51,12 @@ export function RecordVoice({ saved, disabled, onRecordingChange }: { saved: (vo
       captured.current = false; started.current = Date.now();
       // Leave a small container/encoder margin below the strict 60-second cap.
       recorder.record({ forDuration: 59.5 });
-    } catch { setError(ar ? 'اسمح باستخدام الميكروفون للتسجيل.' : 'Allow microphone access to record.'); }
+    } catch { setError(ar ? 'اسمح باستخدام الميكروفون للتسجيل.' : i18nUi('اسمح باستخدام الميكروفون للتسجيل.', 'Allow microphone access to record.')); }
     finally { setBusy(false); }
   }
   return <View style={{ gap: 6 }}>
-    <Action compact title={state.isRecording ? (ar ? 'إيقاف التسجيل' : 'Stop recording') : (ar ? 'تسجيل صوتي' : 'Record voice')} disabled={disabled || busy} onPress={() => void (state.isRecording ? finish() : start())} />
-    <Txt style={styles.muted}>{state.isRecording ? `${Math.min(60, Math.floor(state.durationMillis / 1000))} / 60` : (ar ? 'دقيقة واحدة كحد أقصى' : 'Up to one minute')}</Txt>
+    <Action compact title={state.isRecording ? (ar ? 'إيقاف التسجيل' : i18nUi('إيقاف التسجيل', 'Stop recording')) : (ar ? 'تسجيل صوتي' : i18nUi('تسجيل صوتي', 'Record voice'))} disabled={disabled || busy} onPress={() => void (state.isRecording ? finish() : start())} />
+    <Txt style={styles.muted}>{state.isRecording ? `${Math.min(60, Math.floor(state.durationMillis / 1000))} / 60` : (ar ? 'دقيقة واحدة كحد أقصى' : i18nUi('دقيقة واحدة كحد أقصى', 'Up to one minute'))}</Txt>
     {error ? <Txt style={styles.error}>{error}</Txt> : null}
   </View>;
 }
@@ -63,11 +65,12 @@ export function VoicePlayback({ source, seconds, expiresAt }: { source: string; 
   return url ? <Audio key={url} url={url} seconds={seconds} /> : <Txt style={styles.muted}>…</Txt>;
 }
 function Audio({ url, seconds }: { url: string; seconds: number }) {
+  const i18nUi = useLabels();
   const ar = useContext(Language) === 'ar';
   const player = useAudioPlayer(url);
   const state = useAudioPlayerStatus(player);
   return <View style={[styles.row, { flexWrap: 'wrap' }]}>
-    <Action compact title={state.playing ? (ar ? 'إيقاف الصوت' : 'Pause voice') : (ar ? 'تشغيل الصوت' : 'Play voice')} onPress={() => { if (state.playing) player.pause(); else { if (state.didJustFinish) void player.seekTo(0); player.play(); } }} />
-    <Txt>{Math.ceil(seconds)} {ar ? 'ث' : 's'}</Txt>
+    <Action compact title={state.playing ? (ar ? 'إيقاف الصوت' : i18nUi('إيقاف الصوت', 'Pause voice')) : (ar ? 'تشغيل الصوت' : i18nUi('تشغيل الصوت', 'Play voice'))} onPress={() => { if (state.playing) player.pause(); else { if (state.didJustFinish) void player.seekTo(0); player.play(); } }} />
+    <Txt>{Math.ceil(seconds)} {ar ? 'ث' : i18nUi('ث', 's')}</Txt>
   </View>;
 }

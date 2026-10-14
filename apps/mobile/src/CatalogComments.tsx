@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext, useEffect, useRef, useState } from "react";
 import { View } from "./native";
 import { randomUUID } from "expo-crypto";
@@ -17,6 +18,7 @@ export function CatalogComments({
   kind: CommentTarget;
   id: string;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language),
     ar = locale === "ar";
   const [rows, setRows] = useState<CatalogComment[]>([]),
@@ -38,13 +40,13 @@ export function CatalogComments({
         .catch(() => {
           if (active)
             setError(
-              ar ? "تعذّر تحميل التعليقات." : "Could not load comments.",
+              ar ? "تعذّر تحميل التعليقات." : i18nUi("تعذّر تحميل التعليقات.", "Could not load comments."),
             );
         });
     return () => {
       active = false;
     };
-  }, [kind, id, revision, ar]);
+  }, [kind, id, revision, ar, i18nUi]);
   async function send() {
     if (!supabase || busy) return;
     setBusy(true);
@@ -78,14 +80,14 @@ export function CatalogComments({
         code === "MEMBER_SIGN_IN_REQUIRED"
           ? ar
             ? "سجّل الدخول بحساب مسجل من صفحة حسابي لإضافة تعليق."
-            : "Sign in with a registered account from Account to comment."
+            : i18nUi("سجّل الدخول بحساب مسجل من صفحة حسابي لإضافة تعليق.", "Sign in with a registered account from Account to comment.")
           : code === "COMMENT_LENGTH"
             ? ar
               ? "اكتب تعليقًا من حرفين إلى ٢٠٠٠ حرف."
-              : "Write a comment of 2–2000 characters."
+              : i18nUi("اكتب تعليقًا من حرفين إلى ٢٠٠٠ حرف.", "Write a comment of 2–2000 characters.")
             : ar
               ? "تعذّر تأكيد التعليق. أعد المحاولة بنفس النص."
-              : "Could not confirm the comment. Retry with the same text.",
+              : i18nUi("تعذّر تأكيد التعليق. أعد المحاولة بنفس النص.", "Could not confirm the comment. Retry with the same text."),
       );
     } finally {
       setBusy(false);
@@ -93,19 +95,19 @@ export function CatalogComments({
   }
   return (
     <View style={[styles.card, { padding: 15, gap: 10 }]}>
-      <Action title={ar ? "التعليقات" : "Comments"} onPress={() => setExpanded(v => !v)} selected={expanded} />
+      <Action title={ar ? "التعليقات" : i18nUi("التعليقات", "Comments")} onPress={() => setExpanded(v => !v)} selected={expanded} />
       {expanded ? <>
       {rows.map((c) => (
         <View key={c.id} style={{ gap: 5, paddingVertical: 8 }}>
           <Txt style={{ fontWeight: "700" }}>
-            {c.author?.name ?? (ar ? "عضو" : "Member")}
+            {c.author?.name ?? (ar ? "عضو" : i18nUi("عضو", "Member"))}
             {c.author?.username ? " @" + c.author.username : ""}
           </Txt>
           <Txt>{c.body}</Txt>
         </View>
       ))}
       <Field
-        label={ar ? "تعليقك" : "Your comment"}
+        label={ar ? "تعليقك" : i18nUi("تعليقك", "Your comment")}
         value={body}
         onChangeText={setBody}
         multiline
@@ -122,10 +124,10 @@ export function CatalogComments({
           locked
             ? ar
               ? "إعادة حفظ التعليق"
-              : "Retry comment"
+              : i18nUi("إعادة حفظ التعليق", "Retry comment")
             : ar
               ? "إضافة تعليق"
-              : "Add comment"
+              : i18nUi("إضافة تعليق", "Add comment")
         }
         disabled={busy}
         onPress={() => void send()}
@@ -135,6 +137,7 @@ export function CatalogComments({
   );
 }
 export function AccountFavorite({ recipeId }: { recipeId: string }) {
+  const i18nUi = useLabels();
   const ar = useContext(Language) === "ar";
   const [owner, setOwner] = useState<string | null>(null),
     [saved, setSaved] = useState(false),
@@ -172,10 +175,10 @@ export function AccountFavorite({ recipeId }: { recipeId: string }) {
           saved
             ? ar
               ? "إزالة من مفضلة حسابي"
-              : "Remove from account favorites"
+              : i18nUi("إزالة من مفضلة حسابي", "Remove from account favorites")
             : ar
               ? "أضف إلى مفضلة حسابي"
-              : "Add to account favorites"
+              : i18nUi("أضف إلى مفضلة حسابي", "Add to account favorites")
         }
         selected={saved}
         disabled={busy}
@@ -192,7 +195,7 @@ export function AccountFavorite({ recipeId }: { recipeId: string }) {
         <Txt style={styles.error}>
           {ar
             ? "تعذّر تأكيد المفضلة. أعد المحاولة."
-            : "Could not confirm favorites. Retry."}
+            : i18nUi("تعذّر تأكيد المفضلة. أعد المحاولة.", "Could not confirm favorites. Retry.")}
         </Txt>
       ) : null}
     </View>

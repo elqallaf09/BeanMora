@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext, useRef, useState } from 'react';
 import { ScrollView, View, useWindowDimensions } from './native';
 import {
@@ -19,6 +20,7 @@ export function EquipmentCompare({
   remove: (id: string) => void;
   open: (item: EquipmentItem) => void;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const { width } = useWindowDimensions();
@@ -54,12 +56,12 @@ export function EquipmentCompare({
       }}
     >
       <Txt heading style={[styles.title, compact && { fontSize: 22 }]}>
-        {ar ? 'مقارنة الأجهزة والأدوات' : 'Equipment comparison'}
+        {ar ? 'مقارنة الأجهزة والأدوات' : i18nUi('مقارنة الأجهزة والأدوات', 'Equipment comparison')}
       </Txt>
       <Txt style={styles.muted}>
         {ar
           ? 'مواصفات الموديل من مصادر الشركة. المقاسات والإصدارات مهمة؛ لا تُحسم جودة الكوب من الأرقام وحدها.'
-          : 'Model specifications from manufacturer sources. Sizes and versions matter; numbers alone do not determine cup quality.'}
+          : i18nUi('مواصفات الموديل من مصادر الشركة. المقاسات والإصدارات مهمة؛ لا تُحسم جودة الكوب من الأرقام وحدها.', 'Model specifications from manufacturer sources. Sizes and versions matter; numbers alone do not determine cup quality.')}
       </Txt>
       <View
         style={{
@@ -70,13 +72,13 @@ export function EquipmentCompare({
       >
         <Action
           compact={compact}
-          title={ar ? 'كل المواصفات' : 'All specifications'}
+          title={ar ? 'كل المواصفات' : i18nUi('كل المواصفات', 'All specifications')}
           selected={!differences}
           onPress={() => setDifferences(false)}
         />
         <Action
           compact={compact}
-          title={ar ? 'الفروق فقط' : 'Differences only'}
+          title={ar ? 'الفروق فقط' : i18nUi('الفروق فقط', 'Differences only')}
           selected={differences}
           onPress={() => setDifferences(true)}
         />
@@ -85,7 +87,7 @@ export function EquipmentCompare({
         <Txt style={styles.muted}>
           {ar
             ? 'اخترت فئات مختلفة؛ تظهر المعلومات المنشورة لكل موديل فقط، وقد تختلف وظيفة السعة أو المقاس بينها.'
-            : 'You selected different categories. Only published model facts are shown; capacity and size can describe different uses.'}
+            : i18nUi('اخترت فئات مختلفة؛ تظهر المعلومات المنشورة لكل موديل فقط، وقد تختلف وظيفة السعة أو المقاس بينها.', 'You selected different categories. Only published model facts are shown; capacity and size can describe different uses.')}
         </Txt>
       ) : null}
       <ScrollView
@@ -123,7 +125,7 @@ export function EquipmentCompare({
               }}
             >
               <Txt style={{ fontSize: 12, fontWeight: '700' }}>
-                {ar ? 'الموديل' : 'Model'}
+                {ar ? 'الموديل' : i18nUi('الموديل', 'Model')}
               </Txt>
             </View>
             {items.map((item) => (
@@ -157,13 +159,13 @@ export function EquipmentCompare({
                 </Txt>
                 <Action
                   compact={compact}
-                  accessibilityLabel={(ar ? 'إزالة: ' : 'Remove: ') + item.name}
+                  accessibilityLabel={(ar ? 'إزالة: ' : i18nUi('إزالة: ', 'Remove: ')) + item.name}
                   title={
                     compact
                       ? ar
                         ? 'إزالة'
-                        : 'Remove'
-                      : (ar ? 'إزالة: ' : 'Remove: ') + item.name
+                        : i18nUi('إزالة', 'Remove')
+                      : (ar ? 'إزالة: ' : i18nUi('إزالة: ', 'Remove: ')) + item.name
                   }
                   onPress={() => remove(item.id)}
                 />
@@ -189,7 +191,7 @@ export function EquipmentCompare({
                 }}
               >
                 <Txt style={{ fontSize: 12, fontWeight: '700' }}>
-                  {row.label}
+                  {i18nUi(row.label,row.label)}
                 </Txt>
               </View>
               {row.values.map((value, i) => (
@@ -213,7 +215,7 @@ export function EquipmentCompare({
                     {value ??
                       (ar
                         ? 'غير منشور في البيانات الموثقة'
-                        : 'Not published in reviewed data')}
+                        : i18nUi('غير منشور في البيانات الموثقة', 'Not published in reviewed data'))}
                   </Txt>
                 </View>
               ))}
@@ -230,7 +232,7 @@ export function EquipmentCompare({
           >
             <View style={{ width: labelWidth, padding: 10 }}>
               <Txt style={{ fontSize: 12, fontWeight: '700' }}>
-                {ar ? 'المصدر والتفاصيل' : 'Source and details'}
+                {ar ? 'المصدر والتفاصيل' : i18nUi('المصدر والتفاصيل', 'Source and details')}
               </Txt>
             </View>
             {items.map((item) => (
@@ -247,13 +249,13 @@ export function EquipmentCompare({
                 {item.sourceUrl ? (
                   <SourceLink
                     compact={compact}
-                    title={ar ? 'مصدر الشركة' : 'Manufacturer source'}
+                    title={ar ? 'مصدر الشركة' : i18nUi('مصدر الشركة', 'Manufacturer source')}
                     url={item.sourceUrl}
                   />
                 ) : null}
                 {item.verifiedAt ? (
                   <Txt style={{ fontSize: 11, color: colors.muted }}>
-                    {(ar ? 'آخر تحقق: ' : 'Checked: ') +
+                    {(ar ? 'آخر تحقق: ' : i18nUi('آخر تحقق: ', 'Checked: ')) +
                       new Date(item.verifiedAt).toLocaleDateString(
                         locale + '-u-nu-latn',
                       )}
@@ -262,14 +264,14 @@ export function EquipmentCompare({
                 <Action
                   compact={compact}
                   accessibilityLabel={
-                    (ar ? 'تفاصيل: ' : 'Details: ') + item.name
+                    (ar ? 'تفاصيل: ' : i18nUi('تفاصيل: ', 'Details: ')) + item.name
                   }
                   title={
                     compact
                       ? ar
                         ? 'التفاصيل'
-                        : 'Details'
-                      : (ar ? 'تفاصيل: ' : 'Details: ') + item.name
+                        : i18nUi('التفاصيل', 'Details')
+                      : (ar ? 'تفاصيل: ' : i18nUi('تفاصيل: ', 'Details: ')) + item.name
                   }
                   selected
                   onPress={() => open(item)}
@@ -281,13 +283,11 @@ export function EquipmentCompare({
       </ScrollView>
       {!rows.length ? (
         <Txt style={styles.muted}>
-          {ar
-            ? differences
+          {i18nUi(differences
               ? 'لا توجد فروق في الحقول المتاحة.'
-              : 'لم تُنشر مواصفات قابلة للمقارنة لهذه الموديلات بعد.'
-            : differences
+              : 'لم تُنشر مواصفات قابلة للمقارنة لهذه الموديلات بعد.', differences
               ? 'No differences in the available fields.'
-              : 'No comparable reviewed specifications are available for these models yet.'}
+              : 'No comparable reviewed specifications are available for these models yet.')}
         </Txt>
       ) : null}
     </ScrollView>

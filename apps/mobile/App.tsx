@@ -133,6 +133,11 @@ function Shell() {
   const L = (arabic: string, english: string, japanese?: string) => localeLabel(locale, arabic, english, japanese);
   const languageChanged = useRef(false);
   useEffect(() => {
+    if (Platform.OS !== 'web' || typeof document === 'undefined') return;
+    document.documentElement.lang = locale;
+    document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr';
+  }, [locale]);
+  useEffect(() => {
     let active = true;
     void AsyncStorage.getItem('beanmora-language')
       .then((v) => {
@@ -626,7 +631,7 @@ function Shell() {
   return (
     <Language.Provider value={locale}>
       <SafeAreaView
-        style={styles.fill}
+        style={[styles.fill, {direction:'ltr'}]}
         edges={login ? ['left', 'right', 'bottom'] : undefined}
       >
         <StatusBar barStyle={login || theme.dark ? 'light-content' : 'dark-content'} />
@@ -1046,7 +1051,7 @@ function Shell() {
                   onPress={() => { if (item.tab === 'community') setCommunityPost(null); navigate(item.tab); }}
                   style={s.navItem}
                 >
-                  {item.tab==='community'?<Image source={require('./assets/brand/mark.png')} accessibilityLabel="BeanMora logo" resizeMode="contain" style={{height:25,width:25}}/>:<Icon
+                  {item.tab==='community'?<Image source={require('./assets/brand/mark.png')} accessibilityLabel={L('شعار BeanMora','BeanMora logo')} resizeMode="contain" style={{height:25,width:25}}/>:<Icon
                     name={item.icon}
                     filled={tab === item.tab}
                     color={tab === item.tab ? colors.brown : colors.muted}

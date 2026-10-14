@@ -13,6 +13,36 @@ const offline: LocalAssistantDependencies = { search: async () => { throw new Er
 const ask = (q: string, history: LocalAssistantTurn[] = [], dependencies = deps, locale: 'ar' | 'en' = 'ar') => converseLocally(q, locale, history, dependencies);
 
 describe('local conversational coffee assistant', () => {
+  it.each(['ar', 'en'] as const)('answers a cold recipe request after machine shopping with published units in %s', async locale => {
+    const history = await ask('موقع بيع مكائن اسبرسو');
+    const cold: AssistantDocument = { ...recipe, id: 'cold-xbloom', title_ar: 'وصفة جوز الهند الباردة', title_en: 'Cold coconut recipe', methods: ['xbloom'], search_text: 'coconut xbloom', facts: { dose: 15, water: null, temperature: 90, serving_style: 'iced', grind: '57', notes: ['Coconut'], source_brew: { water_ml: 150, model: 'Original' }, steps: [{ description_ar: 'صب 45 مل حسب المصدر.', description_en: 'Pour 45 ml as published.' }] } };
+    const hot = { ...cold, id: 'hot-xbloom', search_text: 'coconut honey xbloom', facts: { ...cold.facts, serving_style: 'hot', notes: ['Coconut', 'Honey'] } };
+    const dependency: LocalAssistantDependencies = { search: vi.fn(async () => ({ documents: [machine, cold, hot], rates: [] })), now };
+    const turn = await ask(locale === 'ar' ? 'طلعلي وصفة قهوه باردة حق مكينة اكسبلوم لي بن ايحاءة جوز الهند وعسل' : 'Find a cold recipe for my xBloom machine with coconut and honey notes', [history], dependency, locale);
+    expect(turn.query).toMatchObject({ kind: 'recipe', category: null, methods: ['xbloom'], servingStyle: 'cold', amount: null, purchaseIntent: false });
+    expect(new Set(turn.query.terms)).toEqual(new Set(['coconut', 'honey']));
+    expect(turn.intent).toBe('search');
+    expect(turn.matches.map(match => match.document.id)).toEqual(['cold-xbloom']);
+    expect(turn.answer).toContain(locale === 'ar' ? 'غير مثبت في هذه الوصفة: عسل' : 'Not confirmed in this recipe: honey');
+    expect(turn.answer).toContain('150 ml');
+    expect(turn.answer).not.toContain('150 g');
+    expect(turn.answer).toContain('57');
+    expect(turn.answer).toContain('Original');
+    expect(turn.answer).toContain(locale === 'ar' ? 'صب 45 مل' : 'Pour 45 ml');
+    expect(turn.answer).not.toMatch(/ice[^\n]*\d+\s*g|ثلج[^\n]*\d+\s*g/);
+    const warm = await ask(locale === 'ar' ? 'خلها حارة' : 'Make it hot', [history, turn], dependency, locale);
+    expect(warm.query).toMatchObject({ kind: 'recipe', methods: ['xbloom'], servingStyle: 'hot' });
+    expect(new Set(warm.query.terms)).toEqual(new Set(['coconut', 'honey']));
+    expect(warm.matches.map(match => match.document.id)).toEqual(['hot-xbloom']);
+  });
+  it('keeps the brewer and cold constraint when broadening a recipe search without notes', async () => {
+    const first = await ask('أبي وصفة باردة حق مكينة اكسبلوم بن إيحاء ويسكي', [], { search: async () => ({ documents: [], rates: [] }), now });
+    expect(first.query).toMatchObject({ kind: 'recipe', methods: ['xbloom'], servingStyle: 'cold' });
+    expect(first.answer).toContain('لم أجد وصفة باردة');
+    expect(first.suggestions).toEqual(['وصفات xbloom بدون إيحاءات']);
+    expect(parseLocalAssistantQuery(first.suggestions![0], first.query)).toMatchObject({ kind: 'recipe', methods: ['xbloom'], servingStyle: 'cold', terms: [] });
+    expect(parseLocalAssistantQuery('موقع بيع مكائن اسبرسو', first.query)).toMatchObject({ kind: 'equipment', servingStyle: null, terms: [], methods: ['espresso'] });
+  });
   it.each([
     ['Espresso is fast, dose:18 yield:36, 30 seconds', 'en', 'fast', 'finer'],
     ['Espresso is too slow, dose:18 yield:36, 30 seconds', 'en', 'slow', 'coarser'],

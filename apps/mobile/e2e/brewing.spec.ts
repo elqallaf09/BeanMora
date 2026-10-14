@@ -219,6 +219,7 @@ test('English preserves recipe instructions and source temperature ranges', asyn
 });
 
 test('measured time reaches explicit outcome review without silently recording a scaled brew', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.clock.install();
   const user = { id: '33333333-3333-4333-8333-333333333333', aud: 'authenticated', role: 'authenticated', email: 'fixture@example.test', app_metadata: { provider: 'email', providers: ['email'] }, user_metadata: {}, created_at: '2026-09-01T00:00:00Z', identities: [], is_anonymous: false };
   const encode = (v: object) => Buffer.from(JSON.stringify(v)).toString('base64url');
@@ -245,6 +246,9 @@ test('measured time reaches explicit outcome review without silently recording a
   await openRecipeLibrary(page, 'en');
   await page.getByRole('button', { name: 'Equator Coffees — Chemex 45 g / 720 g', exact: true }).click();
   await page.getByLabel('Coffee dose to calculate (g)').fill('20');
+  // Freeze before starting: automatic fake-clock advancement during browser
+  // input can otherwise straddle a second boundary on a busy CI worker.
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000));
   await page.getByRole('button', { name: 'Start brewing', exact: true }).click();
   await page.clock.fastForward(65000);
   await page.getByRole('button', { name: 'Finish brewing', exact: true }).click();

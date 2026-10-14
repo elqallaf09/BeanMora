@@ -1,6 +1,6 @@
 import type { Caveat, Reason, Method } from './core/engine';
 import type { Outcome, SaveError } from './core/outcome';
-import type { Locale } from './localeText';
+import { localizedRecords, type Locale } from './localeText';
 export type { Locale } from './localeText';
 const en = {
   tagline: 'Your next good cup.', preview: 'Expo Go preview · Connected to your BeanMora data',
@@ -84,29 +84,29 @@ const ja: Record<keyof typeof en, string> = {
   profileNote: '保存した好み、器具、コーヒー在庫と最近の抽出結果をおすすめに使います。',
   setup: '接続設定が利用できません', setupNote: '接続設定が含まれていません。BeanMoraを最新バージョンに更新して、もう一度開いてください。',
 };
-export const copy = { en, ar, ja };
-export const methods: Record<Locale, Record<Method, string>> = {
+export const copy = localizedRecords({ en, ar, ja });
+export const methods: Record<Locale, Record<Method, string>> = localizedRecords({
   ja: { v60: 'V60', espresso: 'エスプレッソ', xbloom: 'xBloom', aeropress: 'エアロプレス', chemex: 'ケメックス', french_press: 'フレンチプレス', cold_brew: 'コールドブリュー', moka_pot: 'モカポット', origami: 'ORIGAMI', kalita_wave: 'カリタウェーブ', april: 'April', orea: 'OREA', switch: 'ハリオスイッチ', pour_over: 'ハンドドリップ', auto_drip: '自動ドリップ' },
   en: { v60: 'V60', espresso: 'Espresso', xbloom: 'xBloom', aeropress: 'AeroPress', chemex: 'Chemex', french_press: 'French press', cold_brew: 'Cold brew', moka_pot: 'Moka pot', origami: 'Origami', kalita_wave: 'Kalita Wave', april: 'April', orea: 'OREA', switch: 'Hario Switch', pour_over: 'Pour over', auto_drip: 'Auto drip' },
   ar: { v60: 'V60', espresso: 'إسبريسو', xbloom: 'xBloom', aeropress: 'إيروبرس', chemex: 'كيمكس', french_press: 'فرنش برس', cold_brew: 'كولد برو', moka_pot: 'موكا بوت', origami: 'أوريغامي', kalita_wave: 'كاليتا ويف', april: 'إبريل', orea: 'OREA', switch: 'هاريو سويتش', pour_over: 'ترشيح يدوي', auto_drip: 'تقطير آلي' },
-};
-export const reasons: Record<Locale, Record<Reason, string>> = {
+});
+export const reasons: Record<Locale, Record<Reason, string>> = localizedRecords({
   ja: { method: '好みの抽出方法', gearMethod: 'お持ちの器具に合う', flavor: '好みの風味に合う', roast: '好みの焙煎度', inventory: '在庫にあるコーヒー', exactEquipment: '記録した器具が一致', beginner: '初心者向け', ownSuccess: '前回気に入ったレシピ', community: 'コミュニティの好評価' },
   en: { method: 'Preferred brew method', gearMethod: 'Fits your brewing gear', flavor: 'Matches your flavor preferences', roast: 'Preferred roast family', inventory: 'Coffee in your inventory', exactEquipment: 'Recorded equipment matches', beginner: 'Beginner-friendly label', ownSuccess: 'You last enjoyed this recipe', community: 'Positive community evidence' },
   ar: { method: 'طريقة تحضيرك المفضلة', gearMethod: 'يناسب نوع معداتك', flavor: 'يطابق تفضيلات النكهة', roast: 'عائلة التحميص المفضلة', inventory: 'البن موجود في مخزونك', exactEquipment: 'المعدات المسجلة متطابقة', beginner: 'موسوم للمبتدئين', ownSuccess: 'أعجبتك آخر تجربة لهذه الوصفة', community: 'نتائج مجتمع إيجابية' },
-};
-export const caveats: Record<Locale, Record<Caveat, string>> = {
+});
+export const caveats: Record<Locale, Record<Caveat, string>> = localizedRecords({
   ja: { stockUnknown: ja.stockUnknown, stale: '確認から90日以上経過しています。', unverified: '確認日が未登録または無効です。', equipmentUnknown: '抽出器具が未登録です。', equipmentDifferent: '器具が異なります。別のグラインダーの目盛りをそのまま使わないでください。', incomplete: 'レシピの情報や分量が不足しています。', communityLimited: '十分なコミュニティの記録がありません。' },
   en: { stockUnknown: en.stockUnknown, stale: 'Verification is over 90 days old.', unverified: 'Verification date is missing or invalid.', equipmentUnknown: 'Your brewing equipment is not known.', equipmentDifferent: 'Some recorded equipment differs; do not copy grinder numbers.', incomplete: 'Some recipe evidence or quantities are missing.', communityLimited: 'No sufficient community evidence loaded.' },
   ar: { stockUnknown: ar.stockUnknown, stale: 'مرّ أكثر من 90 يومًا على التحقق.', unverified: 'تاريخ التحقق مفقود أو غير صالح.', equipmentUnknown: 'معدات التحضير لديك غير معروفة.', equipmentDifferent: 'بعض المعدات مختلفة؛ لا تنقل أرقام الطحن بين الطواحين.', incomplete: 'بعض معلومات الوصفة أو كمياتها ناقصة.', communityLimited: 'لا تتوفر أدلة مجتمع كافية محمّلة.' },
-};
-export const outcomes: Record<Locale, Record<Outcome, string>> = {
+});
+export const outcomes: Record<Locale, Record<Outcome, string>> = localizedRecords({
   ja: { excellent: 'とても良い', good: '良い', needs_adjustment: '調整が必要', poor: '満足できない' },
   en: { excellent: 'Excellent', good: 'Good', needs_adjustment: 'Needs adjustment', poor: 'Poor' },
   ar: { excellent: 'ممتازة', good: 'جيدة', needs_adjustment: 'تحتاج تعديل', poor: 'غير مرضية' },
-};
-export const errors: Record<Locale, Record<SaveError, string>> = {
+});
+export const errors: Record<Locale, Record<SaveError, string>> = localizedRecords({
   ja: { invalid: '分量、時間、結果と実際に抽出したことを確認してください。', auth: '登録済みのアカウントでログインしてください。', unavailable: 'レシピまたは保存機能が利用できません。', retry: '保存を確認できませんでした。同じリクエストで再試行してください。', conflict: 'このリクエストは別の内容で使用されています。' },
   en: { invalid: 'Check quantities, time, result and actual-brew confirmation.', auth: 'A permanent signed-in account is required.', unavailable: 'Recipe or save service unavailable.', retry: 'Save was not confirmed. Retry the same request.', conflict: 'This request was already used with different values.' },
   ar: { invalid: 'راجع الكميات والوقت والنتيجة وتأكيد التحضير الفعلي.', auth: 'يجب تسجيل الدخول بحساب دائم.', unavailable: 'الوصفة أو خدمة الحفظ غير متاحة.', retry: 'لم يتأكد الحفظ. أعد محاولة الطلب نفسه.', conflict: 'استُخدم هذا الطلب سابقًا بقيم مختلفة.' },
-};
+});

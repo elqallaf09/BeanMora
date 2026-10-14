@@ -1,9 +1,17 @@
+import { useLabels } from './ui';
 import { contentLocale } from "./localeText";
+import { systemText } from './localeText';
+import { randomUUID } from 'expo-crypto';
+import { createMessageTrace, tracedMessage, type MessageTrace } from './messageTrace';
+import { assistantInput } from './assistantInput';
 import { useContext, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Linking, ScrollView, View } from "./native";
 import { Action, Field, Language, Txt, colors, styles } from "./ui";
 import { publicSupabase } from "./client";
-import { assistantSafeUrl } from "./core/coffee-assistant";
+import {
+  assistantRecipeServingStyle,
+  assistantSafeUrl,
+} from "./core/coffee-assistant";
 import {
   converseLocally,
   localAssistantSearchTerms,
@@ -14,7 +22,7 @@ import methodGuides from "./methodGuides.json";
 import { factLabels } from "./core/equipment-facts";
 import { useReducedMotion } from "./Motion";
 
-export type AssistantTurn = LocalAssistantTurn;
+export type AssistantTurn = LocalAssistantTurn & { localization?: MessageTrace };
 export function CoffeeAssistant({
   turns,
   setTurns,
@@ -24,6 +32,7 @@ export function CoffeeAssistant({
   setTurns: (turns: AssistantTurn[]) => void;
   openItem: (kind: "equipment" | "recipe", id: string) => void;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language),
     ar = locale === "ar";
   const [question, setQuestion] = useState("");
@@ -51,7 +60,7 @@ export function CoffeeAssistant({
     },
     [],
   );
-  async function ask(message = question) {
+  async function ask(message = question, displayQuestion = message) {
     const text = message.trim();
     if (!text || active.current) return;
     const controller = new AbortController();
@@ -59,19 +68,28 @@ export function CoffeeAssistant({
     setBusy(true);
     setError("");
     try {
-      const turn = await converseLocally(text, contentLocale(locale), turns, {
+      const trace = createMessageTrace(randomUUID());
+      const turn = await converseLocally(assistantInput(locale, text), contentLocale(locale), turns, {
+        translate: trace.label,
+        translateValue: trace.value,
         guides: methodGuides,
         search: async (query) => {
           if (!publicSupabase) throw new Error("CATALOG_UNAVAILABLE");
           const [result, exchange] = await Promise.all([
             publicSupabase
-              .rpc("search_coffee_assistant", {
-                p_terms: localAssistantSearchTerms(query),
-                p_kind: query.kind,
-                p_methods: query.methods,
-                p_category: query.category,
-                p_limit: query.kind === "equipment" ? 200 : 60,
-              })
+              .rpc(
+                query.kind === "recipe"
+                  ? "search_coffee_assistant_recipes"
+                  : "search_coffee_assistant",
+                {
+                  p_terms: localAssistantSearchTerms(query),
+                  p_methods: query.methods,
+                  ...(query.kind === "recipe"
+                    ? { p_serving_style: query.servingStyle ?? null }
+                    : { p_kind: query.kind, p_category: query.category }),
+                  p_limit: query.kind === "equipment" ? 200 : 60,
+                },
+              )
               .abortSignal(controller.signal),
             query.kind === "equipment"
               ? publicSupabase
@@ -88,7 +106,9 @@ export function CoffeeAssistant({
         },
       });
       if (controller.signal.aborted) return;
-      setTurns([...turns, turn].slice(-6));
+      const localization = trace.snapshot(turn.answer, turn.suggestions, turn.followUp);
+      const canonical = (text:string) => tracedMessage(localization,text,contentLocale(locale));
+      setTurns([...turns, { ...turn, question: displayQuestion.trim().slice(0,1000), answer: canonical(turn.answer), suggestions: turn.suggestions?.map(canonical), followUp: turn.followUp ? canonical(turn.followUp) : undefined, localization }].slice(-6));
       setQuestion("");
       setExpandedResults({});
       setExpandedHistory({});
@@ -97,7 +117,7 @@ export function CoffeeAssistant({
         setError(
           ar
             ? "تعذّر الوصول لبيانات الكتالوغ الآن. تقدر تستخدم حساب النسب وإرشادات التحضير بدون اتصال. سؤالك محفوظ لإعادة المحاولة."
-            : "Catalog data is unavailable right now. Ratio calculations and brewing guidance still work offline. Your question is kept for retry.",
+            : i18nUi("تعذّر الوصول لبيانات الكتالوغ الآن. تقدر تستخدم حساب النسب وإرشادات التحضير بدون اتصال. سؤالك محفوظ لإعادة المحاولة.", "Catalog data is unavailable right now. Ratio calculations and brewing guidance still work offline. Your question is kept for retry."),
         );
         setQuestion(text);
       }
@@ -119,7 +139,7 @@ export function CoffeeAssistant({
     try {
       await Linking.openURL(url);
     } catch {
-      setError(ar ? "تعذّر فتح الرابط." : "Could not open the link.");
+      setError(ar ? "تعذّر فتح الرابط." : i18nUi("تعذّر فتح الرابط.", "Could not open the link."));
     }
   }
   return (
@@ -152,10 +172,10 @@ export function CoffeeAssistant({
                   "أبي ماكينة إسبريسو تحت 480 دولار",
                 ]
               : [
-                  "My V60 tastes sour",
-                  "Best water for coffee?",
-                  "How should I store beans?",
-                  "Espresso machine under 480 USD",
+                  i18nUi("قهوتي V60 حامضة", "My V60 tastes sour"),
+                  i18nUi("أفضل ماء للقهوة؟", "Best water for coffee?"),
+                  i18nUi("شلون أخزن البن؟", "How should I store beans?"),
+                  i18nUi("أبي ماكينة إسبريسو تحت 480 دولار", "Espresso machine under 480 USD"),
                 ]
             ).map((example) => (
               <Action
@@ -192,10 +212,10 @@ export function CoffeeAssistant({
                   expandedHistory[index]
                     ? ar
                       ? "طي الإجابة"
-                      : "Collapse answer"
+                      : i18nUi("طي الإجابة", "Collapse answer")
                     : ar
                       ? "عرض الإجابة"
-                      : "Show answer"
+                      : i18nUi("عرض الإجابة", "Show answer")
                 }
                 onPress={() =>
                   setExpandedHistory((state) => ({
@@ -208,9 +228,9 @@ export function CoffeeAssistant({
             {index === turns.length - 1 || expandedHistory[index] ? (
               <View accessibilityLiveRegion="polite" style={{ gap: 10 }}>
                 <Txt style={styles.muted}>
-                  {ar ? "خبير القهوة" : "Coffee expert"}
+                  {ar ? "خبير القهوة" : i18nUi("خبير القهوة", "Coffee expert")}
                 </Txt>
-                <Txt>{turn.answer}</Txt>
+                <Txt>{turn.localization ? tracedMessage(turn.localization,turn.localization.answer,locale) : systemText(locale,turn.answer)}</Txt>
                 {(expandedResults[index]
                   ? turn.matches
                   : turn.matches.slice(0, 3)
@@ -226,6 +246,18 @@ export function CoffeeAssistant({
                         ? match.document.title_ar || match.document.title_en
                         : match.document.title_en || match.document.title_ar}
                     </Txt>
+                    {match.document.kind === "recipe" &&
+                    assistantRecipeServingStyle(match.document) ? (
+                      <Txt style={styles.muted}>
+                        {assistantRecipeServingStyle(match.document) === "hot"
+                          ? ar
+                            ? "حار"
+                            : i18nUi("حار", "Hot")
+                          : ar
+                            ? "بارد"
+                            : i18nUi("بارد", "Cold")}
+                      </Txt>
+                    ) : null}
                     <Txt numberOfLines={2} style={styles.muted}>
                       {(ar
                         ? match.document.summary_ar
@@ -246,9 +278,9 @@ export function CoffeeAssistant({
                       .slice(0, 4)
                       .map(([key, value]) => (
                         <Txt key={key}>
-                          {factLabels[key][ar ? 0 : 1]}:{" "}
+                          {i18nUi(factLabels[key][0],factLabels[key][1])}:{" "}
                           {String(
-                            Array.isArray(value) ? value[ar ? 0 : 1] : value,
+                            Array.isArray(value) ? i18nUi(value[0],value[1]) : value,
                           )}
                         </Txt>
                       ))}
@@ -258,7 +290,7 @@ export function CoffeeAssistant({
                           {match.price.offer.currency !== match.price.currency
                             ? ar
                               ? "تقريبًا "
-                              : "Approx. "
+                              : i18nUi("تقريبًا ", "Approx. ")
                             : ""}
                           {match.price.converted.toLocaleString("en-US", {
                             maximumFractionDigits:
@@ -270,35 +302,35 @@ export function CoffeeAssistant({
                           {match.price.offer.availability === "out_of_stock"
                             ? ar
                               ? "غير متوفر لدى البائع"
-                              : "Out of stock at seller"
+                              : i18nUi("غير متوفر لدى البائع", "Out of stock at seller")
                             : match.price.offer.availability === "in_stock"
                               ? ar
                                 ? "متوفر حسب آخر تحقق"
-                                : "In stock at last check"
+                                : i18nUi("متوفر حسب آخر تحقق", "In stock at last check")
                               : ar
                                 ? "التوفر يحتاج تأكيدًا من البائع"
-                                : "Confirm availability with the seller"}
+                                : i18nUi("التوفر يحتاج تأكيدًا من البائع", "Confirm availability with the seller")}
                           {" · "}
                           {match.price.offer.region}
                         </Txt>
                         <Txt style={styles.muted}>
-                          {ar ? "آخر تحقق: " : "Last checked: "}
+                          {ar ? "آخر تحقق: " : i18nUi("آخر تحقق: ", "Last checked: ")}
                           {new Date(
                             match.price.offer.checked_at,
                           ).toLocaleDateString("en-GB")}
                           {ar
                             ? " · السعر قبل الشحن والرسوم"
-                            : " · Before shipping and duties"}
+                            : i18nUi(" · السعر قبل الشحن والرسوم", " · Before shipping and duties")}
                         </Txt>
                         <Action
                           title={
                             turn.query.purchaseIntent
                               ? ar
                                 ? "موقع البائع"
-                                : "Seller website"
+                                : i18nUi("موقع البائع", "Seller website")
                               : ar
                                 ? "السعر وموقع البائع"
-                                : "Price and seller website"
+                                : i18nUi("السعر وموقع البائع", "Price and seller website")
                           }
                           onPress={() => void visit(match.price?.offer.url)}
                         />
@@ -307,15 +339,21 @@ export function CoffeeAssistant({
                       <Txt style={styles.muted}>
                         {ar
                           ? "لا يتوفر سعر حديث موثق لهذا الخيار."
-                          : "No recent verified price for this option."}
+                          : i18nUi("لا يتوفر سعر حديث موثق لهذا الخيار.", "No recent verified price for this option.")}
                       </Txt>
                     ) : null}
                     {(match.purchaseLinks ?? [])
-                      .filter(link => link.url !== assistantSafeUrl(match.price?.offer.url))
-                      .map(link => (
+                      .filter(
+                        (link) =>
+                          link.url !== assistantSafeUrl(match.price?.offer.url),
+                      )
+                      .map((link) => (
                         <Action
                           key={link.url}
-                          title={(ar ? "موقع البائع: " : "Seller website: ") + link.seller}
+                          title={
+                            (ar ? "موقع البائع: " : i18nUi("موقع البائع: ", "Seller website: ")) +
+                            link.seller
+                          }
                           onPress={() => void visit(link.url)}
                         />
                       ))}
@@ -324,7 +362,7 @@ export function CoffeeAssistant({
                       match.document.kind === "recipe" ? (
                         <Action
                           compact
-                          title={ar ? "عرض التفاصيل" : "View details"}
+                          title={ar ? "عرض التفاصيل" : i18nUi("عرض التفاصيل", "View details")}
                           onPress={() =>
                             openItem(
                               match.document.kind as "equipment" | "recipe",
@@ -333,10 +371,11 @@ export function CoffeeAssistant({
                           }
                         />
                       ) : null}
-                      {!turn.query.purchaseIntent && assistantSafeUrl(match.document.source_url) ? (
+                      {!turn.query.purchaseIntent &&
+                      assistantSafeUrl(match.document.source_url) ? (
                         <Action
                           compact
-                          title={ar ? "المصدر الأصلي" : "Original source"}
+                          title={ar ? "المصدر الأصلي" : i18nUi("المصدر الأصلي", "Original source")}
                           onPress={() => void visit(match.document.source_url)}
                         />
                       ) : null}
@@ -350,10 +389,10 @@ export function CoffeeAssistant({
                       expandedResults[index]
                         ? ar
                           ? "عرض أقل"
-                          : "Show less"
+                          : i18nUi("عرض أقل", "Show less")
                         : ar
                           ? "نتائج إضافية"
-                          : "More results"
+                          : i18nUi("نتائج إضافية", "More results")
                     }
                     onPress={() =>
                       setExpandedResults((state) => ({
@@ -363,7 +402,7 @@ export function CoffeeAssistant({
                     }
                   />
                 ) : null}
-                {turn.followUp ? <Txt>{turn.followUp}</Txt> : null}
+                {turn.followUp ? <Txt>{turn.localization?.followUp ? tracedMessage(turn.localization,turn.localization.followUp,locale) : systemText(locale,turn.followUp)}</Txt> : null}
                 {localAssistantSources(turn).map((source) => (
                   <Action
                     key={source.url}
@@ -379,13 +418,13 @@ export function CoffeeAssistant({
                       flexWrap: "wrap",
                     }}
                   >
-                    {turn.suggestions?.map((suggestion) => (
+                    {turn.suggestions?.map((suggestion, suggestionIndex) => (
                       <Action
                         compact
                         key={suggestion}
-                        title={suggestion}
+                        title={turn.localization?.suggestions?.[suggestionIndex] ? tracedMessage(turn.localization,turn.localization.suggestions[suggestionIndex],locale) : systemText(locale,suggestion)}
                         disabled={busy}
-                        onPress={() => void ask(suggestion)}
+                        onPress={() => void ask(suggestion, turn.localization?.suggestions?.[suggestionIndex] ? tracedMessage(turn.localization,turn.localization.suggestions[suggestionIndex],locale) : systemText(locale,suggestion))}
                       />
                     ))}
                   </View>
@@ -398,9 +437,9 @@ export function CoffeeAssistant({
           <View accessibilityLiveRegion="polite" style={styles.row}>
             <ActivityIndicator color={colors.brown} />
             <Txt>
-              {ar ? "جارٍ البحث عن الخيارات…" : "Finding your options…"}
+              {ar ? "جارٍ البحث عن الخيارات…" : i18nUi("جارٍ البحث عن الخيارات…", "Finding your options…")}
             </Txt>
-            <Action title={ar ? "إلغاء" : "Cancel"} onPress={cancel} />
+            <Action title={ar ? "إلغاء" : i18nUi("إلغاء", "Cancel")} onPress={cancel} />
           </View>
         ) : null}
         {error ? <Txt style={styles.error}>{error}</Txt> : null}
@@ -421,8 +460,8 @@ export function CoffeeAssistant({
         }}
       >
         <Field
-          label={ar ? "سؤالك عن القهوة" : "Your coffee question"}
-          placeholder={ar ? "اسأل خبير القهوة…" : "Ask the coffee expert…"}
+          label={ar ? "سؤالك عن القهوة" : i18nUi("سؤالك عن القهوة", "Your coffee question")}
+          placeholder={ar ? "اسأل خبير القهوة…" : i18nUi("اسأل خبير القهوة…", "Ask the coffee expert…")}
           value={question}
           onChangeText={setQuestion}
           multiline
@@ -433,7 +472,7 @@ export function CoffeeAssistant({
         <View style={{ flexDirection: ar ? "row-reverse" : "row", gap: 8 }}>
           <Action
             compact
-            title={ar ? "إرسال" : "Send"}
+            title={ar ? "إرسال" : i18nUi("إرسال", "Send")}
             selected
             disabled={busy || !question.trim()}
             onPress={() => void ask()}
@@ -441,7 +480,7 @@ export function CoffeeAssistant({
           {turns.length ? (
             <Action
               compact
-              title={ar ? "محادثة جديدة" : "New conversation"}
+              title={ar ? "محادثة جديدة" : i18nUi("محادثة جديدة", "New conversation")}
               disabled={busy}
               onPress={() => {
                 setTurns([]);

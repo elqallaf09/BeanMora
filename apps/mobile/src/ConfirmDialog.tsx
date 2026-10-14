@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext } from "react";
 import { Modal, Pressable, StyleSheet, View } from "./native";
 import { Action, Language, Txt, colors, styles } from "./ui";
@@ -26,6 +27,7 @@ export function ConfirmDialog({
   error?: string;
   inline?: boolean;
 }) {
+  const i18nUi = useLabels();
   const ar = useContext(Language) === "ar";
   const cancel = () => {
     if (!busy) onCancel();
@@ -43,7 +45,7 @@ export function ConfirmDialog({
     >
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel={cancelLabel ?? (ar ? "إلغاء" : "Cancel")}
+        accessibilityLabel={cancelLabel ?? (ar ? "إلغاء" : i18nUi("إلغاء", "Cancel"))}
         disabled={busy}
         onPress={cancel}
         style={StyleSheet.absoluteFill}
@@ -73,14 +75,14 @@ export function ConfirmDialog({
           <View style={{ flex: 1 }}>
             <Action
               selected
-              title={confirmLabel ?? (ar ? "موافقة" : "Confirm")}
+              title={confirmLabel ?? (ar ? "موافقة" : i18nUi("موافقة", "Confirm"))}
               disabled={busy}
               onPress={onConfirm}
             />
           </View>
           <View style={{ flex: 1 }}>
             <Action
-              title={cancelLabel ?? (ar ? "إلغاء" : "Cancel")}
+              title={cancelLabel ?? (ar ? "إلغاء" : i18nUi("إلغاء", "Cancel"))}
               disabled={busy}
               onPress={onCancel}
             />
