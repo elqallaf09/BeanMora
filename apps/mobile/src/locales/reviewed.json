@@ -2261,7 +2261,8 @@
     "Check the source for the ice amount; no unpublished quantity is added.": "出典で氷の量を確認してください。公開されていない量は追加しません。",
     "Compare the first and second": "1番目と2番目の結果を比較",
     "Explain the first": "1番目の結果を説明",
-    "Model unspecified by source": "出典にモデルの記載なし"
+    "Model unspecified by source": "出典にモデルの記載なし",
+    "Find your next cup": "次の一杯を見つける"
   },
   "fr": {
     "Home": "Accueil",

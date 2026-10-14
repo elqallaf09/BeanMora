@@ -8460,7 +8460,8 @@
     "en": "Find your next cup",
     "ar": "ابحث عن كوبك القادم",
     "files": [
-      "src/RecipeCatalog.tsx"
+      "src/RecipeCatalog.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
