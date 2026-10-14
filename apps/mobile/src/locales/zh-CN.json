@@ -2718,7 +2718,7 @@
   "There is not enough evidence for a more specific change without guessing.": "没有足够的证据可以证明更具体的变化,没有猜测。",
   "There is not enough published description for this coffee; check the original source.": "对于此咖啡没有足够的发布描述;查看原始来源。",
   "Thermal Shock": "热震",
-  "These are catalog seller links for the equipment you requested. Open “Seller website” to buy and check current price, availability and shipping to your country at the store.": "这些是您要求的设备的目录销售链接. 打开“销售网站”以购买并检查当前价格、可用性和发货到您的国家在商店。",
+  "These are catalog seller links for the equipment you requested. Open “Seller website” to buy and check current price, availability and shipping to your country at the store.": "这些是目录中您所需设备的卖家链接。购买时，请打开“卖家网站”，在店铺确认当前价格、库存及配送到您所在国家的情况。",
   "These are the closest published BeanMora records for your request.": "这些是您请求的最接近发布的 BeanMora 记录。",
   "These catalog options fit the budget using dated prices. Conversion is indicative; check shipping, taxes and seller availability before buying.": "这些目录选项适合使用日期价格的预算。 转换是指示性的; 检查运输,税收和卖家可用性之前购买。",
   "thick & syrupy": "浓稠且有糖浆感",
@@ -3082,5 +3082,17 @@
   "花魁 Brew by Fu Roastery®️": "花魁 Brew by Fu Roastery®️",
   "花魁(冰) Brew by Fu Roastery®️": "花魁(冰) Brew by Fu Roastery®️",
   "Coffees, tasting notes, roasters and recipes. Search in all supported languages.": "咖啡、风味、烘焙商与配方。支持使用所有提供的语言搜索。",
-  "Source brew settings; water is in ml. Open the original link for device-specific instructions. Total brew time was not published.": "来源提供的萃取设置，水量单位为ml。请打开原始链接查看设备的具体操作说明。来源未公布总萃取时间。"
+  "Source brew settings; water is in ml. Open the original link for device-specific instructions. Total brew time was not published.": "来源提供的萃取设置，水量单位为ml。请打开原始链接查看设备的具体操作说明。来源未公布总萃取时间。",
+  "Portable hand-pump espresso maker with an unpressurised basket; does not heat water.": "配有非加压粉碗的便携式手动泵压意式咖啡机；不具备加热水的功能。",
+  "Manual espresso machine with a pressure gauge and two portafilter options.": "配有压力表、提供两种手柄选项的手动意式咖啡机。",
+  "Folding travel lever machine requiring externally heated water.": "可折叠的旅行用杠杆式咖啡机；需要另行加热的热水。",
+  "Manual lever": "手动杠杆",
+  "Folding manual lever": "可折叠手动杠杆",
+  "No; requires externally heated water": "不加热；需要另行加热的热水",
+  "Case and pressure gauge": "收纳盒和压力表",
+  "Pressure gauge, flow-control and bottomless portafilters": "压力表，以及带流量控制和无底的手柄",
+  "9–12 bar in manufacturer guidance": "制造商说明为9–12 bar",
+  "{0} ml water": "水 {0} ml",
+  "No": "否",
+  "Yes": "是"
 }

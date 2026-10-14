@@ -18,7 +18,7 @@ function moduleAt(file){
 const {localeLabel,SUPPORTED_LOCALES,isLocale}=moduleAt(path.join(root,'localeText.ts'));
 const {assistantInput}=moduleAt(path.join(root,'assistantInput.ts'));
 const {createMessageTrace,tracedMessage}=moduleAt(path.join(root,'messageTrace.ts'));
-const {assistantCatalogSummary,importedRecipeSummary}=moduleAt(path.join(root,'assistantCatalogText.ts'));
+const {assistantCatalogSummary,assistantCatalogFact,importedRecipeSummary}=moduleAt(path.join(root,'assistantCatalogText.ts'));
 const {parseLocalAssistantQuery,converseLocally}=moduleAt(path.join(root,'core/local-coffee-assistant.ts'));
 const {flavorDisplay}=moduleAt(path.join(root,'sensory.ts'));
 const {matchesDeepSearch,canonicalSearchQuery}=moduleAt(path.join(root,'core/deepSearch.ts'));
@@ -64,6 +64,15 @@ for(const [locale,question] of Object.entries(questions)){
   assert.notEqual(summary,importedRecipeSummary,locale+' must translate the importer notice');
   assert.ok(summary.includes('ml'));
   assert.equal(assistantCatalogSummary(locale,null,'Original publisher prose: Save / unspecified'),'Original publisher prose: Save / unspecified');
+  const machineSummary='Portable hand-pump espresso maker with an unpressurised basket; does not heat water.';
+  assert.notEqual(assistantCatalogSummary(locale,null,machineSummary),machineSummary);
+  assert.equal(assistantCatalogFact(locale,'material','Original alloy name'),'Original alloy name');
+  assert.equal(assistantCatalogFact(locale,'temperature',92),'92');
+  assert.ok(assistantCatalogFact(locale,'capacity','80 ml water').includes('80'));
+  assert.ok(assistantCatalogFact(locale,'capacity','80 ml water').includes('ml'));
+  assert.ok(!assistantCatalogFact(locale,'capacity','80 ml water').includes('water'));
+  assert.notEqual(assistantCatalogFact(locale,'operation',['ذراع يدوي','Manual lever']),'Manual lever');
+  assert.equal(assistantCatalogFact(locale,'heats_water','No'),pack['No']);
   const sourcePour='Water: 35 ml; source temperature: 92; flow: unspecified ml/s; pause: 19 s. Check the original link for pouring pattern.';
   const pour=localeLabel(locale,'الماء: 35 مل · حرارة المصدر: 92 · التدفق: غير منشور · التوقف: 19 ث. راجع نمط الصب في رابط المصدر.',sourcePour);
   assert.ok(!pour.includes('unspecified'),locale+' must translate the importer missing-value sentinel');

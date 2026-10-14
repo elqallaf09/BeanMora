@@ -199,6 +199,14 @@
     ]
   },
   {
+    "en": "{0} ml water",
+    "ar": "{0} مل ماء",
+    "files": [
+      "src/assistantCatalogText.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "{0} of {1} models",
     "ar": "{0} من {1} موديلًا",
     "files": [
@@ -334,6 +342,14 @@
     "ar": "٥. رمّز العينات وقارنها بنفس الماء والطحن والوصفة، وكرر قبل اعتماد النتيجة.",
     "files": [
       "src/RoastGuide.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "9–12 bar in manufacturer guidance",
+    "ar": "9–12 بار في إرشادات الشركة",
+    "files": [
+      "src/assistantCatalogText.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -3590,6 +3606,14 @@
     ]
   },
   {
+    "en": "Case and pressure gauge",
+    "ar": "حقيبة ومقياس ضغط",
+    "files": [
+      "src/assistantCatalogText.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "cashew",
     "ar": "كاجو",
     "files": [
@@ -4822,7 +4846,8 @@
     "en": "Coffee capacity",
     "ar": "كمية البن",
     "files": [
-      "src/core/equipment-facts.ts"
+      "src/core/equipment-facts.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -8792,6 +8817,22 @@
     ]
   },
   {
+    "en": "Folding manual lever",
+    "ar": "ذراع يدوي قابل للطي",
+    "files": [
+      "src/assistantCatalogText.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Folding travel lever machine requiring externally heated water.",
+    "ar": "ماكينة ذراع قابلة للطي والسفر؛ تحتاج ماء ساخنًا خارجيًا.",
+    "files": [
+      "src/assistantCatalogText.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Follow",
     "ar": "متابعة",
     "files": [
@@ -10231,7 +10272,8 @@
     "en": "Heats water",
     "ar": "يسخّن الماء",
     "files": [
-      "src/core/equipment-facts.ts"
+      "src/core/equipment-facts.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -10752,7 +10794,8 @@
     "en": "Included",
     "ar": "المرفقات",
     "files": [
-      "src/core/equipment-facts.ts"
+      "src/core/equipment-facts.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -12199,6 +12242,22 @@
     "en": "Manual",
     "ar": "",
     "files": [
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Manual espresso machine with a pressure gauge and two portafilter options.",
+    "ar": "ماكينة إسبريسو يدوية مع مقياس ضغط وخياري فلتر.",
+    "files": [
+      "src/assistantCatalogText.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Manual lever",
+    "ar": "ذراع يدوي",
+    "files": [
+      "src/assistantCatalogText.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -13726,6 +13785,14 @@
     ]
   },
   {
+    "en": "No",
+    "ar": "لا",
+    "files": [
+      "src/assistantCatalogText.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "No accounts found.",
     "ar": "ما لقينا حسابات.",
     "files": [
@@ -14040,6 +14107,14 @@
     "ar": "لم تُسجّل خطوات مكتوبة.",
     "files": [
       "src/copy.ts"
+    ]
+  },
+  {
+    "en": "No; requires externally heated water",
+    "ar": "لا؛ يحتاج ماء ساخنًا خارجيًا",
+    "files": [
+      "src/assistantCatalogText.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -14574,7 +14649,8 @@
     "en": "Operation",
     "ar": "التشغيل",
     "files": [
-      "src/core/equipment-facts.ts"
+      "src/core/equipment-facts.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -15476,6 +15552,14 @@
     ]
   },
   {
+    "en": "Portable hand-pump espresso maker with an unpressurised basket; does not heat water.",
+    "ar": "أداة إسبريسو محمولة بمضخة يدوية وسلة غير مضغوطة؛ لا تسخّن الماء.",
+    "files": [
+      "src/assistantCatalogText.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Portafilter",
     "ar": "البورتافلتر",
     "files": [
@@ -15846,6 +15930,14 @@
     "ar": "مقياس الضغط",
     "files": [
       "src/core/equipment-facts.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Pressure gauge, flow-control and bottomless portafilters",
+    "ar": "مقياس ضغط وفلتران للتحكم بالتدفق والتحضير المكشوف",
+    "files": [
+      "src/assistantCatalogText.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -21266,7 +21358,8 @@
     "en": "These are catalog seller links for the equipment you requested. Open “Seller website” to buy and check current price, availability and shipping to your country at the store.",
     "ar": "هذه روابط بائعين للمعدات التي طلبتها، من بيانات كتالوغنا. افتح «موقع البائع» للشراء، وراجع السعر والتوفر والشحن إلى بلدك في المتجر.",
     "files": [
-      "src/core/coffee-assistant.ts"
+      "src/core/coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -23400,6 +23493,14 @@
     "files": [
       "src/catalog.ts",
       "src/core/account-countries.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Yes",
+    "ar": "نعم",
+    "files": [
+      "src/assistantCatalogText.ts",
       "src/locales/reviewed.json"
     ]
   },

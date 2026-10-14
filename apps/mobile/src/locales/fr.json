@@ -2718,7 +2718,7 @@
   "There is not enough evidence for a more specific change without guessing.": "Il n'y a pas assez de preuves pour un changement plus précis sans deviner.",
   "There is not enough published description for this coffee; check the original source.": "Il n'y a pas assez de description publiée pour ce café; vérifiez la source originale.",
   "Thermal Shock": "Choc thermique",
-  "These are catalog seller links for the equipment you requested. Open “Seller website” to buy and check current price, availability and shipping to your country at the store.": "Ce sont des liens de vente de catalogue pour les équipements demandés. Ouvrez,Site Web du vendeur, pour acheter et vérifier le prix actuel, la disponibilité et la livraison à votre pays au magasin.",
+  "These are catalog seller links for the equipment you requested. Open “Seller website” to buy and check current price, availability and shipping to your country at the store.": "Voici les liens de vendeurs du catalogue pour le matériel demandé. Pour acheter, ouvrez « Site du vendeur » et vérifiez le prix actuel, la disponibilité et la livraison dans votre pays auprès du magasin.",
   "These are the closest published BeanMora records for your request.": "Ce sont les enregistrements BeanMora les plus proches de votre demande.",
   "These catalog options fit the budget using dated prices. Conversion is indicative; check shipping, taxes and seller availability before buying.": "Ces options de catalogue s'adaptent au budget en utilisant des prix datés. La conversion est indicative; vérifier les expéditions, les taxes et la disponibilité du vendeur avant l'achat.",
   "thick & syrupy": "épais et sirupeux",
@@ -3082,5 +3082,17 @@
   "花魁 Brew by Fu Roastery®️": "花魁 Brew by Fu Roastery®️",
   "花魁(冰) Brew by Fu Roastery®️": "花魁(冰) Brew by Fu Roastery®️",
   "Coffees, tasting notes, roasters and recipes. Search in all supported languages.": "Cafés, notes, torréfacteurs et recettes. Recherchez dans toutes les langues proposées.",
-  "Source brew settings; water is in ml. Open the original link for device-specific instructions. Total brew time was not published.": "Réglages d’extraction publiés par la source ; l’eau est indiquée en ml. Consultez le lien d’origine pour les instructions propres à la machine. Le temps total d’extraction n’a pas été publié."
+  "Source brew settings; water is in ml. Open the original link for device-specific instructions. Total brew time was not published.": "Réglages d’extraction publiés par la source ; l’eau est indiquée en ml. Consultez le lien d’origine pour les instructions propres à la machine. Le temps total d’extraction n’a pas été publié.",
+  "Portable hand-pump espresso maker with an unpressurised basket; does not heat water.": "Machine à espresso portable à pompe manuelle, avec panier non pressurisé ; elle ne chauffe pas l’eau.",
+  "Manual espresso machine with a pressure gauge and two portafilter options.": "Machine à espresso manuelle avec manomètre et deux options de porte-filtre.",
+  "Folding travel lever machine requiring externally heated water.": "Machine à levier pliable pour les voyages ; nécessite de l’eau chauffée séparément.",
+  "Manual lever": "Levier manuel",
+  "Folding manual lever": "Levier manuel pliable",
+  "No; requires externally heated water": "Non ; nécessite de l’eau chauffée séparément",
+  "Case and pressure gauge": "Étui et manomètre",
+  "Pressure gauge, flow-control and bottomless portafilters": "Manomètre, porte-filtres à contrôle de débit et sans fond",
+  "9–12 bar in manufacturer guidance": "9–12 bar selon les indications du fabricant",
+  "{0} ml water": "{0} ml d’eau",
+  "No": "Non",
+  "Yes": "Oui"
 }
