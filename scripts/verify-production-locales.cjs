@@ -60,9 +60,11 @@ async function rpc(page,name,predicate,action) {
   return predicate(response.request().postDataJSON());
  },{timeout:45000});
  await action();const response=await pending;
- assert.equal(response.status(),200,'Public read RPC status');
+ assert.ok([200,206].includes(response.status()),'Public read RPC '+name+' status '+response.status());
+ // PostgREST returns 206 for successful ranged results with a requested count.
+ if(response.status()===206)assert.ok(response.headers()['content-range'],'Partial result has its range header');
  const data=await response.json();assert.ok(Array.isArray(data),'Public read rows');
- return {payload:response.request().postDataJSON(),rows:data.length};
+ return {payload:response.request().postDataJSON(),rows:data.length,status:response.status()};
 }
 async function completeQuestion(panel,question) {
  // A textarea's value can match getByText while a request is pending. Waiting
@@ -75,7 +77,7 @@ async function completeQuestion(panel,question) {
  const browser=await chromium.launch({headless:true});
  try {
   for(const language of languages) {
-   const locale=language.locale;
+   const locale=language.locale;console.log('Checking production locale: '+locale);
    const pack=['ar','en'].includes(locale)?{}:JSON.parse(fs.readFileSync(path.join(__dirname,'../apps/mobile/src/locales',locale+'.json'),'utf8'));
    const label=key=>locale==='ar'?arLabels[key]:pack[key]||key;
    const context=await browser.newContext({viewport:{width:390,height:844},locale});
@@ -132,11 +134,11 @@ async function completeQuestion(panel,question) {
    assert.ok(versionSeen,'Correct production client version header');
    assert.deepEqual(blockedWrites,[],'All application verification requests are public reads');
    assert.equal(providerCalls,0,'Assistant stays local to the published catalog');
-   const result={locale,languagePersisted:true,nativePublishedRows:search.rows,literalRows:literal.rows,sellerRows:shop.rows,coldRows:cold.rows,sourceQuantitiesPreserved:true,translatedCatalogCopy:true,publicReadsOnly:true};
+   const result={locale,languagePersisted:true,nativePublishedRows:search.rows,searchStatus:search.status,literalRows:literal.rows,sellerRows:shop.rows,coldRows:cold.rows,sourceQuantitiesPreserved:true,translatedCatalogCopy:true,publicReadsOnly:true};
    report.languages.push(result);save();console.log(JSON.stringify(result));
    await context.close();
   }
   assert.equal(report.languages.length,8);
   console.log('PASS: all eight production languages, native queries, literal constraints, seller intent, cold xBloom intent, catalog notices and original quantities.');
  } finally {await browser.close();}
-})().catch(error=>{save();console.error(error.stack);process.exitCode=1;});
+})().catch(error=>{report.failure=error.message;save();console.error(error.stack);process.exitCode=1;});
