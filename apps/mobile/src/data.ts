@@ -286,6 +286,7 @@ export function mapRecipe(
   if (!isMethod(row.brew_method)) return null;
   const ar = locale === 'ar';
   const source = sourceBrew(row.source_brew_parameters);
+  const discovery = readRecipeDiscovery(row, contentLocale(locale));
   const rawMedia = (
     row.source_brew_parameters as unknown as Record<string, unknown> | undefined
   )?.global_roasters_import;
@@ -341,12 +342,12 @@ export function mapRecipe(
       null,
     waterUnit: amount(row.water_grams) ? 'g' : source.water_ml ? 'ml' : 'g',
     sourceBrew: source,
-    discovery: readRecipeDiscovery(row, contentLocale(locale)),
+    discovery,
     grindSetting:
       row.grinder_setting ||
       profile?.grindSetting ||
       (source.grind_size !== undefined ? String(source.grind_size) : null),
-    author: catalogName(row.source_author_name, locale) || null,
+    author: discovery.creatorName || catalogName(row.source_author_name, locale) || null,
     temperatureMin: amount(row.water_temp_c_min ?? null),
     temperatureMax: amount(row.water_temp_c_max ?? null),
     seconds: amount(row.total_time_seconds),

@@ -8,6 +8,7 @@ export interface RoastAgeYield {
   is_peak: boolean;
 }
 export interface ManualBrew {
+  water_ml?: number;
   applies_to_coffee_names?: string[];
   dose_min_grams?: number;
   dose_max_grams?: number;
@@ -82,7 +83,7 @@ export function manualBrew(value: unknown): ManualBrew | undefined {
   const row = value as Record<string, unknown>;
   const result: ManualBrew = {};
   if (Array.isArray(row.applies_to_coffee_names)) result.applies_to_coffee_names = row.applies_to_coffee_names.filter((v): v is string => typeof v === 'string' && !!v.trim()).map(v => v.trim().slice(0, 160)).slice(0, 20);
-  for (const key of ['dose_min_grams', 'dose_max_grams', 'time_min_seconds', 'time_max_seconds', 'yield_grams', 'yield_min_grams', 'yield_max_grams', 'yield_ml', 'yield_min_ml', 'yield_max_ml', 'water_min_grams', 'water_max_grams', 'water_min_ml', 'water_max_ml', 'ice_grams', 'ice_min_grams', 'ice_max_grams', 'milk_grams', 'milk_min_grams', 'milk_max_grams', 'milk_grams_per_single_shot', 'bypass_water_grams', 'pressure_bar'] as const) {
+  for (const key of ['water_ml', 'dose_min_grams', 'dose_max_grams', 'time_min_seconds', 'time_max_seconds', 'yield_grams', 'yield_min_grams', 'yield_max_grams', 'yield_ml', 'yield_min_ml', 'yield_max_ml', 'water_min_grams', 'water_max_grams', 'water_min_ml', 'water_max_ml', 'ice_grams', 'ice_min_grams', 'ice_max_grams', 'milk_grams', 'milk_min_grams', 'milk_max_grams', 'milk_grams_per_single_shot', 'bypass_water_grams', 'pressure_bar'] as const) {
     const n = row[key];
     const limit = key.startsWith('dose') ? 1000 : key.startsWith('time') ? 172800 : key === 'pressure_bar' ? 20 : 20000;
     if (typeof n === 'number' && Number.isFinite(n) && n > 0 && n <= limit) result[key] = n;

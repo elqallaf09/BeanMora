@@ -13,6 +13,23 @@ const offline: LocalAssistantDependencies = { search: async () => { throw new Er
 const ask = (q: string, history: LocalAssistantTurn[] = [], dependencies = deps, locale: 'ar' | 'en' = 'ar') => converseLocally(q, locale, history, dependencies);
 
 describe('local conversational coffee assistant', () => {
+  it.each([
+    ['Espresso is fast, dose:18 yield:36, 30 seconds', 'en', 'fast', 'finer'],
+    ['Espresso is too slow, dose:18 yield:36, 30 seconds', 'en', 'slow', 'coarser'],
+    ['الإسبريسو سريع جرعة:18 الناتج:36 في 30 ثانية', 'ar', 'fast', 'أنعم'],
+    ['الإسبريسو بطيء جرعة:18 الناتج:36 في 30 ثانية', 'ar', 'slow', 'أخشن'],
+  ] as const)('coaches a direct flow complaint without requiring the word shot: %s', async (question, locale, signal, direction) => {
+    const turn = await ask(question, [], offline, locale);
+    expect(turn.intent).toBe('coach');
+    expect(turn.coach).toMatchObject({ method: 'espresso', signal, dose: 18, output: 36, seconds: 30 });
+    expect(turn.answer).toContain('1:2');
+    expect(turn.answer).toContain(direction);
+    expect(turn.sources?.some(source => source.url.startsWith('https://flairespresso.com/'))).toBe(true);
+  });
+  it.each(['Espresso machine with fast shipping', 'Where can I buy a fast espresso machine?', 'أبي وصفة إسبريسو سريع'])('keeps equipment and recipe requests out of direct-flow coaching: %s', async question => {
+    const turn = await ask(question);
+    expect(turn.intent).toBe('search');
+  });
   it.each(['موقع بيع مكائن اسبرسو', 'أبي موقع لبيع مكائن إسبريسو', 'وين أشتري مكائن اسبرسو', 'Where can I buy an espresso machine?'])('answers %s with equipment seller links after a coffee recommendation', async question => {
     const coffee: AssistantDocument = { ...recipe, id: 'coffee', kind: 'coffee', title_ar: 'بن جوز الهند', search_text: 'coconut', methods: [], facts: {}, offers: [] };
     const lookup = vi.fn(async () => ({ documents: [coffee, machine, second, recipe], rates: [] }));

@@ -43,6 +43,10 @@ export function sourceBrew(value: unknown): SourceBrew {
     const n = numeric(row[field]);
     if (n !== null) result[field] = n;
   }
+  // The reviewed importer stores manual-brewer volume inside manual metadata.
+  // Preserve mL rather than dropping it or treating it as a gram quantity.
+  if (result.water_ml === undefined && result.manual?.water_ml !== undefined)
+    result.water_ml = result.manual.water_ml;
   for (const field of ['cup_type', 'model', 'source_tier'] as const)
     if (typeof row[field] === 'string') result[field] = row[field].slice(0, 80);
   if (typeof row.pour_sum_matches_stated_water === 'boolean')
