@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { DetailColumns, detailStyles } from './DetailLayout';
 import { EquipmentGallery } from './EquipmentGallery';
 import { matchesDeepSearch } from './core/deepSearch';
@@ -103,6 +104,7 @@ function Empty({
   busy: boolean;
   retry: () => void;
 }) {
+  const i18nUi = useLabels();
   const ar = useContext(Language) === 'ar';
   return (
     <View style={styles.card}>
@@ -111,17 +113,17 @@ function Empty({
         {busy
           ? ar
             ? 'جارٍ التحميل…'
-            : 'Loading…'
+            : i18nUi('جارٍ التحميل…', 'Loading…')
           : error
             ? ar
               ? 'تعذّر تحميل البيانات.'
-              : 'Could not load data.'
+              : i18nUi('تعذّر تحميل البيانات.', 'Could not load data.')
             : ar
               ? 'لا توجد نتائج مطابقة حالياً.'
-              : 'No matching results yet.'}
+              : i18nUi('لا توجد نتائج مطابقة حالياً.', 'No matching results yet.')}
       </Txt>
       {error ? (
-        <Action title={ar ? 'حاول مرة ثانية' : 'Try again'} onPress={retry} />
+        <Action title={ar ? 'حاول مرة ثانية' : i18nUi('حاول مرة ثانية', 'Try again')} onPress={retry} />
       ) : null}
     </View>
   );
@@ -163,6 +165,7 @@ export function EquipmentDirectory({
   open: (item: EquipmentItem) => void;
   add: (item: EquipmentItem) => void;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const { width } = useWindowDimensions();
@@ -272,27 +275,27 @@ export function EquipmentDirectory({
         ListHeaderComponent={
           <View style={{ gap: 12, paddingBottom: 4 }}>
             <Txt style={s.eyebrow}>
-              {ar ? 'بين مورا · الأجهزة والأدوات' : 'BEANMORA · GEAR'}
+              {ar ? 'بين مورا · الأجهزة والأدوات' : i18nUi('بين مورا · الأجهزة والأدوات', 'BEANMORA · GEAR')}
             </Txt>
             <Txt heading style={styles.title}>
-              {ar ? 'المكاين والأدوات' : 'Machines & tools'}
+              {ar ? 'المكاين والأدوات' : i18nUi('المكاين والأدوات', 'Machines & tools')}
             </Txt>
             <Txt style={styles.muted}>
               {ar
                 ? 'اختر جهازين أو ثلاثة للمقارنة، وتعرّف على المواصفات وتجارب الأعضاء.'
-                : 'Compare two or three tools, explore specifications and read member experiences.'}
+                : i18nUi('اختر جهازين أو ثلاثة للمقارنة، وتعرّف على المواصفات وتجارب الأعضاء.', 'Compare two or three tools, explore specifications and read member experiences.')}
             </Txt>
             <Field
-              label={ar ? 'ابحث عن أداة' : 'Find equipment'}
+              label={ar ? 'ابحث عن أداة' : i18nUi('ابحث عن أداة', 'Find equipment')}
               value={search}
               onChangeText={setSearch}
               placeholder={
-                ar ? 'موكا بوت، ميزان، طاحونة…' : 'Moka, scale, grinder…'
+                ar ? 'موكا بوت، ميزان، طاحونة…' : i18nUi('موكا بوت، ميزان، طاحونة…', 'Moka, scale, grinder…')
               }
             />
             <View style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 10 }}>
-              <SelectionMenu style={{ flexGrow: 1, flexBasis: 180 }} label={ar ? 'نوع الأداة' : 'Equipment type'} items={kinds.map(id => ({ id, name: categoryLabel(id, locale) }))} value={filter} onChange={value => { setFilter(value); list.current?.scrollToOffset({ offset: 0, animated: false }); }} />
-              {brands.length > 1 ? <SelectionMenu style={{ flexGrow: 1, flexBasis: 180 }} label={ar ? 'الشركة' : 'Brand'} items={[{ id: 'all', name: ar ? 'كل الشركات' : 'All brands' }, ...brands.map(id => ({ id, name: id }))]} value={brand} onChange={value => { setBrand(value); list.current?.scrollToOffset({ offset: 0, animated: false }); }} /> : null}
+              <SelectionMenu style={{ flexGrow: 1, flexBasis: 180 }} label={ar ? 'نوع الأداة' : i18nUi('نوع الأداة', 'Equipment type')} items={kinds.map(id => ({ id, name: categoryLabel(id, locale) }))} value={filter} onChange={value => { setFilter(value); list.current?.scrollToOffset({ offset: 0, animated: false }); }} />
+              {brands.length > 1 ? <SelectionMenu style={{ flexGrow: 1, flexBasis: 180 }} label={ar ? 'الشركة' : i18nUi('الشركة', 'Brand')} items={[{ id: 'all', name: ar ? 'كل الشركات' : i18nUi('كل الشركات', 'All brands') }, ...brands.map(id => ({ id, name: id }))]} value={brand} onChange={value => { setBrand(value); list.current?.scrollToOffset({ offset: 0, animated: false }); }} /> : null}
             </View>
             <View
               style={{
@@ -305,7 +308,7 @@ export function EquipmentDirectory({
               <Txt style={{ fontSize: 12, color: colors.muted }}>
                 {ar
                   ? `${visible.length} من ${rows.length} موديلًا`
-                  : `${visible.length} of ${rows.length} models`}
+                  : i18nUi(`${visible.length} من ${rows.length} موديلًا`, `${visible.length} of ${rows.length} models`)}
               </Txt>
               {busy ? (
                 <ActivityIndicator size="small" color={colors.teal} />
@@ -314,7 +317,7 @@ export function EquipmentDirectory({
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel={
-                    ar ? 'مسح فلاتر الأدوات' : 'Clear equipment filters'
+                    ar ? 'مسح فلاتر الأدوات' : i18nUi('مسح فلاتر الأدوات', 'Clear equipment filters')
                   }
                   onPress={() => {
                     setSearch('');
@@ -330,7 +333,7 @@ export function EquipmentDirectory({
                       fontWeight: '700',
                     }}
                   >
-                    {ar ? 'مسح الفلاتر' : 'Clear filters'}
+                    {ar ? 'مسح الفلاتر' : i18nUi('مسح الفلاتر', 'Clear filters')}
                   </Txt>
                 </Pressable>
               ) : null}
@@ -409,19 +412,19 @@ export function EquipmentDirectory({
                   item.description ||
                   (ar
                     ? 'التفاصيل وتجارب الأعضاء'
-                    : 'Details and member experiences')}
+                    : i18nUi('التفاصيل وتجارب الأعضاء', 'Details and member experiences'))}
               </Txt>
             </Pressable>
-            <Action title={ar ? 'إضافة إلى معداتي' : 'Add to my equipment'} onPress={() => add(item)} selected />
+            <Action title={ar ? 'إضافة إلى معداتي' : i18nUi('إضافة إلى معداتي', 'Add to my equipment')} onPress={() => add(item)} selected />
             <Action
               title={
                 selection.includes(item.id)
                   ? ar
                     ? 'إزالة من المقارنة'
-                    : 'Remove from comparison'
+                    : i18nUi('إزالة من المقارنة', 'Remove from comparison')
                   : ar
                     ? 'أضف للمقارنة'
-                    : 'Add to comparison'
+                    : i18nUi('أضف للمقارنة', 'Add to comparison')
               }
               selected={selection.includes(item.id)}
               disabled={
@@ -468,14 +471,14 @@ export function EquipmentDirectory({
               title={
                 ar
                   ? `قارن (${selected.length}/3)`
-                  : `Compare (${selected.length}/3)`
+                  : i18nUi(`قارن (${selected.length}/3)`, `Compare (${selected.length}/3)`)
               }
               selected
               disabled={selected.length < 2}
               onPress={() => setComparison(true)}
             />
             <Action
-              title={ar ? 'مسح الاختيار' : 'Clear selection'}
+              title={ar ? 'مسح الاختيار' : i18nUi('مسح الاختيار', 'Clear selection')}
               onPress={() => setConfirmClear(true)}
             />
           </View>
@@ -483,12 +486,12 @@ export function EquipmentDirectory({
             <Txt style={styles.muted}>
               {ar
                 ? 'أضف جهازًا آخر لفتح المقارنة.'
-                : 'Add one more tool to open the comparison.'}
+                : i18nUi('أضف جهازًا آخر لفتح المقارنة.', 'Add one more tool to open the comparison.')}
             </Txt>
           ) : null}
         </View>
       ) : null}
-      <ConfirmDialog visible={confirmClear} title={ar ? 'مسح المعدات المختارة' : 'Clear selected equipment'} message={ar ? 'مسح المعدات التي اخترتها للمقارنة؟' : 'Clear the equipment selected for comparison?'} onCancel={() => setConfirmClear(false)} onConfirm={() => { setSelection([]); setConfirmClear(false); }} />
+      <ConfirmDialog visible={confirmClear} title={ar ? 'مسح المعدات المختارة' : i18nUi('مسح المعدات المختارة', 'Clear selected equipment')} message={ar ? 'مسح المعدات التي اخترتها للمقارنة؟' : i18nUi('مسح المعدات التي اخترتها للمقارنة؟', 'Clear the equipment selected for comparison?')} onCancel={() => setConfirmClear(false)} onConfirm={() => { setSelection([]); setConfirmClear(false); }} />
       <Modal
         visible={comparison}
         animationType="slide"
@@ -505,7 +508,7 @@ export function EquipmentDirectory({
               }}
             >
               <Action
-                title={ar ? 'إغلاق المقارنة' : 'Close comparison'}
+                title={ar ? 'إغلاق المقارنة' : i18nUi('إغلاق المقارنة', 'Close comparison')}
                 onPress={() => setComparison(false)}
               />
             </View>
@@ -688,9 +691,11 @@ export function EquipmentDetail({
   openRecipe: (r: RecipeItem) => void;
   myEquipment: () => void;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language);
   const ar = locale === 'ar';
-  const g = guide(item, ar);
+  const sourceGuide = guide(item, ar);
+  const g = ar ? sourceGuide : {...sourceGuide,intro:i18nUi('',sourceGuide.intro),pros:sourceGuide.pros.map(text=>i18nUi('',text)),cons:sourceGuide.cons.map(text=>i18nUi('',text)),care:i18nUi('',sourceGuide.care)};
   const localRelated = recipes.filter(
     (r) =>
       r.equipment.some((e) => e.modelId === item.id) ||
@@ -752,17 +757,17 @@ export function EquipmentDetail({
         <View testID="equipment-detail-summary" style={detailStyles.copy}>
           <Txt style={s.eyebrow}>{categoryLabel(equipmentKind(item), locale)}</Txt>
           <Txt heading style={detailStyles.title}>{item.name}</Txt>
-          <Action selected title={ar ? 'إضافة إلى معداتي' : 'Add to my equipment'} onPress={myEquipment} />
+          <Action selected title={ar ? 'إضافة إلى معداتي' : i18nUi('إضافة إلى معداتي', 'Add to my equipment')} onPress={myEquipment} />
         </View>
       </View>
       <EquipmentUsage item={item} />
       <Txt style={detailStyles.text}>{g.intro}</Txt>
       <Txt style={s.editorial}>{ar
         ? 'دليل BeanMora · المميزات والسلبيات تقييم تحريري، وآراء المشتركين أدناه.'
-        : 'BeanMora guide · Strengths and tradeoffs are editorial; member opinions appear below.'}</Txt>
+        : i18nUi('دليل BeanMora · المميزات والسلبيات تقييم تحريري، وآراء المشتركين أدناه.', 'BeanMora guide · Strengths and tradeoffs are editorial; member opinions appear below.')}</Txt>
       <DetailColumns minWidth={360} testID="equipment-pros-cons">
-        {[{ title: ar ? 'المميزات' : 'Strengths', entries: g.pros, color: '#EAF0E7' },
-          { title: ar ? 'السلبيات وما يجب مراعاته' : 'Tradeoffs', entries: g.cons, color: '#F4EAE0' }].map(block =>
+        {[{ title: ar ? 'المميزات' : i18nUi('المميزات', 'Strengths'), entries: g.pros, color: '#EAF0E7' },
+          { title: ar ? 'السلبيات وما يجب مراعاته' : i18nUi('السلبيات وما يجب مراعاته', 'Tradeoffs'), entries: g.cons, color: '#F4EAE0' }].map(block =>
           <View key={block.title} style={[styles.card, detailStyles.card, { backgroundColor: block.color, flex: 1 }]}>
             <Txt heading style={detailStyles.heading}>{block.title}</Txt>
             {block.entries.map(text => <Txt key={text} style={detailStyles.text}>• {text}</Txt>)}
@@ -770,7 +775,7 @@ export function EquipmentDetail({
       </DetailColumns>
       <DetailColumns testID="equipment-model-information">
         {item.description || reviewedFacts(item, locale).length ? <View style={[styles.card, detailStyles.card]}>
-          <Txt heading style={detailStyles.heading}>{ar ? 'تفاصيل الموديل' : 'Model details'}</Txt>
+          <Txt heading style={detailStyles.heading}>{ar ? 'تفاصيل الموديل' : i18nUi('تفاصيل الموديل', 'Model details')}</Txt>
           {item.description ? <Txt style={detailStyles.text}>{item.description}</Txt> : null}
           {reviewedFacts(item, locale).map(fact => <View key={fact.key} style={{ flexDirection: ar ? 'row-reverse' : 'row', gap: 8, borderTopWidth: 1, borderColor: colors.line, paddingTop: 6 }}>
             <Txt style={[styles.label, { flex: 1 }]}>{fact.label}</Txt>
@@ -778,25 +783,25 @@ export function EquipmentDetail({
           </View>)}
         </View> : null}
         <View style={[styles.card, detailStyles.card]}>
-          <Txt heading style={detailStyles.heading}>{ar ? 'الاستخدام والعناية' : 'Use and care'}</Txt>
+          <Txt heading style={detailStyles.heading}>{ar ? 'الاستخدام والعناية' : i18nUi('الاستخدام والعناية', 'Use and care')}</Txt>
           <Txt style={detailStyles.text}>{g.care}</Txt>
-          {item.sourceUrl ? <SourceLink compact title={ar ? 'مواصفات الأداة من المصدر' : 'Manufacturer specifications'} url={item.sourceUrl} /> : null}
-          {item.verifiedAt ? <Txt style={s.editorial}>{ar ? 'آخر تحقق من المصدر: ' : 'Source checked: '}{new Date(item.verifiedAt).toLocaleDateString(locale + '-u-nu-latn')}</Txt> : null}
-          {reviewedSupportingSources(item).length ? <Disclosure title={ar ? 'مراجع المواصفات الإضافية' : 'Supporting manufacturer sources'}>
-            {reviewedSupportingSources(item).map((url, index) => <SourceLink key={url} compact title={(ar ? 'مرجع الشركة ' : 'Manufacturer reference ') + (index + 1)} url={url} />)}
+          {item.sourceUrl ? <SourceLink compact title={ar ? 'مواصفات الأداة من المصدر' : i18nUi('مواصفات الأداة من المصدر', 'Manufacturer specifications')} url={item.sourceUrl} /> : null}
+          {item.verifiedAt ? <Txt style={s.editorial}>{ar ? 'آخر تحقق من المصدر: ' : i18nUi('آخر تحقق من المصدر: ', 'Source checked: ')}{new Date(item.verifiedAt).toLocaleDateString(locale + '-u-nu-latn')}</Txt> : null}
+          {reviewedSupportingSources(item).length ? <Disclosure title={ar ? 'مراجع المواصفات الإضافية' : i18nUi('مراجع المواصفات الإضافية', 'Supporting manufacturer sources')}>
+            {reviewedSupportingSources(item).map((url, index) => <SourceLink key={url} compact title={(ar ? 'مرجع الشركة ' : i18nUi('مرجع الشركة ', 'Manufacturer reference ')) + (index + 1)} url={url} />)}
           </Disclosure> : null}
         </View>
       </DetailColumns>
       <DetailColumns testID="equipment-brew-guides">
-        {item.methods.filter(isMethod).map(method => <Disclosure key={method} title={(ar ? 'دليل التحضير: ' : 'Brew guide: ') + methods[locale][method]}>
+        {item.methods.filter(isMethod).map(method => <Disclosure key={method} title={(ar ? 'دليل التحضير: ' : i18nUi('دليل التحضير: ', 'Brew guide: ')) + methods[locale][method]}>
           <MethodGuide method={method} />
         </Disclosure>)}
       </DetailColumns>
-      <SectionTitle title={ar ? 'وصفات مناسبة لطريقة الأداة' : 'Recipes for this brew method'} />
+      <SectionTitle title={ar ? 'وصفات مناسبة لطريقة الأداة' : i18nUi('وصفات مناسبة لطريقة الأداة', 'Recipes for this brew method')} />
       {catalogBusy && !related.length ? <ActivityIndicator color={colors.teal} /> : related.length ?
         <DetailColumns testID="equipment-related-recipes">{related.slice(0, 8).map(r =>
           <Action compact key={r.id} title={r.title} onPress={() => openRecipe(r)} />)}</DetailColumns>
-        : <Txt style={styles.muted}>{ar ? 'لا توجد وصفة مسجلة لهذه الأداة بعد.' : 'No recipe is listed for this tool yet.'}</Txt>}
+        : <Txt style={styles.muted}>{ar ? 'لا توجد وصفة مسجلة لهذه الأداة بعد.' : i18nUi('لا توجد وصفة مسجلة لهذه الأداة بعد.', 'No recipe is listed for this tool yet.')}</Txt>}
       <EquipmentReviews key={item.id + (userId ?? 'guest')} modelId={item.id} userId={userId} login={login} />
     </ScrollView>
   );
@@ -811,6 +816,7 @@ function EquipmentReviews({
   userId: string | null;
   login: () => void;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const [reviews, setReviews] = useState<EquipmentReview[]>([]);
@@ -911,7 +917,7 @@ function EquipmentReviews({
       setMessage(
         ar
           ? 'اختر تقييماً واكتب رأياً من 3 إلى 2000 حرف.'
-          : 'Choose a rating and write 3–2000 characters.',
+          : i18nUi('اختر تقييماً واكتب رأياً من 3 إلى 2000 حرف.', 'Choose a rating and write 3–2000 characters.'),
       );
       return;
     }
@@ -974,13 +980,11 @@ function EquipmentReviews({
         }
         setEditing(false);
         setMessage(
-          ar
-            ? remove
+          i18nUi(remove
               ? 'تم حذف رأيك.'
-              : 'تم حفظ رأيك.'
-            : remove
+              : 'تم حفظ رأيك.', remove
               ? 'Your review was deleted.'
-              : 'Your review was saved.',
+              : 'Your review was saved.'),
         );
         setRevision((v) => v + 1);
       }
@@ -989,7 +993,7 @@ function EquipmentReviews({
         setMessage(
           ar
             ? 'تعذّر تأكيد الحفظ. حاول مرة ثانية.'
-            : 'Save was not confirmed. Try again.',
+            : i18nUi('تعذّر تأكيد الحفظ. حاول مرة ثانية.', 'Save was not confirmed. Try again.'),
         );
     } finally {
       inFlight.current = false;
@@ -1016,21 +1020,21 @@ function EquipmentReviews({
         setMessage(
           ar
             ? 'وصل البلاغ لفريق المراجعة.'
-            : 'Your report was sent for review.',
+            : i18nUi('وصل البلاغ لفريق المراجعة.', 'Your report was sent for review.'),
         );
       }
     } catch {
       if (active.current)
-        setMessage(ar ? 'تعذّر إرسال البلاغ.' : 'Could not send the report.');
+        setMessage(ar ? 'تعذّر إرسال البلاغ.' : i18nUi('تعذّر إرسال البلاغ.', 'Could not send the report.'));
     } finally {
       inFlight.current = false;
       if (active.current) setWriting(false);
     }
   }
   const experiences = {
-    owner: ar ? 'أملك الأداة' : 'I own it',
-    used: ar ? 'جرّبت الأداة' : 'I have used it',
-    interested: ar ? 'مهتم بالأداة' : 'Interested in it',
+    owner: ar ? 'أملك الأداة' : i18nUi('أملك الأداة', 'I own it'),
+    used: ar ? 'جرّبت الأداة' : i18nUi('جرّبت الأداة', 'I have used it'),
+    interested: ar ? 'مهتم بالأداة' : i18nUi('مهتم بالأداة', 'Interested in it'),
   };
   function draft(review: EquipmentReview) {
     setRating(review.rating);
@@ -1047,46 +1051,46 @@ function EquipmentReviews({
     setEditing(true);
   }
   const editor = <View testID="equipment-review-editor" style={[styles.card, detailStyles.card]}>
-    <Txt heading style={detailStyles.heading}>{own ? ar ? 'عدّل رأيك' : 'Edit your review' : ar ? 'شارك تجربتك' : 'Share your experience'}</Txt>
+    <Txt heading style={detailStyles.heading}>{own ? ar ? 'عدّل رأيك' : i18nUi('عدّل رأيك', 'Edit your review') : ar ? 'شارك تجربتك' : i18nUi('شارك تجربتك', 'Share your experience')}</Txt>
     {message ? <View accessibilityLiveRegion="polite"><Txt style={styles.muted}>{message}</Txt></View> : null}
     <Txt style={s.editorial}>{ar
       ? 'رأي واحد لكل أداة. نوع التجربة تصريح منك ويمكنك تعديل رأيك.'
-      : 'One editable opinion per model. Experience is self-reported.'}</Txt>
-    {own?.status === 'hidden' ? <Txt style={styles.warning}>{ar ? 'رأيك مخفي بعد المراجعة. يمكنك حذفه.' : 'Your review is hidden after moderation. You can delete it.'}</Txt> : <>
+      : i18nUi('رأي واحد لكل أداة. نوع التجربة تصريح منك ويمكنك تعديل رأيك.', 'One editable opinion per model. Experience is self-reported.')}</Txt>
+    {own?.status === 'hidden' ? <Txt style={styles.warning}>{ar ? 'رأيك مخفي بعد المراجعة. يمكنك حذفه.' : i18nUi('رأيك مخفي بعد المراجعة. يمكنك حذفه.', 'Your review is hidden after moderation. You can delete it.')}</Txt> : <>
       <View style={s.stars}>{[1, 2, 3, 4, 5].map(n => <Pressable key={n} accessibilityRole="button"
-        accessibilityLabel={(ar ? 'تقييم ' : 'Rate ') + n + '/5'} accessibilityState={{ selected: rating === n }}
+        accessibilityLabel={(ar ? 'تقييم ' : i18nUi('تقييم ', 'Rate ')) + n + '/5'} accessibilityState={{ selected: rating === n }}
         onPress={() => setRating(n)} style={s.star}>
         <Icon name="star" filled={rating >= n} size={26} color="#B88836" />
       </Pressable>)}</View>
       <Chips items={Object.entries(experiences).map(([id, name]) => ({ id, name }))} value={experience} set={v => setExperience(v as EquipmentReview['experience'])} />
-      <Field label={ar ? 'رأيك وتجربتك' : 'Your review'} value={text} onChangeText={setText} multiline maxLength={2000} style={{ minHeight: 76 }} />
-      <Txt style={s.editorial}>{ar ? 'من 3 إلى 2000 حرف' : '3–2000 characters'}</Txt>
+      <Field label={ar ? 'رأيك وتجربتك' : i18nUi('رأيك وتجربتك', 'Your review')} value={text} onChangeText={setText} multiline maxLength={2000} style={{ minHeight: 76 }} />
+      <Txt style={s.editorial}>{ar ? 'من 3 إلى 2000 حرف' : i18nUi('من 3 إلى 2000 حرف', '3–2000 characters')}</Txt>
       <DetailColumns>
-        <Field label={ar ? 'المميزات من تجربتك (اختياري)' : 'Your strengths (optional)'} value={pros} onChangeText={setPros} maxLength={500} />
-        <Field label={ar ? 'السلبيات من تجربتك (اختياري)' : 'Your tradeoffs (optional)'} value={cons} onChangeText={setCons} maxLength={500} />
+        <Field label={ar ? 'المميزات من تجربتك (اختياري)' : i18nUi('المميزات من تجربتك (اختياري)', 'Your strengths (optional)')} value={pros} onChangeText={setPros} maxLength={500} />
+        <Field label={ar ? 'السلبيات من تجربتك (اختياري)' : i18nUi('السلبيات من تجربتك (اختياري)', 'Your tradeoffs (optional)')} value={cons} onChangeText={setCons} maxLength={500} />
       </DetailColumns>
-      <Action title={writing ? ar ? 'جارٍ الحفظ…' : 'Saving…' : ar ? 'حفظ رأيي' : 'Save my review'}
+      <Action title={writing ? ar ? 'جارٍ الحفظ…' : i18nUi('جارٍ الحفظ…', 'Saving…') : ar ? 'حفظ رأيي' : i18nUi('حفظ رأيي', 'Save my review')}
         onPress={() => void write()} disabled={writing || busy} selected />
     </>}
     {own ? <DetailColumns minWidth={360}>
-      <Action title={ar ? 'إلغاء التعديل' : 'Cancel editing'} onPress={() => { draft(own); setEditing(false); setMessage(''); }} disabled={writing} />
-      <Action title={ar ? 'حذف رأيي' : 'Delete my review'} onPress={() => void write(true)} disabled={writing || busy} />
+      <Action title={ar ? 'إلغاء التعديل' : i18nUi('إلغاء التعديل', 'Cancel editing')} onPress={() => { draft(own); setEditing(false); setMessage(''); }} disabled={writing} />
+      <Action title={ar ? 'حذف رأيي' : i18nUi('حذف رأيي', 'Delete my review')} onPress={() => void write(true)} disabled={writing || busy} />
     </DetailColumns> : null}
   </View>;
   const visibleReviews = own ? [own, ...reviews.filter(review => review.user_id !== userId)] : reviews;
   const reviewContent = (r: EquipmentReview) => <>
     <View style={s.cardTop}>
-      <Txt style={{ flex: 1, fontWeight: '700' }}>{r.user_id === userId ? ar ? 'رأيك' : 'Your review' : ar ? 'عضو BeanMora' : 'BeanMora member'}</Txt>
+      <Txt style={{ flex: 1, fontWeight: '700' }}>{r.user_id === userId ? ar ? 'رأيك' : i18nUi('رأيك', 'Your review') : ar ? 'عضو BeanMora' : i18nUi('عضو BeanMora', 'BeanMora member')}</Txt>
       <Icon name="star" size={16} filled color="#B88836" /><Txt>{r.rating}/5</Txt>
     </View>
     <Txt style={s.editorial}>{experiences[r.experience]} · {new Date(r.created_at).toLocaleDateString(locale + '-u-nu-latn')}</Txt>
     <Txt style={detailStyles.text}>{r.review_text}</Txt>
-    {r.pros ? <Txt style={detailStyles.text}>{ar ? 'المميزات: ' : 'Strengths: '}{r.pros}</Txt> : null}
-    {r.cons ? <Txt style={detailStyles.text}>{ar ? 'السلبيات: ' : 'Tradeoffs: '}{r.cons}</Txt> : null}
+    {r.pros ? <Txt style={detailStyles.text}>{ar ? 'المميزات: ' : i18nUi('المميزات: ', 'Strengths: ')}{r.pros}</Txt> : null}
+    {r.cons ? <Txt style={detailStyles.text}>{ar ? 'السلبيات: ' : i18nUi('السلبيات: ', 'Tradeoffs: ')}{r.cons}</Txt> : null}
   </>;
   return (
     <View style={{ gap: 14 }}>
-      <SectionTitle title={ar ? 'آراء المشتركين' : 'Member reviews'} />
+      <SectionTitle title={ar ? 'آراء المشتركين' : i18nUi('آراء المشتركين', 'Member reviews')} />
       {summary && !failed ? (
         <View style={s.reviewSummary}>
           <Icon name="star" filled color="#B88836" />
@@ -1094,57 +1098,57 @@ function EquipmentReviews({
             {summary.average_rating ?? '—'}
           </Txt>
           <Txt style={styles.muted}>
-            {summary.review_count} {ar ? 'رأي' : 'reviews'}
+            {summary.review_count} {ar ? 'رأي' : i18nUi('رأي', 'reviews')}
           </Txt>
         </View>
       ) : null}
       {message && own && !editing ? <View accessibilityLiveRegion="polite"><Txt style={styles.muted}>{message}</Txt></View> : null}
       {failed || busy ? <Empty busy={busy} error={failed} retry={() => setRevision(r => r + 1)} /> : !visibleReviews.length ?
-        <Txt style={styles.muted}>{ar ? 'لا توجد آراء منشورة بعد. شارك أول تجربة.' : 'No published opinions yet. Share the first experience.'}</Txt> :
+        <Txt style={styles.muted}>{ar ? 'لا توجد آراء منشورة بعد. شارك أول تجربة.' : i18nUi('لا توجد آراء منشورة بعد. شارك أول تجربة.', 'No published opinions yet. Share the first experience.')}</Txt> :
         visibleReviews.map(r => <View key={r.id} testID={r.user_id === userId ? 'equipment-own-review' : undefined} style={[styles.card, detailStyles.card]}>
           {r.user_id === userId ? <>
-            <Pressable accessibilityRole="button" accessibilityLabel={ar ? 'تعديل رأيك' : 'Edit your review'}
+            <Pressable accessibilityRole="button" accessibilityLabel={ar ? 'تعديل رأيك' : i18nUi('تعديل رأيك', 'Edit your review')}
               accessibilityState={{ expanded: editing }} disabled={writing || busy} onPress={() => edit(r)} style={{ gap: 8 }}>
               {reviewContent(r)}
               <View style={{ flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 6, minHeight: 44 }}>
                 <Icon name="edit" color={colors.teal} size={17} />
-                <Txt style={{ color: colors.teal, fontSize: 13 }}>{ar ? 'اضغط على رأيك لتعديله' : 'Tap your review to edit'}</Txt>
+                <Txt style={{ color: colors.teal, fontSize: 13 }}>{ar ? 'اضغط على رأيك لتعديله' : i18nUi('اضغط على رأيك لتعديله', 'Tap your review to edit')}</Txt>
               </View>
             </Pressable>
             {editing ? editor : null}
           </> : <>
             {reviewContent(r)}
-            <Action compact title={ar ? 'الإبلاغ عن هذا الرأي' : 'Report this review'} onPress={() => userId ? setReportId(r.id) : login()} />
+            <Action compact title={ar ? 'الإبلاغ عن هذا الرأي' : i18nUi('الإبلاغ عن هذا الرأي', 'Report this review')} onPress={() => userId ? setReportId(r.id) : login()} />
           </>}
         </View>)}
       {!busy && !failed && summary && reviews.length < summary.review_count ? (
         <Action
-          title={ar ? 'المزيد من الآراء' : 'More reviews'}
+          title={ar ? 'المزيد من الآراء' : i18nUi('المزيد من الآراء', 'More reviews')}
           onPress={() => setLimit((v) => v + 30)}
         />
       ) : null}
       {reportId ? (
         <View style={styles.card}>
           <Field
-            label={ar ? 'سبب البلاغ' : 'Report reason'}
+            label={ar ? 'سبب البلاغ' : i18nUi('سبب البلاغ', 'Report reason')}
             value={reportText}
             onChangeText={setReportText}
             maxLength={1000}
             multiline
           />
           <Action
-            title={ar ? 'إرسال البلاغ' : 'Send report'}
+            title={ar ? 'إرسال البلاغ' : i18nUi('إرسال البلاغ', 'Send report')}
             onPress={() => void report()}
             disabled={writing || reportText.trim().length < 3}
           />
           <Action
-            title={ar ? 'إلغاء' : 'Cancel'}
+            title={ar ? 'إلغاء' : i18nUi('إلغاء', 'Cancel')}
             onPress={() => setReportId(null)}
           />
         </View>
       ) : null}
       {userId ? !own ? editor : null : (
-        <Action title={ar ? 'سجّل دخولك لكتابة رأيك' : 'Sign in to write a review'} onPress={login} selected />
+        <Action title={ar ? 'سجّل دخولك لكتابة رأيك' : i18nUi('سجّل دخولك لكتابة رأيك', 'Sign in to write a review')} onPress={login} selected />
       )}
     </View>
   );
@@ -1158,6 +1162,7 @@ export function RoasterDirectory({
   coffees?: CoffeeItem[];
   initialSearch?: string;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const [rows, setRows] = useState<RoasterItem[]>([]);
@@ -1213,23 +1218,23 @@ export function RoasterDirectory({
       }
     >
       <Txt style={s.eyebrow}>
-        {ar ? 'بين مورا · المحامص' : 'BEANMORA · ROASTERIES'}
+        {ar ? 'بين مورا · المحامص' : i18nUi('بين مورا · المحامص', 'BEANMORA · ROASTERIES')}
       </Txt>
       <Txt heading style={styles.title}>
-        {ar ? 'المحامص' : 'Roasteries'}
+        {ar ? 'المحامص' : i18nUi('المحامص', 'Roasteries')}
       </Txt>
       <Txt style={styles.muted}>
         {ar
           ? 'اكتشف المحامص وحبوبها ومصادر معلوماتها في مكان واحد.'
-          : 'Explore roasters, their coffees and the sources behind each listing.'}
+          : i18nUi('اكتشف المحامص وحبوبها ومصادر معلوماتها في مكان واحد.', 'Explore roasters, their coffees and the sources behind each listing.')}
       </Txt>
       <Field
-        label={ar ? 'ابحث عن محمصة' : 'Find a roaster'}
+        label={ar ? 'ابحث عن محمصة' : i18nUi('ابحث عن محمصة', 'Find a roaster')}
         value={search}
         onChangeText={setSearch}
-        placeholder={ar ? 'اسم المحمصة أو البلد…' : 'Roaster name or country…'}
+        placeholder={ar ? 'اسم المحمصة أو البلد…' : i18nUi('اسم المحمصة أو البلد…', 'Roaster name or country…')}
       />
-      <SelectionMenu label={ar ? 'الدولة' : 'Country'} items={['all', ...new Set(rows.map(r => r.country).filter(Boolean))].map(id => ({ id, name: id === 'all' ? ar ? 'كل الدول' : 'All countries' : countryLabel(id, locale) }))} value={country} onChange={setCountry} />
+      <SelectionMenu label={ar ? 'الدولة' : i18nUi('الدولة', 'Country')} items={['all', ...new Set(rows.map(r => r.country).filter(Boolean))].map(id => ({ id, name: id === 'all' ? ar ? 'كل الدول' : i18nUi('كل الدول', 'All countries') : countryLabel(id, locale) }))} value={country} onChange={setCountry} />
       {visible.map((r) => (
         <Pressable
           key={r.id}
@@ -1255,7 +1260,7 @@ export function RoasterDirectory({
             {r.description}
           </Txt>
           <Txt style={s.linkText}>
-            {ar ? 'عن المحمصة · الحبوب · الوصفات' : 'About · Coffees · Recipes'}
+            {ar ? 'عن المحمصة · الحبوب · الوصفات' : i18nUi('عن المحمصة · الحبوب · الوصفات', 'About · Coffees · Recipes')}
           </Txt>
         </Pressable>
       ))}
@@ -1288,6 +1293,7 @@ export function RoasterDetail({
   saved: string[];
   loading: boolean;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const { width } = useWindowDimensions();
@@ -1312,23 +1318,23 @@ export function RoasterDetail({
       <View style={styles.detailMetaRow}>
         {item.verified ? (
           <Txt style={styles.metaPill}>
-            {ar ? 'محمصة موثّقة' : 'Verified roaster'}
+            {ar ? 'محمصة موثّقة' : i18nUi('محمصة موثّقة', 'Verified roaster')}
           </Txt>
         ) : null}
         {item.physicalStore === true ? (
           <Txt style={styles.metaPill}>
-            {ar ? 'لديها متجر فعلي' : 'Physical store'}
+            {ar ? 'لديها متجر فعلي' : i18nUi('لديها متجر فعلي', 'Physical store')}
           </Txt>
         ) : null}
         {item.shipsToGcc === true ? (
           <Txt style={styles.metaPill}>
-            {ar ? 'تشحن لدول الخليج' : 'Ships to GCC'}
+            {ar ? 'تشحن لدول الخليج' : i18nUi('تشحن لدول الخليج', 'Ships to GCC')}
           </Txt>
         ) : null}
       </View>
       {item.websiteUrl ? (
         <SourceLink
-          title={ar ? 'موقع المحمصة' : 'Roaster website'}
+          title={ar ? 'موقع المحمصة' : i18nUi('موقع المحمصة', 'Roaster website')}
           url={item.websiteUrl}
         />
       ) : null}
@@ -1339,20 +1345,20 @@ export function RoasterDetail({
         .filter((l) => l.address)
         .map((l, i) => (
           <View key={i} style={styles.card}>
-            <Txt heading>{l.label || (ar ? 'الموقع' : 'Location')}</Txt>
+            <Txt heading>{l.label || (ar ? 'الموقع' : i18nUi('الموقع', 'Location'))}</Txt>
             <Txt>{l.address}</Txt>
             {Number.isFinite(l.latitude) &&
             Number.isFinite(l.longitude) &&
             l.latitude !== null &&
             l.longitude !== null ? (
               <SourceLink
-                title={ar ? 'فتح الخريطة' : 'Open map'}
+                title={ar ? 'فتح الخريطة' : i18nUi('فتح الخريطة', 'Open map')}
                 url={`https://www.google.com/maps/search/?api=1&query=${l.latitude},${l.longitude}`}
               />
             ) : null}
           </View>
         ))}
-      <SectionTitle title={ar ? 'حبوب المحمصة' : 'Roaster coffees'} />
+      <SectionTitle title={ar ? 'حبوب المحمصة' : i18nUi('حبوب المحمصة', 'Roaster coffees')} />
       {loading ? (
         <ActivityIndicator color={colors.brown} />
       ) : items.length ? (
@@ -1372,11 +1378,11 @@ export function RoasterDetail({
         <Txt style={styles.muted}>
           {ar
             ? 'لم تُضف حبوب منشورة لهذه المحمصة بعد.'
-            : 'No published coffees are listed for this roaster yet.'}
+            : i18nUi('لم تُضف حبوب منشورة لهذه المحمصة بعد.', 'No published coffees are listed for this roaster yet.')}
         </Txt>
       )}
       <SectionTitle
-        title={ar ? 'وصفات مرتبطة بحبوبها' : 'Linked coffee recipes'}
+        title={ar ? 'وصفات مرتبطة بحبوبها' : i18nUi('وصفات مرتبطة بحبوبها', 'Linked coffee recipes')}
       />
       {related.length ? (
         related.map((r) => (
@@ -1386,18 +1392,18 @@ export function RoasterDetail({
         <Txt style={styles.muted}>
           {ar
             ? 'لا توجد وصفات مرتبطة مسجلة حالياً.'
-            : 'No linked recipes are listed yet.'}
+            : i18nUi('لا توجد وصفات مرتبطة مسجلة حالياً.', 'No linked recipes are listed yet.')}
         </Txt>
       )}
       {item.sourceUrl ? (
         <SourceLink
-          title={ar ? 'مصدر معلومات المحمصة' : 'Roaster data source'}
+          title={ar ? 'مصدر معلومات المحمصة' : i18nUi('مصدر معلومات المحمصة', 'Roaster data source')}
           url={item.sourceUrl}
         />
       ) : null}
       {item.verifiedAt ? (
         <Txt style={s.editorial}>
-          {ar ? 'آخر تحقق: ' : 'Last checked: '}
+          {ar ? 'آخر تحقق: ' : i18nUi('آخر تحقق: ', 'Last checked: ')}
           {new Date(item.verifiedAt).toLocaleDateString(locale + '-u-nu-latn')}
         </Txt>
       ) : null}
@@ -1413,6 +1419,7 @@ export function XBLOOMHub({
   tools: () => void;
   loading: boolean;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const { width } = useWindowDimensions();
@@ -1448,16 +1455,16 @@ export function XBLOOMHub({
                   },
                 ]}
               >
-                {ar ? 'كوبك، على ذوقك.' : 'Make it your cup.'}
+                {ar ? 'كوبك، على ذوقك.' : i18nUi('كوبك، على ذوقك.', 'Make it your cup.')}
               </Txt>
               <Txt style={s.xbloomSubtitle}>
                 {ar
                   ? 'وصفات لموديلك، من الطحنة إلى آخر صبة.'
-                  : 'Recipes for your machine, from grind to final pour.'}
+                  : i18nUi('وصفات لموديلك، من الطحنة إلى آخر صبة.', 'Recipes for your machine, from grind to final pour.')}
               </Txt>
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel={ar ? 'أدوات xBloom' : 'xBloom tools'}
+                accessibilityLabel={ar ? 'أدوات xBloom' : i18nUi('أدوات xBloom', 'xBloom tools')}
                 onPress={tools}
                 style={s.xbloomToolsButton}
               >
@@ -1466,10 +1473,10 @@ export function XBLOOMHub({
                   {width < 600
                     ? ar
                       ? 'الأدوات'
-                      : 'Tools'
+                      : i18nUi('الأدوات', 'Tools')
                     : ar
                       ? 'أدوات xBloom'
-                      : 'xBloom tools'}
+                      : i18nUi('أدوات xBloom', 'xBloom tools')}
                 </Txt>
                 <Icon name="arrow" size={16} color="#FFF" />
               </Pressable>
@@ -1487,7 +1494,7 @@ export function XBLOOMHub({
                 accessibilityLabel={
                   ar
                     ? 'صورة تحضير توضيحية من BeanMora'
-                    : 'Brewing illustration by BeanMora'
+                    : i18nUi('صورة تحضير توضيحية من BeanMora', 'Brewing illustration by BeanMora')
                 }
                 style={[
                   StyleSheet.absoluteFill,
@@ -1496,7 +1503,7 @@ export function XBLOOMHub({
               />
               <View style={s.xbloomPhotoCaption}>
                 <Txt style={{ color: '#FFF', fontSize: 11, lineHeight: 17 }}>
-                  {ar ? 'صورة توضيحية' : 'Brewing illustration'}
+                  {ar ? 'صورة توضيحية' : i18nUi('صورة توضيحية', 'Brewing illustration')}
                 </Txt>
               </View>
             </View>
@@ -1506,7 +1513,7 @@ export function XBLOOMHub({
             accessibilityLabel={
               ar
                 ? 'دليل الجهاز وروابط xBloom'
-                : 'Machine guides and xBloom links'
+                : i18nUi('دليل الجهاز وروابط xBloom', 'Machine guides and xBloom links')
             }
             accessibilityState={{ expanded: resourcesOpen }}
             onPress={() => setResourcesOpen((v) => !v)}
@@ -1523,7 +1530,7 @@ export function XBLOOMHub({
             >
               {ar
                 ? 'دليل الجهاز وروابط xBloom'
-                : 'Machine guides and xBloom links'}
+                : i18nUi('دليل الجهاز وروابط xBloom', 'Machine guides and xBloom links')}
             </Txt>
             <Icon
               name={resourcesOpen ? 'back' : 'arrow'}
@@ -1535,7 +1542,7 @@ export function XBLOOMHub({
             <View style={s.xbloomLinks}>
               {XBLOOM_RESOURCES.map((r) => (
                 <View key={r.url} style={s.xbloomLinkChip}>
-                  <SourceLink title={ar ? r.ar : r.en} url={r.url} />
+                  <SourceLink title={i18nUi(r.ar, r.en)} url={r.url} />
                 </View>
               ))}
             </View>

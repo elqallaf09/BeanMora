@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext, useEffect, useMemo, useState } from "react";
 import { Animated, Pressable, View, useWindowDimensions } from "./native";
 import { publicSupabase } from "./client";
@@ -18,6 +19,7 @@ export function EquipmentRecommendations({
   open: (item: EquipmentItem) => void;
   browse: () => void;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language),
     ar = locale === "ar";
   const { width } = useWindowDimensions();
@@ -109,7 +111,7 @@ export function EquipmentRecommendations({
       </Animated.View>
       {!pool.length ? (
         <Action
-          title={ar ? "استكشف أدوات القهوة" : "Explore coffee equipment"}
+          title={ar ? "استكشف أدوات القهوة" : i18nUi("استكشف أدوات القهوة", "Explore coffee equipment")}
           onPress={browse}
         />
       ) : null}

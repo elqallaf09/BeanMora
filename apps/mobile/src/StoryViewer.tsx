@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import {
   useCallback,
   useContext,
@@ -50,6 +51,7 @@ export function StoryViewer({
   suspended?: boolean;
   overlay?: ReactNode;
 }) {
+  const i18nUi = useLabels();
   const ar = useContext(Language) === "ar";
   const [index, setIndex] = useState(
     Math.max(
@@ -166,10 +168,10 @@ export function StoryViewer({
                     direction === 1
                       ? ar
                         ? "القصة التالية"
-                        : "Next story"
+                        : i18nUi("القصة التالية", "Next story")
                       : ar
                         ? "القصة السابقة"
-                        : "Previous story"
+                        : i18nUi("القصة السابقة", "Previous story")
                   }
                   onPress={() => step(direction)}
                   onLongPress={() => setHeld(true)}
@@ -235,7 +237,7 @@ export function StoryViewer({
                       color: "#FFFFFF",
                     }}
                   >
-                    {member?.name ?? (ar ? "عضو" : "Member")}
+                    {member?.name ?? (ar ? "عضو" : i18nUi("عضو", "Member"))}
                   </Txt>
                   <Txt style={{ fontSize: 11, color: "#FFFFFF" }}>
                     {new Date(current.created_at).toLocaleTimeString(
@@ -250,10 +252,10 @@ export function StoryViewer({
                     paused
                       ? ar
                         ? "تشغيل القصة"
-                        : "Play story"
+                        : i18nUi("تشغيل القصة", "Play story")
                       : ar
                         ? "إيقاف القصة مؤقتًا"
-                        : "Pause story"
+                        : i18nUi("إيقاف القصة مؤقتًا", "Pause story")
                   }
                   color="#FFFFFF"
                   onPress={() => setHeld((v) => !v)}
@@ -262,7 +264,7 @@ export function StoryViewer({
                   <IconButton
                     name="trash"
                     color="#FFFFFF"
-                    label={ar ? "حذف القصة" : "Delete story"}
+                    label={ar ? "حذف القصة" : i18nUi("حذف القصة", "Delete story")}
                     onPress={() => remove(current)}
                   />
                 ) : owner ? (
@@ -270,14 +272,14 @@ export function StoryViewer({
                     name="more"
                     color="#FFFFFF"
                     label={
-                      ar ? "بلاغ: خارج موضوع القهوة" : "Report off-topic story"
+                      ar ? "بلاغ: خارج موضوع القهوة" : i18nUi("بلاغ: خارج موضوع القهوة", "Report off-topic story")
                     }
                     onPress={() => report(current)}
                   />
                 ) : null}
                 <Pressable
                   accessibilityRole="button"
-                  accessibilityLabel={ar ? "إغلاق القصة" : "Close story"}
+                  accessibilityLabel={ar ? "إغلاق القصة" : i18nUi("إغلاق القصة", "Close story")}
                   onPress={close}
                   style={{
                     minWidth: 44,
@@ -348,6 +350,7 @@ function StoryMedia({
   progress: (n: number) => void;
   viewable: () => void;
 }) {
+  const i18nUi = useLabels();
   const ar = useContext(Language) === "ar";
   const url = useContentMedia("storage://coffee-stories/" + story.media_path);
   const [ready, setReady] = useState(false),
@@ -376,7 +379,7 @@ function StoryMedia({
         <Txt accessibilityRole="alert" style={{ color: "#FFFFFF" }}>
           {ar
             ? "تعذّر عرض هذه القصة. انتقل للقصة التالية."
-            : "Could not display this story. Tap for the next story."}
+            : i18nUi("تعذّر عرض هذه القصة. انتقل للقصة التالية.", "Could not display this story. Tap for the next story.")}
         </Txt>
       </View>
     );
@@ -384,7 +387,7 @@ function StoryMedia({
     return (
       <View style={{ flex: 1, justifyContent: "center", padding: 20 }}>
         <Txt style={{ color: "#FFFFFF" }}>
-          {ar ? "جارٍ تحميل القصة…" : "Loading story…"}
+          {ar ? "جارٍ تحميل القصة…" : i18nUi("جارٍ تحميل القصة…", "Loading story…")}
         </Txt>
       </View>
     );
@@ -401,7 +404,7 @@ function StoryMedia({
     <Image
       source={{ uri: url }}
       resizeMode="contain"
-      accessibilityLabel={story.caption || (ar ? "قصة قهوة" : "Coffee story")}
+      accessibilityLabel={story.caption || (ar ? "قصة قهوة" : i18nUi("قصة قهوة", "Coffee story"))}
       style={{ flex: 1, width: "100%" }}
       onLoad={() => {
         setReady(true);

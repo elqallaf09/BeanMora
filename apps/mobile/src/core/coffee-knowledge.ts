@@ -103,7 +103,9 @@ export function coffeeKnowledgeAnswer(
   question: string,
   locale: "ar" | "en",
   previousTopic?: string,
+  translate?: (arabic: string, english: string) => string,
 ) {
+  const L = translate ?? ((arabic: string, english: string) => locale === 'ar' ? arabic : english);
   const q = normalizeSearch(question);
   // Shopping follow-ups must keep their catalog context instead of matching
   // educational words such as ميزان inside ميزانية.
@@ -124,17 +126,17 @@ export function coffeeKnowledgeAnswer(
   if (!article && /علمني.*قهوه|تعلم.*قهوه|من الالف|من ا.*ي|a to z|learn.*coffee|all about coffee/.test(q)) {
     return {
       topic: 'curriculum',
-      answer: locale === 'ar' ? 'ابدأ بالبن والمعالجة، ثم الماء والطحن والتحضير، وبعدها المكاين والتحميص والتذوق. اكتب الموضوع الذي تريد تعلّمه؛ كل شرح معه مصدر وخطوة عملية. تقدر تسأل عن موديل معين للمواصفات أو تعطيني وصفة كوبك لضبطها.' : 'Start with beans and processing, then water, grinding and brewing, followed by equipment, roasting and tasting. Ask about the topic you want to learn; each lesson includes a source and a practical next step. Ask about a model for specifications or provide your brew measurements for coaching.',
+      answer: L('ابدأ بالبن والمعالجة، ثم الماء والطحن والتحضير، وبعدها المكاين والتحميص والتذوق. اكتب الموضوع الذي تريد تعلّمه؛ كل شرح معه مصدر وخطوة عملية. تقدر تسأل عن موديل معين للمواصفات أو تعطيني وصفة كوبك لضبطها.', 'Start with beans and processing, then water, grinding and brewing, followed by equipment, roasting and tasting. Ask about the topic you want to learn; each lesson includes a source and a practical next step. Ask about a model for specifications or provide your brew measurements for coaching.'),
       sources: [] as { title: string; url: string }[],
-      suggestions: locale === 'ar' ? ['من الشجرة إلى الكوب', 'درجة الطحن حسب التحضير', 'مراحل التحميص من الأخضر إلى البني'] : ['From seed to cup', 'Grind size by method', 'Roast stages: green to brown'],
+      suggestions: [L('من الشجرة إلى الكوب', 'From seed to cup'), L('درجة الطحن حسب التحضير', 'Grind size by method'), L('مراحل التحميص من الأخضر إلى البني', 'Roast stages: green to brown')],
     };
   }
   if (!article) return null;
   const related = articles.filter(row => row.group === article.group && row.id !== article.id).slice(0, 2);
   return {
     topic: article.id,
-    answer: followUp ? article.more[locale === 'ar' ? 0 : 1] : locale === "ar" ? article.ar : article.en,
+    answer: followUp ? L(article.more[0], article.more[1]) : L(article.ar, article.en),
     sources: lessonSources(article),
-    suggestions: [locale === 'ar' ? 'اشرح أكثر' : 'Tell me more', ...related.map(row => row.titles[locale === 'ar' ? 0 : 1])],
+    suggestions: [L('اشرح أكثر', 'Tell me more'), ...related.map(row => L(row.titles[0], row.titles[1]))],
   };
 }

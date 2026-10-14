@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext, useState } from 'react';
 import { Linking, View } from './native';
 import { safeUrl } from './guards';
@@ -14,6 +15,7 @@ export function SourceLink({
   url: string;
   compact?: boolean;
 }) {
+  const i18nUi = useLabels();
   const ar = useContext(Language) === 'ar';
   const [failed, setFailed] = useState(false);
   return (
@@ -41,7 +43,7 @@ export function SourceLink({
         <Txt style={styles.error}>
           {ar
             ? 'تعذّر فتح الرابط. حاول مرة ثانية.'
-            : 'Could not open the link. Try again.'}
+            : i18nUi('تعذّر فتح الرابط. حاول مرة ثانية.', 'Could not open the link. Try again.')}
         </Txt>
       ) : null}
     </View>

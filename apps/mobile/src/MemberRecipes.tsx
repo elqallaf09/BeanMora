@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext, useEffect, useState } from "react";
 import { ScrollView, View } from "./native";
 import { supabase } from "./client";
@@ -19,6 +20,7 @@ export function MemberRecipes({
   open: (r: RecipeItem) => void;
   create: () => void;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language),
     ar = locale === "ar";
   const [rows, setRows] = useState<RecipeItem[]>([]),
@@ -61,11 +63,11 @@ export function MemberRecipes({
         <Txt>
           {ar
             ? "سجّل الدخول لعرض الوصفات التي أضفتها."
-            : "Sign in to see recipes you added."}
+            : i18nUi("سجّل الدخول لعرض الوصفات التي أضفتها.", "Sign in to see recipes you added.")}
         </Txt>
         <Action
           selected
-          title={ar ? "تسجيل الدخول" : "Sign in"}
+          title={ar ? "تسجيل الدخول" : i18nUi("تسجيل الدخول", "Sign in")}
           onPress={login}
         />
       </View>
@@ -73,17 +75,17 @@ export function MemberRecipes({
   return (
     <ScrollView contentContainerStyle={{ padding: 18, gap: 14 }}>
       <Txt heading style={styles.title}>
-        {ar ? "وصفاتي المضافة" : "My submitted recipes"}
+        {ar ? "وصفاتي المضافة" : i18nUi("وصفاتي المضافة", "My submitted recipes")}
       </Txt>
       <Action
-        title={ar ? "إضافة وصفة" : "Add recipe"}
+        title={ar ? "إضافة وصفة" : i18nUi("إضافة وصفة", "Add recipe")}
         variant="primary"
         onPress={create}
       />
-      {busy ? <Txt>{ar ? "جارٍ التحميل…" : "Loading…"}</Txt> : null}
+      {busy ? <Txt>{ar ? "جارٍ التحميل…" : i18nUi("جارٍ التحميل…", "Loading…")}</Txt> : null}
       {error ? (
         <Action
-          title={ar ? "تعذّر التحميل — أعد المحاولة" : "Could not load — retry"}
+          title={ar ? "تعذّر التحميل — أعد المحاولة" : i18nUi("تعذّر التحميل — أعد المحاولة", "Could not load — retry")}
           onPress={() => setRevision((n) => n + 1)}
         />
       ) : null}
@@ -93,16 +95,16 @@ export function MemberRecipes({
             {r.public
               ? ar
                 ? "منشورة للمجتمع"
-                : "Public community recipe"
+                : i18nUi("منشورة للمجتمع", "Public community recipe")
               : ar
                 ? "خاصة"
-                : "Private"}
+                : i18nUi("خاصة", "Private")}
           </Txt>
           <Action title={r.title} onPress={() => open(r)} />
         </View>
       ))}
       {!busy && !error && !rows.length ? (
-        <Txt>{ar ? "لم تضف وصفة بعد." : "No submitted recipes yet."}</Txt>
+        <Txt>{ar ? "لم تضف وصفة بعد." : i18nUi("لم تضف وصفة بعد.", "No submitted recipes yet.")}</Txt>
       ) : null}
     </ScrollView>
   );

@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { CatalogComments } from "./CatalogComments";
 import { XBloomMatchNotice } from './XBloomMatchNotice';
 import { CoffeeLabelMatchNotice } from './CoffeeLabelMatchNotice';
@@ -49,6 +50,7 @@ export function RecipeDetail({
   saveError?: boolean;
   accountSaved?: boolean;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language);
   const ar = locale === "ar";
   const t = copy[locale];
@@ -72,7 +74,7 @@ export function RecipeDetail({
       {
         icon: recipe.method,
         value: methods[locale][recipe.method],
-        label: ar ? "طريقة التحضير" : "Brew method",
+        label: ar ? "طريقة التحضير" : i18nUi("طريقة التحضير", "Brew method"),
       },
       {
         icon: "bean",
@@ -80,53 +82,53 @@ export function RecipeDetail({
           doseLabel(recipe) === "—" && recipe.method === "moka_pot"
             ? ar
               ? "سلة ممتلئة بلا كبس"
-              : "Full, loose basket"
+              : i18nUi("سلة ممتلئة بلا كبس", "Full, loose basket")
             : doseLabel(recipe),
         label: t.dose,
       },
       {
         icon: "drop",
-        value: waterLabel(recipe, ar),
+        value: i18nUi(waterLabel(recipe,true),waterLabel(recipe,false)),
         label:
           recipe.method === "espresso"
             ? ar
               ? "ناتج الإسبريسو"
-              : "Espresso yield"
+              : i18nUi("ناتج الإسبريسو", "Espresso yield")
             : ar
               ? "ماء التحضير"
-              : "Brew water",
+              : i18nUi("ماء التحضير", "Brew water"),
       },
       {
         icon: "gear",
         value: grind || "—",
-        label: ar ? "إعداد الطحنة" : "Grind setting",
+        label: ar ? "إعداد الطحنة" : i18nUi("إعداد الطحنة", "Grind setting"),
       },
       {
         icon: "temp",
-        value: temperatureLabel(recipe, ar),
-        label: ar ? "حرارة الماء" : "Water temperature",
+        value: i18nUi(temperatureLabel(recipe,true),temperatureLabel(recipe,false)),
+        label: ar ? "حرارة الماء" : i18nUi("حرارة الماء", "Water temperature"),
       },
       {
         icon: "clock",
         value:
-          timeLabel(recipe, ar) === "—" && recipe.method === "moka_pot"
+          i18nUi(timeLabel(recipe,true),timeLabel(recipe,false)) === "—" && recipe.method === "moka_pot"
             ? ar
               ? "حسب انتهاء التدفق"
-              : "Until flow ends"
-            : timeLabel(recipe, ar),
-        label: ar ? "الوقت الإرشادي" : "Guide time",
+              : i18nUi("حسب انتهاء التدفق", "Until flow ends")
+            : i18nUi(timeLabel(recipe,true),timeLabel(recipe,false)),
+        label: ar ? "الوقت الإرشادي" : i18nUi("الوقت الإرشادي", "Guide time"),
       },
     ] satisfies { icon: IconName; value: string; label: string }[]
   ).filter((f) => f.value !== "—");
   const provenance = [
-    [ar ? "صاحب الوصفة" : "Recipe by", discovery?.creatorName || recipe.author],
-    [ar ? "بلد صاحب الوصفة" : "Creator country", discovery?.creatorCountry],
-    [ar ? "منشأ الوصفة" : "Recipe origin", discovery?.recipeCountry],
-    [ar ? "البن" : "Coffee", discovery?.coffeeName],
-    [ar ? "المحمصة" : "Roaster", discovery?.roasterName],
-    [ar ? "منشأ البن" : "Coffee origin", discovery?.coffeeOrigin],
+    [ar ? "صاحب الوصفة" : i18nUi("صاحب الوصفة", "Recipe by"), discovery?.creatorName || recipe.author],
+    [ar ? "بلد صاحب الوصفة" : i18nUi("بلد صاحب الوصفة", "Creator country"), catalogName(discovery?.creatorCountry,locale)],
+    [ar ? "منشأ الوصفة" : i18nUi("منشأ الوصفة", "Recipe origin"), catalogName(discovery?.recipeCountry,locale)],
+    [ar ? "البن" : i18nUi("البن", "Coffee"), discovery?.coffeeName],
+    [ar ? "المحمصة" : i18nUi("المحمصة", "Roaster"), discovery?.roasterName],
+    [ar ? "منشأ البن" : i18nUi("منشأ البن", "Coffee origin"), catalogName(discovery?.coffeeOrigin,locale)],
     [
-      ar ? "نوع البن" : "Coffee type",
+      ar ? "نوع البن" : i18nUi("نوع البن", "Coffee type"),
       discovery?.coffeeType
         ? catalogName(discovery.coffeeType.replaceAll("_", " "), locale)
         : null,
@@ -164,18 +166,18 @@ export function RecipeDetail({
                 {discovery.servingStyle === "hot"
                   ? ar
                     ? "حار"
-                    : "Hot"
+                    : i18nUi("حار", "Hot")
                   : discovery.servingStyle === "iced"
                     ? ar
                       ? "مثلّج"
-                      : "Iced"
+                      : i18nUi("مثلّج", "Iced")
                     : ar
                       ? "بارد"
-                      : "Cold"}
+                      : i18nUi("بارد", "Cold")}
                 {discovery.servingStyleInferred
                   ? ar
                     ? " · مقترح"
-                    : " · Suggested"
+                    : i18nUi(" · مقترح", " · Suggested")
                   : ""}
               </Txt>
             </View>
@@ -185,7 +187,7 @@ export function RecipeDetail({
           <Txt style={{ fontSize: 12, color: colors.muted }}>
             {ar
               ? "نوع التقديم مقترح حسب طريقة التحضير؛ لم يحدده صاحب الوصفة."
-              : "Serving style is suggested from the preparation method; the publisher did not specify it."}
+              : i18nUi("نوع التقديم مقترح حسب طريقة التحضير؛ لم يحدده صاحب الوصفة.", "Serving style is suggested from the preparation method; the publisher did not specify it.")}
           </Txt>
         ) : null}
         <Txt heading style={[styles.title, { fontSize: 24, lineHeight: 32 }]}>
@@ -207,14 +209,14 @@ export function RecipeDetail({
               saved
                 ? ar
                   ? "إزالة الوصفة من المحفوظة"
-                  : "Remove saved recipe"
+                  : i18nUi("إزالة الوصفة من المحفوظة", "Remove saved recipe")
                 : accountSaved
                   ? ar
                     ? "حفظ الوصفة"
-                    : "Save recipe"
+                    : i18nUi("حفظ الوصفة", "Save recipe")
                   : ar
                     ? "حفظ الوصفة على الجهاز"
-                    : "Save recipe on device"
+                    : i18nUi("حفظ الوصفة على الجهاز", "Save recipe on device")
             }
             onPress={toggleSaved}
             selected={saved}
@@ -222,20 +224,18 @@ export function RecipeDetail({
           />
           {saved ? (
             <Txt style={styles.success}>
-              {ar
-                ? accountSaved
+              {i18nUi(accountSaved
                   ? "تم حفظ الوصفة."
-                  : "محفوظة على هذا الجهاز."
-                : accountSaved
+                  : "محفوظة على هذا الجهاز.", accountSaved
                   ? "Recipe saved."
-                  : "Saved on this device."}
+                  : "Saved on this device.")}
             </Txt>
           ) : null}
           {saveError ? (
             <Txt accessibilityRole="alert" style={styles.warning}>
               {ar
                 ? "تعذّر الحفظ أو المزامنة. أعد المحاولة وتحقق من الاتصال والمساحة المتاحة (حتى 50 وصفة على الجهاز)."
-                : "Could not save or sync. Retry and check your connection and available storage (up to 50 device recipes)."}
+                : i18nUi("تعذّر الحفظ أو المزامنة. أعد المحاولة وتحقق من الاتصال والمساحة المتاحة (حتى 50 وصفة على الجهاز).", "Could not save or sync. Retry and check your connection and available storage (up to 50 device recipes).")}
             </Txt>
           ) : null}
         </View>
@@ -290,10 +290,10 @@ export function RecipeDetail({
           {manual?.parameter_only_source
             ? ar
               ? "المصدر ينشر مقادير التحضير دون إجراء تفصيلي."
-              : "The source publishes brewing amounts without a full procedure."
+              : i18nUi("المصدر ينشر مقادير التحضير دون إجراء تفصيلي.", "The source publishes brewing amounts without a full procedure.")
             : ar
               ? "بعض التفاصيل غير منشورة؛ افتح المصدر قبل التحضير."
-              : "Some details are not published; check the source before brewing."}
+              : i18nUi("بعض التفاصيل غير منشورة؛ افتح المصدر قبل التحضير.", "Some details are not published; check the source before brewing.")}
         </Txt>
       ) : null}
       <GuidedBrew key={recipe.id} recipe={recipe} record={record} />
@@ -327,20 +327,20 @@ export function RecipeDetail({
             primary.url.includes("share-h5.xbloom.com")
               ? ar
                 ? "فتح الوصفة في xBloom"
-                : "Open recipe in xBloom"
+                : i18nUi("فتح الوصفة في xBloom", "Open recipe in xBloom")
               : ar
                 ? "فتح مصدر الوصفة"
-                : "Open recipe source"
+                : i18nUi("فتح مصدر الوصفة", "Open recipe source")
           }
           url={primary.url}
         />
       ) : null}
       <Disclosure
-        title={ar ? "عن الوصفة وإعدادات المصدر" : "Recipe and source details"}
+        title={ar ? "عن الوصفة وإعدادات المصدر" : i18nUi("عن الوصفة وإعدادات المصدر", "Recipe and source details")}
         subtitle={
           ar
             ? "الناشر، البن، ملاحظات التحضير والروابط"
-            : "Publisher, coffee, brewing notes and links"
+            : i18nUi("الناشر، البن، ملاحظات التحضير والروابط", "Publisher, coffee, brewing notes and links")
         }
         testID="recipe-source-disclosure"
       >
@@ -355,14 +355,14 @@ export function RecipeDetail({
         {recipe.originalTitle && recipe.originalTitle !== recipe.title ? (
           <View testID="recipe-original-title">
             <Txt style={styles.muted}>
-              {ar ? "عنوان المصدر الأصلي" : "Original source title"}
+              {ar ? "عنوان المصدر الأصلي" : i18nUi("عنوان المصدر الأصلي", "Original source title")}
             </Txt>
             <Txt>{recipe.originalTitle}</Txt>
           </View>
         ) : null}
         {recipe.videoUrl ? (
           <SourceLink
-            title={ar ? "شاهد فيديو الوصفة" : "Watch recipe video"}
+            title={ar ? "شاهد فيديو الوصفة" : i18nUi("شاهد فيديو الوصفة", "Watch recipe video")}
             url={recipe.videoUrl}
           />
         ) : null}
@@ -373,14 +373,14 @@ export function RecipeDetail({
                 source.url.includes("share-h5.xbloom.com")
                   ? ar
                     ? "الوصفة في xBloom"
-                    : "Recipe in xBloom"
+                    : i18nUi("الوصفة في xBloom", "Recipe in xBloom")
                   : catalogName(source.name, locale)
               }
               url={source.url}
             />
             {source.verifiedAt ? (
               <Txt style={styles.muted}>
-                {ar ? "آخر تحقق: " : "Last checked: "}
+                {ar ? "آخر تحقق: " : i18nUi("آخر تحقق: ", "Last checked: ")}
                 {new Date(source.verifiedAt).toLocaleDateString(
                   locale + "-u-nu-latn",
                 )}
@@ -389,7 +389,7 @@ export function RecipeDetail({
           </View>
         ))}
       </Disclosure>
-      <Disclosure title={ar ? "دليل طريقة التحضير" : "Brew method guide"}>
+      <Disclosure title={ar ? "دليل طريقة التحضير" : i18nUi("دليل طريقة التحضير", "Brew method guide")}>
         <MethodGuide method={recipe.method} showPhoto={false} />
       </Disclosure>
       <CatalogComments key={recipe.id} kind="recipe" id={recipe.id} />

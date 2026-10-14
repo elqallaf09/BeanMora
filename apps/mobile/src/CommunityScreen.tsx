@@ -1,3 +1,5 @@
+import { useLabels } from './ui';
+import {languageName} from './localeText';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -147,6 +149,7 @@ export function CommunityScreen({
   embedded?: boolean;
   postId?: string | null;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const { width } = useWindowDimensions();
@@ -301,7 +304,7 @@ export function CommunityScreen({
           setError(
             ar
               ? 'تعذّر تحميل المشاركات. أعد المحاولة.'
-              : 'Could not load posts. Try again.',
+              : i18nUi('تعذّر تحميل المشاركات. أعد المحاولة.', 'Could not load posts. Try again.'),
           );
       } finally {
         if (alive) setLoading(false);
@@ -311,7 +314,7 @@ export function CommunityScreen({
     return () => {
       alive = false;
     };
-  }, [locale, userId, revision, feed, authorId, pageLimit, postId]);
+  }, [locale, userId, revision, feed, authorId, pageLimit, postId, i18nUi]);
   const recipeRows = useMemo(
     () => [
       ...new Map([...recipes, ...linkedRecipes].map((r) => [r.id, r])).values(),
@@ -365,7 +368,7 @@ export function CommunityScreen({
           ...v,
           [id]: ar
             ? 'تعذّر حفظ الإعجاب. حاول مرة ثانية.'
-            : 'Could not save like. Please retry.',
+            : i18nUi('تعذّر حفظ الإعجاب. حاول مرة ثانية.', 'Could not save like. Please retry.'),
         }));
       }
     } finally {
@@ -404,7 +407,7 @@ export function CommunityScreen({
           ...v,
           [id]: ar
             ? 'تعذّر إرسال التعليق. تعليقك محفوظ هنا للمحاولة مرة ثانية.'
-            : 'Could not send comment. Your draft is kept here so you can retry.',
+            : i18nUi('تعذّر إرسال التعليق. تعليقك محفوظ هنا للمحاولة مرة ثانية.', 'Could not send comment. Your draft is kept here so you can retry.'),
         }));
     } finally {
       pendingComment.current = false;
@@ -444,7 +447,7 @@ export function CommunityScreen({
       >
         <Image
           source={require('../assets/brand/mark.png')}
-          accessibilityLabel="BeanMora logo"
+          accessibilityLabel={i18nUi('شعار BeanMora','BeanMora logo')}
           resizeMode="contain"
           style={{ height: 44, width: 30 }}
         />
@@ -456,23 +459,23 @@ export function CommunityScreen({
             <Txt style={s.heroNote}>
               {ar
                 ? 'ناس القهوة، وتجارب تستحق المشاركة'
-                : 'Coffee people. Experiences worth sharing.'}
+                : i18nUi('ناس القهوة، وتجارب تستحق المشاركة', 'Coffee people. Experiences worth sharing.')}
             </Txt>
           ) : null}
         </View>
         <IconButton
           name="search"
-          label={ar ? 'حسابات coffeeHO' : 'coffeeHO accounts'}
+          label={ar ? 'حسابات coffeeHO' : i18nUi('حسابات coffeeHO', 'coffeeHO accounts')}
           onPress={members}
         />
         <IconButton
           name="plus"
-          label={ar ? 'شارك تجربة' : 'Share a brew'}
+          label={ar ? 'شارك تجربة' : i18nUi('شارك تجربة', 'Share a brew')}
           onPress={() => write()}
         />
       </View> : null}
       {!embedded ? <CoffeeStories owner={userId} login={login} /> : null}
-      {postId ? <Txt heading style={styles.subtitle}>{ar ? "المنشور" : "Post"}</Txt> : null}
+      {postId ? <Txt heading style={styles.subtitle}>{ar ? "المنشور" : i18nUi("المنشور", "Post")}</Txt> : null}
       {message ? (
         <View accessibilityLiveRegion="polite">
           <Txt style={styles.success}>{message}</Txt>
@@ -500,10 +503,10 @@ export function CommunityScreen({
                   value === 'all'
                     ? ar
                       ? 'كل المشاركات'
-                      : 'All posts'
+                      : i18nUi('كل المشاركات', 'All posts')
                     : ar
                       ? 'أتابع'
-                      : 'Following'
+                      : i18nUi('أتابع', 'Following')
                 }
                 accessibilityState={{ selected: feed === value }}
                 onPress={() => {
@@ -533,21 +536,21 @@ export function CommunityScreen({
                   {value === 'all'
                     ? ar
                       ? 'كل المشاركات'
-                      : 'All posts'
+                      : i18nUi('كل المشاركات', 'All posts')
                     : ar
                       ? 'أتابع'
-                      : 'Following'}
+                      : i18nUi('أتابع', 'Following')}
                 </Txt>
               </Pressable>
             ))}
           </View> : null}
           {compose && userId ? (
-            <PostComposer key={editingPost?.id ?? 'new'} owner={userId} post={editingPost} brews={recentBrews.map(b => ({ id: b.id, label: brewTitle(b) + ' · ' + methodLabel(b.brew_method, locale) }))} close={() => { setCompose(false); setEditingPost(null); }} saved={() => { setCompose(false); setEditingPost(null); setRevision(r => r + 1); setMessage(ar ? 'تم حفظ المنشور.' : 'Post saved.'); }} />
+            <PostComposer key={editingPost?.id ?? 'new'} owner={userId} post={editingPost} brews={recentBrews.map(b => ({ id: b.id, label: brewTitle(b) + ' · ' + methodLabel(b.brew_method, locale) }))} close={() => { setCompose(false); setEditingPost(null); }} saved={() => { setCompose(false); setEditingPost(null); setRevision(r => r + 1); setMessage(ar ? 'تم حفظ المنشور.' : i18nUi('تم حفظ المنشور.', 'Post saved.')); }} />
           ) : (!embedded || authorId === userId) && !postId ? (
             <Pressable
               accessibilityRole="button"
               accessibilityLabel={
-                ar ? 'افتح محرر التجربة' : 'Open experience composer'
+                ar ? 'افتح محرر التجربة' : i18nUi('افتح محرر التجربة', 'Open experience composer')
               }
               onPress={() => write()}
               style={[
@@ -561,10 +564,10 @@ export function CommunityScreen({
               />
               <View style={{ flex: 1 }}>
                 <Txt style={s.cardTitle}>
-                  {ar ? 'كيف كان كوبك اليوم؟' : 'What’s brewing?'}
+                  {ar ? 'كيف كان كوبك اليوم؟' : i18nUi('كيف كان كوبك اليوم؟', 'What’s brewing?')}
                 </Txt>
                 <Txt style={styles.muted}>
-                  {ar ? 'شارك تجربتك' : 'Share a brew or a thought.'}
+                  {ar ? 'شارك تجربتك' : i18nUi('شارك تجربتك', 'Share a brew or a thought.')}
                 </Txt>
               </View>
               <Icon name="arrow" size={18} color={colors.teal} />
@@ -576,7 +579,7 @@ export function CommunityScreen({
             <View style={s.post}>
               <Txt style={styles.error}>{error}</Txt>
               <Action
-                title={ar ? 'إعادة تحميل المشاركات' : 'Reload posts'}
+                title={ar ? 'إعادة تحميل المشاركات' : i18nUi('إعادة تحميل المشاركات', 'Reload posts')}
                 onPress={() => setRevision((r) => r + 1)}
               />
             </View>
@@ -613,7 +616,7 @@ export function CommunityScreen({
                           ? '@' + member.username
                           : ar
                             ? 'حساب العضو'
-                            : 'Member account'
+                            : i18nUi('حساب العضو', 'Member account')
                       }
                       disabled={!member?.username}
                       onPress={() =>
@@ -631,7 +634,7 @@ export function CommunityScreen({
                         accessibilityLabel={
                           member?.name ??
                           member?.username ??
-                          (ar ? 'عضو المجتمع' : 'Community member')
+                          (ar ? 'عضو المجتمع' : i18nUi('عضو المجتمع', 'Community member'))
                         }
                         disabled={!member?.username}
                         onPress={() =>
@@ -641,7 +644,7 @@ export function CommunityScreen({
                         <Txt style={s.cardTitle}>
                           {member?.name ??
                             member?.username ??
-                            (ar ? 'عضو المجتمع' : 'Community member')}
+                            (ar ? 'عضو المجتمع' : i18nUi('عضو المجتمع', 'Community member'))}
                         </Txt>
                         {member?.username ? (
                           <Txt
@@ -664,12 +667,10 @@ export function CommunityScreen({
                           p.roast_profile_id
                             ? ar
                               ? 'تحميص'
-                              : 'Roasting'
+                              : i18nUi('تحميص', 'Roasting')
                             : (p.brew_log_id || p.recipe_id) && (p.brew_method || r?.method)
                               ? methodLabel(p.brew_method ?? r?.method, locale)
-                              : ar
-                                ? p.content_type === 'image' ? 'صورة' : p.content_type === 'video' ? 'فيديو' : 'موضوع'
-                                : p.content_type === 'image' ? 'Photo' : p.content_type === 'video' ? 'Video' : 'Topic',
+                              : i18nUi(p.content_type === 'image' ? 'صورة' : p.content_type === 'video' ? 'فيديو' : 'موضوع', p.content_type === 'image' ? 'Photo' : p.content_type === 'video' ? 'Video' : 'Topic'),
                           '\u2066' +
                             new Date(p.created_at)
                               .toLocaleDateString(locale + '-u-nu-latn')
@@ -680,28 +681,22 @@ export function CommunityScreen({
                           .join(' · ')}
                       </Txt>
                     </View>
-                    {p.user_id === userId ? <View style={{ flexDirection: "row", flexWrap: "wrap" }}><IconButton name="edit" label={ar ? "تعديل المنشور" : "Edit post"} onPress={() => { setEditingPost(p); setCompose(true); }} /><IconButton name="trash" label={ar ? "حذف المنشور" : "Delete post"} onPress={() => { setDeletePost(p); setError(""); }} /></View> : null}
+                    {p.user_id === userId ? <View style={{ flexDirection: "row", flexWrap: "wrap" }}><IconButton name="edit" label={ar ? "تعديل المنشور" : i18nUi("تعديل المنشور", "Edit post")} onPress={() => { setEditingPost(p); setCompose(true); }} /><IconButton name="trash" label={ar ? "حذف المنشور" : i18nUi("حذف المنشور", "Delete post")} onPress={() => { setDeletePost(p); setError(""); }} /></View> : null}
                     {p.content_language && p.content_language !== locale ? (
                       <Txt style={{ fontSize: 11, color: colors.muted }}>
-                        {p.content_language === 'en'
-                          ? ar
-                            ? 'بالإنجليزية'
-                            : 'English'
-                          : ar
-                            ? 'بالعربية'
-                            : 'Arabic'}
+                        {(ar ? 'ب' : '')+languageName(locale,p.content_language)}
                       </Txt>
                     ) : null}
                   </View>
                   {p.body ? (
                     <Txt style={{ fontSize: 16, lineHeight: 27 }}>{p.body}</Txt>
                   ) : null}
-                  {(p.media ?? []).map((media, index) => <SocialMediaView key={media.url + index} source={media.url} type={media.media_type} label={p.body || (ar ? "وسائط المنشور" : "Post media")} />)}
+                  {(p.media ?? []).map((media, index) => <SocialMediaView key={media.url + index} source={media.url} type={media.media_type} label={p.body || (ar ? "وسائط المنشور" : i18nUi("وسائط المنشور", "Post media"))} />)}
                   {p.roast_profile_id && p.roast ? (
                     <Pressable
                       accessibilityRole="button"
                       accessibilityLabel={
-                        (ar ? 'فتح الحمصة: ' : 'Open roast: ') +
+                        (ar ? 'فتح الحمصة: ' : i18nUi('فتح الحمصة: ', 'Open roast: ')) +
                         (p.roast.title ?? '')
                       }
                       onPress={() => roast(p.roast_profile_id!)}
@@ -717,10 +712,10 @@ export function CommunityScreen({
                         <Metric
                           value={
                             p.roast.green_weight_g !== null
-                              ? p.roast.green_weight_g + (ar ? ' غ' : ' g')
+                              ? p.roast.green_weight_g + (ar ? ' غ' : i18nUi(' غ', ' g'))
                               : '—'
                           }
-                          label={ar ? 'الدفعة' : 'Batch'}
+                          label={ar ? 'الدفعة' : i18nUi('الدفعة', 'Batch')}
                         />
                         <Metric
                           value={
@@ -728,11 +723,11 @@ export function CommunityScreen({
                               ? m.loss + '%'
                               : '—'
                           }
-                          label={ar ? 'فقدان الوزن' : 'Weight loss'}
+                          label={ar ? 'فقدان الوزن' : i18nUi('فقدان الوزن', 'Weight loss')}
                         />
                         <Metric
                           value={m?.total ? clockTime(m.total) : '—'}
-                          label={ar ? 'الوقت' : 'Time'}
+                          label={ar ? 'الوقت' : i18nUi('الوقت', 'Time')}
                         />
                         <Metric
                           value={
@@ -740,13 +735,13 @@ export function CommunityScreen({
                               ? m.dtr + '%'
                               : '—'
                           }
-                          label={ar ? 'التطوير' : 'Development'}
+                          label={ar ? 'التطوير' : i18nUi('التطوير', 'Development')}
                         />
                       </View>
                       <Txt style={{ color: colors.teal, fontSize: 12 }}>
                         {ar
                           ? 'المنحنى والمراحل والمقارنة ←'
-                          : 'Curve, stages and comparison →'}
+                          : i18nUi('المنحنى والمراحل والمقارنة ←', 'Curve, stages and comparison →')}
                       </Txt>
                     </Pressable>
                   ) : p.brew_log_id ? (
@@ -780,7 +775,7 @@ export function CommunityScreen({
                             {c?.name ??
                               r?.discovery?.coffeeName ??
                               r?.title ??
-                              (ar ? 'تحضير محفوظ' : 'Saved brew')}
+                              (ar ? 'تحضير محفوظ' : i18nUi('تحضير محفوظ', 'Saved brew'))}
                           </Txt>
                           <Txt style={styles.muted}>
                             {c?.roaster ?? r?.author}
@@ -793,25 +788,25 @@ export function CommunityScreen({
                             fontWeight: '700',
                           }}
                         >
-                          {outcomeLabel(p.outcome, ar)}
+                          {i18nUi(outcomeLabel(p.outcome, true), outcomeLabel(p.outcome, false))}
                         </Txt>
                       </View>
                       <View style={s.metrics}>
                         <Metric
                           value={
                             p.dose_grams
-                              ? p.dose_grams + (ar ? ' غ' : ' g')
+                              ? p.dose_grams + (ar ? ' غ' : i18nUi(' غ', ' g'))
                               : '—'
                           }
-                          label={ar ? 'البن' : 'Dose'}
+                          label={ar ? 'البن' : i18nUi('البن', 'Dose')}
                         />
                         <Metric
                           value={
                             p.water_grams
-                              ? p.water_grams + (ar ? ' غ' : ' g')
+                              ? p.water_grams + (ar ? ' غ' : i18nUi(' غ', ' g'))
                               : '—'
                           }
-                          label={ar ? 'الماء' : 'Water'}
+                          label={ar ? 'الماء' : i18nUi('الماء', 'Water')}
                         />
                         <Metric
                           value={
@@ -819,19 +814,19 @@ export function CommunityScreen({
                               ? clockTime(p.actual_time_seconds)
                               : '—'
                           }
-                          label={ar ? 'الوقت' : 'Time'}
+                          label={ar ? 'الوقت' : i18nUi('الوقت', 'Time')}
                         />
                         <Metric
                           value={methodLabel(
                             p.brew_method ?? r?.method,
                             locale,
                           )}
-                          label={ar ? 'الطريقة' : 'Method'}
+                          label={ar ? 'الطريقة' : i18nUi('الطريقة', 'Method')}
                         />
                       </View>
                       {r ? (
                         <Action
-                          title={ar ? 'جرّب الوصفة نفسها' : 'Try this recipe'}
+                          title={ar ? 'جرّب الوصفة نفسها' : i18nUi('جرّب الوصفة نفسها', 'Try this recipe')}
                           onPress={() => openRecipe(r)}
                         />
                       ) : null}
@@ -840,7 +835,7 @@ export function CommunityScreen({
                     <Pressable
                       accessibilityRole="button"
                       accessibilityLabel={
-                        (ar ? 'فتح الوصفة: ' : 'Open recipe: ') + r.title
+                        (ar ? 'فتح الوصفة: ' : i18nUi('فتح الوصفة: ', 'Open recipe: ')) + r.title
                       }
                       onPress={() => openRecipe(r)}
                       style={s.brewCard}
@@ -849,7 +844,7 @@ export function CommunityScreen({
                       <Txt style={styles.muted}>
                         {ar
                           ? 'وصفة مرتبطة بالمشاركة'
-                          : 'Recipe linked to this post'}
+                          : i18nUi('وصفة مرتبطة بالمشاركة', 'Recipe linked to this post')}
                       </Txt>
                     </Pressable>
                   ) : null}
@@ -865,7 +860,7 @@ export function CommunityScreen({
                     <View style={styles.row}>
                       <Pressable
                         accessibilityRole="button"
-                        accessibilityLabel={ar ? 'إعجاب' : 'Like'}
+                        accessibilityLabel={ar ? 'إعجاب' : i18nUi('إعجاب', 'Like')}
                         accessibilityState={{
                           selected: liked(p.id),
                           disabled: likesBusy.includes(p.id),
@@ -890,12 +885,12 @@ export function CommunityScreen({
                             color: liked(p.id) ? colors.teal : colors.muted,
                           }}
                         >
-                          {ar ? 'إعجاب' : 'Like'} · {likeCount(p.id)}
+                          {ar ? 'إعجاب' : i18nUi('إعجاب', 'Like')} · {likeCount(p.id)}
                         </Txt>
                       </Pressable>
                       <Pressable
                         accessibilityRole="button"
-                        accessibilityLabel={ar ? 'التعليقات' : 'Comments'}
+                        accessibilityLabel={ar ? 'التعليقات' : i18nUi('التعليقات', 'Comments')}
                         accessibilityState={{ expanded: commentsOpen === p.id }}
                         onPress={() => {
                           setCommentsOpen((v) => (v === p.id ? null : p.id));
@@ -904,14 +899,14 @@ export function CommunityScreen({
                       >
                         <Icon name="comment" size={20} color={colors.muted} />
                         <Txt style={{ fontSize: 13, color: colors.muted }}>
-                          {ar ? 'تعليق' : 'Comment'} ·{' '}
+                          {ar ? 'تعليق' : i18nUi('تعليق', 'Comment')} ·{' '}
                           {commentRows(p.id).length}
                         </Txt>
                       </Pressable>
                     </View>
                     <IconButton
                       name="share"
-                      label={ar ? 'مشاركة المنشور' : 'Share post'}
+                      label={ar ? 'مشاركة المنشور' : i18nUi('مشاركة المنشور', 'Share post')}
                       size={20}
                       onPress={() => setSharePost(p)}
                     />
@@ -936,7 +931,7 @@ export function CommunityScreen({
                             >
                               {profiles[c.user_id]?.name ??
                                 profiles[c.user_id]?.username ??
-                                (ar ? 'عضو المجتمع' : 'Member')}
+                                (ar ? 'عضو المجتمع' : i18nUi('عضو المجتمع', 'Member'))}
                             </Txt>
                             <Txt>{c.body}</Txt>
                           </View>
@@ -945,7 +940,7 @@ export function CommunityScreen({
                         <View style={{ gap: 8 }}>
                           <TextInput
                             accessibilityLabel={
-                              ar ? 'اكتب تعليقًا' : 'Write a comment'
+                              ar ? 'اكتب تعليقًا' : i18nUi('اكتب تعليقًا', 'Write a comment')
                             }
                             multiline
                             maxLength={2000}
@@ -955,7 +950,7 @@ export function CommunityScreen({
                             }
                             editable={commentBusy !== p.id}
                             placeholder={
-                              ar ? 'اكتب تعليقك…' : 'Write your comment…'
+                              ar ? 'اكتب تعليقك…' : i18nUi('اكتب تعليقك…', 'Write your comment…')
                             }
                             placeholderTextColor={colors.muted}
                             style={[
@@ -978,10 +973,10 @@ export function CommunityScreen({
                                 commentBusy === p.id
                                   ? ar
                                     ? 'جارٍ الإرسال…'
-                                    : 'Sending…'
+                                    : i18nUi('جارٍ الإرسال…', 'Sending…')
                                   : ar
                                     ? 'إرسال التعليق'
-                                    : 'Send comment'
+                                    : i18nUi('إرسال التعليق', 'Send comment')
                               }
                               disabled={
                                 !!commentBusy ||
@@ -995,7 +990,7 @@ export function CommunityScreen({
                         <Action
                           compact
                           title={
-                            ar ? 'سجّل الدخول للتعليق' : 'Sign in to comment'
+                            ar ? 'سجّل الدخول للتعليق' : i18nUi('سجّل الدخول للتعليق', 'Sign in to comment')
                           }
                           onPress={login}
                         />
@@ -1006,26 +1001,26 @@ export function CommunityScreen({
               );
             })}
           </View>
-          {!postId && posts.length >= pageLimit && !loading ? <Action compact title={ar ? "منشورات أقدم" : "Older posts"} onPress={() => setPageLimit(n => n + 60)} /> : null}
+          {!postId && posts.length >= pageLimit && !loading ? <Action compact title={ar ? "منشورات أقدم" : i18nUi("منشورات أقدم", "Older posts")} onPress={() => setPageLimit(n => n + 60)} /> : null}
           {!visible.length && !loading && !error ? (
             <View testID="community-empty" style={s.empty}>
               <Txt heading style={[styles.subtitle, { textAlign: 'center' }]}>
                 {feed === 'following'
                   ? ar
                     ? 'لا توجد منشورات بعد'
-                    : 'No posts yet'
+                    : i18nUi('لا توجد منشورات بعد', 'No posts yet')
                   : ar
                     ? 'ابدأ الحديث بكوبك'
-                    : 'Start a conversation with your cup'}
+                    : i18nUi('ابدأ الحديث بكوبك', 'Start a conversation with your cup')}
               </Txt>
               <Txt style={[styles.muted, { textAlign: 'center' }]}>
                 {feed === 'following'
                   ? ar
                     ? 'منشورات الحسابات اللي تتابعها تظهر هنا.'
-                    : 'Public posts from accounts you follow appear here.'
+                    : i18nUi('منشورات الحسابات اللي تتابعها تظهر هنا.', 'Public posts from accounts you follow appear here.')
                   : ar
                     ? 'شارك تجربة قهوتك.'
-                    : 'Share your coffee experience.'}
+                    : i18nUi('شارك تجربة قهوتك.', 'Share your coffee experience.')}
               </Txt>
               <View style={styles.row}>
                 <Action
@@ -1033,10 +1028,10 @@ export function CommunityScreen({
                     feed === 'following'
                       ? ar
                         ? 'اكتشف الحسابات'
-                        : 'Discover accounts'
+                        : i18nUi('اكتشف الحسابات', 'Discover accounts')
                       : ar
                         ? 'شارك أول تجربة'
-                        : 'Share the first experience'
+                        : i18nUi('شارك أول تجربة', 'Share the first experience')
                   }
                   selected
                   onPress={() => (feed === 'following' ? members() : write())}
@@ -1049,7 +1044,7 @@ export function CommunityScreen({
           <View style={[s.sidebar, { width: 238 }]}>
             <View
               testID="community-ad-space"
-              accessibilityLabel={ar ? 'مساحة إعلانية' : 'Advertising space'}
+              accessibilityLabel={ar ? 'مساحة إعلانية' : i18nUi('مساحة إعلانية', 'Advertising space')}
               style={[
                 s.sideCard,
                 {
@@ -1062,7 +1057,7 @@ export function CommunityScreen({
               ]}
             >
               <Txt style={{ color: colors.muted, fontSize: 11 }}>
-                {ar ? 'إعلان' : 'Advertisement'}
+                {ar ? 'إعلان' : i18nUi('إعلان', 'Advertisement')}
               </Txt>
               <View
                 style={{
@@ -1084,29 +1079,29 @@ export function CommunityScreen({
                   <Icon name="espresso" size={22} color={colors.teal} />
                 </View>
                 <Txt heading style={{ flex: 1, fontSize: 16 }}>
-                  {ar ? 'مساحة إعلانية' : 'Your brand here'}
+                  {ar ? 'مساحة إعلانية' : i18nUi('مساحة إعلانية', 'Your brand here')}
                 </Txt>
               </View>
               <Txt style={{ color: colors.muted, fontSize: 12 }}>
                 {ar
                   ? 'للمحامص وعلامات القهوة'
-                  : 'For coffee brands and roasters'}
+                  : i18nUi('للمحامص وعلامات القهوة', 'For coffee brands and roasters')}
               </Txt>
             </View>
             <Action
               compact
-              title={ar ? 'اكتشف الحسابات' : 'Discover accounts'}
+              title={ar ? 'اكتشف الحسابات' : i18nUi('اكتشف الحسابات', 'Discover accounts')}
               onPress={members}
             />
           </View>
         ) : null}
       </View>
       {sharePost ? <View testID="post-share-options" style={[styles.card, { padding: 16, gap: 10 }]}>
-        {shareDirect ? <Action title={ar ? 'مشاركة برسالة خاصة' : 'Share in a private message'} onPress={() => { shareDirect(sharePost.id); setSharePost(null); }} /> : null}
-        <Action title={ar ? 'مشاركة خارج التطبيق' : 'Share outside the app'} onPress={() => { void Share.share({ message: [sharePost.body, `beanmora://post/${sharePost.id}`].filter(Boolean).join('\n') }).then(() => setSharePost(null)).catch(() => setError(ar ? 'تعذّرت المشاركة.' : 'Could not share.')); }} />
-        <Action compact title={ar ? 'إغلاق المشاركة' : 'Close sharing'} onPress={() => setSharePost(null)} />
+        {shareDirect ? <Action title={ar ? 'مشاركة برسالة خاصة' : i18nUi('مشاركة برسالة خاصة', 'Share in a private message')} onPress={() => { shareDirect(sharePost.id); setSharePost(null); }} /> : null}
+        <Action title={ar ? 'مشاركة خارج التطبيق' : i18nUi('مشاركة خارج التطبيق', 'Share outside the app')} onPress={() => { void Share.share({ message: [sharePost.body, `beanmora://post/${sharePost.id}`].filter(Boolean).join('\n') }).then(() => setSharePost(null)).catch(() => setError(ar ? 'تعذّرت المشاركة.' : i18nUi('تعذّرت المشاركة.', 'Could not share.'))); }} />
+        <Action compact title={ar ? 'إغلاق المشاركة' : i18nUi('إغلاق المشاركة', 'Close sharing')} onPress={() => setSharePost(null)} />
       </View> : null}
-      <ConfirmDialog visible={Boolean(deletePost)} title={ar ? 'حذف المنشور' : 'Delete post'} message={ar ? 'حذف المنشور نهائيًا؟ سجل التحضير يبقى محفوظًا.' : 'Delete this post? Your brew record stays saved.'} confirmLabel={ar ? 'تأكيد حذف المنشور' : 'Confirm delete post'} cancelLabel={ar ? 'إلغاء حذف المنشور' : 'Cancel post deletion'} busy={deleting} error={error} onCancel={() => setDeletePost(null)} onConfirm={() => { if (!supabase || !userId || !deletePost || deleting) return; setDeleting(true); void deleteCommunityPost(supabase, userId, deletePost.id).then(async () => { if (deletePost.primary_media_path) await supabase?.storage.from('post-media').remove([deletePost.primary_media_path]); setDeletePost(null); setRevision(n => n + 1); }).catch(() => setError(ar ? 'تعذّر تأكيد حذف المنشور.' : 'Could not confirm post deletion.')).finally(() => setDeleting(false)); }} />
+      <ConfirmDialog visible={Boolean(deletePost)} title={ar ? 'حذف المنشور' : i18nUi('حذف المنشور', 'Delete post')} message={ar ? 'حذف المنشور نهائيًا؟ سجل التحضير يبقى محفوظًا.' : i18nUi('حذف المنشور نهائيًا؟ سجل التحضير يبقى محفوظًا.', 'Delete this post? Your brew record stays saved.')} confirmLabel={ar ? 'تأكيد حذف المنشور' : i18nUi('تأكيد حذف المنشور', 'Confirm delete post')} cancelLabel={ar ? 'إلغاء حذف المنشور' : i18nUi('إلغاء حذف المنشور', 'Cancel post deletion')} busy={deleting} error={error} onCancel={() => setDeletePost(null)} onConfirm={() => { if (!supabase || !userId || !deletePost || deleting) return; setDeleting(true); void deleteCommunityPost(supabase, userId, deletePost.id).then(async () => { if (deletePost.primary_media_path) await supabase?.storage.from('post-media').remove([deletePost.primary_media_path]); setDeletePost(null); setRevision(n => n + 1); }).catch(() => setError(ar ? 'تعذّر تأكيد حذف المنشور.' : i18nUi('تعذّر تأكيد حذف المنشور.', 'Could not confirm post deletion.'))).finally(() => setDeleting(false)); }} />
     </Container>
   );
 }

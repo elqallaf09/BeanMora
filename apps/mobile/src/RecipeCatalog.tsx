@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { contentLocale } from './localeText';
 import { catalogName } from './localizedContent';
 import { useContext, useEffect, useRef, useState, type ReactNode } from 'react';
@@ -89,6 +90,7 @@ export function RecipeCatalog({
   initialState?: RecipeCatalogState;
   remember?: (state: RecipeCatalogState) => void;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const isXBloomHub = locked && initialMethod === 'xbloom';
@@ -260,11 +262,11 @@ export function RecipeCatalog({
                 <Txt style={styles.muted}>
                   {ar
                     ? 'الوصفات مرتبطة بهذا البن. تغيير الفلاتر يبقي نفس البن محددًا.'
-                    : 'Recipes are linked to this coffee. Changing filters keeps this coffee selected.'}
+                    : i18nUi('الوصفات مرتبطة بهذا البن. تغيير الفلاتر يبقي نفس البن محددًا.', 'Recipes are linked to this coffee. Changing filters keeps this coffee selected.')}
                 </Txt>
                 {backToCoffee ? (
                   <Action
-                    title={ar ? 'رجوع إلى البن' : 'Back to coffee'}
+                    title={ar ? 'رجوع إلى البن' : i18nUi('رجوع إلى البن', 'Back to coffee')}
                     onPress={backToCoffee}
                   />
                 ) : null}
@@ -282,14 +284,14 @@ export function RecipeCatalog({
                 {universal
                   ? ar
                     ? 'ابحث عن كوبك القادم'
-                    : 'Find your next cup'
+                    : i18nUi('ابحث عن كوبك القادم', 'Find your next cup')
                   : initialMethod === 'xbloom'
                     ? ar
                       ? 'وصفات xBloom'
-                      : 'xBloom recipes'
+                      : i18nUi('وصفات xBloom', 'xBloom recipes')
                     : ar
                       ? 'مكتبة الوصفات'
-                      : 'Recipe library'}
+                      : i18nUi('مكتبة الوصفات', 'Recipe library')}
               </Txt>
               {total !== null ? (
                 <View style={[catalogStyles.count, width < 600 && { flexDirection: ar ? 'row-reverse' : 'row', gap: 4, paddingHorizontal: 9, paddingVertical: 4 }]}>
@@ -305,7 +307,7 @@ export function RecipeCatalog({
                     {total.toLocaleString('en-US')}
                   </Txt>
                   <Txt style={{ fontSize: 10, color: colors.muted }}>
-                    {ar ? 'وصفة' : 'recipes'}
+                    {ar ? 'وصفة' : i18nUi('وصفة', 'recipes')}
                   </Txt>
                 </View>
               ) : null}
@@ -313,15 +315,13 @@ export function RecipeCatalog({
             <Txt style={styles.muted}>
               {universal
                 ? ar
-                  ? 'البن، الإيحاءات، المحامص والوصفات — بحث واحد بالعربي والإنجليزي.'
-                  : 'Coffees, tasting notes, roasters and recipes. One search in Arabic and English.'
-                : ar
-                  ? isXBloomHub
+                  ? 'البن، الإيحاءات، المحامص والوصفات — ابحث بكل اللغات المتاحة.'
+                  : i18nUi('البن، الإيحاءات، المحامص والوصفات — ابحث بكل اللغات المتاحة.', 'Coffees, tasting notes, roasters and recipes. Search in all supported languages.')
+                : i18nUi(isXBloomHub
                     ? 'طحنة، حرارة وصبات — كل إعدادات كوبك في مكان واحد.'
-                    : 'ابحث في المكتبة كاملة، وافتح كل وصفة لتفاصيلها ومصدرها.'
-                  : isXBloomHub
+                    : 'ابحث في المكتبة كاملة، وافتح كل وصفة لتفاصيلها ومصدرها.', isXBloomHub
                     ? 'Grind, temperature and pours, all ready to explore.'
-                    : 'Search the full library and open a recipe for its details and sources.'}
+                    : 'Search the full library and open a recipe for its details and sources.')}
             </Txt>
             {!coffee ? <ScanCoffeeButton openRecipe={open} method={method} coffees={scanCoffees} /> : null}
             {!locked ? (
@@ -344,16 +344,16 @@ export function RecipeCatalog({
             >
               {(
                 [
-                  ['', ar ? 'الكل' : 'All'],
-                  ['hot', ar ? 'حار' : 'Hot'],
-                  ['cold_or_iced', ar ? 'بارد ومثلّج' : 'Cold & iced'],
+                  ['', ar ? 'الكل' : i18nUi('الكل', 'All')],
+                  ['hot', ar ? 'حار' : i18nUi('حار', 'Hot')],
+                  ['cold_or_iced', ar ? 'بارد ومثلّج' : i18nUi('بارد ومثلّج', 'Cold & iced')],
                 ] as const
               ).map(([id, label]) => (
                 <Pressable
                   key={id}
                   accessibilityRole="button"
                   accessibilityLabel={
-                    ar ? `تقديم: ${label}` : `Serving: ${label}`
+                    ar ? `تقديم: ${label}` : i18nUi(`تقديم: ${label}`, `Serving: ${label}`)
                   }
                   accessibilityState={{ selected: filters.servingStyle === id }}
                   onPress={() => {
@@ -384,7 +384,7 @@ export function RecipeCatalog({
               >
                 {ar
                   ? 'تشمل النتائج التصنيف المنشور والتقديم المقترح حسب طريقة التحضير. التصنيف المقترح موضّح على الوصفة.'
-                  : 'Results include published serving styles and suggestions based on preparation. Suggested styles are labelled on the recipe.'}
+                  : i18nUi('تشمل النتائج التصنيف المنشور والتقديم المقترح حسب طريقة التحضير. التصنيف المقترح موضّح على الوصفة.', 'Results include published serving styles and suggestions based on preparation. Suggested styles are labelled on the recipe.')}
               </Txt>
             ) : null}
             <View
@@ -400,10 +400,10 @@ export function RecipeCatalog({
                     universal
                       ? ar
                         ? 'البحث الشامل'
-                        : 'Search everything'
+                        : i18nUi('البحث الشامل', 'Search everything')
                       : ar
                         ? 'ابحث عن وصفة'
-                        : 'Find a recipe'
+                        : i18nUi('ابحث عن وصفة', 'Find a recipe')
                   }
                   value={search}
                   maxLength={160}
@@ -414,7 +414,7 @@ export function RecipeCatalog({
                   placeholder={
                     ar
                       ? 'وصفة، نكهة، صانع، بلد أو محمصة…'
-                      : 'Recipe, flavor, creator, country or roaster…'
+                      : i18nUi('وصفة، نكهة، صانع، بلد أو محمصة…', 'Recipe, flavor, creator, country or roaster…')
                   }
                 />
               </View>
@@ -423,7 +423,7 @@ export function RecipeCatalog({
                 accessibilityLabel={
                   ar
                     ? `تصفية الوصفات${filterCount ? `، ${filterCount} مفعلة` : ''}`
-                    : `Filter recipes${filterCount ? `, ${filterCount} active` : ''}`
+                    : i18nUi(`تصفية الوصفات${filterCount ? `، ${filterCount} مفعلة` : ''}`, `Filter recipes${filterCount ? `, ${filterCount} active` : ''}`)
                 }
                 onPress={() => {
                   setDraftFilters({ ...filters });
@@ -441,7 +441,7 @@ export function RecipeCatalog({
               >
                 <Icon name="gear" size={18} />
                 <Txt style={{ fontWeight: '700', fontSize: 14 }}>
-                  {ar ? 'تصفية' : 'Filters'}
+                  {ar ? 'تصفية' : i18nUi('تصفية', 'Filters')}
                 </Txt>
                 {filterCount > 0 ? (
                   <View
@@ -469,7 +469,7 @@ export function RecipeCatalog({
             {filterCount > 0 ? <View testID="recipe-active-filters" style={{ flexDirection: ar ? 'row-reverse' : 'row',flexWrap:'wrap',gap:6 }}>
               {Object.entries(restoreRecipeFilters(filters)).filter(([,value])=>value.trim()).map(([field,value])=>{
                 const title = recipeCriterionLabel({field:field as keyof RecipeDiscoveryFilters,value},ar);
-                return <Pressable key={field} accessibilityRole="button" accessibilityLabel={(ar?'إزالة ':'Remove ')+title}
+                return <Pressable key={field} accessibilityRole="button" accessibilityLabel={(ar?'إزالة ':i18nUi('إزالة ', 'Remove '))+title}
                   onPress={()=>{invalidate();setFilters(previous=>({...previous,[field]:''}));setDraftFilters(previous=>({...previous,[field]:''}));}}
                   style={{maxWidth:'100%',flexDirection:ar?'row-reverse':'row',alignItems:'center',gap:6,paddingHorizontal:10,minHeight:44,borderRadius:14,borderWidth:1,borderColor:colors.line,backgroundColor:colors.paper}}>
                   <Txt style={{fontSize:12,flexShrink:1}}>{title}</Txt><Txt style={{fontSize:18,color:colors.teal}}>×</Txt>
@@ -489,7 +489,7 @@ export function RecipeCatalog({
                   <Pressable
                     accessibilityRole="button"
                     accessibilityLabel={
-                      ar ? 'مسح البحث والتصفية' : 'Clear search and filters'
+                      ar ? 'مسح البحث والتصفية' : i18nUi('مسح البحث والتصفية', 'Clear search and filters')
                     }
                     onPress={resetSearch}
                     style={{
@@ -505,7 +505,7 @@ export function RecipeCatalog({
                         textDecorationLine: 'underline',
                       }}
                     >
-                      {ar ? 'مسح الكل' : 'Clear all'}
+                      {ar ? 'مسح الكل' : i18nUi('مسح الكل', 'Clear all')}
                     </Txt>
                   </Pressable>
                 ) : null}
@@ -513,7 +513,7 @@ export function RecipeCatalog({
                   <Txt style={[styles.muted, { flex: 1, minWidth: 100 }]}>
                     {ar
                       ? 'نبحث عن كل الشروط معًا؛ إذا لم نجد مطابقة كاملة نعرض الأقرب مع سبب المطابقة.'
-                      : 'All criteria apply together. If none match fully, we show explained near matches.'}
+                      : i18nUi('نبحث عن كل الشروط معًا؛ إذا لم نجد مطابقة كاملة نعرض الأقرب مع سبب المطابقة.', 'All criteria apply together. If none match fully, we show explained near matches.')}
                   </Txt>
                 ) : null}
               </View>
@@ -521,17 +521,17 @@ export function RecipeCatalog({
             {error && rows.length === 0 ? (
               <View style={styles.card}>
                 <Txt style={styles.error}>
-                  {ar ? 'تعذّر تحميل الوصفات.' : 'Could not load recipes.'}
+                  {ar ? 'تعذّر تحميل الوصفات.' : i18nUi('تعذّر تحميل الوصفات.', 'Could not load recipes.')}
                 </Txt>
                 <Action
-                  title={ar ? 'حاول مرة ثانية' : 'Try again'}
+                  title={ar ? 'حاول مرة ثانية' : i18nUi('حاول مرة ثانية', 'Try again')}
                   onPress={() => setRevision((v) => v + 1)}
                 />
               </View>
             ) : null}
             {nearMatches && rows.length > 0 ? <View testID="recipe-near-matches" style={[styles.card,{backgroundColor:'#EDF5F1',gap:6}]}>
-              <Txt heading style={styles.subtitle}>{ar?'لا توجد مطابقة كاملة؛ هذه أقرب الوصفات.':'No full match; these are the closest recipes.'}</Txt>
-              <Txt style={styles.muted}>{ar?'مرتبة حسب عدد الشروط المطابقة. طريقة التحضير والتقديم تبقى كما اخترتها.':'Ranked by matching criteria. Your method and serving choices remain applied.'}</Txt>
+              <Txt heading style={styles.subtitle}>{ar?'لا توجد مطابقة كاملة؛ هذه أقرب الوصفات.':i18nUi('لا توجد مطابقة كاملة؛ هذه أقرب الوصفات.', 'No full match; these are the closest recipes.')}</Txt>
+              <Txt style={styles.muted}>{ar?'مرتبة حسب عدد الشروط المطابقة. طريقة التحضير والتقديم تبقى كما اخترتها.':i18nUi('مرتبة حسب عدد الشروط المطابقة. طريقة التحضير والتقديم تبقى كما اخترتها.', 'Ranked by matching criteria. Your method and serving choices remain applied.')}</Txt>
             </View> : null}
           </View>
         }
@@ -541,16 +541,16 @@ export function RecipeCatalog({
           ) : !error ? (
             <View style={[styles.card, { padding: 22, gap: 12 }]}>
               <Txt heading style={{ fontWeight: '700' }}>
-                {ar ? 'لا توجد نتائج مطابقة.' : 'No matching recipes.'}
+                {ar ? 'لا توجد نتائج مطابقة.' : i18nUi('لا توجد نتائج مطابقة.', 'No matching recipes.')}
               </Txt>
               <Txt style={styles.muted}>
                 {ar
                   ? 'جرّب كلمة أخرى أو قلّل شروط البحث. المعلومات غير المذكورة في المصدر لا تدخل ضمن النتائج المصفّاة.'
-                  : 'Try another term or fewer filters. Recipes without the requested source information do not match that filter.'}
+                  : i18nUi('جرّب كلمة أخرى أو قلّل شروط البحث. المعلومات غير المذكورة في المصدر لا تدخل ضمن النتائج المصفّاة.', 'Try another term or fewer filters. Recipes without the requested source information do not match that filter.')}
               </Txt>
               {hasSearch ? (
                 <Action
-                  title={ar ? 'مسح البحث والتصفية' : 'Clear search and filters'}
+                  title={ar ? 'مسح البحث والتصفية' : i18nUi('مسح البحث والتصفية', 'Clear search and filters')}
                   onPress={resetSearch}
                 />
               ) : null}
@@ -562,10 +562,10 @@ export function RecipeCatalog({
             {error && rows.length > 0 ? (
               <View style={styles.card}>
                 <Txt style={styles.error}>
-                  {ar ? 'تعذّر تحميل الوصفات.' : 'Could not load recipes.'}
+                  {ar ? 'تعذّر تحميل الوصفات.' : i18nUi('تعذّر تحميل الوصفات.', 'Could not load recipes.')}
                 </Txt>
                 <Action
-                  title={ar ? 'حاول مرة ثانية' : 'Try again'}
+                  title={ar ? 'حاول مرة ثانية' : i18nUi('حاول مرة ثانية', 'Try again')}
                   onPress={() => setRevision((v) => v + 1)}
                 />
               </View>
@@ -573,13 +573,11 @@ export function RecipeCatalog({
             {more ? (
               <Action
                 title={
-                  ar
-                    ? busy
+                  i18nUi(busy
                       ? 'جارٍ التحميل…'
-                      : 'المزيد من الوصفات'
-                    : busy
+                      : 'المزيد من الوصفات', busy
                       ? 'Loading…'
-                      : 'More recipes'
+                      : 'More recipes')
                 }
                 onPress={() => setPage((p) => p + 1)}
                 disabled={busy || error}
@@ -627,18 +625,18 @@ export function RecipeCatalog({
                     {item.discovery.servingStyle === 'hot'
                       ? ar
                         ? 'ساخن'
-                        : 'Hot'
+                        : i18nUi('ساخن', 'Hot')
                       : item.discovery.servingStyle === 'iced'
                         ? ar
                           ? 'مثلّج'
-                          : 'Iced'
+                          : i18nUi('مثلّج', 'Iced')
                         : ar
                           ? 'بارد'
-                          : 'Cold'}
+                          : i18nUi('بارد', 'Cold')}
                     {item.discovery.servingStyleInferred
                       ? ar
                         ? ' · مقترح'
-                        : ' · Suggested'
+                        : i18nUi(' · مقترح', ' · Suggested')
                       : ''}
                   </Txt>
                 </View>
@@ -675,10 +673,10 @@ export function RecipeCatalog({
                   ].includes(item.recipeType)
                     ? ar
                       ? 'رسمي'
-                      : 'Official'
+                      : i18nUi('رسمي', 'Official')
                     : ar
                       ? 'مجتمعي'
-                      : 'Community'}
+                      : i18nUi('مجتمعي', 'Community')}
                 </Txt>
               </View>
               <Txt
@@ -739,8 +737,8 @@ export function RecipeCatalog({
               </Txt>
               <FlavorNotes notes={item.discovery.flavorNotes} compact max={2} />
               {item.nearMatch ? <View testID="recipe-near-match-reasons" style={{gap:4}}>
-                <Txt style={{fontSize:11,lineHeight:18,color:colors.teal}}>{ar?'يطابق: ':'Matches: '}{item.nearMatch.matched.map(c=>recipeCriterionLabel(c,ar)).join(ar?'، ':'; ')}</Txt>
-                <Txt style={{fontSize:11,lineHeight:18,color:colors.muted}}>{ar?'لم يطابق أو غير موثق: ':'Unmatched or undocumented: '}{item.nearMatch.missing.map(c=>recipeCriterionLabel(c,ar)).join(ar?'، ':'; ')}</Txt>
+                <Txt style={{fontSize:11,lineHeight:18,color:colors.teal}}>{ar?'يطابق: ':i18nUi('يطابق: ', 'Matches: ')}{item.nearMatch.matched.map(c=>recipeCriterionLabel(c,ar)).join(ar?'، ':'; ')}</Txt>
+                <Txt style={{fontSize:11,lineHeight:18,color:colors.muted}}>{ar?'لم يطابق أو غير موثق: ':i18nUi('لم يطابق أو غير موثق: ', 'Unmatched or undocumented: ')}{item.nearMatch.missing.map(c=>recipeCriterionLabel(c,ar)).join(ar?'، ':'; ')}</Txt>
               </View> : null}
               <View
                 style={[
@@ -756,7 +754,7 @@ export function RecipeCatalog({
                     color: colors.teal,
                   }}
                 >
-                  {ar ? 'تفاصيل التحضير' : 'View brew settings'}
+                  {ar ? 'تفاصيل التحضير' : i18nUi('تفاصيل التحضير', 'View brew settings')}
                 </Txt>
                 <Icon name="arrow" size={15} color={colors.teal} />
               </View>
@@ -783,7 +781,7 @@ export function RecipeCatalog({
         >
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel={ar ? 'إغلاق التصفية' : 'Close filters'}
+            accessibilityLabel={ar ? 'إغلاق التصفية' : i18nUi('إغلاق التصفية', 'Close filters')}
             onPress={() => setFiltersOpen(false)}
             style={{
               position: 'absolute',
@@ -827,17 +825,17 @@ export function RecipeCatalog({
                 }}
               >
                 <Txt heading style={styles.subtitle}>
-                  {ar ? 'ابحث على ذوقك' : 'Find your kind of coffee'}
+                  {ar ? 'ابحث على ذوقك' : i18nUi('ابحث على ذوقك', 'Find your kind of coffee')}
                 </Txt>
                 <Action
-                  title={ar ? 'إغلاق' : 'Close'}
+                  title={ar ? 'إغلاق' : i18nUi('إغلاق', 'Close')}
                   onPress={() => setFiltersOpen(false)}
                 />
               </View>
               <Txt style={styles.muted}>
                 {ar
                   ? 'اختر ما يهمك. يمكنك الجمع بين أكثر من شرط.'
-                  : 'Choose what matters to you. Combine any of these filters.'}
+                  : i18nUi('اختر ما يهمك. يمكنك الجمع بين أكثر من شرط.', 'Choose what matters to you. Combine any of these filters.')}
               </Txt>
             </View>
             <ScrollView
@@ -846,7 +844,7 @@ export function RecipeCatalog({
             >
               <View style={{ gap: 10 }}>
                 <Txt heading style={{ fontSize: 17, fontWeight: '700' }}>
-                  {ar ? 'النكهة والتقديم' : 'Taste & serving'}
+                  {ar ? 'النكهة والتقديم' : i18nUi('النكهة والتقديم', 'Taste & serving')}
                 </Txt>
                 <View
                   style={{
@@ -859,7 +857,7 @@ export function RecipeCatalog({
                     <Pressable
                       key={family}
                       accessibilityRole="button"
-                      accessibilityLabel={flavorLabels[family][ar ? 0 : 1]}
+                      accessibilityLabel={i18nUi(flavorLabels[family][0] ?? '', flavorLabels[family][1] ?? '')}
                       accessibilityState={{
                         selected: draftFilters.flavorFamily === family,
                       }}
@@ -899,17 +897,17 @@ export function RecipeCatalog({
                               : '400',
                         }}
                       >
-                        {flavorLabels[family][ar ? 0 : 1]}
+                        {i18nUi(flavorLabels[family][0] ?? '', flavorLabels[family][1] ?? '')}
                       </Txt>
                     </Pressable>
                   ))}
                 </View>
                 <Field
-                  label={ar ? 'إيحاء محدد' : 'Specific tasting note'}
+                  label={ar ? 'إيحاء محدد' : i18nUi('إيحاء محدد', 'Specific tasting note')}
                   placeholder={
                     ar
                       ? 'مثل: ياسمين، خوخ، شوكولاتة'
-                      : 'For example: jasmine, peach, chocolate'
+                      : i18nUi('مثل: ياسمين، خوخ، شوكولاتة', 'For example: jasmine, peach, chocolate')
                   }
                   value={draftFilters.flavorNote}
                   maxLength={160}
@@ -926,9 +924,9 @@ export function RecipeCatalog({
                 >
                   {(
                     [
-                      ['', ar ? 'كل الأنواع' : 'Any serving'],
-                      ['hot', ar ? 'ساخن' : 'Hot'],
-                      ['cold_or_iced', ar ? 'بارد ومثلّج' : 'Cold & iced'],
+                      ['', ar ? 'كل الأنواع' : i18nUi('كل الأنواع', 'Any serving')],
+                      ['hot', ar ? 'ساخن' : i18nUi('ساخن', 'Hot')],
+                      ['cold_or_iced', ar ? 'بارد ومثلّج' : i18nUi('بارد ومثلّج', 'Cold & iced')],
                     ] as const
                   ).map(([id, title]) => (
                     <Action
@@ -947,39 +945,39 @@ export function RecipeCatalog({
               </View>
               {[
                 {
-                  title: ar ? 'الوصفة وصانعها' : 'Recipe & creator',
+                  title: ar ? 'الوصفة وصانعها' : i18nUi('الوصفة وصانعها', 'Recipe & creator'),
                   fields: [
-                    ['recipeName', ar ? 'اسم الوصفة' : 'Recipe name'],
-                    ['creatorName', ar ? 'اسم صانع الوصفة' : 'Recipe creator'],
+                    ['recipeName', ar ? 'اسم الوصفة' : i18nUi('اسم الوصفة', 'Recipe name')],
+                    ['creatorName', ar ? 'اسم صانع الوصفة' : i18nUi('اسم صانع الوصفة', 'Recipe creator')],
                     [
                       'creatorCountry',
                       ar
                         ? 'بلد عمل صانع الوصفة'
-                        : 'Creator’s operating country',
+                        : i18nUi('بلد عمل صانع الوصفة', 'Creator’s operating country'),
                     ],
                     [
                       'recipeCountry',
                       ar
                         ? 'المنشأ الجغرافي للوصفة'
-                        : 'Recipe’s geographic origin',
+                        : i18nUi('المنشأ الجغرافي للوصفة', 'Recipe’s geographic origin'),
                     ],
                   ],
                 },
                 {
-                  title: ar ? 'البن والمحمصة' : 'Coffee & roaster',
+                  title: ar ? 'البن والمحمصة' : i18nUi('البن والمحمصة', 'Coffee & roaster'),
                   fields: [
-                    ['coffeeName', ar ? 'اسم البن' : 'Coffee name'],
+                    ['coffeeName', ar ? 'اسم البن' : i18nUi('اسم البن', 'Coffee name')],
                     [
                       'coffeeType',
-                      ar ? 'نوع البن أو سلالته' : 'Coffee type or variety',
+                      ar ? 'نوع البن أو سلالته' : i18nUi('نوع البن أو سلالته', 'Coffee type or variety'),
                     ],
                     [
                       'coffeeOrigin',
-                      ar ? 'بلد زراعة البن' : 'Coffee growing origin',
+                      ar ? 'بلد زراعة البن' : i18nUi('بلد زراعة البن', 'Coffee growing origin'),
                     ],
                     [
                       'roasterName',
-                      ar ? 'الشركة أو المحمصة' : 'Company or roaster',
+                      ar ? 'الشركة أو المحمصة' : i18nUi('الشركة أو المحمصة', 'Company or roaster'),
                     ],
                   ],
                 },
@@ -1021,7 +1019,7 @@ export function RecipeCatalog({
               <Txt style={styles.muted}>
                 {ar
                   ? 'بلد الصانع ومصدر الوصفة وبلد زراعة البن معلومات مستقلة؛ تُعرض فقط عندما يذكرها المصدر.'
-                  : 'Creator country, recipe provenance and coffee growing origin are separate facts, used only when stated by a source.'}
+                  : i18nUi('بلد الصانع ومصدر الوصفة وبلد زراعة البن معلومات مستقلة؛ تُعرض فقط عندما يذكرها المصدر.', 'Creator country, recipe provenance and coffee growing origin are separate facts, used only when stated by a source.')}
               </Txt>
             </ScrollView>
             <View
@@ -1037,7 +1035,7 @@ export function RecipeCatalog({
               }}
             >
               <Action
-                title={ar ? 'تطبيق التصفية' : 'Apply filters'}
+                title={ar ? 'تطبيق التصفية' : i18nUi('تطبيق التصفية', 'Apply filters')}
                 selected
                 onPress={() => {
                   Keyboard.dismiss();
@@ -1047,7 +1045,7 @@ export function RecipeCatalog({
                 }}
               />
               <Action
-                title={ar ? 'إعادة ضبط' : 'Reset filters'}
+                title={ar ? 'إعادة ضبط' : i18nUi('إعادة ضبط', 'Reset filters')}
                 onPress={() => setDraftFilters(emptyRecipeFilters())}
               />
             </View>

@@ -1,10 +1,26 @@
 import { additionalJapaneseLabels } from './japaneseLabels';
-export type Locale = 'ar' | 'en' | 'ja';
+import {APP_LOCALES, isAppLocale, type AppLocale} from './core/app-locales';
+export const SUPPORTED_LOCALES = APP_LOCALES;
+export type Locale = AppLocale;
+export const languageOptions: {id: Locale; label: string}[] = [
+  {id:'ar',label:'العربية'}, {id:'en',label:'English'}, {id:'ja',label:'日本語'},
+  {id:'fr',label:'Français'}, {id:'it',label:'Italiano'}, {id:'es',label:'Español'},
+  {id:'pt-BR',label:'Português (Brasil)'}, {id:'zh-CN',label:'简体中文'},
+];
 export const contentLocale = (locale: Locale): 'ar' | 'en' => locale === 'ar' ? 'ar' : 'en';
-export const isLocale = (value: unknown): value is Locale => value === 'ar' || value === 'en' || value === 'ja';
+export const isLocale = isAppLocale;
+const languageNames: Record<Locale,readonly [string,string]> = {
+  ar:['العربية','Arabic'],en:['الإنجليزية','English'],ja:['اليابانية','Japanese'],
+  fr:['الفرنسية','French'],it:['الإيطالية','Italian'],es:['الإسبانية','Spanish'],
+  'pt-BR':['البرتغالية البرازيلية','Brazilian Portuguese'],'zh-CN':['الصينية المبسطة','Simplified Chinese'],
+};
+export function languageName(locale:Locale,value:string):string {
+  const names=isLocale(value)?languageNames[value]:null;
+  return names?localeLabel(locale,names[0],names[1]):value;
+}
 
-// Initial Japanese interface. Original catalog / community content retains its source language.
-// Labels are translated at the call site, never by rewriting user text in the Text component.
+// Only application-owned strings enter this translator. User content, names,
+// URLs and identifiers are never intercepted in the Text component.
 const ja: Record<string, string> = {
   ...additionalJapaneseLabels,
   'Home': 'ホーム', 'Discover': '見つける', 'Brew': '淹れる', 'Account': 'マイページ',
@@ -40,6 +56,59 @@ const ja: Record<string, string> = {
   'Delete account and data': 'アカウントとデータを削除', 'Could not sign out. Please retry.': 'ログアウトできませんでした。もう一度お試しください。',
   'Save': '保存', 'Cancel': 'キャンセル', 'Delete': '削除', 'Edit': '編集', 'Retry': '再試行',
 };
+type PackLocale = Exclude<Locale,'ar'|'en'>;
+type Pack = Record<string,string>;
+const loadPack: Record<PackLocale,()=>Pack> = {
+  ja:()=>require('./locales/ja.json'), fr:()=>require('./locales/fr.json'),
+  it:()=>require('./locales/it.json'), es:()=>require('./locales/es.json'),
+  'pt-BR':()=>require('./locales/pt-BR.json'), 'zh-CN':()=>require('./locales/zh-CN.json'),
+};
+const packs = new Map<PackLocale,Pack>();
+const reversePacks = new Map<PackLocale,Map<string,string>>();
+const patterns = new Map<PackLocale,{pattern:RegExp; slots:number[]; translation:string}[]>();
+const escape=(s:string)=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+function translated(locale:PackLocale,text:string): string {
+  let pack=packs.get(locale);if(!pack){pack=loadPack[locale]();packs.set(locale,pack);}
+  if(pack[text])return pack[text];
+  let templates=patterns.get(locale);
+  if(!templates){
+    templates=Object.entries(pack).filter(([key])=>/\{\d+\}/.test(key)).sort((a,b)=>b[0].length-a[0].length).map(([key,translation])=>{
+      const slots:number[]=[];let start=0,pattern='';for(const match of key.matchAll(/\{(\d+)\}/g)){pattern+=escape(key.slice(start,match.index))+'([\\s\\S]*?)';slots.push(Number(match[1]));start=match.index!+match[0].length;}pattern+=escape(key.slice(start));return {pattern:new RegExp('^'+pattern+'$','u'),slots,translation};
+    });patterns.set(locale,templates);
+  }
+  for(const template of templates){const match=template.pattern.exec(text);if(!match)continue;const values=new Map(template.slots.map((slot,index)=>[slot,match[index+1]]));return template.translation.replace(/\{(\d+)\}/g,(_,slot)=>values.get(Number(slot))??'');}
+  return locale==='ja'?ja[text]??text:text;
+}
 export function localeLabel(locale: Locale, arabic: string, english: string, japanese?: string): string {
-  return locale === 'ar' ? arabic : locale === 'ja' ? japanese ?? ja[english] ?? english : english;
+  return locale==='ar'?arabic:locale==='en'?english:locale==='ja'&&japanese?japanese:translated(locale,english);
+}
+export function uiMessage(locale:Locale,english:string):string {return localeLabel(locale,english,english);}
+/** Reverse only registered application messages, for the assistant's buttons. */
+export function englishMessage(locale:Locale,text:string):string {
+  if(locale==='ar'||locale==='en')return text;
+  let reverse=reversePacks.get(locale);
+  if(!reverse){const pack=loadPack[locale]();reverse=new Map(Object.entries(pack).filter(([key])=>!key.includes('{')).map(([key,value])=>[value,key]));reversePacks.set(locale,reverse);}
+  return reverse.get(text)??text;
+}
+export function localizedRecords<T extends Record<string,string>>(records:{ar:T;en:T;ja:T}):Record<Locale,T>{
+  const result={...records} as Record<Locale,T>;
+  for(const locale of SUPPORTED_LOCALES){
+    if(locale in records)continue;
+    Object.defineProperty(result,locale,{enumerable:true,configurable:true,get(){
+      const value=Object.fromEntries(Object.entries(records.en).map(([key,text])=>[key,uiMessage(locale,text)])) as T;
+      Object.defineProperty(result,locale,{value,enumerable:true});return value;
+    }});
+  }
+  return result;
+}
+/** Localization of composed system replies is bounded to registered messages. */
+export function systemText(locale:Locale,text:string):string {
+  if(locale==='ar'||locale==='en')return text;
+  const exact=uiMessage(locale,text);if(exact!==text)return exact;
+  return text.split('\n').map(line=>{
+    const bullet=line.match(/^(\s*•\s*)(.*)$/);const body=bullet?bullet[2]:line;
+    const direct=uiMessage(locale,body);if(direct!==body)return (bullet?.[1]??'')+direct;
+    const colon=body.indexOf(': ');if(colon>0){const label=body.slice(0,colon);const translated=uiMessage(locale,label);if(translated!==label)return (bullet?.[1]??'')+translated+body.slice(colon);}
+    return line;
+  }).join('\n');
 }

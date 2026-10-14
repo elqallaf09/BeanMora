@@ -9,8 +9,11 @@ export function isPublicKey(key: string): boolean {
     return JSON.parse(atob(part)).role === 'anon';
   } catch { return false; }
 }
-export function numberInput(value: string): number | null {
-  const normalized = value.trim().replace(/[٠-٩]/g, x => String(x.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, x => String(x.charCodeAt(0) - 1776)).replace(/٫/g, '.');
+export function numberInput(value: string, locale = 'en'): number | null {
+  let normalized = value.normalize('NFKC').trim().replace(/[٠-٩]/g, x => String(x.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, x => String(x.charCodeAt(0) - 1776)).replace(/٫/g, '.');
+  // These keyboards use decimal commas. Never strip grouping characters or
+  // guess mixed separators; retain strict validation for measurements.
+  if (['fr', 'it', 'es', 'pt-BR'].includes(locale) && /^\d+,\d+$/.test(normalized)) normalized = normalized.replace(',', '.');
   if (!normalized || !/^\d+(\.\d+)?$/.test(normalized)) return null;
   const n = Number(normalized); return Number.isFinite(n) ? n : null;
 }

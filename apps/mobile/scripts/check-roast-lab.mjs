@@ -1,3 +1,4 @@
+import {prepareLocaleFixture,withLocaleRequire} from './locale-test-fixture.mjs';
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import {
@@ -12,6 +13,7 @@ import { pathToFileURL } from 'node:url';
 import ts from 'typescript';
 const temp = mkdtempSync(tmpdir() + '/beanmora-roast-');
 mkdirSync(temp + '/core');
+prepareLocaleFixture(temp);
 after(() => rmSync(temp, { recursive: true, force: true }));
 for (const file of [
   'roastLab.ts',
@@ -35,7 +37,7 @@ for (const file of [
       },
     })
     .outputText.replace(/from (["'])(\.\/[^"']+)\1/g, "from '$2.mjs'");
-  writeFileSync(temp + '/' + file.replace('.ts', '.mjs'), code);
+  writeFileSync(temp + '/' + file.replace('.ts', '.mjs'), withLocaleRequire(file,code));
 }
 const {
   parseRoastTime,
@@ -154,6 +156,15 @@ test('rejects duplicated or conflicting stages and out-of-range measured points'
     ),
     false,
   );
+});
+test('localized roast measurements preserve decimals, signs and full-width digits', () => {
+  for (const locale of ['fr','it','es','pt-BR']) {
+    assert.equal(parseRoastNumber('18,5',locale),18.5);
+    assert.equal(parseRoastNumber('-2,5',locale),-2.5);
+    assert.equal(parseRoastNumber('1.234,5',locale),null);
+  }
+  assert.equal(parseRoastNumber('１８．５','ja'),18.5);
+  assert.equal(parseRoastTime('０５：３０'),330);
 });
 test('catalog display retains model identifiers and translates foreign recipe titles', () => {
   assert.equal(catalogName('Brazilian V60 recipe', 'ar'), 'برازيلي V60 وصفة');

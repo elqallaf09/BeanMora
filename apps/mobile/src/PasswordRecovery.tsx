@@ -1,9 +1,11 @@
+import { useLabels } from './ui';
 import { useContext, useRef, useState } from 'react';
 import { View } from './native';
 import { supabase } from './client';
 import { Action, Field, Language, Txt, styles } from './ui';
 
 export function PasswordRecovery({ done }: { done: () => void }) {
+  const i18nUi = useLabels();
   const ar = useContext(Language) === 'ar';
   const [password, setPassword] = useState('');
   const [confirmation, setConfirmation] = useState('');
@@ -16,7 +18,7 @@ export function PasswordRecovery({ done }: { done: () => void }) {
       setError(
         ar
           ? 'استخدم 8 أحرف على الأقل وتأكد من تطابق كلمتي المرور.'
-          : 'Use at least 8 characters and matching passwords.',
+          : i18nUi('استخدم 8 أحرف على الأقل وتأكد من تطابق كلمتي المرور.', 'Use at least 8 characters and matching passwords.'),
       );
       return;
     }
@@ -33,7 +35,7 @@ export function PasswordRecovery({ done }: { done: () => void }) {
       setError(
         ar
           ? 'تعذر حفظ كلمة المرور. تحقق من الاتصال، أو اطلب رابط استرجاع جديد إذا انتهت صلاحيته.'
-          : 'Could not save your password. Check your connection, or request a new recovery link if this one expired.',
+          : i18nUi('تعذر حفظ كلمة المرور. تحقق من الاتصال، أو اطلب رابط استرجاع جديد إذا انتهت صلاحيته.', 'Could not save your password. Check your connection, or request a new recovery link if this one expired.'),
       );
     } finally {
       inFlight.current = false;
@@ -43,10 +45,10 @@ export function PasswordRecovery({ done }: { done: () => void }) {
   return (
     <View style={[styles.card, { gap: 16 }]} testID="password-recovery">
       <Txt heading style={styles.title}>
-        {ar ? 'تعيين كلمة مرور جديدة' : 'Set a new password'}
+        {ar ? 'تعيين كلمة مرور جديدة' : i18nUi('تعيين كلمة مرور جديدة', 'Set a new password')}
       </Txt>
       <Field
-        label={ar ? 'كلمة المرور الجديدة' : 'New password'}
+        label={ar ? 'كلمة المرور الجديدة' : i18nUi('كلمة المرور الجديدة', 'New password')}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -55,7 +57,7 @@ export function PasswordRecovery({ done }: { done: () => void }) {
         editable={!busy}
       />
       <Field
-        label={ar ? 'تأكيد كلمة المرور الجديدة' : 'Confirm new password'}
+        label={ar ? 'تأكيد كلمة المرور الجديدة' : i18nUi('تأكيد كلمة المرور الجديدة', 'Confirm new password')}
         value={confirmation}
         onChangeText={setConfirmation}
         secureTextEntry
@@ -73,10 +75,10 @@ export function PasswordRecovery({ done }: { done: () => void }) {
           busy
             ? ar
               ? 'جارٍ الحفظ…'
-              : 'Saving…'
+              : i18nUi('جارٍ الحفظ…', 'Saving…')
             : ar
               ? 'حفظ كلمة المرور'
-              : 'Save password'
+              : i18nUi('حفظ كلمة المرور', 'Save password')
         }
         onPress={() => void save()}
         disabled={busy}

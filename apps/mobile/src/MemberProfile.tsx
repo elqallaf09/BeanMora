@@ -977,7 +977,7 @@ export function MemberProfile({
                         ar ? e.name_ar || catalogName(e.name, "ar") : e.name
                       }
                       subtitle={categoryLabel(e.category, locale)}
-                      note={e.operation?.[ar ? 0 : 1]}
+                      note={L(e.operation?.[0] ?? '', e.operation?.[1] ?? '')}
                       url={e.image_url}
                       status={e.image_usage_status}
                       large={wide}
@@ -1438,11 +1438,12 @@ function CollectionCard({
   );
 }
 function Empty({ ar }: { ar: boolean }) {
+  const i18nUi = useLabels();
   return (
     <Txt style={styles.muted}>
       {ar
         ? "لا توجد عناصر متاحة للعرض في هذا القسم."
-        : "No visible items in this section."}
+        : i18nUi("لا توجد عناصر متاحة للعرض في هذا القسم.", "No visible items in this section.")}
     </Txt>
   );
 }

@@ -1,16 +1,21 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { accountCountries } from "./account-countries";
 import { requireMember } from "./member-contributions";
+import type { AppLocale } from './app-locales';
+import {accountCountryNames} from './account-country-names';
 
 export { accountCountries } from "./account-countries";
-export type AccountLocale = "ar" | "en" | "ja";
+export type AccountLocale = AppLocale;
 export const validAccountCountry = (value: string): boolean =>
   accountCountries.some((c) => c.code === value);
 export function accountCountryName(
   value: string | null | undefined,
   locale: AccountLocale,
 ): string {
-  return accountCountries.find((c) => c.code === value)?.[locale] ?? "";
+  const country=accountCountries.find((c)=>c.code===value);
+  if(!country)return '';
+  if(locale==='ar'||locale==='en'||locale==='ja')return country[locale];
+  return accountCountryNames[locale][country.code] ?? country.en;
 }
 export function accountCountryFlag(value: string | null | undefined): string {
   return value && validAccountCountry(value)

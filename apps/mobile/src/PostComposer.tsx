@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext, useRef, useState } from 'react';
 import { randomUUID } from 'expo-crypto';
 import { View } from './native';
@@ -11,6 +12,7 @@ import { contentMediaPath } from './core/content-media';
 
 export type EditablePost = { id: string; body: string | null; primary_media_path?: string | null; content_type?: 'topic' | 'image' | 'video'; media?: { url: string; media_type: 'image' | 'video' }[]; brew_log_id: string | null; recipe_id: string | null; roast_profile_id: string | null };
 export function PostComposer({ owner, brews, post, saved, close }: { owner: string; brews: { id: string; label: string }[]; post?: EditablePost | null; saved: () => void; close: () => void }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language), ar = locale === 'ar';
   const [body, setBody] = useState(post?.body ?? ''), [media, setMedia] = useState<SocialMedia | null>(null), [brewId, setBrewId] = useState<string | null>(null);
   const [path, setPath] = useState(post?.primary_media_path ?? null), [type, setType] = useState<'image' | 'video' | null>(post?.content_type === 'image' || post?.content_type === 'video' ? post.content_type : null);
@@ -23,7 +25,7 @@ export function PostComposer({ owner, brews, post, saved, close }: { owner: stri
   async function choose(kind: 'image' | 'video') {
     setBusy(true); setError('');
     try { const selected = await chooseSocialMedia(kind); if (selected) { setMedia(selected); setType(kind); setPath(null); setMediaChanged(true); } }
-    catch { setError(ar ? 'اختر صورة حتى 5 MB أو فيديو MP4 / WebM حتى 15 MB.' : 'Choose a photo up to 5 MB or MP4 / WebM video up to 15 MB.'); }
+    catch { setError(ar ? 'اختر صورة حتى 5 MB أو فيديو MP4 / WebM حتى 15 MB.' : i18nUi('اختر صورة حتى 5 MB أو فيديو MP4 / WebM حتى 15 MB.', 'Choose a photo up to 5 MB or MP4 / WebM video up to 15 MB.')); }
     finally { setBusy(false); }
   }
   async function save() {
@@ -36,21 +38,21 @@ export function PostComposer({ owner, brews, post, saved, close }: { owner: stri
         if (oldPaths.length) await supabase.storage.from('post-media').remove(oldPaths);
       }
       saved();
-    } catch { setError(ar ? 'تعذّر حفظ المنشور. مسودتك محفوظة هنا للمحاولة مرة ثانية.' : 'Could not save post. Your draft is kept here for retry.'); }
+    } catch { setError(ar ? 'تعذّر حفظ المنشور. مسودتك محفوظة هنا للمحاولة مرة ثانية.' : i18nUi('تعذّر حفظ المنشور. مسودتك محفوظة هنا للمحاولة مرة ثانية.', 'Could not save post. Your draft is kept here for retry.')); }
     finally { sending.current = false; setBusy(false); }
   }
   return <View testID="community-composer" style={[styles.card, { padding: 16, gap: 12 }]}>
-    <Txt heading style={styles.subtitle}>{post ? (ar ? 'تعديل المنشور' : 'Edit post') : (ar ? 'منشور جديد' : 'New post')}</Txt>
-    <Field label={ar ? 'اكتب تجربتك' : 'Write your experience'} value={body} onChangeText={setBody} multiline maxLength={3000} editable={!busy} />
+    <Txt heading style={styles.subtitle}>{post ? (ar ? 'تعديل المنشور' : i18nUi('تعديل المنشور', 'Edit post')) : (ar ? 'منشور جديد' : i18nUi('منشور جديد', 'New post'))}</Txt>
+    <Field label={ar ? 'اكتب تجربتك' : i18nUi('اكتب تجربتك', 'Write your experience')} value={body} onChangeText={setBody} multiline maxLength={3000} editable={!busy} />
     <MediaChoices choose={kind => void choose(kind)} disabled={busy} />
     {media || path || legacyMedia.length ? <>
-      {media || path ? <SocialMediaView source={media?.uri ?? 'storage://post-media/' + path} type={type ?? 'image'} label={ar ? 'وسائط المنشور' : 'Post media'} /> : legacyMedia.map(m => <SocialMediaView key={m.url} source={m.url} type={m.media_type} label={ar ? 'وسائط المنشور' : 'Post media'} />)}
-      <Action compact title={ar ? 'إزالة الوسائط' : 'Remove media'} disabled={busy} onPress={() => setConfirmation("media")} />
-    </> : <Txt style={styles.muted}>{ar ? 'موضوع، صورة أو فيديو عن القهوة.' : 'A topic, photo or video about coffee.'}</Txt>}
-    {!post && brews.length ? <SelectionMenu label={ar ? 'إرفاق تحضير (اختياري)' : 'Attach brew (optional)'} value={brewId ?? 'none'} items={[{ id: 'none', name: ar ? 'بدون تحضير' : 'No brew attached' }, ...brews.map(b => ({ id: b.id, name: b.label }))]} onChange={value => setBrewId(value === 'none' ? null : value)} /> : null}
-    <Action selected title={busy ? (ar ? 'جارٍ الحفظ…' : 'Saving…') : post ? (ar ? 'حفظ تعديل المنشور' : 'Save post changes') : (ar ? 'انشر التجربة' : 'Publish')} disabled={busy || (!body.trim() && !media && !path && !legacyMedia.length && !brewId && !post?.recipe_id && !post?.roast_profile_id && !post?.brew_log_id)} onPress={() => void save()} />
-    <Action compact title={ar ? 'إغلاق المحرر' : 'Close composer'} disabled={busy} onPress={() => dirty ? setConfirmation("draft") : close()} />
-    <ConfirmDialog visible={confirmation !== null} title={confirmation === 'media' ? (ar ? 'إزالة الوسائط' : 'Remove media') : (ar ? 'مسح المسودة' : 'Discard draft')} message={confirmation === 'media' ? (ar ? 'إزالة الصورة أو الفيديو من المنشور؟' : 'Remove the photo or video from this post?') : (ar ? 'إغلاق المحرر ومسح التغييرات التي لم تحفظها؟' : 'Close the composer and discard unsaved changes?')} confirmLabel={ar ? 'موافقة' : 'Confirm'} busy={busy} onCancel={() => setConfirmation(null)} onConfirm={() => { if (confirmation === 'draft') close(); else { setMedia(null); setPath(null); setType(null); setMediaChanged(true); } setConfirmation(null); }} />
+      {media || path ? <SocialMediaView source={media?.uri ?? 'storage://post-media/' + path} type={type ?? 'image'} label={ar ? 'وسائط المنشور' : i18nUi('وسائط المنشور', 'Post media')} /> : legacyMedia.map(m => <SocialMediaView key={m.url} source={m.url} type={m.media_type} label={ar ? 'وسائط المنشور' : i18nUi('وسائط المنشور', 'Post media')} />)}
+      <Action compact title={ar ? 'إزالة الوسائط' : i18nUi('إزالة الوسائط', 'Remove media')} disabled={busy} onPress={() => setConfirmation("media")} />
+    </> : <Txt style={styles.muted}>{ar ? 'موضوع، صورة أو فيديو عن القهوة.' : i18nUi('موضوع، صورة أو فيديو عن القهوة.', 'A topic, photo or video about coffee.')}</Txt>}
+    {!post && brews.length ? <SelectionMenu label={ar ? 'إرفاق تحضير (اختياري)' : i18nUi('إرفاق تحضير (اختياري)', 'Attach brew (optional)')} value={brewId ?? 'none'} items={[{ id: 'none', name: ar ? 'بدون تحضير' : i18nUi('بدون تحضير', 'No brew attached') }, ...brews.map(b => ({ id: b.id, name: b.label }))]} onChange={value => setBrewId(value === 'none' ? null : value)} /> : null}
+    <Action selected title={busy ? (ar ? 'جارٍ الحفظ…' : i18nUi('جارٍ الحفظ…', 'Saving…')) : post ? (ar ? 'حفظ تعديل المنشور' : i18nUi('حفظ تعديل المنشور', 'Save post changes')) : (ar ? 'انشر التجربة' : i18nUi('انشر التجربة', 'Publish'))} disabled={busy || (!body.trim() && !media && !path && !legacyMedia.length && !brewId && !post?.recipe_id && !post?.roast_profile_id && !post?.brew_log_id)} onPress={() => void save()} />
+    <Action compact title={ar ? 'إغلاق المحرر' : i18nUi('إغلاق المحرر', 'Close composer')} disabled={busy} onPress={() => dirty ? setConfirmation("draft") : close()} />
+    <ConfirmDialog visible={confirmation !== null} title={confirmation === 'media' ? (ar ? 'إزالة الوسائط' : i18nUi('إزالة الوسائط', 'Remove media')) : (ar ? 'مسح المسودة' : i18nUi('مسح المسودة', 'Discard draft'))} message={confirmation === 'media' ? (ar ? 'إزالة الصورة أو الفيديو من المنشور؟' : i18nUi('إزالة الصورة أو الفيديو من المنشور؟', 'Remove the photo or video from this post?')) : (ar ? 'إغلاق المحرر ومسح التغييرات التي لم تحفظها؟' : i18nUi('إغلاق المحرر ومسح التغييرات التي لم تحفظها؟', 'Close the composer and discard unsaved changes?'))} confirmLabel={ar ? 'موافقة' : i18nUi('موافقة', 'Confirm')} busy={busy} onCancel={() => setConfirmation(null)} onConfirm={() => { if (confirmation === 'draft') close(); else { setMedia(null); setPath(null); setType(null); setMediaChanged(true); } setConfirmation(null); }} />
     {error ? <Txt accessibilityRole="alert" style={styles.error}>{error}</Txt> : null}
   </View>;
 }

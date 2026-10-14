@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -111,7 +112,6 @@ const emptyDraft = (): Draft => ({
   points: [],
   controls: [],
 });
-const num = parseRoastNumber;
 const errorText = (error: unknown) =>
   error && typeof error === 'object' && 'message' in error
     ? String(error.message)
@@ -186,7 +186,9 @@ export function RoastLab({
   initialId?: string | null;
   initialSection?: 'own' | 'public';
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language);
+  const num = (value: string) => parseRoastNumber(value, locale);
   const ar = locale === 'ar';
   const { width } = useWindowDimensions();
   const [section, setSection] = useState<Section>(initialId || initialSection === 'public' ? initialSection : 'learn');
@@ -347,7 +349,7 @@ export function RoastLab({
           setError(
             ar
               ? 'تعذّر تحميل مختبر التحميص. أعد المحاولة.'
-              : 'Could not load Roast Lab. Try again.',
+              : i18nUi('تعذّر تحميل مختبر التحميص. أعد المحاولة.', 'Could not load Roast Lab. Try again.'),
           );
       } finally {
         if (alive) setBusy(false);
@@ -357,7 +359,7 @@ export function RoastLab({
     return () => {
       alive = false;
     };
-  }, [userId, section === 'public', revision, locale]);
+  }, [userId, section === 'public', revision, locale, i18nUi]);
   useEffect(() => {
     if (initialId) void open(initialId);
   }, [initialId]);
@@ -407,7 +409,7 @@ export function RoastLab({
       }
     } catch {
       if (active.current)
-        setError(ar ? 'تعذّر فتح الحمصة.' : 'Could not open roast.');
+        setError(ar ? 'تعذّر فتح الحمصة.' : i18nUi('تعذّر فتح الحمصة.', 'Could not open roast.'));
     } finally {
       if (active.current) setBusy(false);
     }
@@ -422,7 +424,7 @@ export function RoastLab({
         parent: fork ? row.id : (row.parent_roast_id ?? ''),
         expected: fork ? '' : row.updated_at,
         title: fork
-          ? (ar ? 'نسخة من ' : 'Copy of ') + (row.title ?? '')
+          ? (ar ? 'نسخة من ' : i18nUi('نسخة من ', 'Copy of ')) + (row.title ?? '')
           : (row.title ?? ''),
         date: fork ? dateToday() : row.roast_date,
         input: String(row.green_weight_g ?? ''),
@@ -518,7 +520,7 @@ export function RoastLab({
       setError(
         ar
           ? 'أدخل وقت القراءة وحرارة صحيحة من الماكينة.'
-          : 'Enter a valid timestamp and measured machine temperature.',
+          : i18nUi('أدخل وقت القراءة وحرارة صحيحة من الماكينة.', 'Enter a valid timestamp and measured machine temperature.'),
       );
       return;
     }
@@ -539,7 +541,7 @@ export function RoastLab({
       setError(
         ar
           ? 'أدخل وقتًا وقيمة صحيحة لإعداد الماكينة.'
-          : 'Enter a valid control timestamp and value.',
+          : i18nUi('أدخل وقتًا وقيمة صحيحة لإعداد الماكينة.', 'Enter a valid control timestamp and value.'),
       );
       return;
     }
@@ -622,7 +624,7 @@ export function RoastLab({
       setError(
         ar
           ? 'أدخل اسم الحمصة والبن ووزن الدفعة، وراجع أوقات المراحل والحرارة.'
-          : 'Enter title, green coffee and input weight; check stage times and temperatures.',
+          : i18nUi('أدخل اسم الحمصة والبن ووزن الدفعة، وراجع أوقات المراحل والحرارة.', 'Enter title, green coffee and input weight; check stage times and temperatures.'),
       );
       return;
     }
@@ -682,13 +684,11 @@ export function RoastLab({
       setClock({ start: null, accumulated: 0 });
       setRevision((r) => r + 1);
       setMessage(
-        ar
-          ? publish
+        i18nUi(publish
             ? 'تم حفظ الحمصة ونشرها في المجتمع.'
-            : 'تم حفظ الحمصة في سجلاتك الخاصة.'
-          : publish
+            : 'تم حفظ الحمصة في سجلاتك الخاصة.', publish
             ? 'Roast saved and shared with the community.'
-            : 'Roast saved privately.',
+            : 'Roast saved privately.'),
       );
       await open(String(data));
     } catch (e) {
@@ -732,7 +732,7 @@ export function RoastLab({
       setError(
         ar
           ? 'راجع اسم البن والكميات والقياسات المدخلة.'
-          : 'Check the coffee name, quantity and measurements.',
+          : i18nUi('راجع اسم البن والكميات والقياسات المدخلة.', 'Check the coffee name, quantity and measurements.'),
       );
       return;
     }
@@ -748,11 +748,11 @@ export function RoastLab({
               .filter((f) => f.numeric)
               .map((f) => [
                 f.key,
-                d[f.key]?.trim() ? normalizedNumber(d[f.key]) : null,
+                d[f.key]?.trim() ? normalizedNumber(d[f.key], locale) : null,
               ]),
           ),
           quantity_grams: d.quantity_grams.trim()
-            ? normalizedNumber(d.quantity_grams)
+            ? normalizedNumber(d.quantity_grams, locale)
             : null,
           create: greenCreating,
           transaction_id: transactionId,
@@ -763,7 +763,7 @@ export function RoastLab({
         setGreenDraft(null);
         setRevision((r) => r + 1);
         setMessage(
-          ar ? 'تم حفظ البن وتحديث المخزون.' : 'Green coffee and stock saved.',
+          ar ? 'تم حفظ البن وتحديث المخزون.' : i18nUi('تم حفظ البن وتحديث المخزون.', 'Green coffee and stock saved.'),
         );
       }
     } catch (e) {
@@ -793,12 +793,12 @@ export function RoastLab({
         setMessage(
           ar
             ? 'تمت إضافة ماكينة التحميص إلى معداتك.'
-            : 'Roaster added to your equipment.',
+            : i18nUi('تمت إضافة ماكينة التحميص إلى معداتك.', 'Roaster added to your equipment.'),
         );
       }
     } catch {
       if (active.current)
-        setError(ar ? 'تعذّرت إضافة الماكينة.' : 'Could not add roaster.');
+        setError(ar ? 'تعذّرت إضافة الماكينة.' : i18nUi('تعذّرت إضافة الماكينة.', 'Could not add roaster.'));
     } finally {
       inFlight.current = false;
       if (active.current) setSaving(false);
@@ -817,7 +817,7 @@ export function RoastLab({
       }
     } catch {
       if (active.current)
-        setError(ar ? 'تعذّر تحميل المقارنة.' : 'Could not load comparison.');
+        setError(ar ? 'تعذّر تحميل المقارنة.' : i18nUi('تعذّر تحميل المقارنة.', 'Could not load comparison.'));
     } finally {
       if (active.current) setBusy(false);
     }
@@ -846,7 +846,7 @@ export function RoastLab({
       setError(
         ar
           ? 'درجات التذوق من 1 إلى 10، والتقييم الإجمالي من 0 إلى 100.'
-          : 'Tasting attributes use 1–10; overall score uses 0–100.',
+          : i18nUi('درجات التذوق من 1 إلى 10، والتقييم الإجمالي من 0 إلى 100.', 'Tasting attributes use 1–10; overall score uses 0–100.'),
       );
       return;
     }
@@ -885,7 +885,7 @@ export function RoastLab({
           brew: '',
         });
         await open(selected.id);
-        setMessage(ar ? 'تم حفظ نتيجة التذوق.' : 'Tasting saved.');
+        setMessage(ar ? 'تم حفظ نتيجة التذوق.' : i18nUi('تم حفظ نتيجة التذوق.', 'Tasting saved.'));
       }
     } catch (e) {
       if (active.current) setError(roastError(errorText(e), ar));
@@ -927,7 +927,7 @@ export function RoastLab({
       <View style={[s.hero, { flexDirection: ar ? 'row-reverse' : 'row' }]}>
         <View style={{ flex: 1, gap: 5 }}>
           <Txt style={{ color: '#D9B99D', fontSize: 12 }}>
-            {ar ? 'من البن الأخضر إلى الكوب' : 'FROM GREEN COFFEE TO THE CUP'}
+            {ar ? 'من البن الأخضر إلى الكوب' : i18nUi('من البن الأخضر إلى الكوب', 'FROM GREEN COFFEE TO THE CUP')}
           </Txt>
           <Txt
             heading
@@ -938,12 +938,12 @@ export function RoastLab({
               fontWeight: '700',
             }}
           >
-            {ar ? 'مختبر التحميص' : 'Roast Lab'}
+            {ar ? 'مختبر التحميص' : i18nUi('مختبر التحميص', 'Roast Lab')}
           </Txt>
           <Txt style={{ color: '#EFE0D1', fontSize: 13, lineHeight: 21 }}>
             {ar
               ? 'وثّق حمصتك، تابع مراحلها، وقارن المحاولات لتفهم الفرق في كوبك.'
-              : 'Record your roast, follow its stages and compare attempts to understand your cup.'}
+              : i18nUi('وثّق حمصتك، تابع مراحلها، وقارن المحاولات لتفهم الفرق في كوبك.', 'Record your roast, follow its stages and compare attempts to understand your cup.')}
           </Txt>
         </View>
         <Icon name="bean" color="#DEAE82" size={28} />
@@ -958,7 +958,7 @@ export function RoastLab({
             { id: 'green', ar: 'البن الأخضر', en: 'Green coffee' },
             { id: 'gear', ar: 'معدات التحميص', en: 'Roasting equipment' },
           ] as { id: Section; ar: string; en: string }[]
-        ).map(t => ({ id: t.id, label: ar ? t.ar : t.en }))}
+        ).map(t => ({ id: t.id, label: i18nUi(t.ar, t.en) }))}
         onChange={id => {
               if (id === 'new') {
                 if (!userId) {
@@ -983,7 +983,7 @@ export function RoastLab({
         <View style={styles.card}>
           <Txt style={styles.error}>{error}</Txt>
           <Action
-            title={ar ? 'إعادة المحاولة' : 'Retry'}
+            title={ar ? 'إعادة المحاولة' : i18nUi('إعادة المحاولة', 'Retry')}
             onPress={() => setRevision((r) => r + 1)}
           />
         </View>
@@ -992,15 +992,15 @@ export function RoastLab({
       {section === 'learn' && !selected && !showCompare ? <RoastGuide /> : showCompare ? (
         <>
           <Action
-            title={ar ? 'إغلاق المقارنة' : 'Close comparison'}
+            title={ar ? 'إغلاق المقارنة' : i18nUi('إغلاق المقارنة', 'Close comparison')}
             onPress={() => setShowCompare(false)}
           />
           <Txt heading style={styles.subtitle}>
-            {ar ? 'مقارنة الحمصات' : 'Roast comparison'}
+            {ar ? 'مقارنة الحمصات' : i18nUi('مقارنة الحمصات', 'Roast comparison')}
           </Txt>
           <RoastCurve
             series={compared.map((r) => ({
-              name: r.title ?? (ar ? 'حمصة' : 'Roast'),
+              name: r.title ?? (ar ? 'حمصة' : i18nUi('حمصة', 'Roast')),
               points: measured(r),
             }))}
           />
@@ -1014,16 +1014,16 @@ export function RoastLab({
           >
             <View style={{ minWidth: compared.length * 190 + 125 }}>
               {[
-                ar ? 'اسم الحمصة' : 'Roast',
-                ar ? 'البن الأخضر' : 'Green coffee',
-                ar ? 'وزن الدفعة' : 'Input weight',
-                ar ? 'وزن الناتج' : 'Output weight',
-                ar ? 'فقدان الوزن' : 'Weight loss',
-                ar ? 'إجمالي الوقت' : 'Total time',
-                ar ? 'التجفيف' : 'Drying',
-                ar ? 'مرحلة ميلارد' : 'Maillard',
-                ar ? 'التطوير' : 'Development',
-                ar ? 'نسبة التطوير' : 'Development ratio',
+                ar ? 'اسم الحمصة' : i18nUi('اسم الحمصة', 'Roast'),
+                ar ? 'البن الأخضر' : i18nUi('البن الأخضر', 'Green coffee'),
+                ar ? 'وزن الدفعة' : i18nUi('وزن الدفعة', 'Input weight'),
+                ar ? 'وزن الناتج' : i18nUi('وزن الناتج', 'Output weight'),
+                ar ? 'فقدان الوزن' : i18nUi('فقدان الوزن', 'Weight loss'),
+                ar ? 'إجمالي الوقت' : i18nUi('إجمالي الوقت', 'Total time'),
+                ar ? 'التجفيف' : i18nUi('التجفيف', 'Drying'),
+                ar ? 'مرحلة ميلارد' : i18nUi('مرحلة ميلارد', 'Maillard'),
+                ar ? 'التطوير' : i18nUi('التطوير', 'Development'),
+                ar ? 'نسبة التطوير' : i18nUi('نسبة التطوير', 'Development ratio'),
               ].map((label, i) => (
                 <View
                   key={label}
@@ -1046,10 +1046,10 @@ export function RoastLab({
                         green.find((g) => g.id === r.green_coffee_id)?.name ??
                         '—',
                       r.green_weight_g !== null
-                        ? r.green_weight_g + (ar ? ' غ' : ' g')
+                        ? r.green_weight_g + (ar ? ' غ' : i18nUi(' غ', ' g'))
                         : '—',
                       r.roasted_weight_g !== null
-                        ? r.roasted_weight_g + (ar ? ' غ' : ' g')
+                        ? r.roasted_weight_g + (ar ? ' غ' : i18nUi(' غ', ' g'))
                         : '—',
                       m.loss !== null ? m.loss + '%' : '—',
                       m.total !== null ? clockTime(m.total) : '—',
@@ -1072,7 +1072,7 @@ export function RoastLab({
       ) : selected ? (
         <>
           <Action
-            title={ar ? 'إغلاق الحمصة' : 'Close roast'}
+            title={ar ? 'إغلاق الحمصة' : i18nUi('إغلاق الحمصة', 'Close roast')}
             onPress={() => setSelected(null)}
           />
           <Txt heading style={styles.title}>
@@ -1086,10 +1086,10 @@ export function RoastLab({
               selected.visibility === 'public'
                 ? ar
                   ? 'منشورة'
-                  : 'Public'
+                  : i18nUi('منشورة', 'Public')
                 : ar
                   ? 'خاصة'
-                  : 'Private',
+                  : i18nUi('خاصة', 'Private'),
             ]
               .filter(Boolean)
               .join(' · ')}
@@ -1098,14 +1098,14 @@ export function RoastLab({
           <RoastCurve
             series={[
               {
-                name: selected.title ?? (ar ? 'الحمصة' : 'Roast'),
+                name: selected.title ?? (ar ? 'الحمصة' : i18nUi('الحمصة', 'Roast')),
                 points: measured(selected),
               },
             ]}
           />
           <View style={styles.card}>
             <Txt heading style={styles.subtitle}>
-              {ar ? 'مراحل الحمصة' : 'Roast milestones'}
+              {ar ? 'مراحل الحمصة' : i18nUi('مراحل الحمصة', 'Roast milestones')}
             </Txt>
             {selected.events.map((e, i) => (
               <View
@@ -1119,8 +1119,8 @@ export function RoastLab({
                 ]}
               >
                 <Txt>
-                  {eventNames[e.event_type]?.[ar ? 0 : 1] ??
-                    (ar ? 'حدث إضافي' : 'Custom event')}
+                  {i18nUi(eventNames[e.event_type]?.[0] ?? '', eventNames[e.event_type]?.[1] ?? '') ??
+                    (ar ? 'حدث إضافي' : i18nUi('حدث إضافي', 'Custom event'))}
                 </Txt>
                 <Txt>
                   {clockTime(e.elapsed_seconds)}
@@ -1133,13 +1133,13 @@ export function RoastLab({
           {selected.controls?.length ? (
             <Disclosure
               title={
-                ar ? 'إعدادات الماكينة المسجّلة' : 'Recorded machine controls'
+                ar ? 'إعدادات الماكينة المسجّلة' : i18nUi('إعدادات الماكينة المسجّلة', 'Recorded machine controls')
               }
             >
               {selected.controls.map((c, i) => (
                 <Txt key={i}>
                   {clockTime(c.elapsed_seconds)} ·{' '}
-                  {controlNames[c.control_type]?.[ar ? 0 : 1] ?? c.control_type}{' '}
+                  {i18nUi(controlNames[c.control_type]?.[0] ?? '', controlNames[c.control_type]?.[1] ?? '') ?? c.control_type}{' '}
                   · {c.value} {c.unit}
                 </Txt>
               ))}
@@ -1148,12 +1148,12 @@ export function RoastLab({
           <View style={styles.row}>
             {selected.user_id === userId ? (
               <Action
-                title={ar ? 'تعديل الحمصة' : 'Edit roast'}
+                title={ar ? 'تعديل الحمصة' : i18nUi('تعديل الحمصة', 'Edit roast')}
                 onPress={() => makeDraft(selected)}
               />
             ) : null}
             <Action
-              title={ar ? 'نسخ الحمصة لمحاولة جديدة' : 'Fork for a new attempt'}
+              title={ar ? 'نسخ الحمصة لمحاولة جديدة' : i18nUi('نسخ الحمصة لمحاولة جديدة', 'Fork for a new attempt')}
               onPress={() => {
                 if (!userId) {
                   login();
@@ -1163,7 +1163,7 @@ export function RoastLab({
               }}
             />
             <Action
-              title={ar ? 'أضف للمقارنة' : 'Add to comparison'}
+              title={ar ? 'أضف للمقارنة' : i18nUi('أضف للمقارنة', 'Add to comparison')}
               onPress={() => {
                 setComparison((v) =>
                   v.includes(selected.id) ? v : [...v.slice(-2), selected.id],
@@ -1174,7 +1174,7 @@ export function RoastLab({
           </View>
           {selected.user_id === userId && selected.status === 'completed' ? (
             <Action
-              title={ar ? 'سجّل التذوق' : 'Record tasting'}
+              title={ar ? 'سجّل التذوق' : i18nUi('سجّل التذوق', 'Record tasting')}
               onPress={() => setTasting((v) => !v)}
               selected={tasting}
             />
@@ -1182,12 +1182,12 @@ export function RoastLab({
           {tasting ? (
             <View style={styles.card}>
               <Txt heading style={styles.subtitle}>
-                {ar ? 'تذوقك لهذه الحمصة' : 'Your tasting of this roast'}
+                {ar ? 'تذوقك لهذه الحمصة' : i18nUi('تذوقك لهذه الحمصة', 'Your tasting of this roast')}
               </Txt>
               <Txt style={styles.muted}>
                 {ar
                   ? 'درجاتك الشخصية من 1 إلى 10؛ اترك ما لم تقسه فارغًا.'
-                  : 'Your personal 1–10 scores; leave unmeasured values blank.'}
+                  : i18nUi('درجاتك الشخصية من 1 إلى 10؛ اترك ما لم تقسه فارغًا.', 'Your personal 1–10 scores; leave unmeasured values blank.')}
               </Txt>
               <View style={s.fields}>
                 {(
@@ -1205,11 +1205,11 @@ export function RoastLab({
                               'أيام الراحة',
                             ]
                           : [
-                              'Acidity',
-                              'Sweetness',
-                              'Body',
-                              'Score out of 100',
-                              'Rest days',
+                              i18nUi('الحموضة', 'Acidity'),
+                              i18nUi('الحلاوة', 'Sweetness'),
+                              i18nUi('القوام', 'Body'),
+                              i18nUi('التقييم من 100', 'Score out of 100'),
+                              i18nUi('أيام الراحة', 'Rest days'),
                             ])[i]
                       }
                       value={taste[key]}
@@ -1225,13 +1225,13 @@ export function RoastLab({
                 label={
                   ar
                     ? 'إيحاءات تذوقك (افصل بفاصلة)'
-                    : 'Your tasting notes (comma separated)'
+                    : i18nUi('إيحاءات تذوقك (افصل بفاصلة)', 'Your tasting notes (comma separated)')
                 }
                 value={taste.flavors}
                 onChangeText={(flavors) => setTaste((t) => ({ ...t, flavors }))}
               />
               <Field
-                label={ar ? 'ملاحظات التذوق' : 'Tasting observations'}
+                label={ar ? 'ملاحظات التذوق' : i18nUi('ملاحظات التذوق', 'Tasting observations')}
                 value={taste.notes}
                 onChangeText={(notes) => setTaste((t) => ({ ...t, notes }))}
               />
@@ -1239,12 +1239,12 @@ export function RoastLab({
                 title={
                   ar
                     ? 'ربط التذوق بوصفة أو تحضير محفوظ'
-                    : 'Link a recipe or saved brew'
+                    : i18nUi('ربط التذوق بوصفة أو تحضير محفوظ', 'Link a recipe or saved brew')
                 }
               >
                 <ScrollView horizontal contentContainerStyle={{ gap: 8 }}>
                   <Action
-                    title={ar ? 'دون وصفة' : 'No recipe'}
+                    title={ar ? 'دون وصفة' : i18nUi('دون وصفة', 'No recipe')}
                     selected={!taste.recipe}
                     onPress={() => setTaste((t) => ({ ...t, recipe: '' }))}
                   />
@@ -1259,7 +1259,7 @@ export function RoastLab({
                 </ScrollView>
                 <ScrollView horizontal contentContainerStyle={{ gap: 8 }}>
                   <Action
-                    title={ar ? 'دون تحضير' : 'No brew'}
+                    title={ar ? 'دون تحضير' : i18nUi('دون تحضير', 'No brew')}
                     selected={!taste.brew}
                     onPress={() => setTaste((t) => ({ ...t, brew: '' }))}
                   />
@@ -1267,7 +1267,7 @@ export function RoastLab({
                     <Action
                       key={b.id}
                       title={
-                        (ar ? 'تحضير ' : 'Brew ') +
+                        (ar ? 'تحضير ' : i18nUi('تحضير ', 'Brew ')) +
                         (i + 1) +
                         ' · ' +
                         new Date(b.created_at).toLocaleDateString(
@@ -1287,7 +1287,7 @@ export function RoastLab({
                 </ScrollView>
               </Disclosure>
               <Action
-                title={ar ? 'حفظ التذوق' : 'Save tasting'}
+                title={ar ? 'حفظ التذوق' : i18nUi('حفظ التذوق', 'Save tasting')}
                 selected
                 disabled={saving}
                 onPress={() => void saveTaste()}
@@ -1297,22 +1297,22 @@ export function RoastLab({
           {selected.tastings?.map((t) => (
             <View key={t.id} style={styles.card}>
               <Txt heading style={{ fontSize: 16, fontWeight: '700' }}>
-                {ar ? 'نتيجة التذوق' : 'Tasting result'}
+                {ar ? 'نتيجة التذوق' : i18nUi('نتيجة التذوق', 'Tasting result')}
                 {t.tasted_on ? ' · ' + t.tasted_on : ''}
               </Txt>
               <Txt>
                 {[
                   t.acidity !== null
-                    ? (ar ? 'الحموضة ' : 'Acidity ') + t.acidity + '/10'
+                    ? (ar ? 'الحموضة ' : i18nUi('الحموضة ', 'Acidity ')) + t.acidity + '/10'
                     : null,
                   t.sweetness !== null
-                    ? (ar ? 'الحلاوة ' : 'Sweetness ') + t.sweetness + '/10'
+                    ? (ar ? 'الحلاوة ' : i18nUi('الحلاوة ', 'Sweetness ')) + t.sweetness + '/10'
                     : null,
                   t.body !== null
-                    ? (ar ? 'القوام ' : 'Body ') + t.body + '/10'
+                    ? (ar ? 'القوام ' : i18nUi('القوام ', 'Body ')) + t.body + '/10'
                     : null,
                   t.overall_score !== null
-                    ? (ar ? 'التقييم ' : 'Score ') + t.overall_score + '/100'
+                    ? (ar ? 'التقييم ' : i18nUi('التقييم ', 'Score ')) + t.overall_score + '/100'
                     : null,
                 ]
                   .filter(Boolean)
@@ -1322,7 +1322,7 @@ export function RoastLab({
               {t.notes ? <Txt>{t.notes}</Txt> : null}
               {t.recipe_id && recipes.find((r) => r.id === t.recipe_id) ? (
                 <Action
-                  title={ar ? 'فتح وصفة التذوق' : 'Open tasting recipe'}
+                  title={ar ? 'فتح وصفة التذوق' : i18nUi('فتح وصفة التذوق', 'Open tasting recipe')}
                   onPress={() =>
                     openRecipe(recipes.find((r) => r.id === t.recipe_id)!)
                   }
@@ -1338,10 +1338,10 @@ export function RoastLab({
               <Txt>
                 {ar
                   ? 'لديك مسودة حمصة محفوظة على هذا الجهاز.'
-                  : 'A roast draft is saved on this device.'}
+                  : i18nUi('لديك مسودة حمصة محفوظة على هذا الجهاز.', 'A roast draft is saved on this device.')}
               </Txt>
               <Action
-                title={ar ? 'استكمال المسودة' : 'Resume saved draft'}
+                title={ar ? 'استكمال المسودة' : i18nUi('استكمال المسودة', 'Resume saved draft')}
                 onPress={() => {
                   setDraft(restorable);
                   setEditing(!!restorable.expected);
@@ -1356,15 +1356,15 @@ export function RoastLab({
               {editing
                 ? ar
                   ? 'تعديل الحمصة'
-                  : 'Edit roast'
+                  : i18nUi('تعديل الحمصة', 'Edit roast')
                 : ar
                   ? 'دفعة جديدة'
-                  : 'New batch'}
+                  : i18nUi('دفعة جديدة', 'New batch')}
             </Txt>
             <View style={s.fields}>
               <View style={s.field}>
                 <Field
-                  label={ar ? 'اسم الحمصة' : 'Roast title'}
+                  label={ar ? 'اسم الحمصة' : i18nUi('اسم الحمصة', 'Roast title')}
                   value={draft.title}
                   onChangeText={(v) => edit('title', v)}
                 />
@@ -1374,7 +1374,7 @@ export function RoastLab({
                   label={
                     ar
                       ? 'تاريخ الحمصة (سنة-شهر-يوم)'
-                      : 'Roast date (YYYY-MM-DD)'
+                      : i18nUi('تاريخ الحمصة (سنة-شهر-يوم)', 'Roast date (YYYY-MM-DD)')
                   }
                   value={draft.date}
                   onChangeText={(v) => edit('date', v)}
@@ -1382,13 +1382,13 @@ export function RoastLab({
               </View>
             </View>
             <Txt style={styles.label}>
-              {ar ? 'اختَر البن الأخضر' : 'Choose green coffee'}
+              {ar ? 'اختَر البن الأخضر' : i18nUi('اختَر البن الأخضر', 'Choose green coffee')}
             </Txt>
             <ScrollView horizontal contentContainerStyle={{ gap: 8 }}>
               {green.map((g) => (
                 <Action
                   key={g.id}
-                  title={g.name + ' · ' + g.remaining + (ar ? ' غ' : ' g')}
+                  title={g.name + ' · ' + g.remaining + (ar ? ' غ' : i18nUi(' غ', ' g'))}
                   selected={draft.green === g.id}
                   onPress={() => edit('green', g.id)}
                 />
@@ -1397,7 +1397,7 @@ export function RoastLab({
             {!green.length ? (
               <Action
                 title={
-                  ar ? 'أضف بنّك الأخضر أولًا' : 'Add your green coffee first'
+                  ar ? 'أضف بنّك الأخضر أولًا' : i18nUi('أضف بنّك الأخضر أولًا', 'Add your green coffee first')
                 }
                 onPress={() => {
                   choose('green');
@@ -1406,11 +1406,11 @@ export function RoastLab({
               />
             ) : null}
             <Txt style={styles.label}>
-              {ar ? 'ماكينة التحميص' : 'Roasting machine'}
+              {ar ? 'ماكينة التحميص' : i18nUi('ماكينة التحميص', 'Roasting machine')}
             </Txt>
             <ScrollView horizontal contentContainerStyle={{ gap: 8 }}>
               <Action
-                title={ar ? 'دون ماكينة محددة' : 'Unspecified machine'}
+                title={ar ? 'دون ماكينة محددة' : i18nUi('دون ماكينة محددة', 'Unspecified machine')}
                 selected={!draft.machine}
                 onPress={() => edit('machine', '')}
               />
@@ -1427,13 +1427,13 @@ export function RoastLab({
               ))}
             </ScrollView>
             <Action
-              title={ar ? 'إدارة معدات التحميص' : 'Manage roasting equipment'}
+              title={ar ? 'إدارة معدات التحميص' : i18nUi('إدارة معدات التحميص', 'Manage roasting equipment')}
               onPress={() => choose('gear')}
             />
             <View style={s.fields}>
               <View style={s.field}>
                 <Field
-                  label={ar ? 'وزن البن الأخضر (غ)' : 'Green input (g)'}
+                  label={ar ? 'وزن البن الأخضر (غ)' : i18nUi('وزن البن الأخضر (غ)', 'Green input (g)')}
                   value={draft.input}
                   onChangeText={(v) => edit('input', v)}
                   keyboardType="decimal-pad"
@@ -1441,7 +1441,7 @@ export function RoastLab({
               </View>
               <View style={s.field}>
                 <Field
-                  label={ar ? 'الوزن بعد التحميص (غ)' : 'Roasted output (g)'}
+                  label={ar ? 'الوزن بعد التحميص (غ)' : i18nUi('الوزن بعد التحميص (غ)', 'Roasted output (g)')}
                   value={draft.output}
                   onChangeText={(v) => edit('output', v)}
                   keyboardType="decimal-pad"
@@ -1450,7 +1450,7 @@ export function RoastLab({
             </View>
             {metrics?.loss !== null && metrics?.loss !== undefined ? (
               <Txt style={{ fontWeight: '700', color: colors.teal }}>
-                {ar ? 'فقدان الوزن: ' : 'Weight loss: '}
+                {ar ? 'فقدان الوزن: ' : i18nUi('فقدان الوزن: ', 'Weight loss: ')}
                 {metrics.loss}%
               </Txt>
             ) : null}
@@ -1466,7 +1466,7 @@ export function RoastLab({
             ]}
           >
             <Txt heading style={{ color: '#FFF', fontWeight: '700' }}>
-              {ar ? 'مؤقت الحمصة' : 'Roast timer'}
+              {ar ? 'مؤقت الحمصة' : i18nUi('مؤقت الحمصة', 'Roast timer')}
             </Txt>
             <Txt
               style={{
@@ -1485,10 +1485,10 @@ export function RoastLab({
                   clock.start
                     ? ar
                       ? 'إيقاف مؤقت'
-                      : 'Pause timer'
+                      : i18nUi('إيقاف مؤقت', 'Pause timer')
                     : ar
                       ? 'تشغيل مؤقت الحمصة'
-                      : 'Start roast timer'
+                      : i18nUi('تشغيل مؤقت الحمصة', 'Start roast timer')
                 }
                 onPress={() => {
                   const current = Date.now();
@@ -1504,19 +1504,19 @@ export function RoastLab({
                 }}
               />
               <Action
-                title={ar ? 'اعتماد الوقت الإجمالي' : 'Use elapsed time'}
+                title={ar ? 'اعتماد الوقت الإجمالي' : i18nUi('اعتماد الوقت الإجمالي', 'Use elapsed time')}
                 onPress={() => edit('duration', clockTime(elapsed))}
                 disabled={elapsed === 0}
               />
             </View>
           </View>
           <Txt heading style={styles.subtitle}>
-            {ar ? 'مراحل الحمصة' : 'Roast stages'}
+            {ar ? 'مراحل الحمصة' : i18nUi('مراحل الحمصة', 'Roast stages')}
           </Txt>
           <Txt style={styles.muted}>
             {ar
               ? 'سجّل الأوقات والحرارات الفعلية، أو اضغط «سجّل الآن» مع المؤقت.'
-              : 'Enter actual timestamps and temperatures, or mark the running timer.'}
+              : i18nUi('سجّل الأوقات والحرارات الفعلية، أو اضغط «سجّل الآن» مع المؤقت.', 'Enter actual timestamps and temperatures, or mark the running timer.')}
           </Txt>
           <View style={s.fields}>
             {draft.events.map((e, i) => (
@@ -1529,8 +1529,8 @@ export function RoastLab({
                 ]}
               >
                 <Txt heading style={{ fontWeight: '700' }}>
-                  {eventNames[e.event_type]?.[ar ? 0 : 1] ??
-                    (ar ? 'حدث إضافي' : 'Custom event')}
+                  {i18nUi(eventNames[e.event_type]?.[0] ?? '', eventNames[e.event_type]?.[1] ?? '') ??
+                    (ar ? 'حدث إضافي' : i18nUi('حدث إضافي', 'Custom event'))}
                 </Txt>
                 <View
                   style={{ flexDirection: ar ? 'row-reverse' : 'row', gap: 10 }}
@@ -1538,8 +1538,8 @@ export function RoastLab({
                   <View style={{ flex: 1 }}>
                     <Field
                       label={
-                        (ar ? 'وقت ' : 'Time ') +
-                        (eventNames[e.event_type]?.[ar ? 0 : 1] ??
+                        (ar ? 'وقت ' : i18nUi('وقت ', 'Time ')) +
+                        (i18nUi(eventNames[e.event_type]?.[0] ?? '', eventNames[e.event_type]?.[1] ?? '') ??
                           String(i + 1))
                       }
                       placeholder="0:00"
@@ -1550,8 +1550,8 @@ export function RoastLab({
                   <View style={{ flex: 1 }}>
                     <Field
                       label={
-                        (ar ? 'حرارة ' : 'Temperature ') +
-                        (eventNames[e.event_type]?.[ar ? 0 : 1] ??
+                        (ar ? 'حرارة ' : i18nUi('حرارة ', 'Temperature ')) +
+                        (i18nUi(eventNames[e.event_type]?.[0] ?? '', eventNames[e.event_type]?.[1] ?? '') ??
                           String(i + 1)) +
                         ' (°C)'
                       }
@@ -1564,8 +1564,8 @@ export function RoastLab({
                 {e.event_type !== 'charge' ? (
                   <Action
                     title={
-                      (ar ? 'سجّل الآن: ' : 'Mark now: ') +
-                      (eventNames[e.event_type]?.[ar ? 0 : 1] ?? String(i + 1))
+                      (ar ? 'سجّل الآن: ' : i18nUi('سجّل الآن: ', 'Mark now: ')) +
+                      (i18nUi(eventNames[e.event_type]?.[0] ?? '', eventNames[e.event_type]?.[1] ?? '') ?? String(i + 1))
                     }
                     onPress={() => {
                       eventEdit(i, 'time', clockTime(elapsed));
@@ -1583,32 +1583,32 @@ export function RoastLab({
               label={
                 ar
                   ? 'إجمالي الوقت (دقائق:ثواني)'
-                  : 'Total time (minutes:seconds)'
+                  : i18nUi('إجمالي الوقت (دقائق:ثواني)', 'Total time (minutes:seconds)')
               }
               placeholder="10:30"
               value={draft.duration}
               onChangeText={(v) => edit('duration', v)}
             />
             <Txt style={styles.label}>
-              {ar ? 'درجة التحميص الفعلية' : 'Actual roast level'}
+              {ar ? 'درجة التحميص الفعلية' : i18nUi('درجة التحميص الفعلية', 'Actual roast level')}
             </Txt>
             <View style={styles.row}>
               <Action
-                title={ar ? 'غير محددة' : 'Unspecified'}
+                title={ar ? 'غير محددة' : i18nUi('غير محددة', 'Unspecified')}
                 selected={!draft.level}
                 onPress={() => edit('level', '')}
               />
               {Object.entries(roastNames).map(([id, label]) => (
                 <Action
                   key={id}
-                  title={label[ar ? 0 : 1]}
+                  title={i18nUi(label[0] ?? '', label[1] ?? '')}
                   selected={draft.level === id}
                   onPress={() => edit('level', id)}
                 />
               ))}
             </View>
             <Field
-              label={ar ? 'ملاحظات الحمصة' : 'Roast notes'}
+              label={ar ? 'ملاحظات الحمصة' : i18nUi('ملاحظات الحمصة', 'Roast notes')}
               value={draft.notes}
               onChangeText={(v) => edit('notes', v)}
               multiline
@@ -1618,13 +1618,13 @@ export function RoastLab({
             title={
               ar
                 ? 'منحنى الحرارة وقراءات الماكينة'
-                : 'Temperature curve and measurements'
+                : i18nUi('منحنى الحرارة وقراءات الماكينة', 'Temperature curve and measurements')
             }
           >
             <RoastCurve
               series={[
                 {
-                  name: draft.title || (ar ? 'هذه الحمصة' : 'This roast'),
+                  name: draft.title || (ar ? 'هذه الحمصة' : i18nUi('هذه الحمصة', 'This roast')),
                   points: draft.points.length ? draft.points : draftEvents,
                 },
               ]}
@@ -1643,10 +1643,10 @@ export function RoastLab({
                               'معدل ارتفاع الحرارة (°C/دقيقة)',
                             ]
                           : [
-                              'Sample time (minutes:seconds)',
-                              'Bean temperature (°C)',
-                              'Environment temperature (°C)',
-                              'Rate of rise (°C/min)',
+                              i18nUi('وقت القراءة (دقائق:ثواني)', 'Sample time (minutes:seconds)'),
+                              i18nUi('حرارة البن (°C)', 'Bean temperature (°C)'),
+                              i18nUi('حرارة البيئة (°C)', 'Environment temperature (°C)'),
+                              i18nUi('معدل ارتفاع الحرارة (°C/دقيقة)', 'Rate of rise (°C/min)'),
                             ])[i]
                       }
                       value={point[key]}
@@ -1660,7 +1660,7 @@ export function RoastLab({
               )}
             </View>
             <Action
-              title={ar ? 'إضافة قراءة' : 'Add measurement'}
+              title={ar ? 'إضافة قراءة' : i18nUi('إضافة قراءة', 'Add measurement')}
               onPress={addPoint}
             />
             {draft.points.map((p, i) => (
@@ -1670,16 +1670,16 @@ export function RoastLab({
                   {p.environment_temp_c !== null &&
                   p.environment_temp_c !== undefined
                     ? ' · ' +
-                      (ar ? 'البيئة ' : 'Environment ') +
+                      (ar ? 'البيئة ' : i18nUi('البيئة ', 'Environment ')) +
                       p.environment_temp_c +
                       '°C'
                     : ''}
                   {p.ror !== null && p.ror !== undefined
-                    ? ' · ' + p.ror + '°C/' + (ar ? 'د' : 'min')
+                    ? ' · ' + p.ror + '°C/' + (ar ? 'د' : i18nUi('د', 'min'))
                     : ''}
                 </Txt>
                 <Action
-                  title={(ar ? 'حذف القراءة ' : 'Remove sample ') + (i + 1)}
+                  title={(ar ? 'حذف القراءة ' : i18nUi('حذف القراءة ', 'Remove sample ')) + (i + 1)}
                   onPress={() =>
                     setDraft((d) => ({
                       ...d,
@@ -1694,14 +1694,14 @@ export function RoastLab({
             title={
               ar
                 ? 'إعدادات الغاز والهواء والقدرة'
-                : 'Gas, airflow and power settings'
+                : i18nUi('إعدادات الغاز والهواء والقدرة', 'Gas, airflow and power settings')
             }
           >
             <View style={styles.row}>
               {Object.entries(controlNames).map(([id, label]) => (
                 <Action
                   key={id}
-                  title={label[ar ? 0 : 1]}
+                  title={i18nUi(label[0] ?? '', label[1] ?? '')}
                   selected={control.type === id}
                   onPress={() => setControl((c) => ({ ...c, type: id }))}
                 />
@@ -1714,7 +1714,7 @@ export function RoastLab({
                     label={
                       (ar
                         ? ['وقت تغيير الإعداد', 'قيمة الإعداد', 'وحدة القياس']
-                        : ['Control change time', 'Control value', 'Unit'])[i]
+                        : [i18nUi('وقت تغيير الإعداد', 'Control change time'), i18nUi('قيمة الإعداد', 'Control value'), i18nUi('وحدة القياس', 'Unit')])[i]
                     }
                     value={control[key]}
                     onChangeText={(v) =>
@@ -1725,18 +1725,18 @@ export function RoastLab({
               ))}
             </View>
             <Action
-              title={ar ? 'إضافة إعداد' : 'Add control setting'}
+              title={ar ? 'إضافة إعداد' : i18nUi('إضافة إعداد', 'Add control setting')}
               onPress={addControl}
             />
             {draft.controls.map((c, i) => (
               <View key={i} style={styles.row}>
                 <Txt style={{ flex: 1, fontSize: 12 }}>
                   {clockTime(c.elapsed_seconds)} ·{' '}
-                  {controlNames[c.control_type]?.[ar ? 0 : 1] ?? c.control_type}{' '}
+                  {i18nUi(controlNames[c.control_type]?.[0] ?? '', controlNames[c.control_type]?.[1] ?? '') ?? c.control_type}{' '}
                   · {c.value} {c.unit}
                 </Txt>
                 <Action
-                  title={(ar ? 'حذف الإعداد ' : 'Remove control ') + (i + 1)}
+                  title={(ar ? 'حذف الإعداد ' : i18nUi('حذف الإعداد ', 'Remove control ')) + (i + 1)}
                   onPress={() =>
                     setDraft((d) => ({
                       ...d,
@@ -1751,7 +1751,7 @@ export function RoastLab({
             title={
               ar
                 ? 'بيانات الدفعة واللون المستهدف'
-                : 'Batch and target color details'
+                : i18nUi('بيانات الدفعة واللون المستهدف', 'Batch and target color details')
             }
           >
             <View style={s.fields}>
@@ -1776,11 +1776,11 @@ export function RoastLab({
                             'قياس لون المطحون (0–150)',
                           ]
                         : [
-                            'Batch number',
-                            'Ambient temperature (°C)',
-                            'Green temperature (°C)',
-                            'Whole-bean Agtron (0–150)',
-                            'Ground Agtron (0–150)',
+                            i18nUi('رقم الدفعة', 'Batch number'),
+                            i18nUi('حرارة الجو (°C)', 'Ambient temperature (°C)'),
+                            i18nUi('حرارة البن قبل التحميص (°C)', 'Green temperature (°C)'),
+                            i18nUi('قياس لون الحبة (0–150)', 'Whole-bean Agtron (0–150)'),
+                            i18nUi('قياس لون المطحون (0–150)', 'Ground Agtron (0–150)'),
                           ])[i]
                     }
                     value={draft[key]}
@@ -1790,17 +1790,17 @@ export function RoastLab({
                 </View>
               ))}
             </View>
-            <Txt>{ar ? 'درجة التحميص المستهدفة' : 'Target roast level'}</Txt>
+            <Txt>{ar ? 'درجة التحميص المستهدفة' : i18nUi('درجة التحميص المستهدفة', 'Target roast level')}</Txt>
             <View style={styles.row}>
               <Action
-                title={ar ? 'غير محددة' : 'Unspecified'}
+                title={ar ? 'غير محددة' : i18nUi('غير محددة', 'Unspecified')}
                 selected={!draft.target}
                 onPress={() => edit('target', '')}
               />
               {Object.entries(roastNames).map(([id, label]) => (
                 <Action
                   key={id}
-                  title={label[ar ? 0 : 1]}
+                  title={i18nUi(label[0] ?? '', label[1] ?? '')}
                   selected={draft.target === id}
                   onPress={() => edit('target', id)}
                 />
@@ -1814,16 +1814,16 @@ export function RoastLab({
             ]}
           >
             <Txt heading style={{ fontWeight: '700' }}>
-              {ar ? 'حفظ الحمصة' : 'Save this roast'}
+              {ar ? 'حفظ الحمصة' : i18nUi('حفظ الحمصة', 'Save this roast')}
             </Txt>
             <View style={styles.row}>
               <Action
-                title={ar ? 'حمصة خاصة' : 'Private roast'}
+                title={ar ? 'حمصة خاصة' : i18nUi('حمصة خاصة', 'Private roast')}
                 selected={!publish}
                 onPress={() => setPublish(false)}
               />
               <Action
-                title={ar ? 'نشر في المجتمع' : 'Share with community'}
+                title={ar ? 'نشر في المجتمع' : i18nUi('نشر في المجتمع', 'Share with community')}
                 selected={publish}
                 onPress={() => setPublish(true)}
               />
@@ -1832,13 +1832,13 @@ export function RoastLab({
               <Txt style={styles.muted}>
                 {ar
                   ? 'سيظهر عنوان الحمصة واسم البن ومنشؤه ومراحلها وقياساتها وملاحظاتك ونتائج التذوق في المجتمع. مخزونك وبيانات مورّد البن تبقى خاصة.'
-                  : 'Your roast title, coffee name and origin, stages, measurements, notes and tastings will appear in the community. Stock and supplier details stay private.'}
+                  : i18nUi('سيظهر عنوان الحمصة واسم البن ومنشؤه ومراحلها وقياساتها وملاحظاتك ونتائج التذوق في المجتمع. مخزونك وبيانات مورّد البن تبقى خاصة.', 'Your roast title, coffee name and origin, stages, measurements, notes and tastings will appear in the community. Stock and supplier details stay private.')}
               </Txt>
             ) : null}
             <View style={styles.row}>
               {draft.status !== 'completed' && !publish ? (
                 <Action
-                  title={ar ? 'حفظ المسودة' : 'Save planned roast'}
+                  title={ar ? 'حفظ المسودة' : i18nUi('حفظ المسودة', 'Save planned roast')}
                   disabled={saving}
                   onPress={() => void saveRoast(false)}
                 />
@@ -1848,14 +1848,14 @@ export function RoastLab({
                   saving
                     ? ar
                       ? 'جارٍ الحفظ…'
-                      : 'Saving…'
+                      : i18nUi('جارٍ الحفظ…', 'Saving…')
                     : publish
                       ? ar
                         ? 'حفظ ونشر الحمصة'
-                        : 'Save and publish roast'
+                        : i18nUi('حفظ ونشر الحمصة', 'Save and publish roast')
                       : ar
                         ? 'حفظ الحمصة المكتملة'
-                        : 'Save completed roast'
+                        : i18nUi('حفظ الحمصة المكتملة', 'Save completed roast')
                 }
                 selected
                 disabled={saving}
@@ -1872,16 +1872,16 @@ export function RoastLab({
                 {greenCreating
                   ? ar
                     ? 'إضافة بنّي الأخضر'
-                    : 'Add my green coffee'
+                    : i18nUi('إضافة بنّي الأخضر', 'Add my green coffee')
                   : ar
                     ? 'بيانات البن والمخزون'
-                    : 'Green coffee and stock'}
+                    : i18nUi('بيانات البن والمخزون', 'Green coffee and stock')}
               </Txt>
               <View style={s.fields}>
                 {greenFields.slice(0, 3).map((f) => (
                   <View key={f.key} style={s.field}>
                     <Field
-                      label={ar ? f.ar : f.en}
+                      label={i18nUi(f.ar, f.en)}
                       value={greenDraft[f.key] ?? ''}
                       onChangeText={(v) =>
                         setGreenDraft((d) => (d ? { ...d, [f.key]: v } : null))
@@ -1894,7 +1894,7 @@ export function RoastLab({
                     label={
                       ar
                         ? 'كمية شراء لإضافتها (غ)'
-                        : 'Purchase quantity to add (g)'
+                        : i18nUi('كمية شراء لإضافتها (غ)', 'Purchase quantity to add (g)')
                     }
                     value={greenDraft.quantity_grams}
                     onChangeText={(v) =>
@@ -1910,14 +1910,14 @@ export function RoastLab({
                 title={
                   ar
                     ? 'تفاصيل المحصول والقياسات'
-                    : 'Lot details and measurements'
+                    : i18nUi('تفاصيل المحصول والقياسات', 'Lot details and measurements')
                 }
               >
                 <View style={s.fields}>
                   {greenFields.slice(3).map((f) => (
                     <View key={f.key} style={s.field}>
                       <Field
-                        label={ar ? f.ar : f.en}
+                        label={i18nUi(f.ar, f.en)}
                         value={greenDraft[f.key] ?? ''}
                         onChangeText={(v) =>
                           setGreenDraft((d) =>
@@ -1929,7 +1929,7 @@ export function RoastLab({
                     </View>
                   ))}
                 </View>
-                <Txt style={styles.label}>{ar ? 'النوع' : 'Species'}</Txt>
+                <Txt style={styles.label}>{ar ? 'النوع' : i18nUi('النوع', 'Species')}</Txt>
                 <View style={styles.row}>
                   {[
                     '',
@@ -1946,11 +1946,11 @@ export function RoastLab({
                         !id
                           ? ar
                             ? 'غير محدد'
-                            : 'Unspecified'
+                            : i18nUi('غير محدد', 'Unspecified')
                           : id === 'other'
                             ? ar
                               ? 'نوع آخر'
-                              : 'Other'
+                              : i18nUi('نوع آخر', 'Other')
                             : catalogName(id, locale)
                       }
                       selected={greenDraft.species === id}
@@ -1960,7 +1960,7 @@ export function RoastLab({
                     />
                   ))}
                 </View>
-                <Txt style={styles.label}>{ar ? 'المعالجة' : 'Processing'}</Txt>
+                <Txt style={styles.label}>{ar ? 'المعالجة' : i18nUi('المعالجة', 'Processing')}</Txt>
                 <View style={styles.row}>
                   {[
                     '',
@@ -1978,7 +1978,7 @@ export function RoastLab({
                           ? processLabel(id, locale)
                           : ar
                             ? 'غير محددة'
-                            : 'Unspecified'
+                            : i18nUi('غير محددة', 'Unspecified')
                       }
                       selected={greenDraft.process === id}
                       onPress={() =>
@@ -1990,13 +1990,13 @@ export function RoastLab({
               </Disclosure>
               <View style={styles.row}>
                 <Action
-                  title={ar ? 'حفظ البن الأخضر' : 'Save green coffee'}
+                  title={ar ? 'حفظ البن الأخضر' : i18nUi('حفظ البن الأخضر', 'Save green coffee')}
                   selected
                   disabled={saving}
                   onPress={() => void saveGreen()}
                 />
                 <Action
-                  title={ar ? 'إلغاء' : 'Cancel'}
+                  title={ar ? 'إلغاء' : i18nUi('إلغاء', 'Cancel')}
                   disabled={saving}
                   onPress={() => setGreenDraft(null)}
                 />
@@ -2004,7 +2004,7 @@ export function RoastLab({
             </View>
           ) : (
             <Action
-              title={ar ? 'إضافة بنّي الأخضر' : 'Add my green coffee'}
+              title={ar ? 'إضافة بنّي الأخضر' : i18nUi('إضافة بنّي الأخضر', 'Add my green coffee')}
               selected
               onPress={() => beginGreen()}
             />
@@ -2034,18 +2034,18 @@ export function RoastLab({
                     color: colors.teal,
                   }}
                 >
-                  {g.remaining} {ar ? 'غ متبقية' : 'g remaining'}
+                  {g.remaining} {ar ? 'غ متبقية' : i18nUi('غ متبقية', 'g remaining')}
                 </Txt>
                 <Action
                   title={
-                    (ar ? 'تعديل أو إضافة كمية: ' : 'Edit or add stock: ') +
+                    (ar ? 'تعديل أو إضافة كمية: ' : i18nUi('تعديل أو إضافة كمية: ', 'Edit or add stock: ')) +
                     g.name
                   }
                   onPress={() => beginGreen(g)}
                 />
                 <Action
                   title={
-                    (ar ? 'حمّص هذا البن: ' : 'Roast this coffee: ') + g.name
+                    (ar ? 'حمّص هذا البن: ' : i18nUi('حمّص هذا البن: ', 'Roast this coffee: ')) + g.name
                   }
                   onPress={() => {
                     makeDraft();
@@ -2058,11 +2058,11 @@ export function RoastLab({
           {!green.length && !busy ? (
             <EmptyLab
               ar={ar}
-              title={ar ? 'ابدأ ببنّك الأخضر' : 'Start with your green coffee'}
+              title={ar ? 'ابدأ ببنّك الأخضر' : i18nUi('ابدأ ببنّك الأخضر', 'Start with your green coffee')}
               note={
                 ar
                   ? 'أضف اسم المحصول والكمية المتوفرة، ثم سجّل حمصاتك منه.'
-                  : 'Add the lot name and available quantity, then record your roasts.'
+                  : i18nUi('أضف اسم المحصول والكمية المتوفرة، ثم سجّل حمصاتك منه.', 'Add the lot name and available quantity, then record your roasts.')
               }
             />
           ) : null}
@@ -2072,7 +2072,7 @@ export function RoastLab({
           {userId ? (
             <>
               <Txt heading style={styles.subtitle}>
-                {ar ? 'ماكينات التحميص المسجّلة' : 'My roasting machines'}
+                {ar ? 'ماكينات التحميص المسجّلة' : i18nUi('ماكينات التحميص المسجّلة', 'My roasting machines')}
               </Txt>
               <View style={[s.grid, { flexDirection: ar ? 'row-reverse' : 'row' }]}>
                 {gear.map((g) => (
@@ -2086,16 +2086,16 @@ export function RoastLab({
                   </View>
                 ))}
               </View>
-              <Disclosure title={ar ? 'إضافة ماكينة باسمها' : 'Add a custom machine'}>
+              <Disclosure title={ar ? 'إضافة ماكينة باسمها' : i18nUi('إضافة ماكينة باسمها', 'Add a custom machine')}>
                 <Field
                   label={
-                    ar ? 'اسم ماكينة التحميص الخاصة بي' : 'My custom roasting machine'
+                    ar ? 'اسم ماكينة التحميص الخاصة بي' : i18nUi('اسم ماكينة التحميص الخاصة بي', 'My custom roasting machine')
                   }
                   value={customMachine}
                   onChangeText={setCustomMachine}
                 />
                 <Action
-                  title={ar ? 'إضافة ماكينة التحميص' : 'Add roasting machine'}
+                  title={ar ? 'إضافة ماكينة التحميص' : i18nUi('إضافة ماكينة التحميص', 'Add roasting machine')}
                   disabled={saving || customMachine.trim().length < 2}
                   variant="primary"
                   onPress={() => void addMachine()}
@@ -2104,10 +2104,10 @@ export function RoastLab({
             </>
           ) : null}
           <Txt heading style={styles.subtitle}>
-            {ar ? 'من دليل الماكينات' : 'From the equipment catalog'}
+            {ar ? 'من دليل الماكينات' : i18nUi('من دليل الماكينات', 'From the equipment catalog')}
           </Txt>
           <Field
-            label={ar ? 'ابحث عن ماكينة تحميص' : 'Search roasting machines'}
+            label={ar ? 'ابحث عن ماكينة تحميص' : i18nUi('ابحث عن ماكينة تحميص', 'Search roasting machines')}
             value={machineQuery}
             onChangeText={setMachineQuery}
           />
@@ -2152,9 +2152,9 @@ export function RoastLab({
                 <Action
                   compact
                   variant="primary"
-                  title={ar ? 'أضف إلى معدّاتي' : 'Add to my gear'}
+                  title={ar ? 'أضف إلى معدّاتي' : i18nUi('أضف إلى معدّاتي', 'Add to my gear')}
                   accessibilityLabel={
-                    (ar ? 'أضف إلى معداتي: ' : 'Add to my gear: ') + m.name
+                    (ar ? 'أضف إلى معداتي: ' : i18nUi('أضف إلى معداتي: ', 'Add to my gear: ')) + m.name
                   }
                   disabled={saving}
                   onPress={() => void addMachine(m)}
@@ -2162,7 +2162,7 @@ export function RoastLab({
                 {m.sourceUrl ? (
                   <SourceLink
                     compact
-                    title={ar ? 'تفاصيل الماكينة' : 'Machine details'}
+                    title={ar ? 'تفاصيل الماكينة' : i18nUi('تفاصيل الماكينة', 'Machine details')}
                     url={m.sourceUrl}
                   />
                 ) : null}
@@ -2174,10 +2174,10 @@ export function RoastLab({
               {catalog.length
                 ? ar
                   ? 'لا توجد نتائج؛ جرّب اسم الماكينة أو الشركة.'
-                  : 'No results; try a machine or brand name.'
+                  : i18nUi('لا توجد نتائج؛ جرّب اسم الماكينة أو الشركة.', 'No results; try a machine or brand name.')
                 : ar
                   ? 'لا توجد ماكينات موثقة متاحة الآن.'
-                  : 'No verified machines are available right now.'}
+                  : i18nUi('لا توجد ماكينات موثقة متاحة الآن.', 'No verified machines are available right now.')}
             </Txt>
           ) : null}
         </>
@@ -2188,10 +2188,10 @@ export function RoastLab({
               <Txt>
                 {ar
                   ? 'سجّل الدخول لعرض حمصاتك والبن الأخضر الخاص بك.'
-                  : 'Sign in to view your own roasts and green coffee.'}
+                  : i18nUi('سجّل الدخول لعرض حمصاتك والبن الأخضر الخاص بك.', 'Sign in to view your own roasts and green coffee.')}
               </Txt>
               <Action
-                title={ar ? 'تسجيل الدخول' : 'Sign in'}
+                title={ar ? 'تسجيل الدخول' : i18nUi('تسجيل الدخول', 'Sign in')}
                 selected
                 onPress={login}
               />
@@ -2200,18 +2200,18 @@ export function RoastLab({
           {comparison.length ? (
             <View style={[styles.card, { backgroundColor: '#EAF4F0' }]}>
               <Txt>
-                {ar ? 'حمصات محددة للمقارنة: ' : 'Roasts selected: '}
+                {ar ? 'حمصات محددة للمقارنة: ' : i18nUi('حمصات محددة للمقارنة: ', 'Roasts selected: ')}
                 {comparison.length}
               </Txt>
               <View style={styles.row}>
                 <Action
-                  title={ar ? 'قارن الحمصات' : 'Compare roasts'}
+                  title={ar ? 'قارن الحمصات' : i18nUi('قارن الحمصات', 'Compare roasts')}
                   disabled={comparison.length < 2 || busy}
                   selected
                   onPress={() => void compare()}
                 />
                 <Action
-                  title={ar ? 'مسح المقارنة' : 'Clear comparison'}
+                  title={ar ? 'مسح المقارنة' : i18nUi('مسح المقارنة', 'Clear comparison')}
                   onPress={() => setComparison([])}
                 />
               </View>
@@ -2233,7 +2233,7 @@ export function RoastLab({
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel={
-                    r.title ?? (ar ? 'فتح الحمصة' : 'Open roast')
+                    r.title ?? (ar ? 'فتح الحمصة' : i18nUi('فتح الحمصة', 'Open roast'))
                   }
                   onPress={() => void open(r.id)}
                 >
@@ -2251,10 +2251,10 @@ export function RoastLab({
                       {r.status === 'completed'
                         ? ar
                           ? 'مكتملة'
-                          : 'Completed'
+                          : i18nUi('مكتملة', 'Completed')
                         : ar
                           ? 'مسودة'
-                          : 'Planned'}
+                          : i18nUi('مسودة', 'Planned')}
                     </Txt>
                   </View>
                   <Txt
@@ -2279,10 +2279,10 @@ export function RoastLab({
                     (comparison.includes(r.id)
                       ? ar
                         ? 'إزالة من المقارنة: '
-                        : 'Remove from comparison: '
+                        : i18nUi('إزالة من المقارنة: ', 'Remove from comparison: ')
                       : ar
                         ? 'قارن: '
-                        : 'Compare: ') + (r.title ?? '')
+                        : i18nUi('قارن: ', 'Compare: ')) + (r.title ?? '')
                   }
                   selected={comparison.includes(r.id)}
                   disabled={
@@ -2306,25 +2306,25 @@ export function RoastLab({
                 section === 'public'
                   ? ar
                     ? 'مساحة لتبادل الحمصات'
-                    : 'A place to share roasts'
+                    : i18nUi('مساحة لتبادل الحمصات', 'A place to share roasts')
                   : ar
                     ? 'حمصتك الأولى تبدأ هنا'
-                    : 'Your first roast starts here'
+                    : i18nUi('حمصتك الأولى تبدأ هنا', 'Your first roast starts here')
               }
               note={
                 section === 'public'
                   ? ar
                     ? 'عند نشر حمصة مكتملة، يظهر منحناها ومراحلها ونتائجها هنا للمقارنة.'
-                    : 'Published completed roasts bring their curves, stages and results here for comparison.'
+                    : i18nUi('عند نشر حمصة مكتملة، يظهر منحناها ومراحلها ونتائجها هنا للمقارنة.', 'Published completed roasts bring their curves, stages and results here for comparison.')
                   : ar
                     ? 'أضف البن الأخضر، حدّد دفعتك، وسجّل الوقت والمراحل من ماكينة التحميص.'
-                    : 'Add green coffee, choose your batch and record times and stages from your roaster.'
+                    : i18nUi('أضف البن الأخضر، حدّد دفعتك، وسجّل الوقت والمراحل من ماكينة التحميص.', 'Add green coffee, choose your batch and record times and stages from your roaster.')
               }
             />
           ) : null}
           {!roasts.length ? (
             <Action
-              title={ar ? 'ابدأ تسجيل حمصة' : 'Record a roast'}
+              title={ar ? 'ابدأ تسجيل حمصة' : i18nUi('ابدأ تسجيل حمصة', 'Record a roast')}
               selected
               onPress={() => {
                 if (!userId) {
@@ -2366,45 +2366,46 @@ function RoastStats({
   roast: RoastProfile;
   compact?: boolean;
 }) {
+  const i18nUi = useLabels();
   const ar = useContext(Language) === 'ar';
   const m = roastMetrics(roast);
   const facts = [
     {
-      label: ar ? 'وزن البن الأخضر' : 'Input',
+      label: ar ? 'وزن البن الأخضر' : i18nUi('وزن البن الأخضر', 'Input'),
       value:
         roast.green_weight_g !== null
-          ? roast.green_weight_g + (ar ? ' غ' : ' g')
+          ? roast.green_weight_g + (ar ? ' غ' : i18nUi(' غ', ' g'))
           : '—',
     },
     {
-      label: ar ? 'فقدان الوزن' : 'Weight loss',
+      label: ar ? 'فقدان الوزن' : i18nUi('فقدان الوزن', 'Weight loss'),
       value: m.loss !== null ? m.loss + '%' : '—',
     },
     {
-      label: ar ? 'الوقت' : 'Time',
+      label: ar ? 'الوقت' : i18nUi('الوقت', 'Time'),
       value: m.total !== null ? clockTime(m.total) : '—',
     },
     {
-      label: ar ? 'نسبة التطوير' : 'Development ratio',
+      label: ar ? 'نسبة التطوير' : i18nUi('نسبة التطوير', 'Development ratio'),
       value: m.dtr !== null ? m.dtr + '%' : '—',
     },
     ...(!compact
       ? [
           {
-            label: ar ? 'التجفيف' : 'Drying',
+            label: ar ? 'التجفيف' : i18nUi('التجفيف', 'Drying'),
             value: m.drying !== null ? clockTime(m.drying) : '—',
           },
           {
-            label: ar ? 'ميلارد' : 'Maillard',
+            label: ar ? 'ميلارد' : i18nUi('ميلارد', 'Maillard'),
             value: m.maillard !== null ? clockTime(m.maillard) : '—',
           },
           {
-            label: ar ? 'التطوير' : 'Development',
+            label: ar ? 'التطوير' : i18nUi('التطوير', 'Development'),
             value: m.development !== null ? clockTime(m.development) : '—',
           },
           {
-            label: ar ? 'درجة التحميص' : 'Roast level',
-            value: roastNames[roast.roast_level ?? '']?.[ar ? 0 : 1] ?? '—',
+            label: ar ? 'درجة التحميص' : i18nUi('درجة التحميص', 'Roast level'),
+            value: i18nUi(roastNames[roast.roast_level ?? '']?.[0] ?? '—',roastNames[roast.roast_level ?? '']?.[1] ?? '—'),
           },
         ]
       : []),

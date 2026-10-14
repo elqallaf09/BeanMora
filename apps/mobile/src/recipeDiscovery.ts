@@ -2,6 +2,7 @@ import { catalogName } from './localizedContent';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { flavorGroups, type Flavor, type Method } from './core/engine';
 import { safeUrl } from './guards';
+import { canonicalSearchQuery } from './core/deepSearch';
 
 export const RECIPE_PAGE_SIZE = 30;
 export const RECIPE_DISCOVERY_FIELDS =
@@ -54,6 +55,8 @@ export interface RecipeSearch {
 }
 const parameter = (value: string | undefined) =>
   value?.trim().slice(0, 160) || null;
+const searchParameter = (value:string|undefined) => parameter(value ? canonicalSearchQuery(value) : value);
+const countryParameter = (value:string|undefined) => parameter(value ? canonicalSearchQuery(value,'country') : value);
 export function recipeSearchParams(search: RecipeSearch) {
   const f = search.filters;
   // Values stay bound JSON parameters, including quotes, %, _ and commas.
@@ -65,22 +68,22 @@ export function recipeSearchParams(search: RecipeSearch) {
             search.coffee.id,
         }
       : {}),
-    p_query: parameter(search.query),
+    p_query: searchParameter(search.query),
     p_method: parameter(search.method),
     // General recipe discovery includes every public source and machine model,
     // including when an older screen state still carries removed restrictions.
     p_source: null,
     p_model: null,
-    p_flavor_note: parameter(f.flavorNote),
+    p_flavor_note: searchParameter(f.flavorNote),
     p_flavor_family: parameter(f.flavorFamily),
     p_creator_name: parameter(f.creatorName),
-    p_creator_country: parameter(f.creatorCountry),
-    p_recipe_country: parameter(f.recipeCountry),
+    p_creator_country: countryParameter(f.creatorCountry),
+    p_recipe_country: countryParameter(f.recipeCountry),
     p_recipe_name: parameter(f.recipeName),
     p_serving_style: parameter(f.servingStyle),
     p_coffee_type: parameter(f.coffeeType),
     p_coffee_name: parameter(f.coffeeName),
-    p_coffee_origin: parameter(f.coffeeOrigin),
+    p_coffee_origin: countryParameter(f.coffeeOrigin),
     p_roaster_name: parameter(f.roasterName),
     p_source_name: null,
   };

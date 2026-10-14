@@ -11,6 +11,18 @@ async function openAssistant(page: Page, offlineCatalog = false, expiredOffer = 
     const path = new URL(url).pathname;
     if (offlineCatalog && /search_coffee_assistant|catalog_currency_rates/.test(path)) return route.abort();
     let data: unknown = [];
+    if (path.endsWith('/rpc/search_coffee_assistant_recipes')) {
+      const query = route.request().postDataJSON();
+      searches.push(query);
+      // Return wrong-style and wrong-brewer records too: the client must retain
+      // the user's constraints even if a backend response is inconsistent.
+      const base = { kind: 'recipe', category: null, offers: [], methods: ['xbloom'], source_url: 'https://recipe.example/coconut', summary_ar: 'وصفة منشورة لجوز الهند.', summary_en: 'Published coconut recipe.', facts: { dose: 15, water: null, temperature: 90, grind: '57', notes: ['Coconut'], serving_style: 'iced', source_brew: { water_ml: 150, model: 'Original' }, steps: [{ description_ar: 'صب 45 مل حسب المصدر.', description_en: 'Pour 45 ml as published.' }] } };
+      data = [
+        { ...base, id: 'cold-coconut', title_ar: 'وصفة جوز الهند الباردة', title_en: 'Cold coconut recipe', search_text: 'coconut xbloom' },
+        { ...base, id: 'hot-both', title_ar: 'وصفة حارة', title_en: 'Hot recipe', search_text: 'coconut honey xbloom', facts: { ...base.facts, serving_style: 'hot' } },
+        { ...base, id: 'cold-v60', title_ar: 'وصفة V60', title_en: 'V60 recipe', search_text: 'coconut honey', methods: ['v60'] },
+      ];
+    }
     if (path.endsWith('/rpc/search_coffee_assistant')) {
       const query = route.request().postDataJSON();
       searches.push(query);
@@ -31,6 +43,29 @@ async function ask(page: Page, question: string, english = false) {
   await page.getByLabel(english ? 'Your coffee question' : 'سؤالك عن القهوة', { exact: true }).fill(question);
   await page.getByRole('button', { name: english ? 'Send' : 'إرسال', exact: true }).click();
 }
+
+for (const english of [false, true]) test(`the reported cold xBloom recipe request replaces shopping and shows published recipe facts (${english ? 'en' : 'ar'})`, async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 1000 });
+  const network = await openAssistant(page);
+  if (english) await setLanguage(page, 'en');
+  const panel = page.getByTestId('coffee-assistant');
+  await ask(page, english ? 'A website selling espresso machines' : 'موقع بيع مكائن اسبرسو', english);
+  await expect(page.getByTestId('assistant-result')).toHaveCount(2);
+  await ask(page, english ? 'Find a cold recipe for my xBloom machine with coconut and honey notes' : 'طلعلي وصفة قهوه باردة حق مكينة اكسبلوم لي بن ايحاءة جوز الهند وعسل', english);
+  await expect(page.getByTestId('assistant-result')).toHaveCount(1);
+  await expect(page.getByTestId('assistant-result')).toContainText(english ? 'Cold coconut recipe' : 'وصفة جوز الهند الباردة');
+  await expect(page.getByTestId('assistant-result')).toContainText(english ? 'Cold' : 'بارد');
+  await expect(panel).toContainText(english ? 'Not confirmed in this recipe: honey' : 'غير مثبت في هذه الوصفة: عسل');
+  await expect(panel).toContainText('150 ml');
+  await expect(panel).not.toContainText('150 g');
+  await expect(panel).toContainText('57');
+  await expect(panel).toContainText('Original');
+  await expect(panel).toContainText(english ? 'Pour 45 ml' : 'صب 45 مل');
+  await expect(panel.getByRole('button', { name: english ? 'Seller website' : 'موقع البائع', exact: true })).toHaveCount(0);
+  expect(network.searches.at(-1)).toEqual({ p_terms: expect.arrayContaining(['coconut', 'جوز الهند', 'honey', 'عسل']), p_methods: ['xbloom'], p_serving_style: 'cold', p_limit: 60 });
+  expect(network.providerCalls()).toBe(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
 
 for (const english of [false, true]) test(`espresso seller websites replace a previous coffee topic (${english ? 'en' : 'ar'})`, async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 1000 });
@@ -256,4 +291,55 @@ for (const english of [false, true]) test(`colloquial weights and espresso flow 
   await expect(panel).toContainText(english ? 'milliliters' : 'الملليلتر');
   expect(network.searches).toHaveLength(0);
   expect(network.providerCalls()).toBe(0);
+});
+
+const newLanguages = [
+  {locale:'ja',question:'xBloom の冷たいコーヒーレシピ、ココナッツとはちみつの風味',shop:'エスプレッソマシンを販売するサイト',send:'送信',cold:'冷たい'},
+  {locale:'fr',question:'une recette froide pour ma machine xBloom avec des notes de noix de coco et miel',shop:'un site qui vend des machines espresso',send:'Envoyer',cold:'Froid'},
+  {locale:'it',question:'una ricetta fredda per la macchina xBloom con note di cocco e miele',shop:'un sito per comprare una macchina espresso',send:'Invia',cold:'Freddo'},
+  {locale:'es',question:'una receta fría para mi máquina xBloom con notas de coco y miel',shop:'un sitio que venda máquinas espresso',send:'Enviar',cold:'Frío'},
+  {locale:'pt-BR',question:'uma receita gelada para minha máquina xBloom com notas de coco e mel',shop:'um site para comprar máquinas espresso',send:'Enviar',cold:'Gelado'},
+  {locale:'zh-CN',question:'xBloom 冷饮配方 椰子和蜂蜜风味',shop:'买浓缩咖啡机的网站',send:'发送',cold:'冷饮'},
+] as const;
+for(const language of newLanguages) test(`localized cold recipe search retains original facts and question (${language.locale})`,async({page})=>{
+  const network=await openAssistant(page);
+  await setLanguage(page,language.locale);
+  const panel=page.getByTestId('coffee-assistant');
+  await panel.getByRole('textbox').fill(language.shop);
+  await panel.getByRole('button',{name:language.send,exact:true}).click();
+  await expect(panel.getByTestId('assistant-result')).toHaveCount(2);
+  expect(network.searches.at(-1)).toMatchObject({p_kind:'equipment',p_category:'espresso_machine',p_terms:[]});
+  await panel.getByRole('textbox').fill(language.question);
+  await panel.getByRole('button',{name:language.send,exact:true}).click();
+  await expect(panel.getByTestId('assistant-result')).toHaveCount(1);
+  await expect(panel).toContainText(language.question);
+  await expect(panel).toContainText(language.cold);
+  await expect(panel).toContainText('15 g');await expect(panel).toContainText('150 ml');
+  await expect(panel).toContainText('57');await expect(panel).toContainText('Original');
+  await expect(panel).not.toContainText('No recipe matched every search term.');
+  expect(network.searches.at(-1)).toMatchObject({p_methods:['xbloom'],p_serving_style:'cold',p_limit:60});
+  expect(network.providerCalls()).toBe(0);
+});
+
+test('language changes re-render the existing answer without another request or changed quantities',async({page})=>{
+  const network=await openAssistant(page);
+  await setLanguage(page,'en');
+  await ask(page,'Calculate 18 g at 1:16',true);
+  const panel=page.getByTestId('coffee-assistant');
+  await expect(panel).toContainText('Requested ratio calculation');
+  await setLanguage(page,'ja');await expect(panel).toContainText('指定した比率の計算');
+  await expect(panel).toContainText('18 g × 16 = 288 g');
+  await setLanguage(page,'fr');await expect(panel).toContainText('Calcul du ratio demandé');
+  await expect(panel).toContainText('18 g × 16 = 288 g');
+  expect(network.searches).toHaveLength(0);expect(network.providerCalls()).toBe(0);
+});
+
+for(const language of newLanguages) test(`language persists and remains within the viewport (${language.locale})`,async({page})=>{
+  await page.setViewportSize({width:320,height:844});
+  await openAssistant(page);await setLanguage(page,language.locale);
+  await expect(page.locator('html')).toHaveAttribute('lang',language.locale);
+  await expect(page.locator('html')).toHaveAttribute('dir','ltr');
+  await page.reload();await expect(page.locator('html')).toHaveAttribute('lang',language.locale);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth <= window.innerWidth+1)).toBe(true);
+  await setLanguage(page,'ar');await expect(page.locator('html')).toHaveAttribute('dir','rtl');
 });

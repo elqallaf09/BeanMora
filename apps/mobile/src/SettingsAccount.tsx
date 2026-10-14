@@ -17,6 +17,7 @@ import {
 } from './client';
 import { deleteCurrentAccount } from './core/account-deletion';
 import { catalogCacheKey } from './catalogCache';
+import { SUPPORTED_LOCALES } from './localeText';
 import { recipeShelfKey } from './useRecipeShelf';
 import { invalidatePublicCatalog } from './data';
 import { AccountSecurity } from './AccountSecurity';
@@ -63,9 +64,7 @@ export function SettingsAccount({
         await AsyncStorage.multiRemove([
           recipeShelfKey(catalogScope, owner),
           'beanmora-roast-draft:' + owner,
-          catalogCacheKey(catalogScope, 'ar'),
-          catalogCacheKey(catalogScope, 'en'),
-          catalogCacheKey(catalogScope, 'ja'),
+          ...SUPPORTED_LOCALES.map(locale=>catalogCacheKey(catalogScope,locale)),
         ]);
       } catch {
         localCleanupFailed = true;

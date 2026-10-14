@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { methodLabel } from './localizedContent';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import {
@@ -73,6 +74,7 @@ export function BestSetup({
   openRecipe: (r: RecipeItem) => void;
   openCoffee: (c: CoffeeItem) => void;
 }) {
+  const i18nUi = useLabels();
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const [logs, setLogs] = useState<Parsed[]>([]);
@@ -100,7 +102,7 @@ export function BestSetup({
         if (!active) return;
         if (error) {
           setError(
-            ar ? 'تعذّر تحميل سجل التحضير.' : 'Could not load brew history.',
+            ar ? 'تعذّر تحميل سجل التحضير.' : i18nUi('تعذّر تحميل سجل التحضير.', 'Could not load brew history.'),
           );
           setLogs([]);
           return;
@@ -114,7 +116,7 @@ export function BestSetup({
       } catch {
         if (active)
           setError(
-            ar ? 'تعذّر تحميل سجل التحضير.' : 'Could not load brew history.',
+            ar ? 'تعذّر تحميل سجل التحضير.' : i18nUi('تعذّر تحميل سجل التحضير.', 'Could not load brew history.'),
           );
       } finally {
         if (active) setLoading(false);
@@ -124,7 +126,7 @@ export function BestSetup({
     return () => {
       active = false;
     };
-  }, [userId, ar]);
+  }, [userId, ar, i18nUi]);
 
   const best = useMemo(
     () =>
@@ -161,27 +163,27 @@ export function BestSetup({
           latest.nextGrind === 'finer'
             ? ar
               ? 'جرّب طحن أنعم في المحاولة الياية.'
-              : 'Try a finer grind next time.'
+              : i18nUi('جرّب طحن أنعم في المحاولة الياية.', 'Try a finer grind next time.')
             : latest.nextGrind === 'coarser'
               ? ar
                 ? 'جرّب طحن أخشن في المحاولة الياية.'
-                : 'Try a coarser grind next time.'
+                : i18nUi('جرّب طحن أخشن في المحاولة الياية.', 'Try a coarser grind next time.')
               : ar
                 ? 'ثبّت درجة الطحن في المحاولة الياية.'
-                : 'Keep the same grind next time.',
+                : i18nUi('ثبّت درجة الطحن في المحاولة الياية.', 'Keep the same grind next time.'),
         why: ar
           ? 'هذا التعديل أنت حفظته بعد آخر كوب.'
-          : 'You saved this adjustment after your last cup.',
+          : i18nUi('هذا التعديل أنت حفظته بعد آخر كوب.', 'You saved this adjustment after your last cup.'),
       };
     if (latest.outcome === 'excellent')
       return {
         kind: 'same',
         text: ar
           ? 'كرر نفس الإعداد؛ هذي أفضل نقطة بداية لك.'
-          : 'Repeat the same setup; this is a strong baseline.',
+          : i18nUi('كرر نفس الإعداد؛ هذي أفضل نقطة بداية لك.', 'Repeat the same setup; this is a strong baseline.'),
         why: ar
           ? 'آخر نتيجة سجّلتها كانت ممتازة.'
-          : 'Your last recorded result was excellent.',
+          : i18nUi('آخر نتيجة سجّلتها كانت ممتازة.', 'Your last recorded result was excellent.'),
       };
     const recipe = latestRecipe;
     const target = recipe?.seconds ?? null;
@@ -192,32 +194,32 @@ export function BestSetup({
           kind: 'finer',
           text: ar
             ? 'اقتراح مبدئي: جرّب طحن أنعم شوي.'
-            : 'Starting suggestion: try slightly finer.',
+            : i18nUi('اقتراح مبدئي: جرّب طحن أنعم شوي.', 'Starting suggestion: try slightly finer.'),
           why: ar
             ? 'وقت التحضير كان أسرع من وقت الوصفة بأكثر من 15 ثانية.'
-            : 'Your brew ran more than 15 seconds faster than the recipe target.',
+            : i18nUi('وقت التحضير كان أسرع من وقت الوصفة بأكثر من 15 ثانية.', 'Your brew ran more than 15 seconds faster than the recipe target.'),
         };
       if (delta > 15)
         return {
           kind: 'coarser',
           text: ar
             ? 'اقتراح مبدئي: جرّب طحن أخشن شوي.'
-            : 'Starting suggestion: try slightly coarser.',
+            : i18nUi('اقتراح مبدئي: جرّب طحن أخشن شوي.', 'Starting suggestion: try slightly coarser.'),
           why: ar
             ? 'وقت التحضير كان أبطأ من وقت الوصفة بأكثر من 15 ثانية.'
-            : 'Your brew ran more than 15 seconds slower than the recipe target.',
+            : i18nUi('وقت التحضير كان أبطأ من وقت الوصفة بأكثر من 15 ثانية.', 'Your brew ran more than 15 seconds slower than the recipe target.'),
         };
     }
     return {
       kind: 'same',
       text: ar
         ? 'غيّر عامل واحد فقط في المحاولة الياية وسجّل النتيجة.'
-        : 'Change one variable only on the next attempt and log the result.',
+        : i18nUi('غيّر عامل واحد فقط في المحاولة الياية وسجّل النتيجة.', 'Change one variable only on the next attempt and log the result.'),
       why: ar
         ? 'ما عندنا دليل كافي لاقتراح تغيير محدد بدون تخمين.'
-        : 'There is not enough evidence for a more specific change without guessing.',
+        : i18nUi('ما عندنا دليل كافي لاقتراح تغيير محدد بدون تخمين.', 'There is not enough evidence for a more specific change without guessing.'),
     };
-  }, [latest, latestRecipe, ar]);
+  }, [latest, latestRecipe, ar, i18nUi]);
 
   if (!userId)
     return (
@@ -226,15 +228,15 @@ export function BestSetup({
           <Icon name="star" size={34} color={colors.copper} filled />
         </View>
         <Txt heading style={styles.title}>
-          {ar ? 'أفضل إعداد' : 'Best setup'}
+          {ar ? 'أفضل إعداد' : i18nUi('أفضل إعداد', 'Best setup')}
         </Txt>
         <Txt style={[styles.muted, { textAlign: 'center' }]}>
           {ar
             ? 'سجّل دخولك عشان نرجع لتجاربك ونطلع أفضل إعداد فعلي لك.'
-            : 'Sign in so BeanMora can use your real brew history to find your best setup.'}
+            : i18nUi('سجّل دخولك عشان نرجع لتجاربك ونطلع أفضل إعداد فعلي لك.', 'Sign in so BeanMora can use your real brew history to find your best setup.')}
         </Txt>
         <Pressable accessibilityRole="button" onPress={login} style={s.primary}>
-          <Txt style={s.primaryText}>{ar ? 'تسجيل الدخول' : 'Sign in'}</Txt>
+          <Txt style={s.primaryText}>{ar ? 'تسجيل الدخول' : i18nUi('تسجيل الدخول', 'Sign in')}</Txt>
         </Pressable>
       </View>
     );
@@ -244,12 +246,12 @@ export function BestSetup({
       <View style={s.header}>
         <View style={{ flex: 1 }}>
           <Txt heading style={styles.title}>
-            {ar ? 'أفضل إعداد' : 'Best setup'}
+            {ar ? 'أفضل إعداد' : i18nUi('أفضل إعداد', 'Best setup')}
           </Txt>
           <Txt style={styles.muted}>
             {ar
               ? 'مبني فقط على تجارب التحضير اللي حفظتها.'
-              : 'Based only on brew attempts you actually saved.'}
+              : i18nUi('مبني فقط على تجارب التحضير اللي حفظتها.', 'Based only on brew attempts you actually saved.')}
           </Txt>
         </View>
         <View style={s.bigIcon}>
@@ -263,12 +265,12 @@ export function BestSetup({
       ) : !logs.length ? (
         <View style={s.empty}>
           <Txt style={s.cardTitle}>
-            {ar ? 'ما عندنا تجربة محفوظة للحين' : 'No saved brew yet'}
+            {ar ? 'ما عندنا تجربة محفوظة للحين' : i18nUi('ما عندنا تجربة محفوظة للحين', 'No saved brew yet')}
           </Txt>
           <Txt style={styles.muted}>
             {ar
               ? 'حضّر وصفة وسجّل النتيجة، وبعدها راح نطلع لك أفضل إعداد ومقارنة للمحاولة الياية.'
-              : 'Brew a recipe and save the result; then BeanMora can surface your best setup and next-step comparison.'}
+              : i18nUi('حضّر وصفة وسجّل النتيجة، وبعدها راح نطلع لك أفضل إعداد ومقارنة للمحاولة الياية.', 'Brew a recipe and save the result; then BeanMora can surface your best setup and next-step comparison.')}
           </Txt>
         </View>
       ) : (
@@ -279,25 +281,25 @@ export function BestSetup({
                 <View style={s.bestBadge}>
                   <Icon name="star" size={17} color="#FFF" filled />
                   <Txt style={s.bestBadgeText}>
-                    {ar ? 'أفضل تجربة محفوظة' : 'Best saved attempt'}
+                    {ar ? 'أفضل تجربة محفوظة' : i18nUi('أفضل تجربة محفوظة', 'Best saved attempt')}
                   </Txt>
                 </View>
                 <Txt style={s.outcome}>
                   {best.outcome === 'excellent'
                     ? ar
                       ? 'ممتازة'
-                      : 'Excellent'
+                      : i18nUi('ممتازة', 'Excellent')
                     : best.outcome === 'good'
                       ? ar
                         ? 'جيدة'
-                        : 'Good'
+                        : i18nUi('جيدة', 'Good')
                       : best.outcome === 'needs_adjustment'
                         ? ar
                           ? 'تحتاج تعديل'
-                          : 'Needs adjustment'
+                          : i18nUi('تحتاج تعديل', 'Needs adjustment')
                         : ar
                           ? 'غير مرضية'
-                          : 'Poor'}
+                          : i18nUi('غير مرضية', 'Poor')}
                 </Txt>
               </View>
               <Txt style={s.bestName}>
@@ -310,19 +312,19 @@ export function BestSetup({
               ) : null}
               <View style={s.metrics}>
                 <Metric
-                  label={ar ? 'البن' : 'Dose'}
+                  label={ar ? 'البن' : i18nUi('البن', 'Dose')}
                   value={best.dose_grams ? best.dose_grams + ' g' : '—'}
                 />
                 <Metric
-                  label={ar ? 'الماء' : 'Water'}
+                  label={ar ? 'الماء' : i18nUi('الماء', 'Water')}
                   value={best.water_grams ? best.water_grams + ' g' : '—'}
                 />
                 <Metric
-                  label={ar ? 'الوقت' : 'Time'}
+                  label={ar ? 'الوقت' : i18nUi('الوقت', 'Time')}
                   value={secondsLabel(best.actual_time_seconds)}
                 />
                 <Metric
-                  label={ar ? 'الطريقة' : 'Method'}
+                  label={ar ? 'الطريقة' : i18nUi('الطريقة', 'Method')}
                   value={methodLabel(best.brew_method, locale)}
                 />
               </View>
@@ -334,7 +336,7 @@ export function BestSetup({
                     style={s.primary}
                   >
                     <Txt style={s.primaryText}>
-                      {ar ? 'كرر الوصفة' : 'Repeat recipe'}
+                      {ar ? 'كرر الوصفة' : i18nUi('كرر الوصفة', 'Repeat recipe')}
                     </Txt>
                   </Pressable>
                 ) : null}
@@ -345,7 +347,7 @@ export function BestSetup({
                     style={s.secondary}
                   >
                     <Txt style={s.secondaryText}>
-                      {ar ? 'افتح البن' : 'Open coffee'}
+                      {ar ? 'افتح البن' : i18nUi('افتح البن', 'Open coffee')}
                     </Txt>
                   </Pressable>
                 ) : null}
@@ -363,7 +365,7 @@ export function BestSetup({
               </View>
               <View style={{ flex: 1, gap: 4 }}>
                 <Txt style={s.cardTitle}>
-                  {ar ? 'المحاولة الياية' : 'Next attempt'}
+                  {ar ? 'المحاولة الياية' : i18nUi('المحاولة الياية', 'Next attempt')}
                 </Txt>
                 <Txt style={s.suggestion}>{suggestion.text}</Txt>
                 <Txt style={styles.muted}>{suggestion.why}</Txt>
@@ -372,7 +374,7 @@ export function BestSetup({
           ) : null}
           <View style={s.history}>
             <Txt style={s.cardTitle}>
-              {ar ? 'آخر المحاولات' : 'Recent attempts'}
+              {ar ? 'آخر المحاولات' : i18nUi('آخر المحاولات', 'Recent attempts')}
             </Txt>
             {logs.slice(0, 5).map((log) => {
               const recipe = recipeFor(log);

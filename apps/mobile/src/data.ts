@@ -1,4 +1,4 @@
-import { contentLocale } from './localeText';
+import { contentLocale, type Locale } from './localeText';
 import { catalogName, localizeStep } from './localizedContent';
 import { sourceBrew, type SourceBrew } from './sourceBrew';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -279,7 +279,7 @@ async function read<T>(
 }
 export function mapRecipe(
   row: RecipeRow,
-  locale: 'ar' | 'en' | 'ja',
+  locale: Locale,
   profile: RecipeItem['xBloom'] = null,
   includeTranslations = true,
 ): RecipeItem | null {
@@ -606,7 +606,7 @@ export function mapCoffee(
 
 export async function loadData(
   db: SupabaseClient,
-  locale: 'ar' | 'en' | 'ja',
+  locale: Locale,
   userId: string | null,
   method?: Method,
   options: {

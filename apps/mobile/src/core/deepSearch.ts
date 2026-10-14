@@ -2,6 +2,7 @@ import { catalogSearchVocabulary } from "./catalog-names";
 import { flavorSearchVocabulary } from "./flavor-vocabulary";
 import { coffeeNameAliases } from "./coffee-name-aliases";
 import { coffeeLabelVocabulary } from "./coffee-label-vocabulary";
+import { multilingualSearchVocabulary,multilingualCountryTerms } from "./multilingual-vocabulary";
 /** Shared literal search vocabulary; expands retrieval terms without changing coffee facts. */
 export const searchVocabulary: readonly (readonly string[])[] = [
   ["rawi", "rawee", "راوي", "راوى"],
@@ -44,9 +45,12 @@ export const searchVocabulary: readonly (readonly string[])[] = [
   ...catalogSearchVocabulary,
   ...coffeeNameAliases,
   ...coffeeLabelVocabulary,
+  ...multilingualSearchVocabulary.filter(([term])=>multilingualCountryTerms.includes(term))
+    .map(([term,...aliases])=>[term,...aliases.filter(alias=>/\p{Script=Arabic}/u.test(alias))]),
   ["coffee", "قهوة", "القهوة", "بن", "البن"],
   ["gesha", "geisha", "قيشا", "قيشة", "غيشا", "جيشا"],
   ["zill", "زل", "زيل", "زِلّ"],
+  ['tropical fruit','tropical fruits','فاكهة استوائية','فواكه استوائية'],
 ] as const;
 export function normalizeSearch(value: string): string {
   return value
@@ -63,14 +67,63 @@ export function normalizeSearch(value: string): string {
 const normalizedVocabulary = searchVocabulary.map((group) =>
   group.map(normalizeSearch),
 );
+// Translate known foreign catalog terms only. Literal names and unknown terms
+// remain required search terms; spaces and SQL punctuation never become syntax.
+// Latin accent-insensitive matching must not remove Japanese dakuten/handakuten.
+const normalizeForeign = (value:string) => value.normalize('NFKC').toLowerCase()
+  .replace(/\p{Script=Latin}+/gu,part=>part.normalize('NFKD').replace(/\p{M}/gu,''));
+const foreignTerms = multilingualSearchVocabulary.flatMap(([canonical,...aliases]) =>
+  aliases.filter(alias => normalizeSearch(alias)!==normalizeSearch(canonical) && !/\p{Script=Arabic}/u.test(alias))
+    .map(alias=>({canonical,alias:alias.normalize('NFKC').toLowerCase()})))
+  .sort((a,b)=>b.alias.length-a.alias.length);
+const escapeSearch = (value:string) => value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const foreignPattern = (alias:string)=>(
+  (/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(alias)?'':'(?<![\\p{L}\\p{N}_])')+escapeSearch(alias)+
+  (/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(alias)?'':'(?![\\p{L}\\p{N}_])'));
+const exactAliases = new Map<string,string>();
+for(const {canonical,alias} of foreignTerms) if(!exactAliases.has(alias))exactAliases.set(alias,canonical);
+const countryTerms = new Set(multilingualCountryTerms);
+const countryAliases = new Map(exactAliases);
+for(const {canonical,alias} of foreignTerms) if(countryTerms.has(canonical))countryAliases.set(alias,canonical);
+for(const canonical of countryTerms) if(exactAliases.has(canonical))countryAliases.set(canonical,canonical);
+const foreignPatternAll = new RegExp([...exactAliases.keys()].map(foreignPattern).join('|'),'gu');
+const accentTerms = new Map<string,Set<string>>();
+for(const {canonical,alias} of foreignTerms) {
+  const normalized=normalizeForeign(alias),terms=accentTerms.get(normalized)??new Set<string>();
+  terms.add(canonical);accentTerms.set(normalized,terms);
+}
+const accentAliases = new Map([...accentTerms].filter(([,terms])=>terms.size===1).sort((a,b)=>b[0].length-a[0].length)
+  .map(([alias,terms])=>[alias,[...terms][0]]));
+const accentPatternAll = new RegExp([...accentAliases.keys()].map(foreignPattern).join('|'),'gu');
+const canonicalQueries = new Map<string,string>();
+export function canonicalSearchQuery(value:string,mode:'general'|'country'='general'):string {
+  const cacheKey=mode+'\u0000'+value;
+  const cached=canonicalQueries.get(cacheKey);if(cached!==undefined)return cached;
+  if(mode==='country'&&countryTerms.has(value.trim().toLowerCase()))return value;
+  let normalized=value.normalize('NFKC').toLowerCase(),changed=false;
+  const slots:string[]=[];
+  normalized=normalized.replace(foreignPatternAll,alias=>{
+    changed=true;return `\u0000${slots.push((mode==='country'?countryAliases:exactAliases).get(alias)!)-1}\u0000`;
+  });
+  normalized=normalizeForeign(normalized);
+  normalized=normalized.replace(accentPatternAll,alias=>{
+    changed=true;return `\u0000${slots.push(accentAliases.get(alias)!)-1}\u0000`;
+  });
+  // CJK conjunctions between recognized concepts separate terms. An unknown
+  // phrase, name or neighboring letter never disappears from the query.
+  normalized=normalized.replace(/(\u0000\d+\u0000)\s*(?:と|和|与)\s*(?=\u0000\d+\u0000)/gu,'$1 ');
+  const result=changed?normalized.replace(/\u0000(\d+)\u0000/g,(_,index)=>' '+slots[Number(index)]+' ').replace(/\s+/g,' ').trim():value;
+  if(canonicalQueries.size>=128)canonicalQueries.delete(canonicalQueries.keys().next().value!);
+  canonicalQueries.set(cacheKey,result);return result;
+}
 export function deepSearchText(value: string): string {
-  const original = normalizeSearch(value);
+  const original = normalizeSearch(value+' '+canonicalSearchQuery(value,countryTerms.has(value.trim().toLowerCase())?'country':'general'));
   const words = new Set(original.split(/[^\p{L}\p{N}]+/u));
   const extra = normalizedVocabulary
     .filter((group) =>
       group.some((alias) => {
         const term = alias;
-        return term.includes(" ") || !/[\p{L}\p{N}]/u.test(term)
+        return !/^[\p{L}\p{N}]+$/u.test(term)
           ? original.includes(term)
           : words.has(term);
       }),
@@ -83,8 +136,6 @@ export function matchesDeepSearch(value: string, query: string): boolean {
   return matchesIndexedSearch(deepSearchText(value), query);
 }
 export function matchesIndexedSearch(indexed: string, query: string): boolean {
-  return normalizeSearch(query)
-    .split(" ")
-    .filter(Boolean)
-    .every((word) => indexed.includes(word));
+  return [...new Set([canonicalSearchQuery(query),canonicalSearchQuery(query,'country')])].some(candidate=>
+    normalizeSearch(candidate).split(" ").filter(Boolean).every(word=>indexed.includes(word)));
 }

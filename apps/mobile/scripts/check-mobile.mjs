@@ -22,6 +22,17 @@ test('supports Arabic number entry without manufacturing missing measurements', 
   assert.equal(numberInput('١٨٫٥'), 18.5); assert.equal(numberInput('۱۸'), 18); assert.equal(numberInput(''), null);
   for (const x of ['abc','Infinity','1e5','-2']) assert.equal(numberInput(x), null);
 });
+test('localized decimal keyboards and full-width numbers preserve measured quantities', () => {
+  for (const locale of ['fr','it','es','pt-BR']) {
+    assert.equal(numberInput('18,5',locale),18.5);
+    assert.equal(numberInput('18.5',locale),18.5);
+    for (const value of ['1,234.5','1.234,5','1 234','1,2,3']) assert.equal(numberInput(value,locale),null);
+  }
+  for (const locale of ['ar','en','ja','zh-CN']) {
+    assert.equal(numberInput('１８．５',locale),18.5);
+    assert.equal(numberInput('18,5',locale),null);
+  }
+});
 test('Arabic search is diacritic insensitive', () => assert.equal(searchText('قَهْوَة'), searchText('قهوه')));
 test('mobile never imports Next or web-only UI', () => {
   for (const p of ['App.tsx','src/data.ts','src/client.ts','src/OutcomeForm.tsx']) assert.doesNotMatch(get(p), /from ['"]next|service_role\s*[:=]|dangerouslySetInnerHTML/);

@@ -5751,6 +5751,21 @@ export type Database = {
           isSetofReturn: true
         }
       }
+      search_coffee_assistant_recipes: {
+        Args: {
+          p_limit?: number
+          p_methods?: string[]
+          p_serving_style?: string
+          p_terms?: string[]
+        }
+        Returns: Database["public"]["Functions"]["search_coffee_assistant"]["Returns"]
+        SetofOptions: {
+          from: "*"
+          to: "assistant_public_documents"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       search_member_profiles: {
         Args: { p_offset?: number; p_query?: string }
         Returns: {

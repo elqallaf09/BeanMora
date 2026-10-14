@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { useContext, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -28,6 +29,7 @@ export function AvatarEditor({
   saved: (url: string) => void;
   size?: number;
 }) {
+  const i18nUi = useLabels();
   const ar = useContext(Language) === "ar";
   const [draft, setDraft] = useState<{
     id: string;
@@ -73,10 +75,10 @@ export function AvatarEditor({
           e instanceof Error && e.message === "IMAGE_SIZE"
             ? ar
               ? "اختر صورة أصغر من 5 MB."
-              : "Choose a photo smaller than 5 MB."
+              : i18nUi("اختر صورة أصغر من 5 MB.", "Choose a photo smaller than 5 MB.")
             : ar
               ? "اختر صورة JPG أو PNG أو WebP."
-              : "Choose a JPG, PNG or WebP photo.",
+              : i18nUi("اختر صورة JPG أو PNG أو WebP.", "Choose a JPG, PNG or WebP photo."),
         );
     } finally {
       locked.current = false;
@@ -103,7 +105,7 @@ export function AvatarEditor({
         setError(
           ar
             ? "تعذّر حفظ الصورة. أعد المحاولة."
-            : "Could not save the photo. Try again.",
+            : i18nUi("تعذّر حفظ الصورة. أعد المحاولة.", "Could not save the photo. Try again."),
         );
     } finally {
       locked.current = false;
@@ -116,7 +118,7 @@ export function AvatarEditor({
         testID="avatar-edit"
         accessibilityRole="button"
         accessibilityLabel={
-          ar ? "تغيير الصورة الشخصية" : "Change profile photo"
+          ar ? "تغيير الصورة الشخصية" : i18nUi("تغيير الصورة الشخصية", "Change profile photo")
         }
         disabled={busy}
         onPress={() => void choose()}
@@ -143,7 +145,7 @@ export function AvatarEditor({
         <View style={s.backdrop}>
           <View accessibilityViewIsModal style={s.dialog}>
             <Txt heading style={styles.subtitle}>
-              {ar ? "صورتك الشخصية" : "Your profile photo"}
+              {ar ? "صورتك الشخصية" : i18nUi("صورتك الشخصية", "Your profile photo")}
             </Txt>
             {draft ? (
               <Image
@@ -160,7 +162,7 @@ export function AvatarEditor({
             <Txt style={styles.muted}>
               {ar
                 ? "تظهر صورتك بجانب اسمك وفي coffeeHO."
-                : "Your photo appears beside your name and in coffeeHO."}
+                : i18nUi("تظهر صورتك بجانب اسمك وفي coffeeHO.", "Your photo appears beside your name and in coffeeHO.")}
             </Txt>
             {error ? (
               <Txt accessibilityRole="alert" style={styles.error}>
@@ -169,13 +171,13 @@ export function AvatarEditor({
             ) : null}
             {busy ? <ActivityIndicator color={colors.teal} /> : null}
             <Action
-              title={ar ? "حفظ الصورة" : "Save photo"}
+              title={ar ? "حفظ الصورة" : i18nUi("حفظ الصورة", "Save photo")}
               selected
               disabled={busy}
               onPress={() => void save()}
             />
             <Action
-              title={ar ? "إلغاء" : "Cancel"}
+              title={ar ? "إلغاء" : i18nUi("إلغاء", "Cancel")}
               disabled={busy}
               onPress={() => {
                 setDraft(null);

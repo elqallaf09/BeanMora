@@ -1,3 +1,4 @@
+import { useLabels } from './ui';
 import { contentLocale } from './localeText';
 import { useContext, useState } from 'react';
 import { Image, View, useWindowDimensions } from './native';
@@ -28,56 +29,57 @@ const levels = [
 const chapters = ['green-coffee', 'roast-stages', 'maillard', 'development-time', 'roast-control', 'rate-of-rise', 'roast-color', 'roast-defects', 'roast-cooling', 'rest', 'cupping'];
 
 export function RoastGuide() {
-  const locale = useContext(Language), ar = locale === 'ar', i = ar ? 0 : 1;
+  const i18nUi = useLabels();
+  const locale = useContext(Language), ar = locale === 'ar';
   const { width } = useWindowDimensions();
   const [selected, setSelected] = useState('light');
   const level = levels.find(level => level.id === selected) ?? levels[1];
   return (
     <View testID="roast-guide" style={{ gap: 16 }}>
       <View style={{ gap: 6 }}>
-        <Txt heading style={styles.title}>{ar ? 'افهم حمصتك' : 'Understand your roast'}</Txt>
-        <Txt style={styles.muted}>{ar ? 'من لون الحبة إلى نتيجة الكوب.' : 'From bean color to the cup.'}</Txt>
+        <Txt heading style={styles.title}>{ar ? 'افهم حمصتك' : i18nUi('افهم حمصتك', 'Understand your roast')}</Txt>
+        <Txt style={styles.muted}>{ar ? 'من لون الحبة إلى نتيجة الكوب.' : i18nUi('من لون الحبة إلى نتيجة الكوب.', 'From bean color to the cup.')}</Txt>
       </View>
       <View style={{ gap: 7, width: '100%', maxWidth: 460, alignSelf: 'center' }}>
         <Image testID="roast-levels-image" source={require('../assets/images/roast-levels-illustration.jpg')}
-          accessibilityLabel={ar ? 'رسم توضيحي للبن، من اليسار: أخضر، بني فاتح، متوسط، غامق' : 'Illustration, left to right: green, light brown, medium brown, dark brown beans'}
+          accessibilityLabel={ar ? 'رسم توضيحي للبن، من اليسار: أخضر، بني فاتح، متوسط، غامق' : i18nUi('رسم توضيحي للبن، من اليسار: أخضر، بني فاتح، متوسط، غامق', 'Illustration, left to right: green, light brown, medium brown, dark brown beans')}
           resizeMode="contain" style={{ width: '100%', height: width < 600 ? 112 : 144, borderRadius: 14 }} />
         <View style={{ flexDirection: 'row' }}>
-          {levels.map(level => <View key={level.id} style={{ flex: 1 }}><Txt style={{ textAlign: 'center', fontSize: width < 360 ? 11 : 13 }}>{level.names[i]}</Txt></View>)}
+          {levels.map(level => <View key={level.id} style={{ flex: 1 }}><Txt style={{ textAlign: 'center', fontSize: width < 360 ? 11 : 13 }}>{i18nUi(level.names[0],level.names[1])}</Txt></View>)}
         </View>
-        <Txt style={{ fontSize: 11, color: colors.muted }}>{ar ? 'صورة توضيحية مولّدة؛ ليست مقياس لون أو قراءة Agtron.' : 'Generated illustration; not a color standard or Agtron reading.'}</Txt>
+        <Txt style={{ fontSize: 11, color: colors.muted }}>{ar ? 'صورة توضيحية مولّدة؛ ليست مقياس لون أو قراءة Agtron.' : i18nUi('صورة توضيحية مولّدة؛ ليست مقياس لون أو قراءة Agtron.', 'Generated illustration; not a color standard or Agtron reading.')}</Txt>
       </View>
-      <TabRail testID="roast-level-tabs" equal value={selected} onChange={setSelected} items={levels.map(level => ({ id: level.id, label: level.names[i] }))} />
+      <TabRail testID="roast-level-tabs" equal value={selected} onChange={setSelected} items={levels.map(level => ({ id: level.id, label: i18nUi(level.names[0],level.names[1]) }))} />
       <View style={[styles.card, { gap: 12 }]}>
         <View style={{ flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 10 }}>
           <View style={{ width: 18, height: 18, borderRadius: 9, backgroundColor: level.color }} />
-          <Txt heading style={styles.subtitle}>{level.names[i]}</Txt>
+          <Txt heading style={styles.subtitle}>{i18nUi(level.names[0],level.names[1])}</Txt>
         </View>
-        <Txt>{level.appearance[i]}</Txt>
-        <Txt heading style={{ fontWeight: '700' }}>{ar ? 'شلون نوصل لها؟' : 'How do we reach it?'}</Txt>
-        <Txt>{level.how[i]}</Txt>
-        <Txt style={styles.muted}>{level.taste[i]}</Txt>
+        <Txt>{i18nUi(level.appearance[0],level.appearance[1])}</Txt>
+        <Txt heading style={{ fontWeight: '700' }}>{ar ? 'شلون نوصل لها؟' : i18nUi('شلون نوصل لها؟', 'How do we reach it?')}</Txt>
+        <Txt>{i18nUi(level.how[0],level.how[1])}</Txt>
+        <Txt style={styles.muted}>{i18nUi(level.taste[0],level.taste[1])}</Txt>
       </View>
-      <Disclosure title={ar ? 'خطة تجربة: ثلاث نتائج من نفس البن' : 'Experiment: three outcomes from one coffee'}>
+      <Disclosure title={ar ? 'خطة تجربة: ثلاث نتائج من نفس البن' : i18nUi('خطة تجربة: ثلاث نتائج من نفس البن', 'Experiment: three outcomes from one coffee')}>
         {[
           ['١. ثبّت المحصول، وزن الدفعة، الماكينة، نوع الحساس وروتين التسخين.', '1. Fix lot, batch mass, machine, sensor type and preheat workflow.'],
           ['٢. اعمل دفعة مرجعية حسب دليل جهازك. سجل الاصفرار والفرقعة والإنزال، وكل تغيير طاقة أو هواء.', '2. Roast a reference using your machine guide. Record yellowing, crack, drop and every energy or airflow change.'],
           ['٣. قارن نقطتي نهاية مختلفتين تدريجيًا مع نفس التبريد. لا تجمع تغيير الدفعة والطاقة والنهاية في محاولة واحدة.', '3. Compare two gradually adjusted endpoints with consistent cooling. Avoid changing batch, power and endpoint together.'],
           ['٤. سجل الوزن بعد التبريد، اللون بنفس الإضاءة أو جهاز معاير، والطعم بعد مدة راحة ثابتة.', '4. Record cooled mass, color under fixed light or a calibrated instrument, and taste after equal resting.'],
           ['٥. رمّز العينات وقارنها بنفس الماء والطحن والوصفة، وكرر قبل اعتماد النتيجة.', '5. Code the samples and compare with fixed water, grind and recipe. Repeat before adopting the result.'],
-        ].map(row => <Txt key={row[1]}>{row[i]}</Txt>)}
-        <Txt style={styles.muted}>{ar ? 'هذه خطة دراسة عملية، وليست نتائج تجارب أجريت على بنّك أو جدول حرارة عام.' : 'This is an experimental plan, not measured results for your coffee or a universal temperature schedule.'}</Txt>
+        ].map(row => <Txt key={row[1]}>{i18nUi(row[0],row[1])}</Txt>)}
+        <Txt style={styles.muted}>{ar ? 'هذه خطة دراسة عملية، وليست نتائج تجارب أجريت على بنّك أو جدول حرارة عام.' : i18nUi('هذه خطة دراسة عملية، وليست نتائج تجارب أجريت على بنّك أو جدول حرارة عام.', 'This is an experimental plan, not measured results for your coffee or a universal temperature schedule.')}</Txt>
       </Disclosure>
-      <Disclosure title={ar ? 'دليل التحميص الكامل' : 'Complete roasting study'} subtitle={ar ? 'المراحل، التحكم، القياس، العيوب والتذوق' : 'Stages, control, measurement, defects and tasting'}>
+      <Disclosure title={ar ? 'دليل التحميص الكامل' : i18nUi('دليل التحميص الكامل', 'Complete roasting study')} subtitle={ar ? 'المراحل، التحكم، القياس، العيوب والتذوق' : i18nUi('المراحل، التحكم، القياس، العيوب والتذوق', 'Stages, control, measurement, defects and tasting')}>
         {chapters.map(id => {
           const lesson = coffeeLessonById(id, contentLocale(locale));
-          return lesson ? <Disclosure key={id} title={lesson.title}>
-            <Txt>{lesson.answer}</Txt><Txt style={styles.muted}>{lesson.more}</Txt>
+          return lesson ? <Disclosure key={id} title={i18nUi(lesson.title,lesson.title)}>
+            <Txt>{i18nUi(lesson.answer,lesson.answer)}</Txt><Txt style={styles.muted}>{i18nUi(lesson.more,lesson.more)}</Txt>
             <SourceLink compact title={lesson.source.title} url={lesson.source.url} />
           </Disclosure> : null;
         })}
       </Disclosure>
-      <SourceLink compact title={ar ? 'درجات التحميص — NCA' : 'Roast levels — NCA'} url="https://www.aboutcoffee.org/beans/roasts/" />
+      <SourceLink compact title={ar ? 'درجات التحميص — NCA' : i18nUi('درجات التحميص — NCA', 'Roast levels — NCA')} url="https://www.aboutcoffee.org/beans/roasts/" />
     </View>
   );
 }

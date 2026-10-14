@@ -1,4 +1,3 @@
-import { contentLocale } from './localeText';
 import { useContext, useState } from 'react';
 import { Modal, Pressable, ScrollView, View } from './native';
 import { SafeAreaView } from './native';
@@ -10,9 +9,9 @@ import {
 import { Action, Language, Txt, colors, styles, useLabels } from './ui';
 
 export function LegalLinks() {
-  const uiLocale = useContext(Language), locale = contentLocale(uiLocale), L = useLabels();
+  const uiLocale = useContext(Language), L = useLabels();
   const [open, setOpen] = useState<LegalKind | null>(null);
-  const document = open ? legalContent[locale][open] : null;
+  const document = open ? legalContent[uiLocale==='ar'?'ar':'en'][open] : null;
   return (
     <>
       <View
@@ -58,9 +57,8 @@ export function LegalLinks() {
             }}
           >
             <Txt heading style={styles.title}>
-              {document?.title}
+              {document ? uiLocale==='ar'?document.title:L('',document.title) : ''}
             </Txt>
-            {uiLocale === 'ja' ? <Txt style={styles.muted}>この文書は現在英語で表示されます。</Txt> : null}
             <Txt style={styles.muted}>
               {L('آخر تحديث: ', 'Updated: ')}
               {legalUpdated}
@@ -68,9 +66,9 @@ export function LegalLinks() {
             {document?.sections.map(([title, body]) => (
               <View key={title} style={{ gap: 8 }}>
                 <Txt heading style={styles.subtitle}>
-                  {title}
+                  {uiLocale==='ar'?title:L('',title)}
                 </Txt>
-                <Txt>{body}</Txt>
+                <Txt>{uiLocale==='ar'?body:L('',body)}</Txt>
               </View>
             ))}
             <Action

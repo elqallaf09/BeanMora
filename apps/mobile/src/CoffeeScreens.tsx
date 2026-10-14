@@ -75,8 +75,8 @@ const flags: Record<string, string> = {
   Uganda: '🇺🇬',
   Mexico: '🇲🇽',
 };
-export const originLabel = (origin: string, ar = false) =>
-  [flags[origin], catalogName(origin, ar ? 'ar' : 'en')]
+export const originLabel = (origin: string, locale: import('./copy').Locale = 'en') =>
+  [flags[origin], catalogName(origin, locale)]
     .filter(Boolean)
     .join(' ');
 export function CoffeePhoto({
@@ -220,7 +220,8 @@ export function CoffeeCard({
   open: () => void;
   save: () => void;
 }) {
-  const ar = useContext(Language) === 'ar';
+  const locale = useContext(Language);
+  const ar = locale === 'ar';
   const L = useLabels();
   const motion = usePressMotion();
   return (
@@ -270,7 +271,7 @@ export function CoffeeCard({
             textAlign: 'left',
           }}
         >
-          {originLabel(item.origin, ar) || item.roaster}
+          {originLabel(item.origin, locale) || item.roaster}
         </Txt>
         <IconButton
           name="heart"
@@ -483,7 +484,7 @@ export function Home({
           </View>
           {width >= 650 ? (
             <Txt style={s.heroSignature}>
-              More{'\n'}Than{'\n'}Coffee
+              {L('أكثر من القهوة','More Than Coffee')}
             </Txt>
           ) : null}
         </ImageBackground>
@@ -720,7 +721,7 @@ export function CoffeeDetail({
           {item.images.length ? <Txt style={[s.photoCount, { right: 6, bottom: 6, paddingHorizontal: 6, fontSize: 12 }]}>{photo + 1}/{item.images.length}</Txt> : null}
         </View>
         <View testID="coffee-detail-summary" style={detailStyles.copy}>
-          {item.origin ? <Txt style={[styles.muted, { fontSize: 12, fontFamily: undefined }]}>{originLabel(item.origin, ar)}</Txt> : null}
+          {item.origin ? <Txt style={[styles.muted, { fontSize: 12, fontFamily: undefined }]}>{originLabel(item.origin, locale)}</Txt> : null}
           <Txt heading style={detailStyles.title}>{item.name}</Txt>
           <Txt style={[styles.muted, detailStyles.text]}>{[item.roaster, processLabel(item.process, locale)].filter(Boolean).join(' – ')}</Txt>
           {item.variety ? <Txt style={[styles.metaText, { lineHeight: 20 }]}>{L('السلالة: ', 'Variety: ')}{catalogName(item.variety, locale)}</Txt> : null}
@@ -820,15 +821,13 @@ export function CoffeeDetail({
           {!exactRecipe && !similarRecipe ? (
             <View testID="coffee-general-recipe">
               <Txt style={styles.muted}>
-                {ar
-                  ? 'دليل عام من ' +
+                {L('دليل عام من ' +
                     (recipe.author || recipe.sources[0]?.name || 'المصدر') +
-                    ' يصلح كنقطة بداية مع أنواع بن مختلفة. عدّل الاستخلاص حسب طعم كوبك.'
-                  : 'A general guide from ' +
+                    ' يصلح كنقطة بداية مع أنواع بن مختلفة. عدّل الاستخلاص حسب طعم كوبك.', 'A general guide from ' +
                     (recipe.author ||
                       recipe.sources[0]?.name ||
                       'the publisher') +
-                    ' for starting with different coffees. Adjust extraction to your taste.'}
+                    ' for starting with different coffees. Adjust extraction to your taste.')}
               </Txt>
             </View>
           ) : null}
@@ -856,9 +855,7 @@ export function CoffeeDetail({
             <View style={{ flex: 1 }}>
               <Txt style={{ fontWeight: '700' }}>
                 {exactRecipe
-                  ? ar
-                    ? 'وصفة ' + methods[locale][method] + ' لهذا البن'
-                    : methods[locale][method] + ' recipe for this coffee'
+                  ? L('وصفة ' + methods[locale][method] + ' لهذا البن', methods[locale][method] + ' recipe for this coffee')
                   : similarRecipe
                     ? L('الوصفة الأقرب لبنك','Closest recipe for your coffee','このコーヒーに近いレシピ')
                   : L('دليل التحضير العام', 'General brewing guide')}
@@ -887,20 +884,18 @@ export function CoffeeDetail({
               ? L('تعذّر تحميل الوصفات. يمكنك إعادة المحاولة أو استكشاف المكتبة.', 'Recipes could not be loaded. Retry or explore the library.')
               : method === 'xbloom'
                 ? L('لا توجد وصفة خاصة أو معلومات كافية لترشيح وصفة مشابهة لهذا البن.','No exact recipe or enough published information to suggest a similar recipe for this coffee.','専用レシピまたは類似レシピを提案するための公開情報がありません。')
-              : ar
-                ? 'استكشف إعدادات ' +
+              : L('استكشف إعدادات ' +
                   methods[locale][method] +
-                  ' واختَر وصفة تناسب البن وطعم كوبك.'
-                : 'Explore ' +
+                  ' واختَر وصفة تناسب البن وطعم كوبك.', 'Explore ' +
                   methods[locale][method] +
-                  ' settings and choose a recipe for your coffee and taste.'}
+                  ' settings and choose a recipe for your coffee and taste.')}
           </Txt>
           {browseRecipes ? (
             <Action
               title={
                 (L('استكشف وصفات ', 'Explore ')) +
                 methods[locale][method] +
-                (ar ? '' : ' recipes')
+                (L('', ' recipes'))
               }
               onPress={() => browseRecipes(method)}
               selected

@@ -162,6 +162,13 @@ export function flavorLabel(note: string, ar: boolean): string {
       )?.[0] ?? clean);
 }
 
+export function flavorDisplay(note:string,locale:Locale):string {
+  if(locale==='ar'||locale==='en')return flavorLabel(note,locale==='ar');
+  const english=flavorLabel(note,false),key=english.toLowerCase();
+  const translated=uiMessage(locale,key);
+  return translated===key?english:translated;
+}
+
 /** Recover the publisher's written notes, never intensity scores or inferred flavors. */
 export function publishedFlavorNotes(
   direct: (string[] | undefined)[],
@@ -212,3 +219,4 @@ export function publishedFlavorNotes(
   }
   return [];
 }
+import {uiMessage, type Locale} from './localeText';

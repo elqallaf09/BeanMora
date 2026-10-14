@@ -1,8 +1,12 @@
-import { catalogName } from './core/catalog-names';
-export { catalogName } from './core/catalog-names';
+import { catalogName as sourceCatalogName } from './core/catalog-names';
+import { contentLocale, localeLabel, systemText, uiMessage } from './localeText';
 import type { Locale } from './copy';
 import { methods } from './copy';
 import { isMethod } from './core/engine';
+export function catalogName(value:string|null|undefined,locale:Locale):string {
+  const original=sourceCatalogName(value,contentLocale(locale));
+  return locale==='ar'||locale==='en'?original:uiMessage(locale,original);
+}
 
 export function methodLabel(
   value: string | null | undefined,
@@ -15,6 +19,7 @@ export function methodLabel(
       : '—';
 }
 export const processLabel = (value: string, locale: Locale) =>
+  localeLabel(locale,
   ({
     washed: ['مغسول', 'Washed'],
     natural: ['طبيعي', 'Natural'],
@@ -22,7 +27,8 @@ export const processLabel = (value: string, locale: Locale) =>
     anaerobic: ['لاهوائي', 'Anaerobic'],
     wet_hulled: ['تقشير رطب', 'Wet hulled'],
     other: ['معالجة أخرى', 'Other process'],
-  })[value]?.[locale === 'ar' ? 0 : 1] || catalogName(value, locale);
+  })[value]?.[0] || catalogName(value, locale),
+  ({ washed:'Washed', natural:'Natural', honey:'Honey', anaerobic:'Anaerobic', wet_hulled:'Wet hulled', other:'Other process' })[value] || value);
 export const modelLabel = (value: string, locale: Locale) =>
   locale === 'ar'
     ? ({ Original: 'الأصلي', Studio: 'ستوديو' }[value] ??
@@ -64,7 +70,7 @@ export function localizeStep(
   description: string,
   locale: Locale,
 ) {
-  if (locale !== 'ar') return { title, description };
+  if (locale !== 'ar') return { title: uiMessage(locale,title), description: systemText(locale,description) };
   const pour = title.match(/^Pour\s+(\d+)$/i);
   const cumulative = description.match(
     /^Pour to a cumulative ([\d.]+)ml(?: \(final\))?\.$/,

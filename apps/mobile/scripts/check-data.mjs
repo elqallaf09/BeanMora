@@ -1,3 +1,4 @@
+import {prepareLocaleFixture,withLocaleRequire} from './locale-test-fixture.mjs';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
@@ -7,6 +8,7 @@ import ts from 'typescript';
 const root = new URL('../', import.meta.url);
 const temp = mkdtempSync(tmpdir() + '/beanmora-data-');
 mkdirSync(temp + '/core');
+prepareLocaleFixture(temp);
 for (const file of [
   'core/content-media.ts', 'core/equipment-facts.ts', 'catalog.ts', 'data.ts',
   'guards.ts',
@@ -32,7 +34,7 @@ for (const file of [
       },
     })
     .outputText.replace(/from (["'])(\.\/[^"']+)\1/g, "from '$2.mjs'");
-  writeFileSync(temp + '/' + file.replace('.ts', '.mjs'), code);
+  writeFileSync(temp + '/' + file.replace('.ts', '.mjs'), withLocaleRequire(file,code));
 }
 const { loadData, mapRecipe } = await import(
   pathToFileURL(temp + '/data.mjs').href

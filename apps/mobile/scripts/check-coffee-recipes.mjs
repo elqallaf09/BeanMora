@@ -1,3 +1,4 @@
+import {prepareLocaleFixture,withLocaleRequire} from './locale-test-fixture.mjs';
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import {
@@ -16,6 +17,7 @@ import { createClient } from '@supabase/supabase-js';
 const require = createRequire(import.meta.url);
 const temp = mkdtempSync(tmpdir() + '/beanmora-coffee-recipes-');
 mkdirSync(temp + '/core');
+prepareLocaleFixture(temp);
 after(() => rmSync(temp, { recursive: true, force: true }));
 // Import pure query/merge helpers without loading native modules or production configuration.
 writeFileSync(temp + '/client.mjs', 'export const supabase = null; export const publicSupabase = null;\n');
@@ -49,7 +51,7 @@ for (const file of [
       /from 'react'/g,
       `from '${pathToFileURL(require.resolve('react')).href}'`,
     );
-  writeFileSync(temp + '/' + file.replace('.ts', '.mjs'), output);
+  writeFileSync(temp + '/' + file.replace('.ts', '.mjs'), withLocaleRequire(file,output));
 }
 const { coffeeRecipesPageQuery, mergeCoffeeRecipes } = await import(
   pathToFileURL(temp + '/useCoffeeRecipes.mjs').href
