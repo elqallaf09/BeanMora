@@ -65,7 +65,8 @@ const loadPack: Record<PackLocale,()=>Pack> = {
 };
 const packs = new Map<PackLocale,Pack>();
 const reversePacks = new Map<PackLocale,Map<string,string>>();
-const patterns = new Map<PackLocale,{pattern:RegExp; slots:number[]; translation:string}[]>();
+const importedPourTemplate = 'Water: {0} ml; source temperature: {1}; flow: {2} ml/s; pause: {3} s. Check the original link for pouring pattern.';
+const patterns = new Map<PackLocale,{pattern:RegExp; slots:number[]; translation:string; importedPour:boolean}[]>();
 const escape=(s:string)=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 function translated(locale:PackLocale,text:string): string {
   let pack=packs.get(locale);if(!pack){pack=loadPack[locale]();packs.set(locale,pack);}
@@ -73,10 +74,15 @@ function translated(locale:PackLocale,text:string): string {
   let templates=patterns.get(locale);
   if(!templates){
     templates=Object.entries(pack).filter(([key])=>/\{\d+\}/.test(key)).sort((a,b)=>b[0].length-a[0].length).map(([key,translation])=>{
-      const slots:number[]=[];let start=0,pattern='';for(const match of key.matchAll(/\{(\d+)\}/g)){pattern+=escape(key.slice(start,match.index))+'([\\s\\S]*?)';slots.push(Number(match[1]));start=match.index!+match[0].length;}pattern+=escape(key.slice(start));return {pattern:new RegExp('^'+pattern+'$','u'),slots,translation};
+      const slots:number[]=[];let start=0,pattern='';for(const match of key.matchAll(/\{(\d+)\}/g)){pattern+=escape(key.slice(start,match.index))+'([\\s\\S]*?)';slots.push(Number(match[1]));start=match.index!+match[0].length;}pattern+=escape(key.slice(start));return {pattern:new RegExp('^'+pattern+'$','u'),slots,translation,importedPour:key===importedPourTemplate};
     });patterns.set(locale,templates);
   }
-  for(const template of templates){const match=template.pattern.exec(text);if(!match)continue;const values=new Map(template.slots.map((slot,index)=>[slot,match[index+1]]));return template.translation.replace(/\{(\d+)\}/g,(_,slot)=>values.get(Number(slot))??'');}
+  for(const template of templates){const match=template.pattern.exec(text);if(!match)continue;const values=new Map(template.slots.map((slot,index)=>{
+    const value=match[index+1];
+    // Only the importer's missing-value sentinel is translated. Numeric source
+    // values and arbitrary template slots retain their original bytes.
+    return [slot,template.importedPour&&value==='unspecified'?pack!['unspecified']??value:value] as const;
+  }));return template.translation.replace(/\{(\d+)\}/g,(_,slot)=>values.get(Number(slot))??'');}
   return locale==='ja'?ja[text]??text:text;
 }
 export function localeLabel(locale: Locale, arabic: string, english: string, japanese?: string): string {

@@ -16,7 +16,7 @@ async function openAssistant(page: Page, offlineCatalog = false, expiredOffer = 
       searches.push(query);
       // Return wrong-style and wrong-brewer records too: the client must retain
       // the user's constraints even if a backend response is inconsistent.
-      const base = { kind: 'recipe', category: null, offers: [], methods: ['xbloom'], source_url: 'https://recipe.example/coconut', summary_ar: 'وصفة منشورة لجوز الهند.', summary_en: 'Published coconut recipe.', facts: { dose: 15, water: null, temperature: 90, grind: '57', notes: ['Coconut'], serving_style: 'iced', source_brew: { water_ml: 150, model: 'Original' }, steps: [{ description_ar: 'صب 45 مل حسب المصدر.', description_en: 'Pour 45 ml as published.' }] } };
+      const base = { kind: 'recipe', category: null, offers: [], methods: ['xbloom'], source_url: 'https://recipe.example/coconut', summary_ar: 'إعدادات التحضير من المصدر؛ الماء بالملليلتر. افتح الرابط الأصلي لتعليمات الجهاز. وقت التحضير الكلي غير منشور.', summary_en: 'Source brew settings; water is in ml. Open the original link for device-specific instructions. Total brew time was not published.', facts: { dose: 15, water: null, temperature: 90, grind: '57', notes: ['Coconut'], serving_style: 'iced', source_brew: { water_ml: 150, model: 'Original' }, steps: [{ description_ar: 'صب 45 مل حسب المصدر.', description_en: 'Pour 45 ml as published.' }, {description_ar:'الماء: 35 مل · حرارة المصدر: 92 · التدفق: غير منشور · التوقف: 19 ث. راجع نمط الصب في رابط المصدر.',description_en:'Water: 35 ml; source temperature: 92; flow: unspecified ml/s; pause: 19 s. Check the original link for pouring pattern.'}] } };
       data = [
         { ...base, id: 'cold-coconut', title_ar: 'وصفة جوز الهند الباردة', title_en: 'Cold coconut recipe', search_text: 'coconut xbloom' },
         { ...base, id: 'hot-both', title_ar: 'وصفة حارة', title_en: 'Hot recipe', search_text: 'coconut honey xbloom', facts: { ...base.facts, serving_style: 'hot' } },
@@ -31,7 +31,7 @@ async function openAssistant(page: Page, offlineCatalog = false, expiredOffer = 
         ? [{ id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa0', kind: 'roaster', title_ar: namedLimu ? 'محمصة ليمو' : query.p_terms.includes('ark') ? 'آرك روسترز' : 'ألتيتيود روسترز', title_en: namedLimu ? 'Limu Roastery' : query.p_terms.includes('ark') ? 'A R K Roasters' : 'Altitude Roasters', search_text: namedLimu ? 'محمصة ليمو Limu Roastery KW' : query.p_terms.includes('ark') ? 'آرك روسترز A R K Roasters KW' : 'Altitude Roasters KW', summary_ar: '', summary_en: '', category: null, methods: [], facts: { country: 'KW' }, offers: [], source_url: namedLimu ? 'https://limukw.com/' : query.p_terms.includes('ark') ? 'https://www.ark.com.kw/pages/about' : 'https://altituderoasters.co/en/' }]
         : query.p_kind === 'coffee' ? [{ id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaac0', kind: 'coffee', title_ar: 'بن مونتيبلانكو التجريبي', title_en: 'Fixture Monteblanco', search_text: 'Fixture Monteblanco Coconut Lemonade', summary_ar: 'جوز الهند والليمونادة؛ تخمير مشترك مع إضافات بحسب المصدر.', summary_en: 'Coconut and lemonade; co-fermented and infused according to the source.', category: null, methods: ['v60'], facts: { notes: ['Coconut', 'Lemonade'] }, offers: [], source_url: 'https://roaster.example/coffee' },
           ...[['cocoa', 'بن الكاكاو التجريبي', 'Cacao'], ['wine', 'بن واين التجريبي', 'Red Wine'], ['unrelated', 'بن غير مطابق', 'Whole coffee beans chocolate winegum']].map(([id, title, notes]) => ({ id, kind: 'coffee', title_ar: title, title_en: title, search_text: notes, summary_ar: notes, summary_en: notes, category: null, methods: [], facts: { notes: [notes] }, offers: [], source_url: 'https://roaster.example/coffee' }))]
-        : [300, 400].map((amount, i) => ({ id: `aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa${i}`, kind: 'equipment', title_ar: `ماكينة ${i + 1}`, title_en: `Machine ${i + 1}`, search_text: 'espresso machine manual', summary_ar: '', summary_en: '', category: 'espresso_machine', methods: ['espresso'], facts: { operation: ['يدوي','Manual'], ...(i ? {} : { pressure_gauge: ['نعم','Yes'] }) }, offers: [{ amount, currency: 'USD', checked_at: new Date(Date.now() - (expiredOffer ? 30 * 86400000 : 0)).toISOString(), region: 'US', url: 'https://seller.example/machine', availability: 'in_stock' }], source_url: 'https://seller.example/machine' }));
+        : [300, 400].map((amount, i) => ({ id: `aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa${i}`, kind: 'equipment', title_ar: `ماكينة ${i + 1}`, title_en: `Machine ${i + 1}`, search_text: 'espresso machine manual', summary_ar: 'أداة إسبريسو محمولة بمضخة يدوية وسلة غير مضغوطة؛ لا تسخّن الماء.', summary_en: 'Portable hand-pump espresso maker with an unpressurised basket; does not heat water.', category: 'espresso_machine', methods: ['espresso'], facts: { operation: ['ذراع يدوي','Manual lever'], heats_water:'No', capacity:'80 ml water', ...(i ? {} : { pressure_gauge: ['نعم','Yes'] }) }, offers: [{ amount, currency: 'USD', checked_at: new Date(Date.now() - (expiredOffer ? 30 * 86400000 : 0)).toISOString(), region: 'US', url: 'https://seller.example/machine', availability: 'in_stock' }], source_url: 'https://seller.example/machine' }));
     }
     return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(data) });
   });
@@ -308,6 +308,10 @@ for(const language of newLanguages) test(`localized cold recipe search retains o
   await panel.getByRole('textbox').fill(language.shop);
   await panel.getByRole('button',{name:language.send,exact:true}).click();
   await expect(panel.getByTestId('assistant-result')).toHaveCount(2);
+  await expect(panel).not.toContainText('Portable hand-pump espresso maker');
+  await expect(panel).not.toContainText('Manual lever');
+  await expect(panel).not.toContainText('80 ml water');
+  await expect(panel).toContainText('80');
   expect(network.searches.at(-1)).toMatchObject({p_kind:'equipment',p_category:'espresso_machine',p_terms:[]});
   await panel.getByRole('textbox').fill(language.question);
   await panel.getByRole('button',{name:language.send,exact:true}).click();
@@ -316,6 +320,9 @@ for(const language of newLanguages) test(`localized cold recipe search retains o
   await expect(panel).toContainText(language.cold);
   await expect(panel).toContainText('15 g');await expect(panel).toContainText('150 ml');
   await expect(panel).toContainText('57');await expect(panel).toContainText('Original');
+  await expect(panel).not.toContainText('Source brew settings; water is in ml.');
+  await expect(panel).not.toContainText('unspecified');
+  await expect(panel).toContainText('35 ml');await expect(panel).toContainText('92');await expect(panel).toContainText('19');
   await expect(panel).not.toContainText('No recipe matched every search term.');
   expect(network.searches.at(-1)).toMatchObject({p_methods:['xbloom'],p_serving_style:'cold',p_limit:60});
   expect(network.providerCalls()).toBe(0);

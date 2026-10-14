@@ -4,6 +4,7 @@ import { systemText } from './localeText';
 import { randomUUID } from 'expo-crypto';
 import { createMessageTrace, tracedMessage, type MessageTrace } from './messageTrace';
 import { assistantInput } from './assistantInput';
+import { assistantCatalogSummary, assistantCatalogFact } from './assistantCatalogText';
 import { useContext, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Linking, ScrollView, View } from "./native";
 import { Action, Field, Language, Txt, colors, styles } from "./ui";
@@ -259,10 +260,7 @@ export function CoffeeAssistant({
                       </Txt>
                     ) : null}
                     <Txt numberOfLines={2} style={styles.muted}>
-                      {(ar
-                        ? match.document.summary_ar
-                        : match.document.summary_en
-                      )?.slice(0, 180)}
+                      {assistantCatalogSummary(locale, match.document.summary_ar, match.document.summary_en).slice(0, 180)}
                     </Txt>
 
                     {Object.entries(match.document.facts ?? {})
@@ -279,9 +277,7 @@ export function CoffeeAssistant({
                       .map(([key, value]) => (
                         <Txt key={key}>
                           {i18nUi(factLabels[key][0],factLabels[key][1])}:{" "}
-                          {String(
-                            Array.isArray(value) ? i18nUi(value[0],value[1]) : value,
-                          )}
+                          {assistantCatalogFact(locale,key,value)}
                         </Txt>
                       ))}
                     {match.price ? (
@@ -292,7 +288,7 @@ export function CoffeeAssistant({
                               ? "تقريبًا "
                               : i18nUi("تقريبًا ", "Approx. ")
                             : ""}
-                          {match.price.converted.toLocaleString("en-US", {
+                          {match.price.converted.toLocaleString(ar || locale==='en' ? 'en-US' : locale+'-u-nu-latn', {
                             maximumFractionDigits:
                               match.price.currency === "KWD" ? 3 : 2,
                           })}{" "}
@@ -317,7 +313,7 @@ export function CoffeeAssistant({
                           {ar ? "آخر تحقق: " : i18nUi("آخر تحقق: ", "Last checked: ")}
                           {new Date(
                             match.price.offer.checked_at,
-                          ).toLocaleDateString("en-GB")}
+                          ).toLocaleDateString(ar || locale==='en' ? 'en-GB' : locale+'-u-nu-latn')}
                           {ar
                             ? " · السعر قبل الشحن والرسوم"
                             : i18nUi(" · السعر قبل الشحن والرسوم", " · Before shipping and duties")}
