@@ -17,7 +17,7 @@ const languages = [
  {locale:'pt-BR',berry:'morango',shop:'um site para comprar máquinas espresso',cold:'uma receita gelada para minha máquina xBloom com notas de coco e mel'},
  {locale:'zh-CN',berry:'草莓',shop:'买浓缩咖啡机的网站',cold:'xBloom 冷饮配方 椰子和蜂蜜风味'}
 ];
-const allowedReads = new Set(['search_public_recipes','search_public_recipes_v2','search_coffee_assistant','search_coffee_assistant_recipes']);
+const allowedReads = new Set(['search_public_recipes','search_public_recipes_v2','search_public_recipe_near_matches','search_coffee_assistant','search_coffee_assistant_recipes']);
 const report = { version:'0.5.35', sourceBundle:null, languages:[] };
 const save = () => fs.writeFileSync('live-verification.json', JSON.stringify(report,null,2));
 async function releasedBundle() {
