@@ -28,7 +28,8 @@ const schema = z
   .object({
     name: z.string().trim().min(2).max(100),
     country: z.string().refine(validAccountCountry, "Choose your country."),
-    phone: z.string().transform((value, ctx) => {
+    phone: z.string().optional().transform((value, ctx) => {
+      if (!value?.trim()) return '';
       try {
         return normalizeAccountPhone(value);
       } catch {
@@ -282,7 +283,7 @@ export default function SignupPage() {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="phone">{t("auth.phoneLabel")}</Label>
+            <Label htmlFor="phone">{t("auth.phoneOptionalLabel")}</Label>
             <Input
               id="phone"
               type="tel"

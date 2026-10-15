@@ -3103,5 +3103,18 @@
   "Total water and ice": "Totale acqua e ghiaccio",
   "How many grams of coffee are you using?": "Quanti grammi di caffè usi?",
   "Would you like it hot or iced?": "Lo preferisci caldo o con ghiaccio?",
-  "Which brewing method are you using? For example, V60 or espresso.": "Quale metodo di preparazione usi? Per esempio, V60 o espresso."
+  "Which brewing method are you using? For example, V60 or espresso.": "Quale metodo di preparazione usi? Per esempio, V60 o espresso.",
+  "This password is weak and easy to guess. Choose a longer, unique password.": "Questa password è debole e facile da indovinare. Scegline una più lunga e unica.",
+  "This password appeared in a known data breach. Choose a new, unique password.": "Questa password è presente in una violazione di dati nota. Scegline una nuova e unica.",
+  "This password does not meet the security requirements. Use a longer password with uppercase and lowercase letters, numbers and symbols.": "Questa password non soddisfa i requisiti di sicurezza. Usane una più lunga con lettere maiuscole e minuscole, numeri e simboli.",
+  "This email address is not accepted. Use a valid address where you can receive messages.": "Questo indirizzo email non è accettato. Usa un indirizzo valido su cui puoi ricevere messaggi.",
+  "Confirmation emails cannot be sent to this address right now. Contact BeanMora support.": "Al momento non è possibile inviare email di conferma a questo indirizzo. Contatta il supporto BeanMora.",
+  "The email sending limit has been reached. Wait before requesting another message.": "È stato raggiunto il limite di invio delle email. Attendi prima di richiedere un altro messaggio.",
+  "Too many attempts in a short time. Wait a while and try again.": "Troppi tentativi in poco tempo. Attendi un momento e riprova.",
+  "Email account registration is currently unavailable. Try later or contact support.": "La registrazione tramite email non è al momento disponibile. Riprova più tardi o contatta il supporto.",
+  "The account service is temporarily unavailable. Try later or contact support if the problem continues.": "Il servizio account è temporaneamente non disponibile. Riprova più tardi o contatta il supporto se il problema persiste.",
+  "Could not create your account. Try again or contact BeanMora support if the problem continues.": "Impossibile creare il tuo account. Riprova o contatta il supporto BeanMora se il problema persiste.",
+  "Could not request a password reset. Try again or contact support.": "Impossibile richiedere la reimpostazione della password. Riprova o contatta il supporto.",
+  "Use at least 8 characters. Avoid common or breached passwords.": "Usa almeno 8 caratteri. Evita password comuni o compromesse.",
+  "Phone number (optional)": "Numero di telefono (facoltativo)"
 }

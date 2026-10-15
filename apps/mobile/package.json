@@ -25,7 +25,7 @@
     "typecheck": "tsc --noEmit",
     "test:support": "node --test scripts/support-contact.test.mjs",
     "support:page": "node scripts/generate-support-page.mjs",
-    "test": "node --test scripts/check-build-config.test.mjs scripts/support-contact.test.mjs && node scripts/sync-core.mjs --check && node scripts/check-mobile.mjs && node scripts/check-request-deadline.mjs && node scripts/check-data.mjs && node scripts/check-brewing.mjs && node scripts/check-brew-flow.mjs && node scripts/check-brew-coach.mjs && node scripts/check-method-guides.mjs && node scripts/check-recipe-discovery.mjs && node scripts/check-coffee-recipes.mjs && node scripts/check-xbloom-matches.mjs && node scripts/check-roast-lab.mjs && node scripts/check-locales.mjs",
+    "test": "node --test scripts/check-build-config.test.mjs scripts/support-contact.test.mjs && node scripts/sync-core.mjs --check && node scripts/check-auth-failure.mjs && node scripts/check-mobile.mjs && node scripts/check-request-deadline.mjs && node scripts/check-data.mjs && node scripts/check-brewing.mjs && node scripts/check-brew-flow.mjs && node scripts/check-brew-coach.mjs && node scripts/check-method-guides.mjs && node scripts/check-recipe-discovery.mjs && node scripts/check-coffee-recipes.mjs && node scripts/check-xbloom-matches.mjs && node scripts/check-roast-lab.mjs && node scripts/check-locales.mjs",
     "export": "expo export --platform all"
   },
   "dependencies": {
