@@ -21,7 +21,8 @@ export function SignupPhoneField({ label, country, value, onChangeText, editable
         ) : null}
         <TextInput
           testID="signup-phone-input"
-          accessibilityLabel={[label, callingCode].filter(Boolean).join(' ')}
+          accessibilityLabel={label}
+          accessibilityHint={callingCode || undefined}
           value={number}
           onChangeText={next => onChangeText(signupPhoneFromInput(next, callingCode))}
           keyboardType="phone-pad"
