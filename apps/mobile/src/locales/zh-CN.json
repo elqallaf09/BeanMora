@@ -3100,5 +3100,8 @@
   "Iced V60 quantities": "冰V60用量",
   "Specify the brewer and a recipe with an ice amount; the V60 split does not apply to other methods or to published recipes with unspecified ice.": "请指定冲煮器具和注明冰块用量的配方；V60的分配比例不适用于其他方法，也不适用于未注明冰量的已发布配方。",
   "This calculated starting point uses 60% hot water and 40% ice. Put the ice in the server and pour the hot water through the coffee. Ice is included in the total; filter-rinse water is separate, and beverage yield is lower because the grounds retain water. Adjust to taste and brewer capacity.": "此计算起点采用60%热水和40%冰块。将冰块放入分享壶，再用热水冲煮咖啡粉。冰块已计入总量；润湿滤纸的水另计，由于咖啡粉会吸水，最终饮品重量会少于总量。请根据口味和器具容量调整。",
-  "Total water and ice": "水和冰块总量"
+  "Total water and ice": "水和冰块总量",
+  "How many grams of coffee are you using?": "你使用多少克咖啡粉？",
+  "Would you like it hot or iced?": "你想喝热的还是加冰的？",
+  "Which brewing method are you using? For example, V60 or espresso.": "你使用哪种冲煮方式？例如V60或意式浓缩。"
 }
