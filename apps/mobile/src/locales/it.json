@@ -3100,5 +3100,8 @@
   "Iced V60 quantities": "Quantità per V60 con ghiaccio",
   "Specify the brewer and a recipe with an ice amount; the V60 split does not apply to other methods or to published recipes with unspecified ice.": "Indica il metodo e una ricetta con la quantità di ghiaccio; la ripartizione del V60 non si applica ad altri metodi né a ricette pubblicate senza una quantità di ghiaccio.",
   "This calculated starting point uses 60% hot water and 40% ice. Put the ice in the server and pour the hot water through the coffee. Ice is included in the total; filter-rinse water is separate, and beverage yield is lower because the grounds retain water. Adjust to taste and brewer capacity.": "Questo punto di partenza calcolato usa il 60% di acqua calda e il 40% di ghiaccio. Metti il ghiaccio nella caraffa e versa l’acqua calda sul caffè. Il ghiaccio è incluso nel totale; l’acqua per sciacquare il filtro è separata e il peso della bevanda sarà inferiore perché il caffè trattiene acqua. Regola secondo il gusto e la capacità dello strumento.",
-  "Total water and ice": "Totale acqua e ghiaccio"
+  "Total water and ice": "Totale acqua e ghiaccio",
+  "How many grams of coffee are you using?": "Quanti grammi di caffè usi?",
+  "Would you like it hot or iced?": "Lo preferisci caldo o con ghiaccio?",
+  "Which brewing method are you using? For example, V60 or espresso.": "Quale metodo di preparazione usi? Per esempio, V60 o espresso."
 }

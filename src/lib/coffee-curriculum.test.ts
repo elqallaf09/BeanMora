@@ -2,6 +2,12 @@ import { expect, it } from 'vitest';
 import { coffeeKnowledgeAnswer, coffeeLearningTopics, coffeeLessonById } from './coffee-knowledge';
 import { converseLocally } from './local-coffee-assistant';
 const offline = { search: async () => { throw new Error('Education must work offline'); } };
+it.each(['بارد', 'باردة', 'قهوه باردة', 'باريستا', 'اختبار'])('does not read a partial Arabic word as pressure: %s', question => {
+  expect(coffeeKnowledgeAnswer(question, 'ar')?.topic).not.toBe('pressure');
+});
+it.each(['شنو يعني 9 بار؟', 'شنو البار؟', 'القياس بالبار', 'ضغط 9بار', 'What does 9 bars mean?'])('still recognizes a real pressure question: %s', question => {
+  expect(coffeeKnowledgeAnswer(question, 'ar')?.topic).toBe('pressure');
+});
 it('offers a sourced bilingual learning path with a useful second explanation', () => {
   const ar = coffeeLearningTopics('ar'), en = coffeeLearningTopics('en');
   expect(ar.length).toBeGreaterThanOrEqual(40);

@@ -7,6 +7,86 @@ const ask = (question: string, history: LocalAssistantTurn[] = []) => converseLo
 
 describe('coffee water and ice quantities', () => {
   it.each([
+    '١٥ غرام بن ابيها قهوه باردة جم ماي احط و جم ثلج؟',
+    '15 غرام بن + قهوة بالثلج',
+    '15 جم بن أبيها باردة',
+    '15 غرام بن أبغيها قهوة باردة',
+    '15 غرام بن أبغاها بالثلج',
+    '15 غرام بن أباها باردة',
+  ])('keeps the reported Gulf brew description and asks only for the brewer: %s', async question => {
+    const first = await ask(question);
+    expect(first.intent).toBe('calculate');
+    expect(first.calculation).toMatchObject({ dose: 15, method: null, servingStyle: 'iced' });
+    expect(first.answer).toContain('15 g');
+    expect(first.answer).toContain('ما طريقة التحضير');
+    expect(first.answer).not.toMatch(/كم غرام|هل تريده|ضغط|لم أجد بن/);
+    const second = await ask('استخدم V60', [first]);
+    expect(second.calculation).toMatchObject({ dose: 15, method: 'v60', servingStyle: 'iced' });
+    expect(second.answer).toContain('135 g');
+    expect(second.answer).toContain('90 g');
+  });
+  it.each([
+    '15 غرام بن للV60 جم ماي وجم ثلج؟',
+    '15 غرام بن V60 جم أحط ماي وثلج؟',
+    '15 غرام بن V60 شكثر أحط ماي وثلج؟',
+    '15 غرام بن V60 اشكثر ماي وثلج يحتاج؟',
+    '15 غرام بن V60 كم أحط موية وثلج؟',
+    '15 غرام بن V60 كم مويا وثلج أحط؟',
+    '15 غرام بن V60 كم أضيف من المويه والثلج؟',
+    '15 غرام بن V60 الماي جم أحط وثلج؟',
+    '15 غرام بن V60 كم يحتاج ماي وثلج؟',
+    '15 غرام بن V60 كم غرام من الماي والثلج؟',
+  ])('calculates Gulf quantity phrasing offline: %s', async question => {
+    const turn = await ask(question);
+    expect(turn.intent).toBe('calculate');
+    expect(turn.calculation?.dose).toBe(15);
+    expect(turn.answer).toContain('135 g');
+    expect(turn.answer).toContain('90 g');
+    expect(turn.knowledgeTopic).toBeUndefined();
+  });
+  it('keeps a missing-dose question through a Gulf brewer follow-up', async () => {
+    const first = await ask('غرام بن ابيها قهوه باردة جم ماي احط و جم ثلج؟');
+    expect(first.calculation).toMatchObject({ dose: null, method: null, servingStyle: 'iced' });
+    expect(first.answer).toContain('كم غرام بن');
+    const method = await ask('على V60', [first]);
+    expect(method.answer).toContain('كم غرام بن');
+    const final = await ask('١٥ جم', [method]);
+    expect(final.calculation?.dose).toBe(15);
+    expect(final.answer).toContain('135 g');
+    expect(final.answer).toContain('90 g');
+  });
+  it('accepts a Gulf brewer reply with an attached preposition', async () => {
+    const first = await ask('15 غرام بن + قهوة بالثلج');
+    const second = await ask('بالV60', [first]);
+    expect(second.answer).toContain('135 g');
+    expect(second.calculation?.method).toBe('v60');
+  });
+  it('keeps جم as a gram unit when it follows a number', async () => {
+    const turn = await ask('15 جم ماي');
+    expect(turn.intent).toBe('knowledge');
+    expect(turn.knowledgeTopic).toBe('water');
+  });
+  it('does not mistake the 60 in V60 for a gram quantity', async () => {
+    const turn = await ask('V60 جم ماي وثلج؟');
+    expect(turn.calculation?.dose).toBeNull();
+    expect(turn.answer).toContain('كم غرام بن');
+  });
+  it.each(['أبي وصفة باردة 15 غرام بن', 'رشح لي بن للقهوة الباردة 15 غرام'])('preserves explicit catalog requests with a dose: %s', async question => {
+    let searched = false;
+    const turn = await converseLocally(question, 'ar', [], { search: async () => { searched = true; return { documents: [], rates: [] }; } });
+    expect(searched).toBe(true);
+    expect(turn.intent).toBe('search');
+  });
+  it.each(['حامضة', 'مرة'])('preserves a measured cold-cup taste complaint: %s', async symptom => {
+    const turn = await ask(`15 غرام قهوة V60 باردة ${symptom}`);
+    expect(turn.intent).toBe('coach');
+  });
+  it.each(['موية 135 غرام', '135 جم مويا', 'الماي 135 غرام', 'ثلج 90 جم'])('never treats a Gulf water/ice weight as a coffee dose: %s', async weight => {
+    const turn = await ask(`${weight} V60 جم ماي وثلج؟`);
+    expect(turn.calculation?.dose).toBeNull();
+    expect(turn.answer).toContain('كم غرام بن');
+  });
+  it.each([
     '15 جرام قهوه\nكم ماء وكم ثلج لل v60',
     '١٥ غرام قهوة كم ماي وكم ثلج للـV60؟',
     '۱۵ غرام قهوة كم ماء وكم ثلج لv60',

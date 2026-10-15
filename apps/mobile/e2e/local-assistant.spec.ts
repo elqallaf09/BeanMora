@@ -44,6 +44,27 @@ async function ask(page: Page, question: string, english = false) {
   await page.getByRole('button', { name: english ? 'Send' : 'إرسال', exact: true }).click();
 }
 
+for (const question of [
+  '١٥ غرام بن ابيها قهوه باردة جم ماي احط و جم ثلج؟',
+  '15 غرام بن + قهوة بالثلج',
+]) test(`Gulf brew request keeps the dose until the brewer is supplied: ${question}`, async ({ page }) => {
+  const network = await openAssistant(page, true);
+  const panel = page.getByTestId('coffee-assistant');
+  await ask(page, question);
+  await expect(panel).toContainText('البن: 15 g');
+  await expect(panel).toContainText('التقديم: بارد');
+  await expect(panel).toContainText('ما طريقة التحضير؟');
+  await expect(panel).not.toContainText('كم غرام بن تستخدم');
+  await expect(panel).not.toContainText('الضغط والتدفق');
+  await expect(panel).not.toContainText('لم أجد بن');
+  await ask(page, 'استخدم V60');
+  await expect(panel).toContainText('الماء الساخن: 135 g');
+  await expect(panel).toContainText('الثلج: 90 g');
+  await expect(page.getByTestId('assistant-result')).toHaveCount(0);
+  expect(network.searches).toHaveLength(0);
+  expect(network.providerCalls()).toBe(0);
+});
+
 for (const english of [false, true]) test(`water and ice quantities answer the screenshot question (${english ? 'en' : 'ar'})`, async ({ page }) => {
   const network = await openAssistant(page);
   if (english) await setLanguage(page, 'en');

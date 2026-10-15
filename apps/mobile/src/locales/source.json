@@ -7845,6 +7845,7 @@
     "files": [
       "src/copy.ts",
       "src/core/capsules.ts",
+      "src/core/local-coffee-assistant.ts",
       "src/core/member-contributions.ts",
       "src/locales/reviewed.json"
     ]
@@ -10461,10 +10462,17 @@
     ]
   },
   {
-    "en": "How many grams of coffee, which brewer, and hot or iced? For example, V60 or espresso.",
-    "ar": "كم غرام بن تستخدم، وما طريقة التحضير؟ مثل V60 أو إسبريسو، وهل تريده حارًا أم بالثلج؟",
+    "en": "How many grams of coffee are you using?",
+    "ar": "كم غرام بن تستخدم؟",
     "files": [
       "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "How many grams of coffee, which brewer, and hot or iced? For example, V60 or espresso.",
+    "ar": "",
+    "files": [
       "src/locales/reviewed.json"
     ]
   },
@@ -23265,6 +23273,14 @@
     ]
   },
   {
+    "en": "Which brewing method are you using? For example, V60 or espresso.",
+    "ar": "ما طريقة التحضير؟ مثل V60 أو إسبريسو.",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Which budget currency: US dollars (USD), Kuwaiti dinars (KWD), or Saudi riyals (SAR)?",
     "ar": "حدد عملة الميزانية: دولار أمريكي USD، دينار كويتي KWD، أو ريال سعودي SAR.",
     "files": [
@@ -23415,6 +23431,14 @@
     "ar": "وركشوب كوفي",
     "files": [
       "src/core/catalog-names.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Would you like it hot or iced?",
+    "ar": "هل تريده حارًا أم بالثلج؟",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
       "src/locales/reviewed.json"
     ]
   },

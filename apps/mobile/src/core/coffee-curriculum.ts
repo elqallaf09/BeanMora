@@ -185,7 +185,7 @@ export const COFFEE_CURRICULUM: CoffeeLesson[] = [
   },
   {
     id: 'pressure', group: 'equipment', titles: ['ضغط الإسبريسو والتدفق', 'Espresso pressure and flow'], priority: 70,
-    keywords: /ضغط|بار|pressure|\bbars?\b|flow profil/,
+    keywords: /ضغط|(?:^|[^\p{L}])(?:و?ب?(?:ال)?)بار(?=$|[^\p{L}])|pressure|\bbars?\b|flow profil/u,
     ar: 'الضغط والتدفق مرتبطان بمقاومة قرص البن. ضغط المضخة المعلن ليس بالضرورة الضغط عند القرص. ليس رفع الضغط حلًا تلقائيًا للحموضة أو السرعة؛ ابدأ بالتوزيع والجرعة والطحن، ثم استخدم وصفة ودليل جهازك.',
     en: 'Pressure and flow interact with puck resistance. Advertised pump pressure is not necessarily pressure at the puck. Increasing pressure is not an automatic fix for sourness or fast shots. Start with distribution, dose and grind, then use the recipe and machine guide.',
     more: ['سجل موضع قياس الضغط ومرحلة القراءة مع وزن الناتج والوقت. لا تفك صمامات الضغط أو تغيّرها اعتمادًا على رقم تسويقي.', 'Record where and when pressure is measured, plus yield and time. Do not adjust internal pressure valves based on a marketing number.'],
