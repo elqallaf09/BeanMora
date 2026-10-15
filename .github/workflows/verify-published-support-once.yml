@@ -1,0 +1,114 @@
+name: Verify published BeanMora support once
+on:
+  push:
+    branches: [verify/support-release-77-557db8b]
+    paths: [.github/workflows/verify-published-support-once.yml]
+permissions:
+  contents: read
+jobs:
+  published_support:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.55.1-noble
+    timeout-minutes: 15
+    env:
+      CI: '1'
+      EXPO_NO_TELEMETRY: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Generate the expected support page from the release source
+        run: node apps/mobile/scripts/generate-support-page.mjs
+      - name: Install the browser client without application credentials or lifecycle scripts
+        run: npm install --prefix /tmp/beanmora-support-check --ignore-scripts --no-audit --no-fund --package-lock=false @playwright/test@1.55.1
+      - name: Verify published bytes, languages, layout, clipboard and fallback
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { readFileSync } from 'node:fs';
+          import { createHash } from 'node:crypto';
+          import { createRequire } from 'node:module';
+          const require=createRequire('/tmp/beanmora-support-check/package.json');
+          const { chromium }=require('@playwright/test');
+          const origin='https://beanmora-mobile.expo.app';
+          const url=origin+'/support.html';
+          const expected=readFileSync('apps/mobile/public/support.html','utf8');
+          const hash=value=>createHash('sha256').update(value).digest('hex');
+          let actual='';
+          for(let attempt=0;attempt<72;attempt++) {
+            try {
+              const response=await fetch(url+'?release_check=557db8b',{cache:'no-store',signal:AbortSignal.timeout(10000)});
+              actual=response.ok?await response.text():'';
+              if(hash(actual)===hash(expected)) break;
+              if(attempt%6===0) console.log(`Public release not yet matched; attempt ${attempt+1}, HTTP ${response.status}`);
+            } catch(error) {
+              if(attempt%6===0) console.log(`Public read retry: ${error.message}`);
+            }
+            await new Promise(resolve=>setTimeout(resolve,8000));
+          }
+          assert.equal(hash(actual),hash(expected),'Published HTML does not match the requested release source');
+          assert.ok(actual.includes('Beanmora.app@gmail.com'));
+          assert.ok(!actual.includes('elqallaf09@gmail.com'));
+          console.log(`Verified public HTML SHA-256: ${hash(actual)}`);
+          const browser=await chromium.launch({args:['--no-sandbox']});
+          const errors=[];
+          let cases=0;
+          const locales=['ar','en','ja','fr','it','es','pt-BR','zh-CN'];
+          try {
+            for(const colorScheme of ['light','dark']) {
+              const context=await browser.newContext({colorScheme,locale:'ar-KW',permissions:['clipboard-read','clipboard-write']});
+              const page=await context.newPage();
+              page.on('pageerror',error=>errors.push(error.message));
+              page.on('console',message=>{ if(message.type()==='error') errors.push(message.text()); });
+              await page.goto(url+'?lang=ar',{waitUntil:'networkidle',timeout:60000});
+              for(const locale of locales) {
+                await page.selectOption('#language',locale);
+                await page.waitForFunction(value=>document.documentElement.lang===value,locale);
+                const active=page.locator('.locale-panel:visible');
+                assert.equal(await active.count(),1,`Only one panel must be visible: ${locale}`);
+                assert.equal(await active.getAttribute('id'),locale);
+                assert.equal(await page.locator('html').getAttribute('dir'),locale==='ar'?'rtl':'ltr');
+                assert.equal(await active.locator('.topics .topic').count(),4);
+                assert.equal(await active.locator('details').getAttribute('open'),null);
+                for(const href of await active.locator('a[href^="mailto:"]').evaluateAll(nodes=>nodes.map(node=>node.href))) {
+                  const mail=new URL(href);
+                  assert.equal(mail.pathname,'Beanmora.app@gmail.com');
+                  assert.deepEqual([...mail.searchParams.keys()],['subject','body']);
+                }
+                for(const width of [320,390,430,768,1280]) {
+                  await page.setViewportSize({width,height:900});
+                  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`Horizontal overflow: ${locale}/${colorScheme}/${width}`);
+                  cases++;
+                }
+              }
+              await page.selectOption('#language','ar');
+              await page.locator('#ar details summary').click();
+              assert.notEqual(await page.locator('#ar details').getAttribute('open'),null);
+              await page.selectOption('#language','en');
+              await page.selectOption('#language','ar');
+              assert.equal(await page.locator('#ar details').getAttribute('open'),null);
+              await page.locator('#ar [data-copy]').click();
+              assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),'Beanmora.app@gmail.com');
+              await page.selectOption('#language','fr');
+              await page.goto(url,{waitUntil:'networkidle'});
+              assert.equal(await page.locator('html').getAttribute('lang'),'fr','Saved language must survive navigation');
+              await page.goto(url+'?lang=ar',{waitUntil:'networkidle'});
+              assert.equal(await page.locator('html').getAttribute('lang'),'ar','Explicit URL language must override saved language');
+              await context.close();
+            }
+            const fallback=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});
+            const page=await fallback.newPage();
+            await page.goto(url,{waitUntil:'domcontentloaded',timeout:60000});
+            assert.equal(await page.locator('.locale-panel:visible').count(),1);
+            assert.equal(await page.locator('.locale-panel:visible').getAttribute('id'),'ar');
+            assert.equal(await page.locator('#ar .email').textContent(),'Beanmora.app@gmail.com');
+            await fallback.close();
+            assert.deepEqual(errors,[],'Browser or CSP errors on the published support page');
+            console.log(`PASS: ${cases} published layout cases, one visible locale, correct inbox, real clipboard, saved language, explicit URL, disclosure reset and no-JavaScript fallback.`);
+            console.log('No email was sent. No application account, backend record or App Store metadata was changed.');
+          } finally { await browser.close(); }
+          NODE
