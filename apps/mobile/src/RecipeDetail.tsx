@@ -3,7 +3,7 @@ import { CatalogComments } from "./CatalogComments";
 import { XBloomMatchNotice } from './XBloomMatchNotice';
 import { CoffeeLabelMatchNotice } from './CoffeeLabelMatchNotice';
 import { useContext } from "react";
-import { ScrollView, View, useWindowDimensions } from "./native";
+import { Platform, ScrollView, StyleSheet, View, useWindowDimensions } from "./native";
 import type { RecipeItem } from "./data";
 import { copy, methods } from "./copy";
 import { coffeeStyles } from "./CoffeeScreens";
@@ -55,6 +55,7 @@ export function RecipeDetail({
   const ar = locale === "ar";
   const t = copy[locale];
   const { width } = useWindowDimensions();
+  const desktop = Platform.OS === "web" && width >= 1024;
   const manual = recipe.sourceBrew.manual;
   const discovery = recipe.discovery;
   const sourcePours = !!recipe.sourceBrew.pours?.length;
@@ -140,260 +141,300 @@ export function RecipeDetail({
   return (
     <ScrollView
       testID="recipe-detail"
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={[coffeeStyles.page, { maxWidth: 780, gap: 12 }]}
+      showsVerticalScrollIndicator={desktop}
+      contentContainerStyle={[coffeeStyles.page, s.page, desktop && s.desktopPage]}
     >
       <XBloomMatchNotice recipe={recipe}/>
       <CoffeeLabelMatchNotice recipe={recipe}/>
+      {/* Keep the same component tree at every width so resizing never resets the timer. */}
       <View
-        style={{
-          height: width < 600 ? 150 : 170,
-          borderRadius: 18,
-          overflow: "hidden",
-        }}
+        testID="recipe-detail-layout"
+        style={[s.layout, desktop && s.desktopLayout, desktop && ar && s.reverseRow]}
       >
-        <RecipeVisual recipe={recipe} />
-      </View>
-      <View style={{ gap: 3 }}>
-        <View style={[styles.row, ar && { flexDirection: "row-reverse" }]}>
-          <Txt style={styles.muted}>
-            {methods[locale][recipe.method]}
-            {recipe.author ? " · " + recipe.author : ""}
-          </Txt>
-          {discovery?.servingStyle ? (
-            <View style={[styles.metaPill, { backgroundColor: "#E2EFEB" }]}>
-              <Txt style={{ fontSize: 12, color: colors.teal }}>
-                {discovery.servingStyle === "hot"
-                  ? ar
-                    ? "حار"
-                    : i18nUi("حار", "Hot")
-                  : discovery.servingStyle === "iced"
-                    ? ar
-                      ? "مثلّج"
-                      : i18nUi("مثلّج", "Iced")
-                    : ar
-                      ? "بارد"
-                      : i18nUi("بارد", "Cold")}
-                {discovery.servingStyleInferred
-                  ? ar
-                    ? " · مقترح"
-                    : i18nUi(" · مقترح", " · Suggested")
-                  : ""}
-              </Txt>
-            </View>
-          ) : null}
-        </View>
-        {discovery?.servingStyleInferred ? (
-          <Txt style={{ fontSize: 12, color: colors.muted }}>
-            {ar
-              ? "نوع التقديم مقترح حسب طريقة التحضير؛ لم يحدده صاحب الوصفة."
-              : i18nUi("نوع التقديم مقترح حسب طريقة التحضير؛ لم يحدده صاحب الوصفة.", "Serving style is suggested from the preparation method; the publisher did not specify it.")}
-          </Txt>
-        ) : null}
-        <Txt heading style={[styles.title, { fontSize: 24, lineHeight: 32 }]}>
-          {recipeTitle(recipe.title, ar)}
-        </Txt>
-        <FlavorNotes
-          notes={
-            discovery?.flavorNotes.length
-              ? discovery.flavorNotes
-              : recipe.flavors
-          }
-          max={8}
-        />
-      </View>
-      {toggleSaved ? (
-        <View style={{ gap: 6 }}>
-          <Action
-            title={
-              saved
-                ? ar
-                  ? "إزالة الوصفة من المحفوظة"
-                  : i18nUi("إزالة الوصفة من المحفوظة", "Remove saved recipe")
-                : accountSaved
-                  ? ar
-                    ? "حفظ الوصفة"
-                    : i18nUi("حفظ الوصفة", "Save recipe")
-                  : ar
-                    ? "حفظ الوصفة على الجهاز"
-                    : i18nUi("حفظ الوصفة على الجهاز", "Save recipe on device")
-            }
-            onPress={toggleSaved}
-            selected={saved}
-            disabled={saving}
-          />
-          {saved ? (
-            <Txt style={styles.success}>
-              {i18nUi(accountSaved
-                  ? "تم حفظ الوصفة."
-                  : "محفوظة على هذا الجهاز.", accountSaved
-                  ? "Recipe saved."
-                  : "Saved on this device.")}
-            </Txt>
-          ) : null}
-          {saveError ? (
-            <Txt accessibilityRole="alert" style={styles.warning}>
-              {ar
-                ? "تعذّر الحفظ أو المزامنة. أعد المحاولة وتحقق من الاتصال والمساحة المتاحة (حتى 50 وصفة على الجهاز)."
-                : i18nUi("تعذّر الحفظ أو المزامنة. أعد المحاولة وتحقق من الاتصال والمساحة المتاحة (حتى 50 وصفة على الجهاز).", "Could not save or sync. Retry and check your connection and available storage (up to 50 device recipes).")}
-            </Txt>
-          ) : null}
-        </View>
-      ) : null}
-      <View
-        testID="recipe-source-facts"
-        style={{
-          flexDirection: ar ? "row-reverse" : "row",
-          flexWrap: "wrap",
-          gap: 8,
-        }}
-      >
-        {values.map((n) => (
+        <View testID="recipe-overview" style={[s.section, desktop && s.column]}>
           <View
-            key={n.icon}
-            style={[
-              styles.card,
-              {
-                flexBasis: width >= 600 ? "30%" : "46%",
-                flexGrow: 1,
-                minWidth: 116,
-                marginBottom: 0,
-                padding: 12,
-                gap: 5,
-              },
-            ]}
+            testID="recipe-heading"
+            style={[s.hero, desktop && s.desktopHero, desktop && ar && s.reverseRow]}
           >
-            <View style={[styles.row, ar && { flexDirection: "row-reverse" }]}>
-              <Icon name={n.icon} size={16} />
-              <Txt style={{ fontSize: 11, color: colors.muted }}>{n.label}</Txt>
-            </View>
-            <Txt
-              style={{
-                fontSize: 17,
-                lineHeight: 25,
-                fontWeight: "700",
-                writingDirection: /^\d/.test(n.value)
-                  ? "ltr"
-                  : ar
-                    ? "rtl"
-                    : "ltr",
-              }}
+            <View
+              testID="recipe-visual"
+              style={[s.visual, { height: width < 600 ? 150 : 170 }, desktop && s.desktopVisual]}
             >
-              {n.value}
-            </Txt>
-          </View>
-        ))}
-      </View>
-      <ManualRecipeFacts recipe={recipe} />
-      {recipe.incomplete ? (
-        <Txt style={styles.warning}>
-          {manual?.parameter_only_source
-            ? ar
-              ? "المصدر ينشر مقادير التحضير دون إجراء تفصيلي."
-              : i18nUi("المصدر ينشر مقادير التحضير دون إجراء تفصيلي.", "The source publishes brewing amounts without a full procedure.")
-            : ar
-              ? "بعض التفاصيل غير منشورة؛ افتح المصدر قبل التحضير."
-              : i18nUi("بعض التفاصيل غير منشورة؛ افتح المصدر قبل التحضير.", "Some details are not published; check the source before brewing.")}
-        </Txt>
-      ) : null}
-      <GuidedBrew key={recipe.id} recipe={recipe} record={record} />
-      {sourcePours ? (
-        <SourceBrewDetails recipe={recipe} />
-      ) : (
-        <View testID="recipe-instructions" style={{ gap: 8 }}>
-          <Txt heading style={styles.subtitle}>
-            {t.instructions}
-          </Txt>
-          {recipe.steps.length ? (
-            recipe.steps.map((step) => (
-              <View
-                key={step.number}
-                style={[styles.card, { padding: 12, marginBottom: 0, gap: 5 }]}
-              >
-                <Txt style={{ fontWeight: "700" }}>
-                  {step.number}. {step.title}
+              <RecipeVisual recipe={recipe} />
+            </View>
+            <View style={[s.identity, desktop && s.desktopIdentity]}>
+              <View style={[styles.row, ar && { flexDirection: "row-reverse" }]}>
+                <Txt style={[styles.muted, desktop && s.shrink]}>
+                  {methods[locale][recipe.method]}
+                  {recipe.author ? " · " + recipe.author : ""}
                 </Txt>
-                <Txt>{step.description}</Txt>
+                {discovery?.servingStyle ? (
+                  <View style={[styles.metaPill, { backgroundColor: "#E2EFEB" }]}>
+                    <Txt style={{ fontSize: 12, color: colors.teal }}>
+                      {discovery.servingStyle === "hot"
+                        ? ar
+                          ? "حار"
+                          : i18nUi("حار", "Hot")
+                        : discovery.servingStyle === "iced"
+                          ? ar
+                            ? "مثلّج"
+                            : i18nUi("مثلّج", "Iced")
+                          : ar
+                            ? "بارد"
+                            : i18nUi("بارد", "Cold")}
+                      {discovery.servingStyleInferred
+                        ? ar
+                          ? " · مقترح"
+                          : i18nUi(" · مقترح", " · Suggested")
+                        : ""}
+                    </Txt>
+                  </View>
+                ) : null}
               </View>
-            ))
-          ) : !recipe.pours.length ? (
-            <Txt style={styles.warning}>{t.noSteps}</Txt>
+              {discovery?.servingStyleInferred ? (
+                <Txt style={{ fontSize: 12, color: colors.muted }}>
+                  {ar
+                    ? "نوع التقديم مقترح حسب طريقة التحضير؛ لم يحدده صاحب الوصفة."
+                    : i18nUi("نوع التقديم مقترح حسب طريقة التحضير؛ لم يحدده صاحب الوصفة.", "Serving style is suggested from the preparation method; the publisher did not specify it.")}
+                </Txt>
+              ) : null}
+              <Txt heading style={[styles.title, { fontSize: 24, lineHeight: 32 }]}>
+                {recipeTitle(recipe.title, ar)}
+              </Txt>
+              <FlavorNotes
+                notes={
+                  discovery?.flavorNotes.length
+                    ? discovery.flavorNotes
+                    : recipe.flavors
+                }
+                compact={desktop}
+                max={8}
+              />
+            </View>
+          </View>
+          {toggleSaved ? (
+            <View style={{ gap: 6 }}>
+              <View style={desktop && { alignSelf: ar ? "flex-end" : "flex-start" }}>
+                <Action
+                  compact={desktop}
+                  title={
+                    saved
+                      ? ar
+                        ? "إزالة الوصفة من المحفوظة"
+                        : i18nUi("إزالة الوصفة من المحفوظة", "Remove saved recipe")
+                      : accountSaved
+                        ? ar
+                          ? "حفظ الوصفة"
+                          : i18nUi("حفظ الوصفة", "Save recipe")
+                        : ar
+                          ? "حفظ الوصفة على الجهاز"
+                          : i18nUi("حفظ الوصفة على الجهاز", "Save recipe on device")
+                  }
+                  onPress={toggleSaved}
+                  selected={saved}
+                  disabled={saving}
+                />
+              </View>
+              {saved ? (
+                <Txt style={styles.success}>
+                  {i18nUi(accountSaved
+                      ? "تم حفظ الوصفة."
+                      : "محفوظة على هذا الجهاز.", accountSaved
+                      ? "Recipe saved."
+                      : "Saved on this device.")}
+                </Txt>
+              ) : null}
+              {saveError ? (
+                <Txt accessibilityRole="alert" style={styles.warning}>
+                  {ar
+                    ? "تعذّر الحفظ أو المزامنة. أعد المحاولة وتحقق من الاتصال والمساحة المتاحة (حتى 50 وصفة على الجهاز)."
+                    : i18nUi("تعذّر الحفظ أو المزامنة. أعد المحاولة وتحقق من الاتصال والمساحة المتاحة (حتى 50 وصفة على الجهاز).", "Could not save or sync. Retry and check your connection and available storage (up to 50 device recipes).")}
+                </Txt>
+              ) : null}
+            </View>
+          ) : null}
+          <View
+            testID="recipe-source-facts"
+            style={{
+              flexDirection: ar ? "row-reverse" : "row",
+              flexWrap: "wrap",
+              gap: 8,
+            }}
+          >
+            {values.map((n) => (
+              <View
+                key={n.icon}
+                style={[
+                  styles.card,
+                  {
+                    flexBasis: width >= 600 ? "30%" : "46%",
+                    flexGrow: 1,
+                    minWidth: 116,
+                    marginBottom: 0,
+                    padding: desktop ? 10 : 12,
+                    gap: 5,
+                  },
+                ]}
+              >
+                <View style={[styles.row, ar && { flexDirection: "row-reverse" }]}>
+                  <Icon name={n.icon} size={16} />
+                  <Txt style={{ fontSize: 11, color: colors.muted }}>{n.label}</Txt>
+                </View>
+                <Txt
+                  style={{
+                    fontSize: 17,
+                    lineHeight: 25,
+                    fontWeight: "700",
+                    writingDirection: /^\d/.test(n.value)
+                      ? "ltr"
+                      : ar
+                        ? "rtl"
+                        : "ltr",
+                  }}
+                >
+                  {n.value}
+                </Txt>
+              </View>
+            ))}
+          </View>
+          <ManualRecipeFacts recipe={recipe} compact={desktop} />
+          {recipe.incomplete ? (
+            <Txt style={styles.warning}>
+              {manual?.parameter_only_source
+                ? ar
+                  ? "المصدر ينشر مقادير التحضير دون إجراء تفصيلي."
+                  : i18nUi("المصدر ينشر مقادير التحضير دون إجراء تفصيلي.", "The source publishes brewing amounts without a full procedure.")
+                : ar
+                  ? "بعض التفاصيل غير منشورة؛ افتح المصدر قبل التحضير."
+                  : i18nUi("بعض التفاصيل غير منشورة؛ افتح المصدر قبل التحضير.", "Some details are not published; check the source before brewing.")}
+            </Txt>
           ) : null}
         </View>
-      )}
-      {primary ? (
-        <SourceLink
-          title={
-            primary.url.includes("share-h5.xbloom.com")
-              ? ar
-                ? "فتح الوصفة في xBloom"
-                : i18nUi("فتح الوصفة في xBloom", "Open recipe in xBloom")
-              : ar
-                ? "فتح مصدر الوصفة"
-                : i18nUi("فتح مصدر الوصفة", "Open recipe source")
-          }
-          url={primary.url}
-        />
-      ) : null}
-      <Disclosure
-        title={ar ? "عن الوصفة وإعدادات المصدر" : i18nUi("عن الوصفة وإعدادات المصدر", "Recipe and source details")}
-        subtitle={
-          ar
-            ? "الناشر، البن، ملاحظات التحضير والروابط"
-            : i18nUi("الناشر، البن، ملاحظات التحضير والروابط", "Publisher, coffee, brewing notes and links")
-        }
-        testID="recipe-source-disclosure"
-      >
-        {provenance.map(([label, value]) => (
-          <View key={label} style={{ gap: 2 }}>
-            <Txt style={{ fontSize: 11, color: colors.muted }}>{label}</Txt>
-            <Txt style={{ fontSize: 14, fontWeight: "700" }}>{value}</Txt>
-          </View>
-        ))}
-        <SourceBrewDetails recipe={recipe} settingsOnly />
-        {recipe.notes ? <Txt>{recipe.notes}</Txt> : null}
-        {recipe.originalTitle && recipe.originalTitle !== recipe.title ? (
-          <View testID="recipe-original-title">
-            <Txt style={styles.muted}>
-              {ar ? "عنوان المصدر الأصلي" : i18nUi("عنوان المصدر الأصلي", "Original source title")}
-            </Txt>
-            <Txt>{recipe.originalTitle}</Txt>
-          </View>
-        ) : null}
-        {recipe.videoUrl ? (
+        <View testID="recipe-preparation" style={[s.section, desktop && s.column]}>
+          <GuidedBrew key={recipe.id} recipe={recipe} record={record} />
+          {sourcePours ? (
+            <SourceBrewDetails recipe={recipe} />
+          ) : (
+            <View testID="recipe-instructions" style={{ gap: 8 }}>
+              <Txt heading style={styles.subtitle}>
+                {t.instructions}
+              </Txt>
+              {recipe.steps.length ? (
+                recipe.steps.map((step) => (
+                  <View
+                    key={step.number}
+                    style={[styles.card, { padding: 12, marginBottom: 0, gap: 5 }]}
+                  >
+                    <Txt style={{ fontWeight: "700" }}>
+                      {step.number}. {step.title}
+                    </Txt>
+                    <Txt>{step.description}</Txt>
+                  </View>
+                ))
+              ) : !recipe.pours.length ? (
+                <Txt style={styles.warning}>{t.noSteps}</Txt>
+              ) : null}
+            </View>
+          )}
+        </View>
+      </View>
+      <View testID="recipe-secondary-details" style={s.section}>
+        {primary ? (
           <SourceLink
-            title={ar ? "شاهد فيديو الوصفة" : i18nUi("شاهد فيديو الوصفة", "Watch recipe video")}
-            url={recipe.videoUrl}
+            title={
+              primary.url.includes("share-h5.xbloom.com")
+                ? ar
+                  ? "فتح الوصفة في xBloom"
+                  : i18nUi("فتح الوصفة في xBloom", "Open recipe in xBloom")
+                : ar
+                  ? "فتح مصدر الوصفة"
+                  : i18nUi("فتح مصدر الوصفة", "Open recipe source")
+            }
+            url={primary.url}
           />
         ) : null}
-        {recipe.sources.map((source) => (
-          <View key={source.url} style={{ gap: 2 }}>
-            <SourceLink
-              title={
-                source.url.includes("share-h5.xbloom.com")
-                  ? ar
-                    ? "الوصفة في xBloom"
-                    : i18nUi("الوصفة في xBloom", "Recipe in xBloom")
-                  : catalogName(source.name, locale)
-              }
-              url={source.url}
-            />
-            {source.verifiedAt ? (
-              <Txt style={styles.muted}>
-                {ar ? "آخر تحقق: " : i18nUi("آخر تحقق: ", "Last checked: ")}
-                {new Date(source.verifiedAt).toLocaleDateString(
-                  locale + "-u-nu-latn",
-                )}
-              </Txt>
-            ) : null}
+        <Disclosure
+          title={ar ? "عن الوصفة وإعدادات المصدر" : i18nUi("عن الوصفة وإعدادات المصدر", "Recipe and source details")}
+          subtitle={
+            ar
+              ? "الناشر، البن، ملاحظات التحضير والروابط"
+              : i18nUi("الناشر، البن، ملاحظات التحضير والروابط", "Publisher, coffee, brewing notes and links")
+          }
+          testID="recipe-source-disclosure"
+        >
+          <View style={[s.provenance, desktop && s.desktopProvenance, desktop && ar && s.reverseRow]}>
+            {provenance.map(([label, value]) => (
+              <View key={label} style={[{ gap: 2 }, desktop && s.provenanceFact]}>
+                <Txt style={{ fontSize: 11, color: colors.muted }}>{label}</Txt>
+                <Txt style={{ fontSize: 14, fontWeight: "700" }}>{value}</Txt>
+              </View>
+            ))}
           </View>
-        ))}
-      </Disclosure>
-      <Disclosure title={ar ? "دليل طريقة التحضير" : i18nUi("دليل طريقة التحضير", "Brew method guide")}>
-        <MethodGuide method={recipe.method} showPhoto={false} />
-      </Disclosure>
-      <CatalogComments key={recipe.id} kind="recipe" id={recipe.id} />
-      <Action title={t.record} onPress={() => record()} selected />
+          <SourceBrewDetails recipe={recipe} settingsOnly />
+          {recipe.notes ? <Txt>{recipe.notes}</Txt> : null}
+          {recipe.originalTitle && recipe.originalTitle !== recipe.title ? (
+            <View testID="recipe-original-title">
+              <Txt style={styles.muted}>
+                {ar ? "عنوان المصدر الأصلي" : i18nUi("عنوان المصدر الأصلي", "Original source title")}
+              </Txt>
+              <Txt>{recipe.originalTitle}</Txt>
+            </View>
+          ) : null}
+          {recipe.videoUrl ? (
+            <SourceLink
+              title={ar ? "شاهد فيديو الوصفة" : i18nUi("شاهد فيديو الوصفة", "Watch recipe video")}
+              url={recipe.videoUrl}
+            />
+          ) : null}
+          {recipe.sources.map((source) => (
+            <View key={source.url} style={{ gap: 2 }}>
+              <SourceLink
+                title={
+                  source.url.includes("share-h5.xbloom.com")
+                    ? ar
+                      ? "الوصفة في xBloom"
+                      : i18nUi("الوصفة في xBloom", "Recipe in xBloom")
+                    : catalogName(source.name, locale)
+                }
+                url={source.url}
+              />
+              {source.verifiedAt ? (
+                <Txt style={styles.muted}>
+                  {ar ? "آخر تحقق: " : i18nUi("آخر تحقق: ", "Last checked: ")}
+                  {new Date(source.verifiedAt).toLocaleDateString(
+                    locale + "-u-nu-latn",
+                  )}
+                </Txt>
+              ) : null}
+            </View>
+          ))}
+        </Disclosure>
+        <Disclosure title={ar ? "دليل طريقة التحضير" : i18nUi("دليل طريقة التحضير", "Brew method guide")}>
+          <MethodGuide method={recipe.method} showPhoto={false} />
+        </Disclosure>
+        <CatalogComments key={recipe.id} kind="recipe" id={recipe.id} />
+        <Action title={t.record} onPress={() => record()} selected />
+      </View>
     </ScrollView>
   );
 }
+
+const s = StyleSheet.create({
+  page: { width: "100%", maxWidth: 780, gap: 12 },
+  desktopPage: { maxWidth: 1440, paddingHorizontal: 24, paddingBottom: 32 },
+  layout: { width: "100%", gap: 12, direction: "ltr" },
+  desktopLayout: { flexDirection: "row", alignItems: "flex-start", gap: 24 },
+  reverseRow: { flexDirection: "row-reverse" },
+  section: { width: "100%", minWidth: 0, gap: 12 },
+  column: { flexBasis: 0, flexGrow: 1, flexShrink: 1, width: "auto" },
+  hero: { gap: 12 },
+  desktopHero: { flexDirection: "row", alignItems: "center", gap: 16 },
+  visual: { borderRadius: 18, overflow: "hidden" },
+  desktopVisual: { width: 128, height: 144, flexShrink: 0 },
+  identity: { gap: 3, minWidth: 0 },
+  desktopIdentity: { flex: 1, gap: 8 },
+  shrink: { flexShrink: 1 },
+  provenance: { gap: 12 },
+  desktopProvenance: { flexDirection: "row", flexWrap: "wrap" },
+  provenanceFact: { flexBasis: "30%", flexGrow: 1, minWidth: 160 },
+});
