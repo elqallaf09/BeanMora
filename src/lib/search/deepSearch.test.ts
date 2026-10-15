@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { matchesDeepSearch,canonicalSearchQuery } from "./deepSearch";
+import { matchesDeepSearch,canonicalSearchQuery,canonicalFlavorQuery } from "./deepSearch";
 import {multilingualSearchVocabulary} from './multilingual-vocabulary';
 import {flavorSearchVocabulary, flavorRetrievalEquivalents} from './flavor-vocabulary';
 
@@ -9,6 +9,13 @@ it.each(flavorSearchVocabulary.map(group => [group[0], group] as const))(
       expect(matchesDeepSearch(canonical, alias), alias).toBe(true);
       expect(matchesDeepSearch(alias, canonical), alias).toBe(true);
       expect(matchesDeepSearch(canonical, alias+' unknown_brand_fixture'), alias).toBe(false);
+    }
+  });
+it.each(flavorSearchVocabulary.map(group => [group[0], group] as const))(
+  'query spellings use the same complete concept for %s', (canonical, aliases) => {
+    for(const alias of aliases) {
+      expect(canonicalFlavorQuery(alias)).toBe(canonicalFlavorQuery(canonical));
+      expect(canonicalFlavorQuery(alias+' unknown_brand_fixture')).toBe(canonicalFlavorQuery(canonical)+' unknown_brand_fixture');
     }
   });
 it.each(flavorRetrievalEquivalents[0])('cocoa/chocolate search accepts %s without dropping other terms', alias => {

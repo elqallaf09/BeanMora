@@ -67,6 +67,17 @@ export function normalizeSearch(value: string): string {
 const normalizedVocabulary = searchVocabulary.map((group) =>
   group.map(normalizeSearch),
 );
+// Same complete tasting-note aliases as the server query normalizer. Consume
+// longest phrases once, so compound notes and unknown AND terms stay intact.
+const flavorQueryAliases = new Map<string,string>();
+for (const group of [...flavorSearchVocabulary,...flavorRetrievalEquivalents]) {
+  for (const alias of group) flavorQueryAliases.set(normalizeSearch(alias),normalizeSearch(group[0]));
+}
+const flavorQueryPattern = new RegExp('(?<![\\p{L}\\p{N}_])(?:'+[...flavorQueryAliases.keys()]
+  .sort((a,b)=>b.length-a.length).map(alias=>alias.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')(?![\\p{L}\\p{N}_])','gu');
+export function canonicalFlavorQuery(value: string): string {
+  return normalizeSearch(value).replace(flavorQueryPattern,alias=>flavorQueryAliases.get(alias)!);
+}
 // Translate known foreign catalog terms only. Literal names and unknown terms
 // remain required search terms; spaces and SQL punctuation never become syntax.
 // Latin accent-insensitive matching must not remove Japanese dakuten/handakuten.
@@ -146,7 +157,7 @@ export function matchesIndexedSearch(indexed: string, query: string): boolean {
   const candidates = [canonicalSearchQuery(query), canonicalSearchQuery(query,'country')];
   if (/^[\x20-\x7e]*$/.test(query)) candidates.push(query);
   return [...new Set(candidates)].some(candidate=>
-    normalizeSearch(candidate).split(" ").filter(Boolean).every(word=>
+    canonicalFlavorQuery(candidate).split(" ").filter(Boolean).every(word=>
       // cola is not a substring of chocolate; winegum is its own tasting note.
       ['cola','wine'].includes(word)
         ? new RegExp('(?<![\\p{L}\\p{N}_])'+word+'(?![\\p{L}\\p{N}_])','u').test(indexed)
