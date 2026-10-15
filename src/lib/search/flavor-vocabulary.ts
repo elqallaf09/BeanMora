@@ -220,12 +220,18 @@ export const flavorTranslations: Record<string, string> = {
   "yellow peach": "خوخ أصفر",
 };
 const preferredFlavorAliases: string[][] = [
-  ['strawberry','فراولة','فراوله'], ['cola','كولا'], ['blueberry','توت ازرق'],
-  ['raspberry','توت العليق'], ['cherry','كرز'], ['chocolate','شوكولاتة','شوكولاته'],
-  ['caramel','كراميل'], ['peach','خوخ'], ['mango','مانجو'], ['pineapple','اناناس'],
+  ['strawberry','فراولة','فراوله','strawberries','ستروبري','ستراوبري'],
+  ['cola','كولا','كوكاكولا','كوكوكولا','كوكا كولا','كوكو كولا','coca cola','coca-cola','cocacola','cococola'],
+  ['blueberry','توت ازرق','blueberries','بلوبيري','بلو بيري'],
+  ['raspberry','توت العليق','raspberries','رازبيري','راسبيري'],
+  ['cherry','كرز','cherries','تشيري'],
+  ['chocolate','شوكولاتة','شوكولاته','شوكلاته','شوكلاتة','شوكولاطة','جوكلت','چوكلت','تشوكلت'],
+  ['caramel','كراميل','كاراميل'], ['peach','خوخ','peaches'], ['mango','مانجو','منجا','مانجا'], ['pineapple','اناناس'],
   ['orange','برتقال'], ['lemon','ليمون'], ['jasmine','ياسمين'], ['honey','عسل'],
-  ['hazelnut','بندق'], ['almond','لوز'], ['floral','زهور'], ['fruity','فواكه'],
-  ['citrus','حمضيات'], ['cinnamon','قرفة','قرفه'], ['vanilla','فانيلا'],
+  ['hazelnut','بندق','هازلنت','هازلنات'], ['almond','لوز'], ['floral','زهور','زهري'], ['fruity','فواكه'],
+  ['citrus','حمضيات'], ['cinnamon','قرفة','قرفه','دارسين'], ['vanilla','فانيلا','فانيليا','ڤانيلا'],
+  ['passion fruit','باشن فروت','باشنفروت','فاكهة العاطفة'],
+  ['pear','إجاص','كمثرى'], ['cardamom','هيل','هال'], ['pistachio','فستق','بستاشيو','بيستاشيو'],
   ['coconut','جوز الهند','جوزالهند','كوكونت','كوكونوت','كوكونات','كوكونن'],
   ['cocoa','كاكاو','cacao','ككاو'],
   ['wine','نبيذ','واين','winey','winy','wine-like','نبيذي'],
@@ -243,3 +249,9 @@ export const flavorSearchVocabulary: readonly (readonly string[])[] = (() => {
   }
   return groups;
 })();
+
+// User-requested retrieval equivalence. Cocoa and chocolate remain distinct
+// source notes in flavorSearchVocabulary and in the assistant's fact checks.
+export const flavorRetrievalEquivalents: readonly (readonly string[])[] = [
+  flavorSearchVocabulary.filter(group => ['chocolate','cocoa'].includes(group[0])).flat(),
+];

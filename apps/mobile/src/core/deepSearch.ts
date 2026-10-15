@@ -1,5 +1,5 @@
 import { catalogSearchVocabulary } from "./catalog-names";
-import { flavorSearchVocabulary } from "./flavor-vocabulary";
+import { flavorSearchVocabulary, flavorRetrievalEquivalents } from "./flavor-vocabulary";
 import { coffeeNameAliases } from "./coffee-name-aliases";
 import { coffeeLabelVocabulary } from "./coffee-label-vocabulary";
 import { multilingualSearchVocabulary,multilingualCountryTerms } from "./multilingual-vocabulary";
@@ -72,11 +72,11 @@ const normalizedVocabulary = searchVocabulary.map((group) =>
 // Latin accent-insensitive matching must not remove Japanese dakuten/handakuten.
 const normalizeForeign = (value:string) => value.normalize('NFKC').toLowerCase()
   .replace(/\p{Script=Latin}+/gu,part=>part.normalize('NFKD').replace(/\p{M}/gu,''));
-// Treat the Arabic compound as one flavor, never walnut + India. Keep this
-// reviewed exception aligned with recipe_discovery_query_normalize in Postgres.
+// Consume the reviewed spellings as complete terms, including جوز الهند.
+// Keep these groups aligned with recipe_discovery_query_normalize in Postgres.
 const foreignTerms = multilingualSearchVocabulary.flatMap(([canonical,...aliases]) =>
   aliases.filter(alias => normalizeSearch(alias)!==normalizeSearch(canonical) &&
-    (canonical === 'coconut' || !/\p{Script=Arabic}/u.test(alias)))
+    (['coconut','cola','wine','chocolate','cocoa'].includes(canonical) || !/\p{Script=Arabic}/u.test(alias)))
     .map(alias=>({canonical,alias:alias.normalize('NFKC').toLowerCase()})))
   .sort((a,b)=>b.alias.length-a.alias.length);
 const escapeSearch = (value:string) => value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
@@ -119,10 +119,12 @@ export function canonicalSearchQuery(value:string,mode:'general'|'country'='gene
   if(canonicalQueries.size>=128)canonicalQueries.delete(canonicalQueries.keys().next().value!);
   canonicalQueries.set(cacheKey,result);return result;
 }
-export function deepSearchText(value: string): string {
+export function deepSearchText(value: string, options: { equivalentFlavors?: boolean } = {}): string {
   const original = normalizeSearch(value+' '+canonicalSearchQuery(value,countryTerms.has(value.trim().toLowerCase())?'country':'general'));
   const words = new Set(original.split(/[^\p{L}\p{N}]+/u));
-  const extra = normalizedVocabulary
+  const vocabulary = options.equivalentFlavors === false ? normalizedVocabulary
+    : [...normalizedVocabulary, ...flavorRetrievalEquivalents.map(group => group.map(normalizeSearch))];
+  const extra = vocabulary
     .filter((group) =>
       group.some((alias) => {
         const term = alias;
@@ -139,6 +141,14 @@ export function matchesDeepSearch(value: string, query: string): boolean {
   return matchesIndexedSearch(deepSearchText(value), query);
 }
 export function matchesIndexedSearch(indexed: string, query: string): boolean {
-  return [...new Set([canonicalSearchQuery(query),canonicalSearchQuery(query,'country')])].some(candidate=>
-    normalizeSearch(candidate).split(" ").filter(Boolean).every(word=>indexed.includes(word)));
+  // Keep literal English queries too: e.g. "raisin" is also French for grape.
+  // Arabic compounds must use the canonical path (جوز الهند is not walnut/India).
+  const candidates = [canonicalSearchQuery(query), canonicalSearchQuery(query,'country')];
+  if (/^[\x20-\x7e]*$/.test(query)) candidates.push(query);
+  return [...new Set(candidates)].some(candidate=>
+    normalizeSearch(candidate).split(" ").filter(Boolean).every(word=>
+      // cola is not a substring of chocolate; winegum is its own tasting note.
+      ['cola','wine'].includes(word)
+        ? new RegExp('(?<![\\p{L}\\p{N}_])'+word+'(?![\\p{L}\\p{N}_])','u').test(indexed)
+        : indexed.includes(word)));
 }
