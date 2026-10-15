@@ -4970,13 +4970,6 @@
     ]
   },
   {
-    "en": "Coffee people. Experiences worth sharing.",
-    "ar": "ناس القهوة، وتجارب تستحق المشاركة",
-    "files": [
-      "src/CommunityScreen.tsx"
-    ]
-  },
-  {
     "en": "Coffee personality",
     "ar": "شخصية البن",
     "files": [

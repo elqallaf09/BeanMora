@@ -451,17 +451,10 @@ export function CommunityScreen({
           resizeMode="contain"
           style={{ height: 44, width: 30 }}
         />
-        <View style={{ flex: 1, gap: 2 }}>
+        <View style={{ flex: 1 }}>
           <Txt heading style={[s.heroTitle, width < 380 && { fontSize: 24 }]}>
             BeanMora
           </Txt>
-          {width >= 380 ? (
-            <Txt style={s.heroNote}>
-              {ar
-                ? 'ناس القهوة، وتجارب تستحق المشاركة'
-                : i18nUi('ناس القهوة، وتجارب تستحق المشاركة', 'Coffee people. Experiences worth sharing.')}
-            </Txt>
-          ) : null}
         </View>
         <IconButton
           name="search"
@@ -1136,7 +1129,6 @@ const s = StyleSheet.create({
     fontWeight: '700',
     color: colors.ink,
   },
-  heroNote: { fontSize: 12, lineHeight: 20, color: colors.muted },
   columns: { gap: 18, alignItems: 'stretch' },
   sidebar: { gap: 12, minWidth: 0 },
   sideCard: {
