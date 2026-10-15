@@ -21,6 +21,14 @@ const rates: CatalogRate[] = [
 ];
 
 describe('coffee assistant catalog constraints', () => {
+  it('retrieves related cocoa/chocolate notes without claiming they are the same published fact', () => {
+    const cocoa: AssistantDocument = { ...equipment, kind: 'recipe', category: null, offers: [], methods: ['v60'], search_text: 'Cocoa beans', facts: { notes: ['Cocoa'] } };
+    const matches = rankAssistantDocuments([cocoa], parseAssistantQuery('recipe with chocolate notes'), [], now);
+    expect(matches).toHaveLength(1);
+    expect(matches[0]).toMatchObject({ matchedTerms: ['chocolate'], confirmedNotes: [], allTerms: false });
+    expect(cocoa.facts.notes).toEqual(['Cocoa']);
+    expect(rankAssistantDocuments([cocoa], parseAssistantQuery('وصفة بإيحاء ككاو'), [], now)[0]).toMatchObject({ confirmedNotes: ['cocoa'], allTerms: true });
+  });
   it.each(['طلعلي وصفة قهوه باردة حق مكينة اكسبلوم لي بن ايحاءة جوز الهند وعسل', 'Find a cold recipe for my xBloom machine with coconut and honey notes'])('treats the machine as a brewer in an explicit recipe request: %s', question => {
     const query = parseAssistantQuery(question);
     expect(query).toMatchObject({ kind: 'recipe', category: null, methods: ['xbloom'], servingStyle: 'cold', purchaseIntent: false });
