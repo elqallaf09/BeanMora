@@ -3094,5 +3094,12 @@
   "9–12 bar in manufacturer guidance": "制造商说明为9–12 bar",
   "{0} ml water": "水 {0} ml",
   "No": "否",
-  "Yes": "是"
+  "Yes": "是",
+  "Hot water": "热水",
+  "How many grams of coffee are you using for V60? I can calculate hot water and ice from the coffee dose.": "你用多少克咖啡粉冲煮V60？我可以根据粉量计算热水和冰块的用量。",
+  "How many grams of coffee, which brewer, and hot or iced? For example, V60 or espresso.": "使用多少克咖啡粉、哪种器具，以及热饮还是加冰？例如V60或意式浓缩咖啡机。",
+  "Iced V60 quantities": "冰V60用量",
+  "Specify the brewer and a recipe with an ice amount; the V60 split does not apply to other methods or to published recipes with unspecified ice.": "请指定冲煮器具和注明冰块用量的配方；V60的分配比例不适用于其他方法，也不适用于未注明冰量的已发布配方。",
+  "This calculated starting point uses 60% hot water and 40% ice. Put the ice in the server and pour the hot water through the coffee. Ice is included in the total; filter-rinse water is separate, and beverage yield is lower because the grounds retain water. Adjust to taste and brewer capacity.": "此计算起点采用60%热水和40%冰块。将冰块放入分享壶，再用热水冲煮咖啡粉。冰块已计入总量；润湿滤纸的水另计，由于咖啡粉会吸水，最终饮品重量会少于总量。请根据口味和器具容量调整。",
+  "Total water and ice": "水和冰块总量"
 }
