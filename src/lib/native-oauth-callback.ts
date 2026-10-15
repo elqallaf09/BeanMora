@@ -39,7 +39,7 @@ function matchesRedirect(callback: URL, allowed: URL) {
 const authCallbackParameters = [
   'code', 'error', 'error_code', 'error_description', 'access_token',
   'refresh_token', 'provider_token', 'provider_refresh_token', 'token_type',
-  'expires_in', 'expires_at',
+  'expires_in', 'expires_at', 'token_hash',
 ] as const;
 
 /** Remove credentials and error payloads after processing a callback while
@@ -66,13 +66,36 @@ export function cleanOAuthCallbackUrl(url: string, redirect: string) {
   return callback.toString();
 }
 
+/** Email proof is independent of the browser's PKCE verifier. The email
+ * template puts it in the fragment so it is not sent to hosting/access logs.
+ * Callers must obtain an explicit confirmation before consuming this proof. */
+export function isEmailConfirmation(url: string, redirect: string) {
+  const callback = new URL(url);
+  if (!matchesRedirect(callback, new URL(redirect))) return false;
+  const fragment = new URLSearchParams(callback.hash.slice(1));
+  if (!fragment.has('token_hash')) return false;
+  if (fragment.get('type') !== 'email' || !/^[a-zA-Z0-9_-]{32,256}$/.test(fragment.get('token_hash') ?? '') || callback.searchParams.has('code'))
+    throw new Error('EMAIL_CONFIRMATION_INVALID');
+  return true;
+}
+
+export function callbackFailureKind(error: unknown) {
+  const value = error as { code?: string; message?: string; name?: string } | null;
+  const code = value?.code ?? '';
+  const message = value?.message?.toLowerCase() ?? '';
+  if (code === 'otp_expired' || message.includes('email_confirmation_invalid') || /(?:token|link).*expired/.test(message)) return 'expired';
+  if (['bad_code_verifier', 'flow_state_not_found', 'flow_state_expired'].includes(code) || /pkce|code verifier|code_verifier|code challenge/.test(message)) return 'browser';
+  if (value?.name === 'TimeoutError' || /network|fetch|timed? ?out/.test(message)) return 'network';
+  return 'failed';
+}
+
 export function createOAuthCallbackHandler(
   auth: SupabaseClient['auth'],
   redirect = nativeAuthRedirect,
 ) {
   const allowed = new URL(redirect);
-  const exchanges = new Map<string, Promise<'recovery' | 'signin'>>();
-  return async (url: string): Promise<'recovery' | 'signin' | undefined> => {
+  const exchanges = new Map<string, Promise<'recovery' | 'signin' | 'email-confirmed'>>();
+  return async (url: string): Promise<'recovery' | 'signin' | 'email-confirmed' | undefined> => {
     let callback: URL;
     try {
       callback = new URL(url);
@@ -84,7 +107,25 @@ export function createOAuthCallbackHandler(
     if (['error', 'error_code', 'error_description'].some(
       (key) => callback.searchParams.has(key) || fragment.has(key),
     ))
-      throw new Error('OAUTH_CALLBACK_FAILED');
+      throw Object.assign(new Error('OAUTH_CALLBACK_FAILED'), {
+        code: callback.searchParams.get('error_code') ?? fragment.get('error_code'),
+      });
+    if (isEmailConfirmation(url, redirect)) {
+      const tokenHash = fragment.get('token_hash')!;
+      const key = `email:${tokenHash}`;
+      const existing = exchanges.get(key);
+      if (existing) return existing;
+      const verification = (async () => {
+        const { data, error } = await auth.verifyOtp({ token_hash: tokenHash, type: 'email' });
+        if (error) throw error;
+        if (!data.session || !data.user?.email_confirmed_at) throw new Error('EMAIL_CONFIRMATION_FAILED');
+        return 'email-confirmed' as const;
+      })();
+      exchanges.set(key, verification);
+      try { return await verification; }
+      catch (error) { exchanges.delete(key); throw error; }
+      finally { if (exchanges.size > 10) exchanges.delete(exchanges.keys().next().value!); }
+    }
     const code = callback.searchParams.get('code');
     if (!code) return;
     const existing = exchanges.get(code);

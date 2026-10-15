@@ -3116,5 +3116,16 @@
   "Could not create your account. Try again or contact BeanMora support if the problem continues.": "Não foi possível criar sua conta. Tente novamente ou entre em contato com o suporte do BeanMora se o problema persistir.",
   "Could not request a password reset. Try again or contact support.": "Não foi possível solicitar a redefinição de senha. Tente novamente ou entre em contato com o suporte.",
   "Use at least 8 characters. Avoid common or breached passwords.": "Use pelo menos 8 caracteres. Evite senhas comuns ou vazadas.",
-  "Phone number (optional)": "Número de telefone (opcional)"
+  "Phone number (optional)": "Número de telefone (opcional)",
+  "Automatic sign-in from the email link failed. Sign in with your email and password, or request a new link if your email is still unconfirmed.": "Não foi possível entrar automaticamente pelo link. Entre com seu e-mail e senha ou solicite um novo link se o e-mail ainda não estiver confirmado.",
+  "This confirmation link has expired or has already been used. Try signing in, or request a new confirmation email.": "Este link de confirmação expirou ou já foi usado. Tente entrar ou solicite um novo e-mail de confirmação.",
+  "Could not connect to confirm your email. Check your connection and try again.": "Não foi possível conectar para confirmar seu e-mail. Verifique a conexão e tente novamente.",
+  "Could not complete authentication for your BeanMora account. Try again or request a new link.": "Não foi possível concluir a autenticação da sua conta BeanMora. Tente novamente ou solicite um novo link.",
+  "Confirm your BeanMora email": "Confirme seu e-mail do BeanMora",
+  "Your email is confirmed and you are signed in to BeanMora. You can also sign in to the app with your email and password.": "Seu e-mail foi confirmado e você entrou no BeanMora. Você também pode entrar no aplicativo com seu e-mail e senha.",
+  "Confirm your email to finish creating your account in the BeanMora app.": "Confirme seu e-mail para concluir a criação da sua conta no aplicativo BeanMora.",
+  "Confirm email": "Confirmar e-mail",
+  "Back to sign in": "Voltar para entrar",
+  "Resend confirmation email": "Reenviar e-mail de confirmação",
+  "If your email needs confirmation, a new BeanMora message will arrive. Use the latest link.": "Se seu e-mail precisar de confirmação, você receberá uma nova mensagem do BeanMora. Use o link mais recente."
 }
