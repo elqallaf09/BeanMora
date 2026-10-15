@@ -72,8 +72,11 @@ const normalizedVocabulary = searchVocabulary.map((group) =>
 // Latin accent-insensitive matching must not remove Japanese dakuten/handakuten.
 const normalizeForeign = (value:string) => value.normalize('NFKC').toLowerCase()
   .replace(/\p{Script=Latin}+/gu,part=>part.normalize('NFKD').replace(/\p{M}/gu,''));
+// Treat the Arabic compound as one flavor, never walnut + India. Keep this
+// reviewed exception aligned with recipe_discovery_query_normalize in Postgres.
 const foreignTerms = multilingualSearchVocabulary.flatMap(([canonical,...aliases]) =>
-  aliases.filter(alias => normalizeSearch(alias)!==normalizeSearch(canonical) && !/\p{Script=Arabic}/u.test(alias))
+  aliases.filter(alias => normalizeSearch(alias)!==normalizeSearch(canonical) &&
+    (canonical === 'coconut' || !/\p{Script=Arabic}/u.test(alias)))
     .map(alias=>({canonical,alias:alias.normalize('NFKC').toLowerCase()})))
   .sort((a,b)=>b.alias.length-a.alias.length);
 const escapeSearch = (value:string) => value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');

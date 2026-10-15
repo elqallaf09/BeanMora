@@ -23,7 +23,7 @@ export const multilingualSearchVocabulary: readonly (readonly string[])[] = [
   ["citrus","حمضيات","柑橘","agrumes","agrumi","cítricos"],
   ["cinnamon","قرفة","قرفه","シナモン","cannelle","cannella","canela","肉桂"],
   ["vanilla","فانيلا","バニラ","vanille","vaniglia","vainilla","baunilha","香草"],
-  ["coconut","جوز الهند","جوزالهند","كوكونت","كوكونوت","ココナッツ","noix de coco","cocco","coco","椰子"],
+  ["coconut","جوز الهند","جوزالهند","كوكونت","كوكونوت","كوكونات","كوكونن","ココナッツ","noix de coco","cocco","coco","椰子"],
   ["cocoa","كاكاو","cacao","ككاو","カカオ","cacau","可可"],
   ["wine","نبيذ","واين","winey","winy","wine-like","نبيذي"],
   ["whisky","ويسكي","whiskey","وسكي"],

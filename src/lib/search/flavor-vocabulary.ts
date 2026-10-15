@@ -226,7 +226,7 @@ const preferredFlavorAliases: string[][] = [
   ['orange','برتقال'], ['lemon','ليمون'], ['jasmine','ياسمين'], ['honey','عسل'],
   ['hazelnut','بندق'], ['almond','لوز'], ['floral','زهور'], ['fruity','فواكه'],
   ['citrus','حمضيات'], ['cinnamon','قرفة','قرفه'], ['vanilla','فانيلا'],
-  ['coconut','جوز الهند','جوزالهند','كوكونت','كوكونوت'],
+  ['coconut','جوز الهند','جوزالهند','كوكونت','كوكونوت','كوكونات','كوكونن'],
   ['cocoa','كاكاو','cacao','ككاو'],
   ['wine','نبيذ','واين','winey','winy','wine-like','نبيذي'],
   ['whisky','ويسكي','whiskey','وسكي'],

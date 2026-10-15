@@ -1,6 +1,17 @@
 import { expect, it } from "vitest";
 import { matchesDeepSearch,canonicalSearchQuery } from "./deepSearch";
 import {multilingualSearchVocabulary} from './multilingual-vocabulary';
+it.each(['جوز الهند', 'جوزالهند', 'كوكونت', 'كوكونوت', 'كوكونات', 'كوكونن'])(
+  'coconut spelling %s retrieves published recipes without dropping other terms', (query) => {
+    expect(matchesDeepSearch('Coconut beans', query)).toBe(true);
+    expect(matchesDeepSearch(query, 'coconut')).toBe(true);
+    expect(matchesDeepSearch('Coconut beans honey', query + ' عسل')).toBe(true);
+    expect(matchesDeepSearch('Coconut beans', query + ' عسل')).toBe(false);
+    expect(matchesDeepSearch('Coconut beans', query + ' unknown_brand_fixture')).toBe(false);
+    expect(matchesDeepSearch('Chocolate beans', query)).toBe(false);
+    expect(matchesDeepSearch('Walnut coffee from India', query)).toBe(false);
+  },
+);
 it.each([
     ["Kenya", "كينيا"],
     ["Colombia", "كولومبيا"],
