@@ -44,6 +44,26 @@ async function ask(page: Page, question: string, english = false) {
   await page.getByRole('button', { name: english ? 'Send' : 'إرسال', exact: true }).click();
 }
 
+for (const english of [false,true]) test(`source espresso explanation keeps mL yield, timing caveat and unknown Celsius (${english?'en':'ar'})`, async ({page})=>{
+  const network=await openAssistant(page);
+  if(english)await setLanguage(page,'en');
+  await page.route('**/rest/v1/rpc/search_coffee_assistant_recipes', route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify([{
+    id:'source-espresso',kind:'recipe',slug:'source-espresso',title_ar:'وصفة إسبريسو موثقة',title_en:'Documented espresso recipe',search_text:'espresso',category:null,methods:['espresso'],offers:[],source_url:'https://recipe.example/espresso',
+    facts:{dose:18,water:500,seconds:28,temperature:null,source_brew:{manual:{yield_ml:33,time_note:'28 seconds; timing convention is not published.',time_note_ar:'28 ثانية؛ طريقة بدء حساب الوقت غير منشورة.',temperature_note:'90° without a unit; Celsius is unknown.',temperature_note_ar:'90° دون وحدة؛ السيلسيوس غير معروف.'}},steps:[]}
+  }])}));
+  await ask(page,english?'An espresso recipe':'وصفة إسبريسو',english);
+  await expect(page.getByTestId('assistant-result')).toHaveCount(1);
+  await ask(page,english?'Explain the first':'اشرح الأول',english);
+  const panel=page.getByTestId('coffee-assistant');
+  await expect(panel).toContainText('33 ml');
+  await expect(panel).toContainText(english?'28 seconds':'28 ثانية');
+  await expect(panel).toContainText(english?'Celsius is unknown':'السيلسيوس غير معروف');
+  await expect(panel).not.toContainText('33 g');
+  await expect(panel).not.toContainText('500 g');
+  await expect(panel).not.toContainText('90 °C');
+  expect(network.providerCalls()).toBe(0);
+});
+
 for (const english of [false, true]) test(`the reported cold xBloom recipe request replaces shopping and shows published recipe facts (${english ? 'en' : 'ar'})`, async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 1000 });
   const network = await openAssistant(page);

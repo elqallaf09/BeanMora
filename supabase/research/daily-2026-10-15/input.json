@@ -1,0 +1,99 @@
+{
+  "importId": "reviewed-catalog-2026-10-15",
+  "verifiedAt": "2026-10-15",
+  "corrections": [],
+  "photoChecks": [],
+  "batches": [
+    {
+      "region": "kuwait-and-kalita",
+      "data": {
+        "roasters": [
+          {
+            "name": "Tahnah Roastery",
+            "name_ar": "محمصة طحنة",
+            "country": "KW",
+            "website": "https://tahnah.com/",
+            "source_url": "https://tahnah.com/branches"
+          },
+          {
+            "name": "Hazan Roastery",
+            "name_ar": "محمصة هزن",
+            "country": "KW",
+            "website": "https://hazan-roastery.com/",
+            "source_url": "https://hazan-roastery.com/pages/about-us"
+          }
+        ],
+        "coffees": [],
+        "recipes": [
+          {
+            "slug": "kalita-usa-pour-over-20g-320g",
+            "title": "Kalita USA — Pour-over 20 g / 320 g",
+            "title_ar": "كاليتا أمريكا — تقطير 20 g / 320 g",
+            "recipe_type": "official_manufacturer",
+            "source_author_name": "Kalita USA",
+            "source_author_name_ar": "كاليتا أمريكا",
+            "source_url": "https://kalitausa.com/blogs/news/brew-like-a-pro-the-kalita-pour-over-method-for-exceptional-coffee",
+            "brew_method": "kalita_wave",
+            "serving_style": "unknown",
+            "dose_grams": 20,
+            "water_grams": 320,
+            "water_temp_c": null,
+            "total_time_seconds": null,
+            "grinder_setting": null,
+            "source_brew_parameters": {
+              "manual": {
+                "equipment": "Kalita dripper",
+                "source_ratio_text": "1:16",
+                "time_min_seconds": 120,
+                "time_max_seconds": 180,
+                "temperature_note": "The source lists 195–205 degrees without naming the unit; Celsius is not assumed.",
+                "temperature_note_ar": "المصدر يذكر 195–205 درجة دون تسمية الوحدة؛ لم نفترض السيلسيوس.",
+                "time_note": "Source brewing range: 2–3 minutes; bloom wait: 30–45 seconds.",
+                "time_note_ar": "نطاق التحضير المنشور: 2–3 دقائق؛ انتظار البلوم: 30–45 ثانية.",
+                "scalable": false
+              }
+            },
+            "steps": [
+              {
+                "title": "Prepare",
+                "title_ar": "التجهيز",
+                "description": "Heat water and rinse the filter.",
+                "description_ar": "سخّن الماء واشطف الفلتر.",
+                "step_kind": "rinse"
+              },
+              {
+                "title": "Grind and level",
+                "title_ar": "الطحن والتسوية",
+                "description": "Grind 20 g to the source's medium/medium-coarse sea-salt texture; level the bed.",
+                "description_ar": "اطحن 20 g إلى قوام الملح المتوسط/المتوسط الخشونة كما يصف المصدر، وسوّ البن.",
+                "step_kind": "other"
+              },
+              {
+                "title": "Bloom",
+                "title_ar": "البلوم",
+                "description": "Wet the grounds with about 60 g; wait 30–45 seconds.",
+                "description_ar": "بلّل البن بنحو 60 g وانتظر 30–45 ثانية.",
+                "step_kind": "bloom"
+              },
+              {
+                "title": "Finish pouring",
+                "title_ar": "إكمال الصب",
+                "description": "Pour in circles in increments to 320 g total.",
+                "description_ar": "صب دائريًا على دفعات حتى إجمالي 320 g.",
+                "step_kind": "pour"
+              },
+              {
+                "title": "Drain and serve",
+                "title_ar": "التصريف والتقديم",
+                "description": "Allow dripping to finish; source brew range is 2–3 minutes, then serve.",
+                "description_ar": "دع التصريف يكتمل؛ نطاق التحضير المنشور 2–3 دقائق، ثم قدّم.",
+                "step_kind": "serve"
+              }
+            ],
+            "pours": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,169 @@
+{
+  "import_id": "reviewed-catalog-2026-10-15",
+  "project_id": "ubvzdglrwkkuaigmkjap",
+  "verified_at": "2026-10-15",
+  "counts": {
+    "roasters": 2,
+    "roaster_actions": {
+      "create": 2
+    },
+    "coffees": 0,
+    "coffee_actions": {},
+    "recipes": 1,
+    "recipes_by_region": {
+      "kuwait-and-kalita": 1
+    },
+    "recipes_by_method": {
+      "kalita_wave": 1
+    },
+    "recipes_by_serving": {
+      "unknown": 1
+    },
+    "recipes_with_bean": 0,
+    "incomplete_recipes": 1,
+    "corrections": 0,
+    "exclusions": 0,
+    "new_recipes": 1,
+    "updated_recipes": 0
+  },
+  "roasters": [
+    {
+      "name": "Tahnah Roastery",
+      "name_ar": "محمصة طحنة",
+      "country": "KW",
+      "website": "https://tahnah.com/",
+      "source_url": "https://tahnah.com/branches",
+      "key": "roaster-b392181baa4dcc7d",
+      "identity": "tahnah roastery\ntahnah.com",
+      "name_key": "tahnah roastery",
+      "host_key": "tahnah.com",
+      "region": "kuwait-and-kalita",
+      "slug": "tahnah-roastery",
+      "existing_id": null,
+      "action": "create"
+    },
+    {
+      "name": "Hazan Roastery",
+      "name_ar": "محمصة هزن",
+      "country": "KW",
+      "website": "https://hazan-roastery.com/",
+      "source_url": "https://hazan-roastery.com/pages/about-us",
+      "key": "roaster-a0bb6d0689ffc245",
+      "identity": "hazan roastery\nhazan-roastery.com",
+      "name_key": "hazan roastery",
+      "host_key": "hazan-roastery.com",
+      "region": "kuwait-and-kalita",
+      "slug": "hazan-roastery",
+      "existing_id": null,
+      "action": "create"
+    }
+  ],
+  "coffees": [],
+  "recipes": [
+    {
+      "slug": "kalita-usa-pour-over-20g-320g",
+      "title": "Kalita USA — Pour-over 20 g / 320 g",
+      "title_ar": "كاليتا أمريكا — تقطير 20 g / 320 g",
+      "recipe_type": "official_manufacturer",
+      "source_author_name": "Kalita USA",
+      "source_author_name_ar": "كاليتا أمريكا",
+      "source_url": "https://kalitausa.com/blogs/news/brew-like-a-pro-the-kalita-pour-over-method-for-exceptional-coffee",
+      "brew_method": "kalita_wave",
+      "serving_style": "unknown",
+      "dose_grams": 20,
+      "water_grams": 320,
+      "water_temp_c": null,
+      "total_time_seconds": null,
+      "grinder_setting": null,
+      "source_brew_parameters": {
+        "manual": {
+          "equipment": "Kalita dripper",
+          "source_ratio_text": "1:16",
+          "time_min_seconds": 120,
+          "time_max_seconds": 180,
+          "temperature_note": "The source lists 195–205 degrees without naming the unit; Celsius is not assumed.",
+          "temperature_note_ar": "المصدر يذكر 195–205 درجة دون تسمية الوحدة؛ لم نفترض السيلسيوس.",
+          "time_note": "Source brewing range: 2–3 minutes; bloom wait: 30–45 seconds.",
+          "time_note_ar": "نطاق التحضير المنشور: 2–3 دقائق؛ انتظار البلوم: 30–45 ثانية.",
+          "scalable": false
+        },
+        "discovery": {
+          "creator_name": "Kalita USA",
+          "creator_name_ar": "كاليتا أمريكا",
+          "applicable_coffee_names": [],
+          "applicable_coffee_names_ar": [],
+          "flavor_notes": [],
+          "flavor_notes_ar": [],
+          "flavor_families": [],
+          "source_urls": [
+            "https://kalitausa.com/blogs/news/brew-like-a-pro-the-kalita-pour-over-method-for-exceptional-coffee"
+          ]
+        },
+        "global_roasters_import": {
+          "import_id": "reviewed-catalog-2026-10-15",
+          "verified_at": "2026-10-15",
+          "region": "kuwait-and-kalita",
+          "recipe_source_url": "https://kalitausa.com/blogs/news/brew-like-a-pro-the-kalita-pour-over-method-for-exceptional-coffee"
+        }
+      },
+      "steps": [
+        {
+          "title": "Prepare",
+          "title_ar": "التجهيز",
+          "description": "Heat water and rinse the filter.",
+          "description_ar": "سخّن الماء واشطف الفلتر.",
+          "step_kind": "rinse",
+          "step_number": 1
+        },
+        {
+          "title": "Grind and level",
+          "title_ar": "الطحن والتسوية",
+          "description": "Grind 20 g to the source's medium/medium-coarse sea-salt texture; level the bed.",
+          "description_ar": "اطحن 20 g إلى قوام الملح المتوسط/المتوسط الخشونة كما يصف المصدر، وسوّ البن.",
+          "step_kind": "other",
+          "step_number": 2
+        },
+        {
+          "title": "Bloom",
+          "title_ar": "البلوم",
+          "description": "Wet the grounds with about 60 g; wait 30–45 seconds.",
+          "description_ar": "بلّل البن بنحو 60 g وانتظر 30–45 ثانية.",
+          "step_kind": "bloom",
+          "step_number": 3
+        },
+        {
+          "title": "Finish pouring",
+          "title_ar": "إكمال الصب",
+          "description": "Pour in circles in increments to 320 g total.",
+          "description_ar": "صب دائريًا على دفعات حتى إجمالي 320 g.",
+          "step_kind": "pour",
+          "step_number": 4
+        },
+        {
+          "title": "Drain and serve",
+          "title_ar": "التصريف والتقديم",
+          "description": "Allow dripping to finish; source brew range is 2–3 minutes, then serve.",
+          "description_ar": "دع التصريف يكتمل؛ نطاق التحضير المنشور 2–3 دقائق، ثم قدّم.",
+          "step_kind": "serve",
+          "step_number": 5
+        }
+      ],
+      "pours": [],
+      "region": "kuwait-and-kalita",
+      "roaster_key": null,
+      "coffee_key": null,
+      "bean_action": "not_applicable",
+      "flavor_notes": [],
+      "source_type": "official_website",
+      "water_temp_c_min": null,
+      "water_temp_c_max": null,
+      "is_incomplete_source": true,
+      "pour_sum_validated": false,
+      "source_process": null,
+      "source_varietal": null,
+      "cover_image_url": null
+    }
+  ],
+  "corrections": [],
+  "exclusions": []
+}

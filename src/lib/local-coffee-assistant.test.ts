@@ -13,6 +13,40 @@ const offline: LocalAssistantDependencies = { search: async () => { throw new Er
 const ask = (q: string, history: LocalAssistantTurn[] = [], dependencies = deps, locale: 'ar' | 'en' = 'ar') => converseLocally(q, locale, history, dependencies);
 
 describe('local conversational coffee assistant', () => {
+  it.each(['ar', 'en'] as const)('explains published espresso volume, time and temperature caveats without inventing mass in %s', async locale => {
+    const document: AssistantDocument = { ...recipe, id: 'source-espresso', methods: ['espresso'], search_text: 'harenna espresso', facts: { dose: 18, water: 500, temperature: null, source_brew: { manual: { yield_ml: 33, time_note: '28 seconds; timing convention is not published.', time_note_ar: '28 ثانية؛ طريقة بدء حساب الوقت غير منشورة.', temperature_note: '90° without a unit; Celsius is unknown.', temperature_note_ar: '90° دون وحدة؛ السيلسيوس غير معروف.' } }, steps: [] } };
+    const first = await ask('وصفة إسبريسو', [], { search: async () => ({ documents: [document], rates: [] }), now }, locale);
+    const explained = await ask(locale === 'ar' ? 'اشرح الأول' : 'Explain the first', [first], offline, locale);
+    expect(explained.intent).toBe('explain');
+    expect(explained.answer).toContain('33 ml');
+    expect(explained.answer).toContain(locale === 'ar' ? '28 ثانية' : '28 seconds');
+    expect(explained.answer).toContain(locale === 'ar' ? 'السيلسيوس غير معروف' : 'Celsius is unknown');
+    expect(explained.answer).not.toMatch(/33 g|500 g|90 °C|1:1\.83/);
+  });
+  it('preserves a source yield range and explicit ratio without deriving a new recipe', async () => {
+    const document: AssistantDocument = { ...recipe, methods: ['espresso'], search_text: 'espresso', facts: { dose: 18, source_brew: { manual: { yield_min_grams: 36, yield_max_grams: 40, source_ratio_text: '1:2–1:2.22', time_min_seconds: 25, time_max_seconds: 30 } } } };
+    const first = await ask('وصفة إسبريسو', [], { search: async () => ({ documents: [document], rates: [] }), now }, 'en');
+    const answer = (await ask('Explain the first', [first], offline, 'en')).answer;
+    expect(answer).toContain('36–40 g');
+    expect(answer).toContain('25–30 s');
+    expect(answer).toContain('1:2–1:2.22');
+  });
+  it.each([{yield_ml:-1}, {yield_ml:Infinity}, {yield_ml:50000}, {yield_min_grams:40,yield_max_grams:36}, {yield_min_ml:30}])('does not explain an invalid or incomplete source yield: %j', async manual => {
+    const document: AssistantDocument = {...recipe, methods:['espresso'], search_text:'espresso', facts:{dose:18, seconds:28, source_brew:{manual}}};
+    const first=await ask('وصفة إسبريسو',[],{search:async()=>({documents:[document],rates:[]}),now},'en');
+    const answer=(await ask('Explain the first',[first],offline,'en')).answer;
+    expect(answer).toContain('Yield: Not reported by the source');
+    expect(answer).toContain('Time: 28 s');
+    expect(answer).not.toMatch(/Infinity|50000|40–36|30 ml/);
+  });
+  it('retains the calculated-yield disclosure and source scope without recomputing it', async () => {
+    const document: AssistantDocument={...recipe,methods:['espresso'],search_text:'espresso',facts:{dose:18,source_brew:{manual:{yield_grams:40,yield_derived_from_ratio:true,scalar_yield_basis:'Source calculation for its published recipe.',yield_scope:'Peak roast-age window only.'}}}};
+    const first=await ask('وصفة إسبريسو',[],{search:async()=>({documents:[document],rates:[]}),now},'en');
+    const answer=(await ask('Explain the first',[first],offline,'en')).answer;
+    expect(answer).toContain('40 g (calculated)');
+    expect(answer).toContain('Source calculation for its published recipe.');
+    expect(answer).toContain('Peak roast-age window only.');
+  });
   it.each(['ar', 'en'] as const)('answers a cold recipe request after machine shopping with published units in %s', async locale => {
     const history = await ask('موقع بيع مكائن اسبرسو');
     const cold: AssistantDocument = { ...recipe, id: 'cold-xbloom', title_ar: 'وصفة جوز الهند الباردة', title_en: 'Cold coconut recipe', methods: ['xbloom'], search_text: 'coconut xbloom', facts: { dose: 15, water: null, temperature: 90, serving_style: 'iced', grind: '57', notes: ['Coconut'], source_brew: { water_ml: 150, model: 'Original' }, steps: [{ description_ar: 'صب 45 مل حسب المصدر.', description_en: 'Pour 45 ml as published.' }] } };

@@ -27,6 +27,7 @@ test('Gulf source units and unknown Moka quantities survive the reviewed import'
   assert.equal(espresso.source_brew_parameters.manual.yield_ml, 33);
   assert.equal(espresso.source_brew_parameters.manual.yield_grams, undefined);
   assert.equal(espresso.total_time_seconds, 28);
+  assert(espresso.steps.every(s => !/90\s*°C/.test(s.description + s.description_ar)), 'An unspecified temperature unit must not become Celsius in step prose');
   const moka = catalog.recipes.find(r => r.brew_method === 'moka_pot');
   assert.equal(moka.dose_grams, null);
   assert.equal(moka.total_time_seconds, 300);
