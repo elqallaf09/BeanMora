@@ -15,7 +15,7 @@ const languages = [
 ] as const;
 const bean = { id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', slug: 'strawberry-coffee', name_ar: 'بن الفراولة التجريبي', name_en: 'Strawberry fixture coffee', description_en: 'Strawberry and jasmine', flavors: [{ flavor: 'strawberry' }, { flavor: 'jasmine' }], is_published: true, requires_review: false };
 const reply = (route: Route, data: unknown) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(data) });
-const arabic: Record<string, string> = { 'Search everything': 'البحث الشامل', 'Open account': 'فتح حسابي', 'Create account': 'إنشاء حساب', Country: 'الدولة', 'Search countries': 'ابحث عن الدولة', Username: 'اسم المستخدم', Email: 'البريد الإلكتروني', Password: 'كلمة المرور', 'Confirm password': 'تأكيد كلمة المرور', 'Phone number': 'رقم الهاتف' };
+const arabic: Record<string, string> = { 'Search everything': 'البحث الشامل', 'Open account': 'فتح حسابي', 'Create account': 'إنشاء حساب', Country: 'الدولة', 'Search countries': 'ابحث عن الدولة', Username: 'اسم المستخدم', Email: 'البريد الإلكتروني', Password: 'كلمة المرور', 'Confirm password': 'تأكيد كلمة المرور', 'Phone number (optional)': 'رقم الهاتف (اختياري)' };
 Object.assign(arabic, { 'Recipe name': 'اسم الوصفة', 'Coffee dose (g)': 'جرعة البن (غرام)', 'Water or beverage weight (g)': 'كمية الماء أو المشروب (غرام)', 'Brew steps — one step per line': 'خطوات التحضير — كل خطوة في سطر', Save: 'حفظ' });
 const member = { id: '11111111-1111-4111-8111-111111111111', aud: 'authenticated', role: 'authenticated', email: 'member@example.test', is_anonymous: false, app_metadata: { provider: 'email' }, user_metadata: { username: 'locale_member' }, identities: [], created_at: '2026-01-01T00:00:00Z' };
 const encode = (value: object) => Buffer.from(JSON.stringify(value)).toString('base64url');
@@ -81,7 +81,7 @@ for (const language of languages) {
     await page.getByLabel(label('Email'), { exact: true }).fill('locale@example.test');
     await page.getByLabel(label('Password'), { exact: true }).fill('fixture_password');
     await page.getByLabel(label('Confirm password'), { exact: true }).fill('fixture_password');
-    await page.getByLabel(label('Phone number'), { exact: true }).fill('００８１ ９０-１２３４-５６７８');
+    await page.getByLabel(label('Phone number (optional)'), { exact: true }).fill('００８１ ９０-１２３４-５６７８');
     await page.getByRole('button', { name: label('Create account'), exact: true }).last().click();
     await expect.poll(() => metadata).toEqual({ name: username, username, country: 'JP', phone: '+819012345678', language: language.locale });
   });

@@ -3103,5 +3103,18 @@
   "Total water and ice": "水と氷の合計",
   "How many grams of coffee are you using?": "コーヒー粉は何グラム使いますか？",
   "Would you like it hot or iced?": "ホットとアイス、どちらにしますか？",
-  "Which brewing method are you using? For example, V60 or espresso.": "どの抽出方法を使いますか？例：V60、エスプレッソ。"
+  "Which brewing method are you using? For example, V60 or espresso.": "どの抽出方法を使いますか？例：V60、エスプレッソ。",
+  "This password is weak and easy to guess. Choose a longer, unique password.": "このパスワードは弱く、推測されやすいため使用できません。より長く、他で使っていないパスワードを選んでください。",
+  "This password appeared in a known data breach. Choose a new, unique password.": "このパスワードは過去の情報漏えいで流出しています。新しい、他で使っていないパスワードを選んでください。",
+  "This password does not meet the security requirements. Use a longer password with uppercase and lowercase letters, numbers and symbols.": "このパスワードはセキュリティ要件を満たしていません。大文字・小文字・数字・記号を含む、より長いパスワードを使用してください。",
+  "This email address is not accepted. Use a valid address where you can receive messages.": "このメールアドレスは使用できません。メールを受信できる有効なアドレスを使用してください。",
+  "Confirmation emails cannot be sent to this address right now. Contact BeanMora support.": "現在、このアドレスに確認メールを送信できません。BeanMoraサポートにお問い合わせください。",
+  "The email sending limit has been reached. Wait before requesting another message.": "メール送信の上限に達しました。しばらく待ってから再度リクエストしてください。",
+  "Too many attempts in a short time. Wait a while and try again.": "短時間に試行回数が多すぎます。しばらく待ってから再試行してください。",
+  "Email account registration is currently unavailable. Try later or contact support.": "現在、メールアドレスでのアカウント登録は利用できません。後でもう一度試すか、サポートにお問い合わせください。",
+  "The account service is temporarily unavailable. Try later or contact support if the problem continues.": "アカウントサービスは一時的に利用できません。後でもう一度試し、問題が続く場合はサポートにお問い合わせください。",
+  "Could not create your account. Try again or contact BeanMora support if the problem continues.": "アカウントを作成できませんでした。再試行し、問題が続く場合はBeanMoraサポートにお問い合わせください。",
+  "Could not request a password reset. Try again or contact support.": "パスワードの再設定をリクエストできませんでした。再試行するか、サポートにお問い合わせください。",
+  "Use at least 8 characters. Avoid common or breached passwords.": "8文字以上で、よく使われるものや流出済みのパスワードは避けてください。",
+  "Phone number (optional)": "電話番号（任意）"
 }

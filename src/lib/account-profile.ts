@@ -56,7 +56,7 @@ export function signupDetails(
   if (values.password.length < 8) throw new Error("ACCOUNT_PASSWORD");
   if (values.password !== values.confirmation)
     throw new Error("ACCOUNT_CONFIRMATION");
-  const phone = normalizeAccountPhone(values.phone);
+  const phone = values.phone.trim() ? normalizeAccountPhone(values.phone) : '';
   return {
     email,
     password: values.password,

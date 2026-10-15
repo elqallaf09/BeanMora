@@ -32,11 +32,11 @@ test('Japanese persists after restart, uses LTR navigation and submits country /
   await page.getByLabel('メールアドレス', { exact: true }).fill('new@example.test');
   await page.getByLabel('パスワード', { exact: true }).fill('fixture_password');
   await page.getByLabel('パスワードの確認', { exact: true }).fill('fixture_password');
-  await page.getByLabel('電話番号', { exact: true }).fill('09012345678');
+  await page.getByLabel('電話番号（任意）', { exact: true }).fill('09012345678');
   await submit.click();
   await expect(page.getByRole('alert')).toContainText('国番号');
   expect(signups).toBe(0);
-  await page.getByLabel('電話番号', { exact: true }).fill('００８１ ９０-１２３４-５６７８');
+  await page.getByLabel('電話番号（任意）', { exact: true }).fill('００８１ ９０-１２３４-５６７８');
   taken = true;
   await submit.click();
   await expect(page.getByRole('alert')).toContainText('使用されています');

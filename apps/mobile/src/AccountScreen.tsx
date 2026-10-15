@@ -23,6 +23,7 @@ import { PasswordRecovery } from './PasswordRecovery';
 import { LegalLinks } from './LegalLinks';
 import { CountryPicker } from './CountryPicker';
 import { signupDetails, usernameAvailable } from './core/account-profile';
+import { authFailure } from './authFailure';
 import { useLabels,
   Action,
   Field,
@@ -103,7 +104,8 @@ export function AccountScreen({
       active = false;
     };
   }, [session]);
-  function authError(message: string) {
+  function authError(error: unknown, context: 'login' | 'signup' | 'recovery') {
+    const { kind, message } = authFailure(error);
     const fieldErrors: Record<string, string> = {
       ACCOUNT_EMAIL: L('أدخل بريدًا إلكترونيًا صحيحًا.', 'Enter a valid email address.'),
       ACCOUNT_USERNAME: L('اسم المستخدم من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية.', 'Use 3–30 English letters, numbers or underscores for your username.', 'ユーザー名は英字・数字・アンダースコアの3〜30文字にしてください。'),
@@ -115,20 +117,32 @@ export function AccountScreen({
     };
     if (fieldErrors[message]) return fieldErrors[message];
     if (message === 'OAUTH_STORAGE_UNAVAILABLE') return L('اسمح بحفظ بيانات الموقع في المتصفح ثم أعد تسجيل الدخول عبر Google.', 'Allow site storage in your browser, then try Google sign-in again.', 'ブラウザでサイトデータの保存を許可して、Googleログインを再試行してください。');
+    switch (kind) {
+      case 'weakPassword': return L('كلمة المرور ضعيفة وسهلة التخمين. اختر كلمة مرور أطول وفريدة.', 'This password is weak and easy to guess. Choose a longer, unique password.');
+      case 'breachedPassword': return L('ظهرت كلمة المرور هذه في تسريب بيانات سابق. اختر كلمة مرور جديدة وفريدة.', 'This password appeared in a known data breach. Choose a new, unique password.');
+      case 'passwordPolicy': return L('كلمة المرور لا تستوفي متطلبات الأمان. استخدم كلمة أطول تتضمن أحرفًا كبيرة وصغيرة وأرقامًا ورموزًا.', 'This password does not meet the security requirements. Use a longer password with uppercase and lowercase letters, numbers and symbols.');
+      case 'invalidEmail': return L('البريد الإلكتروني غير مقبول. استخدم عنوانًا صحيحًا يمكنك استقبال الرسائل عليه.', 'This email address is not accepted. Use a valid address where you can receive messages.');
+      case 'emailUnavailable': return L('إرسال رسائل التأكيد إلى هذا البريد غير متاح حاليًا. تواصل مع دعم BeanMora.', 'Confirmation emails cannot be sent to this address right now. Contact BeanMora support.');
+      case 'emailRateLimit': return L('تم بلوغ حد إرسال رسائل البريد. انتظر قليلًا قبل طلب رسالة أخرى.', 'The email sending limit has been reached. Wait before requesting another message.');
+      case 'rateLimit': return L('محاولات كثيرة خلال وقت قصير. انتظر قليلًا ثم حاول مجددًا.', 'Too many attempts in a short time. Wait a while and try again.');
+      case 'signupDisabled': return L('إنشاء الحسابات بالبريد الإلكتروني غير متاح حاليًا. حاول لاحقًا أو تواصل مع الدعم.', 'Email account registration is currently unavailable. Try later or contact support.');
+      case 'serviceUnavailable': return L('خدمة الحسابات غير متاحة مؤقتًا. حاول لاحقًا أو تواصل مع الدعم إذا استمرت المشكلة.', 'The account service is temporarily unavailable. Try later or contact support if the problem continues.');
+      case 'invalidCredentials': return t.invalidCredentials;
+      case 'emailNotConfirmed': return t.emailNotConfirmed;
+      case 'network': return t.networkError;
+    }
     const lower = message.toLowerCase();
     return lower.startsWith('oauth_') ||
       lower.includes('code verifier') ||
       lower.includes('pkce')
       ? L('تعذّر إكمال تسجيل الدخول. حاول مرة ثانية.', 'Could not complete sign-in. Please try again.')
-      : lower.includes('invalid login')
-        ? t.invalidCredentials
-        : lower.includes('not confirmed')
-          ? t.emailNotConfirmed
-          : lower.includes('network') || lower.includes('fetch')
-            ? t.networkError
-            : t.authError;
+      : context === 'signup'
+        ? L('تعذّر إنشاء الحساب. حاول مجددًا أو تواصل مع دعم BeanMora إذا استمرت المشكلة.', 'Could not create your account. Try again or contact BeanMora support if the problem continues.')
+        : context === 'recovery'
+          ? L('تعذّر طلب استرجاع كلمة المرور. حاول مجددًا أو تواصل مع الدعم.', 'Could not request a password reset. Try again or contact support.')
+          : t.authError;
   }
-  async function request(action: () => Promise<void>) {
+  async function request(action: () => Promise<void>, context: 'login' | 'signup' | 'recovery' = 'login') {
     if (!supabase || inFlight.current) return;
     inFlight.current = true;
     setBusy(true);
@@ -137,7 +151,7 @@ export function AccountScreen({
     try {
       await action();
     } catch (e) {
-      setError(authError(e instanceof Error ? e.message : t.authError));
+      setError(authError(e, context));
     } finally {
       inFlight.current = false;
       setBusy(false);
@@ -178,7 +192,7 @@ export function AccountScreen({
       }
       setPassword('');
       setConfirmation('');
-    });
+    }, mode);
   }
   async function resetPassword() {
     if (!email.trim()) {
@@ -199,7 +213,7 @@ export function AccountScreen({
       setNotice(
         L('إذا كان البريد مرتبطًا بحساب، ستصلك رسالة لاسترجاع كلمة المرور. افتح الرابط على هذا الجهاز.', 'If this email has an account, a password recovery message will arrive. Open its link on this device.'),
       );
-    });
+    }, 'recovery');
   }
   async function social(provider: 'apple' | 'google') {
     await request(async () => {
@@ -435,7 +449,7 @@ export function AccountScreen({
             {mode === 'signup' ? (
               <>
                 <Txt style={s.fieldHint}>
-                  {L('استخدم 8 أحرف على الأقل.', 'Use at least 8 characters.')}
+                  {L('استخدم 8 أحرف على الأقل، وتجنب كلمات المرور الشائعة أو المسرّبة.', 'Use at least 8 characters. Avoid common or breached passwords.')}
                 </Txt>
                 <Txt style={s.label}>
                   {L('تأكيد كلمة المرور', 'Confirm password')}
@@ -470,7 +484,7 @@ export function AccountScreen({
                     ]}
                   />
                 </View>
-                <Field label={L('رقم الهاتف', 'Phone number')} value={phone} onChangeText={setPhone} keyboardType="phone-pad" autoComplete="tel" textContentType="telephoneNumber" placeholder={locale === 'ja' ? '+819012345678' : '+96550000000'} maxLength={32} editable={!busy} style={{ writingDirection: 'ltr', textAlign: 'left' }} />
+                <Field label={L('رقم الهاتف (اختياري)', 'Phone number (optional)')} value={phone} onChangeText={setPhone} keyboardType="phone-pad" autoComplete="tel" textContentType="telephoneNumber" placeholder={locale === 'ja' ? '+819012345678' : '+96550000000'} maxLength={32} editable={!busy} style={{ writingDirection: 'ltr', textAlign: 'left' }} />
                 <Txt style={s.fieldHint}>{L('مع رمز الدولة. رقم الهاتف خاص بحسابك ولا يظهر في الملف العام.', 'Include the country code. Your phone is private and does not appear on your public profile.', '国番号を含めてください。電話番号は非公開で、プロフィールには表示されません。')}</Txt>
               </>
             ) : (
@@ -516,7 +530,7 @@ export function AccountScreen({
                 busy ||
                 !email.trim() ||
                 !password ||
-                (mode === 'signup' && (!confirmation || !country || !username.trim() || !phone.trim()))
+                (mode === 'signup' && (!confirmation || !country || !username.trim()))
               }
             />
             <View style={s.divider}>

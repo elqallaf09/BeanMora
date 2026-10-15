@@ -54,6 +54,11 @@ describe("profile identity and private signup contact", () => {
     ])
       expect(() => normalizeAccountPhone(phone)).toThrow("ACCOUNT_PHONE");
   });
+  it("allows signup without an optional phone number", () => {
+    for (const phone of ['', '   ']) {
+      expect(signupDetails({ ...valid, phone }, 'ar').metadata.phone).toBe('');
+    }
+  });
   it("rejects missing / invalid signup fields before sending Auth requests", () => {
     for (const [field, value, code] of [
       ["email", "invalid", "EMAIL"],

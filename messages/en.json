@@ -128,7 +128,8 @@
     "phoneLabel": "Phone number",
     "phonePrivate": "Include the country code. Your phone stays private and does not appear on your public profile.",
     "phoneInvalid": "Enter a valid phone with its country code, for example +96550000000.",
-    "usernameTaken": "Username is taken. Choose another."
+    "usernameTaken": "Username is taken. Choose another.",
+    "phoneOptionalLabel": "Phone number (optional)"
   },
   "home": {
     "greeting": "Hello, {name}",
