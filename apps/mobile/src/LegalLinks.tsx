@@ -7,6 +7,7 @@ import {
   type LegalKind,
 } from './core/legal-content';
 import { Action, Language, Txt, colors, styles, useLabels } from './ui';
+import { SupportContact } from './SupportContact';
 
 export function LegalLinks() {
   const uiLocale = useContext(Language), L = useLabels();
@@ -71,6 +72,7 @@ export function LegalLinks() {
                 <Txt>{uiLocale==='ar'?body:L('',body)}</Txt>
               </View>
             ))}
+            {document ? <SupportContact /> : null}
             <Action
               title={L('إغلاق', 'Close')}
               onPress={() => setOpen(null)}
