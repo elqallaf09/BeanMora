@@ -12,14 +12,14 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '22'
-      - name: Inspect only public support HTML without account access
+      - name: Inspect only public route responses without account access
         run: |
           node --input-type=module <<'NODE'
           import { createHash } from 'node:crypto';
-          for(const suffix of ['', '?lang=ar&check='+Date.now()]) {
-            const url='https://beanmora-mobile.expo.app/support.html'+suffix;
-            const response=await fetch(url,{cache:'no-store',signal:AbortSignal.timeout(20000)});
+          for(const path of ['/support.html','/support','/support/','/support/index.html','/']) {
+            const url='https://beanmora-mobile.expo.app'+path+'?check='+Date.now();
+            const response=await fetch(url,{cache:'no-store',signal:AbortSignal.timeout(15000)});
             const html=await response.text();
-            console.log(JSON.stringify({url:response.url,status:response.status,contentType:response.headers.get('content-type'),cacheControl:response.headers.get('cache-control'),bytes:Buffer.byteLength(html),sha256:createHash('sha256').update(html).digest('hex'),title:html.match(/<title>(.*?)<\/title>/s)?.[1],newInbox:html.includes('Beanmora.app@gmail.com'),oldInbox:html.includes('elqallaf09@gmail.com'),compactPanel:html.includes('locale-panel'),languageControl:html.includes('id="language"'),prefix:html.slice(0,900)},null,2));
+            console.log(JSON.stringify({url:response.url,status:response.status,contentType:response.headers.get('content-type'),bytes:Buffer.byteLength(html),sha256:createHash('sha256').update(html).digest('hex'),title:html.match(/<title>(.*?)<\/title>/s)?.[1],newInbox:html.includes('Beanmora.app@gmail.com'),compactPanel:html.includes('locale-panel'),scripts:[...html.matchAll(/<script[^>]+src="([^"]+)"/g)].map(x=>x[1])},null,2));
           }
           NODE
