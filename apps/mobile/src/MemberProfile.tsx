@@ -44,7 +44,7 @@ import {
   memberDirectory,
   memberProfile,
   recordProfileVisit,
-  ownUsername,
+  ownMemberProfile,
   updateMemberProfile,
   changeMemberFollow,
   decideMemberRequest,
@@ -296,8 +296,9 @@ export function MemberProfile({
     }
     const db = supabase;
     void (async () => {
-      const handle = username ?? (await ownUsername(db, userId!));
-      const next = await memberProfile(db, handle);
+      const next = username === undefined
+        ? await ownMemberProfile(db, userId!)
+        : await memberProfile(db, username);
       if (active) {
         setData(next);
         if (next)

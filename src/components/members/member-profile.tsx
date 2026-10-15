@@ -8,7 +8,7 @@ import {
   memberProfile,
   recordProfileVisit,
   profileVisitors,
-  ownUsername,
+  ownMemberProfile,
   updateMemberProfile,
   changeMemberFollow,
   decideMemberRequest,
@@ -205,8 +205,9 @@ export function MemberProfilePanel({ username }: { username?: string }) {
       const id = auth.user && !auth.user.is_anonymous ? auth.user.id : null;
       if (active) setOwner(id);
       if (!username && !id) return;
-      const handle = username ?? (await ownUsername(db, id!));
-      const profile = await memberProfile(db, handle);
+      const profile = username === undefined
+        ? await ownMemberProfile(db, id!)
+        : await memberProfile(db, username);
       if (active) {
         setData(profile);
         if (profile)

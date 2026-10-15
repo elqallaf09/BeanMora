@@ -95,7 +95,9 @@ export async function memberProfile(
   return data?.profile?.id ? data : null;
 }
 export async function ownUsername(db: SupabaseClient, owner: string) {
-  await requireMember(db, owner);
+  // This read already uses the authenticated Data API. A separate Auth /user
+  // request adds a network dependency before any profile data can load.
+  // Row policies and get_member_profile still authorize access on the server.
   const { data, error } = await db
     .from("profiles")
     .select("username")
@@ -103,6 +105,17 @@ export async function ownUsername(db: SupabaseClient, owner: string) {
     .single();
   if (error || !data?.username) throw new Error("PROFILE_LOAD");
   return data.username as string;
+}
+export async function ownMemberProfile(
+  db: SupabaseClient,
+  owner: string,
+): Promise<MemberProfileData | null> {
+  const profile = await memberProfile(db, await ownUsername(db, owner));
+  // A remembered client ID is not proof of ownership. The RPC derives is_owner
+  // from the verified request identity; never show another member as me.
+  if (profile && (!profile.is_owner || profile.profile.id !== owner))
+    throw new Error("PROFILE_LOAD");
+  return profile;
 }
 export async function updateMemberProfile(
   db: SupabaseClient,
