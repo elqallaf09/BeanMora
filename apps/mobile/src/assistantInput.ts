@@ -5,6 +5,7 @@ import {canonicalSearchQuery} from './core/deepSearch';
 // member content or send questions to any model or translation service.
 const vocabulary: Partial<Record<Locale,Record<string,string[]>>> = {
   fr: {
+    'how much water':["combien d'eau", 'combien d’eau'], 'how much':['combien'], ice:['glace','glaçons'],
     '':['une','un','pour','ma','mon','avec','des','et','de','du','le','la','les','qui','où','au','aux','en','dans','s’il vous plaît'],
     recipe:['recettes','recette'], cold:['glacée','glacées','glacé','froide','froid'], hot:['chaude','chaud'], coconut:['noix de coco'], honey:['miel'], notes:['notes gustatives','notes de dégustation','arômes','arôme','saveurs','saveur','note'],
     machine:['machines','machine'], espresso:['expresso'], coffee:['café'], beans:['grains'], grinder:['moulins','moulin'], water:['eau'], buy:['acheter','achat','vend','vente'], website:['site web','site'], under:['moins de','sous'],
@@ -13,6 +14,7 @@ const vocabulary: Partial<Record<Locale,Record<string,string[]>>> = {
     EUR:['euros','euro'], USD:['dollars','dollar'], KWD:['dinars koweïtiens'], SAR:['riyals saoudiens'],
   },
   it: {
+    'how much':['quanta','quanto'], ice:['ghiaccio'],
     '':['una','un','per','con','di','e','il','la','mia','mio','che','dove','in'],
     recipe:['ricette','ricetta'], cold:['ghiacciato','ghiacciata','fredda','freddo'], hot:['calda','caldo'], coconut:['cocco'], honey:['miele'], notes:['note di degustazione','note aromatiche','note','nota','aromi','aroma','sapori','sapore'],
     machine:['macchine','macchina'], coffee:['caffè'], beans:['chicchi'], grinder:['macinacaffè'], water:['acqua'], buy:['acquistare','comprare','vendita'], website:['sito web','sito'], under:['meno di','sotto'],
@@ -21,6 +23,7 @@ const vocabulary: Partial<Record<Locale,Record<string,string[]>>> = {
     EUR:['euro'], USD:['dollari','dollaro'], KWD:['dinari kuwaitiani'], SAR:['riyal sauditi'],
   },
   es: {
+    'how much':['cuánta','cuánto'], ice:['hielo'],
     '':['una','un','para','con','y','de','mi','el','la','los','las','que','donde','en'],
     recipe:['recetas','receta'], cold:['helado','helada','fría','frío','frio','fria'], hot:['caliente'], coconut:['coco'], honey:['miel'], notes:['notas de cata','notas de sabor','notas','nota','aromas','aroma','sabores','sabor'],
     machine:['máquinas','máquina','maquina','cafeteras','cafetera'], coffee:['café'], beans:['granos'], grinder:['molinillos','molinillo','molinos','molino'], water:['agua'], buy:['comprar','compra','venta','vende','venda'], website:['sitio web','sitio'], under:['menos de','por debajo de'],
@@ -29,6 +32,7 @@ const vocabulary: Partial<Record<Locale,Record<string,string[]>>> = {
     EUR:['euros','euro'], USD:['dólares','dólar'], KWD:['dinares kuwaitíes'], SAR:['riales saudíes'],
   },
   'pt-BR': {
+    'how much':['quanta','quanto'], ice:['gelo'],
     '':['uma','um','para','com','e','de','meu','minha','no','na','o','a','os','as','que','onde','em'],
     recipe:['receitas','receita'], cold:['gelado','gelada','frio','fria'], hot:['quente'], coconut:['coco'], honey:['mel'], notes:['notas sensoriais','notas de sabor','notas','nota','aromas','aroma','sabores','sabor'],
     machine:['máquinas','máquina','maquina','cafeteiras','cafeteira'], coffee:['café'], beans:['grãos'], grinder:['moedores','moedor'], water:['água'], buy:['comprar','compra','venda','vende'], website:['site'], under:['menos de','abaixo de'],
@@ -37,6 +41,7 @@ const vocabulary: Partial<Record<Locale,Record<string,string[]>>> = {
     BRL:['reais','real','r$'], USD:['dólares','dólar'], KWD:['dinares kuwaitianos'], SAR:['riais sauditas'],
   },
   ja: {
+    'how much':['どのくらい','何グラム','どれくらい'], ice:['氷'],
     recipe:['レシピ'], cold:['アイス','冷たい','冷やした','冷製'], hot:['ホット','温かい','熱い'], coconut:['ココナッツ'], honey:['はちみつ','ハチミツ','蜂蜜'], notes:['テイスティングノート','風味','香味','味わい'],
     xbloom:['エックスブルーム'], machine:['マシン','機械'], espresso:['エスプレッソ'], coffee:['コーヒー','珈琲'], beans:['コーヒー豆','豆'], grinder:['グラインダー','ミル'], water:['水'], buy:['販売','売って','購入','買う'], website:['ウェブサイト','サイト'], under:['以下','未満'],
     roaster:['ロースター','焙煎業者'], find:['探して','探す','欲しい','見つけて'], how:['方法','どうやって'], sour:['酸っぱい','酸味が強い'], bitter:['苦い','苦味が強い'], ratio:['比率'], calculate:['計算'], dose:['投与量','粉量','用量'], yield:['抽出量'], seconds:['秒'], grams:['グラム'],
@@ -44,6 +49,7 @@ const vocabulary: Partial<Record<Locale,Record<string,string[]>>> = {
     JPY:['円','日本円'], USD:['米ドル','ドル'], KWD:['クウェートディナール'], SAR:['サウジリヤル'],
   },
   'zh-CN': {
+    'how much':['多少'], ice:['冰块'],
     'espresso machine':['意式浓缩咖啡机','浓缩咖啡机','意式咖啡机'],
     recipe:['配方','食谱'], cold:['冰饮','冰的','冰咖啡','冰镇','冷的','冷饮','冰'], hot:['热的','热饮','热'], coconut:['椰子','椰香'], honey:['蜂蜜'], notes:['风味笔记','风味','香味'],
     xbloom:['爱克斯布鲁姆'], machine:['机器','咖啡机'], espresso:['意式浓缩','浓缩咖啡','浓缩'], coffee:['咖啡'], beans:['咖啡豆','豆子'], grinder:['磨豆机','研磨机'], water:['水'], buy:['出售','销售','购买','买'], website:['网站','网址'], under:['低于','以下'],

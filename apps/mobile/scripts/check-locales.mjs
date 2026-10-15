@@ -97,4 +97,21 @@ for(const [locale,question] of Object.entries(questions)){
 const decimalQuestion=assistantInput('fr','calcule 18,5 grammes à 1:16,5');
 const decimal=await converseLocally(decimalQuestion,'en',[],{search:async()=>{throw new Error('Arithmetic must stay offline');}});
 assert.equal(decimal.calculation.dose,18.5);assert.equal(decimal.calculation.ratio,16.5);assert.ok(decimal.answer.includes('305.25 g'));
+const quantityQuestions={
+  ja:'V60 コーヒー15グラム 水と氷はどのくらい',
+  fr:"V60 15 grammes de café combien d'eau et de glace",
+  it:'V60 15 grammi di caffè quanta acqua e ghiaccio',
+  es:'V60 15 gramos de café cuánta agua y hielo',
+  'pt-BR':'V60 15 gramas de café quanta água e gelo',
+  'zh-CN':'V60 15克咖啡 水和冰块多少',
+};
+for(const [locale,question] of Object.entries(quantityQuestions)){
+  const input=assistantInput(locale,question),trace=createMessageTrace('quantity-test');
+  const turn=await converseLocally(input,'en',[],{search:async()=>{throw new Error('Quantities must stay offline');},translate:trace.label});
+  assert.equal(turn.intent,'calculate',locale+' '+input);
+  assert.deepEqual(turn.calculation,{dose:15,ratio:15,method:'v60',servingStyle:'iced'},locale+' '+input);
+  const answer=tracedMessage(trace.snapshot(turn.answer),turn.answer,locale);
+  for(const amount of ['135 g','90 g','225 g'])assert.ok(answer.includes(amount),locale+' '+answer);
+  assert.ok(!answer.includes('Iced V60 quantities')&&!answer.includes('Hot water')&&!answer.includes('__bm_'),locale+' untranslated response');
+}
 console.log(`All ${source.length} registered messages covered in six packs; placeholders, brands, quantities and multilingual recipe intent preserved.`);

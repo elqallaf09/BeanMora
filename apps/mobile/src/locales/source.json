@@ -300,8 +300,8 @@
     ]
   },
   {
-    "en": "3–30 letters, numbers or underscores. Your username appears on your profile and in coffeeHO search.",
-    "ar": "من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية. يظهر اسم المستخدم في ملفك وبحث coffeeHO.",
+    "en": "3–30 letters, numbers or underscores. Your username appears on your profile and in BeanMora search.",
+    "ar": "من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية. يظهر اسم المستخدم في ملفك وبحث BeanMora.",
     "files": [
       "src/MemberProfile.tsx",
       "src/japaneseLabels.ts"
@@ -2101,6 +2101,16 @@
     "files": [
       "src/ExploreScreens.tsx",
       "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "BeanMora accounts",
+    "ar": "حسابات BeanMora",
+    "files": [
+      "src/CommunityScreen.tsx",
+      "src/MemberProfile.tsx",
+      "App.tsx",
+      "src/localeText.ts"
     ]
   },
   {
@@ -4960,13 +4970,6 @@
     ]
   },
   {
-    "en": "Coffee people. Experiences worth sharing.",
-    "ar": "ناس القهوة، وتجارب تستحق المشاركة",
-    "files": [
-      "src/CommunityScreen.tsx"
-    ]
-  },
-  {
     "en": "Coffee personality",
     "ar": "شخصية البن",
     "files": [
@@ -5104,23 +5107,6 @@
     "files": [
       "src/CoffeeStories.tsx",
       "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "coffeeHO",
-    "ar": "",
-    "files": [
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "coffeeHO accounts",
-    "ar": "حسابات coffeeHO",
-    "files": [
-      "src/CommunityScreen.tsx",
-      "src/MemberProfile.tsx",
-      "App.tsx",
-      "src/localeText.ts"
     ]
   },
   {
@@ -10444,6 +10430,14 @@
     ]
   },
   {
+    "en": "Hot water",
+    "ar": "الماء الساخن",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "How did it turn out?",
     "ar": "شلون كانت النتيجة؟",
     "files": [
@@ -10456,6 +10450,22 @@
     "ar": "شلون نوصل لها؟",
     "files": [
       "src/RoastGuide.tsx"
+    ]
+  },
+  {
+    "en": "How many grams of coffee are you using for V60? I can calculate hot water and ice from the coffee dose.",
+    "ar": "كم غرام بن تستخدم للـV60؟ أحسب لك الماء الساخن والثلج حسب وزن البن.",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "How many grams of coffee, which brewer, and hot or iced? For example, V60 or espresso.",
+    "ar": "كم غرام بن تستخدم، وما طريقة التحضير؟ مثل V60 أو إسبريسو، وهل تريده حارًا أم بالثلج؟",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -10629,6 +10639,7 @@
     "en": "Ice",
     "ar": "الثلج",
     "files": [
+      "src/core/local-coffee-assistant.ts",
       "src/manualBrew.ts"
     ]
   },
@@ -10646,6 +10657,14 @@
       "src/RecipeCatalog.tsx",
       "src/RecipeDetail.tsx",
       "src/recipeDiscovery.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Iced V60 quantities",
+    "ar": "مقادير V60 بالثلج",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -19899,6 +19918,14 @@
     ]
   },
   {
+    "en": "Specify the brewer and a recipe with an ice amount; the V60 split does not apply to other methods or to published recipes with unspecified ice.",
+    "ar": "اذكر طريقة التحضير ووصفة تحدد كمية الثلج؛ لا أطبّق تقسيم V60 على طريقة أخرى أو أفترض كمية ثلج لوصفة منشورة.",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "spice",
     "ar": "توابل",
     "files": [
@@ -21433,6 +21460,14 @@
     ]
   },
   {
+    "en": "This calculated starting point uses 60% hot water and 40% ice. Put the ice in the server and pour the hot water through the coffee. Ice is included in the total; filter-rinse water is separate, and beverage yield is lower because the grounds retain water. Adjust to taste and brewer capacity.",
+    "ar": "هذه نقطة بداية محسوبة: 60% ماء ساخن و40% ثلج. ضع الثلج في الإبريق وصب الماء الساخن عبر البن. الثلج جزء من الإجمالي؛ ماء شطف الفلتر منفصل، ووزن المشروب النهائي أقل بسبب احتفاظ البن بالماء. عدّل حسب الطعم وسعة أداتك.",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "This content is not available now.",
     "ar": "هذا المحتوى غير متاح للعرض الآن.",
     "files": [
@@ -21743,6 +21778,14 @@
     "ar": "إجمالي الوقت (دقائق:ثواني)",
     "files": [
       "src/RoastLab.tsx"
+    ]
+  },
+  {
+    "en": "Total water and ice",
+    "ar": "إجمالي الماء والثلج",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -23740,8 +23783,8 @@
     ]
   },
   {
-    "en": "Your photo appears beside your name and in coffeeHO.",
-    "ar": "تظهر صورتك بجانب اسمك وفي coffeeHO.",
+    "en": "Your photo appears beside your name and in BeanMora.",
+    "ar": "تظهر صورتك بجانب اسمك وفي BeanMora.",
     "files": [
       "src/AvatarEditor.tsx"
     ]

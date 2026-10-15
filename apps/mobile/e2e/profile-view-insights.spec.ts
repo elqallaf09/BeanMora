@@ -100,7 +100,7 @@ for (const ar of [false,true]) test(`independent list privacy, unique header lin
 });
 test('only owners see viewer names; photo and video playback record once without self-views', async ({page}, info) => {
   const f=await fixture(page);await login(page);
-  await page.getByRole('button',{name:'coffeeHO',exact:true}).click();
+  await page.getByRole('button',{name:'BeanMora',exact:true}).click();
   await page.getByRole('button',{name:'Story by Coffee Owner',exact:true}).click();
   await page.getByTestId('story-view-count').click();
   await expect(page.getByTestId('view-insights-panel').getByText('@visitor',{exact:true})).toBeVisible();
@@ -114,7 +114,7 @@ test('only owners see viewer names; photo and video playback record once without
   await page.getByRole('button',{name:'Next story',exact:true}).click();
   await expect.poll(()=>f.views.filter(id=>id===videoStory).length).toBe(1);
   await page.getByRole('button',{name:'Close story',exact:true}).click();
-  await page.getByRole('button',{name:'coffeeHO accounts',exact:true}).click();
+  await page.getByRole('button',{name:'BeanMora accounts',exact:true}).click();
   await page.getByRole('button',{name:'Coffee Visitor @visitor',exact:true}).click();
   await expect.poll(()=>f.visits).toEqual([friendId]);
   await expect(page.getByTestId('profile-visitors')).toHaveCount(0);

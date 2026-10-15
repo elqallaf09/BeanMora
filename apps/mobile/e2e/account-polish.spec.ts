@@ -426,7 +426,7 @@ test("username is directly editable and the following feed uses accepted follows
     username: "coffee_owner",
     name: "New Coffee Name",
   });
-  await page.getByRole("button", { name: "coffeeHO", exact: true }).click();
+  await page.getByRole("button", { name: "BeanMora", exact: true }).click();
   await expect(page.getByTestId("community-post-post-0")).toContainText(
     "My coffee story.",
   );
@@ -509,7 +509,7 @@ for (const width of [320, 800, 1536])
       expect(rect!.x + rect!.width).toBeLessThanOrEqual(width);
     }
     await settings.getByRole("button", { name: "تم", exact: true }).click();
-    await page.getByRole("button", { name: "coffeeHO", exact: true }).click();
+    await page.getByRole("button", { name: "BeanMora", exact: true }).click();
     await expect(page.getByTestId("community-post-post-1")).toBeVisible();
     await page.screenshot({
       path: info.outputPath(`coffeeho-dark-${width}.png`),
@@ -608,7 +608,7 @@ test("general timeline likes survive reload, unlike removes only the current mem
 }) => {
   const f = await fixtures(page);
   await signIn(page);
-  await page.getByRole("button", { name: "coffeeHO", exact: true }).click();
+  await page.getByRole("button", { name: "BeanMora", exact: true }).click();
   const post = page.getByTestId("community-post-post-1");
   for (const label of [
     "All languages",
@@ -645,7 +645,7 @@ test("general timeline likes survive reload, unlike removes only the current mem
   await expect(like).toContainText("Like · 2");
   expect(f.likeWrites.at(-1)).toEqual({ post_id: "post-1", user_id: uid });
   await page.reload();
-  await page.getByRole("button", { name: "coffeeHO", exact: true }).click();
+  await page.getByRole("button", { name: "BeanMora", exact: true }).click();
   await expect(like).toHaveAttribute("aria-pressed", "true");
   const removedLike = page.waitForResponse(
     (response) =>
@@ -665,7 +665,7 @@ test("post comments keep a failed draft, retry once and remain visible after rel
   await page.setViewportSize({ width: 390, height: 1000 });
   const f = await fixtures(page);
   await signIn(page);
-  await page.getByRole("button", { name: "coffeeHO", exact: true }).click();
+  await page.getByRole("button", { name: "BeanMora", exact: true }).click();
   const post = page.getByTestId("community-post-post-1");
   const open = post.getByRole("button", { name: "Comments", exact: true });
   await open.click();
@@ -717,7 +717,7 @@ test("post comments keep a failed draft, retry once and remain visible after rel
     path: info.outputPath("social-comments-light-phone.png"),
   });
   await page.reload();
-  await page.getByRole("button", { name: "coffeeHO", exact: true }).click();
+  await page.getByRole("button", { name: "BeanMora", exact: true }).click();
   await open.click();
   await expect(
     post.getByText("A lovely cup. Which grind size did you use?", {
@@ -732,7 +732,7 @@ test("a guest can read comments and is asked to sign in when interacting", async
   await fixtures(page);
   await page.goto("/");
   await setLanguage(page, "en");
-  await page.getByRole("button", { name: "coffeeHO", exact: true }).click();
+  await page.getByRole("button", { name: "BeanMora", exact: true }).click();
   const post = page.getByTestId("community-post-post-1");
   await post.getByRole("button", { name: "Comments", exact: true }).click();
   await expect(post.getByLabel("Write a comment", { exact: true })).toHaveCount(
@@ -821,15 +821,15 @@ for (const scenario of [
     await expect(page.getByTestId("profile-bean-preview")).toHaveCount(
       width >= 700 ? 1 : 0,
     );
-    const coffeeHO = page.getByRole("button", {
-      name: "coffeeHO",
+    const communityNav = page.getByRole("button", {
+      name: "BeanMora",
       exact: true,
     });
     const brew = page.getByRole("button", {
       name: ar ? "تحضير" : "Brew",
       exact: true,
     });
-    const navBox = (await coffeeHO.boundingBox())!;
+    const navBox = (await communityNav.boundingBox())!;
     expect(Math.abs(navBox.x + navBox.width / 2 - width / 2)).toBeLessThan(1);
     expect((await brew.boundingBox())!.x).toBeGreaterThan(navBox.x);
     expect(
@@ -839,7 +839,7 @@ for (const scenario of [
     ).toBe(true);
     await photo.scrollIntoViewIfNeeded();
     await expect(photo).toBeInViewport();
-    await expect(coffeeHO).toBeInViewport();
+    await expect(communityNav).toBeInViewport();
     await page.waitForTimeout(1000);
     await page.screenshot({
       path: info.outputPath(
