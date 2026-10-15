@@ -1,7 +1,7 @@
 import type { Locale } from './copy';
 
-// Owner-approved temporary public inbox. Replace here and regenerate the support page.
-export const SUPPORT_EMAIL = 'elqallaf09@gmail.com';
+// Owner-approved BeanMora support inbox. Replace here and regenerate the support page.
+export const SUPPORT_EMAIL = 'Beanmora.app@gmail.com';
 export const SUPPORT_TOPICS = ['support', 'bug', 'report', 'privacy'] as const;
 export type SupportTopic = (typeof SUPPORT_TOPICS)[number];
 type SupportCopy = {

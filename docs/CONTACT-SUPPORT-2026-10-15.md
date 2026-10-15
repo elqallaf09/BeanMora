@@ -2,12 +2,13 @@
 
 Date: 2026-10-15
 
-## Temporary owner-approved inbox
+## Owner-approved app inbox
 
-`elqallaf09@gmail.com` is the public destination for support, technical issues,
-content/user reports and privacy/account requests until an official inbox exists.
-The user explicitly approved displaying this address. No Gmail password, SMTP
-credential, paid email provider or new runtime dependency is required.
+`Beanmora.app@gmail.com` is the public destination for support, technical issues,
+content/user reports and privacy/account requests. The owner supplied this app
+inbox after the initial temporary-address implementation. No Gmail password, SMTP
+credential, paid email provider or new runtime dependency is required. This does
+not change the owner's login address or configure outgoing authentication email.
 
 ## User experience
 
@@ -24,13 +25,26 @@ credential, paid email provider or new runtime dependency is required.
 - Arabic, English, Japanese, French, Italian, Spanish, Brazilian Portuguese and
   Simplified Chinese are included. The existing theme wrappers preserve dark mode.
 
-## Single source and public support page
+## Compact public support page
 
-`apps/mobile/src/support-mail.ts` holds the inbox, topics and localized copy.
-`node scripts/generate-support-page.mjs` generates `apps/mobile/public/support.html`
-from that source without scripts or external assets. Generation runs in postinstall
-and preexport, including builds that export directly after installing dependencies.
-The generated file is ignored by git; it is not a second editable email source.
+`apps/mobile/src/support-mail.ts` holds the inbox, topics and localized contact copy.
+`node scripts/generate-support-page.mjs` generates `apps/mobile/public/support.html`.
+Generation runs in postinstall and preexport. The generated file is ignored by git;
+edit the generator and shared contact source rather than the generated HTML.
+
+The page displays one language panel, a small language selector, four contact tiles
+in a two-column grid, a visible address with a copy button, and collapsed additional
+instructions. Arabic uses RTL; the other supported languages use LTR. The page has
+light and dark appearances and no external assets, fonts, tracking or network calls.
+A build-time SHA-256 CSP permits only the exact inline script and stylesheet; no
+unsafe-inline or unsafe-eval allowance is used. With JavaScript disabled, the Arabic
+contact panel and all its email links remain visible and usable.
+
+Language precedence: supported `?lang=` or legacy language hash, saved support-page
+preference, supported browser language, then Arabic. A language change is immediate
+and resets expanded instructions. Storage/history failures are nonfatal. Copying
+uses the clipboard when available; on failure it selects the address and displays a
+manual-copy instruction, never a false copied or sent message.
 
 After a successful web deployment, verify `/support.html` on the actual BeanMora
 Expo Hosting origin before entering it as the App Store Support URL. This source
@@ -42,11 +56,20 @@ Apple app, Expo project or bundle ID for an email change.
 
 ## Verification and release boundary
 
-Local Node 22 regression suite: 10 tests passed. It covers all 32 locale/topic
-combinations, recipient/header safety, Unicode encoding, no-mail-app failures,
-guests' settings access, legal-document access and all 40 generated page links.
-The suite runs in the existing npm test pipeline. Full TypeScript, security,
-Expo export and browser checks must also pass in repository CI before release.
+Local Node 22.16.0 regression suite: 14 tests passed, 0 failed, 0 skipped. Coverage
+includes all 32 locale/topic combinations, recipient/header safety, Unicode encoding,
+no-mail-app failures, guest and legal contact entry points, all 40 generated mailto
+links, absence of the retired address in the page, exact CSP hashes, compact markup,
+language precedence, malformed URL input and blocked storage. The existing npm test
+pipeline runs these tests; full application CI must pass separately before release.
+
+Local Chromium rendered the exact HTML through Playwright set_content without CSP
+bypass: 80 layout cases passed (8 languages x 2 appearances x 5 viewport widths:
+320, 390, 430, 768, 1280). Tests verified one visible panel, correct direction, no
+horizontal overflow, the new recipient, disclosure reset, mocked clipboard success
+and failure, and the JavaScript-disabled fallback. No console/CSP errors or network
+requests occurred. Local runtime policy blocked HTTP/file navigation, so hosted URL
+navigation, actual browser persistence, Safari and physical devices need release QA.
 
 No physical iPhone/Android email-client test or inbox-delivery test was performed.
 No email was sent, App Store submission made, or production deployment performed
