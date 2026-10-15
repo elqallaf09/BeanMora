@@ -22,6 +22,8 @@ import { AppVersion } from './AppVersion';
 import { PasswordRecovery } from './PasswordRecovery';
 import { LegalLinks } from './LegalLinks';
 import { CountryPicker } from './CountryPicker';
+import { SignupPhoneField } from './SignupPhoneField';
+import { changeSignupPhoneCountry, signupPhoneValue } from './signupPhone';
 import { signupDetails, usernameAvailable } from './core/account-profile';
 import { authFailure } from './authFailure';
 import { useLabels,
@@ -92,6 +94,10 @@ export function AccountScreen({
   const emailRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
   const confirmationRef = useRef<TextInput>(null);
+  function changeCountry(nextCountry: string) {
+    setPhone(current => changeSignupPhoneCountry(current, country, nextCountry));
+    setCountry(nextCountry);
+  }
   useEffect(() => {
     let active = true;
     if (!session && supabase)
@@ -167,7 +173,7 @@ export function AccountScreen({
         return;
       }
       if (mode === 'signup') {
-        const details = signupDetails({ country, username, email, password, confirmation, phone }, locale);
+        const details = signupDetails({ country, username, email, password, confirmation, phone: signupPhoneValue(phone, country) }, locale);
         if (!(await usernameAvailable(supabase!, details.metadata.username))) throw new Error('ACCOUNT_USERNAME_TAKEN');
         const { data, error } = await supabase!.auth.signUp({
           email: details.email,
@@ -374,7 +380,7 @@ export function AccountScreen({
             </View>
             {mode === 'signup' ? <View style={{ gap: 10 }}>
               <Txt style={s.label}>{L('الدولة', 'Country')}</Txt>
-              <CountryPicker value={country} onChange={setCountry} disabled={busy} />
+              <CountryPicker value={country} onChange={changeCountry} disabled={busy} />
               <Field label={L('اسم المستخدم', 'Username')} value={username} onChangeText={setUsername} maxLength={30} autoCapitalize="none" autoCorrect={false} autoComplete="username" textContentType="username" editable={!busy} />
               <Txt style={s.fieldHint}>{L('من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية.', '3–30 English letters, numbers or underscores.', '英字・数字・アンダースコアの3〜30文字。')}</Txt>
             </View> : null}
@@ -484,8 +490,7 @@ export function AccountScreen({
                     ]}
                   />
                 </View>
-                <Field label={L('رقم الهاتف (اختياري)', 'Phone number (optional)')} value={phone} onChangeText={setPhone} keyboardType="phone-pad" autoComplete="tel" textContentType="telephoneNumber" placeholder={locale === 'ja' ? '+819012345678' : '+96550000000'} maxLength={32} editable={!busy} style={{ writingDirection: 'ltr', textAlign: 'left' }} />
-                <Txt style={s.fieldHint}>{L('مع رمز الدولة. رقم الهاتف خاص بحسابك ولا يظهر في الملف العام.', 'Include the country code. Your phone is private and does not appear on your public profile.', '国番号を含めてください。電話番号は非公開で、プロフィールには表示されません。')}</Txt>
+                <SignupPhoneField label={L('رقم الهاتف (اختياري)', 'Phone number (optional)')} country={country} value={phone} onChangeText={setPhone} editable={!busy} />
               </>
             ) : (
               <Pressable
@@ -571,7 +576,7 @@ export function AccountScreen({
             </Txt>
             <LegalLinks />
           </View>
-          <AppVersion light />
+          <AppVersion light showCredit />
         </ScrollView>
       </KeyboardAvoidingView>
     </ImageBackground>
