@@ -300,8 +300,8 @@
     ]
   },
   {
-    "en": "3–30 letters, numbers or underscores. Your username appears on your profile and in coffeeHO search.",
-    "ar": "من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية. يظهر اسم المستخدم في ملفك وبحث coffeeHO.",
+    "en": "3–30 letters, numbers or underscores. Your username appears on your profile and in BeanMora search.",
+    "ar": "من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية. يظهر اسم المستخدم في ملفك وبحث BeanMora.",
     "files": [
       "src/MemberProfile.tsx",
       "src/japaneseLabels.ts"
@@ -2101,6 +2101,16 @@
     "files": [
       "src/ExploreScreens.tsx",
       "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "BeanMora accounts",
+    "ar": "حسابات BeanMora",
+    "files": [
+      "src/CommunityScreen.tsx",
+      "src/MemberProfile.tsx",
+      "App.tsx",
+      "src/localeText.ts"
     ]
   },
   {
@@ -5104,23 +5114,6 @@
     "files": [
       "src/CoffeeStories.tsx",
       "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "coffeeHO",
-    "ar": "",
-    "files": [
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "coffeeHO accounts",
-    "ar": "حسابات coffeeHO",
-    "files": [
-      "src/CommunityScreen.tsx",
-      "src/MemberProfile.tsx",
-      "App.tsx",
-      "src/localeText.ts"
     ]
   },
   {
@@ -23797,8 +23790,8 @@
     ]
   },
   {
-    "en": "Your photo appears beside your name and in coffeeHO.",
-    "ar": "تظهر صورتك بجانب اسمك وفي coffeeHO.",
+    "en": "Your photo appears beside your name and in BeanMora.",
+    "ar": "تظهر صورتك بجانب اسمك وفي BeanMora.",
     "files": [
       "src/AvatarEditor.tsx"
     ]

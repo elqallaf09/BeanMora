@@ -453,7 +453,7 @@ export function CommunityScreen({
         />
         <View style={{ flex: 1, gap: 2 }}>
           <Txt heading style={[s.heroTitle, width < 380 && { fontSize: 24 }]}>
-            coffeeHO
+            BeanMora
           </Txt>
           {width >= 380 ? (
             <Txt style={s.heroNote}>
@@ -465,7 +465,7 @@ export function CommunityScreen({
         </View>
         <IconButton
           name="search"
-          label={ar ? 'حسابات coffeeHO' : i18nUi('حسابات coffeeHO', 'coffeeHO accounts')}
+          label={ar ? 'حسابات BeanMora' : i18nUi('حسابات BeanMora', 'BeanMora accounts')}
           onPress={members}
         />
         <IconButton

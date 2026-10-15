@@ -515,7 +515,7 @@ function Shell() {
     {
       tab: 'community',
       icon: 'globe',
-      label: 'coffeeHO',
+      label: 'BeanMora',
     },
     { tab: 'brewFlow', icon: 'plus', label: L('تحضير', 'Brew') },
     { tab: 'account', icon: 'user', label: t.account },
@@ -909,7 +909,7 @@ function Shell() {
                   openRecipe={openRecipe}
                   openCoffee={openCoffee}
                 />
-              ) : tab === 'messages' ? <DirectMessages key={(userId ?? 'guest') + directRevision} owner={userId} recipient={directTarget} sharedPost={directPost} login={() => requestLogin()} openPost={showCommunityPost} openMember={showMember} /> : tab === 'members' ? (<MemberDirectory open={showMember}/>) : tab === 'memberProfile' ? (<ScrollView contentContainerStyle={{padding:18,gap:14}}><Action title={L('حسابات coffeeHO', 'coffeeHO accounts')} onPress={()=>navigate('members')}/><MemberProfile refreshKey={profileRevision} key={(userId??'guest')+memberUsername} userId={userId} username={memberUsername} openMember={showMember} openItem={(kind,id)=>void openMemberItem(kind,id)} manage={manageMember} login={()=>requestLogin()} messages={showMessages} shareDirect={shareToDirect} recipes={data?.recipes ?? []} coffees={data?.coffees ?? []} openRoast={id => showRoasts(id ?? null, "public")}/></ScrollView>) : tab === 'community' ? (
+              ) : tab === 'messages' ? <DirectMessages key={(userId ?? 'guest') + directRevision} owner={userId} recipient={directTarget} sharedPost={directPost} login={() => requestLogin()} openPost={showCommunityPost} openMember={showMember} /> : tab === 'members' ? (<MemberDirectory open={showMember}/>) : tab === 'memberProfile' ? (<ScrollView contentContainerStyle={{padding:18,gap:14}}><Action title={L('حسابات BeanMora', 'BeanMora accounts')} onPress={()=>navigate('members')}/><MemberProfile refreshKey={profileRevision} key={(userId??'guest')+memberUsername} userId={userId} username={memberUsername} openMember={showMember} openItem={(kind,id)=>void openMemberItem(kind,id)} manage={manageMember} login={()=>requestLogin()} messages={showMessages} shareDirect={shareToDirect} recipes={data?.recipes ?? []} coffees={data?.coffees ?? []} openRoast={id => showRoasts(id ?? null, "public")}/></ScrollView>) : tab === 'community' ? (
                 <CommunityScreen
                   key={userId ?? 'guest'}
                   userId={userId}

@@ -21,7 +21,7 @@ for(const locale of ['ar','en'] as const) test(`${locale}: mockup 7 menu, center
   await nav.getByRole('button',{name:ar?'البن والإيحاءات':'Coffee & taste',exact:true}).click();
   const box=await nav.getByRole('button',{name:ar?'البن والإيحاءات':'Coffee & taste',exact:true}).boundingBox();expect(box!.x).toBeGreaterThanOrEqual(0);expect(box!.x+box!.width).toBeLessThanOrEqual(ar?320:800);
   for(const name of ar?['البن','الوصفات','كل البن','شخصية البن مكتملة']:['Beans','Recipes','All coffees','Complete personality'])await expect(page.getByRole('button',{name,exact:true})).toHaveCount(0);
-  const community=await page.getByRole('button',{name:'coffeeHO',exact:true}).boundingBox();expect(community!.x+community!.width/2).toBeCloseTo((ar?320:800)/2,0);
+  const community=await page.getByRole('button',{name:'BeanMora',exact:true}).boundingBox();expect(community!.x+community!.width/2).toBeCloseTo((ar?320:800)/2,0);
   await page.getByRole('button',{name:ar?'الإعدادات':'Settings',exact:true}).first().click();const settings=page.getByTestId('settings-screen');await settings.getByRole('button',{name:ar?'ليلي':'Dark',exact:true}).click();await expect(settings.getByRole('button',{name:ar?'ليلي':'Dark',exact:true})).toHaveAttribute('aria-pressed','true');await settings.screenshot({path:info.outputPath('settings-mock7.png')});await settings.getByRole('button',{name:ar?'تم':'Done',exact:true}).click();
   await page.getByRole('button',{name:ar?'خبير القهوة':'Coffee expert',exact:true}).click();
   await page.getByLabel(ar?'سؤالك عن القهوة':'Your coffee question',{exact:true}).fill(ar?'اشرح PID والثبات الحراري':'Explain PID and temperature stability');

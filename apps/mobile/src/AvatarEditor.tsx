@@ -161,8 +161,8 @@ export function AvatarEditor({
             ) : null}
             <Txt style={styles.muted}>
               {ar
-                ? "تظهر صورتك بجانب اسمك وفي coffeeHO."
-                : i18nUi("تظهر صورتك بجانب اسمك وفي coffeeHO.", "Your photo appears beside your name and in coffeeHO.")}
+                ? "تظهر صورتك بجانب اسمك وفي BeanMora."
+                : i18nUi("تظهر صورتك بجانب اسمك وفي BeanMora.", "Your photo appears beside your name and in BeanMora.")}
             </Txt>
             {error ? (
               <Txt accessibilityRole="alert" style={styles.error}>

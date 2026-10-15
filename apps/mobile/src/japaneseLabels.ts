@@ -1,6 +1,6 @@
 export const additionalJapaneseLabels: Record<string, string> = {
   ' · Some data could not update': ' · 一部のデータを更新できませんでした', ' · Updating': ' · 更新中',
-  '3–30 letters, numbers or underscores. Your username appears on your profile and in coffeeHO search.': '英字・数字・アンダースコアの3〜30文字。ユーザー名はプロフィールとcoffeeHOの検索に表示されます。',
+  '3–30 letters, numbers or underscores. Your username appears on your profile and in BeanMora search.': '英字・数字・アンダースコアの3〜30文字。ユーザー名はプロフィールとBeanMoraの検索に表示されます。',
   'A password reset link was sent to your email.': 'パスワード再設定のリンクをメールに送信しました。',
   'A verification code was sent to your email. Enter it to finish changing your password.': '確認コードをメールに送信しました。コードを入力してパスワードの変更を完了してください。',
   'Accept': '承認', 'Decline': '拒否', 'Account not found.': 'アカウントが見つかりません。', 'Account security': 'アカウントのセキュリティ',
