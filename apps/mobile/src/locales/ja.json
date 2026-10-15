@@ -3116,5 +3116,16 @@
   "Could not create your account. Try again or contact BeanMora support if the problem continues.": "アカウントを作成できませんでした。再試行し、問題が続く場合はBeanMoraサポートにお問い合わせください。",
   "Could not request a password reset. Try again or contact support.": "パスワードの再設定をリクエストできませんでした。再試行するか、サポートにお問い合わせください。",
   "Use at least 8 characters. Avoid common or breached passwords.": "8文字以上で、よく使われるものや流出済みのパスワードは避けてください。",
-  "Phone number (optional)": "電話番号（任意）"
+  "Phone number (optional)": "電話番号（任意）",
+  "Automatic sign-in from the email link failed. Sign in with your email and password, or request a new link if your email is still unconfirmed.": "メールリンクからの自動ログインに失敗しました。メールアドレスとパスワードでログインしてください。メールが未確認の場合は、新しいリンクをリクエストしてください。",
+  "This confirmation link has expired or has already been used. Try signing in, or request a new confirmation email.": "この確認リンクは期限切れか、すでに使用されています。ログインするか、新しい確認メールをリクエストしてください。",
+  "Could not connect to confirm your email. Check your connection and try again.": "メールを確認するための接続に失敗しました。通信状況を確認して再試行してください。",
+  "Could not complete authentication for your BeanMora account. Try again or request a new link.": "BeanMoraアカウントの認証を完了できませんでした。再試行するか、新しいリンクをリクエストしてください。",
+  "Confirm your BeanMora email": "BeanMoraのメールアドレスを確認",
+  "Your email is confirmed and you are signed in to BeanMora. You can also sign in to the app with your email and password.": "メールアドレスの確認が完了し、BeanMoraにログインしました。アプリにもメールアドレスとパスワードでログインできます。",
+  "Confirm your email to finish creating your account in the BeanMora app.": "メールアドレスを確認して、BeanMoraアプリのアカウント作成を完了してください。",
+  "Confirm email": "メールアドレスを確認",
+  "Back to sign in": "ログインに戻る",
+  "Resend confirmation email": "確認メールを再送信",
+  "If your email needs confirmation, a new BeanMora message will arrive. Use the latest link.": "メールアドレスの確認が必要な場合、BeanMoraから新しいメールが届きます。最新のリンクを使用してください。"
 }

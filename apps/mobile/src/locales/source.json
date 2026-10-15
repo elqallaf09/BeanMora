@@ -24370,5 +24370,82 @@
       "src/AccountScreen.tsx",
       "src/locales/reviewed.json"
     ]
+  },
+  {
+    "en": "Automatic sign-in from the email link failed. Sign in with your email and password, or request a new link if your email is still unconfirmed.",
+    "ar": "تعذّر الدخول التلقائي من رابط البريد. سجّل الدخول ببريدك وكلمة المرور، أو اطلب رابطًا جديدًا إذا لم يتأكد البريد.",
+    "files": [
+      "src/EmailConfirmation.tsx"
+    ]
+  },
+  {
+    "en": "Back to sign in",
+    "ar": "العودة لتسجيل الدخول",
+    "files": [
+      "src/EmailConfirmation.tsx"
+    ]
+  },
+  {
+    "en": "Confirm email",
+    "ar": "تأكيد البريد",
+    "files": [
+      "src/EmailConfirmation.tsx"
+    ]
+  },
+  {
+    "en": "Confirm your BeanMora email",
+    "ar": "تأكيد البريد في BeanMora",
+    "files": [
+      "src/EmailConfirmation.tsx"
+    ]
+  },
+  {
+    "en": "Confirm your email to finish creating your account in the BeanMora app.",
+    "ar": "اضغط على تأكيد البريد لإكمال إنشاء حسابك في تطبيق BeanMora.",
+    "files": [
+      "src/EmailConfirmation.tsx"
+    ]
+  },
+  {
+    "en": "Could not complete authentication for your BeanMora account. Try again or request a new link.",
+    "ar": "تعذّر إكمال المصادقة لحساب BeanMora. حاول مجددًا أو اطلب رابطًا جديدًا.",
+    "files": [
+      "src/EmailConfirmation.tsx"
+    ]
+  },
+  {
+    "en": "Could not connect to confirm your email. Check your connection and try again.",
+    "ar": "تعذّر الاتصال لتأكيد البريد. تحقق من اتصالك وحاول مجددًا.",
+    "files": [
+      "src/EmailConfirmation.tsx"
+    ]
+  },
+  {
+    "en": "If your email needs confirmation, a new BeanMora message will arrive. Use the latest link.",
+    "ar": "إذا كان البريد بحاجة إلى تأكيد، ستصلك رسالة جديدة من BeanMora. استخدم أحدث رابط.",
+    "files": [
+      "src/AccountScreen.tsx"
+    ]
+  },
+  {
+    "en": "Resend confirmation email",
+    "ar": "إعادة إرسال رسالة التأكيد",
+    "files": [
+      "src/AccountScreen.tsx"
+    ]
+  },
+  {
+    "en": "This confirmation link has expired or has already been used. Try signing in, or request a new confirmation email.",
+    "ar": "رابط التأكيد منتهي الصلاحية أو استُخدم سابقًا. جرّب تسجيل الدخول، أو اطلب رسالة تأكيد جديدة.",
+    "files": [
+      "src/EmailConfirmation.tsx"
+    ]
+  },
+  {
+    "en": "Your email is confirmed and you are signed in to BeanMora. You can also sign in to the app with your email and password.",
+    "ar": "تم تأكيد بريدك وتسجيل دخولك إلى BeanMora بنجاح. يمكنك أيضًا تسجيل الدخول في التطبيق ببريدك وكلمة المرور.",
+    "files": [
+      "src/EmailConfirmation.tsx"
+    ]
   }
 ]

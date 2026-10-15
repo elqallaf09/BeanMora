@@ -127,11 +127,10 @@ test('a failed Google callback clears auth details from the address and can be r
   await page.getByRole('button', { name: 'تابع باستخدام Google', exact: true }).click();
   await expect.poll(() => authorization?.searchParams.get('redirect_to')).toBe('http://127.0.0.1:8088/');
   const errorDialog = page.getByRole('dialog');
-  await expect(errorDialog).toContainText('تعذّر الدخول. تحقق من البريد وكلمة المرور وتأكيد البريد والاتصال.');
+  await expect(errorDialog).toContainText('تعذّر إكمال المصادقة لحساب BeanMora. حاول مجددًا أو اطلب رابطًا جديدًا.');
   await expect(page).toHaveURL('http://127.0.0.1:8088/?language=ar');
   await errorDialog.getByRole('button', { name: 'إغلاق', exact: true }).click();
   await expect(errorDialog).toBeHidden();
-  await page.getByRole('button', { name: 'فتح حسابي', exact: true }).click();
   await expect(page.getByRole('button', { name: 'تابع باستخدام Google', exact: true })).toBeEnabled();
 });
 

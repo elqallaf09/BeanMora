@@ -54,7 +54,9 @@ import { MotionProvider, ScreenTransition } from './src/Motion';
 import { RecipeDetail } from './src/RecipeDetail';
 import { MethodGuide } from './src/MethodGuide';
 import { OutcomeForm } from './src/OutcomeForm';
-import { AccountScreen, finishOAuth } from './src/AccountScreen';
+import { AccountScreen, clearAuthCallbackAddress, finishOAuth } from './src/AccountScreen';
+import { EmailConfirmation, callbackFailureMessage } from './src/EmailConfirmation';
+import { getAuthRedirect, isEmailConfirmation } from './src/oauthCallback';
 import { AppVersion } from './src/AppVersion';
 import { useCatalog } from './src/useCatalog';
 import { ScreenBoundary } from './src/ScreenBoundary';
@@ -157,6 +159,8 @@ function Shell() {
   const [session, setSession] = useState<Session | null>(null);
   const [profileRevision, setProfileRevision] = useState(0);
   const [passwordRecovery, setPasswordRecovery] = useState(false);
+  const [emailConfirmation, setEmailConfirmation] = useState<string | null>(null);
+  const [callbackError, setCallbackError] = useState<unknown>(null);
   const userId = session && !session.user.is_anonymous ? session.user.id : null;
   const assistantTurns = assistantConversation.owner === userId ? assistantConversation.turns : [];
   const setAssistantTurns = (turns: AssistantTurn[]) => setAssistantConversation({ owner: userId, turns });
@@ -226,6 +230,13 @@ function Shell() {
     const handleCallback = async (url: string) => {
       const post = url.match(/^beanmora:\/\/post\/([0-9a-f-]{36})$/i);
       if (post) { setCommunityPost(post[1]); setTab('community'); setDetail(null); return; }
+      try {
+        if (isEmailConfirmation(url, getAuthRedirect())) {
+          clearAuthCallbackAddress(url);
+          setEmailConfirmation(url);
+          return;
+        }
+      } catch (error) { clearAuthCallbackAddress(url); throw error; }
       const result = await finishOAuth(url);
       if (result === 'recovery') showRecovery();
     };
@@ -244,11 +255,11 @@ function Shell() {
     apply(AppState.currentState);
     const listener = AppState.addEventListener('change', apply);
     const callback = Linking.addEventListener('url', (event) => {
-      void handleCallback(event.url).catch(() => setMessage(t.authError));
+      void handleCallback(event.url).catch(setCallbackError);
     });
     void Linking.getInitialURL()
       .then((url) => (url ? handleCallback(url) : undefined))
-      .catch(() => setMessage(t.authError));
+      .catch(setCallbackError);
     return () => {
       subscription.unsubscribe();
       listener.remove();
@@ -1073,13 +1084,15 @@ function Shell() {
             </View>
           </View>
         ) : null}
+        {emailConfirmation ? <EmailConfirmation key={emailConfirmation} url={emailConfirmation} locale={locale} close={() => { setEmailConfirmation(null); navigate('account'); }} /> : null}
         <Modal
-          visible={!!message || notifications !== null}
+          visible={!!message || notifications !== null || !!callbackError}
           transparent
           animationType="fade"
           onRequestClose={() => {
             setMessage('');
             setNotifications(null);
+            if (callbackError) { setCallbackError(null); navigate('account'); }
           }}
         >
           <View style={s.modalShade}>
@@ -1090,7 +1103,7 @@ function Shell() {
                   : 'BeanMora'}
               </Txt>
               <ScrollView style={{ maxHeight: 350 }}>
-                {message ? (
+                {callbackError ? <Txt>{callbackFailureMessage(callbackError, locale)}</Txt> : message ? (
                   <Txt>{message}</Txt>
                 ) : notifications?.length ? (
                   notifications.map((n, i) => (
@@ -1109,6 +1122,7 @@ function Shell() {
                 onPress={() => {
                   setMessage('');
                   setNotifications(null);
+                  if (callbackError) { setCallbackError(null); navigate('account'); }
                 }}
                 selected
               />
