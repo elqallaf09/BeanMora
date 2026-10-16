@@ -1,1 +1,1 @@
-BeanMora — تأكيد بريدك الإلكتروني | Confirm your email
+BeanMora — {{ if eq .Data.language "en" }}Confirm your email address{{ else if eq .Data.language "ja" }}メールアドレスを確認してください{{ else if eq .Data.language "fr" }}Confirmez votre adresse e-mail{{ else if eq .Data.language "it" }}Conferma il tuo indirizzo e-mail{{ else if eq .Data.language "es" }}Confirma tu correo electrónico{{ else if eq .Data.language "pt-BR" }}Confirme seu e-mail{{ else if eq .Data.language "zh-CN" }}请验证您的电子邮箱{{ else }}تأكيد بريدك الإلكتروني{{ end }}
