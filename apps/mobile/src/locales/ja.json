@@ -3141,5 +3141,9 @@
   "Start with a medium grind and water just off the boil. After drawdown, stir the drink with the ice.": "中挽きと沸騰直後のお湯から始めます。抽出後、コーヒーと氷を混ぜます。",
   "Suggested pours": "注ぎ方の目安",
   "These are totals for a large batch. Divide it into batches that fit your dripper and server; do not brew it all at once.": "これは大量に淹れる場合の合計量です。ドリッパーとサーバーの容量に合わせて分け、一度にすべて淹れないでください。",
-  "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.": "抽出ガイドをもとに計算した目安です。時間は豆と挽き目によって変わります。すすぎ用のお湯は別量です。粉が水を吸うため、出来上がり量は水の合計量より少なくなります。"
+  "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.": "抽出ガイドをもとに計算した目安です。時間は豆と挽き目によって変わります。すすぎ用のお湯は別量です。粉が水を吸うため、出来上がり量は水の合計量より少なくなります。",
+  "An alternative recipe to start with": "まず試せる代わりのレシピ",
+  "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "「{0}」専用のレシピは見つかりませんでした。この代案は抽出器具と温冷の条件を保ちますが、ご希望のコーヒー豆や風味に合うことは出典では確認されていません。",
+  "Adjusted quantities from the selected recipe": "選んだレシピから調整した分量",
+  "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "この分量は出典の水と氷の配分に基づいています。元のレシピの手順を確認してください。粉量を変えても、時間が同じ比率で変わるわけではありません。"
 }
