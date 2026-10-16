@@ -36,7 +36,7 @@ for (const width of [390, 800]) {
     await expect(panel.getByRole('button', { name: 'Dark', exact: true })).toHaveAttribute('aria-pressed', 'true');
     await panel.getByRole('button', { name: 'Light', exact: true }).click();
     await panel.getByRole('button', { name: 'Done', exact: true }).click();
-    await expect(page.getByRole('button', { name: 'coffeeHO', exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'BeanMora', exact: true })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
 

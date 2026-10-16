@@ -9,13 +9,74 @@ const other={id:'22222222-2222-4222-8222-222222222222',name:'Private Barista',us
 async function reply(route:Route,data:unknown,status=200){return route.fulfill({status,contentType:'application/json',body:JSON.stringify(data)});}
 async function signIn(page:Page){await page.goto('/');await setLanguage(page, 'en');await page.getByRole('button',{name:'Account',exact:true}).click();await page.getByLabel('Email',{exact:true}).fill(user.email);await page.getByLabel('Password',{exact:true}).fill('isolated-fixture-password');await page.getByRole('button',{name:'Sign in',exact:true}).click();await expect(page.getByTestId("account-screen")).toBeVisible();}
 function auth(path:string){return path.endsWith('/token')?{access_token:token,token_type:'bearer',expires_in:3600,refresh_token:'isolated_refresh',user}:path.endsWith('/user')?user:null;}
+test('a valid signed-in profile loads when the redundant Auth user endpoint is unavailable', async ({ page }) => {
+ let userLookups = 0;
+ let profileLookups = 0;
+ await page.route('https://mobilefixture.supabase.co/**', async route => {
+  const url = new URL(route.request().url()), path = url.pathname;
+  if (path.endsWith('/auth/v1/user')) {
+   userLookups++;
+   return route.abort('failed');
+  }
+  const signedIn = auth(path);
+  if (signedIn) return reply(route, signedIn);
+  if (path.endsWith('/profiles')) {
+   expect(url.searchParams.get('id')).toBe('eq.' + uid);
+   return reply(route, { username: 'owner' });
+  }
+  if (path.endsWith('/rpc/get_member_profile')) {
+   expect(route.request().headers().authorization).toBe('Bearer ' + token);
+   profileLookups++;
+   return reply(route, {
+    profile: { id: uid, name: 'Coffee Owner', username: 'owner', bio: '', avatar_url: null, is_private: false, share_collection: false },
+    is_owner: true, can_view: true, follower_count: 0, following_count: 0,
+   });
+  }
+  return reply(route, []);
+ });
+ await signIn(page);
+ await expect(page.getByTestId('member-profile')).toBeVisible();
+ await expect(page.getByText('@owner', { exact: true })).toBeVisible();
+ expect(profileLookups).toBeGreaterThan(0);
+ expect(userLookups).toBe(0);
+ // The profile also renders in Arabic while the Auth endpoint is unavailable.
+ await setLanguage(page, 'ar');
+ await expect(page.getByTestId('member-profile')).toBeVisible();
+ await expect(page.getByText('@owner', { exact: true })).toBeVisible();
+});
+
+for (const failure of ['permission', 'ownership'] as const) {
+test(`profile reads fail closed on server ${failure} rejection and the retry can recover`, async ({ page }) => {
+ let denied = true;
+ await page.route('https://mobilefixture.supabase.co/**', async route => {
+  const path = new URL(route.request().url()).pathname, signedIn = auth(path);
+  if (signedIn) return reply(route, signedIn);
+  if (path.endsWith('/profiles')) return reply(route, { username: 'owner' });
+  if (path.endsWith('/rpc/get_member_profile')) {
+   if (denied && failure === 'permission') return reply(route, { code: '42501', message: 'Permission denied' }, 403);
+   return reply(route, {
+    profile: { id: uid, name: 'Coffee Owner', username: 'owner', bio: '', avatar_url: null, is_private: false, share_collection: false },
+    is_owner: !denied, can_view: true, follower_count: 0, following_count: 0,
+   });
+  }
+  return reply(route, []);
+ });
+ await signIn(page);
+ await expect(page.getByText('Could not load profile.', { exact: true })).toBeVisible();
+ await expect(page.getByTestId('member-profile')).toHaveCount(0);
+ denied = false;
+ await page.getByRole('button', { name: 'Retry profile', exact: true }).click();
+ await expect(page.getByText('@owner', { exact: true })).toBeVisible();
+});
+}
+
 test('search by username shows private identity; request stays pending and collections remain hidden',async({page})=>{
  let relationship:null|'pending'=null;let followed=0;const queries:string[]=[];
  await page.route('https://mobilefixture.supabase.co/**',async route=>{const url=new URL(route.request().url()),p=url.pathname,a=auth(p);if(a)return reply(route,a);if(p.endsWith('/profiles'))return reply(route,{username:'owner'});
  if(p.endsWith('/rpc/search_member_profiles')){queries.push(route.request().postDataJSON().p_query);return reply(route,[other]);}
  if(p.endsWith('/rpc/get_member_profile')){const own=route.request().postDataJSON().p_username==='owner';return reply(route,{profile:own?{id:uid,name:'Owner',username:'owner',bio:'',is_private:false,share_collection:false}:other,is_owner:own,can_view:own,relationship,follower_count:0,following_count:0});}
  if(p.endsWith('/follows')&&route.request().method()==='POST'){expect(route.request().postDataJSON()).toEqual({follower_id:uid,following_id:other.id});followed++;relationship='pending';return reply(route,{status:'pending'});}return reply(route,[]);});
- await page.setViewportSize({width:320,height:900});await signIn(page);await page.getByRole('button',{name:'coffeeHO',exact:true}).click();await page.getByRole('button',{name:'coffeeHO accounts',exact:true}).click();await page.getByLabel('Search by name or username',{exact:true}).fill('@barista');await expect.poll(()=>queries.at(-1)).toBe('barista');await page.getByRole('button',{name:'Private Barista @barista',exact:true}).click();
+ await page.setViewportSize({width:320,height:900});await signIn(page);await page.getByRole('button',{name:'BeanMora',exact:true}).click();await page.getByRole('button',{name:'BeanMora accounts',exact:true}).click();await page.getByLabel('Search by name or username',{exact:true}).fill('@barista');await expect.poll(()=>queries.at(-1)).toBe('barista');await page.getByRole('button',{name:'Private Barista @barista',exact:true}).click();
  await expect(page.getByText('This account is private. Request to follow to view details after approval.',{exact:true})).toBeVisible();await page.getByRole('button',{name:'Follow',exact:true}).click();await expect(page.getByRole('button',{name:'Cancel follow request',exact:true})).toBeVisible();expect(followed).toBe(1);await expect(page.getByRole('button',{name:'Manage my equipment',exact:true})).toHaveCount(0);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 test('own profile exposes username and collections, validates privacy update, approves a request and saves a corner photo',async({page})=>{

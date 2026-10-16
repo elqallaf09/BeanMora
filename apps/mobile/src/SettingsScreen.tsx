@@ -8,6 +8,7 @@ import type { Locale } from './copy';
 import { languageOptions } from './localeText';
 import { AppVersion } from './AppVersion';
 import { LegalLinks } from './LegalLinks';
+import { SupportContact } from './SupportContact';
 import { SettingsAccount } from './SettingsAccount';
 import { TabRail } from './TabRail';
 import { SettingsSocial } from './SettingsSocial';
@@ -113,6 +114,7 @@ export function SettingsScreen({
                 onSignedOut={close}
               />
             ) : null}
+            <SupportContact />
             <LegalLinks />
             <AppVersion />
           </ScrollView>

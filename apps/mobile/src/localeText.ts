@@ -45,7 +45,7 @@ const ja: Record<string, string> = {
   'Public account': '公開アカウント', 'Private account': '非公開アカウント', 'Public': '公開', 'Private': '非公開',
   'followers': 'フォロワー', 'following': 'フォロー中', 'Followers': 'フォロワー', 'Following': 'フォロー中',
   'Save profile': 'プロフィールを保存', 'Cancel editing': '編集をキャンセル', 'Name, username and profile settings updated.': 'プロフィールを更新しました。',
-  'Direct message': 'ダイレクトメッセージ', 'coffeeHO accounts': 'coffeeHOのアカウント', 'Search by name or username': '名前やユーザー名で検索',
+  'Direct message': 'ダイレクトメッセージ', 'BeanMora accounts': 'BeanMoraのアカウント', 'Search by name or username': '名前やユーザー名で検索',
   'No matching accounts.': '一致するアカウントがありません。', 'Retry accounts': '再読み込み', 'More accounts': 'さらに表示', 'Loading…': '読み込み中…',
   'Recipes': 'レシピ', 'Coffee': 'コーヒー', 'My posts': '自分の投稿', 'Favorite recipes': 'お気に入りのレシピ', 'Comments': 'コメント', 'Extraction & coffee corner': '抽出とコーヒーコーナー',
   'Follow': 'フォロー', 'Unfollow': 'フォロー解除', 'Request to follow': 'フォローをリクエスト', 'Follow request sent': 'フォローリクエスト送信済み',

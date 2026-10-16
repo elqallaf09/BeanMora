@@ -99,7 +99,7 @@ requires Apple processing and TestFlight availability verification.
 
 ## 0.5.16 mobile experience
 
-Settings now contains saved Arabic/English and light/dark/device appearance choices without leaving the current detail. The community tab is coffeeHO. xBloom opens the shared recipe library with its method filter and 12-result pages. Equipment cards and details expose Add to my equipment directly.
+Settings now contains saved Arabic/English and light/dark/device appearance choices without leaving the current detail. The community tab is BeanMora. xBloom opens the shared recipe library with its method filter and 12-result pages. Equipment cards and details expose Add to my equipment directly.
 
 Coffee assistant searches the existing public catalog by budget/currency, tasting notes, brewing method and roaster location. Prices require dated seller sources; conversion requires recent currency rates. Missing currency prompts a clarification. Results retain original-source links and can open equipment/recipe details. A conversation stays in memory only and clears when the account changes.
 

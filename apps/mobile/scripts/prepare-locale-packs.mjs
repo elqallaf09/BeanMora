@@ -18,7 +18,7 @@ for(const name of ['localeText.ts','japaneseLabels.ts']){
  const source=ts.createSourceFile(name,readFileSync(path.join(root,'src',name),'utf8'),ts.ScriptTarget.Latest,true);
  function scan(node){if(ts.isPropertyAssignment(node)&&ts.isStringLiteralLike(node.name)&&ts.isStringLiteralLike(node.initializer)&&/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(node.initializer.text))japanese[node.name.text]=node.initializer.text;ts.forEachChild(node,scan);}scan(source);
 }
-const brands=/\b(?:BeanMora|coffeeHO|xBloom|V60|AeroPress|Chemex|ORIGAMI|OREA|HARIO|Kalita|Google|Apple|JPEG|PNG|WebP|MP4|USD|KWD|SAR)\b|https:\/\/\S+|\d+(?:[.:–-]\d+)*(?:\s*°C)?/g;
+const brands=/\b(?:BeanMora|xBloom|V60|AeroPress|Chemex|ORIGAMI|OREA|HARIO|Kalita|Google|Apple|JPEG|PNG|WebP|MP4|USD|KWD|SAR)\b|https:\/\/\S+|\d+(?:[.:–-]\d+)*(?:\s*°C)?/g;
 let active=null,activeId=null;
 try{
  for(const locale of requested){
@@ -37,7 +37,7 @@ try{
    if(pack[key])continue;
    if(locale==='ja'&&japanese[key]){pack[key]=japanese[key];continue;}
    const protectedValues=[];
-   const marked=key.replace(/\{\d+\}|\b(?:BeanMora|coffeeHO|xBloom|V60|AeroPress|Chemex|ORIGAMI|OREA|HARIO|Kalita|Google|Apple|JPEG|PNG|WebP|MP4|USD|KWD|SAR)\b|https:\/\/\S+|\d+(?:[.:–-]\d+)*(?:\s*°C)?/g,value=>{const n=protectedValues.push(value)-1;return `{${n}}`;});
+   const marked=key.replace(/\{\d+\}|\b(?:BeanMora|xBloom|V60|AeroPress|Chemex|ORIGAMI|OREA|HARIO|Kalita|Google|Apple|JPEG|PNG|WebP|MP4|USD|KWD|SAR)\b|https:\/\/\S+|\d+(?:[.:–-]\d+)*(?:\s*°C)?/g,value=>{const n=protectedValues.push(value)-1;return `{${n}}`;});
    let result=await infer(marked);
    result=result.replace(/\{\s*(\d+)\s*\}/g,'{$1}');
    const found=[...result.matchAll(/\{(\d+)\}/g)].map(x=>Number(x[1])).sort((a,b)=>a-b);

@@ -127,11 +127,10 @@ test('a failed Google callback clears auth details from the address and can be r
   await page.getByRole('button', { name: 'تابع باستخدام Google', exact: true }).click();
   await expect.poll(() => authorization?.searchParams.get('redirect_to')).toBe('http://127.0.0.1:8088/');
   const errorDialog = page.getByRole('dialog');
-  await expect(errorDialog).toContainText('تعذّر الدخول. تحقق من البريد وكلمة المرور وتأكيد البريد والاتصال.');
+  await expect(errorDialog).toContainText('تعذّر إكمال المصادقة لحساب BeanMora. حاول مجددًا أو اطلب رابطًا جديدًا.');
   await expect(page).toHaveURL('http://127.0.0.1:8088/?language=ar');
   await errorDialog.getByRole('button', { name: 'إغلاق', exact: true }).click();
   await expect(errorDialog).toBeHidden();
-  await page.getByRole('button', { name: 'فتح حسابي', exact: true }).click();
   await expect(page.getByRole('button', { name: 'تابع باستخدام Google', exact: true })).toBeEnabled();
 });
 
@@ -174,7 +173,7 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup validates befo
   await page.getByLabel(ar ? 'ابحث عن الدولة' : 'Search countries', { exact: true }).fill('Kuwait');
   await page.getByRole('button', { name: ar ? 'الكويت' : 'Kuwait', exact: true }).click();
   await page.getByLabel(ar ? 'اسم المستخدم' : 'Username', { exact: true }).fill('new_fixture');
-  await page.getByLabel(ar ? 'رقم الهاتف' : 'Phone number', { exact: true }).fill('+٩٦٥ ٥٠٠٠٠٠٠٠');
+  await page.getByLabel(ar ? 'رقم الهاتف (اختياري)' : 'Phone number (optional)', { exact: true }).fill('+٩٦٥ ٥٠٠٠٠٠٠٠');
   await page.getByLabel(ar ? 'البريد الإلكتروني' : 'Email', { exact: true }).fill('not-an-email');
   await page.getByLabel(ar ? 'كلمة المرور' : 'Password', { exact: true }).fill('fixture-password');
   await page.getByLabel(ar ? 'تأكيد كلمة المرور' : 'Confirm password', { exact: true }).fill('mismatch');
@@ -192,6 +191,60 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup validates befo
   await page.screenshot({ path: info.outputPath(`signup-${ar ? 'ar' : 'en'}.png`) });
   await guest.click();
   await expect(page.getByRole('heading', { name: ar ? 'اكتشف عالم القهوة.' : 'Discover the world of coffee.' })).toBeVisible();
+});
+
+for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup explains server failures and allows correction`, async ({ page }) => {
+  let failure: Record<string, unknown> | null = null;
+  let status = 422;
+  await page.route(project + '/**', route => {
+    const path = new URL(route.request().url()).pathname;
+    if (path.endsWith('/signup')) {
+      expect(route.request().postDataJSON().data.phone).toBe('');
+      return failure
+      ? reply(route, failure, status)
+      : reply(route, { user: { ...user, email: 'new@example.test' }, session: null });
+    }
+    return reply(route, path.endsWith('/settings') ? { external: { google: true, apple: false } } : []);
+  });
+  await openAccount(page, ar);
+  await page.getByRole('button', { name: ar ? 'إنشاء حساب' : 'Create account', exact: true }).first().click();
+  await page.getByRole('button', { name: ar ? 'الدولة' : 'Country', exact: true }).click();
+  await page.getByLabel(ar ? 'ابحث عن الدولة' : 'Search countries', { exact: true }).fill('Kuwait');
+  await page.getByRole('button', { name: ar ? 'الكويت' : 'Kuwait', exact: true }).click();
+  await page.getByLabel(ar ? 'اسم المستخدم' : 'Username', { exact: true }).fill('new_fixture');
+  await expect(page.getByLabel(ar ? 'رقم الهاتف (اختياري)' : 'Phone number (optional)', { exact: true })).toHaveValue('');
+  const email = page.getByLabel(ar ? 'البريد الإلكتروني' : 'Email', { exact: true });
+  await email.fill('new@example.test');
+  await page.getByLabel(ar ? 'كلمة المرور' : 'Password', { exact: true }).fill('fixture-password');
+  await page.getByLabel(ar ? 'تأكيد كلمة المرور' : 'Confirm password', { exact: true }).fill('fixture-password');
+  const submit = page.getByRole('button', { name: ar ? 'إنشاء حساب' : 'Create account', exact: true }).last();
+  const cases = [
+    ['weak_password', 422, 'كلمة المرور ضعيفة وسهلة التخمين', 'This password is weak and easy to guess'],
+    ['pwned', 422, 'تسريب بيانات سابق', 'known data breach'],
+    ['email_address_invalid', 422, 'البريد الإلكتروني غير مقبول', 'This email address is not accepted'],
+    ['email_address_not_authorized', 422, 'إرسال رسائل التأكيد', 'Confirmation emails cannot be sent'],
+    ['over_email_send_rate_limit', 429, 'حد إرسال رسائل البريد', 'email sending limit'],
+    ['over_request_rate_limit', 429, 'محاولات كثيرة', 'Too many attempts'],
+    ['signup_disabled', 422, 'إنشاء الحسابات بالبريد الإلكتروني غير متاح', 'Email account registration is currently unavailable'],
+    ['unexpected_failure', 500, 'خدمة الحسابات غير متاحة مؤقتًا', 'account service is temporarily unavailable'],
+    ['unknown', 422, 'تعذّر إنشاء الحساب', 'Could not create your account'],
+  ] as const;
+  for (const [code, responseStatus, arabic, english] of cases) {
+    status = responseStatus;
+    failure = code === 'pwned'
+      ? { error_code: 'weak_password', message: 'private server detail', weak_password: { reasons: ['pwned'] } }
+      : { error_code: code, message: code === 'weak_password' ? 'Password is known to be weak and easy to guess, please choose a different one.' : 'private server detail' };
+    await submit.click();
+    const alert = page.getByRole('alert');
+    await expect(alert).toContainText(ar ? arabic : english);
+    await expect(alert).not.toContainText('private server detail');
+    await expect(submit).toBeEnabled();
+    await expect(email).toHaveValue('new@example.test');
+  }
+  failure = null;
+  await submit.click();
+  await expect(page.getByText(ar ? 'راجع بريدك الإلكتروني لتأكيد حسابك.' : 'Check your email to confirm your account.', { exact: true })).toBeVisible();
+  await expect(page.getByRole('alert')).toHaveCount(0);
 });
 
 for (const ar of [true, false])

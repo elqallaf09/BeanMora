@@ -175,14 +175,17 @@ export function rankAssistantDocuments(documents: AssistantDocument[], query: As
       const style = assistantRecipeServingStyle(document);
       if (query.servingStyle === 'cold' ? style !== 'cold' && style !== 'iced' : style !== 'hot') return [];
     }
-    const search = deepSearchText(document.search_text);
+    // Assistant match labels describe source facts, unlike broad recipe retrieval.
+    const search = deepSearchText(document.search_text, { equivalentFlavors: false });
     const rawNotes = document.facts?.notes;
-    const publishedNotes = deepSearchText(typeof rawNotes === 'string' ? rawNotes : Array.isArray(rawNotes) ? rawNotes.filter(note => typeof note === 'string').join(' ') : '');
+    const noteText = typeof rawNotes === 'string' ? rawNotes : Array.isArray(rawNotes) ? rawNotes.filter(note => typeof note === 'string').join(' ') : '';
+    const publishedNotes = deepSearchText(noteText, { equivalentFlavors: false });
+    const retrievalNotes = deepSearchText(noteText);
     const noteTerms = query.kind === 'recipe' ? query.noteTerms ?? [] : [];
     const confirmedNotes = noteTerms.filter(term => assistantSearchTerms({ ...query, terms: [term] }).some(alias => matchesAlias(publishedNotes, alias)));
     // Honey processing is not a honey tasting note. Sparse catalog records may
     // remain nearby search results, but cannot claim confirmed flavor matching.
-    const matchedTerms = query.terms.filter(term=>assistantSearchTerms({...query,terms:[term]}).some(alias=>matchesAlias(noteTerms.includes(term) && publishedNotes ? publishedNotes : search,alias)));
+    const matchedTerms = query.terms.filter(term=>assistantSearchTerms({...query,terms:[term]}).some(alias=>matchesAlias(noteTerms.includes(term) && publishedNotes ? retrievalNotes : search,alias)));
     if (query.terms.length && !matchedTerms.length) return [];
     const offers = (Array.isArray(document.offers) ? document.offers : []).filter(offer =>
       assistantSafeUrl(offer.url) && (!query.region || (offer.region === query.region && !offer.excluded_destinations?.includes(query.region)))

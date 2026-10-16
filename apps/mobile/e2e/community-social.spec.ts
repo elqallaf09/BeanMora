@@ -164,7 +164,7 @@ test('all own posts include private notes; commentary edits preserve legacy phot
 });
 
 test('clearing post media and discarding a draft wait for confirmation and cancel preserves the draft', async ({ page }) => {
-  const f = await fixture(page); await login(page); await page.getByRole('button', { name: 'coffeeHO', exact: true }).click();
+  const f = await fixture(page); await login(page); await page.getByRole('button', { name: 'BeanMora', exact: true }).click();
   await page.getByRole('button', { name: 'Open experience composer', exact: true }).click();
   const editor = page.getByTestId('community-composer'), confirm = page.getByTestId('confirm-dialog');
   await editor.getByLabel('Write your experience', { exact: true }).fill('My unsaved coffee experience');
@@ -184,7 +184,7 @@ test('clearing post media and discarding a draft wait for confirmation and cance
 });
 
 test('photo-only posts preserve a failed draft, retry one ID, and keep genuine media after reload', async ({ page }) => {
-  const f = await fixture(page); await login(page); await page.getByRole('button', { name: 'coffeeHO', exact: true }).click();
+  const f = await fixture(page); await login(page); await page.getByRole('button', { name: 'BeanMora', exact: true }).click();
   await page.getByRole('button', { name: 'Open experience composer', exact: true }).click();
   const editor = page.getByTestId('community-composer');
   await pickPhoto(page, () => editor.getByRole('button', { name: 'Photo', exact: true }).click());
@@ -197,12 +197,12 @@ test('photo-only posts preserve a failed draft, retry one ID, and keep genuine m
   expect(f.postWrites.at(-1)).toMatchObject({ p_body: '', p_media_type: 'image', p_brew_id: null });
   const published = page.getByTestId('community-post-' + f.postWrites.at(-1)!.p_id);
   await expect(published.getByRole('img')).toBeVisible(); await expect(published).not.toContainText('Espresso');
-  await page.reload(); await page.getByRole('button', { name: 'coffeeHO', exact: true }).click(); await expect(published).toBeVisible();
+  await page.reload(); await page.getByRole('button', { name: 'BeanMora', exact: true }).click(); await expect(published).toBeVisible();
 });
 
 test('sharing to DM waits for explicit send, opens the post, and outside sharing uses the actual app link', async ({ page }) => {
   const f = await fixture(page); await page.addInitScript(() => Object.defineProperty(navigator, 'share', { value: async (value: object) => { (window as any).fixtureShare = value; } }));
-  await login(page); await page.getByRole('button', { name: 'coffeeHO', exact: true }).click();
+  await login(page); await page.getByRole('button', { name: 'BeanMora', exact: true }).click();
   const post = page.getByTestId('community-post-' + ownPost);
   await post.getByRole('button', { name: 'Share post', exact: true }).click();
   await page.getByRole('button', { name: 'Share outside the app', exact: true }).click();
@@ -243,7 +243,7 @@ test('settings persist Everyone, accepted Followers or Off and never expose mode
 });
 
 test('a coffee story publishes immediately, opens fullscreen and can be reviewed after publication', async ({ page }, info) => {
-  const f = await fixture(page, { reviewer: true }); await login(page); await page.getByRole('button', { name: 'coffeeHO', exact: true }).click();
+  const f = await fixture(page, { reviewer: true }); await login(page); await page.getByRole('button', { name: 'BeanMora', exact: true }).click();
   const stories = page.getByTestId('coffee-stories'); await stories.getByRole('button', { name: 'Add my story', exact: true }).click();
   const send = stories.getByRole('button', { name: 'Publish story', exact: true }); await expect(send).toBeDisabled();
   await pickPhoto(page, () => stories.getByRole('button', { name: 'Photo', exact: true }).click()); await expect(send).toBeDisabled();
@@ -258,14 +258,14 @@ test('a coffee story publishes immediately, opens fullscreen and can be reviewed
   await page.getByRole('button', { name: 'Approve story', exact: true }).click();
   await expect(page.getByText('All stories have been reviewed.', { exact: true })).toBeVisible(); expect(f.stories[0].status).toBe('approved');
   await page.getByRole('button', { name: 'Done', exact: true }).click();
-  await page.getByRole('button', { name: 'Account', exact: true }).click(); await page.getByRole('button', { name: 'coffeeHO', exact: true }).click();
+  await page.getByRole('button', { name: 'Account', exact: true }).click(); await page.getByRole('button', { name: 'BeanMora', exact: true }).click();
   await stories.getByRole('button', { name: 'Story by Coffee Owner', exact: true }).click(); await expect(page.getByTestId('story-viewer').getByRole('img', { name: 'Freshly brewed coffee', exact: true })).toBeVisible();
   await page.screenshot({ path: info.outputPath('coffee-story-light-phone.png'), animations: 'disabled' });
   await page.getByRole('button', { name: 'Delete story', exact: true }).click(); await page.getByRole('button', { name: 'Confirm delete story', exact: true }).click(); await expect.poll(() => f.stories.length).toBe(0);
 });
 
 test('fullscreen story video autoplays, pauses, resumes and advances when the clip ends', async ({ page }) => {
-  await fixture(page); await login(page); await page.getByRole('button', { name: 'coffeeHO', exact: true }).click();
+  await fixture(page); await login(page); await page.getByRole('button', { name: 'BeanMora', exact: true }).click();
   const rail = page.getByTestId('coffee-stories');
   await rail.getByRole('button', { name: 'Add my story', exact: true }).click();
   const chooser = page.waitForEvent('filechooser');
@@ -317,7 +317,7 @@ test.describe('actual browser voice recording', () => {
 
 
 test('video posts use a working media player and retain the uploaded WebM after navigation', async ({ page }) => {
-  const f = await fixture(page); await login(page); await page.getByRole('button', { name: 'coffeeHO', exact: true }).click();
+  const f = await fixture(page); await login(page); await page.getByRole('button', { name: 'BeanMora', exact: true }).click();
   await page.getByRole('button', { name: 'Open experience composer', exact: true }).click();
   const editor = page.getByTestId('community-composer'), chooser = page.waitForEvent('filechooser');
   await editor.getByRole('button', { name: 'Video', exact: true }).click(); await (await chooser).setFiles('e2e/fixtures/social-test-video.webm');
@@ -357,7 +357,7 @@ test('Arabic private messages remain legible and fit a narrow dark screen', asyn
 
 
 test('MP4 uploads remain available even when a browser lacks the H264 decoder', async ({ page }) => {
-  const f = await fixture(page); await login(page); await page.getByRole('button', { name: 'coffeeHO', exact: true }).click();
+  const f = await fixture(page); await login(page); await page.getByRole('button', { name: 'BeanMora', exact: true }).click();
   await page.getByRole('button', { name: 'Open experience composer', exact: true }).click(); const editor = page.getByTestId('community-composer');
   const chooser = page.waitForEvent('filechooser'); await editor.getByRole('button', { name: 'Video', exact: true }).click(); await (await chooser).setFiles('e2e/fixtures/social-test-video.mp4');
   const supported = await editor.locator('video').evaluate(v => Boolean((v as HTMLVideoElement).canPlayType('video/mp4; codecs="avc1.42E01E"')));

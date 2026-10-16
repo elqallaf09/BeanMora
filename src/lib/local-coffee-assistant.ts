@@ -9,7 +9,7 @@ export interface LocalAssistantTurn {
   mode: 'local'; intent: 'search' | 'compare' | 'explain' | 'calculate' | 'coach' | 'guide' | 'knowledge' | 'help';
   knowledgeTopic?: string;
   followUp?: string; suggestions?: string[]; sources?: { title: string; url: string }[];
-  calculation?: { dose: number | null; ratio: number | null; method: string | null };
+  calculation?: { dose: number | null; ratio: number | null; method: string | null; servingStyle?: 'iced' | 'hot' };
   coach?: { signal: string; method: string | null; dose?: number; output?: number; seconds?: number };
 }
 export interface LocalGuide { title_ar: string; title: string; intro_ar: string; intro: string; tips_ar: string[]; tips: string[]; source: string; source_name: string }
@@ -36,12 +36,23 @@ const digits = (s: string) => s.replace(/[٠-٩]/g, c => String('٠١٢٣٤٥٦�
 const norm = (s: string) => normalizeSearch(digits(s).slice(0, 1000));
 const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const has = (s: string, phrase: string) => new RegExp('(?:^|[^\\p{L}\\p{N}])(?:و|ب|ال)?' + escape(norm(phrase)) + '(?=$|[^\\p{L}\\p{N}])', 'u').test(s);
-const methodOf = (s: string) => methodAliases.filter(([, aliases]) => aliases.some(alias => has(s, alias))).map(([id]) => id);
+const methodOf = (s: string) => methodAliases.filter(([, aliases]) => aliases.some(alias => has(s, alias) || has(s, 'ل' + alias) || has(s, 'لل' + alias) || has(s, 'بال' + alias))).map(([id]) => id);
 const textValue = (v: unknown, ar: boolean): string => Array.isArray(v) && v.length === 2 && v.every(x => typeof x === 'string') ? String(v[ar ? 0 : 1]).slice(0, 320) : typeof v === 'string' || typeof v === 'number' ? String(v).slice(0, 320) : '';
 const title = (d: AssistantDocument, ar: boolean) => ar ? d.title_ar || d.title_en : d.title_en || d.title_ar;
 const positive = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v) && v > 0;
 const number = (v: number) => String(Math.round(v * 100) / 100);
 const massUnits = 'غرام|جرام|غ|جم|grams?|g';
+const brewLiquids = 'ماء|ماي|مويه|مويا|ميه|ثلج|water|ice';
+const quantityWords = 'كم|جم|شكثر|اشكثر|كميه|مقدار|قد ايش|how much|how many';
+const quantityFillers = 'احط|نحط|اضيف|نضيف|اصب|استخدم|احتاج|نحتاج|يحتاج|يبي|يبيله|احطله|احطلها|له|لها|عليه|عليها|لي|من|of|hot|cold|' + massUnits + '|مل|ml';
+function isBrewQuantityQuestion(q: string) {
+  // Match short, explicit quantity phrases. Do not globally replace جم: after
+  // a number it is a mass unit, while "جم ماي" is the Kuwaiti question "how much".
+  const forward = new RegExp('(?:^|[^\\p{L}\\p{N}])و?(' + quantityWords + ')\\s+(?:(?:' + quantityFillers + ')\\s+){0,4}(?:ال)?(?:' + brewLiquids + ')(?=$|[^\\p{L}])', 'gu');
+  const asksFirst = [...q.matchAll(forward)].some(match => match[1] !== 'جم' || !/(?:^|[^\p{L}\p{N}])-?\d+(?:\.\d+)?\s*$/u.test(q.slice(0, match.index)));
+  const asksLast = new RegExp('(?:^|[^\\p{L}\\p{N}])(?:و?ب?(?:ال)?)(?:' + brewLiquids + ')\\s+(?:' + quantityWords + '|amount)(?=$|[^\\p{L}])', 'u').test(q);
+  return asksFirst || asksLast;
+}
 const otherUnits = 'كيلوغرام|كيلوجرام|كيلو|كغ|kg|kilograms?|oz|ounces?|lbs?|pounds?|ملليلتر|مل|ml|millilit(?:er|re)s?|لتر|lit(?:er|re)s?|بار|bars?|ثانيه|ثواني|seconds?|sec|s|دقيقه|دقائق|minutes?|min|°c|درجه';
 function coachingMass(q: string, labels: string, requireUnit = false) {
   const match = q.match(new RegExp('(?:^|[^\\p{L}\\p{N}])(?:' + labels + ')\\s*[:=]?\\s*(-?\\d+(?:\\.\\d+)?)(?![\\d.])\\s*(' + massUnits + '|' + otherUnits + ')?(?![\\p{L}\\p{N}])', 'u'));
@@ -188,25 +199,66 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
   const compare = /قارن|مقارنه|الفرق|compare|comparison|difference/.test(q);
   const explain = /اشرح|تفاصيل|مواصفات|خطوات|explain|details|specs|steps|ليش|why/.test(q);
   const ratioMatch = q.match(/1\s*[:/]\s*(-?\d+(?:\.\d+)?)/);
-  const doseMatch = q.match(/(?:^|[^\d.])(-?\d+(?:\.\d+)?)\s*(?:غرام|جرام|غ|جم|grams?|g)(?=$|[^a-z\p{L}])/u);
-  const calculate = /احسب|حساب|نسبه|ريشو|ratio|calculate/.test(q) || !!ratioMatch || (!!doseMatch && (previous?.intent === 'calculate' || /خل|غير|اضبط|make|change/.test(q)));
+  const massMatches = [...q.matchAll(/(?<![\p{L}\p{N}.])(-?\d+(?:\.\d+)?)\s*(?:غرام|جرام|غ|جم|grams?|g)(?=$|[^a-z\p{L}])/gu)];
+  const coffeeLabel = /(?:بن|قهوه|جرعه|جرعتي|coffee|dose)\s*[:=]?\s*$/u;
+  const otherLabel = new RegExp('(?:' + brewLiquids + ')\\s*[:=]?\\s*$', 'u');
+  const liquidAfterMass = new RegExp('^\\s*(?:من\\s+|of\\s+)?(?:ال)?(?:' + brewLiquids + ')(?=$|[^\\p{L}])', 'u');
+  const doseMatch = massMatches.find(m => coffeeLabel.test(q.slice(0, m.index)))
+    ?? massMatches.find(m => !otherLabel.test(q.slice(0, m.index)) && /^\s*(?:من\s+|of\s+)?(?:ال)?(?:بن|قهوه|coffee)(?=$|[^\p{L}])/u.test(q.slice(m.index! + m[0].length)))
+    ?? massMatches.find(m => !otherLabel.test(q.slice(0, m.index)) && !liquidAfterMass.test(q.slice(m.index! + m[0].length)));
+  // Amount questions must be routed before broad lesson keywords such as "water".
+  const quantityQuestion = isBrewQuantityQuestion(q);
+  const servingFollowUp = previous?.intent === 'calculate' && /^(?:خلها |خله |ابيها |ابغيها |ابغاها |اباها |make it |make that )?(?:حار[ه]?|بارد[ه]?|مثلج[ه]?|بالثلج|hot|cold|iced|بدون ثلج|without ice)[؟?!.]*$/.test(q);
+  const methodReply = q.replace(/^(?:استخدم|استعمل|اسويها|احضرها|على|علي|بال|ب|using|with)\s*/u, '').replace(/[؟?!.]+$/u, '').trim();
+  const methodFollowUp = previous?.intent === 'calculate' && !previous.calculation?.method && methodAliases.some(([, aliases]) => aliases.some(alias => norm(alias) === methodReply));
+  // A measured cup description is a brew request, but a recipe search, lesson
+  // or taste complaint must retain its own intent even when it includes a dose.
+  const doseServingRequest = !!doseMatch && /(?:^|[^\p{L}])(?:و?ب?(?:ال)?)(?:بارد[ه]?|حار[ه]?|مثلج[ه]?|ثلج|iced|cold|hot)(?=$|[^\p{L}])/u.test(q)
+    && !shopping && !hasRecipeIntent(q) && !has(q, 'مر') && !has(q, 'مره') && !/وصف|ابحث|دور|رشح|اقترح|اشتري|شراء|افضل|احسن|انسب|اشرح|ليش|لماذا|شنو|حامض|حموضه|مراره|جفاف|خفيف|ضعيف|\b(?:recipe|find|recommend|buy|best|explain|why|sour|bitter|weak|watery)\b/.test(q);
+  const calculate = quantityQuestion || doseServingRequest || servingFollowUp || methodFollowUp || /احسب|حساب|نسبه|ريشو|ratio|calculate/.test(q) || !!ratioMatch || (!!doseMatch && (previous?.intent === 'calculate' || /خل|غير|اضبط|make|change/.test(q)));
 
   if (calculate) {
     const methodChanged = methods.length > 0 && previous?.calculation?.method && methods[0] !== previous.calculation.method;
     const last = previous?.intent === 'calculate' && !methodChanged ? previous.calculation : undefined;
-    const selected = selection.explicit ? selection.matches : references.length === 1 ? references : [];
+    const selected = selection.explicit ? selection.matches : !quantityQuestion && references.length === 1 ? references : [];
     if (selection.invalid) return reply(L('هذا الرقم غير موجود في النتائج السابقة. اختر رقمًا ظاهرًا.', 'That result number is not in the previous results. Choose a displayed number.'));
     const recipe = selected.find(m => m.document.kind === 'recipe')?.document;
     const f = recipe?.facts ?? {};
     const dose = doseMatch ? Number(doseMatch[1]) : last?.dose ?? null;
     const baseRatio = recipe && !recipe.methods.includes('espresso') && positive(f.dose) && positive(f.water) ? f.water / f.dose : null;
-    const ratio = ratioMatch ? Number(ratioMatch[1]) : last?.ratio ?? baseRatio;
     const brewMethod = methods[0] ?? recipe?.methods[0] ?? last?.method ?? method;
-    const calculation = { dose, ratio, method: brewMethod };
+    const servingStyle = /(?:بدون|دون)\s+(?:ال)?ثلج|\b(?:without|no) ice\b/.test(q) ? 'hot'
+      : /ثلج|مثلج|\b(?:ice|iced)\b/.test(q) || (brewMethod !== 'cold_brew' && /بارد|\bcold\b/.test(q)) ? 'iced'
+        : /حار|\bhot\b/.test(q) ? 'hot' : last?.servingStyle;
+    // The default is narrowly scoped to iced V60. Never apply it to espresso,
+    // cold brew or source recipes whose ice quantities are not published.
+    const icedV60 = servingStyle === 'iced' && brewMethod === 'v60' && !recipe;
+    const ratio = ratioMatch ? Number(ratioMatch[1]) : last?.ratio ?? baseRatio ?? (icedV60 ? 15 : null);
+    const calculation = { dose, ratio, method: brewMethod, ...(servingStyle ? { servingStyle } : {}) };
+    if (!brewMethod && (quantityQuestion || doseServingRequest || (previous?.intent === 'calculate' && ratio === null))) return reply([
+      dose !== null ? `${L('البن', 'Coffee')}: ${number(dose)} g` : L('كم غرام بن تستخدم؟', 'How many grams of coffee are you using?'),
+      servingStyle ? `${L('التقديم', 'Serving')}: ${servingStyle === 'iced' ? L('بارد', 'Cold') : L('حار', 'Hot')}` : L('هل تريده حارًا أم بالثلج؟', 'Would you like it hot or iced?'),
+      L('ما طريقة التحضير؟ مثل V60 أو إسبريسو.', 'Which brewing method are you using? For example, V60 or espresso.'),
+    ].join('\n'), { intent: 'calculate', calculation, suggestions: ['V60', L('إسبريسو', 'Espresso')] });
+    if (servingStyle === 'iced' && !icedV60) return reply(L('اذكر طريقة التحضير ووصفة تحدد كمية الثلج؛ لا أطبّق تقسيم V60 على طريقة أخرى أو أفترض كمية ثلج لوصفة منشورة.', 'Specify the brewer and a recipe with an ice amount; the V60 split does not apply to other methods or to published recipes with unspecified ice.'), { intent: 'calculate', calculation });
+    if (icedV60 && dose === null) return reply(L('كم غرام بن تستخدم للـV60؟ أحسب لك الماء الساخن والثلج حسب وزن البن.', 'How many grams of coffee are you using for V60? I can calculate hot water and ice from the coffee dose.'), { intent: 'calculate', calculation });
     if (dose === null || ratio === null) return reply(L('حدد وزن البن والنسبة، مثل: احسب 18 غرام بنسبة 1:16. للإسبريسو اذكر أنه إسبريسو لحساب وزن المشروب.', 'Give the coffee dose and ratio, for example: calculate 18 g at 1:16. Say espresso when you mean beverage yield.'), { intent: 'calculate', calculation });
     if (dose <= 0 || dose > 1000 || ratio <= 0 || ratio > 100) return reply(L('استخدم جرعة بين 0 و1000 غرام ونسبة بين 0 و100، وكلاهما أكبر من صفر.', 'Use a dose up to 1000 g and a ratio up to 100, both greater than zero.'), { intent: 'calculate', calculation });
     if (brewMethod === 'moka_pot') return reply(L('الموكا بوت تعتمد على سعة السلة والخزان. لا أغيّر تعبئتها بحساب النسبة؛ اتبع دليل مقاس إبريقك.', 'Moka pot filling depends on its basket and boiler size. Follow the guide for your pot instead of scaling its fill by ratio.'), { intent: 'calculate', calculation });
     if (brewMethod === 'xbloom' && (dose < 5 || dose > 18)) return reply(L('هذه الجرعة خارج نطاق 5–18 g الذي يدعمه مسار xBloom في التطبيق. اختر جرعة ضمنه.', 'This dose is outside the app’s supported xBloom range of 5–18 g. Choose a dose in that range.'), { intent: 'calculate', calculation });
+    if (icedV60) {
+      // Bean Rock's published V60 guide uses 1:15 including ice and a 60/40 split.
+      // Its pour table is in grams. Scale inputs, not final beverage yield.
+      const total = dose * ratio, water = Math.round(total * 0.6 * 100) / 100, ice = Math.round((total - water) * 100) / 100;
+      return reply([
+        L('مقادير V60 بالثلج', 'Iced V60 quantities'),
+        `${L('البن', 'Coffee')}: ${number(dose)} g`,
+        `${L('الماء الساخن', 'Hot water')}: ${number(water)} g`,
+        `${L('الثلج', 'Ice')}: ${number(ice)} g`,
+        `${L('إجمالي الماء والثلج', 'Total water and ice')}: ${number(total)} g · 1:${number(ratio)}`,
+        L('هذه نقطة بداية محسوبة: 60% ماء ساخن و40% ثلج. ضع الثلج في الإبريق وصب الماء الساخن عبر البن. الثلج جزء من الإجمالي؛ ماء شطف الفلتر منفصل، ووزن المشروب النهائي أقل بسبب احتفاظ البن بالماء. عدّل حسب الطعم وسعة أداتك.', 'This calculated starting point uses 60% hot water and 40% ice. Put the ice in the server and pour the hot water through the coffee. Ice is included in the total; filter-rinse water is separate, and beverage yield is lower because the grounds retain water. Adjust to taste and brewer capacity.'),
+      ].join('\n'), { intent: 'calculate', calculation, sources: [{ title: 'Bean Rock Coffee — Iced V60', url: 'https://beanrockcoffee.com/coffee-recipes/v60-iced-coffee-japanese-style/' }], suggestions: [L('خلها 20 غرام', 'Make it 20 g'), L('غير النسبة إلى 1:15', 'Change ratio to 1:15')] });
+    }
     const outputLabel = brewMethod === 'espresso' ? (L('ناتج الإسبريسو المستهدف', 'Target espresso beverage yield')) : (L('ماء التحضير', 'Brew water'));
     return reply(`${L('حساب النسبة المطلوبة', 'Requested ratio calculation')}: ${number(dose)} g × ${number(ratio)} = ${number(dose * ratio)} g\n${outputLabel}: ${number(dose * ratio)} g\n${L('هذا حساب رياضي، وليس وصفة مختبرة. لا يحدد درجة الطحن أو الحرارة أو الوقت؛ تحقق من سعة أداتك.', 'This is arithmetic, not a tested recipe. It does not set grind, temperature or time; check your brewer capacity.')}`, { intent: 'calculate', calculation, matches: selected, suggestions: [L('خلها 20 غرام', 'Make it 20 g'), L('غير النسبة إلى 1:15', 'Change ratio to 1:15')] });
   }

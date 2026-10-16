@@ -44,7 +44,7 @@ import {
   memberDirectory,
   memberProfile,
   recordProfileVisit,
-  ownUsername,
+  ownMemberProfile,
   updateMemberProfile,
   changeMemberFollow,
   decideMemberRequest,
@@ -108,7 +108,7 @@ export function MemberDirectory({
       }}
     >
       <Txt heading style={styles.title}>
-        {L("حسابات coffeeHO", "coffeeHO accounts")}
+        {L("حسابات BeanMora", "BeanMora accounts")}
       </Txt>
       <Field
         label={L("ابحث بالاسم أو اسم المستخدم", "Search by name or username")}
@@ -296,8 +296,9 @@ export function MemberProfile({
     }
     const db = supabase;
     void (async () => {
-      const handle = username ?? (await ownUsername(db, userId!));
-      const next = await memberProfile(db, handle);
+      const next = username === undefined
+        ? await ownMemberProfile(db, userId!)
+        : await memberProfile(db, username);
       if (active) {
         setData(next);
         if (next)
@@ -703,8 +704,8 @@ export function MemberProfile({
           />
           <Txt style={styles.muted}>
             {L(
-              "من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية. يظهر اسم المستخدم في ملفك وبحث coffeeHO.",
-              "3–30 letters, numbers or underscores. Your username appears on your profile and in coffeeHO search.",
+              "من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية. يظهر اسم المستخدم في ملفك وبحث BeanMora.",
+              "3–30 letters, numbers or underscores. Your username appears on your profile and in BeanMora search.",
             )}
           </Txt>
           <Field

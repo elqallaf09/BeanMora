@@ -64,6 +64,44 @@ for (const english of [false,true]) test(`source espresso explanation keeps mL y
   expect(network.providerCalls()).toBe(0);
 });
 
+for (const question of [
+  '١٥ غرام بن ابيها قهوه باردة جم ماي احط و جم ثلج؟',
+  '15 غرام بن + قهوة بالثلج',
+]) test(`Gulf brew request keeps the dose until the brewer is supplied: ${question}`, async ({ page }) => {
+  const network = await openAssistant(page, true);
+  const panel = page.getByTestId('coffee-assistant');
+  await ask(page, question);
+  await expect(panel).toContainText('البن: 15 g');
+  await expect(panel).toContainText('التقديم: بارد');
+  await expect(panel).toContainText('ما طريقة التحضير؟');
+  await expect(panel).not.toContainText('كم غرام بن تستخدم');
+  await expect(panel).not.toContainText('الضغط والتدفق');
+  await expect(panel).not.toContainText('لم أجد بن');
+  await ask(page, 'استخدم V60');
+  await expect(panel).toContainText('الماء الساخن: 135 g');
+  await expect(panel).toContainText('الثلج: 90 g');
+  await expect(page.getByTestId('assistant-result')).toHaveCount(0);
+  expect(network.searches).toHaveLength(0);
+  expect(network.providerCalls()).toBe(0);
+});
+
+for (const english of [false, true]) test(`water and ice quantities answer the screenshot question (${english ? 'en' : 'ar'})`, async ({ page }) => {
+  const network = await openAssistant(page);
+  if (english) await setLanguage(page, 'en');
+  const panel = page.getByTestId('coffee-assistant');
+  await ask(page, english ? '15 g coffee how much water and ice for V60?' : '15 جرام قهوه\nكم ماء وكم ثلج لل v60', english);
+  await expect(panel).toContainText(english ? 'Hot water: 135 g' : 'الماء الساخن: 135 g');
+  await expect(panel).toContainText(english ? 'Ice: 90 g' : 'الثلج: 90 g');
+  await expect(panel).toContainText('225 g');
+  await expect(panel).not.toContainText('TDS');
+  await expect(page.getByTestId('assistant-result')).toHaveCount(0);
+  await ask(page, english ? 'Make it 20 g' : 'خلها 20 غرام', english);
+  await expect(panel).toContainText(english ? 'Hot water: 180 g' : 'الماء الساخن: 180 g');
+  await expect(panel).toContainText(english ? 'Ice: 120 g' : 'الثلج: 120 g');
+  expect(network.searches).toHaveLength(0);
+  expect(network.providerCalls()).toBe(0);
+});
+
 for (const english of [false, true]) test(`the reported cold xBloom recipe request replaces shopping and shows published recipe facts (${english ? 'en' : 'ar'})`, async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 1000 });
   const network = await openAssistant(page);

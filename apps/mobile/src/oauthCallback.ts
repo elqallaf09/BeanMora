@@ -5,6 +5,8 @@ export {
   cleanOAuthCallbackUrl,
   createOAuthCallbackHandler,
   nativeAuthRedirect,
+  isEmailConfirmation,
+  callbackFailureKind,
 } from './core/native-oauth-callback';
 
 export function getAuthRedirect() {

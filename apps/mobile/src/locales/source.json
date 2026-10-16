@@ -300,8 +300,8 @@
     ]
   },
   {
-    "en": "3–30 letters, numbers or underscores. Your username appears on your profile and in coffeeHO search.",
-    "ar": "من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية. يظهر اسم المستخدم في ملفك وبحث coffeeHO.",
+    "en": "3–30 letters, numbers or underscores. Your username appears on your profile and in BeanMora search.",
+    "ar": "من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية. يظهر اسم المستخدم في ملفك وبحث BeanMora.",
     "files": [
       "src/MemberProfile.tsx",
       "src/japaneseLabels.ts"
@@ -2101,6 +2101,16 @@
     "files": [
       "src/ExploreScreens.tsx",
       "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "BeanMora accounts",
+    "ar": "حسابات BeanMora",
+    "files": [
+      "src/CommunityScreen.tsx",
+      "src/MemberProfile.tsx",
+      "App.tsx",
+      "src/localeText.ts"
     ]
   },
   {
@@ -4960,13 +4970,6 @@
     ]
   },
   {
-    "en": "Coffee people. Experiences worth sharing.",
-    "ar": "ناس القهوة، وتجارب تستحق المشاركة",
-    "files": [
-      "src/CommunityScreen.tsx"
-    ]
-  },
-  {
     "en": "Coffee personality",
     "ar": "شخصية البن",
     "files": [
@@ -5104,23 +5107,6 @@
     "files": [
       "src/CoffeeStories.tsx",
       "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "coffeeHO",
-    "ar": "",
-    "files": [
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "coffeeHO accounts",
-    "ar": "حسابات coffeeHO",
-    "files": [
-      "src/CommunityScreen.tsx",
-      "src/MemberProfile.tsx",
-      "App.tsx",
-      "src/localeText.ts"
     ]
   },
   {
@@ -5611,6 +5597,14 @@
     ]
   },
   {
+    "en": "Confirmation emails cannot be sent to this address right now. Contact BeanMora support.",
+    "ar": "إرسال رسائل التأكيد إلى هذا البريد غير متاح حاليًا. تواصل مع دعم BeanMora.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Confirmation is still pending. Check your current and new inboxes.",
     "ar": "لم يكتمل التأكيد بعد. راجع رسائل البريد الحالي والجديد.",
     "files": [
@@ -5954,6 +5948,14 @@
     ]
   },
   {
+    "en": "Could not create your account. Try again or contact BeanMora support if the problem continues.",
+    "ar": "تعذّر إنشاء الحساب. حاول مجددًا أو تواصل مع دعم BeanMora إذا استمرت المشكلة.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Could not delete story.",
     "ar": "تعذّر حذف القصة.",
     "files": [
@@ -6180,6 +6182,14 @@
     "ar": "تعذّر حذف الكيس. حاول مرة أخرى.",
     "files": [
       "src/MyBags.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Could not request a password reset. Try again or contact support.",
+    "ar": "تعذّر طلب استرجاع كلمة المرور. حاول مجددًا أو تواصل مع الدعم.",
+    "files": [
+      "src/AccountScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -7613,6 +7623,14 @@
     ]
   },
   {
+    "en": "Email account registration is currently unavailable. Try later or contact support.",
+    "ar": "إنشاء الحسابات بالبريد الإلكتروني غير متاح حاليًا. حاول لاحقًا أو تواصل مع الدعم.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Email change awaiting confirmation",
     "ar": "تغيير البريد بانتظار التأكيد",
     "files": [
@@ -7859,6 +7877,7 @@
     "files": [
       "src/copy.ts",
       "src/core/capsules.ts",
+      "src/core/local-coffee-assistant.ts",
       "src/core/member-contributions.ts",
       "src/locales/reviewed.json"
     ]
@@ -10444,6 +10463,14 @@
     ]
   },
   {
+    "en": "Hot water",
+    "ar": "الماء الساخن",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "How did it turn out?",
     "ar": "شلون كانت النتيجة؟",
     "files": [
@@ -10456,6 +10483,29 @@
     "ar": "شلون نوصل لها؟",
     "files": [
       "src/RoastGuide.tsx"
+    ]
+  },
+  {
+    "en": "How many grams of coffee are you using for V60? I can calculate hot water and ice from the coffee dose.",
+    "ar": "كم غرام بن تستخدم للـV60؟ أحسب لك الماء الساخن والثلج حسب وزن البن.",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "How many grams of coffee are you using?",
+    "ar": "كم غرام بن تستخدم؟",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "How many grams of coffee, which brewer, and hot or iced? For example, V60 or espresso.",
+    "ar": "",
+    "files": [
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -10629,6 +10679,7 @@
     "en": "Ice",
     "ar": "الثلج",
     "files": [
+      "src/core/local-coffee-assistant.ts",
       "src/manualBrew.ts"
     ]
   },
@@ -10646,6 +10697,14 @@
       "src/RecipeCatalog.tsx",
       "src/RecipeDetail.tsx",
       "src/recipeDiscovery.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Iced V60 quantities",
+    "ar": "مقادير V60 بالثلج",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -19899,6 +19958,14 @@
     ]
   },
   {
+    "en": "Specify the brewer and a recipe with an ice amount; the V60 split does not apply to other methods or to published recipes with unspecified ice.",
+    "ar": "اذكر طريقة التحضير ووصفة تحدد كمية الثلج؛ لا أطبّق تقسيم V60 على طريقة أخرى أو أفترض كمية ثلج لوصفة منشورة.",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "spice",
     "ar": "توابل",
     "files": [
@@ -21194,6 +21261,14 @@
     ]
   },
   {
+    "en": "The account service is temporarily unavailable. Try later or contact support if the problem continues.",
+    "ar": "خدمة الحسابات غير متاحة مؤقتًا. حاول لاحقًا أو تواصل مع الدعم إذا استمرت المشكلة.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "The brew was saved, but automatic sharing failed. You can share it later from Community.",
     "ar": "تم حفظ الكوب، لكن تعذرت مشاركته تلقائيًا. تقدر تشاركه لاحقًا من المجتمع.",
     "files": [
@@ -21222,6 +21297,14 @@
     "files": [
       "src/AccountSecurity.tsx",
       "src/japaneseLabels.ts"
+    ]
+  },
+  {
+    "en": "The email sending limit has been reached. Wait before requesting another message.",
+    "ar": "تم بلوغ حد إرسال رسائل البريد. انتظر قليلًا قبل طلب رسالة أخرى.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -21433,6 +21516,14 @@
     ]
   },
   {
+    "en": "This calculated starting point uses 60% hot water and 40% ice. Put the ice in the server and pour the hot water through the coffee. Ice is included in the total; filter-rinse water is separate, and beverage yield is lower because the grounds retain water. Adjust to taste and brewer capacity.",
+    "ar": "هذه نقطة بداية محسوبة: 60% ماء ساخن و40% ثلج. ضع الثلج في الإبريق وصب الماء الساخن عبر البن. الثلج جزء من الإجمالي؛ ماء شطف الفلتر منفصل، ووزن المشروب النهائي أقل بسبب احتفاظ البن بالماء. عدّل حسب الطعم وسعة أداتك.",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "This content is not available now.",
     "ar": "هذا المحتوى غير متاح للعرض الآن.",
     "files": [
@@ -21445,6 +21536,14 @@
     "ar": "هذه الجرعة خارج نطاق 5–18 g الذي يدعمه مسار xBloom في التطبيق. اختر جرعة ضمنه.",
     "files": [
       "src/core/local-coffee-assistant.ts"
+    ]
+  },
+  {
+    "en": "This email address is not accepted. Use a valid address where you can receive messages.",
+    "ar": "البريد الإلكتروني غير مقبول. استخدم عنوانًا صحيحًا يمكنك استقبال الرسائل عليه.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -21497,6 +21596,30 @@
     "ar": "تعذّر عرض هذه الصفحة",
     "files": [
       "src/ScreenBoundary.tsx"
+    ]
+  },
+  {
+    "en": "This password appeared in a known data breach. Choose a new, unique password.",
+    "ar": "ظهرت كلمة المرور هذه في تسريب بيانات سابق. اختر كلمة مرور جديدة وفريدة.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "This password does not meet the security requirements. Use a longer password with uppercase and lowercase letters, numbers and symbols.",
+    "ar": "كلمة المرور لا تستوفي متطلبات الأمان. استخدم كلمة أطول تتضمن أحرفًا كبيرة وصغيرة وأرقامًا ورموزًا.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "This password is weak and easy to guess. Choose a longer, unique password.",
+    "ar": "كلمة المرور ضعيفة وسهلة التخمين. اختر كلمة مرور أطول وفريدة.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -21685,6 +21808,14 @@
     ]
   },
   {
+    "en": "Too many attempts in a short time. Wait a while and try again.",
+    "ar": "محاولات كثيرة خلال وقت قصير. انتظر قليلًا ثم حاول مجددًا.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Too many attempts. Wait a moment and try again.",
     "ar": "وصلت لحد المحاولات. انتظر قليلًا ثم حاول.",
     "files": [
@@ -21743,6 +21874,14 @@
     "ar": "إجمالي الوقت (دقائق:ثواني)",
     "files": [
       "src/RoastLab.tsx"
+    ]
+  },
+  {
+    "en": "Total water and ice",
+    "ar": "إجمالي الماء والثلج",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -22349,10 +22488,17 @@
   },
   {
     "en": "Use at least 8 characters.",
-    "ar": "استخدم 8 أحرف على الأقل.",
+    "ar": "",
+    "files": [
+      "src/localeText.ts"
+    ]
+  },
+  {
+    "en": "Use at least 8 characters. Avoid common or breached passwords.",
+    "ar": "استخدم 8 أحرف على الأقل، وتجنب كلمات المرور الشائعة أو المسرّبة.",
     "files": [
       "src/AccountScreen.tsx",
-      "src/localeText.ts"
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -23222,6 +23368,14 @@
     ]
   },
   {
+    "en": "Which brewing method are you using? For example, V60 or espresso.",
+    "ar": "ما طريقة التحضير؟ مثل V60 أو إسبريسو.",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Which budget currency: US dollars (USD), Kuwaiti dinars (KWD), or Saudi riyals (SAR)?",
     "ar": "حدد عملة الميزانية: دولار أمريكي USD، دينار كويتي KWD، أو ريال سعودي SAR.",
     "files": [
@@ -23372,6 +23526,14 @@
     "ar": "وركشوب كوفي",
     "files": [
       "src/core/catalog-names.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Would you like it hot or iced?",
+    "ar": "هل تريده حارًا أم بالثلج؟",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -23740,8 +23902,8 @@
     ]
   },
   {
-    "en": "Your photo appears beside your name and in coffeeHO.",
-    "ar": "تظهر صورتك بجانب اسمك وفي coffeeHO.",
+    "en": "Your photo appears beside your name and in BeanMora.",
+    "ar": "تظهر صورتك بجانب اسمك وفي BeanMora.",
     "files": [
       "src/AvatarEditor.tsx"
     ]
@@ -24199,6 +24361,91 @@
       "src/core/catalog-foreign-titles.ts",
       "src/foreignTitles.ts",
       "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Phone number (optional)",
+    "ar": "رقم الهاتف (اختياري)",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Automatic sign-in from the email link failed. Sign in with your email and password, or request a new link if your email is still unconfirmed.",
+    "ar": "تعذّر الدخول التلقائي من رابط البريد. سجّل الدخول ببريدك وكلمة المرور، أو اطلب رابطًا جديدًا إذا لم يتأكد البريد.",
+    "files": [
+      "src/EmailConfirmation.tsx"
+    ]
+  },
+  {
+    "en": "Back to sign in",
+    "ar": "العودة لتسجيل الدخول",
+    "files": [
+      "src/EmailConfirmation.tsx"
+    ]
+  },
+  {
+    "en": "Confirm email",
+    "ar": "تأكيد البريد",
+    "files": [
+      "src/EmailConfirmation.tsx"
+    ]
+  },
+  {
+    "en": "Confirm your BeanMora email",
+    "ar": "تأكيد البريد في BeanMora",
+    "files": [
+      "src/EmailConfirmation.tsx"
+    ]
+  },
+  {
+    "en": "Confirm your email to finish creating your account in the BeanMora app.",
+    "ar": "اضغط على تأكيد البريد لإكمال إنشاء حسابك في تطبيق BeanMora.",
+    "files": [
+      "src/EmailConfirmation.tsx"
+    ]
+  },
+  {
+    "en": "Could not complete authentication for your BeanMora account. Try again or request a new link.",
+    "ar": "تعذّر إكمال المصادقة لحساب BeanMora. حاول مجددًا أو اطلب رابطًا جديدًا.",
+    "files": [
+      "src/EmailConfirmation.tsx"
+    ]
+  },
+  {
+    "en": "Could not connect to confirm your email. Check your connection and try again.",
+    "ar": "تعذّر الاتصال لتأكيد البريد. تحقق من اتصالك وحاول مجددًا.",
+    "files": [
+      "src/EmailConfirmation.tsx"
+    ]
+  },
+  {
+    "en": "If your email needs confirmation, a new BeanMora message will arrive. Use the latest link.",
+    "ar": "إذا كان البريد بحاجة إلى تأكيد، ستصلك رسالة جديدة من BeanMora. استخدم أحدث رابط.",
+    "files": [
+      "src/AccountScreen.tsx"
+    ]
+  },
+  {
+    "en": "Resend confirmation email",
+    "ar": "إعادة إرسال رسالة التأكيد",
+    "files": [
+      "src/AccountScreen.tsx"
+    ]
+  },
+  {
+    "en": "This confirmation link has expired or has already been used. Try signing in, or request a new confirmation email.",
+    "ar": "رابط التأكيد منتهي الصلاحية أو استُخدم سابقًا. جرّب تسجيل الدخول، أو اطلب رسالة تأكيد جديدة.",
+    "files": [
+      "src/EmailConfirmation.tsx"
+    ]
+  },
+  {
+    "en": "Your email is confirmed and you are signed in to BeanMora. You can also sign in to the app with your email and password.",
+    "ar": "تم تأكيد بريدك وتسجيل دخولك إلى BeanMora بنجاح. يمكنك أيضًا تسجيل الدخول في التطبيق ببريدك وكلمة المرور.",
+    "files": [
+      "src/EmailConfirmation.tsx"
     ]
   }
 ]

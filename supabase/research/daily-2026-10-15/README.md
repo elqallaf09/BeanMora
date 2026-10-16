@@ -17,3 +17,14 @@ The Supabase rollback-preflight tool call did not return a result and was interr
 ## Continue safely
 
 Recheck current main/PR/CI and the live database, confirm no duplicate new roasters/source recipe, complete the guarded preflights, apply only reviewed DML to ubvzdglrwkkuaigmkjap, then verify counts, content, anonymous search and assistant retrieval. Keep this change unmerged/unpublished until those receipts and final browser checks are available. Never touch SFM or change account security/permissions to work around the interruption.
+
+
+## Completion verified 2026-10-16
+
+The previous pending-production notes above describe the interrupted October 15 run. The owner authorized merging and publishing the remaining BeanMora work on October 16. Fresh readback found no Tahnah/Hazan roasters or Kalita source duplicate and confirmed the old Harenna prose. The four original source pages were reopened and their facts still matched.
+
+Both guarded SQL scripts passed rollback preflight, then committed successfully to BeanMora `ubvzdglrwkkuaigmkjap` with 15-second statement and 3-second lock limits. Their fingerprints verified that unrelated catalog records/steps were unchanged. Added exactly 1 recipe, 2 roasters and 5 bilingual steps; no beans, images, prices or gram-pour records were added. The Harenna step now preserves 90° without assuming Celsius.
+
+Independent post-commit readback as the anonymous application role found Kalita `50276ca0-c75d-4b66-ba19-1b5c2a193fb2`, 20 g / 320 g, five steps, NULL Celsius and scalar time, and the published 120–180-second range. Both `search_public_recipes` and `search_coffee_assistant_recipes` returned that exact recipe. Both Kuwait roasters were visible. Anonymous totals at verification: 3462 recipes and 96 roasters (the administrative preflight count included 103 roasters before adding two; do not confuse total and public visibility).
+
+Merged current main into the feature branch and retained all Gulf water/ice browser regressions alongside the two source-yield cases. Mobile TypeScript, shared-core consistency, two targeted catalog tests and whitespace checks passed locally. Full root/mobile CI and post-merge release checks remain required; merge/deployment receipts are recorded in PR #72. No security policy, user account or credential was changed.
