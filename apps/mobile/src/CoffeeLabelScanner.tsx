@@ -63,6 +63,9 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, close, openRecipe 
     reading.current = null; setJob(null);
     if (event.type === 'error') { setOcrError(ar ? 'تعذّرت قراءة الصورة. أعد التصوير أو اكتب بيانات الكيس.' : i18nUi('تعذّرت قراءة الصورة. أعد التصوير أو اكتب بيانات الكيس.', 'Could not read the photo. Try again or enter the label details.')); return; }
     const parsed = readCoffeeLabel(event.text);
+    // Product names have no finite vocabulary to validate against. Do not turn
+    // a weak reading of a logo/title into an asserted product identity.
+    if (event.confidence !== undefined && event.confidence < 70) parsed.name = '';
     setLabel(parsed); setRawText(event.rawText ?? event.text); setNeedsReview(true);
     setCandidates(coffeeLabelCandidates(event.text, coffees));
     if (!hasCoffeeLabelFacts(parsed) || (event.confidence !== undefined && event.confidence < 55)) setOcrError(ar ? 'القراءة غير مكتملة. حدّد الملصق أو صوّره من قريب، وراجع الحقول قبل البحث.' : i18nUi('القراءة غير مكتملة. حدّد الملصق أو صوّره من قريب، وراجع الحقول قبل البحث.', 'The reading is incomplete. Crop the label or take a closer photo, then check the fields before searching.'));

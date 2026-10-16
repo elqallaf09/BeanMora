@@ -77,6 +77,24 @@ test('label parsing rejects OCR debris and handles multiline bilingual headings 
   assert.equal(readCoffeeLabel('Roasted in Brazil\nOrigin: Ethiopia').origin, 'Ethiopia');
   assert.equal(readCoffeeLabel('Coffee: SE oe').name, '');
 });
+test('roaster logos are never coffee names, including separate OCR lines and noisy bilingual titles',()=>{
+  for (const text of ['Alarba\nRoastery\nمحمصةالأربع', 'Alarba dl', 'Alarba\nRoastery\n| COLOMBIA ‏صمسه‎ |']) {
+    assert.equal(readCoffeeLabel(text).name, '');
+  }
+  const label = readCoffeeLabel('Alarba\nRoastery\nمحمصة الأربع\nCOLOMBIA RAFAELLO\nCOCONUT\nجوز الهند\nالمعالجة | تنقيع كربوني');
+  assert.equal(label.name, 'COLOMBIA RAFAELLO'); assert.equal(label.origin, 'Colombia');
+  assert.equal(label.process, 'تنقيع كربوني'); assert.match(label.notes, /COCONUT/);
+  assert.equal(label.variety, ''); assert.equal(label.roast, '');
+});
+test('Arabic sensory origins, bidi controls and value-before-heading labels keep their meaning',()=>{
+  const label = readCoffeeLabel('COLOMBIA\nRAFAELLO\n‏جوز الهند | الإيحاءات‎\n‏تنقيع كربوني | المعالجة‎');
+  assert.equal(label.origin, 'Colombia'); assert.equal(label.name, 'RAFAELLO');
+  assert.equal(label.notes, 'جوز الهند'); assert.equal(label.process, 'تنقيع كربوني');
+  assert.equal(readCoffeeLabel('جوز الهند').origin, '');
+  assert.equal(readCoffeeLabel('الإيحاءات\nجوز الهند').origin, '');
+  assert.equal(readCoffeeLabel('Origin: Colombia\nNotes: Coconut').name, '');
+  assert.equal(readCoffeeLabel('المنشاً:كولومبيا\nالسلالة:كاستيلو\nالمعالجة: تنقيعكربوني\nالإيحاءات: جوزالهند').origin, 'Colombia');
+});
 test('label ranking parameters are literal and never guess a catalog ID from a name or scope V60 by xBloom model',()=>{
   const label={name:'Brazil Castillo',origin:"Brazil %') OR true --",variety:'كاستيلو',process:'natural',roast:'light',notes:'Chocolate'};
   const params=coffeeLabelMatchParams(label,'v60','Studio');
