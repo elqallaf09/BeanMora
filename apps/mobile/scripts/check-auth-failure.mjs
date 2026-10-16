@@ -32,3 +32,9 @@ test('unknown errors and account existence do not reveal server internals', () =
     assert.equal(authFailure(error).kind, 'unknown');
   }
 });
+test('browser and expired OAuth proof errors stay distinct from email/password failures', () => {
+  assert.equal(authFailure({ code: 'oauth_browser_unavailable' }).kind, 'oauthBrowser');
+  for (const code of ['bad_code_verifier', 'flow_state_not_found', 'flow_state_expired'])
+    assert.equal(authFailure({ code, message: 'Different server wording' }).kind, 'oauthSession');
+  assert.equal(authFailure(new Error('PKCE code verifier missing')).kind, 'oauthSession');
+});

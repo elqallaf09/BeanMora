@@ -3,7 +3,7 @@
     "name": "BeanMora",
     "slug": "beanmora-mobile",
     "owner": "elqallaf09",
-    "version": "0.5.35",
+    "version": "0.5.36",
     "scheme": "beanmora",
     "orientation": "default",
     "userInterfaceStyle": "automatic",
@@ -19,7 +19,7 @@
     },
     "android": {
       "package": "com.beanmora.mobile",
-      "versionCode": 40,
+      "versionCode": 42,
       "icon": "./assets/brand/icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/brand/adaptive-foreground.png",
@@ -43,6 +43,7 @@
       }
     },
     "plugins": [
+      "./plugins/with-auth-browser.cjs",
       "expo-secure-store",
       [
         "expo-image-picker",

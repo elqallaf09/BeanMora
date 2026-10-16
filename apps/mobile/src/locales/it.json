@@ -3179,5 +3179,10 @@
   "An alternative recipe to start with": "Una ricetta alternativa da cui iniziare",
   "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "Non ho trovato una ricetta specifica per «{0}». Questa alternativa mantiene il metodo di preparazione e il servizio caldo o freddo; la fonte non conferma la corrispondenza con il caffè o le note aromatiche richiesti.",
   "Adjusted quantities from the selected recipe": "Quantità adattate dalla ricetta selezionata",
-  "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "Queste quantità seguono la ripartizione tra acqua e ghiaccio della fonte. Consulta i passaggi della ricetta originale: cambiare la dose non significa cambiare i tempi nella stessa proporzione."
+  "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "Queste quantità seguono la ripartizione tra acqua e ghiaccio della fonte. Consulta i passaggi della ricetta originale: cambiare la dose non significa cambiare i tempi nella stessa proporzione.",
+  "Could not open the sign-in browser. Enable your device browser or install Chrome, then try again.": "Impossibile aprire il browser per l’accesso. Attiva il browser del dispositivo o installa Chrome, poi riprova.",
+  "This sign-in attempt expired. Use the Google or Apple button to start again on this device.": "Questo tentativo di accesso è scaduto. Usa il pulsante Google o Apple per ricominciare su questo dispositivo.",
+  "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.": "Impossibile avviare l’accesso con Google o Apple. Riprova e aggiorna BeanMora se il problema persiste.",
+  "Sign-in opened in your device browser. Choose your account, then return to BeanMora.": "La pagina di accesso è aperta nel browser del dispositivo. Scegli il tuo account, poi torna a BeanMora.",
+  "Sign-in was cancelled. You can try again.": "Accesso annullato. Puoi riprovare."
 }

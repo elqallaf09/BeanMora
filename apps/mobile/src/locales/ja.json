@@ -3179,5 +3179,10 @@
   "An alternative recipe to start with": "まず試せる代わりのレシピ",
   "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "「{0}」専用のレシピは見つかりませんでした。この代案は抽出器具と温冷の条件を保ちますが、ご希望のコーヒー豆や風味に合うことは出典では確認されていません。",
   "Adjusted quantities from the selected recipe": "選んだレシピから調整した分量",
-  "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "この分量は出典の水と氷の配分に基づいています。元のレシピの手順を確認してください。粉量を変えても、時間が同じ比率で変わるわけではありません。"
+  "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "この分量は出典の水と氷の配分に基づいています。元のレシピの手順を確認してください。粉量を変えても、時間が同じ比率で変わるわけではありません。",
+  "Could not open the sign-in browser. Enable your device browser or install Chrome, then try again.": "ログイン用のブラウザを開けませんでした。端末のブラウザを有効にするか、Chromeをインストールしてから再試行してください。",
+  "This sign-in attempt expired. Use the Google or Apple button to start again on this device.": "このログイン試行は期限切れです。この端末でGoogleまたはAppleのボタンを押してやり直してください。",
+  "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.": "GoogleまたはAppleでのログインを開始できませんでした。再試行し、問題が続く場合はBeanMoraを更新してください。",
+  "Sign-in opened in your device browser. Choose your account, then return to BeanMora.": "端末のブラウザでログイン画面を開きました。アカウントを選択してからBeanMoraに戻ってください。",
+  "Sign-in was cancelled. You can try again.": "ログインをキャンセルしました。もう一度お試しいただけます。"
 }
