@@ -84,6 +84,43 @@ test('320 px Arabic manual review has no overflow and failed lookup keeps the de
   const rect = await panel.boundingBox(); expect(rect!.x).toBeGreaterThanOrEqual(0); expect(rect!.width).toBeLessThanOrEqual(320);
   expect(await panel.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
 });
+test('real Arabic OCR reads Arabic fields and coconut never becomes the growing country', async ({ page }) => {
+  test.setTimeout(120000);
+  await fixtures(page); await openScanner(page, false);
+  const image = await page.evaluate(() => {
+    const canvas = document.createElement('canvas'); canvas.width = 1800; canvas.height = 950;
+    const context = canvas.getContext('2d')!; context.fillStyle = 'white'; context.fillRect(0, 0, 1800, 950);
+    context.fillStyle = 'black'; context.font = '54px Arial'; context.textAlign = 'right'; context.direction = 'rtl';
+    ['اسم البن: بن تجربة', 'المنشأ: كولومبيا', 'السلالة: كاستيلو', 'المعالجة: مغسول', 'الإيحاءات: جوز الهند']
+      .forEach((line, i) => context.fillText(line, 1720, 100 + i * 160));
+    return canvas.toDataURL('image/png').split(',')[1];
+  });
+  const chooser = page.waitForEvent('filechooser');
+  await page.getByRole('button', { name: 'اختيار صورة', exact: true }).click();
+  await (await chooser).setFiles({ name: 'arabic-label.png', mimeType: 'image/png', buffer: Buffer.from(image, 'base64') });
+  const panel = page.getByTestId('coffee-label-scanner');
+  await expect(panel.getByRole('button', { name: 'عرض النص المقروء', exact: true })).toBeVisible({ timeout: 90000 });
+  await panel.getByRole('button', { name: 'عرض النص المقروء', exact: true }).click();
+  await expect(panel.getByLabel('منشأ البن', { exact: true })).toHaveValue('Colombia');
+  await expect(panel.getByLabel('السلالة', { exact: true })).toHaveValue('Castillo');
+  await expect(panel.getByLabel('الإيحاءات والطعم المكتوب على الكيس', { exact: true })).toHaveValue(/جوز\s*الهند/);
+  await expect(panel.getByRole('button', { name: 'اعثر على أقرب وصفة', exact: true })).toBeDisabled();
+});
+// Optional local reproduction; the supplied customer photo is never committed.
+test('reported decorated bag does not use its roaster logo as a product name', async ({ page }) => {
+  test.skip(!process.env.BEANMORA_REPORTED_LABEL_PHOTO, 'Requires the locally supplied regression photo');
+  test.setTimeout(120000);
+  await fixtures(page); await openScanner(page, false);
+  const chooser = page.waitForEvent('filechooser');
+  await page.getByRole('button', { name: 'اختيار صورة', exact: true }).click();
+  await (await chooser).setFiles(process.env.BEANMORA_REPORTED_LABEL_PHOTO!);
+  const panel = page.getByTestId('coffee-label-scanner');
+  await expect(panel.getByLabel('منشأ البن', { exact: true })).toHaveValue('Colombia', { timeout: 90000 });
+  await expect(panel.getByLabel('اسم البن', { exact: true })).not.toHaveValue(/Alarba/i);
+  await expect(panel.getByLabel('السلالة', { exact: true })).toHaveValue('');
+  await expect(panel.getByLabel('التحميص', { exact: true })).toHaveValue('');
+  await expect(panel.getByRole('button', { name: 'اعثر على أقرب وصفة', exact: true })).toBeDisabled();
+});
 test('missing source evidence shows an empty result without manufacturing parameters', async ({ page }) => {
   await fixtures(page, 'empty'); await openScanner(page);
   const panel = page.getByTestId('coffee-label-scanner'); await panel.getByLabel('Coffee origin', { exact: true }).fill('Unknown origin');
