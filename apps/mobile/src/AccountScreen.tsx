@@ -22,6 +22,8 @@ import { AppVersion } from './AppVersion';
 import { PasswordRecovery } from './PasswordRecovery';
 import { LegalLinks } from './LegalLinks';
 import { CountryPicker } from './CountryPicker';
+import { SignupPhoneField } from './SignupPhoneField';
+import { changeSignupPhoneCountry, signupPhoneValue } from './signupPhone';
 import { signupDetails, usernameAvailable } from './core/account-profile';
 import { authFailure } from './authFailure';
 import { useLabels,
@@ -39,6 +41,14 @@ import { useLabels,
 
 WebBrowser.maybeCompleteAuthSession();
 let callbackHandler: ReturnType<typeof createOAuthCallbackHandler> | undefined;
+export function clearAuthCallbackAddress(url: string) {
+  if (Platform.OS !== 'web') return;
+  const clean = cleanOAuthCallbackUrl(url, getAuthRedirect());
+  if (clean && window.location.href === url) {
+    finishStoredAuthCallback();
+    window.history.replaceState(window.history.state, '', clean);
+  }
+}
 export async function finishOAuth(url: string) {
   if (!supabase) return;
   const redirect = getAuthRedirect();
@@ -48,13 +58,7 @@ export async function finishOAuth(url: string) {
   } finally {
     // Failed/cancelled callbacks need cleaning too. Do not overwrite a page
     // the user navigated to while the session exchange was in flight.
-    if (Platform.OS === 'web') {
-      const clean = cleanOAuthCallbackUrl(url, redirect);
-      if (clean && window.location.href === url) {
-        finishStoredAuthCallback();
-        window.history.replaceState(window.history.state, '', clean);
-      }
-    }
+    clearAuthCallbackAddress(url);
   }
 }
 export function AccountScreen({
@@ -87,11 +91,16 @@ export function AccountScreen({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
+  const [canResend, setCanResend] = useState(false);
   const [appleEnabled, setAppleEnabled] = useState(false);
   const inFlight = useRef(false);
   const emailRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
   const confirmationRef = useRef<TextInput>(null);
+  function changeCountry(nextCountry: string) {
+    setPhone(current => changeSignupPhoneCountry(current, country, nextCountry));
+    setCountry(nextCountry);
+  }
   useEffect(() => {
     let active = true;
     if (!session && supabase)
@@ -106,6 +115,7 @@ export function AccountScreen({
   }, [session]);
   function authError(error: unknown, context: 'login' | 'signup' | 'recovery') {
     const { kind, message } = authFailure(error);
+    if (kind === 'emailNotConfirmed') setCanResend(true);
     const fieldErrors: Record<string, string> = {
       ACCOUNT_EMAIL: L('أدخل بريدًا إلكترونيًا صحيحًا.', 'Enter a valid email address.'),
       ACCOUNT_USERNAME: L('اسم المستخدم من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية.', 'Use 3–30 English letters, numbers or underscores for your username.', 'ユーザー名は英字・数字・アンダースコアの3〜30文字にしてください。'),
@@ -167,7 +177,7 @@ export function AccountScreen({
         return;
       }
       if (mode === 'signup') {
-        const details = signupDetails({ country, username, email, password, confirmation, phone }, locale);
+        const details = signupDetails({ country, username, email, password, confirmation, phone: signupPhoneValue(phone, country) }, locale);
         if (!(await usernameAvailable(supabase!, details.metadata.username))) throw new Error('ACCOUNT_USERNAME_TAKEN');
         const { data, error } = await supabase!.auth.signUp({
           email: details.email,
@@ -178,10 +188,12 @@ export function AccountScreen({
           },
         });
         if (error) throw error;
-        if (!data.session)
+        if (!data.session) {
+          setCanResend(true);
           setNotice(
             L('راجع بريدك الإلكتروني لتأكيد حسابك.', 'Check your email to confirm your account.'),
           );
+        }
       } else {
         const { data, error } = await supabase!.auth.signInWithPassword({
           email: email.trim(),
@@ -214,6 +226,14 @@ export function AccountScreen({
         L('إذا كان البريد مرتبطًا بحساب، ستصلك رسالة لاسترجاع كلمة المرور. افتح الرابط على هذا الجهاز.', 'If this email has an account, a password recovery message will arrive. Open its link on this device.'),
       );
     }, 'recovery');
+  }
+  async function resendConfirmation() {
+    await request(async () => {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) throw new Error('ACCOUNT_EMAIL');
+      const { error } = await supabase!.auth.resend({ type: 'signup', email: email.trim(), options: { emailRedirectTo: getAuthRedirect() } });
+      if (error) throw error;
+      setNotice(L('إذا كان البريد بحاجة إلى تأكيد، ستصلك رسالة جديدة من BeanMora. استخدم أحدث رابط.', 'If your email needs confirmation, a new BeanMora message will arrive. Use the latest link.'));
+    }, 'signup');
   }
   async function social(provider: 'apple' | 'google') {
     await request(async () => {
@@ -374,7 +394,7 @@ export function AccountScreen({
             </View>
             {mode === 'signup' ? <View style={{ gap: 10 }}>
               <Txt style={s.label}>{L('الدولة', 'Country')}</Txt>
-              <CountryPicker value={country} onChange={setCountry} disabled={busy} />
+              <CountryPicker value={country} onChange={changeCountry} disabled={busy} />
               <Field label={L('اسم المستخدم', 'Username')} value={username} onChangeText={setUsername} maxLength={30} autoCapitalize="none" autoCorrect={false} autoComplete="username" textContentType="username" editable={!busy} />
               <Txt style={s.fieldHint}>{L('من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية.', '3–30 English letters, numbers or underscores.', '英字・数字・アンダースコアの3〜30文字。')}</Txt>
             </View> : null}
@@ -484,8 +504,7 @@ export function AccountScreen({
                     ]}
                   />
                 </View>
-                <Field label={L('رقم الهاتف (اختياري)', 'Phone number (optional)')} value={phone} onChangeText={setPhone} keyboardType="phone-pad" autoComplete="tel" textContentType="telephoneNumber" placeholder={locale === 'ja' ? '+819012345678' : '+96550000000'} maxLength={32} editable={!busy} style={{ writingDirection: 'ltr', textAlign: 'left' }} />
-                <Txt style={s.fieldHint}>{L('مع رمز الدولة. رقم الهاتف خاص بحسابك ولا يظهر في الملف العام.', 'Include the country code. Your phone is private and does not appear on your public profile.', '国番号を含めてください。電話番号は非公開で、プロフィールには表示されません。')}</Txt>
+                <SignupPhoneField label={L('رقم الهاتف (اختياري)', 'Phone number (optional)')} country={country} value={phone} onChangeText={setPhone} editable={!busy} />
               </>
             ) : (
               <Pressable
@@ -506,6 +525,7 @@ export function AccountScreen({
                 </Txt>
               </Pressable>
             )}
+            {canResend ? <Action disabled={busy} title={L('إعادة إرسال رسالة التأكيد', 'Resend confirmation email')} onPress={() => void resendConfirmation()} /> : null}
             {error ? (
               <View accessibilityRole="alert">
                 <Txt style={styles.error}>{error}</Txt>
@@ -571,7 +591,7 @@ export function AccountScreen({
             </Txt>
             <LegalLinks />
           </View>
-          <AppVersion light />
+          <AppVersion light showCredit />
         </ScrollView>
       </KeyboardAvoidingView>
     </ImageBackground>
