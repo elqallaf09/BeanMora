@@ -37,7 +37,7 @@ function AnswerText({ text }: { text: string }) {
     </View>;
     const heading = lines[0].length < 80 && !/[:：]|^\d+[.)]/.test(lines[0]) && (index === 0 || lines.length > 1);
     return <View key={index} style={{ gap: 5 }}>{lines.map((line, lineIndex) =>
-      <Txt key={lineIndex} heading={heading && lineIndex === 0} style={{ lineHeight: 25, ...(heading && lineIndex === 0 ? { fontWeight: '700' } : {}), ...(/^\d+:\d+ —/.test(line) ? { writingDirection: 'ltr', textAlign: ar ? 'right' : 'left' } as const : {}) }}>{line}</Txt>
+      <Txt key={lineIndex} heading={heading && lineIndex === 0} style={{ lineHeight: 25, ...(heading && lineIndex === 0 ? { fontWeight: '700' } : {}), ...(/^\d+:\d+ —|^\d[\d.,]*(?:[–-]\d[\d.,]*)?\s+(?:KWD|USD|SAR)$/.test(line) ? { writingDirection: 'ltr', textAlign: ar ? 'right' : 'left' } as const : {}) }}>{line}</Txt>
     )}</View>;
   })}</View>;
 }
@@ -235,6 +235,7 @@ export function CoffeeAssistant({
                     testID="assistant-result"
                     style={styles.card}
                   >
+                    {turn.equipmentAdvice ? <Txt style={styles.muted}>{i18nUi('مقارنة مواصفات — السعر والتوفر غير مؤكدين', 'Specification comparison — price and stock unconfirmed')}</Txt> : null}
                     <Txt heading style={styles.subtitle}>
                       {resultIndex + 1}.{" "}
                       {ar

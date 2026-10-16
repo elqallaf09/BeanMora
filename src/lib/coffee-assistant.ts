@@ -6,6 +6,8 @@ export type AssistantCurrency = 'USD' | 'KWD' | 'SAR';
 export interface AssistantQuery {
   kind: AssistantKind | null; category: string | null; methods: string[];
   terms: string[]; amount: number | null; currency: AssistantCurrency | null;
+  /** Optional lower bound; amount remains the upper budget for existing callers. */
+  minAmount?: number | null;
   clarification: 'currency' | 'budget' | 'intent' | null;
   region?: 'KW' | 'SA' | 'US' | null; availableOnly?: boolean; purchaseIntent?: boolean;
   servingStyle?: 'hot' | 'cold' | null;
@@ -37,7 +39,7 @@ const places = [['kuwait','الكويت','كويت','kw'],['saudi','السعود
 // Published spaced brand and Arabic catalog label, reviewed 2026-10-11:
 // https://www.ark.com.kw/pages/about . Keep matching at word boundaries.
 const catalogNames = [['ark','آرك','a r k','ارك']];
-const stop = new Set(normalizeSearch('ابي ابغى اريد عندي عندكم عنده عندها لي له لها فيه فيها عن من على الى في مع حق حقي هذا هذه شنو وش اي احسن افضل اقرب يناسب مناسبة مناسب نبي ابيها ممكن طلعلي طلع طلع لي رشح اقترح تنصحني يقوله يقولي سعر بسعر بسعره ميزانية ميزانيه بميزانية بميزانيه تحت لحد حدود ماكينة مكينة مكنة ممكينه ممكينة اله جهاز اجهزه معدات طاحونة طاحونه مطحنة مطحنه وصفة وصفه وصفات بن حبوب beans bean قهوة قهوه ايحاء ايحاءات ايحاءه طعم نكهة نكهه نكهات نكهته نكتة نكته ابحث ابيهم ابيك اريدها دولار دولارات دينار كويتي ريال سعودي dollars dollar dinar riyal usd kwd sar machine espresso grinder recipe coffee roaster please find recommend want need for with under budget price best nearest closest have has tasting tastes taste notes note flavor flavors flavour flavours i a an the and or to me my of is it about tell show give up buy').split(' '));
+const stop = new Set(normalizeSearch('طلعي عطيني قيمتها قيمته تكلفتها تكلفته ما بين يتراوح تتراوح ranging between from cost costs costing priced ابي ابغى اريد عندي عندكم عنده عندها لي له لها فيه فيها عن من على الى في مع حق حقي هذا هذه شنو وش اي احسن افضل اقرب يناسب مناسبة مناسب نبي ابيها ممكن طلعلي طلع طلع لي رشح اقترح تنصحني يقوله يقولي سعر بسعر بسعره ميزانية ميزانيه بميزانية بميزانيه تحت لحد حدود ماكينة مكينة مكنة ممكينه ممكينة اله جهاز اجهزه معدات طاحونة طاحونه مطحنة مطحنه وصفة وصفه وصفات بن حبوب beans bean قهوة قهوه ايحاء ايحاءات ايحاءه طعم نكهة نكهه نكهات نكهته نكتة نكته ابحث ابيهم ابيك اريدها دولار دولارات دينار كويتي ريال سعودي dollars dollar dinar riyal usd kwd sar machine espresso grinder recipe coffee roaster please find recommend want need for with under budget price best nearest closest have has tasting tastes taste notes note flavor flavors flavour flavours i a an the and or to me my of is it about tell show give up buy').split(' '));
 const methods: [string, string[]][] = [
   ['xbloom',['xbloom','x bloom','اكسبلوم','اكس بلوم','بالاكسبلوم']],
   ['espresso',['espresso','اسبرسو','اسبريسو','اسبر يسو','بالاسبرسو']],
@@ -134,7 +136,11 @@ export function parseAssistantQuery(message: string, previous?: AssistantQuery |
   const rawNumber = digits.match(/(?:^|\s)(-?\d+(?:[,.]\d+)*)(?=\s|$|\$|usd|kwd|sar)/i)?.[1];
   const budgetMentioned = !!rawNumber && (currencies.length > 0 || /سعر|ميزاني|تحت|لحد|حدود|budget|under|price/.test(q) || previous?.clarification === 'budget');
   const value = rawNumber ? Number(rawNumber.replace(/,(?=\d{3}(?:,|$))/g,'')) : null;
-  const amount = budgetMentioned ? value : (gear && previous?.kind !== 'equipment') || (kind !== 'equipment') ? null : previous?.amount ?? null;
+  const range = q.match(/(?:بين|من|between|from)\s+(-?\d+(?:[,.]\d+)*)(?:\s*(?:usd|kwd|sar|دولار|دينار|ريال))?\s*(?:الي|حتي|و|to|and|[-–—])\s*(-?\d+(?:[,.]\d+)*)/)
+    ?? q.match(/(?:^|\s)(\d+(?:[,.]\d+)*)\s*[-–—]\s*(\d+(?:[,.]\d+)*)(?=\s*(?:usd|kwd|sar|دولار|دينار|ريال))/);
+  const budgetNumber = (number: string) => Number(number.replace(/,(?=\d{3}(?:,|$))/g, ''));
+  const amount = range ? budgetNumber(range[2]) : budgetMentioned ? value : (gear && previous?.kind !== 'equipment') || (kind !== 'equipment') ? null : previous?.amount ?? null;
+  const minAmount = range ? budgetNumber(range[1]) : budgetMentioned || kind !== 'equipment' ? null : previous?.minAmount ?? null;
   // A partial flavor word can be a real brand: ليمو must not disappear inside ليمون.
   const unknownTerms = extracted.rest.split(/[^\p{L}\p{N}]+/u)
     .filter(word => word.length > 2 && ![...stop].some(alias => matchesAlias(word, alias))
@@ -147,8 +153,8 @@ export function parseAssistantQuery(message: string, previous?: AssistantQuery |
   const region = kind==='equipment' ? (/بالكويت|في الكويت|in kuwait/.test(q)?'KW':/بالسعوديه|في السعوديه|in saudi/.test(q)?'SA':previous?.region??null) : null;
   const availableOnly = kind==='equipment' && /متوفر|متاح|in stock|available/.test(q) && !/غير متوفر|نفاد|out of stock/.test(q) ? true : kind==='equipment' ? previous?.availableOnly??false : false;
   const terms = [...new Set([...foundNames, ...foundNotes, ...unknownTerms.filter(term=>!catalogNames.some(group=>group.some(alias=>normalizeSearch(alias)===term))&&!(kind==='equipment'&&(/^(متوفر|متاح)/.test(term)||['available','stock'].includes(term)))&&!(region&&['kuwait','saudi','بالكويت','بالسعوديه'].includes(term)))])].slice(0,8);
-  return { kind, category, methods: foundMethods.length ? foundMethods : (gear || recipe) && kind !== previous?.kind ? [] : previous?.methods ?? [], terms: terms.length ? terms : !gear && !recipe ? previous?.terms ?? [] : [], amount, currency, region, availableOnly, purchaseIntent, servingStyle, noteTerms,
-    clarification: amount !== null && (!Number.isFinite(amount) || amount <= 0) ? 'budget' : amount !== null && (!currency || currencies.length > 1) ? 'currency' : !kind ? 'intent' : null };
+  return { kind, category, methods: foundMethods.length ? foundMethods : (gear || recipe) && kind !== previous?.kind ? [] : previous?.methods ?? [], terms: terms.length ? terms : !gear && !recipe ? previous?.terms ?? [] : [], amount, minAmount, currency, region, availableOnly, purchaseIntent, servingStyle, noteTerms,
+    clarification: amount !== null && (!Number.isFinite(amount) || amount <= 0 || (minAmount != null && (!Number.isFinite(minAmount) || minAmount <= 0 || minAmount > amount))) ? 'budget' : amount !== null && (!currency || currencies.length > 1) ? 'currency' : !kind ? 'intent' : null };
 }
 export function assistantSearchTerms(query: AssistantQuery): string[] {
   return [...new Set(query.terms.flatMap(term=>[...notes,...places,...catalogNames].find(group=>group[0]===term) ?? [term]))].slice(0,24);
@@ -197,7 +203,7 @@ export function rankAssistantDocuments(documents: AssistantDocument[], query: As
       const converted = convertCatalogPrice(offer,currency,rates,now);
       const price = converted ?? (!query.currency ? convertCatalogPrice(offer,offer.currency,rates,now) : null);
       const effectiveCurrency = converted ? currency : offer.currency;
-      return price && (query.amount===null || price.converted<=query.amount) ? [{offer,currency:effectiveCurrency,...price}] : [];
+      return price && (query.amount===null || price.converted<=query.amount) && (query.minAmount==null || price.converted>=query.minAmount) ? [{offer,currency:effectiveCurrency,...price}] : [];
     }).sort((a,b)=>Number(a.offer.availability==='out_of_stock')-Number(b.offer.availability==='out_of_stock') || (a.currency===b.currency?a.converted-b.converted:0));
     const purchaseLinks = query.purchaseIntent ? [...new Map((query.amount !== null ? prices.map(price => price.offer) : offers).map(offer => {
       const url = assistantSafeUrl(offer.url)!;
