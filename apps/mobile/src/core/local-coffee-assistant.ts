@@ -127,6 +127,16 @@ function referenceText(matches: AssistantMatch[], ar: boolean, compare: boolean,
     if (d.kind === 'recipe') {
       const record = (v: unknown): Record<string, unknown> => v && typeof v === 'object' && !Array.isArray(v) ? v as Record<string, unknown> : {};
       const source = record(f.source_brew), manual = record(source.manual);
+      // Preserve publisher units and ranges. Boiler input water is never an
+      // espresso beverage yield, and a volume is not a mass-based ratio.
+      const quantity = (scalar: unknown, low: unknown, high: unknown, unit: string, limit = 20000) => {
+        const valid = (value: unknown): value is number => positive(value) && value <= limit;
+        return valid(scalar) ? `${number(scalar)} ${unit}` : valid(low) && valid(high) && low <= high ? `${number(low)}–${number(high)} ${unit}` : '';
+      };
+      const note = (key: string) => {
+        const english = textValue(manual[key], false), arabic = textValue(manual[`${key}_ar`], true);
+        return english || arabic ? L(arabic || english, english || arabic) : '';
+      };
       const waterMl = source.water_ml ?? manual.water_ml;
       const hasPourTemperatures = Array.isArray(source.pours) && source.pours.some(pour => positive(record(pour).temperature));
       const style = assistantRecipeServingStyle(d);
@@ -134,8 +144,18 @@ function referenceText(matches: AssistantMatch[], ar: boolean, compare: boolean,
       for (const [key, label, unit] of [['dose', L('البن', 'Coffee'), 'g'], ['water', L('ماء التحضير', 'Brew water'), 'g'], ['temperature', L('الحرارة', 'Temperature'), '°C']] as const) {
         // The catalog water field is not espresso beverage yield.
         if (key === 'water' && d.methods.includes('espresso')) continue;
-        lines.push(`${label}: ${positive(f[key]) ? number(f[key] as number) + ' ' + unit : key === 'water' && positive(waterMl) ? number(waterMl) + ' ml' : key === 'temperature' && hasPourTemperatures ? (L('حسب الصبات المنشورة أدناه', 'See the published pour temperatures below')) : missing}`);
+        lines.push(`${label}: ${positive(f[key]) ? number(f[key] as number) + ' ' + unit : key === 'water' && positive(waterMl) ? number(waterMl) + ' ml' : key === 'temperature' && hasPourTemperatures ? (L('حسب الصبات المنشورة أدناه', 'See the published pour temperatures below')) : key === 'temperature' ? note('temperature_note') || missing : missing}`);
       }
+      if (d.methods.includes('espresso')) {
+        const yields = [quantity(manual.yield_grams, manual.yield_min_grams, manual.yield_max_grams, 'g'), quantity(manual.yield_ml, manual.yield_min_ml, manual.yield_max_ml, 'ml')].filter(Boolean);
+        const calculated = manual.yield_derived_from_ratio === true && yields.length ? L(' (محسوب)', ' (calculated)') : '';
+        lines.push(`${L('الناتج', 'Yield')}: ${yields.join(' · ') || missing}${calculated}`);
+        for (const key of ['scalar_yield_basis', 'yield_scope']) { const scope = note(key); if (scope) lines.push(scope); }
+      }
+      const time = note('time_note') || quantity(f.seconds, manual.time_min_seconds, manual.time_max_seconds, 's', 172800);
+      if (time) lines.push(`${L('الوقت', 'Time')}: ${time}`);
+      const sourceRatio = textValue(manual.source_ratio_text, false);
+      if (sourceRatio) lines.push(`${L('نسبة المصدر', 'Source ratio')}: ${sourceRatio}`);
       const grindAr = textValue(f.grind,true) || textValue(source.grind_size,true);
       const grindEn = textValue(f.grind,false) || textValue(source.grind_size,false);
       const grind = grindAr || grindEn ? L(grindAr||grindEn,grindEn||grindAr) : '';

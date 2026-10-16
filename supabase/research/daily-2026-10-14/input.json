@@ -195,8 +195,8 @@
               {
                 "title": "Published parameters",
                 "title_ar": "المقادير المنشورة",
-                "description": "Use 18 g coffee at 90°C; the source lists 33 ml espresso in 28 seconds. Grinder, machine model and preparation steps are not published.",
-                "description_ar": "استخدم 18 g بن عند 90°C؛ المصدر يذكر 33 ml إسبريسو خلال 28 ثانية. موديل الماكينة والطاحونة وخطوات تجهيز البن غير منشورة.",
+                "description": "Use 18 g coffee; the source lists 33 ml espresso in 28 seconds and 90° without a unit. Grinder, machine model and preparation steps are not published.",
+                "description_ar": "استخدم 18 g بن؛ المصدر يذكر 33 ml إسبريسو خلال 28 ثانية و90° دون وحدة. موديل الماكينة والطاحونة وخطوات تجهيز البن غير منشورة.",
                 "step_kind": "other"
               }
             ]
