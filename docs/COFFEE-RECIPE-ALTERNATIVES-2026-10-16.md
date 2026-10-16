@@ -1,0 +1,11 @@
+# Published alternatives for a missing coffee recipe
+
+The reported request, “وصفة لي v60 باردة كوكونت”, already recognized coconut correctly but stopped when the catalog had no matching recipe. A read-only guest search found zero coconut V60 recipes and three cold V60 recipes without a flavor filter. The complete La Cabra iced V60 record supplies 18 g coffee, 180 g brew water, 60 g ice, 96 °C and published pour instructions.
+
+When a recipe request has coffee/flavor terms, one brewer and a hot/cold constraint but no result, the assistant makes one additional search without the coffee/flavor terms. It retains and rechecks brewer and serving constraints, prefers usable published instructions and labels the result as an alternative whose source does not confirm the requested coffee or flavor. Unsafe links and records without dose/instructions are excluded. Exact matches do not trigger the additional search. The original request and disclosure survive explanation and dose follow-ups.
+
+The answer displays published quantities, explicit ice/total water when available, grind and steps in separate groups. A selected iced V60 with valid, consistent published water and ice weights can be proportionally adjusted; the 18/180/60 example becomes 15/150/50. Missing or conflicting ice data never falls back to the generic V60 split. Scaling quantities does not claim that published timing scales linearly. No catalog writes, migrations or model-provider calls are introduced.
+
+Local validation covers the reported Arabic wording and variants, English, preceding water advice, completeness ranking beyond the first six candidates, wrong brewer/serving/source exclusions, exact-match behavior, persistent disclosure and repeated dose/ratio changes. Root TypeScript/lint and 198 assistant/quantity unit cases passed. Mobile TypeScript, unit checks and 3,145-message coverage passed, including rendered alternative notices in six secondary languages. The web fixture export supports the 46-case assistant browser suite, including narrow/wide alternatives and 15 g follow-ups. Fixture exports are not production artifacts.
+
+Publication uses the existing checked-main Expo web release. The PR records final browser/CI results, checked merge SHA, Expo run and live verification.

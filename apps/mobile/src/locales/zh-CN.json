@@ -3141,5 +3141,9 @@
   "Start with a medium grind and water just off the boil. After drawdown, stir the drink with the ice.": "先使用中等研磨和刚烧开的热水。滴滤完成后，将咖啡与冰块搅匀。",
   "Suggested pours": "建议注水安排",
   "These are totals for a large batch. Divide it into batches that fit your dripper and server; do not brew it all at once.": "这是大批量冲煮的总用量。请按滤杯和分享壶的容量分批制作，不要一次冲煮全部。",
-  "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.": "这是根据冲煮指南计算的起始方案。时间仅供参考，会随咖啡豆和研磨度变化。润洗水另计；咖啡粉会吸水，因此成品重量小于总用水量。"
+  "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.": "这是根据冲煮指南计算的起始方案。时间仅供参考，会随咖啡豆和研磨度变化。润洗水另计；咖啡粉会吸水，因此成品重量小于总用水量。",
+  "An alternative recipe to start with": "可作为起点的替代配方",
+  "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "未找到专门针对“{0}”的配方。这个替代方案保留了冲煮器具和冷热条件，但其来源未确认它符合您指定的咖啡豆或风味要求。",
+  "Adjusted quantities from the selected recipe": "根据所选配方调整的用量",
+  "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "这些用量沿用来源中的水与冰比例。请参考原配方步骤；调整咖啡粉量并不意味着时间也按相同比例调整。"
 }

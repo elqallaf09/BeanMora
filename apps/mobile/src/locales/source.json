@@ -1001,6 +1001,14 @@
     ]
   },
   {
+    "en": "Adjusted quantities from the selected recipe",
+    "ar": "مقادير معدّلة من الوصفة المختارة",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Advanced functions depend on the machine and manufacturer app.",
     "ar": "تعتمد الميزات المتقدمة على الجهاز وتطبيق الشركة.",
     "files": [
@@ -1401,6 +1409,14 @@
     "ar": "المقادير والخطوات محفوظة على هذا الجهاز وتُفتح بدون اتصال. الصور وروابط المصدر تحتاج اتصالًا.",
     "files": [
       "src/RecipeShelf.tsx"
+    ]
+  },
+  {
+    "en": "An alternative recipe to start with",
+    "ar": "وصفة بديلة يمكنك البدء بها",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -10657,6 +10673,14 @@
     "ar": "لم أجد وصفة{0} منشورة تطابق طريقة التحضير وكلمات بحثك. جرّب إيحاءً واحدًا أو اسم البن، أو اطلب وصفات الجهاز بدون إيحاءات.",
     "files": [
       "src/core/coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.",
+    "ar": "لم أجد وصفة مخصّصة لـ«{0}». هذا بديل بنفس طريقة التحضير والتقديم، ولا يؤكد المصدر مطابقته للبن أو الإيحاء المطلوب.",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -21548,6 +21572,14 @@
     "ar": "هذه خيارات من دليلنا ضمن الميزانية بحسب أسعار مؤرخة. التحويل تقديري، والشحن والضرائب وتوفر المتجر تُراجع عند الشراء.",
     "files": [
       "src/core/coffee-assistant.ts"
+    ]
+  },
+  {
+    "en": "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.",
+    "ar": "هذه مقادير محسوبة بتقسيم الماء والثلج في المصدر. راجع خطوات الوصفة الأصلية؛ تغيير الجرعة لا يعني تغيير التوقيت بنفس النسبة.",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {

@@ -2326,7 +2326,11 @@
     "Start with a medium grind and water just off the boil. After drawdown, stir the drink with the ice.": "中挽きと沸騰直後のお湯から始めます。抽出後、コーヒーと氷を混ぜます。",
     "Suggested pours": "注ぎ方の目安",
     "These are totals for a large batch. Divide it into batches that fit your dripper and server; do not brew it all at once.": "これは大量に淹れる場合の合計量です。ドリッパーとサーバーの容量に合わせて分け、一度にすべて淹れないでください。",
-    "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.": "抽出ガイドをもとに計算した目安です。時間は豆と挽き目によって変わります。すすぎ用のお湯は別量です。粉が水を吸うため、出来上がり量は水の合計量より少なくなります。"
+    "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.": "抽出ガイドをもとに計算した目安です。時間は豆と挽き目によって変わります。すすぎ用のお湯は別量です。粉が水を吸うため、出来上がり量は水の合計量より少なくなります。",
+    "An alternative recipe to start with": "まず試せる代わりのレシピ",
+    "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "「{0}」専用のレシピは見つかりませんでした。この代案は抽出器具と温冷の条件を保ちますが、ご希望のコーヒー豆や風味に合うことは出典では確認されていません。",
+    "Adjusted quantities from the selected recipe": "選んだレシピから調整した分量",
+    "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "この分量は出典の水と氷の配分に基づいています。元のレシピの手順を確認してください。粉量を変えても、時間が同じ比率で変わるわけではありません。"
   },
   "fr": {
     "Home": "Accueil",
@@ -4742,7 +4746,11 @@
     "Start with a medium grind and water just off the boil. After drawdown, stir the drink with the ice.": "Commencez avec une mouture moyenne et une eau tout juste bouillie. Après l’écoulement, remuez le café avec les glaçons.",
     "Suggested pours": "Versements proposés",
     "These are totals for a large batch. Divide it into batches that fit your dripper and server; do not brew it all at once.": "Ces quantités correspondent à une grande préparation. Répartissez-la en plusieurs fois selon la capacité du porte-filtre et de la carafe ; ne préparez pas tout en une fois.",
-    "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.": "C’est un point de départ calculé d’après le guide. Le temps est indicatif et dépend du café et de la mouture. L’eau de rinçage est à part ; la boisson obtenue pèse moins que l’eau totale, car le café retient de l’eau."
+    "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.": "C’est un point de départ calculé d’après le guide. Le temps est indicatif et dépend du café et de la mouture. L’eau de rinçage est à part ; la boisson obtenue pèse moins que l’eau totale, car le café retient de l’eau.",
+    "An alternative recipe to start with": "Une autre recette pour commencer",
+    "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "Je n’ai pas trouvé de recette spécialement pour « {0} ». Cette alternative conserve la méthode de préparation et le service chaud ou froid ; sa source ne confirme pas qu’elle correspond au café ou aux notes aromatiques demandés.",
+    "Adjusted quantities from the selected recipe": "Quantités ajustées à partir de la recette choisie",
+    "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "Ces quantités respectent la répartition entre eau et glace de la source. Consultez les étapes de la recette originale ; modifier la dose ne signifie pas modifier les temps dans les mêmes proportions."
   },
   "it": {
     "Home": "Home",
@@ -7158,7 +7166,11 @@
     "Start with a medium grind and water just off the boil. After drawdown, stir the drink with the ice.": "Inizia con una macinatura media e acqua appena tolta dal bollore. Terminato il filtraggio, mescola il caffè con il ghiaccio.",
     "Suggested pours": "Versate suggerite",
     "These are totals for a large batch. Divide it into batches that fit your dripper and server; do not brew it all at once.": "Queste sono le quantità totali per una preparazione abbondante. Suddividila in dosi adatte alla capacità del dripper e della caraffa; non preparare tutto in una volta.",
-    "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.": "È un punto di partenza calcolato dalla guida. I tempi sono indicativi e dipendono dal caffè e dalla macinatura. L’acqua di risciacquo è separata; la bevanda finale pesa meno dell’acqua totale perché il caffè ne trattiene una parte."
+    "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.": "È un punto di partenza calcolato dalla guida. I tempi sono indicativi e dipendono dal caffè e dalla macinatura. L’acqua di risciacquo è separata; la bevanda finale pesa meno dell’acqua totale perché il caffè ne trattiene una parte.",
+    "An alternative recipe to start with": "Una ricetta alternativa da cui iniziare",
+    "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "Non ho trovato una ricetta specifica per «{0}». Questa alternativa mantiene il metodo di preparazione e il servizio caldo o freddo; la fonte non conferma la corrispondenza con il caffè o le note aromatiche richiesti.",
+    "Adjusted quantities from the selected recipe": "Quantità adattate dalla ricetta selezionata",
+    "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "Queste quantità seguono la ripartizione tra acqua e ghiaccio della fonte. Consulta i passaggi della ricetta originale: cambiare la dose non significa cambiare i tempi nella stessa proporzione."
   },
   "es": {
     "Home": "Inicio",
@@ -9574,7 +9586,11 @@
     "Start with a medium grind and water just off the boil. After drawdown, stir the drink with the ice.": "Empieza con una molienda media y agua recién retirada del hervor. Al terminar de filtrar, remueve el café con el hielo.",
     "Suggested pours": "Vertidos sugeridos",
     "These are totals for a large batch. Divide it into batches that fit your dripper and server; do not brew it all at once.": "Estas son cantidades totales para una preparación grande. Divídela en tandas que quepan en el dripper y la jarra; no la prepares toda de una vez.",
-    "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.": "Es un punto de partida calculado a partir de la guía. Los tiempos son orientativos y dependen del café y la molienda. El agua de enjuague va aparte; la bebida final pesa menos que el agua total porque el café retiene parte de ella."
+    "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.": "Es un punto de partida calculado a partir de la guía. Los tiempos son orientativos y dependen del café y la molienda. El agua de enjuague va aparte; la bebida final pesa menos que el agua total porque el café retiene parte de ella.",
+    "An alternative recipe to start with": "Una receta alternativa para empezar",
+    "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "No encontré una receta específica para «{0}». Esta alternativa mantiene el método de preparación y si se sirve caliente o fría; la fuente no confirma que corresponda al café o a las notas de sabor solicitados.",
+    "Adjusted quantities from the selected recipe": "Cantidades ajustadas de la receta seleccionada",
+    "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "Estas cantidades mantienen la proporción de agua y hielo de la fuente. Consulta los pasos de la receta original; cambiar la dosis no implica cambiar los tiempos en la misma proporción."
   },
   "pt-BR": {
     "Home": "Início",
@@ -11990,7 +12006,11 @@
     "Start with a medium grind and water just off the boil. After drawdown, stir the drink with the ice.": "Comece com moagem média e água recém-fervida. Após a filtragem, mexa o café com o gelo.",
     "Suggested pours": "Despejos sugeridos",
     "These are totals for a large batch. Divide it into batches that fit your dripper and server; do not brew it all at once.": "Estas são as quantidades totais para um preparo grande. Divida em porções compatíveis com o coador e a jarra; não prepare tudo de uma vez.",
-    "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.": "É um ponto de partida calculado com base no guia. Os tempos são aproximados e dependem do café e da moagem. A água do enxágue fica à parte; a bebida final pesa menos que a água total porque o pó retém parte dela."
+    "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.": "É um ponto de partida calculado com base no guia. Os tempos são aproximados e dependem do café e da moagem. A água do enxágue fica à parte; a bebida final pesa menos que a água total porque o pó retém parte dela.",
+    "An alternative recipe to start with": "Uma receita alternativa para começar",
+    "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "Não encontrei uma receita específica para “{0}”. Esta alternativa mantém o método de preparo e o serviço quente ou frio; a fonte não confirma que ela corresponda ao café ou às notas sensoriais solicitados.",
+    "Adjusted quantities from the selected recipe": "Quantidades ajustadas da receita selecionada",
+    "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "Estas quantidades mantêm a proporção de água e gelo da fonte. Consulte as etapas da receita original; alterar a dose não significa alterar os tempos na mesma proporção."
   },
   "zh-CN": {
     "Home": "首页",
@@ -14659,6 +14679,10 @@
     "Start with a medium grind and water just off the boil. After drawdown, stir the drink with the ice.": "先使用中等研磨和刚烧开的热水。滴滤完成后，将咖啡与冰块搅匀。",
     "Suggested pours": "建议注水安排",
     "These are totals for a large batch. Divide it into batches that fit your dripper and server; do not brew it all at once.": "这是大批量冲煮的总用量。请按滤杯和分享壶的容量分批制作，不要一次冲煮全部。",
-    "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.": "这是根据冲煮指南计算的起始方案。时间仅供参考，会随咖啡豆和研磨度变化。润洗水另计；咖啡粉会吸水，因此成品重量小于总用水量。"
+    "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.": "这是根据冲煮指南计算的起始方案。时间仅供参考，会随咖啡豆和研磨度变化。润洗水另计；咖啡粉会吸水，因此成品重量小于总用水量。",
+    "An alternative recipe to start with": "可作为起点的替代配方",
+    "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "未找到专门针对“{0}”的配方。这个替代方案保留了冲煮器具和冷热条件，但其来源未确认它符合您指定的咖啡豆或风味要求。",
+    "Adjusted quantities from the selected recipe": "根据所选配方调整的用量",
+    "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "这些用量沿用来源中的水与冰比例。请参考原配方步骤；调整咖啡粉量并不意味着时间也按相同比例调整。"
   }
 }

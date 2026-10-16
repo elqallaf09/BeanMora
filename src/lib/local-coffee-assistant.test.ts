@@ -12,6 +12,94 @@ const deps: LocalAssistantDependencies = { search, now };
 const offline: LocalAssistantDependencies = { search: async () => { throw new Error('No network allowed'); }, now };
 const ask = (q: string, history: LocalAssistantTurn[] = [], dependencies = deps, locale: 'ar' | 'en' = 'ar') => converseLocally(q, locale, history, dependencies);
 
+describe('published recipe alternatives', () => {
+  const complete: AssistantDocument = { ...recipe, id: 'z-complete-v60', title_ar: 'وصفة V60 المثلجة الكاملة', title_en: 'Complete iced V60', search_text: 'v60', facts: { dose: 18, water: 180, temperature: 96, grind: 'Medium-fine', seconds: 150, serving_style: 'iced', incomplete: false, notes: [], source_brew: { manual: { ice_grams: 60, water_input_total_grams: 240 } }, steps: [{ description_ar: 'ضع 60 g ثلج في الإبريق.', description_en: 'Put 60 g ice in the server.' }, { description_ar: 'صب 60 g ماء عند 0:00 و0:45 و1:30.', description_en: 'Pour 60 g water at 0:00, 0:45 and 1:30.' }] } };
+  const sparse = Array.from({ length: 7 }, (_, i) => ({ ...complete, id: `a-sparse-${i}`, facts: { dose: 15, serving_style: 'cold', steps: [{ description_ar: 'راجع المصدر.', description_en: 'Check the source.' }] } }));
+  it.each([
+    ['وصفة لي v60 باردة كوكونت', 'ar'], ['وصفة V-60 باردة كوكونوت', 'ar'],
+    ['وصفة V60 مثلجة جوز الهند', 'ar'], ['An iced V60 coconut recipe', 'en'],
+  ] as const)('offers a usable same-brewer alternative after the reported request: %s', async (question, locale) => {
+    const lookup = vi.fn(async (query) => ({ documents: query.terms.length ? [] : [...sparse, { ...complete, id: 'wrong-brewer', methods: ['xbloom'] }, { ...complete, id: 'wrong-style', facts: { ...complete.facts, serving_style: 'hot' } }, complete], rates: [] }));
+    const lesson = await ask(locale === 'ar' ? 'أفضل ماء للقهوة؟' : 'Best water for coffee?', [], offline, locale);
+    const turn = await ask(question, [lesson], { search: lookup, now }, locale);
+    expect(lookup).toHaveBeenCalledTimes(2);
+    expect(lookup.mock.calls[0][0]).toMatchObject({ kind: 'recipe', methods: ['v60'], servingStyle: 'cold', terms: ['coconut'] });
+    expect(lookup.mock.calls[1][0]).toMatchObject({ kind: 'recipe', methods: ['v60'], servingStyle: 'cold', terms: [], noteTerms: [] });
+    expect(turn.query.terms).toEqual(['coconut']);
+    expect(turn.recipeAlternative).toBe(true);
+    expect(turn.matches.map(match => match.document.id)).toEqual(['z-complete-v60']);
+    expect(turn.matches[0]).toMatchObject({ allTerms: false, matchedTerms: [], confirmedNotes: [] });
+    expect(turn.answer).toContain(locale === 'ar' ? 'وصفة بديلة' : 'alternative recipe');
+    expect(turn.answer).toContain(locale === 'ar' ? 'جوز الهند' : 'coconut');
+    expect(turn.answer).toContain(locale === 'ar' ? 'ولا يؤكد المصدر' : 'does not confirm');
+    for (const value of ['18 g', '180 g', '60 g', '240 g', '96 °C', '0:45']) expect(turn.answer).toContain(value);
+    expect(turn.answer).not.toContain(locale === 'ar' ? 'راجع كمية الثلج في المصدر' : 'Check the source for the ice amount');
+    if (locale === 'ar') expect(turn.answer).toContain('متوسطة إلى ناعمة');
+    const explanation = await ask(locale === 'ar' ? 'اشرح الأول' : 'Explain the first', [turn], offline, locale);
+    expect(explanation.recipeAlternative).toBe(true);
+    expect(explanation.answer).toContain(locale === 'ar' ? 'ولا يؤكد المصدر' : 'does not confirm');
+    expect(explanation.answer).toContain('60 g');
+  });
+  it('keeps an exact published match and avoids the extra search', async () => {
+    const lookup = vi.fn(async () => ({ documents: [{ ...complete, search_text: 'coconut', facts: { ...complete.facts, notes: ['Coconut'] } }], rates: [] }));
+    const turn = await ask('وصفة V60 باردة بإيحاء جوز الهند', [], { search: lookup, now });
+    expect(lookup).toHaveBeenCalledTimes(1);
+    expect(turn.recipeAlternative).toBeUndefined();
+    expect(turn.matches[0].allTerms).toBe(true);
+  });
+  it('does not offer another brewer, hot recipe, unsafe source or record without instructions', async () => {
+    const lookup = vi.fn(async query => ({ documents: query.terms.length ? [] : [
+      { ...complete, methods: ['xbloom'] }, { ...complete, facts: { ...complete.facts, serving_style: 'hot' } },
+      { ...complete, source_url: 'javascript:alert(1)' }, { ...complete, facts: { ...complete.facts, steps: [] } },
+    ], rates: [] }));
+    const turn = await ask('وصفة V60 باردة كوكونت', [], { search: lookup, now });
+    expect(lookup).toHaveBeenCalledTimes(2);
+    expect(turn.matches).toEqual([]);
+    expect(turn.recipeAlternative).toBeUndefined();
+  });
+  it('keeps the requested flavor when changing the alternative to hot', async () => {
+    const lookup = vi.fn(async query => ({ documents: query.terms.length ? [] : [{ ...complete, facts: { ...complete.facts, serving_style: query.servingStyle === 'hot' ? 'hot' : 'iced' } }], rates: [] }));
+    const cold = await ask('وصفة V60 باردة كوكونت', [], { search: lookup, now });
+    const hot = await ask('خلها حارة', [cold], { search: lookup, now });
+    expect(hot.query).toMatchObject({ methods: ['v60'], servingStyle: 'hot', terms: ['coconut'] });
+    expect(hot.recipeAlternative).toBe(true);
+    expect(hot.answer).not.toContain('الثلج:');
+  });
+  it('scales a selected alternative using its published ice split, retaining the original request', async () => {
+    const lookup: LocalAssistantDependencies['search'] = async query => ({ documents: query.terms.length ? [] : [complete], rates: [] });
+    const found = await ask('وصفة V60 باردة كوكونت', [], { search: lookup, now });
+    const scaled = await ask('خلها 15 غرام', [found], offline);
+    expect(scaled.intent).toBe('calculate');
+    expect(scaled.recipeAlternative).toBe(true);
+    expect(scaled.query.terms).toEqual(['coconut']);
+    expect(scaled.answer).toContain('الماء الساخن: 150 g');
+    expect(scaled.answer).toContain('الثلج: 50 g');
+    expect(scaled.answer).toContain('إجمالي الماء والثلج: 200 g');
+    expect(scaled.answer).toContain('ولا يؤكد المصدر');
+    expect(scaled.answer).toContain('تغيير الجرعة لا يعني تغيير التوقيت');
+    expect(scaled.answer).not.toContain('0:45');
+    const changed = await ask('خلها 20 غرام', [found, scaled], offline);
+    expect(changed.answer).toContain('الماء الساخن: 200 g');
+    expect(changed.answer).toContain('الثلج: 66.67 g');
+    expect(changed.answer).toContain('إجمالي الماء والثلج: 266.67 g');
+    const ratio = await ask('غير النسبة إلى 1:16', [found, scaled], offline);
+    expect(ratio.answer).toContain('الماء الساخن: 180 g');
+    expect(ratio.answer).toContain('الثلج: 60 g');
+  });
+  it.each([undefined, 0, -5, Infinity, '60', 30000])('does not infer a published ice split from %s', async ice => {
+    const document = { ...complete, facts: { ...complete.facts, source_brew: { manual: { ice_grams: ice } } } };
+    const found = await ask('وصفة V60 باردة', [], { search: async () => ({ documents: [document], rates: [] }), now });
+    const scaled = await ask('خلها 15 غرام', [found], offline);
+    expect(scaled.answer).toContain('لا أطبّق تقسيم V60');
+    expect(scaled.answer).not.toContain('الماء الساخن:');
+  });
+  it('does not scale conflicting source totals', async () => {
+    const document = { ...complete, facts: { ...complete.facts, source_brew: { manual: { ice_grams: 60, water_input_total_grams: 300 } } } };
+    const found = await ask('وصفة V60 باردة', [], { search: async () => ({ documents: [document], rates: [] }), now });
+    expect((await ask('خلها 15 غرام', [found], offline)).answer).toContain('لا أطبّق تقسيم V60');
+  });
+});
+
 describe('local conversational coffee assistant', () => {
   it.each(['ar', 'en'] as const)('explains published espresso volume, time and temperature caveats without inventing mass in %s', async locale => {
     const document: AssistantDocument = { ...recipe, id: 'source-espresso', methods: ['espresso'], search_text: 'harenna espresso', facts: { dose: 18, water: 500, temperature: null, source_brew: { manual: { yield_ml: 33, time_note: '28 seconds; timing convention is not published.', time_note_ar: '28 ثانية؛ طريقة بدء حساب الوقت غير منشورة.', temperature_note: '90° without a unit; Celsius is unknown.', temperature_note_ar: '90° دون وحدة؛ السيلسيوس غير معروف.' } }, steps: [] } };

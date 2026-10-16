@@ -83,6 +83,17 @@ for(const [locale,question] of Object.entries(questions)){
   const dynamic=localeLabel(locale,'الصبة 57','Pour 57');assert.ok(dynamic.includes('57'));assert.notEqual(dynamic,'Pour 57');
   const result=await converseLocally(input,'en',[],{search:async()=>({documents:[],rates:[]}),translate:trace.label,translateValue:trace.value});
   assert.equal(result.query.kind,'recipe');assert.equal(result.query.servingStyle,'cold');
+  const alternativeTrace=createMessageTrace('alternative-test');
+  const alternative=await converseLocally(input,'en',[],{search:async query=>({documents:query.terms.length?[]:[{
+    id:'published-alternative',kind:'recipe',title_ar:'وصفة منشورة',title_en:'Published recipe',methods:['xbloom'],
+    source_url:'https://example.com/recipe',search_text:'xbloom',offers:[],facts:{dose:15,water:150,serving_style:'cold',steps:[{description_en:'Original publisher prose.'}]},
+  }],rates:[]}),translate:alternativeTrace.label,translateValue:alternativeTrace.value});
+  assert.equal(alternative.recipeAlternative,true,locale+' must offer a published alternative');
+  const alternativeAnswer=tracedMessage(alternativeTrace.snapshot(alternative.answer),alternative.answer,locale);
+  assert.ok(alternativeAnswer.includes(pack['An alternative recipe to start with']),locale+' untranslated alternative title');
+  assert.ok(alternativeAnswer.includes(localeLabel(locale,'جوز الهند','coconut')),locale+' lost the requested flavor');
+  assert.ok(!alternativeAnswer.includes('I found no recipe specifically')&&!alternativeAnswer.includes('__bm_'),locale+' untranslated alternative notice');
+  assert.ok(alternativeAnswer.includes('Original publisher prose.'),locale+' rewrote publisher instructions');
   const seller=parseLocalAssistantQuery(assistantInput(locale,sellers[locale]));
   assert.equal(seller.kind,'equipment',locale+' seller intent');assert.equal(seller.category,'espresso_machine');assert.equal(seller.purchaseIntent,true);assert.deepEqual(seller.terms,[]);
   const roaster=parseLocalAssistantQuery(assistantInput(locale,roasters[locale]));assert.equal(roaster.kind,'roaster',locale+' roaster intent');assert.deepEqual(roaster.terms,['brazil']);
