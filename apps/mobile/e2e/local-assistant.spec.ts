@@ -49,6 +49,29 @@ async function ask(page: Page, question: string, english = false) {
   await page.getByRole('button', { name: english ? 'Send' : 'إرسال', exact: true }).click();
 }
 
+for (const width of [390, 1280]) test(`espresso temperature and pressure requirements work without a catalog (${width})`, async ({ page }, info) => {
+  await page.setViewportSize({ width, height: 900 });
+  const network = await openAssistant(page, true);
+  await ask(page, 'ابي مكينة اسبريسو اقدر اتحكم بالحرارة والضغط');
+  const latest = page.getByTestId('assistant-latest-answer');
+  await expect(latest).toContainText('تحتاج ماكينة تضبط حرارة التحضير');
+  await expect(latest).toContainText('Profitec DRIVE');
+  await expect(latest).toContainText('Decent DE1');
+  await expect(latest).toContainText('ليس ضبطًا مباشرًا للضغط');
+  await expect(latest).toContainText('ليست عروضًا مؤكدة');
+  await expect(latest).not.toContainText('لم أجد سجلًا');
+  await expect(latest.getByTestId('assistant-result')).toHaveCount(0);
+  expect(network.searches).toEqual([]);
+  expect(network.providerCalls()).toBe(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: info.outputPath('espresso-controls.png') });
+  await ask(page, '٣٠٠ دينار');
+  await expect(latest).toContainText('Profitec DRIVE');
+  await expect(latest).toContainText('ليست عروضًا مؤكدة ضمن ميزانيتك');
+  await expect(latest).not.toContainText('كم ميزانيتك وبأي عملة');
+  expect(network.providerCalls()).toBe(0);
+});
+
 for (const width of [390, 1280]) test(`missing coconut V60 recipe gives a useful published alternative (${width})`, async ({ page }, info) => {
   await page.setViewportSize({ width, height: 900 });
   const network = await openAssistant(page, false, false, true);
