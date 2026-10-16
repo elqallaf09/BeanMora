@@ -1,1 +1,1 @@
-BeanMora — تأكيد بريدك الإلكتروني | Confirm your email
+BeanMora: {{$l := .Data.language}}{{if eq $l "en"}}Confirm email{{else if eq $l "ja"}}確認{{else if eq $l "fr"}}Confirmer{{else if eq $l "it"}}Conferma{{else if eq $l "es" "pt-BR"}}Confirmar{{else if eq $l "zh-CN"}}验证{{else}}تأكيد{{end}}
