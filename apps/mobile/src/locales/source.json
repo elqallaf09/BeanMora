@@ -109,6 +109,7 @@
     "en": " (calculated)",
     "ar": " (محسوب)",
     "files": [
+      "src/core/local-coffee-assistant.ts",
       "src/manualBrew.ts",
       "src/locales/reviewed.json"
     ]
@@ -243,6 +244,14 @@
     "ar": "تسجيل {0} غير مفعّل حالياً. يمكنك الدخول بالبريد الإلكتروني.",
     "files": [
       "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "• Mostly espresso: compare temperature stability and grind adjustment; a single boiler may suit you if waiting between brewing and steaming is acceptable.\n• Frequent milk drinks: compare steam transition speed, or dual-boiler and heat-exchanger designs for simultaneous work.\n• No grinder yet: budget for a machine plus an espresso-capable grinder, or compare an integrated-grinder model.\n• Before buying: check warranty, service, voltage and space; advertised bar pressure alone is not enough.",
+    "ar": "• للإسبريسو أكثر من الحليب: قارن الثبات الحراري وضبط الطحن؛ الغلاية الواحدة قد تكفي إذا تقبل الانتظار بين التحضير والتبخير.\n• للحليب المتكرر: قارن سرعة الانتقال للبخار، أو الغلايتين والمبادل الحراري للتحضير والتبخير معًا.\n• إذا ما عندك طاحونة: احسب ماكينة وطاحونة مناسبة للإسبريسو ضمن المجموع، أو قارن جهازًا بطاحونة مدمجة.\n• قبل الشراء: تحقق من الضمان والصيانة والجهد الكهربائي والمقاس؛ رقم البار وحده لا يكفي للاختيار.",
+    "files": [
+      "src/core/coffee-curriculum.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -564,6 +573,14 @@
     ]
   },
   {
+    "en": "A vibration pump is compact and moves water using electromagnetic motion; it is common in home machines. A rotary pump uses a motor to drive a larger pump and is usually quieter. Some rotary machines support a mains water connection; check the model. Both can make good espresso. Grind, temperature and puck preparation also matter, so a rotary pump is not essential.",
+    "ar": "الاهتزازية: مدمجة وتستخدم حركة كهرومغناطيسية لضخ الماء، وهي شائعة في المكاين المنزلية. الروتاري: محرك يدير مضخة أكبر، وغالبًا تكون أهدأ. بعض مكاين الروتاري تقبل التوصيل بالماء، لكن تأكد من موديلك. كلتاهما قادرة على إسبريسو جيد؛ جودة الكوب تعتمد أيضًا على الطحن والحرارة وتوزيع البن. الروتاري ليست شرطًا لشراء ماكينة جيدة.",
+    "files": [
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "About · Coffees · Recipes",
     "ar": "عن المحمصة · الحبوب · الوصفات",
     "files": [
@@ -877,7 +894,8 @@
     "en": "Add the coffee to the filter, level the bed, then tare the scale before pouring.",
     "ar": "ضع البن في الفلتر وسوِّ سطحه، ثم صفّر الميزان قبل الصب.",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -1435,6 +1453,14 @@
     ]
   },
   {
+    "en": "An integrated grinder combines grinding and brewing in one appliance, reducing separate devices on the counter. A separate grinder lets you choose, upgrade and service it independently; that flexibility does not guarantee better taste. Espresso needs sufficiently fine adjustment and repeatable dosing. If you already own a suitable grinder, compare machine-only cost before paying for another integrated grinder.",
+    "ar": "المدمجة تجمع الطحن والتحضير في جهاز واحد وتقلل عدد الأجهزة على الطاولة. المنفصلة تسمح باختيار طاحونة تناسب استخدامك وترقيتها أو صيانتها بشكل مستقل؛ هذه فائدة عملية وليست ضمانًا لطعم أفضل. للإسبريسو، المهم قدرة الطاحونة على ضبط الطحن بدقة وتكرار الجرعة. إذا عندك طاحونة جيدة، قارن تكلفة الماكينة وحدها قبل دفع قيمة طاحونة مدمجة إضافية.",
+    "files": [
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "anaerobic",
     "ar": "",
     "files": [
@@ -1874,6 +1900,14 @@
     ]
   },
   {
+    "en": "Automatic sign-in from the email link failed. Sign in with your email and password, or request a new link if your email is still unconfirmed.",
+    "ar": "تعذّر الدخول التلقائي من رابط البريد. سجّل الدخول ببريدك وكلمة المرور، أو اطلب رابطًا جديدًا إذا لم يتأكد البريد.",
+    "files": [
+      "src/EmailConfirmation.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Availability and accounts",
     "ar": "التوافر والحساب",
     "files": [
@@ -1938,6 +1972,14 @@
     "ar": "العودة لاقتراحاتي",
     "files": [
       "src/copy.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Back to sign in",
+    "ar": "العودة لتسجيل الدخول",
+    "files": [
+      "src/EmailConfirmation.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -4395,6 +4437,14 @@
     ]
   },
   {
+    "en": "Choosing an espresso machine",
+    "ar": "اختيار ماكينة الإسبريسو",
+    "files": [
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Choosing green coffee",
     "ar": "اختيار البن الأخضر",
     "files": [
@@ -5239,9 +5289,8 @@
   },
   {
     "en": "Collapse answer",
-    "ar": "طي الإجابة",
+    "ar": "",
     "files": [
-      "src/CoffeeAssistant.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -5387,6 +5436,14 @@
     "ar": "قارن وقت التصريف والطعم؛ غيّر متغيرًا واحدًا في المحاولة التالية.",
     "files": [
       "src/EquipmentUsage.tsx"
+    ]
+  },
+  {
+    "en": "Compare noise, space, water supply and service cost. Setting pump pressure is different from controlling flow during a shot; pump type alone does not establish either feature.",
+    "ar": "قارن الضجيج والمساحة وطريقة تزويد الماء وتكلفة الصيانة. إعداد ضغط المضخة يختلف عن التحكم بالتدفق أثناء الشوت؛ نوع المضخة وحده لا يثبت وجود أي منهما.",
+    "files": [
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -5573,6 +5630,14 @@
     ]
   },
   {
+    "en": "Confirm email",
+    "ar": "تأكيد البريد",
+    "files": [
+      "src/EmailConfirmation.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Confirm new password",
     "ar": "تأكيد كلمة المرور الجديدة",
     "files": [
@@ -5613,10 +5678,26 @@
     ]
   },
   {
+    "en": "Confirm your BeanMora email",
+    "ar": "تأكيد البريد في BeanMora",
+    "files": [
+      "src/EmailConfirmation.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Confirm your email before signing in.",
     "ar": "أكد بريدك الإلكتروني قبل تسجيل الدخول.",
     "files": [
       "src/copy.ts"
+    ]
+  },
+  {
+    "en": "Confirm your email to finish creating your account in the BeanMora app.",
+    "ar": "اضغط على تأكيد البريد لإكمال إنشاء حسابك في تطبيق BeanMora.",
+    "files": [
+      "src/EmailConfirmation.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -5696,6 +5777,14 @@
     ]
   },
   {
+    "en": "Contact us",
+    "ar": "تواصل معنا",
+    "files": [
+      "src/support-mail.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Content you publish publicly may be visible with your public profile. Check visibility before posting and avoid sensitive information in public content. Only upload files you have permission to share. Temporary media links may remain valid until their expiry.",
     "ar": "المحتوى الذي تنشره للعامة قد يظهر للآخرين مع معلومات ملفك العام. راجع خيار الرؤية قبل النشر، ولا تضع بيانات حساسة في منشور عام. لا ترفع ملفات لا تملك حق مشاركتها. الروابط المؤقتة للملفات قد تبقى صالحة حتى تنتهي مدتها.",
     "files": [
@@ -5717,6 +5806,14 @@
     "files": [
       "src/AccountScreen.tsx",
       "src/localeText.ts"
+    ]
+  },
+  {
+    "en": "Continue with the same budget",
+    "ar": "نكمل على نفس الميزانية",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -5878,6 +5975,14 @@
     ]
   },
   {
+    "en": "Could not complete authentication for your BeanMora account. Try again or request a new link.",
+    "ar": "تعذّر إكمال المصادقة لحساب BeanMora. حاول مجددًا أو اطلب رابطًا جديدًا.",
+    "files": [
+      "src/EmailConfirmation.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Could not complete sign-in. Please try again.",
     "ar": "تعذّر إكمال تسجيل الدخول. حاول مرة ثانية.",
     "files": [
@@ -5967,6 +6072,14 @@
     "ar": "تعذّر تأكيد التعليق. أعد المحاولة بنفس النص.",
     "files": [
       "src/CatalogComments.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Could not connect to confirm your email. Check your connection and try again.",
+    "ar": "تعذّر الاتصال لتأكيد البريد. تحقق من اتصالك وحاول مجددًا.",
+    "files": [
+      "src/EmailConfirmation.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -6137,6 +6250,14 @@
     "ar": "تعذّر تحميل أكياسك.",
     "files": [
       "src/BrewMyCoffee.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Could not open an email app. Copy the address shown and send your message from your preferred email app.",
+    "ar": "تعذّر فتح تطبيق البريد. انسخ عنوان البريد الظاهر وأرسل رسالتك من تطبيق البريد الذي تستخدمه.",
+    "files": [
+      "src/support-mail.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -6836,6 +6957,14 @@
     ]
   },
   {
+    "en": "Describe your request here:",
+    "ar": "اكتب تفاصيل طلبك هنا:",
+    "files": [
+      "src/support-mail.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Designed for",
     "ar": "الاستخدام",
     "files": [
@@ -7197,6 +7326,14 @@
     "ar": "لا تخلط قراءة العسر مع القلوية حتى لو كانت الوحدات ppm. أخبرني بموديل الماكينة ونتائج التحليل ووحداتها قبل تقييم الماء.",
     "files": [
       "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Do not send passwords, verification codes or payment details.",
+    "ar": "لا ترسل كلمة المرور أو رمز التحقق أو معلومات الدفع.",
+    "files": [
+      "src/support-mail.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -8835,6 +8972,22 @@
     ]
   },
   {
+    "en": "Flow control and pressure adjustment",
+    "ar": "التحكم بالتدفق وتعديل الضغط",
+    "files": [
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Flow control changes water entering the brew group during a shot; pressure responds to puck resistance. Adjusting pump pressure is a different setting and does not necessarily give control during extraction. A pressure gauge does not imply programmable pressure. Before buying a flow-control kit, check compatibility with the exact machine, group version and warranty.",
+    "ar": "التحكم بالتدفق يغيّر كمية الماء الداخلة إلى مجموعة التحضير أثناء الشوت؛ يتغير الضغط معها بحسب مقاومة البن. ضبط ضغط المضخة يحدد إعدادًا مختلفًا ولا يعطيك بالضرورة تحكمًا لحظيًا. وجود عداد ضغط لا يعني أن الضغط قابل للبرمجة. قبل شراء قطعة Flow Control، تأكد من توافقها مع موديل الماكينة وإصدار مجموعة التحضير والضمان.",
+    "files": [
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Flow images help but do not measure extraction on their own. Compare taste and repeatability after changing one puck-preparation step.",
     "ar": "صور التدفق تساعد، لكنها لا تقيس الاستخلاص وحدها. قارن الطعم وتكرار الوزن والوقت بعد تغيير خطوة واحدة من تجهيز القرص.",
     "files": [
@@ -9045,6 +9198,14 @@
     "ar": "مثل: ياسمين، خوخ، شوكولاتة",
     "files": [
       "src/RecipeCatalog.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "For help, questions and reports, contact the BeanMora team at this email address.",
+    "ar": "للدعم والاستفسارات والبلاغات، راسل فريق BeanMora عبر البريد التالي.",
+    "files": [
+      "src/support-mail.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -9597,6 +9758,14 @@
     "ar": "حدد وزن البن والنسبة، مثل: احسب 18 غرام بنسبة 1:16. للإسبريسو اذكر أنه إسبريسو لحساب وزن المشروب.",
     "files": [
       "src/core/local-coffee-assistant.ts"
+    ]
+  },
+  {
+    "en": "Give your current grinder model and whether you use it for espresso only or filter coffee too. Grind numbers do not transfer between grinders; even the same model depends on zero point and calibration.",
+    "ar": "اذكر موديل طاحونتك الحالية، وهل تستخدمها للإسبريسو فقط أو للترشيح أيضًا. لا أنقل أرقام الطحن بين الطواحين؛ حتى الموديل نفسه يتأثر بنقطة الصفر والمعايرة.",
+    "files": [
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -10327,6 +10496,14 @@
     ]
   },
   {
+    "en": "Help and questions",
+    "ar": "دعم واستفسارات",
+    "files": [
+      "src/support-mail.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "hibiscus",
     "ar": "كركديه",
     "files": [
@@ -10489,14 +10666,16 @@
     "en": "Hot V60",
     "ar": "V60 حار",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
     "en": "Hot V60 quantities",
     "ar": "مقادير V60 الحار",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -10558,7 +10737,8 @@
     "en": "How to brew",
     "ar": "طريقة التحضير",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -10574,6 +10754,14 @@
     "ar": "",
     "files": [
       "src/methodGuides.json",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "How to choose",
+    "ar": "شلون تختار؟",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -10756,7 +10944,8 @@
     "en": "Iced V60",
     "ar": "V60 بالثلج",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -10832,6 +11021,14 @@
     ]
   },
   {
+    "en": "If your email needs confirmation, a new BeanMora message will arrive. Use the latest link.",
+    "ar": "إذا كان البريد بحاجة إلى تأكيد، ستصلك رسالة جديدة من BeanMora. استخدم أحدث رابط.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Il Caffe",
     "ar": "إل كافي",
     "files": [
@@ -10902,10 +11099,11 @@
     ]
   },
   {
-    "en": "Include the country code. Your phone is private and does not appear on your public profile.",
-    "ar": "مع رمز الدولة. رقم الهاتف خاص بحسابك ولا يظهر في الملف العام.",
+    "en": "Include the username or content link or ID, and the reason for your report. Attach a screenshot if needed without exposing sensitive data.",
+    "ar": "اذكر اسم المستخدم أو رابط المحتوى أو معرّفه، وسبب البلاغ. أرفق لقطة شاشة عند الحاجة دون كشف بيانات حساسة.",
     "files": [
-      "src/AccountScreen.tsx"
+      "src/support-mail.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -10983,6 +11181,14 @@
     "ar": "الطاحونة المدمجة",
     "files": [
       "src/core/equipment-facts.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Integrated or separate grinder?",
+    "ar": "الطاحونة المدمجة أم المنفصلة؟",
+    "files": [
+      "src/core/coffee-curriculum.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -11074,6 +11280,14 @@
     "files": [
       "src/catalog.ts",
       "src/core/account-countries.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Is your budget for the machine alone, or does it include an espresso grinder?",
+    "ar": "ميزانيتك للماكينة فقط، أو تشمل طاحونة إسبريسو؟",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -12737,6 +12951,7 @@
     "ar": "متوسط خشن",
     "files": [
       "src/RecipeDetail.tsx",
+      "src/core/local-coffee-assistant.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -12752,6 +12967,7 @@
     "ar": "متوسط ناعم",
     "files": [
       "src/RecipeDetail.tsx",
+      "src/core/local-coffee-assistant.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -14110,6 +14326,14 @@
     ]
   },
   {
+    "en": "No recent verified offer meets all your constraints right now; this does not mean the machine is absent from the market. Price, shipping and stock need checking with the seller.",
+    "ar": "لا يوجد عرض حديث موثّق يطابق جميع شروطك الآن؛ هذا لا يعني أن الماكينة غير موجودة في السوق. السعر والشحن والتوفر يحتاجون تحققًا من البائع.",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "No recent verified price for this option.",
     "ar": "لا يتوفر سعر حديث موثق لهذا الخيار.",
     "files": [
@@ -14653,6 +14877,7 @@
     "en": "Open account",
     "ar": "فتح حسابي",
     "files": [
+      "src/EmailConfirmation.tsx",
       "App.tsx",
       "src/localeText.ts"
     ]
@@ -15304,6 +15529,14 @@
     ]
   },
   {
+    "en": "peaches",
+    "ar": "خوخ",
+    "files": [
+      "src/core/flavor-vocabulary.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "peanut",
     "ar": "فول سوداني",
     "files": [
@@ -15403,9 +15636,16 @@
     "ar": "رقم الهاتف",
     "files": [
       "src/AccountDetails.tsx",
-      "src/AccountScreen.tsx",
       "src/locales/reviewed.json",
       "src/localeText.ts"
+    ]
+  },
+  {
+    "en": "Phone number (optional)",
+    "ar": "رقم الهاتف (اختياري)",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -15599,6 +15839,7 @@
     "ar": "جارٍ المتابعة…",
     "files": [
       "src/AccountScreen.tsx",
+      "src/EmailConfirmation.tsx",
       "src/locales/reviewed.json",
       "src/localeText.ts"
     ]
@@ -15803,7 +16044,8 @@
     "en": "Pour in gentle circles. The amounts below are added per pour, not cumulative scale readings.",
     "ar": "صب بحركة دائرية هادئة. الأرقام التالية كمية كل صبّة، وليست قراءة الميزان التراكمية.",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -16081,6 +16323,14 @@
     ]
   },
   {
+    "en": "Privacy and account",
+    "ar": "الخصوصية والحساب",
+    "files": [
+      "src/support-mail.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Privacy policy",
     "ar": "سياسة الخصوصية",
     "files": [
@@ -16348,7 +16598,8 @@
     "en": "Put the ice in the server and the coffee in the filter, then tare the scale before pouring.",
     "ar": "ضع الثلج في الإبريق والبن في الفلتر، ثم صفّر الميزان قبل الصب.",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -16463,7 +16714,8 @@
     "en": "Ratio",
     "ar": "النسبة",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -17328,6 +17580,22 @@
     ]
   },
   {
+    "en": "Report a technical issue",
+    "ar": "الإبلاغ عن مشكلة تقنية",
+    "files": [
+      "src/support-mail.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Report content or a user",
+    "ar": "بلاغ عن محتوى أو مستخدم",
+    "files": [
+      "src/support-mail.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Report off-topic story",
     "ar": "بلاغ: خارج موضوع القهوة",
     "files": [
@@ -17396,6 +17664,14 @@
     "ar": "تحتاج فلاتر Chemex المناسبة.",
     "files": [
       "src/equipmentGuides.ts"
+    ]
+  },
+  {
+    "en": "Resend confirmation email",
+    "ar": "إعادة إرسال رسالة التأكيد",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -17661,7 +17937,8 @@
     "en": "Rinse the filter with hot water, then discard the rinse water.",
     "ar": "اشطف الفلتر بماء ساخن، ثم تخلّص من ماء الشطف.",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -18184,6 +18461,14 @@
     "ar": "ورد",
     "files": [
       "src/core/flavor-vocabulary.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Rotary and vibration pumps",
+    "ar": "المضخة الروتاري والاهتزازية",
+    "files": [
+      "src/core/coffee-curriculum.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -19337,13 +19622,6 @@
     ]
   },
   {
-    "en": "Show answer",
-    "ar": "عرض الإجابة",
-    "files": [
-      "src/CoffeeAssistant.tsx"
-    ]
-  },
-  {
     "en": "Show equipment, coffee and favorites to people who can view my profile",
     "ar": "عرض معداتي والبن والمفضلة لمن يستطيع مشاهدة ملفي",
     "files": [
@@ -19616,6 +19894,14 @@
     ]
   },
   {
+    "en": "Since you own a grinder, focus the comparison on the machine; its model is needed to check espresso suitability.",
+    "ar": "بما أن عندك طاحونة، نركز المقارنة على الماكينة؛ نحتاج موديل الطاحونة للتأكد من ملاءمتها للإسبريسو.",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "singapore",
     "ar": "",
     "files": [
@@ -19870,6 +20156,7 @@
     "en": "Source ratio",
     "ar": "نسبة المصدر",
     "files": [
+      "src/core/local-coffee-assistant.ts",
       "src/manualBrew.ts"
     ]
   },
@@ -20033,6 +20320,14 @@
     "ar": "إيحاء محدد",
     "files": [
       "src/RecipeCatalog.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Specification comparison — price and stock unconfirmed",
+    "ar": "مقارنة مواصفات — السعر والتوفر غير مؤكدين",
+    "files": [
+      "src/CoffeeAssistant.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -20443,14 +20738,16 @@
     "en": "Start with a coarse grind for this method, and adjust water temperature to the roast.",
     "ar": "ابدأ بطحن خشن لهذه الطريقة، واضبط حرارة الماء حسب التحميص.",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
     "en": "Start with a medium grind and water just off the boil. After drawdown, stir the drink with the ice.",
     "ar": "ابدأ بطحن متوسط وماء بعد الغليان مباشرة. بعد التقطير، حرّك المشروب مع الثلج.",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -20458,6 +20755,14 @@
     "ar": "ابدأ بوصفة مخصصة للقاعدة التي تستخدمها: FAST أو CLASSIC أو OPEN أو APEX.",
     "files": [
       "src/methodGuides.json"
+    ]
+  },
+  {
+    "en": "Start with a repeatable recipe and record dose, yield and time, then compare a flow change alone. E61 groups do not automatically accept the same kit; supply the full model or manufacturer manual to check.",
+    "ar": "ابدأ بوصفة ثابتة وسجل الجرعة والناتج والوقت، ثم قارن تغيير التدفق وحده. لا أفترض أن كل مجموعة E61 تقبل القطعة نفسها؛ أعطني الموديل الكامل أو دليل الشركة للتحقق.",
+    "files": [
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -20488,6 +20793,14 @@
     "ar": "ابدأ بتوصية المحمصة، ثم سجل الطعم وتدفق التحضير. عدّل خطوة واحدة مع تثبيت الجرعة والناتج.",
     "files": [
       "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Start with your budget",
+    "ar": "نبدأ من ميزانيتك",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -20792,7 +21105,8 @@
     "en": "Suggested pours",
     "ar": "الصبّات المقترحة",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -21236,6 +21550,14 @@
     ]
   },
   {
+    "en": "Tell me consecutive drink count, drink types, whether you own a grinder and your budget with currency. I can compare published specifications; price and stock require a dated seller offer.",
+    "ar": "أعطني عدد الأكواب المتتالية، ونوع المشروبات، وهل عندك طاحونة، والميزانية مع العملة. أقدر أقارن المواصفات المنشورة؛ السعر والتوفر يحتاجان عرضًا مؤرخًا من بائع.",
+    "files": [
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Tell me more",
     "ar": "اشرح أكثر",
     "files": [
@@ -21393,6 +21715,14 @@
     ]
   },
   {
+    "en": "The button opens a draft in your email app. Review it and press Send there; opening the draft does not send it.",
+    "ar": "يفتح الزر تطبيق البريد برسالة جاهزة. راجع رسالتك واضغط إرسال هناك؛ فتح البريد وحده لا يرسل الرسالة.",
+    "files": [
+      "src/support-mail.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "The comparison is limited to available published information.",
     "ar": "المقارنة محدودة بالمعلومات المنشورة المتوفرة.",
     "files": [
@@ -21518,6 +21848,14 @@
     ]
   },
   {
+    "en": "Then compare the machine and grinder together, checking their combined cost before choosing.",
+    "ar": "إذًا نقارن تكلفة الماكينة والطاحونة معًا، ونحسب المجموع قبل الاختيار.",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "There are not enough documented specifications to compare.",
     "ar": "لا توجد مواصفات موثقة تكفي للمقارنة.",
     "files": [
@@ -21564,7 +21902,8 @@
     "en": "These are totals for a large batch. Divide it into batches that fit your dripper and server; do not brew it all at once.",
     "ar": "هذه مقادير إجمالية لكمية كبيرة. قسّمها إلى دفعات تناسب سعة القمع والإبريق؛ لا تحضّرها كلها في دفعة واحدة.",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -21572,6 +21911,14 @@
     "ar": "هذه خيارات من دليلنا ضمن الميزانية بحسب أسعار مؤرخة. التحويل تقديري، والشحن والضرائب وتوفر المتجر تُراجع عند الشراء.",
     "files": [
       "src/core/coffee-assistant.ts"
+    ]
+  },
+  {
+    "en": "These devices are specification comparisons only, not confirmed matches for your budget or local availability.",
+    "ar": "هذه أجهزة للمقارنة من حيث المواصفات فقط، وليست خيارات مؤكدة ضمن الميزانية أو متوفرة في بلدك.",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -21640,9 +21987,16 @@
   },
   {
     "en": "This calculated starting point uses 60% hot water and 40% ice. Put the ice in the server and pour the hot water through the coffee. Ice is included in the total; filter-rinse water is separate, and beverage yield is lower because the grounds retain water. Adjust to taste and brewer capacity.",
-    "ar": "هذه نقطة بداية محسوبة: 60% ماء ساخن و40% ثلج. ضع الثلج في الإبريق وصب الماء الساخن عبر البن. الثلج جزء من الإجمالي؛ ماء شطف الفلتر منفصل، ووزن المشروب النهائي أقل بسبب احتفاظ البن بالماء. عدّل حسب الطعم وسعة أداتك.",
+    "ar": "",
     "files": [
-      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "This confirmation link has expired or has already been used. Try signing in, or request a new confirmation email.",
+    "ar": "رابط التأكيد منتهي الصلاحية أو استُخدم سابقًا. جرّب تسجيل الدخول، أو اطلب رسالة تأكيد جديدة.",
+    "files": [
+      "src/EmailConfirmation.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -21681,7 +22035,8 @@
     "en": "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.",
     "ar": "هذه نقطة بداية محسوبة من دليل التحضير؛ التوقيت إرشادي ويتغيّر مع البن والطحن. ماء شطف الفلتر منفصل، ووزن المشروب النهائي أقل من إجمالي الماء بسبب احتفاظ البن بالماء.",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -21825,6 +22180,7 @@
       "src/BestSetup.tsx",
       "src/CommunityScreen.tsx",
       "src/RoastLab.tsx",
+      "src/core/local-coffee-assistant.ts",
       "src/recipeQuickFacts.ts",
       "src/locales/reviewed.json"
     ]
@@ -22157,6 +22513,14 @@
     "ar": "أعد فتحها أو ارجع للرئيسية.",
     "files": [
       "src/ScreenBoundary.tsx"
+    ]
+  },
+  {
+    "en": "Try this",
+    "ar": "تطبيق عملي",
+    "files": [
+      "src/core/coffee-knowledge.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -23801,6 +24165,7 @@
     "ar": "الناتج",
     "files": [
       "src/GuidedBrew.tsx",
+      "src/core/local-coffee-assistant.ts",
       "src/recipeQuickFacts.ts",
       "src/locales/reviewed.json"
     ]
@@ -23976,6 +24341,14 @@
     "ar": "يظهر علم الدولة بجانب اسم المستخدم. رقم الهاتف خاص بحسابك ولا يظهر للآخرين.",
     "files": [
       "src/AccountDetails.tsx"
+    ]
+  },
+  {
+    "en": "Your email is confirmed and you are signed in to BeanMora. You can also sign in to the app with your email and password.",
+    "ar": "تم تأكيد بريدك وتسجيل دخولك إلى BeanMora بنجاح. يمكنك أيضًا تسجيل الدخول في التطبيق ببريدك وكلمة المرور.",
+    "files": [
+      "src/EmailConfirmation.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -24491,91 +24864,6 @@
       "src/core/catalog-foreign-titles.ts",
       "src/foreignTitles.ts",
       "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "Phone number (optional)",
-    "ar": "رقم الهاتف (اختياري)",
-    "files": [
-      "src/AccountScreen.tsx",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "Automatic sign-in from the email link failed. Sign in with your email and password, or request a new link if your email is still unconfirmed.",
-    "ar": "تعذّر الدخول التلقائي من رابط البريد. سجّل الدخول ببريدك وكلمة المرور، أو اطلب رابطًا جديدًا إذا لم يتأكد البريد.",
-    "files": [
-      "src/EmailConfirmation.tsx"
-    ]
-  },
-  {
-    "en": "Back to sign in",
-    "ar": "العودة لتسجيل الدخول",
-    "files": [
-      "src/EmailConfirmation.tsx"
-    ]
-  },
-  {
-    "en": "Confirm email",
-    "ar": "تأكيد البريد",
-    "files": [
-      "src/EmailConfirmation.tsx"
-    ]
-  },
-  {
-    "en": "Confirm your BeanMora email",
-    "ar": "تأكيد البريد في BeanMora",
-    "files": [
-      "src/EmailConfirmation.tsx"
-    ]
-  },
-  {
-    "en": "Confirm your email to finish creating your account in the BeanMora app.",
-    "ar": "اضغط على تأكيد البريد لإكمال إنشاء حسابك في تطبيق BeanMora.",
-    "files": [
-      "src/EmailConfirmation.tsx"
-    ]
-  },
-  {
-    "en": "Could not complete authentication for your BeanMora account. Try again or request a new link.",
-    "ar": "تعذّر إكمال المصادقة لحساب BeanMora. حاول مجددًا أو اطلب رابطًا جديدًا.",
-    "files": [
-      "src/EmailConfirmation.tsx"
-    ]
-  },
-  {
-    "en": "Could not connect to confirm your email. Check your connection and try again.",
-    "ar": "تعذّر الاتصال لتأكيد البريد. تحقق من اتصالك وحاول مجددًا.",
-    "files": [
-      "src/EmailConfirmation.tsx"
-    ]
-  },
-  {
-    "en": "If your email needs confirmation, a new BeanMora message will arrive. Use the latest link.",
-    "ar": "إذا كان البريد بحاجة إلى تأكيد، ستصلك رسالة جديدة من BeanMora. استخدم أحدث رابط.",
-    "files": [
-      "src/AccountScreen.tsx"
-    ]
-  },
-  {
-    "en": "Resend confirmation email",
-    "ar": "إعادة إرسال رسالة التأكيد",
-    "files": [
-      "src/AccountScreen.tsx"
-    ]
-  },
-  {
-    "en": "This confirmation link has expired or has already been used. Try signing in, or request a new confirmation email.",
-    "ar": "رابط التأكيد منتهي الصلاحية أو استُخدم سابقًا. جرّب تسجيل الدخول، أو اطلب رسالة تأكيد جديدة.",
-    "files": [
-      "src/EmailConfirmation.tsx"
-    ]
-  },
-  {
-    "en": "Your email is confirmed and you are signed in to BeanMora. You can also sign in to the app with your email and password.",
-    "ar": "تم تأكيد بريدك وتسجيل دخولك إلى BeanMora بنجاح. يمكنك أيضًا تسجيل الدخول في التطبيق ببريدك وكلمة المرور.",
-    "files": [
-      "src/EmailConfirmation.tsx"
     ]
   },
   {

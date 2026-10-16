@@ -132,10 +132,23 @@ export function coffeeKnowledgeAnswer(
     };
   }
   if (!article) return null;
+  // Answer each explicitly separated question rather than dropping all but
+  // the highest-priority keyword. Never turn one broad sentence into a dump.
+  const clauses = q.split(/[؟?؛;\n+]+|\s+و(?=شنو|شلون|ليش|كيف|ما الفرق|اشرح)|\s+(?:and also|also)\s+/).filter(part => part.trim());
+  const multiple = followUp ? [] : clauses.map(clause => articles
+    .filter(row => row.keywords.test(clause))
+    .sort((a, b) => b.priority - a.priority)[0]).filter((row): row is typeof article => !!row);
+  const chosen = [...new Map(multiple.map(row => [row.id, row])).values()].slice(0, 3);
+  if (chosen.length > 1) return {
+    topic: chosen[0].id,
+    answer: chosen.map(row => L(row.titles[0], row.titles[1]) + '\n' + L(row.ar, row.en)).join('\n\n'),
+    sources: [...new Map(chosen.flatMap(lessonSources).map(source => [source.url, source])).values()],
+    suggestions: chosen.slice(0, 2).map(row => L(row.titles[0], row.titles[1])),
+  };
   const related = articles.filter(row => row.group === article.group && row.id !== article.id).slice(0, 2);
   return {
     topic: article.id,
-    answer: followUp ? L(article.more[0], article.more[1]) : L(article.ar, article.en),
+    answer: followUp ? L(article.more[0], article.more[1]) : L(article.titles[0], article.titles[1]) + '\n\n' + L(article.ar, article.en) + '\n\n' + L('تطبيق عملي', 'Try this') + '\n' + L(article.more[0], article.more[1]),
     sources: lessonSources(article),
     suggestions: [L('اشرح أكثر', 'Tell me more'), ...related.map(row => L(row.titles[0], row.titles[1]))],
   };

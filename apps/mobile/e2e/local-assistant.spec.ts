@@ -501,3 +501,46 @@ for(const language of newLanguages) test(`language persists and remains within t
   expect(await page.evaluate(()=>document.documentElement.scrollWidth <= window.innerWidth+1)).toBe(true);
   await setLanguage(page,'ar');await expect(page.locator('html')).toHaveAttribute('dir','rtl');
 });
+
+for (const width of [390, 1280]) test(`reported equipment budget keeps helping without a verified price (${width})`, async ({ page }, info) => {
+  await page.setViewportSize({ width, height: 1000 });
+  const network = await openAssistant(page, false, true);
+  const panel = page.getByTestId('assistant-latest-answer');
+  await ask(page, 'طلعي مكينة اسبريسو قيمتها ما بين ٢٠٠ الى ٤٠٠ دينار كويتي');
+  await expect(panel).toContainText('200–400 KWD');
+  await expect(panel.getByText('200–400 KWD', { exact: true })).toHaveCSS('direction', 'ltr');
+  await expect(panel).toContainText('شلون تختار');
+  await expect(panel).toContainText('ليست خيارات مؤكدة ضمن الميزانية');
+  const cards = panel.getByTestId('assistant-result');
+  await expect(cards).toHaveCount(2);
+  await expect(cards.first()).toContainText('مقارنة مواصفات — السعر والتوفر غير مؤكدين');
+  await expect(cards.first()).not.toContainText('300 USD');
+  await expect(cards.first()).not.toContainText('متوفر حسب آخر تحقق');
+  expect(network.searches.at(-1)).toEqual(expect.objectContaining({ p_kind: 'equipment', p_category: 'espresso_machine', p_terms: [] }));
+  await page.screenshot({ path: info.outputPath(`equipment-budget-${width}.png`), fullPage: true });
+  await ask(page, 'الميزانية تشمل طاحونة');
+  await expect(panel).toContainText('200–400 KWD');
+  await expect(panel).toContainText('تكلفة الماكينة والطاحونة معًا');
+  expect(network.searches).toHaveLength(1);
+  expect(network.providerCalls()).toBe(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+test('priced equipment respects the lower budget as well as the ceiling', async ({ page }) => {
+  await openAssistant(page);
+  await ask(page, 'Espresso machine between 350 and 450 USD');
+  const panel = page.getByTestId('assistant-latest-answer');
+  await expect(panel.getByTestId('assistant-result')).toHaveCount(1);
+  await expect(panel.getByTestId('assistant-result')).toContainText('400 USD');
+  await expect(panel.getByTestId('assistant-result')).not.toContainText('300 USD');
+  await expect(panel).not.toContainText('مقارنة مواصفات — السعر والتوفر غير مؤكدين');
+});
+test('multiple equipment questions receive separate sourced explanations offline', async ({ page }) => {
+  const network = await openAssistant(page, true);
+  await ask(page, 'شنو دبل بويلر؟ وشنو مضخة روتاري؟');
+  const panel = page.getByTestId('assistant-latest-answer');
+  await expect(panel).toContainText('الغلاية الواحدة والمزدوجة');
+  await expect(panel).toContainText('المضخة الروتاري والاهتزازية');
+  await expect(panel.getByRole('button', { name: 'Profitec — Pump systems', exact: true })).toBeVisible();
+  expect(network.searches).toHaveLength(0);
+  expect(network.providerCalls()).toBe(0);
+});

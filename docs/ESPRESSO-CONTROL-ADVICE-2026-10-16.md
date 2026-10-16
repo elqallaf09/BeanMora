@@ -19,4 +19,8 @@ Examples are explicitly not verified offers, local stock, or confirmed budget ma
 - Both browser scenarios at 390 and 1280 px passed with catalog requests unavailable; the answer, source-backed examples, budget follow-up, absence of fabricated result cards, zero provider calls and no horizontal overflow were checked. The 390 px rendering was visually reviewed.
 - No dependency, database, authentication, production-data, paid-provider, native-binary or physical-device change.
 
-The test export is local-only and must not be deployed. This change is prepared for review; production publication is not part of this receipt. Keep the separate coffee-expert improvements in PR #91 when integrating.
+## Integration with PR #91
+
+Merged main `6239f27928ac5e54311e1e3dd337ec73267de585` into this change, preserving the new knowledge, budget-range and published-recipe behavior. Resolved only the shared import and message-inventory overlaps. The integrated source passed all 1,393 Vitest cases, 31 recommendation cases, 37 brew-outcome cases, root lint/typecheck, mobile typecheck/core synchronization, all 3,184 registered message checks, and a fresh web export. All 52 assistant browser scenarios passed, including the two new control-request scenarios and the existing budget and recipe conversations.
+
+The test export is local-only and must not be deployed. This change is prepared for review; production publication is not part of this receipt.
