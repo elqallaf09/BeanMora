@@ -2364,7 +2364,12 @@
     "An alternative recipe to start with": "まず試せる代わりのレシピ",
     "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "「{0}」専用のレシピは見つかりませんでした。この代案は抽出器具と温冷の条件を保ちますが、ご希望のコーヒー豆や風味に合うことは出典では確認されていません。",
     "Adjusted quantities from the selected recipe": "選んだレシピから調整した分量",
-    "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "この分量は出典の水と氷の配分に基づいています。元のレシピの手順を確認してください。粉量を変えても、時間が同じ比率で変わるわけではありません。"
+    "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "この分量は出典の水と氷の配分に基づいています。元のレシピの手順を確認してください。粉量を変えても、時間が同じ比率で変わるわけではありません。",
+    "Could not open the sign-in browser. Enable your device browser or install Chrome, then try again.": "ログイン用のブラウザを開けませんでした。端末のブラウザを有効にするか、Chromeをインストールしてから再試行してください。",
+    "This sign-in attempt expired. Use the Google or Apple button to start again on this device.": "このログイン試行は期限切れです。この端末でGoogleまたはAppleのボタンを押してやり直してください。",
+    "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.": "GoogleまたはAppleでのログインを開始できませんでした。再試行し、問題が続く場合はBeanMoraを更新してください。",
+    "Sign-in opened in your device browser. Choose your account, then return to BeanMora.": "端末のブラウザでログイン画面を開きました。アカウントを選択してからBeanMoraに戻ってください。",
+    "Sign-in was cancelled. You can try again.": "ログインをキャンセルしました。もう一度お試しいただけます。"
   },
   "fr": {
     "Home": "Accueil",
@@ -4818,7 +4823,12 @@
     "An alternative recipe to start with": "Une autre recette pour commencer",
     "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "Je n’ai pas trouvé de recette spécialement pour « {0} ». Cette alternative conserve la méthode de préparation et le service chaud ou froid ; sa source ne confirme pas qu’elle correspond au café ou aux notes aromatiques demandés.",
     "Adjusted quantities from the selected recipe": "Quantités ajustées à partir de la recette choisie",
-    "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "Ces quantités respectent la répartition entre eau et glace de la source. Consultez les étapes de la recette originale ; modifier la dose ne signifie pas modifier les temps dans les mêmes proportions."
+    "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "Ces quantités respectent la répartition entre eau et glace de la source. Consultez les étapes de la recette originale ; modifier la dose ne signifie pas modifier les temps dans les mêmes proportions.",
+    "Could not open the sign-in browser. Enable your device browser or install Chrome, then try again.": "Impossible d’ouvrir le navigateur de connexion. Activez le navigateur de votre appareil ou installez Chrome, puis réessayez.",
+    "This sign-in attempt expired. Use the Google or Apple button to start again on this device.": "Cette tentative de connexion a expiré. Utilisez le bouton Google ou Apple pour recommencer sur cet appareil.",
+    "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.": "Impossible de démarrer la connexion avec Google ou Apple. Réessayez et mettez BeanMora à jour si le problème persiste.",
+    "Sign-in opened in your device browser. Choose your account, then return to BeanMora.": "La page de connexion est ouverte dans le navigateur de votre appareil. Choisissez votre compte, puis revenez à BeanMora.",
+    "Sign-in was cancelled. You can try again.": "La connexion a été annulée. Vous pouvez réessayer."
   },
   "it": {
     "Home": "Home",
@@ -7272,7 +7282,12 @@
     "An alternative recipe to start with": "Una ricetta alternativa da cui iniziare",
     "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "Non ho trovato una ricetta specifica per «{0}». Questa alternativa mantiene il metodo di preparazione e il servizio caldo o freddo; la fonte non conferma la corrispondenza con il caffè o le note aromatiche richiesti.",
     "Adjusted quantities from the selected recipe": "Quantità adattate dalla ricetta selezionata",
-    "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "Queste quantità seguono la ripartizione tra acqua e ghiaccio della fonte. Consulta i passaggi della ricetta originale: cambiare la dose non significa cambiare i tempi nella stessa proporzione."
+    "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "Queste quantità seguono la ripartizione tra acqua e ghiaccio della fonte. Consulta i passaggi della ricetta originale: cambiare la dose non significa cambiare i tempi nella stessa proporzione.",
+    "Could not open the sign-in browser. Enable your device browser or install Chrome, then try again.": "Impossibile aprire il browser per l’accesso. Attiva il browser del dispositivo o installa Chrome, poi riprova.",
+    "This sign-in attempt expired. Use the Google or Apple button to start again on this device.": "Questo tentativo di accesso è scaduto. Usa il pulsante Google o Apple per ricominciare su questo dispositivo.",
+    "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.": "Impossibile avviare l’accesso con Google o Apple. Riprova e aggiorna BeanMora se il problema persiste.",
+    "Sign-in opened in your device browser. Choose your account, then return to BeanMora.": "La pagina di accesso è aperta nel browser del dispositivo. Scegli il tuo account, poi torna a BeanMora.",
+    "Sign-in was cancelled. You can try again.": "Accesso annullato. Puoi riprovare."
   },
   "es": {
     "Home": "Inicio",
@@ -9726,7 +9741,12 @@
     "An alternative recipe to start with": "Una receta alternativa para empezar",
     "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "No encontré una receta específica para «{0}». Esta alternativa mantiene el método de preparación y si se sirve caliente o fría; la fuente no confirma que corresponda al café o a las notas de sabor solicitados.",
     "Adjusted quantities from the selected recipe": "Cantidades ajustadas de la receta seleccionada",
-    "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "Estas cantidades mantienen la proporción de agua y hielo de la fuente. Consulta los pasos de la receta original; cambiar la dosis no implica cambiar los tiempos en la misma proporción."
+    "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "Estas cantidades mantienen la proporción de agua y hielo de la fuente. Consulta los pasos de la receta original; cambiar la dosis no implica cambiar los tiempos en la misma proporción.",
+    "Could not open the sign-in browser. Enable your device browser or install Chrome, then try again.": "No se pudo abrir el navegador para iniciar sesión. Activa el navegador de tu dispositivo o instala Chrome y vuelve a intentarlo.",
+    "This sign-in attempt expired. Use the Google or Apple button to start again on this device.": "Este intento de inicio de sesión ha caducado. Usa el botón de Google o Apple para empezar de nuevo en este dispositivo.",
+    "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.": "No se pudo iniciar el acceso con Google o Apple. Vuelve a intentarlo y actualiza BeanMora si el problema persiste.",
+    "Sign-in opened in your device browser. Choose your account, then return to BeanMora.": "La página de inicio de sesión se abrió en el navegador de tu dispositivo. Elige tu cuenta y vuelve a BeanMora.",
+    "Sign-in was cancelled. You can try again.": "Se canceló el inicio de sesión. Puedes volver a intentarlo."
   },
   "pt-BR": {
     "Home": "Início",
@@ -12180,7 +12200,12 @@
     "An alternative recipe to start with": "Uma receita alternativa para começar",
     "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "Não encontrei uma receita específica para “{0}”. Esta alternativa mantém o método de preparo e o serviço quente ou frio; a fonte não confirma que ela corresponda ao café ou às notas sensoriais solicitados.",
     "Adjusted quantities from the selected recipe": "Quantidades ajustadas da receita selecionada",
-    "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "Estas quantidades mantêm a proporção de água e gelo da fonte. Consulte as etapas da receita original; alterar a dose não significa alterar os tempos na mesma proporção."
+    "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "Estas quantidades mantêm a proporção de água e gelo da fonte. Consulte as etapas da receita original; alterar a dose não significa alterar os tempos na mesma proporção.",
+    "Could not open the sign-in browser. Enable your device browser or install Chrome, then try again.": "Não foi possível abrir o navegador para entrar. Ative o navegador do dispositivo ou instale o Chrome e tente novamente.",
+    "This sign-in attempt expired. Use the Google or Apple button to start again on this device.": "Esta tentativa de login expirou. Use o botão do Google ou da Apple para começar novamente neste dispositivo.",
+    "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.": "Não foi possível iniciar o login com Google ou Apple. Tente novamente e atualize o BeanMora se o problema continuar.",
+    "Sign-in opened in your device browser. Choose your account, then return to BeanMora.": "A página de login foi aberta no navegador do dispositivo. Escolha sua conta e volte ao BeanMora.",
+    "Sign-in was cancelled. You can try again.": "O login foi cancelado. Você pode tentar novamente."
   },
   "zh-CN": {
     "Home": "首页",
@@ -14887,6 +14912,11 @@
     "An alternative recipe to start with": "可作为起点的替代配方",
     "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "未找到专门针对“{0}”的配方。这个替代方案保留了冲煮器具和冷热条件，但其来源未确认它符合您指定的咖啡豆或风味要求。",
     "Adjusted quantities from the selected recipe": "根据所选配方调整的用量",
-    "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "这些用量沿用来源中的水与冰比例。请参考原配方步骤；调整咖啡粉量并不意味着时间也按相同比例调整。"
+    "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "这些用量沿用来源中的水与冰比例。请参考原配方步骤；调整咖啡粉量并不意味着时间也按相同比例调整。",
+    "Could not open the sign-in browser. Enable your device browser or install Chrome, then try again.": "无法打开登录浏览器。请启用设备浏览器或安装Chrome，然后重试。",
+    "This sign-in attempt expired. Use the Google or Apple button to start again on this device.": "本次登录尝试已过期。请在此设备上点击Google或Apple按钮重新开始。",
+    "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.": "无法开始Google或Apple登录。请重试；如果问题仍然存在，请更新BeanMora。",
+    "Sign-in opened in your device browser. Choose your account, then return to BeanMora.": "登录页面已在设备浏览器中打开。请选择账号，然后返回BeanMora。",
+    "Sign-in was cancelled. You can try again.": "登录已取消。你可以重试。"
   }
 }

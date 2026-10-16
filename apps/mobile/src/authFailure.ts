@@ -8,6 +8,9 @@ export function authFailure(error: unknown) {
   const lower = message.toLowerCase();
   const reasons = Array.isArray(value.reasons) ? value.reasons : [];
 
+  if (code === 'oauth_browser_unavailable') return { kind: 'oauthBrowser', message } as const;
+  if (['bad_code_verifier', 'flow_state_not_found', 'flow_state_expired'].includes(code) || /pkce|code.verifier|code.challenge/.test(lower)) return { kind: 'oauthSession', message } as const;
+
   if (code === 'weak_password' || value.name === 'AuthWeakPasswordError' || /password.*(weak|easy to guess|at least|contain)/.test(lower)) {
     if (reasons.includes('pwned')) return { kind: 'breachedPassword', message } as const;
     if (reasons.includes('length') || reasons.includes('characters')) return { kind: 'passwordPolicy', message } as const;

@@ -147,6 +147,21 @@ test('a disabled Google provider explains the problem without a broken redirect'
   expect(authorize).toBe(0);
 });
 
+for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: a Google launch failure does not blame empty email or password fields`, async ({ page }) => {
+  await page.route(project + '/**', route => {
+    const path = new URL(route.request().url()).pathname;
+    return path.endsWith('/settings')
+      ? reply(route, { message: 'isolated provider-settings failure' }, 400)
+      : reply(route, []);
+  });
+  await openAccount(page, ar);
+  const button = page.getByRole('button', { name: ar ? 'تابع باستخدام Google' : 'Continue with Google', exact: true });
+  await button.click();
+  await expect(page.getByRole('alert')).toContainText(ar ? 'تعذّر بدء تسجيل الدخول عبر Google أو Apple.' : 'Could not start Google or Apple sign-in.');
+  await expect(page.getByRole('alert')).not.toContainText(ar ? 'كلمة المرور' : 'password');
+  await expect(button).toBeEnabled();
+});
+
 for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup validates before sending and guest browsing remains prominent`, async ({ page }, info) => {
   let signups = 0;
   await page.route(project + '/**', route => {

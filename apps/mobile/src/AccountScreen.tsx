@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import {
   ImageBackground,
   KeyboardAvoidingView,
+  Linking,
   Platform,
   Pressable,
   ScrollView,
@@ -26,6 +27,7 @@ import { SignupPhoneField } from './SignupPhoneField';
 import { changeSignupPhoneCountry, signupPhoneValue } from './signupPhone';
 import { signupDetails, usernameAvailable } from './core/account-profile';
 import { authFailure } from './authFailure';
+import { openOAuthBrowser } from './oauthBrowser';
 import { useLabels,
   Action,
   Field,
@@ -89,6 +91,7 @@ export function AccountScreen({
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [show, setShow] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [socialProvider, setSocialProvider] = useState<'apple' | 'google' | null>(null);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [canResend, setCanResend] = useState(false);
@@ -113,7 +116,7 @@ export function AccountScreen({
       active = false;
     };
   }, [session]);
-  function authError(error: unknown, context: 'login' | 'signup' | 'recovery') {
+  function authError(error: unknown, context: 'login' | 'signup' | 'recovery' | 'social') {
     const { kind, message } = authFailure(error);
     if (kind === 'emailNotConfirmed') setCanResend(true);
     const fieldErrors: Record<string, string> = {
@@ -128,6 +131,8 @@ export function AccountScreen({
     if (fieldErrors[message]) return fieldErrors[message];
     if (message === 'OAUTH_STORAGE_UNAVAILABLE') return L('اسمح بحفظ بيانات الموقع في المتصفح ثم أعد تسجيل الدخول عبر Google.', 'Allow site storage in your browser, then try Google sign-in again.', 'ブラウザでサイトデータの保存を許可して、Googleログインを再試行してください。');
     switch (kind) {
+      case 'oauthBrowser': return L('تعذّر فتح متصفح تسجيل الدخول. فعّل متصفح الجهاز أو ثبّت Chrome ثم حاول مجددًا.', 'Could not open the sign-in browser. Enable your device browser or install Chrome, then try again.');
+      case 'oauthSession': return L('انتهت محاولة تسجيل الدخول. اضغط على زر Google أو Apple لبدء محاولة جديدة من هذا الجهاز.', 'This sign-in attempt expired. Use the Google or Apple button to start again on this device.');
       case 'weakPassword': return L('كلمة المرور ضعيفة وسهلة التخمين. اختر كلمة مرور أطول وفريدة.', 'This password is weak and easy to guess. Choose a longer, unique password.');
       case 'breachedPassword': return L('ظهرت كلمة المرور هذه في تسريب بيانات سابق. اختر كلمة مرور جديدة وفريدة.', 'This password appeared in a known data breach. Choose a new, unique password.');
       case 'passwordPolicy': return L('كلمة المرور لا تستوفي متطلبات الأمان. استخدم كلمة أطول تتضمن أحرفًا كبيرة وصغيرة وأرقامًا ورموزًا.', 'This password does not meet the security requirements. Use a longer password with uppercase and lowercase letters, numbers and symbols.');
@@ -141,6 +146,7 @@ export function AccountScreen({
       case 'emailNotConfirmed': return t.emailNotConfirmed;
       case 'network': return t.networkError;
     }
+    if (context === 'social') return L('تعذّر بدء تسجيل الدخول عبر Google أو Apple. حاول مجددًا، وإذا استمرت المشكلة حدّث تطبيق BeanMora.', 'Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.');
     const lower = message.toLowerCase();
     return lower.startsWith('oauth_') ||
       lower.includes('code verifier') ||
@@ -152,7 +158,7 @@ export function AccountScreen({
           ? L('تعذّر طلب استرجاع كلمة المرور. حاول مجددًا أو تواصل مع الدعم.', 'Could not request a password reset. Try again or contact support.')
           : t.authError;
   }
-  async function request(action: () => Promise<void>, context: 'login' | 'signup' | 'recovery' = 'login') {
+  async function request(action: () => Promise<void>, context: 'login' | 'signup' | 'recovery' | 'social' = 'login') {
     if (!supabase || inFlight.current) return;
     inFlight.current = true;
     setBusy(true);
@@ -165,6 +171,7 @@ export function AccountScreen({
     } finally {
       inFlight.current = false;
       setBusy(false);
+      setSocialProvider(null);
     }
   }
   async function authenticate() {
@@ -237,6 +244,7 @@ export function AccountScreen({
   }
   async function social(provider: 'apple' | 'google') {
     await request(async () => {
+      setSocialProvider(provider);
       if (!(await authProviderEnabled(provider))) {
         setError(
           L('تسجيل ' +
@@ -266,12 +274,19 @@ export function AccountScreen({
         window.location.assign(data.url);
         return;
       }
-      const result = await WebBrowser.openAuthSessionAsync(
+      const result = await openOAuthBrowser(
         data.url,
         redirectTo,
+        {
+          platform: Platform.OS,
+          openAuthSession: WebBrowser.openAuthSessionAsync,
+          openExternalURL: (url) => Linking.openURL(url),
+        },
       );
-      if (result.type === 'success') await finishOAuth(result.url);
-    });
+      if (result.type === 'success' && result.url) await finishOAuth(result.url);
+      else if (result.type === 'external') setNotice(L('تم فتح تسجيل الدخول في متصفح الجهاز. أكمل اختيار حسابك ثم ارجع إلى BeanMora.', 'Sign-in opened in your device browser. Choose your account, then return to BeanMora.'));
+      else if (result.type === 'cancel' || result.type === 'dismiss') setNotice(L('تم إلغاء تسجيل الدخول. يمكنك المحاولة مجددًا.', 'Sign-in was cancelled. You can try again.'));
+    }, 'social');
   }
   if (recovery && session) return <PasswordRecovery done={onRecovered} />;
   if (session)
@@ -575,11 +590,14 @@ export function AccountScreen({
                   }
                   disabled={busy}
                   onPress={() => void social(provider)}
+                  accessibilityState={{ disabled: busy, busy: busy && socialProvider === provider }}
                   style={s.socialButton}
                 >
                   <Icon name={provider} size={25} />
                   <Txt style={{ fontSize: 14, fontWeight: '700' }}>
-                    {provider === 'google'
+                    {busy && socialProvider === provider
+                      ? L('يرجى الانتظار…', 'Please wait…')
+                      : provider === 'google'
                       ? L('تابع باستخدام Google', 'Continue with Google')
                       : L('تابع باستخدام Apple', 'Continue with Apple')}
                   </Txt>

@@ -3179,5 +3179,10 @@
   "An alternative recipe to start with": "可作为起点的替代配方",
   "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "未找到专门针对“{0}”的配方。这个替代方案保留了冲煮器具和冷热条件，但其来源未确认它符合您指定的咖啡豆或风味要求。",
   "Adjusted quantities from the selected recipe": "根据所选配方调整的用量",
-  "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "这些用量沿用来源中的水与冰比例。请参考原配方步骤；调整咖啡粉量并不意味着时间也按相同比例调整。"
+  "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "这些用量沿用来源中的水与冰比例。请参考原配方步骤；调整咖啡粉量并不意味着时间也按相同比例调整。",
+  "Could not open the sign-in browser. Enable your device browser or install Chrome, then try again.": "无法打开登录浏览器。请启用设备浏览器或安装Chrome，然后重试。",
+  "This sign-in attempt expired. Use the Google or Apple button to start again on this device.": "本次登录尝试已过期。请在此设备上点击Google或Apple按钮重新开始。",
+  "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.": "无法开始Google或Apple登录。请重试；如果问题仍然存在，请更新BeanMora。",
+  "Sign-in opened in your device browser. Choose your account, then return to BeanMora.": "登录页面已在设备浏览器中打开。请选择账号，然后返回BeanMora。",
+  "Sign-in was cancelled. You can try again.": "登录已取消。你可以重试。"
 }

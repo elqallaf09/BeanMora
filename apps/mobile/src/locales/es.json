@@ -3179,5 +3179,10 @@
   "An alternative recipe to start with": "Una receta alternativa para empezar",
   "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "No encontré una receta específica para «{0}». Esta alternativa mantiene el método de preparación y si se sirve caliente o fría; la fuente no confirma que corresponda al café o a las notas de sabor solicitados.",
   "Adjusted quantities from the selected recipe": "Cantidades ajustadas de la receta seleccionada",
-  "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "Estas cantidades mantienen la proporción de agua y hielo de la fuente. Consulta los pasos de la receta original; cambiar la dosis no implica cambiar los tiempos en la misma proporción."
+  "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "Estas cantidades mantienen la proporción de agua y hielo de la fuente. Consulta los pasos de la receta original; cambiar la dosis no implica cambiar los tiempos en la misma proporción.",
+  "Could not open the sign-in browser. Enable your device browser or install Chrome, then try again.": "No se pudo abrir el navegador para iniciar sesión. Activa el navegador de tu dispositivo o instala Chrome y vuelve a intentarlo.",
+  "This sign-in attempt expired. Use the Google or Apple button to start again on this device.": "Este intento de inicio de sesión ha caducado. Usa el botón de Google o Apple para empezar de nuevo en este dispositivo.",
+  "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.": "No se pudo iniciar el acceso con Google o Apple. Vuelve a intentarlo y actualiza BeanMora si el problema persiste.",
+  "Sign-in opened in your device browser. Choose your account, then return to BeanMora.": "La página de inicio de sesión se abrió en el navegador de tu dispositivo. Elige tu cuenta y vuelve a BeanMora.",
+  "Sign-in was cancelled. You can try again.": "Se canceló el inicio de sesión. Puedes volver a intentarlo."
 }
