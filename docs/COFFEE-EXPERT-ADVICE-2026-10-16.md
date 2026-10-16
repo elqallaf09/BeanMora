@@ -29,3 +29,7 @@ Local: 1,355 Vitest cases plus 31 recommendation and 37 brew-outcome cases passe
 Root dependency audit: zero findings; nine security regression tests passed. Mobile audit policy passed with two verified installed security backports and zero risk exceptions. Raw npm audit still reports 15 high version findings associated with those already documented tooling packages; this is not a claim of a clean raw mobile audit. No dependency, authentication, database, production data, paid provider or runtime model was added.
 
 Publication follows the existing checked-main Expo web-only release branch. Local fixture exports must never be deployed. No new APK, TestFlight build or physical-device validation is implied. The assistant remains limited to its authored coffee knowledge, supported calculations and available catalog evidence; it cannot answer every possible question or verify current prices without current source data.
+
+## Integration with the newer recipe-alternative change
+
+Main advanced through PR #89 while this change was in validation. The integration keeps both `recipeAlternative` and `equipmentAdvice` state, the recipe-source disclaimer during comparisons, inclusive monetary bounds, and the complete dictionaries from both changes. Local tests now pass 1,370 Vitest cases plus the 31 recommendation and 37 brew-outcome cases; mobile TypeScript/unit/core checks and coverage of 3,177 localized messages also pass. The combined browser and cloud receipts are recorded on the PR.

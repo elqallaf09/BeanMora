@@ -1,7 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 import { setLanguage } from './settings';
 
-async function openAssistant(page: Page, offlineCatalog = false, expiredOffer = false) {
+async function openAssistant(page: Page, offlineCatalog = false, expiredOffer = false, missingFlavorRecipe = false) {
   let providerCalls = 0;
   const searches: unknown[] = [];
   await page.route('**/*', route => {
@@ -21,6 +21,11 @@ async function openAssistant(page: Page, offlineCatalog = false, expiredOffer = 
         { ...base, id: 'cold-coconut', title_ar: 'وصفة جوز الهند الباردة', title_en: 'Cold coconut recipe', search_text: 'coconut xbloom' },
         { ...base, id: 'hot-both', title_ar: 'وصفة حارة', title_en: 'Hot recipe', search_text: 'coconut honey xbloom', facts: { ...base.facts, serving_style: 'hot' } },
         { ...base, id: 'cold-v60', title_ar: 'وصفة V60', title_en: 'V60 recipe', search_text: 'coconut honey', methods: ['v60'] },
+      ];
+      if (missingFlavorRecipe) data = query.p_terms.length ? [] : [
+        { ...base, id: 'wrong-brewer', title_ar: 'وصفة جهاز آخر', title_en: 'Another brewer', methods: ['xbloom'] },
+        { ...base, id: 'wrong-style', title_ar: 'وصفة حارة', title_en: 'Hot recipe', methods: ['v60'], facts: { ...base.facts, serving_style: 'hot' } },
+        { ...base, id: 'alternative-v60', title_ar: 'وصفة V60 مثلجة عامة', title_en: 'General iced V60', methods: ['v60'], search_text: 'v60', facts: { dose: 18, water: 180, temperature: 96, grind: 'Medium-fine', seconds: 150, serving_style: 'iced', incomplete: false, notes: [], source_brew: { manual: { ice_grams: 60, water_input_total_grams: 240 } }, steps: [{ description_ar: 'ضع 60 g ثلج في الإبريق.', description_en: 'Put 60 g ice in the server.' }, { description_ar: 'صب 60 g ماء عند 0:00 و0:45 و1:30.', description_en: 'Pour 60 g water at 0:00, 0:45 and 1:30.' }] } },
       ];
     }
     if (path.endsWith('/rpc/search_coffee_assistant')) {
@@ -43,6 +48,44 @@ async function ask(page: Page, question: string, english = false) {
   await page.getByLabel(english ? 'Your coffee question' : 'سؤالك عن القهوة', { exact: true }).fill(question);
   await page.getByRole('button', { name: english ? 'Send' : 'إرسال', exact: true }).click();
 }
+
+for (const width of [390, 1280]) test(`missing coconut V60 recipe gives a useful published alternative (${width})`, async ({ page }, info) => {
+  await page.setViewportSize({ width, height: 900 });
+  const network = await openAssistant(page, false, false, true);
+  await ask(page, 'أفضل ماء للقهوة؟');
+  await expect(page.getByTestId('assistant-latest-answer')).toContainText('Barista Hustle');
+  await ask(page, 'وصفة لي v60 باردة كوكونت');
+  const latest = page.getByTestId('assistant-latest-answer');
+  await expect(latest).toContainText('وصفة بديلة يمكنك البدء بها');
+  await expect(latest).toContainText('جوز الهند');
+  await expect(latest).toContainText('ولا يؤكد المصدر');
+  await expect(latest).toContainText('الثلج: 60 g');
+  await expect(latest).toContainText('ماء التحضير: 180 g');
+  await expect(latest).toContainText('إجمالي الماء والثلج: 240 g');
+  await expect(latest).toContainText('طريقة التحضير');
+  await expect(latest).toContainText('متوسطة إلى ناعمة');
+  await expect(latest.getByTestId('assistant-result')).toHaveCount(1);
+  await expect(latest).not.toContainText('وصفة جهاز آخر');
+  await expect(latest).not.toContainText('وصفة حارة');
+  await expect(page.getByRole('button', { name: /^(عرض الإجابة|طي الإجابة)$/ })).toHaveCount(0);
+  expect(network.searches).toEqual([
+    { p_terms: expect.arrayContaining(['coconut','جوز الهند','كوكونت']), p_methods: ['v60'], p_serving_style: 'cold', p_limit: 60 },
+    { p_terms: [], p_methods: ['v60'], p_serving_style: 'cold', p_limit: 60 },
+  ]);
+  expect(network.providerCalls()).toBe(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: info.outputPath('published-v60-alternative.png') });
+  await latest.getByRole('button', { name: 'اشرح الأول', exact: true }).click();
+  await expect(latest).toContainText('ولا يؤكد المصدر');
+  await expect(latest).toContainText('الثلج: 60 g');
+  expect(network.searches).toHaveLength(2);
+  await ask(page, 'خلها 15 غرام');
+  await expect(latest).toContainText('الماء الساخن: 150 g');
+  await expect(latest).toContainText('الثلج: 50 g');
+  await expect(latest).toContainText('إجمالي الماء والثلج: 200 g');
+  await expect(latest).toContainText('ولا يؤكد المصدر');
+  expect(network.searches).toHaveLength(2);
+});
 
 for (const width of [390, 1280]) test(`reported V60 follow-up gives an open, structured conversation (${width})`, async ({ page }, info) => {
   await page.setViewportSize({ width, height: 900 });

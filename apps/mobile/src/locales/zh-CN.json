@@ -3175,5 +3175,9 @@
   "The button opens a draft in your email app. Review it and press Send there; opening the draft does not send it.": "此按钮会在邮件应用中打开草稿。请检查内容并在邮件应用中点击发送；仅打开草稿不会发送邮件。",
   "Then compare the machine and grinder together, checking their combined cost before choosing.": "那么就同时比较咖啡机和磨豆机，在选择前确认总成本。",
   "These devices are specification comparisons only, not confirmed matches for your budget or local availability.": "这些设备仅用于规格比较，尚未确认符合您的预算或在当地有货。",
-  "Try this": "动手试试"
+  "Try this": "动手试试",
+  "An alternative recipe to start with": "可作为起点的替代配方",
+  "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "未找到专门针对“{0}”的配方。这个替代方案保留了冲煮器具和冷热条件，但其来源未确认它符合您指定的咖啡豆或风味要求。",
+  "Adjusted quantities from the selected recipe": "根据所选配方调整的用量",
+  "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "这些用量沿用来源中的水与冰比例。请参考原配方步骤；调整咖啡粉量并不意味着时间也按相同比例调整。"
 }

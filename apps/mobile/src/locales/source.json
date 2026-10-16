@@ -251,7 +251,8 @@
     "en": "• Mostly espresso: compare temperature stability and grind adjustment; a single boiler may suit you if waiting between brewing and steaming is acceptable.\n• Frequent milk drinks: compare steam transition speed, or dual-boiler and heat-exchanger designs for simultaneous work.\n• No grinder yet: budget for a machine plus an espresso-capable grinder, or compare an integrated-grinder model.\n• Before buying: check warranty, service, voltage and space; advertised bar pressure alone is not enough.",
     "ar": "• للإسبريسو أكثر من الحليب: قارن الثبات الحراري وضبط الطحن؛ الغلاية الواحدة قد تكفي إذا تقبل الانتظار بين التحضير والتبخير.\n• للحليب المتكرر: قارن سرعة الانتقال للبخار، أو الغلايتين والمبادل الحراري للتحضير والتبخير معًا.\n• إذا ما عندك طاحونة: احسب ماكينة وطاحونة مناسبة للإسبريسو ضمن المجموع، أو قارن جهازًا بطاحونة مدمجة.\n• قبل الشراء: تحقق من الضمان والصيانة والجهد الكهربائي والمقاس؛ رقم البار وحده لا يكفي للاختيار.",
     "files": [
-      "src/core/coffee-curriculum.ts"
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -575,7 +576,8 @@
     "en": "A vibration pump is compact and moves water using electromagnetic motion; it is common in home machines. A rotary pump uses a motor to drive a larger pump and is usually quieter. Some rotary machines support a mains water connection; check the model. Both can make good espresso. Grind, temperature and puck preparation also matter, so a rotary pump is not essential.",
     "ar": "الاهتزازية: مدمجة وتستخدم حركة كهرومغناطيسية لضخ الماء، وهي شائعة في المكاين المنزلية. الروتاري: محرك يدير مضخة أكبر، وغالبًا تكون أهدأ. بعض مكاين الروتاري تقبل التوصيل بالماء، لكن تأكد من موديلك. كلتاهما قادرة على إسبريسو جيد؛ جودة الكوب تعتمد أيضًا على الطحن والحرارة وتوزيع البن. الروتاري ليست شرطًا لشراء ماكينة جيدة.",
     "files": [
-      "src/core/coffee-curriculum.ts"
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -1017,6 +1019,14 @@
     ]
   },
   {
+    "en": "Adjusted quantities from the selected recipe",
+    "ar": "مقادير معدّلة من الوصفة المختارة",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Advanced functions depend on the machine and manufacturer app.",
     "ar": "تعتمد الميزات المتقدمة على الجهاز وتطبيق الشركة.",
     "files": [
@@ -1420,6 +1430,14 @@
     ]
   },
   {
+    "en": "An alternative recipe to start with",
+    "ar": "وصفة بديلة يمكنك البدء بها",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "An Arabic-coffee capsule machine from a Kuwaiti project.",
     "ar": "جهاز كبسولات للقهوة العربية من مشروع كويتي.",
     "files": [
@@ -1438,7 +1456,8 @@
     "en": "An integrated grinder combines grinding and brewing in one appliance, reducing separate devices on the counter. A separate grinder lets you choose, upgrade and service it independently; that flexibility does not guarantee better taste. Espresso needs sufficiently fine adjustment and repeatable dosing. If you already own a suitable grinder, compare machine-only cost before paying for another integrated grinder.",
     "ar": "المدمجة تجمع الطحن والتحضير في جهاز واحد وتقلل عدد الأجهزة على الطاولة. المنفصلة تسمح باختيار طاحونة تناسب استخدامك وترقيتها أو صيانتها بشكل مستقل؛ هذه فائدة عملية وليست ضمانًا لطعم أفضل. للإسبريسو، المهم قدرة الطاحونة على ضبط الطحن بدقة وتكرار الجرعة. إذا عندك طاحونة جيدة، قارن تكلفة الماكينة وحدها قبل دفع قيمة طاحونة مدمجة إضافية.",
     "files": [
-      "src/core/coffee-curriculum.ts"
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -4421,7 +4440,8 @@
     "en": "Choosing an espresso machine",
     "ar": "اختيار ماكينة الإسبريسو",
     "files": [
-      "src/core/coffee-curriculum.ts"
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -5422,7 +5442,8 @@
     "en": "Compare noise, space, water supply and service cost. Setting pump pressure is different from controlling flow during a shot; pump type alone does not establish either feature.",
     "ar": "قارن الضجيج والمساحة وطريقة تزويد الماء وتكلفة الصيانة. إعداد ضغط المضخة يختلف عن التحكم بالتدفق أثناء الشوت؛ نوع المضخة وحده لا يثبت وجود أي منهما.",
     "files": [
-      "src/core/coffee-curriculum.ts"
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -5759,7 +5780,8 @@
     "en": "Contact us",
     "ar": "تواصل معنا",
     "files": [
-      "src/support-mail.ts"
+      "src/support-mail.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -5790,7 +5812,8 @@
     "en": "Continue with the same budget",
     "ar": "نكمل على نفس الميزانية",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -6234,7 +6257,8 @@
     "en": "Could not open an email app. Copy the address shown and send your message from your preferred email app.",
     "ar": "تعذّر فتح تطبيق البريد. انسخ عنوان البريد الظاهر وأرسل رسالتك من تطبيق البريد الذي تستخدمه.",
     "files": [
-      "src/support-mail.ts"
+      "src/support-mail.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -6936,7 +6960,8 @@
     "en": "Describe your request here:",
     "ar": "اكتب تفاصيل طلبك هنا:",
     "files": [
-      "src/support-mail.ts"
+      "src/support-mail.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -7308,7 +7333,8 @@
     "en": "Do not send passwords, verification codes or payment details.",
     "ar": "لا ترسل كلمة المرور أو رمز التحقق أو معلومات الدفع.",
     "files": [
-      "src/support-mail.ts"
+      "src/support-mail.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -8949,14 +8975,16 @@
     "en": "Flow control and pressure adjustment",
     "ar": "التحكم بالتدفق وتعديل الضغط",
     "files": [
-      "src/core/coffee-curriculum.ts"
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
     "en": "Flow control changes water entering the brew group during a shot; pressure responds to puck resistance. Adjusting pump pressure is a different setting and does not necessarily give control during extraction. A pressure gauge does not imply programmable pressure. Before buying a flow-control kit, check compatibility with the exact machine, group version and warranty.",
     "ar": "التحكم بالتدفق يغيّر كمية الماء الداخلة إلى مجموعة التحضير أثناء الشوت؛ يتغير الضغط معها بحسب مقاومة البن. ضبط ضغط المضخة يحدد إعدادًا مختلفًا ولا يعطيك بالضرورة تحكمًا لحظيًا. وجود عداد ضغط لا يعني أن الضغط قابل للبرمجة. قبل شراء قطعة Flow Control، تأكد من توافقها مع موديل الماكينة وإصدار مجموعة التحضير والضمان.",
     "files": [
-      "src/core/coffee-curriculum.ts"
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -9177,7 +9205,8 @@
     "en": "For help, questions and reports, contact the BeanMora team at this email address.",
     "ar": "للدعم والاستفسارات والبلاغات، راسل فريق BeanMora عبر البريد التالي.",
     "files": [
-      "src/support-mail.ts"
+      "src/support-mail.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -9735,7 +9764,8 @@
     "en": "Give your current grinder model and whether you use it for espresso only or filter coffee too. Grind numbers do not transfer between grinders; even the same model depends on zero point and calibration.",
     "ar": "اذكر موديل طاحونتك الحالية، وهل تستخدمها للإسبريسو فقط أو للترشيح أيضًا. لا أنقل أرقام الطحن بين الطواحين؛ حتى الموديل نفسه يتأثر بنقطة الصفر والمعايرة.",
     "files": [
-      "src/core/coffee-curriculum.ts"
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -10469,7 +10499,8 @@
     "en": "Help and questions",
     "ar": "دعم واستفسارات",
     "files": [
-      "src/support-mail.ts"
+      "src/support-mail.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -10730,7 +10761,8 @@
     "en": "How to choose",
     "ar": "شلون تختار؟",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -10829,6 +10861,14 @@
     "ar": "لم أجد وصفة{0} منشورة تطابق طريقة التحضير وكلمات بحثك. جرّب إيحاءً واحدًا أو اسم البن، أو اطلب وصفات الجهاز بدون إيحاءات.",
     "files": [
       "src/core/coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.",
+    "ar": "لم أجد وصفة مخصّصة لـ«{0}». هذا بديل بنفس طريقة التحضير والتقديم، ولا يؤكد المصدر مطابقته للبن أو الإيحاء المطلوب.",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -11062,7 +11102,8 @@
     "en": "Include the username or content link or ID, and the reason for your report. Attach a screenshot if needed without exposing sensitive data.",
     "ar": "اذكر اسم المستخدم أو رابط المحتوى أو معرّفه، وسبب البلاغ. أرفق لقطة شاشة عند الحاجة دون كشف بيانات حساسة.",
     "files": [
-      "src/support-mail.ts"
+      "src/support-mail.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -11147,7 +11188,8 @@
     "en": "Integrated or separate grinder?",
     "ar": "الطاحونة المدمجة أم المنفصلة؟",
     "files": [
-      "src/core/coffee-curriculum.ts"
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -11245,7 +11287,8 @@
     "en": "Is your budget for the machine alone, or does it include an espresso grinder?",
     "ar": "ميزانيتك للماكينة فقط، أو تشمل طاحونة إسبريسو؟",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -12908,6 +12951,7 @@
     "ar": "متوسط خشن",
     "files": [
       "src/RecipeDetail.tsx",
+      "src/core/local-coffee-assistant.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -12923,6 +12967,7 @@
     "ar": "متوسط ناعم",
     "files": [
       "src/RecipeDetail.tsx",
+      "src/core/local-coffee-assistant.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -14284,7 +14329,8 @@
     "en": "No recent verified offer meets all your constraints right now; this does not mean the machine is absent from the market. Price, shipping and stock need checking with the seller.",
     "ar": "لا يوجد عرض حديث موثّق يطابق جميع شروطك الآن؛ هذا لا يعني أن الماكينة غير موجودة في السوق. السعر والشحن والتوفر يحتاجون تحققًا من البائع.",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -15486,7 +15532,8 @@
     "en": "peaches",
     "ar": "خوخ",
     "files": [
-      "src/core/flavor-vocabulary.ts"
+      "src/core/flavor-vocabulary.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -16279,7 +16326,8 @@
     "en": "Privacy and account",
     "ar": "الخصوصية والحساب",
     "files": [
-      "src/support-mail.ts"
+      "src/support-mail.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -17535,14 +17583,16 @@
     "en": "Report a technical issue",
     "ar": "الإبلاغ عن مشكلة تقنية",
     "files": [
-      "src/support-mail.ts"
+      "src/support-mail.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
     "en": "Report content or a user",
     "ar": "بلاغ عن محتوى أو مستخدم",
     "files": [
-      "src/support-mail.ts"
+      "src/support-mail.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -18418,7 +18468,8 @@
     "en": "Rotary and vibration pumps",
     "ar": "المضخة الروتاري والاهتزازية",
     "files": [
-      "src/core/coffee-curriculum.ts"
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -19846,7 +19897,8 @@
     "en": "Since you own a grinder, focus the comparison on the machine; its model is needed to check espresso suitability.",
     "ar": "بما أن عندك طاحونة، نركز المقارنة على الماكينة؛ نحتاج موديل الطاحونة للتأكد من ملاءمتها للإسبريسو.",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -20275,7 +20327,8 @@
     "en": "Specification comparison — price and stock unconfirmed",
     "ar": "مقارنة مواصفات — السعر والتوفر غير مؤكدين",
     "files": [
-      "src/CoffeeAssistant.tsx"
+      "src/CoffeeAssistant.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -20708,7 +20761,8 @@
     "en": "Start with a repeatable recipe and record dose, yield and time, then compare a flow change alone. E61 groups do not automatically accept the same kit; supply the full model or manufacturer manual to check.",
     "ar": "ابدأ بوصفة ثابتة وسجل الجرعة والناتج والوقت، ثم قارن تغيير التدفق وحده. لا أفترض أن كل مجموعة E61 تقبل القطعة نفسها؛ أعطني الموديل الكامل أو دليل الشركة للتحقق.",
     "files": [
-      "src/core/coffee-curriculum.ts"
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -20746,7 +20800,8 @@
     "en": "Start with your budget",
     "ar": "نبدأ من ميزانيتك",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -21498,7 +21553,8 @@
     "en": "Tell me consecutive drink count, drink types, whether you own a grinder and your budget with currency. I can compare published specifications; price and stock require a dated seller offer.",
     "ar": "أعطني عدد الأكواب المتتالية، ونوع المشروبات، وهل عندك طاحونة، والميزانية مع العملة. أقدر أقارن المواصفات المنشورة؛ السعر والتوفر يحتاجان عرضًا مؤرخًا من بائع.",
     "files": [
-      "src/core/coffee-curriculum.ts"
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -21662,7 +21718,8 @@
     "en": "The button opens a draft in your email app. Review it and press Send there; opening the draft does not send it.",
     "ar": "يفتح الزر تطبيق البريد برسالة جاهزة. راجع رسالتك واضغط إرسال هناك؛ فتح البريد وحده لا يرسل الرسالة.",
     "files": [
-      "src/support-mail.ts"
+      "src/support-mail.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -21794,7 +21851,8 @@
     "en": "Then compare the machine and grinder together, checking their combined cost before choosing.",
     "ar": "إذًا نقارن تكلفة الماكينة والطاحونة معًا، ونحسب المجموع قبل الاختيار.",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -21859,7 +21917,16 @@
     "en": "These devices are specification comparisons only, not confirmed matches for your budget or local availability.",
     "ar": "هذه أجهزة للمقارنة من حيث المواصفات فقط، وليست خيارات مؤكدة ضمن الميزانية أو متوفرة في بلدك.",
     "files": [
-      "src/core/local-coffee-assistant.ts"
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.",
+    "ar": "هذه مقادير محسوبة بتقسيم الماء والثلج في المصدر. راجع خطوات الوصفة الأصلية؛ تغيير الجرعة لا يعني تغيير التوقيت بنفس النسبة.",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -22452,7 +22519,8 @@
     "en": "Try this",
     "ar": "تطبيق عملي",
     "files": [
-      "src/core/coffee-knowledge.ts"
+      "src/core/coffee-knowledge.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {

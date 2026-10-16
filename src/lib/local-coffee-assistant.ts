@@ -1,4 +1,4 @@
-import { assistantRecipeServingStyle, assistantReply, assistantSafeUrl, assistantSearchTerms, hasEquipmentIntent, hasRecipeIntent, parseAssistantQuery, rankAssistantDocuments, type AssistantDocument, type AssistantMatch, type AssistantQuery, type CatalogRate } from './coffee-assistant';
+import { assistantRecipeServingStyle, assistantReply, assistantSafeUrl, assistantSearchTerms, assistantTermLabel, hasEquipmentIntent, hasRecipeIntent, parseAssistantQuery, rankAssistantDocuments, type AssistantDocument, type AssistantMatch, type AssistantQuery, type CatalogRate } from './coffee-assistant';
 import { factLabels } from './equipment-facts';
 import { normalizeSearch } from './search/deepSearch';
 import { coffeeKnowledgeAnswer, coffeeLearningTopics, coffeeLessonById } from './coffee-knowledge';
@@ -10,6 +10,7 @@ export interface LocalAssistantTurn {
   knowledgeTopic?: string;
   /** Specification candidates are never advertised as confirmed budget/stock matches. */
   equipmentAdvice?: 'unverified-price';
+  recipeAlternative?: boolean;
   followUp?: string; suggestions?: string[]; sources?: { title: string; url: string }[];
   calculation?: { dose: number | null; ratio: number | null; method: string | null; servingStyle?: 'iced' | 'hot' };
   coach?: { signal: string; method: string | null; dose?: number; output?: number; seconds?: number };
@@ -128,14 +129,14 @@ function selectedResults(q: string, matches: AssistantMatch[]) {
   if (indexes.length) return { explicit: true, matches: [...new Set(indexes)].flatMap(i => matches[i] ? [matches[i]] : []), invalid: indexes.some(i => !matches[i]) };
   return { explicit: named.length > 0, matches: named, invalid: false };
 }
-function referenceText(matches: AssistantMatch[], ar: boolean, compare: boolean, translate?: (arabic:string,english:string)=>string, translateValue?: (arabic:string,english:string)=>string) {
+function referenceText(matches: AssistantMatch[], ar: boolean, compare: boolean, translate?: (arabic:string,english:string)=>string, translateValue?: (arabic:string,english:string)=>string, grouped = false) {
   const L=translate??((arabic:string,english:string)=>ar?arabic:english);
   const V=translateValue??((arabic:string,english:string)=>ar?arabic:english);
   const missing = L('غير مذكور في المصدر', 'Not reported by the source');
   const keys = [...new Set(matches.flatMap(m => Object.keys(m.document.facts ?? {}).filter(k => k in factLabels)))].slice(0, 8);
   return matches.map((m, i) => {
     const d = m.document, f = d.facts ?? {};
-    const lines = [`${i + 1}. ${V(title(d,true),title(d,false))}`];
+    const lines = [`${grouped ? '' : `${i + 1}. `}${V(title(d,true),title(d,false))}`];
     if (d.kind === 'recipe') {
       const record = (v: unknown): Record<string, unknown> => v && typeof v === 'object' && !Array.isArray(v) ? v as Record<string, unknown> : {};
       const source = record(f.source_brew), manual = record(source.manual);
@@ -152,12 +153,19 @@ function referenceText(matches: AssistantMatch[], ar: boolean, compare: boolean,
       const waterMl = source.water_ml ?? manual.water_ml;
       const hasPourTemperatures = Array.isArray(source.pours) && source.pours.some(pour => positive(record(pour).temperature));
       const style = assistantRecipeServingStyle(d);
+      if (grouped) lines.push('');
       if (style) lines.push(`${L('التقديم', 'Serving')}: ${style === 'hot' ? (L('حار', 'Hot')) : (L('بارد', 'Cold'))}`);
+      if (grouped) lines.push('');
       for (const [key, label, unit] of [['dose', L('البن', 'Coffee'), 'g'], ['water', L('ماء التحضير', 'Brew water'), 'g'], ['temperature', L('الحرارة', 'Temperature'), '°C']] as const) {
         // The catalog water field is not espresso beverage yield.
         if (key === 'water' && d.methods.includes('espresso')) continue;
         lines.push(`${label}: ${positive(f[key]) ? number(f[key] as number) + ' ' + unit : key === 'water' && positive(waterMl) ? number(waterMl) + ' ml' : key === 'temperature' && hasPourTemperatures ? (L('حسب الصبات المنشورة أدناه', 'See the published pour temperatures below')) : key === 'temperature' ? note('temperature_note') || missing : missing}`);
       }
+      const ice = style === 'iced' ? quantity(manual.ice_grams ?? source.ice_grams, null, null, 'g') : '';
+      if (ice) lines.push(`${L('الثلج', 'Ice')}: ${ice}`);
+      const total = ice ? quantity(manual.water_input_total_grams, null, null, 'g') : '';
+      if (total) lines.push(`${L('إجمالي الماء والثلج', 'Total water and ice')}: ${total}`);
+      if (grouped) lines.push('');
       if (d.methods.includes('espresso')) {
         const yields = [quantity(manual.yield_grams, manual.yield_min_grams, manual.yield_max_grams, 'g'), quantity(manual.yield_ml, manual.yield_min_ml, manual.yield_max_ml, 'ml')].filter(Boolean);
         const calculated = manual.yield_derived_from_ratio === true && yields.length ? L(' (محسوب)', ' (calculated)') : '';
@@ -168,13 +176,17 @@ function referenceText(matches: AssistantMatch[], ar: boolean, compare: boolean,
       if (time) lines.push(`${L('الوقت', 'Time')}: ${time}`);
       const sourceRatio = textValue(manual.source_ratio_text, false);
       if (sourceRatio) lines.push(`${L('نسبة المصدر', 'Source ratio')}: ${sourceRatio}`);
-      const grindAr = textValue(f.grind,true) || textValue(source.grind_size,true);
+      const grindAr = textValue(manual.grind_ar,true) || textValue(f.grind,true) || textValue(source.grind_size,true);
       const grindEn = textValue(f.grind,false) || textValue(source.grind_size,false);
-      const grind = grindAr || grindEn ? L(grindAr||grindEn,grindEn||grindAr) : '';
+      const grind = typeof manual.grind_ar === 'string' && manual.grind_ar.trim() ? L(grindAr, grindEn || grindAr)
+        : norm(grindEn) === 'medium-fine' ? L('متوسطة إلى ناعمة', 'Medium-fine')
+        : norm(grindEn) === 'medium-coarse' ? L('متوسطة إلى خشنة', 'Medium-coarse')
+          : grindAr || grindEn ? L(grindAr||grindEn,grindEn||grindAr) : '';
       lines.push(`${L('الطحن المنشور', 'Published grind')}: ${grind || missing}`);
       if (typeof source.model === 'string' && source.model.trim()) lines.push(`${L('موديل المصدر', 'Source model')}: ${source.model.trim().slice(0, 80)}`);
-      if (style === 'iced') lines.push(L('راجع كمية الثلج في المصدر؛ لا أضيف مقدارًا غير منشور.', 'Check the source for the ice amount; no unpublished quantity is added.'));
+      if (style === 'iced' && !ice) lines.push(L('راجع كمية الثلج في المصدر؛ لا أضيف مقدارًا غير منشور.', 'Check the source for the ice amount; no unpublished quantity is added.'));
       const steps = Array.isArray(f.steps) ? f.steps : [];
+      if (grouped && steps.length) lines.push('', L('طريقة التحضير', 'How to brew'));
       if (!compare) for (const step of steps.slice(0, 12)) {
         if (!step || typeof step !== 'object') continue;
         const english = String(step.description_en || step.description_ar || '').slice(0,600);
@@ -194,6 +206,25 @@ function referenceText(matches: AssistantMatch[], ar: boolean, compare: boolean,
     if (d.kind === 'equipment' && !keys.length) lines.push(L('لا توجد مواصفات موثقة تكفي للمقارنة.', 'There are not enough documented specifications to compare.'));
     return lines.join('\n');
   }).join('\n\n');
+}
+
+/** Prefer usable publisher instructions when a requested coffee/note has no match. */
+function recipeInstructionScore(document: AssistantDocument): number {
+  const f = document.facts ?? {};
+  const source = f.source_brew as Record<string, unknown> | undefined;
+  const manual = source?.manual as Record<string, unknown> | undefined;
+  const steps = Array.isArray(f.steps) ? f.steps.filter(step => step && typeof step === 'object' &&
+    [step.description_ar, step.description_en].some(text => typeof text === 'string' && text.trim())) : [];
+  if (!assistantSafeUrl(document.source_url) || !steps.length || !positive(f.dose)) return -1;
+  return Number(f.incomplete === false) * 8 + Number(positive(f.water) || positive(source?.water_ml) || positive(manual?.water_ml)) * 4
+    + Number(positive(manual?.ice_grams ?? source?.ice_grams)) * 2 + Math.min(steps.length, 4);
+}
+
+function recipeAlternativeNotice(query: AssistantQuery, L: (arabic:string,english:string)=>string) {
+  const requested = query.terms.map(term => L(assistantTermLabel(term, 'ar'), assistantTermLabel(term, 'en'))).join(L('، ', ', '));
+  return [L('وصفة بديلة يمكنك البدء بها', 'An alternative recipe to start with'),
+    L(`لم أجد وصفة مخصّصة لـ«${requested}». هذا بديل بنفس طريقة التحضير والتقديم، ولا يؤكد المصدر مطابقته للبن أو الإيحاء المطلوب.`, `I found no recipe specifically for “${requested}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.`),
+  ].join('\n\n');
 }
 
 /** All answers are assembled from typed facts, explicit arithmetic or reviewed local guidance. */
@@ -250,16 +281,25 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
     if (selection.invalid) return reply(L('هذا الرقم غير موجود في النتائج السابقة. اختر رقمًا ظاهرًا.', 'That result number is not in the previous results. Choose a displayed number.'));
     const recipe = selected.find(m => m.document.kind === 'recipe')?.document;
     const f = recipe?.facts ?? {};
+    const sourceBrew = f.source_brew as Record<string, unknown> | undefined;
+    const manual = sourceBrew?.manual as Record<string, unknown> | undefined;
+    const sourceIce = manual?.ice_grams ?? sourceBrew?.ice_grams;
+    const sourceStyle = recipe ? assistantRecipeServingStyle(recipe) : null;
+    const knownIceSplit = sourceStyle === 'iced' && positive(f.dose) && positive(f.water) && positive(sourceIce)
+      && f.dose <= 1000 && f.water + sourceIce <= 20000
+      && (manual?.water_input_total_grams === undefined || positive(manual.water_input_total_grams)
+        && Math.abs(manual.water_input_total_grams - f.water - sourceIce) < .01);
     const dose = doseMatch ? Number(doseMatch[1]) : bareDose ?? last?.dose ?? null;
-    const baseRatio = recipe && !recipe.methods.includes('espresso') && positive(f.dose) && positive(f.water) ? f.water / f.dose : null;
+    const baseRatio = recipe && !recipe.methods.includes('espresso') && positive(f.dose) && positive(f.water) ? (f.water + (knownIceSplit ? sourceIce as number : 0)) / f.dose : null;
     const brewMethod = methods[0] ?? recipe?.methods[0] ?? last?.method ?? method;
     const servingStyle = /(?:بدون|دون)\s+(?:ال)?ثلج|\b(?:without|no) ice\b/.test(q) ? 'hot'
       : /ثلج|مثلج|متلج|\b(?:ice|iced)\b/.test(q) || (brewMethod !== 'cold_brew' && /بارد|\bcold\b/.test(q)) ? 'iced'
-        : /حار|\bhot\b/.test(q) ? 'hot' : last?.servingStyle;
+        : /حار|\bhot\b/.test(q) ? 'hot' : last?.servingStyle ?? (sourceStyle === 'iced' ? 'iced' : sourceStyle === 'hot' ? 'hot' : undefined);
     // The default is scoped to explicitly hot or iced V60. Never apply it to espresso,
     // cold brew or source recipes whose ice quantities are not published.
     const icedV60 = servingStyle === 'iced' && brewMethod === 'v60' && !recipe;
     const hotV60 = servingStyle === 'hot' && brewMethod === 'v60' && !recipe;
+    const sourceIcedV60 = servingStyle === 'iced' && brewMethod === 'v60' && recipe?.methods.includes('v60') && knownIceSplit;
     const ratio = ratioMatch ? Number(ratioMatch[1]) : last?.ratio ?? baseRatio ?? (icedV60 || hotV60 ? 15 : null);
     const calculation = { dose, ratio, method: brewMethod, ...(servingStyle ? { servingStyle } : {}) };
     if (!brewMethod && (quantityQuestion || doseServingRequest || (previous?.intent === 'calculate' && ratio === null))) return reply([
@@ -271,12 +311,27 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
       dose !== null ? `${L('البن', 'Coffee')}: ${number(dose)} g` : L('كم غرام بن تستخدم؟', 'How many grams of coffee are you using?'),
       L('هل تريده حارًا أم بالثلج؟', 'Would you like it hot or iced?'),
     ].join('\n'), { intent: 'calculate', calculation, suggestions: [L('V60 بالثلج', 'Iced V60'), L('V60 حار', 'Hot V60')] });
-    if (servingStyle === 'iced' && !icedV60) return reply(L('اذكر طريقة التحضير ووصفة تحدد كمية الثلج؛ لا أطبّق تقسيم V60 على طريقة أخرى أو أفترض كمية ثلج لوصفة منشورة.', 'Specify the brewer and a recipe with an ice amount; the V60 split does not apply to other methods or to published recipes with unspecified ice.'), { intent: 'calculate', calculation });
+    if (servingStyle === 'iced' && !icedV60 && !sourceIcedV60) return reply(L('اذكر طريقة التحضير ووصفة تحدد كمية الثلج؛ لا أطبّق تقسيم V60 على طريقة أخرى أو أفترض كمية ثلج لوصفة منشورة.', 'Specify the brewer and a recipe with an ice amount; the V60 split does not apply to other methods or to published recipes with unspecified ice.'), { intent: 'calculate', calculation });
     if (icedV60 && dose === null) return reply(L('كم غرام بن تستخدم للـV60؟ أحسب لك الماء الساخن والثلج حسب وزن البن.', 'How many grams of coffee are you using for V60? I can calculate hot water and ice from the coffee dose.'), { intent: 'calculate', calculation });
     if (dose === null || ratio === null) return reply(L('حدد وزن البن والنسبة، مثل: احسب 18 غرام بنسبة 1:16. للإسبريسو اذكر أنه إسبريسو لحساب وزن المشروب.', 'Give the coffee dose and ratio, for example: calculate 18 g at 1:16. Say espresso when you mean beverage yield.'), { intent: 'calculate', calculation });
     if (dose <= 0 || dose > 1000 || ratio <= 0 || ratio > 100) return reply(L('استخدم جرعة بين 0 و1000 غرام ونسبة بين 0 و100، وكلاهما أكبر من صفر.', 'Use a dose up to 1000 g and a ratio up to 100, both greater than zero.'), { intent: 'calculate', calculation });
     if (brewMethod === 'moka_pot') return reply(L('الموكا بوت تعتمد على سعة السلة والخزان. لا أغيّر تعبئتها بحساب النسبة؛ اتبع دليل مقاس إبريقك.', 'Moka pot filling depends on its basket and boiler size. Follow the guide for your pot instead of scaling its fill by ratio.'), { intent: 'calculate', calculation });
     if (brewMethod === 'xbloom' && (dose < 5 || dose > 18)) return reply(L('هذه الجرعة خارج نطاق 5–18 g الذي يدعمه مسار xBloom في التطبيق. اختر جرعة ضمنه.', 'This dose is outside the app’s supported xBloom range of 5–18 g. Choose a dose in that range.'), { intent: 'calculate', calculation });
+    if (sourceIcedV60) {
+      const total = Math.round(dose * ratio * 100) / 100;
+      const water = Math.round(total * (f.water as number) / ((f.water as number) + (sourceIce as number)) * 100) / 100;
+      const ice = Math.round((total - water) * 100) / 100;
+      return reply([
+        ...(previous?.recipeAlternative ? [recipeAlternativeNotice(previous.query, L)] : []),
+        L('مقادير معدّلة من الوصفة المختارة', 'Adjusted quantities from the selected recipe'),
+        [`${L('البن', 'Coffee')}: ${number(dose)} g`, `${L('الماء الساخن', 'Hot water')}: ${number(water)} g`, `${L('الثلج', 'Ice')}: ${number(ice)} g`, `${L('إجمالي الماء والثلج', 'Total water and ice')}: ${number(total)} g`].join('\n'),
+        ...(dose > 40 ? [L('هذه مقادير إجمالية لكمية كبيرة. قسّمها إلى دفعات تناسب سعة القمع والإبريق؛ لا تحضّرها كلها في دفعة واحدة.', 'These are totals for a large batch. Divide it into batches that fit your dripper and server; do not brew it all at once.')] : []),
+        L('هذه مقادير محسوبة بتقسيم الماء والثلج في المصدر. راجع خطوات الوصفة الأصلية؛ تغيير الجرعة لا يعني تغيير التوقيت بنفس النسبة.', 'These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.'),
+      ].join('\n\n'), { intent: 'calculate', calculation, matches: selected, recipeAlternative: previous?.recipeAlternative,
+        query: previous?.recipeAlternative ? previous.query : query,
+        sources: recipe?.source_url ? [{title: title(recipe, ar), url: recipe.source_url}] : [],
+      });
+    }
     if (icedV60 || hotV60) {
       // Adapt Bean Rock's published pour proportions, explicitly labelled as a
       // starting point. Round cumulative targets so every added pour sums exactly.
@@ -326,10 +381,10 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
   const knowledge = !shopping && (!hasRecipeIntent(q) || lessonRequest) && !selection.explicit && !(compare && references.length) ? coffeeKnowledgeAnswer(question, locale, previous?.knowledgeTopic, L) : null;
   if (!shopping && ((compare && (references.length > 0 || !knowledge)) || selection.explicit || (explain && references.length && !knowledge))) {
     const chosen = selection.explicit ? selection.matches : compare ? references.slice(0, 3) : references.length === 1 ? references : [];
-    if (selection.invalid || !chosen.length || (compare && chosen.length < 2)) return reply(L('ابحث عن الخيارات أولًا، ثم قل «اشرح الأول» أو «قارن الأول والثاني». اختر رقمًا من النتائج الظاهرة.', 'Search for options first, then say “explain the first” or “compare the first and second”. Use a displayed result number.'), { matches: references, query: previous?.query ?? query });
+    if (selection.invalid || !chosen.length || (compare && chosen.length < 2)) return reply(L('ابحث عن الخيارات أولًا، ثم قل «اشرح الأول» أو «قارن الأول والثاني». اختر رقمًا من النتائج الظاهرة.', 'Search for options first, then say “explain the first” or “compare the first and second”. Use a displayed result number.'), { matches: references, query: previous?.query ?? query, equipmentAdvice: previous?.equipmentAdvice, recipeAlternative: previous?.recipeAlternative });
     // Revalidate dated offers locally before displaying references; never keep a stale price alive.
     const matches = chosen.map(m => ({ ...m, price: previous?.equipmentAdvice ? null : rankAssistantDocuments([m.document], { ...query, kind: m.document.kind, category: null, methods: [], terms: [], amount: null, minAmount: null, currency: m.price?.currency ?? null, region: null, availableOnly: false, clarification: null }, [], dependencies.now)[0]?.price ?? null }));
-    return reply((compare ? (L('أقارن المواصفات المنشورة فقط؛ غير المذكور يبقى غير معروف.\n\n', 'Comparing published specifications; missing details remain unknown.\n\n')) : '') + referenceText(matches, ar, compare, L, dependencies.translateValue), { intent: compare ? 'compare' : 'explain', matches, query: previous?.query ?? query, equipmentAdvice: previous?.equipmentAdvice, suggestions: compare ? ([L('أبي أرخص خيار', 'Show a cheaper option'), L('اشرح الأول', 'Explain the first')]) : [] });
+    return reply((previous?.recipeAlternative ? recipeAlternativeNotice(previous.query, L) + '\n\n' : '') + (compare ? (L('أقارن المواصفات المنشورة فقط؛ غير المذكور يبقى غير معروف.\n\n', 'Comparing published specifications; missing details remain unknown.\n\n')) : '') + referenceText(matches, ar, compare, L, dependencies.translateValue, previous?.recipeAlternative), { intent: compare ? 'compare' : 'explain', matches, query: previous?.query ?? query, equipmentAdvice: previous?.equipmentAdvice, recipeAlternative: previous?.recipeAlternative, suggestions: compare ? ([L('أبي أرخص خيار', 'Show a cheaper option'), L('اشرح الأول', 'Explain the first')]) : [] });
   }
 
   const negated = q.replace(/(?:مو|مش|ليس|بدون|not|isnt|isn't)\s+(?:حامض|حامضه|مر|مره|sour|bitter)/g, '');
@@ -411,6 +466,25 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
     return reply(answer, { intent: 'search', matches: candidates, equipmentAdvice: 'unverified-price', sources: lesson?.sources ?? [],
       followUp: query.category === 'espresso_machine' ? L('ميزانيتك للماكينة فقط، أو تشمل طاحونة إسبريسو؟', 'Is your budget for the machine alone, or does it include an espresso grinder?') : undefined,
       suggestions: candidates.length >= 2 ? [L('قارن الأول والثاني', 'Compare the first and second')] : [L('ابحث بدون ميزانية', 'Search without budget')] });
+  }
+  if (!matches.length && query.kind === 'recipe' && query.terms.length && query.methods.length === 1 && query.servingStyle) {
+    // One bounded retry drops only coffee/note terms. Brewer and hot/cold are
+    // still enforced on the server and rechecked locally before any suggestion.
+    const alternativeQuery = { ...query, terms: [], noteTerms: [] };
+    const alternativeSearch = await dependencies.search(alternativeQuery);
+    const alternatives = alternativeSearch.documents.slice(0, 200)
+      .flatMap(document => rankAssistantDocuments([document], alternativeQuery, alternativeSearch.rates, now))
+      .filter(match => recipeInstructionScore(match.document) >= 0)
+      .sort((a, b) => recipeInstructionScore(b.document) - recipeInstructionScore(a.document));
+    if (alternatives.length) {
+      // Keep the original request for follow-ups and never label broadened
+      // results as matching the requested coffee, origin or tasting notes.
+      const alternative = { ...alternatives[0], allTerms: false, matchedTerms: [], confirmedNotes: [] };
+      return reply(recipeAlternativeNotice(query, L) + '\n\n' + referenceText([alternative], ar, false, L, dependencies.translateValue, true), {
+        intent: 'search', recipeAlternative: true, matches: [alternative],
+        suggestions: [L('اشرح الأول', 'Explain the first'), L(`وصفات ${query.methods[0]} بدون إيحاءات`, `${query.methods[0]} recipes without tasting notes`)],
+      });
+    }
   }
   const answer = assistantReply(query, matches, locale, L, dependencies.translateValue) + (query.kind === 'recipe' && matches.length ? '\n\n' + referenceText(matches.slice(0, 1), ar, false, L, dependencies.translateValue) : '');
   return reply(answer, { intent: 'search', matches, sources: [], suggestions: matches.length >= 2 ? ([L('قارن الأول والثاني', 'Compare the first and second'), L('اشرح الأول', 'Explain the first')]) : matches.length ? ([L('اشرح الأول', 'Explain the first')]) : query.kind === 'recipe' && query.terms.length && query.methods.length ? ([L(`وصفات ${query.methods[0]} بدون إيحاءات`, `${query.methods[0]} recipes without tasting notes`)]) : query.amount !== null ? ([L('ابحث بدون ميزانية', 'Search without budget')]) : [] });

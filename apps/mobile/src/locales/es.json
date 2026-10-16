@@ -3175,5 +3175,9 @@
   "The button opens a draft in your email app. Review it and press Send there; opening the draft does not send it.": "El botón abre un borrador en tu aplicación de correo. Revísalo y pulsa Enviar allí; abrir el borrador no envía el mensaje.",
   "Then compare the machine and grinder together, checking their combined cost before choosing.": "Comparemos entonces máquina y molinillo juntos, comprobando su coste total antes de elegir.",
   "These devices are specification comparisons only, not confirmed matches for your budget or local availability.": "Estos aparatos se muestran solo para comparar especificaciones; no se confirma que encajen en tu presupuesto ni su disponibilidad local.",
-  "Try this": "Prueba esto"
+  "Try this": "Prueba esto",
+  "An alternative recipe to start with": "Una receta alternativa para empezar",
+  "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "No encontré una receta específica para «{0}». Esta alternativa mantiene el método de preparación y si se sirve caliente o fría; la fuente no confirma que corresponda al café o a las notas de sabor solicitados.",
+  "Adjusted quantities from the selected recipe": "Cantidades ajustadas de la receta seleccionada",
+  "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "Estas cantidades mantienen la proporción de agua y hielo de la fuente. Consulta los pasos de la receta original; cambiar la dosis no implica cambiar los tiempos en la misma proporción."
 }

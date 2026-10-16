@@ -3175,5 +3175,9 @@
   "The button opens a draft in your email app. Review it and press Send there; opening the draft does not send it.": "ボタンを押すとメールアプリで下書きが開きます。内容を確認し、メールアプリで送信してください。下書きを開くだけでは送信されません。",
   "Then compare the machine and grinder together, checking their combined cost before choosing.": "では、マシンとグラインダーを合わせて比較し、選ぶ前に合計費用を確認しましょう。",
   "These devices are specification comparisons only, not confirmed matches for your budget or local availability.": "これらの機器は仕様の比較対象です。予算内であることや、お住まいの地域での在庫は確認できていません。",
-  "Try this": "試してみましょう"
+  "Try this": "試してみましょう",
+  "An alternative recipe to start with": "まず試せる代わりのレシピ",
+  "I found no recipe specifically for “{0}”. This alternative keeps the brewer and serving style; its source does not confirm your requested coffee or tasting notes.": "「{0}」専用のレシピは見つかりませんでした。この代案は抽出器具と温冷の条件を保ちますが、ご希望のコーヒー豆や風味に合うことは出典では確認されていません。",
+  "Adjusted quantities from the selected recipe": "選んだレシピから調整した分量",
+  "These quantities use the source’s water and ice split. Refer to the original recipe steps; changing the dose does not scale the timing by the same factor.": "この分量は出典の水と氷の配分に基づいています。元のレシピの手順を確認してください。粉量を変えても、時間が同じ比率で変わるわけではありません。"
 }
