@@ -2,6 +2,7 @@ import { assistantRecipeServingStyle, assistantReply, assistantSafeUrl, assistan
 import { factLabels } from './equipment-facts';
 import { normalizeSearch } from './search/deepSearch';
 import { coffeeKnowledgeAnswer, coffeeLearningTopics } from './coffee-knowledge';
+import { ESPRESSO_CONTROLS_TOPIC, espressoControlAdvice, isEspressoControlFollowUp, isEspressoControlRequest } from './espresso-control-advice';
 
 /** A bounded coffee expert system, not a generative model. No provider, keys or training uploads. */
 export interface LocalAssistantTurn {
@@ -237,6 +238,16 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
   const references = previous?.matches ?? [];
   const selection = selectedResults(q, references);
   const shopping = query.kind === 'equipment' && query.purchaseIntent === true;
+  const controlsFollowUp = isEspressoControlFollowUp(question, previous?.knowledgeTopic);
+  if (!selection.explicit && (isEspressoControlRequest(question, query) || controlsFollowUp)) {
+    const controlQuery = { ...query, kind: 'equipment' as const, category: 'espresso_machine', methods: ['espresso'], terms: [] };
+    if (query.clarification === 'budget' || query.clarification === 'currency') {
+      return reply(assistantReply(query, [], locale, L, dependencies.translateValue), { intent: 'knowledge', knowledgeTopic: ESPRESSO_CONTROLS_TOPIC, query: controlQuery });
+    }
+    const more = controlsFollowUp && /اشرح|وضح|اكمل|كمل|more|continue/.test(q);
+    const advice = espressoControlAdvice(L, query.amount !== null, more);
+    return reply(advice.answer, { ...advice, intent: 'knowledge', knowledgeTopic: ESPRESSO_CONTROLS_TOPIC, query: controlQuery });
+  }
   const compare = /قارن|مقارنه|الفرق|compare|comparison|difference/.test(q);
   const explain = /اشرح|تفاصيل|مواصفات|خطوات|explain|details|specs|steps|ليش|why/.test(q);
   const ratioMatch = q.match(/1\s*[:/]\s*(-?\d+(?:\.\d+)?)/);
