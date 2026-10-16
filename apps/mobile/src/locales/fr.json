@@ -3127,5 +3127,19 @@
   "Confirm email": "Confirmer l’e-mail",
   "Back to sign in": "Retour à la connexion",
   "Resend confirmation email": "Renvoyer l’e-mail de confirmation",
-  "If your email needs confirmation, a new BeanMora message will arrive. Use the latest link.": "Si votre e-mail doit être confirmé, vous recevrez un nouveau message de BeanMora. Utilisez le lien le plus récent."
+  "If your email needs confirmation, a new BeanMora message will arrive. Use the latest link.": "Si votre e-mail doit être confirmé, vous recevrez un nouveau message de BeanMora. Utilisez le lien le plus récent.",
+  "Add the coffee to the filter, level the bed, then tare the scale before pouring.": "Versez le café dans le filtre, égalisez sa surface, puis faites la tare avant de verser l’eau.",
+  "Hot V60": "V60 chaud",
+  "Hot V60 quantities": "Quantités pour un V60 chaud",
+  "How to brew": "Préparation",
+  "Iced V60": "V60 glacé",
+  "Pour in gentle circles. The amounts below are added per pour, not cumulative scale readings.": "Versez doucement en cercles. Les quantités ci-dessous sont celles à ajouter à chaque versement, pas les valeurs cumulées de la balance.",
+  "Put the ice in the server and the coffee in the filter, then tare the scale before pouring.": "Mettez les glaçons dans la carafe et le café dans le filtre, puis faites la tare avant de verser.",
+  "Ratio": "Ratio",
+  "Rinse the filter with hot water, then discard the rinse water.": "Rincez le filtre à l’eau chaude, puis jetez cette eau.",
+  "Start with a coarse grind for this method, and adjust water temperature to the roast.": "Pour cette méthode, commencez avec une mouture grossière et adaptez la température de l’eau à la torréfaction.",
+  "Start with a medium grind and water just off the boil. After drawdown, stir the drink with the ice.": "Commencez avec une mouture moyenne et une eau tout juste bouillie. Après l’écoulement, remuez le café avec les glaçons.",
+  "Suggested pours": "Versements proposés",
+  "These are totals for a large batch. Divide it into batches that fit your dripper and server; do not brew it all at once.": "Ces quantités correspondent à une grande préparation. Répartissez-la en plusieurs fois selon la capacité du porte-filtre et de la carafe ; ne préparez pas tout en une fois.",
+  "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.": "C’est un point de départ calculé d’après le guide. Le temps est indicatif et dépend du café et de la mouture. L’eau de rinçage est à part ; la boisson obtenue pèse moins que l’eau totale, car le café retient de l’eau."
 }

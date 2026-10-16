@@ -3127,5 +3127,19 @@
   "Confirm email": "验证邮箱",
   "Back to sign in": "返回登录",
   "Resend confirmation email": "重新发送验证邮件",
-  "If your email needs confirmation, a new BeanMora message will arrive. Use the latest link.": "如果您的邮箱需要验证，您将收到一封新的 BeanMora 邮件。请使用最新的链接。"
+  "If your email needs confirmation, a new BeanMora message will arrive. Use the latest link.": "如果您的邮箱需要验证，您将收到一封新的 BeanMora 邮件。请使用最新的链接。",
+  "Add the coffee to the filter, level the bed, then tare the scale before pouring.": "将咖啡粉放入滤纸并铺平，注水前将电子秤归零。",
+  "Hot V60": "热V60",
+  "Hot V60 quantities": "热V60用量",
+  "How to brew": "冲煮步骤",
+  "Iced V60": "冰V60",
+  "Pour in gentle circles. The amounts below are added per pour, not cumulative scale readings.": "轻柔地绕圈注水。以下数值为每段新增水量，不是电子秤上的累计读数。",
+  "Put the ice in the server and the coffee in the filter, then tare the scale before pouring.": "将冰块放入分享壶、咖啡粉放入滤纸，注水前将电子秤归零。",
+  "Ratio": "比例",
+  "Rinse the filter with hot water, then discard the rinse water.": "用热水润洗滤纸，然后倒掉润洗水。",
+  "Start with a coarse grind for this method, and adjust water temperature to the roast.": "这种方法先从粗研磨开始，再根据烘焙程度调整水温。",
+  "Start with a medium grind and water just off the boil. After drawdown, stir the drink with the ice.": "先使用中等研磨和刚烧开的热水。滴滤完成后，将咖啡与冰块搅匀。",
+  "Suggested pours": "建议注水安排",
+  "These are totals for a large batch. Divide it into batches that fit your dripper and server; do not brew it all at once.": "这是大批量冲煮的总用量。请按滤杯和分享壶的容量分批制作，不要一次冲煮全部。",
+  "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.": "这是根据冲煮指南计算的起始方案。时间仅供参考，会随咖啡豆和研磨度变化。润洗水另计；咖啡粉会吸水，因此成品重量小于总用水量。"
 }

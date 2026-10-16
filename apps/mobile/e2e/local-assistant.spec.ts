@@ -44,6 +44,33 @@ async function ask(page: Page, question: string, english = false) {
   await page.getByRole('button', { name: english ? 'Send' : 'إرسال', exact: true }).click();
 }
 
+for (const width of [390, 1280]) test(`reported V60 follow-up gives an open, structured conversation (${width})`, async ({ page }, info) => {
+  await page.setViewportSize({ width, height: 900 });
+  const network = await openAssistant(page, true);
+  await ask(page, '١٥ غرام قهوة ل v-60 شلون اسويها و جم احط ماي؟');
+  await expect(page.getByTestId('assistant-latest-answer')).toContainText('هل تريده حارًا أم بالثلج');
+  await ask(page, 'مثلج v60');
+  const latest = page.getByTestId('assistant-latest-answer');
+  await expect(latest).toContainText('الماء الساخن: 135 g');
+  await expect(latest).toContainText('الثلج: 90 g');
+  await expect(latest.getByText('مقادير V60 بالثلج', { exact: true })).toBeInViewport();
+  await expect(latest).toContainText('طريقة التحضير');
+  await expect(latest).toContainText('0:00 — 37.5 g');
+  await expect(latest).not.toContainText('أقرب ترشيح');
+  await expect(page.getByTestId('assistant-history-answer')).toContainText('هل تريده حارًا أم بالثلج');
+  await expect(page.getByRole('button', { name: /^(عرض الإجابة|طي الإجابة|Show answer|Collapse answer)$/ })).toHaveCount(0);
+  await ask(page, 'خلها 20 غرام');
+  await expect(latest).toContainText('الماء الساخن: 180 g');
+  await expect(latest).toContainText('الثلج: 120 g');
+  await expect(page.getByTestId('assistant-history-answer')).toHaveCount(2);
+  await expect(page.getByTestId('assistant-history-answer').nth(1)).toContainText('الماء الساخن: 135 g');
+  expect(network.searches).toHaveLength(0);
+  expect(network.providerCalls()).toBe(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await expect(latest.getByText('مقادير V60 بالثلج', { exact: true })).toBeInViewport();
+  await page.screenshot({ path: info.outputPath('readable-v60-conversation.png') });
+});
+
 for (const english of [false,true]) test(`source espresso explanation keeps mL yield, timing caveat and unknown Celsius (${english?'en':'ar'})`, async ({page})=>{
   const network=await openAssistant(page);
   if(english)await setLanguage(page,'en');
@@ -52,7 +79,7 @@ for (const english of [false,true]) test(`source espresso explanation keeps mL y
     facts:{dose:18,water:500,seconds:28,temperature:null,source_brew:{manual:{yield_ml:33,time_note:'28 seconds; timing convention is not published.',time_note_ar:'28 ثانية؛ طريقة بدء حساب الوقت غير منشورة.',temperature_note:'90° without a unit; Celsius is unknown.',temperature_note_ar:'90° دون وحدة؛ السيلسيوس غير معروف.'}},steps:[]}
   }])}));
   await ask(page,english?'An espresso recipe':'وصفة إسبريسو',english);
-  await expect(page.getByTestId('assistant-result')).toHaveCount(1);
+  await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toHaveCount(1);
   await ask(page,english?'Explain the first':'اشرح الأول',english);
   const panel=page.getByTestId('coffee-assistant');
   await expect(panel).toContainText('33 ml');
@@ -69,7 +96,7 @@ for (const question of [
   '15 غرام بن + قهوة بالثلج',
 ]) test(`Gulf brew request keeps the dose until the brewer is supplied: ${question}`, async ({ page }) => {
   const network = await openAssistant(page, true);
-  const panel = page.getByTestId('coffee-assistant');
+  const panel = page.getByTestId('assistant-latest-answer');
   await ask(page, question);
   await expect(panel).toContainText('البن: 15 g');
   await expect(panel).toContainText('التقديم: بارد');
@@ -80,7 +107,7 @@ for (const question of [
   await ask(page, 'استخدم V60');
   await expect(panel).toContainText('الماء الساخن: 135 g');
   await expect(panel).toContainText('الثلج: 90 g');
-  await expect(page.getByTestId('assistant-result')).toHaveCount(0);
+  await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toHaveCount(0);
   expect(network.searches).toHaveLength(0);
   expect(network.providerCalls()).toBe(0);
 });
@@ -88,13 +115,13 @@ for (const question of [
 for (const english of [false, true]) test(`water and ice quantities answer the screenshot question (${english ? 'en' : 'ar'})`, async ({ page }) => {
   const network = await openAssistant(page);
   if (english) await setLanguage(page, 'en');
-  const panel = page.getByTestId('coffee-assistant');
+  const panel = page.getByTestId('assistant-latest-answer');
   await ask(page, english ? '15 g coffee how much water and ice for V60?' : '15 جرام قهوه\nكم ماء وكم ثلج لل v60', english);
   await expect(panel).toContainText(english ? 'Hot water: 135 g' : 'الماء الساخن: 135 g');
   await expect(panel).toContainText(english ? 'Ice: 90 g' : 'الثلج: 90 g');
   await expect(panel).toContainText('225 g');
   await expect(panel).not.toContainText('TDS');
-  await expect(page.getByTestId('assistant-result')).toHaveCount(0);
+  await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toHaveCount(0);
   await ask(page, english ? 'Make it 20 g' : 'خلها 20 غرام', english);
   await expect(panel).toContainText(english ? 'Hot water: 180 g' : 'الماء الساخن: 180 g');
   await expect(panel).toContainText(english ? 'Ice: 120 g' : 'الثلج: 120 g');
@@ -106,13 +133,13 @@ for (const english of [false, true]) test(`the reported cold xBloom recipe reque
   await page.setViewportSize({ width: 390, height: 1000 });
   const network = await openAssistant(page);
   if (english) await setLanguage(page, 'en');
-  const panel = page.getByTestId('coffee-assistant');
+  const panel = page.getByTestId('assistant-latest-answer');
   await ask(page, english ? 'A website selling espresso machines' : 'موقع بيع مكائن اسبرسو', english);
-  await expect(page.getByTestId('assistant-result')).toHaveCount(2);
+  await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toHaveCount(2);
   await ask(page, english ? 'Find a cold recipe for my xBloom machine with coconut and honey notes' : 'طلعلي وصفة قهوه باردة حق مكينة اكسبلوم لي بن ايحاءة جوز الهند وعسل', english);
-  await expect(page.getByTestId('assistant-result')).toHaveCount(1);
-  await expect(page.getByTestId('assistant-result')).toContainText(english ? 'Cold coconut recipe' : 'وصفة جوز الهند الباردة');
-  await expect(page.getByTestId('assistant-result')).toContainText(english ? 'Cold' : 'بارد');
+  await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toHaveCount(1);
+  await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toContainText(english ? 'Cold coconut recipe' : 'وصفة جوز الهند الباردة');
+  await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toContainText(english ? 'Cold' : 'بارد');
   await expect(panel).toContainText(english ? 'Not confirmed in this recipe: honey' : 'غير مثبت في هذه الوصفة: عسل');
   await expect(panel).toContainText('150 ml');
   await expect(panel).not.toContainText('150 g');
@@ -129,11 +156,11 @@ for (const english of [false, true]) test(`espresso seller websites replace a pr
   await page.setViewportSize({ width: 390, height: 1000 });
   const network = await openAssistant(page);
   if (english) await setLanguage(page, 'en');
-  const panel = page.getByTestId('coffee-assistant');
+  const panel = page.getByTestId('assistant-latest-answer');
   await ask(page, english ? 'Recommend beans with coconut notes' : 'أبي بن جوز الهند', english);
-  await expect(page.getByTestId('assistant-result')).toHaveCount(1);
+  await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toHaveCount(1);
   await ask(page, english ? 'A website selling espresso machines' : 'موقع بيع مكائن اسبرسو', english);
-  const results = page.getByTestId('assistant-result');
+  const results = page.getByTestId('assistant-latest-answer').getByTestId('assistant-result');
   await expect(results).toHaveCount(2);
   await expect(results.nth(0)).toContainText(english ? 'Machine 1' : 'ماكينة 1');
   await expect(results.nth(1)).toContainText(english ? 'Machine 2' : 'ماكينة 2');
@@ -155,7 +182,7 @@ for (const english of [false, true]) test(`espresso seller websites replace a pr
 test('seller websites stay usable when their documented prices have expired', async ({ page }) => {
   const network = await openAssistant(page, false, true);
   await ask(page, 'موقع بيع مكائن اسبرسو');
-  const results = page.getByTestId('assistant-result');
+  const results = page.getByTestId('assistant-latest-answer').getByTestId('assistant-result');
   await expect(results).toHaveCount(2);
   await expect(results.first()).toContainText('لا يتوفر سعر حديث موثق');
   await expect(results.first().getByRole('button', { name: 'موقع البائع: seller.example', exact: true })).toBeVisible();
@@ -167,12 +194,12 @@ test('seller websites stay usable when their documented prices have expired', as
 test('the reported coconut question recommends coffee by name with its source, not a sensory lesson', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 960 });
   const network = await openAssistant(page);
-  const panel = page.getByTestId('coffee-assistant');
+  const panel = page.getByTestId('assistant-latest-answer');
   await ask(page, 'شنو احسن بن ايحاء جوز الهند');
   await expect(panel).toContainText('أقرب ترشيح لطلبك: بن مونتيبلانكو التجريبي');
   await expect(panel).toContainText('يطابق: جوز الهند');
-  await expect(page.getByTestId('assistant-result')).toHaveCount(1);
-  await expect(page.getByTestId('assistant-result')).toContainText('تخمير مشترك مع إضافات');
+  await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toHaveCount(1);
+  await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toContainText('تخمير مشترك مع إضافات');
   await expect(panel.getByRole('button', { name: 'المصدر الأصلي', exact: true })).toBeVisible();
   await expect(panel).not.toContainText('Sensory lexicon');
   expect(network.searches).toEqual([expect.objectContaining({ p_kind: 'coffee', p_terms: expect.arrayContaining(['coconut', 'جوز الهند']) })]);
@@ -186,7 +213,7 @@ test('the reported coconut question recommends coffee by name with its source, n
 test('reported Arabic cocoa, wine and whisky questions use the same catalog concepts as English', async ({ page }) => {
   await page.setViewportSize({ width: 800, height: 1000 });
   const network = await openAssistant(page);
-  const panel = page.getByTestId('coffee-assistant');
+  const panel = page.getByTestId('assistant-latest-answer');
   await ask(page, 'معالجات البن');
   await expect(panel).toContainText('لا يعني إضافة عسل');
   for (const [question, term, title] of [
@@ -195,14 +222,14 @@ test('reported Arabic cocoa, wine and whisky questions use the same catalog conc
     ['i want beans wine', 'wine', 'بن واين التجريبي'],
   ]) {
     await ask(page, question);
-    await expect(page.getByTestId('assistant-result')).toHaveCount(1);
-    await expect(page.getByTestId('assistant-result')).toContainText(title);
+    await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toHaveCount(1);
+    await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toContainText(title);
     expect(network.searches.at(-1)).toEqual(expect.objectContaining({ p_kind: 'coffee', p_terms: expect.arrayContaining([term]) }));
     expect((network.searches.at(-1) as { p_terms: string[] }).p_terms).not.toContain('beans');
   }
   await ask(page, 'شنو بن ايحاء ويسكي');
   await expect(panel).toContainText('لم أجد بنًا منشورًا يطابق «ويسكي»');
-  await expect(page.getByTestId('assistant-result')).toHaveCount(0);
+  await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toHaveCount(0);
   expect(network.searches).toHaveLength(4);
   expect(network.searches.at(-1)).toEqual(expect.objectContaining({ p_kind: 'coffee', p_terms: expect.arrayContaining(['whisky', 'whiskey', 'ويسكي']) }));
   expect(network.providerCalls()).toBe(0);
@@ -211,23 +238,23 @@ test('reported Arabic cocoa, wine and whisky questions use the same catalog conc
 
 test('Arabic conversation clarifies currency, compares and resolves references without provider requests', async ({ page }) => {
   const network = await openAssistant(page);
-  const panel = page.getByTestId('coffee-assistant');
+  const panel = page.getByTestId('assistant-latest-answer');
   await ask(page, 'أبي ماكينة إسبريسو تحت ٤٨٠');
   await expect(panel).toContainText('حدد عملة الميزانية');
   expect(network.searches).toHaveLength(0);
   await panel.getByRole('button', { name: 'USD', exact: true }).click();
-  await expect(page.getByTestId('assistant-result')).toHaveCount(2);
+  await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toHaveCount(2);
   await panel.getByRole('button', { name: 'قارن الأول والثاني', exact: true }).click();
   await expect(panel).toContainText('أقارن المواصفات المنشورة');
   await expect(panel).toContainText('غير مذكور في المصدر');
   await ask(page, 'اشرح الثاني');
-  await expect(page.getByTestId('assistant-result')).toHaveCount(1);
+  await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toHaveCount(1);
   expect(network.searches).toHaveLength(1);
   expect(network.providerCalls()).toBe(0);
-  await panel.getByRole('button', { name: 'محادثة جديدة', exact: true }).click();
+  await page.getByRole('button', { name: 'محادثة جديدة', exact: true }).click();
   await ask(page, 'اشرح الثاني');
   await expect(panel).toContainText('ابحث عن الخيارات أولًا');
-  await expect(page.getByTestId('assistant-result')).toHaveCount(0);
+  await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toHaveCount(0);
 });
 for (const width of [320, 800]) {
   test(`offline calculations keep context and distinguish espresso yield (${width})`, async ({ page }) => {
@@ -235,7 +262,7 @@ for (const width of [320, 800]) {
     const network = await openAssistant(page, true);
     await setLanguage(page, 'en');
     await ask(page, 'Calculate 18 g at 1:16', true);
-    const panel = page.getByTestId('coffee-assistant');
+    const panel = page.getByTestId('assistant-latest-answer');
     await expect(panel).toContainText('288 g');
     await panel.getByRole('button', { name: 'Make it 20 g', exact: true }).click();
     await expect(panel).toContainText('320 g');
@@ -249,8 +276,8 @@ for (const width of [320, 800]) {
 test('brewing guidance remains available when the catalog cannot be reached', async ({ page }) => {
   const network = await openAssistant(page, true);
   await ask(page, 'أبي ماكينة اسبريسو');
-  const panel = page.getByTestId('coffee-assistant');
-  await expect(panel).toContainText('تعذّر الوصول لبيانات الكتالوغ');
+  const panel = page.getByTestId('assistant-latest-answer');
+  await expect(page.getByTestId('coffee-assistant')).toContainText('تعذّر الوصول لبيانات الكتالوغ');
   await expect(page.getByLabel('سؤالك عن القهوة', { exact: true })).toHaveValue('أبي ماكينة اسبريسو');
   await ask(page, 'قهوتي حامضة');
   await expect(panel).toContainText('تستخدم إسبريسو أم V60');
@@ -262,28 +289,28 @@ test('brewing guidance remains available when the catalog cannot be reached', as
 test('Kuwaiti roaster search expands the country code before retrieval and displays the result', async ({ page }) => {
   const network = await openAssistant(page);
   await ask(page, 'محامص بالكويت');
-  await expect(page.getByTestId('assistant-result')).toContainText('ألتيتيود روسترز');
+  await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toContainText('ألتيتيود روسترز');
   expect(network.searches).toEqual([expect.objectContaining({ p_kind: 'roaster', p_terms: expect.arrayContaining(['kuwait', 'kw']) })]);
   expect(network.providerCalls()).toBe(0);
 });
 test('published spaced roaster names retain an explicit catalog search instead of returning every roaster', async ({ page }) => {
   const network = await openAssistant(page);
   await ask(page, 'محامص A R K');
-  await expect(page.getByTestId('assistant-result')).toContainText('آرك روسترز');
+  await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toContainText('آرك روسترز');
   expect(network.searches).toEqual([expect.objectContaining({ p_kind: 'roaster', p_terms: expect.arrayContaining(['ark', 'a r k']) })]);
   expect(network.providerCalls()).toBe(0);
 });
 test('the singular Arabic roaster query finds Limu instead of answering a roasting lesson', async ({ page }) => {
   const network = await openAssistant(page);
   await ask(page, 'محمصة ليمو');
-  await expect(page.getByTestId('assistant-result')).toContainText('محمصة ليمو');
+  await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toContainText('محمصة ليمو');
   expect(network.searches).toEqual([expect.objectContaining({ p_kind: 'roaster', p_terms: expect.arrayContaining(['ليمو']) })]);
   expect(network.providerCalls()).toBe(0);
 });
 for (const english of [false, true]) test(`symptoms, water measurements and new lessons work offline (${english ? 'en' : 'ar'})`, async ({ page }) => {
   const network = await openAssistant(page, true);
   if (english) await setLanguage(page, 'en');
-  const panel = page.getByTestId('coffee-assistant');
+  const panel = page.getByTestId('assistant-latest-answer');
   await ask(page, english ? 'My V60 is sour after changing water' : 'قهوتي V60 حامضة بعد تغيير الماء', english);
   await expect(panel.getByRole('button', { name: 'Barista Hustle — Coffee Compass', exact: true })).toBeVisible();
   await ask(page, english ? 'dose 18 water 288 150 seconds' : 'جرعة 18 الماء 288 الوقت 150 ثانية', english);
@@ -298,7 +325,7 @@ for (const english of [false, true]) test(`symptoms, water measurements and new 
 for (const english of [false, true]) test(`a new brewer clears old measurements and immersion sources work offline (${english ? 'en' : 'ar'})`, async ({ page }) => {
   const network = await openAssistant(page, true);
   if (english) await setLanguage(page, 'en');
-  const panel = page.getByTestId('coffee-assistant');
+  const panel = page.getByTestId('assistant-latest-answer');
   await ask(page, english ? 'My espresso tastes sour' : 'قهوتي إسبريسو حامضة', english);
   await ask(page, 'dose 18 yield 36 time 30 seconds', english);
   await expect(panel).toContainText('1:2');
@@ -314,17 +341,17 @@ for (const english of [false, true]) test(`a new brewer clears old measurements 
 });
 test('a specific lesson replaces previous shopping results', async ({ page }) => {
   await openAssistant(page);
-  const panel = page.getByTestId('coffee-assistant');
+  const panel = page.getByTestId('assistant-latest-answer');
   await ask(page, 'أبي ماكينة إسبريسو تحت 480 دولار');
-  await expect(page.getByTestId('assistant-result')).toHaveCount(2);
+  await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toHaveCount(2);
   await ask(page, 'اشرح الماء');
   await expect(panel).toContainText('TDS وحده');
-  await expect(page.getByTestId('assistant-result')).toHaveCount(0);
+  await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toHaveCount(0);
 });
 for (const english of [false, true]) test(`direct espresso flow complaints stay local (${english ? 'en' : 'ar'})`, async ({ page }) => {
   const network = await openAssistant(page, true);
   if (english) await setLanguage(page, 'en');
-  const panel = page.getByTestId('coffee-assistant');
+  const panel = page.getByTestId('assistant-latest-answer');
   await ask(page, english ? 'Espresso is fast, dose:18 yield:36, 30 seconds' : 'الإسبريسو سريع جرعة:18 الناتج:36 في 30 ثانية', english);
   await expect(panel).toContainText('1:2');
   await expect(panel).toContainText(english ? 'finer' : 'أنعم');
@@ -336,7 +363,7 @@ for (const english of [false, true]) test(`direct espresso flow complaints stay 
 for (const english of [false, true]) test(`colloquial weights and espresso flow coaching stay local (${english ? 'en' : 'ar'})`, async ({ page }) => {
   const network = await openAssistant(page, true);
   if (english) await setLanguage(page, 'en');
-  const panel = page.getByTestId('coffee-assistant');
+  const panel = page.getByTestId('assistant-latest-answer');
   await ask(page, english ? 'My espresso is sour dose: 18 yield: 36 time: 30 seconds' : 'الإسبريسو حامض جرعة ١٨ غرام خرج ٣٦ غرام في ٣٠ ثانية', english);
   await expect(panel).toContainText('1:2');
   await ask(page, english ? 'My espresso shot is fast' : 'استخلاص الإسبريسو سريع', english);
@@ -365,7 +392,7 @@ for(const language of newLanguages) test(`localized cold recipe search retains o
   const panel=page.getByTestId('coffee-assistant');
   await panel.getByRole('textbox').fill(language.shop);
   await panel.getByRole('button',{name:language.send,exact:true}).click();
-  await expect(panel.getByTestId('assistant-result')).toHaveCount(2);
+  await expect(panel.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toHaveCount(2);
   await expect(panel).not.toContainText('Portable hand-pump espresso maker');
   await expect(panel).not.toContainText('Manual lever');
   await expect(panel).not.toContainText('80 ml water');
@@ -373,7 +400,7 @@ for(const language of newLanguages) test(`localized cold recipe search retains o
   expect(network.searches.at(-1)).toMatchObject({p_kind:'equipment',p_category:'espresso_machine',p_terms:[]});
   await panel.getByRole('textbox').fill(language.question);
   await panel.getByRole('button',{name:language.send,exact:true}).click();
-  await expect(panel.getByTestId('assistant-result')).toHaveCount(1);
+  await expect(panel.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toHaveCount(1);
   await expect(panel).toContainText(language.question);
   await expect(panel).toContainText(language.cold);
   await expect(panel).toContainText('15 g');await expect(panel).toContainText('150 ml');

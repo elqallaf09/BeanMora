@@ -6,6 +6,56 @@ const ask = (question: string, history: LocalAssistantTurn[] = []) => converseLo
 });
 
 describe('coffee water and ice quantities', () => {
+  it.each(['مثلج v60', 'v-60 مثلج', 'ابيها بالـV60 مثلجة', 'متلج V60', 'iced V60'])('continues the reported preparation question: %s', async followUp => {
+    const first = await ask('١٥ غرام قهوة ل v-60 شلون اسويها و جم احط ماي؟');
+    expect(first.calculation).toMatchObject({ dose: 15, method: 'v60', ratio: null });
+    expect(first.answer).toContain('هل تريده حارًا أم بالثلج');
+    expect(first.answer).not.toContain('حدد وزن البن');
+    const second = await ask(followUp, [first]);
+    expect(second.calculation).toMatchObject({ dose: 15, ratio: 15, method: 'v60', servingStyle: 'iced' });
+    expect(second.answer).toContain('الماء الساخن: 135 g');
+    expect(second.answer).toContain('الثلج: 90 g');
+    expect(second.answer).toContain('طريقة التحضير');
+    expect(second.answer).toContain('0:00 — 37.5 g');
+    expect(second.answer).toContain('0:45 — 52.5 g');
+    expect(second.answer).toContain('1:30 — 45 g');
+    expect(second.matches).toEqual([]);
+  });
+  it('asks for a fresh dose when iced V60 is the first message', async () => {
+    const first = await ask('مثلج V60');
+    expect(first.calculation).toMatchObject({ dose: null, method: 'v60', servingStyle: 'iced' });
+    expect(first.answer).toContain('كم غرام بن');
+    const second = await ask('15', [first]);
+    expect(second.answer).toContain('الماء الساخن: 135 g');
+  });
+  it('gives a practical hot answer and preserves an explicitly chosen ratio when switching serving', async () => {
+    const first = await ask('15 غرام V60 شلون اسويها؟');
+    const hot = await ask('حار V60', [first]);
+    expect(hot.answer).toContain('الماء الساخن: 225 g');
+    expect(hot.answer).toContain('طريقة التحضير');
+    expect(hot.sources?.[0].url).toContain('v60-4-6-method');
+    const ratio = await ask('غير النسبة إلى 1:16', [hot]);
+    const iced = await ask('مثلج v-60', [ratio]);
+    expect(iced.calculation?.ratio).toBe(16);
+    expect(iced.answer).toContain('الماء الساخن: 144 g');
+    expect(iced.answer).toContain('الثلج: 96 g');
+  });
+  it('shows batch totals without single-cup pouring instructions for the 150 g reading of the screenshot', async () => {
+    const first = await ask('150 غرام قهوة ل v-60 شلون اسويها و جم احط ماي؟');
+    const iced = await ask('مثلج v60', [first]);
+    expect(iced.answer).toContain('الماء الساخن: 1350 g');
+    expect(iced.answer).toContain('الثلج: 900 g');
+    expect(iced.answer).toContain('قسّمها إلى دفعات');
+    expect(iced.answer).not.toContain('0:00');
+  });
+  it('does not turn a new recommendation into a continuation of the calculation', async () => {
+    const first = await ask('15 g V60 iced');
+    const next = await converseLocally('رشح لي بن للقهوة الباردة 15 غرام', 'ar', [first], {
+      search: async () => ({ documents: [], rates: [] }),
+    });
+    expect(next.intent).toBe('search');
+    expect(next.calculation).toBeUndefined();
+  });
   it.each([
     '١٥ غرام بن ابيها قهوه باردة جم ماي احط و جم ثلج؟',
     '15 غرام بن + قهوة بالثلج',

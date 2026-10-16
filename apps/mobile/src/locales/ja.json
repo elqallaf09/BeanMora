@@ -3127,5 +3127,19 @@
   "Confirm email": "メールアドレスを確認",
   "Back to sign in": "ログインに戻る",
   "Resend confirmation email": "確認メールを再送信",
-  "If your email needs confirmation, a new BeanMora message will arrive. Use the latest link.": "メールアドレスの確認が必要な場合、BeanMoraから新しいメールが届きます。最新のリンクを使用してください。"
+  "If your email needs confirmation, a new BeanMora message will arrive. Use the latest link.": "メールアドレスの確認が必要な場合、BeanMoraから新しいメールが届きます。最新のリンクを使用してください。",
+  "Add the coffee to the filter, level the bed, then tare the scale before pouring.": "フィルターに粉を入れて表面を平らにし、注ぐ前にスケールをゼロにします。",
+  "Hot V60": "ホットV60",
+  "Hot V60 quantities": "ホットV60の分量",
+  "How to brew": "淹れ方",
+  "Iced V60": "アイスV60",
+  "Pour in gentle circles. The amounts below are added per pour, not cumulative scale readings.": "優しく円を描くように注ぎます。以下は各回に加える量で、スケールの累計値ではありません。",
+  "Put the ice in the server and the coffee in the filter, then tare the scale before pouring.": "サーバーに氷、フィルターに粉を入れ、注ぐ前にスケールをゼロにします。",
+  "Ratio": "比率",
+  "Rinse the filter with hot water, then discard the rinse water.": "お湯でフィルターをすすぎ、すすいだお湯は捨てます。",
+  "Start with a coarse grind for this method, and adjust water temperature to the roast.": "この方法では粗挽きから始め、焙煎度に合わせて湯温を調整します。",
+  "Start with a medium grind and water just off the boil. After drawdown, stir the drink with the ice.": "中挽きと沸騰直後のお湯から始めます。抽出後、コーヒーと氷を混ぜます。",
+  "Suggested pours": "注ぎ方の目安",
+  "These are totals for a large batch. Divide it into batches that fit your dripper and server; do not brew it all at once.": "これは大量に淹れる場合の合計量です。ドリッパーとサーバーの容量に合わせて分け、一度にすべて淹れないでください。",
+  "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.": "抽出ガイドをもとに計算した目安です。時間は豆と挽き目によって変わります。すすぎ用のお湯は別量です。粉が水を吸うため、出来上がり量は水の合計量より少なくなります。"
 }
