@@ -132,3 +132,25 @@ describe('coffee assistant catalog constraints', () => {
     expect(assistantSafeUrl('https://seller.example')).toBe('https://seller.example/');
   });
 });
+
+it.each([
+  ['طلعي مكينة اسبريسو قيمتها ما بين ٢٠٠ الى ٤٠٠ دينار كويتي', 200, 400, 'KWD'],
+  ['Espresso machine between 200 and 400 USD', 200, 400, 'USD'],
+  ['Espresso machine from 1,000 to 2,000 SAR', 1000, 2000, 'SAR'],
+  ['ماكينة اسبريسو 200–400 دينار', 200, 400, 'KWD'],
+  ['Espresso machine between 200.5 and 400.5 USD', 200.5, 400.5, 'USD'],
+])('reads both budget bounds: %s', (question, minAmount, amount, currency) => {
+  const query = parseAssistantQuery(question as string);
+  expect(query).toMatchObject({ kind: 'equipment', minAmount, amount, currency, terms: [], clarification: null });
+  expect(parseAssistantQuery(currency as string, query)).toMatchObject({ minAmount, amount });
+});
+it.each(['Espresso machine between 400 and 200 USD', 'ماكينة اسبريسو بين 0 و400 دينار', 'Espresso machine between -200 and 400 USD'])('rejects an invalid range: %s', question => {
+  expect(parseAssistantQuery(question).clarification).toBe('budget');
+});
+it('enforces both inclusive price boundaries without discarding the minimum on currency follow-up', () => {
+  const now = Date.parse('2026-10-16T12:00:00Z');
+  const docs = [199, 200, 300, 400, 401].map(amount => ({ id: String(amount), kind: 'equipment' as const, slug: null, title_ar: 'ماكينة', title_en: 'Machine', summary_ar: '', summary_en: '', search_text: 'espresso', source_url: 'https://maker.example/machine', category: 'espresso_machine', methods: ['espresso'], facts: {}, verified_at: null, offers: [{ amount, currency: 'USD' as const, checked_at: '2026-10-16', region: 'US', url: 'https://seller.example/machine' }] }));
+  const query = parseAssistantQuery('Espresso machine between 200 and 400');
+  expect(query.clarification).toBe('currency');
+  expect(rankAssistantDocuments(docs, parseAssistantQuery('USD', query), [], now).map(m => m.document.id)).toEqual(['200', '300', '400']);
+});

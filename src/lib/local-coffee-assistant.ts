@@ -1,13 +1,15 @@
 import { assistantRecipeServingStyle, assistantReply, assistantSafeUrl, assistantSearchTerms, hasEquipmentIntent, hasRecipeIntent, parseAssistantQuery, rankAssistantDocuments, type AssistantDocument, type AssistantMatch, type AssistantQuery, type CatalogRate } from './coffee-assistant';
 import { factLabels } from './equipment-facts';
 import { normalizeSearch } from './search/deepSearch';
-import { coffeeKnowledgeAnswer, coffeeLearningTopics } from './coffee-knowledge';
+import { coffeeKnowledgeAnswer, coffeeLearningTopics, coffeeLessonById } from './coffee-knowledge';
 
 /** A bounded coffee expert system, not a generative model. No provider, keys or training uploads. */
 export interface LocalAssistantTurn {
   question: string; answer: string; query: AssistantQuery; matches: AssistantMatch[];
   mode: 'local'; intent: 'search' | 'compare' | 'explain' | 'calculate' | 'coach' | 'guide' | 'knowledge' | 'help';
   knowledgeTopic?: string;
+  /** Specification candidates are never advertised as confirmed budget/stock matches. */
+  equipmentAdvice?: 'unverified-price';
   followUp?: string; suggestions?: string[]; sources?: { title: string; url: string }[];
   calculation?: { dose: number | null; ratio: number | null; method: string | null; servingStyle?: 'iced' | 'hot' };
   coach?: { signal: string; method: string | null; dose?: number; output?: number; seconds?: number };
@@ -92,7 +94,7 @@ export function parseLocalAssistantQuery(message: string, previous?: AssistantQu
   const explicitKind = hasRecipeIntent(q) ? 'recipe' : gear ? 'equipment' : recipe ? 'recipe' : roaster ? 'roaster' : beans ? 'coffee' : null;
   const newTopic = !!explicitKind && explicitKind !== previous?.kind;
   const query = parseAssistantQuery(clean, newTopic ? undefined : previous);
-  if (previous?.kind === 'equipment' && /^\d+(?:[.,]\d+)?$/.test(q)) query.amount = Number(q.replace(',', '.'));
+  if (previous?.kind === 'equipment' && /^\d+(?:[.,]\d+)?$/.test(q)) { query.amount = Number(q.replace(',', '.')); query.minAmount = null; }
   if (previous?.clarification === 'budget' && /^\d+(?:[.,]\d+)?$/.test(q)) query.amount = Number(q.replace(',', '.'));
   if (explicitKind) query.kind = explicitKind;
   if (foundMethods.length) query.methods = foundMethods;
@@ -104,7 +106,7 @@ export function parseLocalAssistantQuery(message: string, previous?: AssistantQu
   query.terms = query.terms.filter(term => !/ميزاني|^budget$|^خيار$|^options?$/.test(term) && !filler.has(term) && !methodAliases.some(([, aliases]) => aliases.some(alias => norm(alias).split(' ').includes(term))));
   if (featureTerms.length) query.terms = [...new Set([...query.terms, ...featureTerms])].slice(0, 8);
   if (previous && !newTopic && !query.terms.length && !explicitKind) query.terms = previous.terms;
-  if (/بدون (?:سعر|ميزانيه)|دون (?:سعر|ميزانيه)|(?:no|without|remove) (?:price|budget)/.test(q)) { query.amount = null; query.currency = null; }
+  if (/بدون (?:سعر|ميزانيه)|دون (?:سعر|ميزانيه)|(?:no|without|remove) (?:price|budget)/.test(q)) { query.amount = null; query.minAmount = null; query.currency = null; }
   if (/كل الدول|اي دوله|any country|all countries/.test(q)) query.region = null;
   // Monetary follow-ups keep the amount even when the currency is not supported.
   const unsupportedCurrency = /يورو|درهم|جنيه|\b(?:eur|aed|gbp|egp|brl|jpy|cny)\b|€|£|¥/.test(q);
@@ -113,8 +115,8 @@ export function parseLocalAssistantQuery(message: string, previous?: AssistantQu
     if (amount) query.amount = Number(amount);
     query.currency = null; query.clarification = 'currency'; return query;
   }
-  if (query.kind !== 'equipment') { query.amount = null; query.currency = null; query.category = null; query.region = null; query.availableOnly = false; query.purchaseIntent = false; }
-  query.clarification = query.amount !== null && (!Number.isFinite(query.amount) || query.amount <= 0) ? 'budget' : query.amount !== null && !query.currency ? 'currency' : !query.kind ? 'intent' : null;
+  if (query.kind !== 'equipment') { query.amount = null; query.minAmount = null; query.currency = null; query.category = null; query.region = null; query.availableOnly = false; query.purchaseIntent = false; }
+  query.clarification = query.amount !== null && (!Number.isFinite(query.amount) || query.amount <= 0 || (query.minAmount != null && (!Number.isFinite(query.minAmount) || query.minAmount <= 0 || query.minAmount > query.amount))) ? 'budget' : query.amount !== null && !query.currency ? 'currency' : !query.kind ? 'intent' : null;
   return query;
 }
 
@@ -205,6 +207,18 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
   const methods = methodOf(q), method = methods[0] ?? previous?.calculation?.method ?? previous?.coach?.method ?? previous?.query.methods[0] ?? null;
   const references = previous?.matches ?? [];
   const selection = selectedResults(q, references);
+  const grinderReply = previous?.equipmentAdvice && q.length < 140 && /طاحون|مطحن|grinder/.test(q)
+    && !/دينار|دولار|ريال|\d|ابي |ابحث|اشتري|\b(?:buy|find|want)\b/.test(q);
+  if (grinderReply && /عندي|امتلك|تشمل|شامل|\b(?:have|own|include|both)\b/.test(q)) {
+    const needsGrinder = /ما\s?عندي|ماعندي|لا امتلك|تشمل|شامل|\b(?:no|not|include|both)\b|don't|don’t/.test(q);
+    const lesson = coffeeKnowledgeAnswer(needsGrinder ? 'Integrated or separate grinder?' : 'Choosing an espresso machine', locale, undefined, L)!;
+    return reply([
+      L('نكمل على نفس الميزانية', 'Continue with the same budget'),
+      `${previous.query.minAmount != null ? number(previous.query.minAmount) + '–' : ''}${number(previous.query.amount!)} ${previous.query.currency}`,
+      needsGrinder ? L('إذًا نقارن تكلفة الماكينة والطاحونة معًا، ونحسب المجموع قبل الاختيار.', 'Then compare the machine and grinder together, checking their combined cost before choosing.') : L('بما أن عندك طاحونة، نركز المقارنة على الماكينة؛ نحتاج موديل الطاحونة للتأكد من ملاءمتها للإسبريسو.', 'Since you own a grinder, focus the comparison on the machine; its model is needed to check espresso suitability.'),
+      lesson.answer,
+    ].join('\n\n'), { intent: 'explain', query: previous.query, matches: previous.matches, equipmentAdvice: previous.equipmentAdvice, sources: lesson.sources, suggestions: lesson.suggestions });
+  }
   const shopping = query.kind === 'equipment' && query.purchaseIntent === true;
   const compare = /قارن|مقارنه|الفرق|compare|comparison|difference/.test(q);
   const explain = /اشرح|تفاصيل|مواصفات|خطوات|explain|details|specs|steps|ليش|why/.test(q);
@@ -314,8 +328,8 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
     const chosen = selection.explicit ? selection.matches : compare ? references.slice(0, 3) : references.length === 1 ? references : [];
     if (selection.invalid || !chosen.length || (compare && chosen.length < 2)) return reply(L('ابحث عن الخيارات أولًا، ثم قل «اشرح الأول» أو «قارن الأول والثاني». اختر رقمًا من النتائج الظاهرة.', 'Search for options first, then say “explain the first” or “compare the first and second”. Use a displayed result number.'), { matches: references, query: previous?.query ?? query });
     // Revalidate dated offers locally before displaying references; never keep a stale price alive.
-    const matches = chosen.map(m => ({ ...m, price: rankAssistantDocuments([m.document], { ...query, kind: m.document.kind, category: null, methods: [], terms: [], amount: null, currency: m.price?.currency ?? null, region: null, availableOnly: false, clarification: null }, [], dependencies.now)[0]?.price ?? null }));
-    return reply((compare ? (L('أقارن المواصفات المنشورة فقط؛ غير المذكور يبقى غير معروف.\n\n', 'Comparing published specifications; missing details remain unknown.\n\n')) : '') + referenceText(matches, ar, compare, L, dependencies.translateValue), { intent: compare ? 'compare' : 'explain', matches, query: previous?.query ?? query, suggestions: compare ? ([L('أبي أرخص خيار', 'Show a cheaper option'), L('اشرح الأول', 'Explain the first')]) : [] });
+    const matches = chosen.map(m => ({ ...m, price: previous?.equipmentAdvice ? null : rankAssistantDocuments([m.document], { ...query, kind: m.document.kind, category: null, methods: [], terms: [], amount: null, minAmount: null, currency: m.price?.currency ?? null, region: null, availableOnly: false, clarification: null }, [], dependencies.now)[0]?.price ?? null }));
+    return reply((compare ? (L('أقارن المواصفات المنشورة فقط؛ غير المذكور يبقى غير معروف.\n\n', 'Comparing published specifications; missing details remain unknown.\n\n')) : '') + referenceText(matches, ar, compare, L, dependencies.translateValue), { intent: compare ? 'compare' : 'explain', matches, query: previous?.query ?? query, equipmentAdvice: previous?.equipmentAdvice, suggestions: compare ? ([L('أبي أرخص خيار', 'Show a cheaper option'), L('اشرح الأول', 'Explain the first')]) : [] });
   }
 
   const negated = q.replace(/(?:مو|مش|ليس|بدون|not|isnt|isn't)\s+(?:حامض|حامضه|مر|مره|sour|bitter)/g, '');
@@ -375,6 +389,29 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
   }) : searched.documents;
   const selectedEquipment = shopping && selection.explicit ? new Set(selection.matches.filter(match => match.document.kind === 'equipment').map(match => match.document.id)) : null;
   const matches = rankAssistantDocuments(selectedEquipment ? documents.filter(document => selectedEquipment.has(document.id)) : documents, query, searched.rates, now);
+  if (query.kind === 'equipment' && query.amount !== null && !matches.length) {
+    // A missing/stale price is not missing product knowledge. Keep the original
+    // constraints in query, label this separate specification comparison and
+    // remove every price/stock/purchase claim. Never re-label a known outside-
+    // budget offer as an unpriced candidate, or substitute an unknown product.
+    const specificationQuery = { ...query, amount: null, minAmount: null, currency: null, region: null, availableOnly: false, purchaseIntent: false };
+    const candidates = rankAssistantDocuments(documents, specificationQuery, [], now)
+      .filter(match => match.allTerms && assistantSafeUrl(match.document.source_url)
+        && Object.keys(match.document.facts ?? {}).some(key => key in factLabels)
+        && !rankAssistantDocuments([match.document], { ...query, amount: null, minAmount: null }, searched.rates, now).some(known => known.price))
+      .slice(0, 3).map(match => ({ ...match, price: null, purchaseLinks: undefined }));
+    const lesson = query.category === 'espresso_machine' ? coffeeLessonById('machine-choice', 'ar') : null;
+    const budget = `${query.minAmount != null ? number(query.minAmount) + '–' : ''}${number(query.amount)} ${query.currency}`;
+    const answer = [
+      L('نبدأ من ميزانيتك', 'Start with your budget') + '\n' + budget,
+      L('لا يوجد عرض حديث موثّق يطابق جميع شروطك الآن؛ هذا لا يعني أن الماكينة غير موجودة في السوق. السعر والشحن والتوفر يحتاجون تحققًا من البائع.', 'No recent verified offer meets all your constraints right now; this does not mean the machine is absent from the market. Price, shipping and stock need checking with the seller.'),
+      candidates.length ? L('هذه أجهزة للمقارنة من حيث المواصفات فقط، وليست خيارات مؤكدة ضمن الميزانية أو متوفرة في بلدك.', 'These devices are specification comparisons only, not confirmed matches for your budget or local availability.') : '',
+      lesson ? L('شلون تختار؟', 'How to choose') + '\n' + L(lesson.answer, coffeeLessonById('machine-choice', 'en')!.answer) : '',
+    ].filter(Boolean).join('\n\n');
+    return reply(answer, { intent: 'search', matches: candidates, equipmentAdvice: 'unverified-price', sources: lesson?.sources ?? [],
+      followUp: query.category === 'espresso_machine' ? L('ميزانيتك للماكينة فقط، أو تشمل طاحونة إسبريسو؟', 'Is your budget for the machine alone, or does it include an espresso grinder?') : undefined,
+      suggestions: candidates.length >= 2 ? [L('قارن الأول والثاني', 'Compare the first and second')] : [L('ابحث بدون ميزانية', 'Search without budget')] });
+  }
   const answer = assistantReply(query, matches, locale, L, dependencies.translateValue) + (query.kind === 'recipe' && matches.length ? '\n\n' + referenceText(matches.slice(0, 1), ar, false, L, dependencies.translateValue) : '');
   return reply(answer, { intent: 'search', matches, sources: [], suggestions: matches.length >= 2 ? ([L('قارن الأول والثاني', 'Compare the first and second'), L('اشرح الأول', 'Explain the first')]) : matches.length ? ([L('اشرح الأول', 'Explain the first')]) : query.kind === 'recipe' && query.terms.length && query.methods.length ? ([L(`وصفات ${query.methods[0]} بدون إيحاءات`, `${query.methods[0]} recipes without tasting notes`)]) : query.amount !== null ? ([L('ابحث بدون ميزانية', 'Search without budget')]) : [] });
 }

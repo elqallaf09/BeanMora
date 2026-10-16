@@ -7,6 +7,42 @@ export interface CoffeeLesson {
 }
 export const COFFEE_CURRICULUM: CoffeeLesson[] = [
   {
+    id: 'pumps', group: 'equipment', titles: ['المضخة الروتاري والاهتزازية', 'Rotary and vibration pumps'], priority: 120,
+    keywords: /مضخ|روتاري|اهتزازي|rotary|vibrat(?:ion|ory)|pump type/,
+    ar: 'الاهتزازية: مدمجة وتستخدم حركة كهرومغناطيسية لضخ الماء، وهي شائعة في المكاين المنزلية. الروتاري: محرك يدير مضخة أكبر، وغالبًا تكون أهدأ. بعض مكاين الروتاري تقبل التوصيل بالماء، لكن تأكد من موديلك. كلتاهما قادرة على إسبريسو جيد؛ جودة الكوب تعتمد أيضًا على الطحن والحرارة وتوزيع البن. الروتاري ليست شرطًا لشراء ماكينة جيدة.',
+    en: 'A vibration pump is compact and moves water using electromagnetic motion; it is common in home machines. A rotary pump uses a motor to drive a larger pump and is usually quieter. Some rotary machines support a mains water connection; check the model. Both can make good espresso. Grind, temperature and puck preparation also matter, so a rotary pump is not essential.',
+    more: ['قارن الضجيج والمساحة وطريقة تزويد الماء وتكلفة الصيانة. إعداد ضغط المضخة يختلف عن التحكم بالتدفق أثناء الشوت؛ نوع المضخة وحده لا يثبت وجود أي منهما.', 'Compare noise, space, water supply and service cost. Setting pump pressure is different from controlling flow during a shot; pump type alone does not establish either feature.'],
+    title: 'Profitec — Pump systems', url: 'https://www.profitec-espresso.com/en/about-us',
+    supportingSources: [{ title: 'Profitec — Pressure and service', url: 'https://www.profitec-espresso.com/en/service' }],
+  },
+  {
+    id: 'flow-control', group: 'equipment', titles: ['التحكم بالتدفق وتعديل الضغط', 'Flow control and pressure adjustment'], priority: 125,
+    keywords: /فلو كنترول|فلو كونترول|تحكم.*تدفق|التحكم بالتدفق|flow control|pressure profil|اعدل.*ضغط|اتحكم.*ضغط/,
+    ar: 'التحكم بالتدفق يغيّر كمية الماء الداخلة إلى مجموعة التحضير أثناء الشوت؛ يتغير الضغط معها بحسب مقاومة البن. ضبط ضغط المضخة يحدد إعدادًا مختلفًا ولا يعطيك بالضرورة تحكمًا لحظيًا. وجود عداد ضغط لا يعني أن الضغط قابل للبرمجة. قبل شراء قطعة Flow Control، تأكد من توافقها مع موديل الماكينة وإصدار مجموعة التحضير والضمان.',
+    en: 'Flow control changes water entering the brew group during a shot; pressure responds to puck resistance. Adjusting pump pressure is a different setting and does not necessarily give control during extraction. A pressure gauge does not imply programmable pressure. Before buying a flow-control kit, check compatibility with the exact machine, group version and warranty.',
+    more: ['ابدأ بوصفة ثابتة وسجل الجرعة والناتج والوقت، ثم قارن تغيير التدفق وحده. لا أفترض أن كل مجموعة E61 تقبل القطعة نفسها؛ أعطني الموديل الكامل أو دليل الشركة للتحقق.', 'Start with a repeatable recipe and record dose, yield and time, then compare a flow change alone. E61 groups do not automatically accept the same kit; supply the full model or manufacturer manual to check.'],
+    title: 'Profitec — DRIVE flow control', url: 'https://www.profitec-espresso.com/en/products/drive',
+    supportingSources: [{ title: 'Profitec — Pressure and service', url: 'https://www.profitec-espresso.com/en/service' }],
+  },
+  {
+    id: 'machine-choice', group: 'equipment', titles: ['اختيار ماكينة الإسبريسو', 'Choosing an espresso machine'], priority: 115,
+    keywords: /اختار.*(?:ماكين|مكين)|اختيار.*(?:ماكين|مكين)|مواصفات.*(?:ماكين|مكين)|دليل.*شراء|buying guide|choos.*espresso machine/,
+    ar: '• للإسبريسو أكثر من الحليب: قارن الثبات الحراري وضبط الطحن؛ الغلاية الواحدة قد تكفي إذا تقبل الانتظار بين التحضير والتبخير.\n• للحليب المتكرر: قارن سرعة الانتقال للبخار، أو الغلايتين والمبادل الحراري للتحضير والتبخير معًا.\n• إذا ما عندك طاحونة: احسب ماكينة وطاحونة مناسبة للإسبريسو ضمن المجموع، أو قارن جهازًا بطاحونة مدمجة.\n• قبل الشراء: تحقق من الضمان والصيانة والجهد الكهربائي والمقاس؛ رقم البار وحده لا يكفي للاختيار.',
+    en: '• Mostly espresso: compare temperature stability and grind adjustment; a single boiler may suit you if waiting between brewing and steaming is acceptable.\n• Frequent milk drinks: compare steam transition speed, or dual-boiler and heat-exchanger designs for simultaneous work.\n• No grinder yet: budget for a machine plus an espresso-capable grinder, or compare an integrated-grinder model.\n• Before buying: check warranty, service, voltage and space; advertised bar pressure alone is not enough.',
+    more: ['أعطني عدد الأكواب المتتالية، ونوع المشروبات، وهل عندك طاحونة، والميزانية مع العملة. أقدر أقارن المواصفات المنشورة؛ السعر والتوفر يحتاجان عرضًا مؤرخًا من بائع.', 'Tell me consecutive drink count, drink types, whether you own a grinder and your budget with currency. I can compare published specifications; price and stock require a dated seller offer.'],
+    title: 'Profitec — Single-boiler GO', url: 'https://www.profitec-espresso.com/en/products/go',
+    supportingSources: [{ title: 'LELIT — Elizabeth dual boiler', url: 'https://www.lelit.com/en-us/product/elizabeth-pesel01' }, { title: 'Profitec — PRO 400 heat exchanger', url: 'https://www.profitec-espresso.com/en/products/pro-400' }],
+  },
+  {
+    id: 'integrated-grinder', group: 'equipment', titles: ['الطاحونة المدمجة أم المنفصلة؟', 'Integrated or separate grinder?'], priority: 120,
+    keywords: /طاحون.*(?:مدمج|منفصل|داخلي)|مطحن.*(?:مدمج|منفصل|داخلي)|مدمج.*طاحون|integrated grinder|built.in grinder|separate grinder/,
+    ar: 'المدمجة تجمع الطحن والتحضير في جهاز واحد وتقلل عدد الأجهزة على الطاولة. المنفصلة تسمح باختيار طاحونة تناسب استخدامك وترقيتها أو صيانتها بشكل مستقل؛ هذه فائدة عملية وليست ضمانًا لطعم أفضل. للإسبريسو، المهم قدرة الطاحونة على ضبط الطحن بدقة وتكرار الجرعة. إذا عندك طاحونة جيدة، قارن تكلفة الماكينة وحدها قبل دفع قيمة طاحونة مدمجة إضافية.',
+    en: 'An integrated grinder combines grinding and brewing in one appliance, reducing separate devices on the counter. A separate grinder lets you choose, upgrade and service it independently; that flexibility does not guarantee better taste. Espresso needs sufficiently fine adjustment and repeatable dosing. If you already own a suitable grinder, compare machine-only cost before paying for another integrated grinder.',
+    more: ['اذكر موديل طاحونتك الحالية، وهل تستخدمها للإسبريسو فقط أو للترشيح أيضًا. لا أنقل أرقام الطحن بين الطواحين؛ حتى الموديل نفسه يتأثر بنقطة الصفر والمعايرة.', 'Give your current grinder model and whether you use it for espresso only or filter coffee too. Grind numbers do not transfer between grinders; even the same model depends on zero point and calibration.'],
+    title: 'Sage — Barista Pro integrated grinder', url: 'https://www.sageappliances.com/en-gb/product/bes878',
+    supportingSources: [{ title: 'Baratza — Choosing an espresso grinder', url: 'https://www.baratza.com/en-us/product/encoretm-esp-zcg495' }],
+  },
+  {
     id: 'moka-safety', group: 'brewing', titles: ['الموكا بوت وصمام الأمان', 'Moka pot and safety valve'], priority: 115,
     keywords: /موكا بوت|وعاء الموكا|صمام.*امان|moka pot|moka express|safety valve/,
     ar: 'في موكا إكسبرس، املأ القاعدة إلى ما دون صمام الأمان، وضع البن دون كبسه. توصي بياليتي بحرارة منخفضة إلى متوسطة؛ أبقِ لهب الغاز بعيدًا عن جوانب الإبريق، وارفعه عن الحرارة عند امتلائه. لا تفترض جرعة أو كمية ماء ثابتة لكل أحجام الموكا.',
