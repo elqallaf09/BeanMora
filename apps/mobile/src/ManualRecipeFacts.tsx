@@ -6,7 +6,7 @@ import { manualRecipeFacts, roastAgeLabel } from './manualBrew';
 import { Language, Txt, colors, styles } from './ui';
 
 /** Extra source amounts, with separate ice, milk, and age-dependent espresso output. */
-export function ManualRecipeFacts({ recipe }: { recipe: RecipeItem }) {
+export function ManualRecipeFacts({ recipe, compact = false }: { recipe: RecipeItem; compact?: boolean }) {
   const i18nUi = useLabels();
   const ar = useContext(Language) === 'ar';
   const manual = recipe.sourceBrew.manual;
@@ -15,13 +15,13 @@ export function ManualRecipeFacts({ recipe }: { recipe: RecipeItem }) {
   if (!facts.length && !ages?.length) return null;
   const scalarBasis = ar ? manual?.scalar_yield_basis_ar || manual?.scalar_yield_basis : manual?.scalar_yield_basis;
 
-  return <View testID="recipe-supplemental-facts" style={[styles.card, { gap: 16 }]}>
-    {facts.map(fact => <View key={fact.key} testID={`recipe-fact-${fact.key}`} style={{ gap: 3 }}>
+  return <View testID="recipe-supplemental-facts" style={[styles.card, { gap: 16 }, compact && { flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', padding: 12, marginBottom: 0, gap: 12 }]}>
+    {facts.map(fact => <View key={fact.key} testID={`recipe-fact-${fact.key}`} style={[{ gap: 3 }, compact && { flexBasis: '30%', flexGrow: 1, minWidth: 132 }]}>
       <Txt style={styles.muted}>{fact.label}</Txt>
       <Txt style={{ fontSize: 16, lineHeight: 24, fontWeight: '700', writingDirection: /^\d/.test(fact.value) ? 'ltr' : ar ? 'rtl' : 'ltr' }}>{fact.value}</Txt>
       {fact.note ? <Txt style={styles.muted}>{fact.note}</Txt> : null}
     </View>)}
-    {ages?.length ? <View testID="recipe-roast-age-yields" style={{ gap: 10 }}>
+    {ages?.length ? <View testID="recipe-roast-age-yields" style={[{ gap: 10 }, compact && { width: '100%' }]}>
       <Txt heading style={styles.subtitle}>{ar ? 'ناتج الإسبريسو حسب عمر التحميص' : i18nUi('ناتج الإسبريسو حسب عمر التحميص', 'Espresso yield by roast age')}</Txt>
       <Txt style={styles.muted}>{ar ? 'الأيام محسوبة من تاريخ التحميص؛ علامة الذروة كما وردت في المصدر.' : i18nUi('الأيام محسوبة من تاريخ التحميص؛ علامة الذروة كما وردت في المصدر.', 'Days are counted from the roast date; peak windows are marked by the source.')}</Txt>
       <View style={[styles.row, { flexDirection: ar ? 'row-reverse' : 'row', paddingHorizontal: 10 }]}>
