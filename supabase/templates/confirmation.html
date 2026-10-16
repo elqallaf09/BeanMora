@@ -1,19 +1,276 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"></head><body style="margin:0;background:#f7f2e9;font-family:Arial,sans-serif;color:#2e2118"><table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr><td align="center" style="padding:28px 16px"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:560px;background:#fffdf7;border-radius:20px"><tr><td align="center" style="padding:30px 24px 16px"><img src="https://beanmora-mobile.expo.app/beanmora-auth-logo.png" width="80" height="80" alt="BeanMora" style="display:block;border:0;border-radius:18px"><p style="font-size:28px;font-weight:bold;margin:12px 0;color:#2e2118">BeanMora</p></td></tr><tr><td style="padding:8px 28px 32px">
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light"><title>BeanMora</title></head><body style="margin:0;padding:0;background:#f5f1e9;font-family:Arial,Tahoma,sans-serif;color:#302116;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%">
 {{ if eq .Data.language "en" }}
-<div lang="en" dir="ltr" style="text-align:left"><h1 style="font-size:24px;line-height:1.5;margin:0 0 16px">Confirm your BeanMora email</h1><p style="font-size:17px;line-height:1.8;margin:0 0 24px">Confirm your email to finish creating your account in the BeanMora app.</p><p style="text-align:center;margin:28px 0"><a href="https://beanmora-mobile.expo.app/#token_hash={{ .TokenHash }}&amp;type=email" style="display:inline-block;background:#357c80;color:#ffffff;text-decoration:none;font-size:18px;font-weight:bold;padding:16px 28px;border-radius:12px">Confirm email</a></p><p style="font-size:13px;line-height:1.7;color:#685d52;margin:24px 0 0">If you did not create this account, ignore this email. Do not share the confirmation link.</p></div>
+<div lang="en" dir="ltr">
+  <div style="display:none;font-size:1px;line-height:1px;color:#faf7f0;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all">Confirm your email to finish creating your account in the BeanMora app.</div>
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;background:#f5f1e9"><tr><td align="center" style="padding:24px 12px">
+    <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;max-width:600px;background:#fffdf8;border:1px solid #eee7db;border-radius:20px">
+      <tr><td align="center" style="padding:28px 20px 18px">
+        <img src="https://raw.githubusercontent.com/elqallaf09/BeanMora/c3e8f5dcc62beb1ac2499200fe7975b12ba719b3/apps/mobile/public/beanmora-auth-logo.png" width="80" height="80" alt="BeanMora" style="display:block;width:80px;height:80px;border:0;border-radius:18px">
+        <p dir="ltr" style="margin:9px 0 5px;font-size:30px;line-height:1.2;font-weight:700;color:#302116">BeanMora</p>
+        <p style="margin:0;font-size:12px;line-height:1.8;color:#956c46">Good coffee, brighter days</p>
+      </td></tr>
+      <tr><td style="padding:0 20px">
+        <img src="https://raw.githubusercontent.com/elqallaf09/BeanMora/c3e8f5dcc62beb1ac2499200fe7975b12ba719b3/apps/mobile/public/beanmora-auth-coffee-v1.jpg" width="558" height="186" alt="" role="presentation" style="display:block;border:0;width:100%;max-width:558px;height:auto;border-radius:16px">
+      </td></tr>
+      <tr><td align="center" style="padding:26px 24px 20px">
+        <h1 style="margin:0 0 16px;font-size:27px;line-height:1.5;font-weight:700;color:#302116">Confirm your BeanMora email</h1>
+        <p style="margin:0;font-size:17px;line-height:1.9;color:#655448">Confirm your email to finish creating your account in the BeanMora app.</p>
+        <table role="presentation" align="center" border="0" cellspacing="0" cellpadding="0" style="margin:24px auto 4px"><tr><td align="center" bgcolor="#287b80" style="background:#287b80;border-radius:14px;mso-padding-alt:16px 32px">
+          <a href="https://beanmora-mobile.expo.app/#token_hash={{ .TokenHash }}&amp;type=email" style="display:inline-block;padding:16px 32px;min-width:150px;border:1px solid #287b80;border-radius:14px;background:#287b80;color:#ffffff;text-decoration:none;font-size:19px;line-height:1.5;font-weight:700;mso-padding-alt:0">Confirm email</a>
+        </td></tr></table>
+      </td></tr>
+      <tr><td style="padding:0 20px 16px">
+        <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;border-top:1px solid #e5dccc"><tr><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;">Better coffee</td><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;border-left:1px solid #e5dccc;">A brighter community</td><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;border-left:1px solid #e5dccc;">Brighter days</td></tr></table>
+      </td></tr>
+      <tr><td style="padding:0 12px 12px">
+        <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;background:#f3efe6;border-radius:14px"><tr><td align="center" style="padding:18px 16px">
+          <p style="margin:0 0 8px;font-size:15px;line-height:1.7;color:#4d3928"><strong>Need help?</strong> Contact us</p>
+          <p dir="ltr" style="margin:0;font-size:13px;line-height:1.8;word-break:break-word"><a href="mailto:beanmora.app@gmail.com" style="color:#426a68;text-decoration:underline">beanmora.app@gmail.com</a></p>
+          <p style="margin:6px 0 14px;font-size:13px;line-height:1.8"><a href="https://beanmora-mobile.expo.app/support.html?lang=en" style="color:#426a68;text-decoration:underline">Help center</a></p>
+          <p style="margin:0;border-top:1px solid #e1d9cb;padding-top:14px;font-size:12px;line-height:1.9;color:#756557">If you did not create this account, ignore this email. Do not share the confirmation link.</p>
+        </td></tr></table>
+      </td></tr>
+    </table>
+  </td></tr></table>
+</div>
 {{ else if eq .Data.language "ja" }}
-<div lang="ja" dir="ltr" style="text-align:left"><h1 style="font-size:24px;line-height:1.5;margin:0 0 16px">BeanMoraのメールアドレスを確認</h1><p style="font-size:17px;line-height:1.8;margin:0 0 24px">メールアドレスを確認して、BeanMoraアプリのアカウント作成を完了してください。</p><p style="text-align:center;margin:28px 0"><a href="https://beanmora-mobile.expo.app/#token_hash={{ .TokenHash }}&amp;type=email" style="display:inline-block;background:#357c80;color:#ffffff;text-decoration:none;font-size:18px;font-weight:bold;padding:16px 28px;border-radius:12px">メールアドレスを確認</a></p><p style="font-size:13px;line-height:1.7;color:#685d52;margin:24px 0 0">このアカウントを作成していない場合は、このメールを無視してください。確認リンクを他の人と共有しないでください。</p></div>
+<div lang="ja" dir="ltr">
+  <div style="display:none;font-size:1px;line-height:1px;color:#faf7f0;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all">メールアドレスを確認して、BeanMoraアプリのアカウント作成を完了してください。</div>
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;background:#f5f1e9"><tr><td align="center" style="padding:24px 12px">
+    <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;max-width:600px;background:#fffdf8;border:1px solid #eee7db;border-radius:20px">
+      <tr><td align="center" style="padding:28px 20px 18px">
+        <img src="https://raw.githubusercontent.com/elqallaf09/BeanMora/c3e8f5dcc62beb1ac2499200fe7975b12ba719b3/apps/mobile/public/beanmora-auth-logo.png" width="80" height="80" alt="BeanMora" style="display:block;width:80px;height:80px;border:0;border-radius:18px">
+        <p dir="ltr" style="margin:9px 0 5px;font-size:30px;line-height:1.2;font-weight:700;color:#302116">BeanMora</p>
+        <p style="margin:0;font-size:12px;line-height:1.8;color:#956c46">おいしいコーヒーで、毎日をもっと明るく</p>
+      </td></tr>
+      <tr><td style="padding:0 20px">
+        <img src="https://raw.githubusercontent.com/elqallaf09/BeanMora/c3e8f5dcc62beb1ac2499200fe7975b12ba719b3/apps/mobile/public/beanmora-auth-coffee-v1.jpg" width="558" height="186" alt="" role="presentation" style="display:block;border:0;width:100%;max-width:558px;height:auto;border-radius:16px">
+      </td></tr>
+      <tr><td align="center" style="padding:26px 24px 20px">
+        <h1 style="margin:0 0 16px;font-size:27px;line-height:1.5;font-weight:700;color:#302116">BeanMoraのメールアドレスを確認</h1>
+        <p style="margin:0;font-size:17px;line-height:1.9;color:#655448">メールアドレスを確認して、BeanMoraアプリのアカウント作成を完了してください。</p>
+        <table role="presentation" align="center" border="0" cellspacing="0" cellpadding="0" style="margin:24px auto 4px"><tr><td align="center" bgcolor="#287b80" style="background:#287b80;border-radius:14px;mso-padding-alt:16px 32px">
+          <a href="https://beanmora-mobile.expo.app/#token_hash={{ .TokenHash }}&amp;type=email" style="display:inline-block;padding:16px 32px;min-width:150px;border:1px solid #287b80;border-radius:14px;background:#287b80;color:#ffffff;text-decoration:none;font-size:19px;line-height:1.5;font-weight:700;mso-padding-alt:0">メールアドレスを確認</a>
+        </td></tr></table>
+      </td></tr>
+      <tr><td style="padding:0 20px 16px">
+        <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;border-top:1px solid #e5dccc"><tr><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;">よりおいしいコーヒー</td><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;border-left:1px solid #e5dccc;">つながるコミュニティ</td><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;border-left:1px solid #e5dccc;">もっと明るい毎日</td></tr></table>
+      </td></tr>
+      <tr><td style="padding:0 12px 12px">
+        <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;background:#f3efe6;border-radius:14px"><tr><td align="center" style="padding:18px 16px">
+          <p style="margin:0 0 8px;font-size:15px;line-height:1.7;color:#4d3928"><strong>お困りですか？</strong> お問い合わせ</p>
+          <p dir="ltr" style="margin:0;font-size:13px;line-height:1.8;word-break:break-word"><a href="mailto:beanmora.app@gmail.com" style="color:#426a68;text-decoration:underline">beanmora.app@gmail.com</a></p>
+          <p style="margin:6px 0 14px;font-size:13px;line-height:1.8"><a href="https://beanmora-mobile.expo.app/support.html?lang=ja" style="color:#426a68;text-decoration:underline">ヘルプセンター</a></p>
+          <p style="margin:0;border-top:1px solid #e1d9cb;padding-top:14px;font-size:12px;line-height:1.9;color:#756557">このアカウントを作成していない場合は、このメールを無視してください。確認リンクを他の人と共有しないでください。</p>
+        </td></tr></table>
+      </td></tr>
+    </table>
+  </td></tr></table>
+</div>
 {{ else if eq .Data.language "fr" }}
-<div lang="fr" dir="ltr" style="text-align:left"><h1 style="font-size:24px;line-height:1.5;margin:0 0 16px">Confirmez votre e-mail BeanMora</h1><p style="font-size:17px;line-height:1.8;margin:0 0 24px">Confirmez votre e-mail pour terminer la création de votre compte dans l’application BeanMora.</p><p style="text-align:center;margin:28px 0"><a href="https://beanmora-mobile.expo.app/#token_hash={{ .TokenHash }}&amp;type=email" style="display:inline-block;background:#357c80;color:#ffffff;text-decoration:none;font-size:18px;font-weight:bold;padding:16px 28px;border-radius:12px">Confirmer l’e-mail</a></p><p style="font-size:13px;line-height:1.7;color:#685d52;margin:24px 0 0">Si vous n’avez pas créé ce compte, ignorez cet e-mail. Ne partagez pas le lien de confirmation.</p></div>
+<div lang="fr" dir="ltr">
+  <div style="display:none;font-size:1px;line-height:1px;color:#faf7f0;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all">Confirmez votre e-mail pour terminer la création de votre compte dans l’application BeanMora.</div>
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;background:#f5f1e9"><tr><td align="center" style="padding:24px 12px">
+    <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;max-width:600px;background:#fffdf8;border:1px solid #eee7db;border-radius:20px">
+      <tr><td align="center" style="padding:28px 20px 18px">
+        <img src="https://raw.githubusercontent.com/elqallaf09/BeanMora/c3e8f5dcc62beb1ac2499200fe7975b12ba719b3/apps/mobile/public/beanmora-auth-logo.png" width="80" height="80" alt="BeanMora" style="display:block;width:80px;height:80px;border:0;border-radius:18px">
+        <p dir="ltr" style="margin:9px 0 5px;font-size:30px;line-height:1.2;font-weight:700;color:#302116">BeanMora</p>
+        <p style="margin:0;font-size:12px;line-height:1.8;color:#956c46">Un bon café, des journées plus belles</p>
+      </td></tr>
+      <tr><td style="padding:0 20px">
+        <img src="https://raw.githubusercontent.com/elqallaf09/BeanMora/c3e8f5dcc62beb1ac2499200fe7975b12ba719b3/apps/mobile/public/beanmora-auth-coffee-v1.jpg" width="558" height="186" alt="" role="presentation" style="display:block;border:0;width:100%;max-width:558px;height:auto;border-radius:16px">
+      </td></tr>
+      <tr><td align="center" style="padding:26px 24px 20px">
+        <h1 style="margin:0 0 16px;font-size:27px;line-height:1.5;font-weight:700;color:#302116">Confirmez votre e-mail BeanMora</h1>
+        <p style="margin:0;font-size:17px;line-height:1.9;color:#655448">Confirmez votre e-mail pour terminer la création de votre compte dans l’application BeanMora.</p>
+        <table role="presentation" align="center" border="0" cellspacing="0" cellpadding="0" style="margin:24px auto 4px"><tr><td align="center" bgcolor="#287b80" style="background:#287b80;border-radius:14px;mso-padding-alt:16px 32px">
+          <a href="https://beanmora-mobile.expo.app/#token_hash={{ .TokenHash }}&amp;type=email" style="display:inline-block;padding:16px 32px;min-width:150px;border:1px solid #287b80;border-radius:14px;background:#287b80;color:#ffffff;text-decoration:none;font-size:19px;line-height:1.5;font-weight:700;mso-padding-alt:0">Confirmer l’e-mail</a>
+        </td></tr></table>
+      </td></tr>
+      <tr><td style="padding:0 20px 16px">
+        <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;border-top:1px solid #e5dccc"><tr><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;">Un meilleur café</td><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;border-left:1px solid #e5dccc;">Une belle communauté</td><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;border-left:1px solid #e5dccc;">De plus belles journées</td></tr></table>
+      </td></tr>
+      <tr><td style="padding:0 12px 12px">
+        <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;background:#f3efe6;border-radius:14px"><tr><td align="center" style="padding:18px 16px">
+          <p style="margin:0 0 8px;font-size:15px;line-height:1.7;color:#4d3928"><strong>Besoin d’aide ?</strong> Contactez-nous</p>
+          <p dir="ltr" style="margin:0;font-size:13px;line-height:1.8;word-break:break-word"><a href="mailto:beanmora.app@gmail.com" style="color:#426a68;text-decoration:underline">beanmora.app@gmail.com</a></p>
+          <p style="margin:6px 0 14px;font-size:13px;line-height:1.8"><a href="https://beanmora-mobile.expo.app/support.html?lang=fr" style="color:#426a68;text-decoration:underline">Centre d’aide</a></p>
+          <p style="margin:0;border-top:1px solid #e1d9cb;padding-top:14px;font-size:12px;line-height:1.9;color:#756557">Si vous n’avez pas créé ce compte, ignorez cet e-mail. Ne partagez pas le lien de confirmation.</p>
+        </td></tr></table>
+      </td></tr>
+    </table>
+  </td></tr></table>
+</div>
 {{ else if eq .Data.language "it" }}
-<div lang="it" dir="ltr" style="text-align:left"><h1 style="font-size:24px;line-height:1.5;margin:0 0 16px">Conferma la tua e-mail BeanMora</h1><p style="font-size:17px;line-height:1.8;margin:0 0 24px">Conferma la tua e-mail per completare la creazione dell’account nell’app BeanMora.</p><p style="text-align:center;margin:28px 0"><a href="https://beanmora-mobile.expo.app/#token_hash={{ .TokenHash }}&amp;type=email" style="display:inline-block;background:#357c80;color:#ffffff;text-decoration:none;font-size:18px;font-weight:bold;padding:16px 28px;border-radius:12px">Conferma e-mail</a></p><p style="font-size:13px;line-height:1.7;color:#685d52;margin:24px 0 0">Se non hai creato questo account, ignora questa e-mail. Non condividere il link di conferma.</p></div>
+<div lang="it" dir="ltr">
+  <div style="display:none;font-size:1px;line-height:1px;color:#faf7f0;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all">Conferma la tua e-mail per completare la creazione dell’account nell’app BeanMora.</div>
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;background:#f5f1e9"><tr><td align="center" style="padding:24px 12px">
+    <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;max-width:600px;background:#fffdf8;border:1px solid #eee7db;border-radius:20px">
+      <tr><td align="center" style="padding:28px 20px 18px">
+        <img src="https://raw.githubusercontent.com/elqallaf09/BeanMora/c3e8f5dcc62beb1ac2499200fe7975b12ba719b3/apps/mobile/public/beanmora-auth-logo.png" width="80" height="80" alt="BeanMora" style="display:block;width:80px;height:80px;border:0;border-radius:18px">
+        <p dir="ltr" style="margin:9px 0 5px;font-size:30px;line-height:1.2;font-weight:700;color:#302116">BeanMora</p>
+        <p style="margin:0;font-size:12px;line-height:1.8;color:#956c46">Un buon caffè, giornate più belle</p>
+      </td></tr>
+      <tr><td style="padding:0 20px">
+        <img src="https://raw.githubusercontent.com/elqallaf09/BeanMora/c3e8f5dcc62beb1ac2499200fe7975b12ba719b3/apps/mobile/public/beanmora-auth-coffee-v1.jpg" width="558" height="186" alt="" role="presentation" style="display:block;border:0;width:100%;max-width:558px;height:auto;border-radius:16px">
+      </td></tr>
+      <tr><td align="center" style="padding:26px 24px 20px">
+        <h1 style="margin:0 0 16px;font-size:27px;line-height:1.5;font-weight:700;color:#302116">Conferma la tua e-mail BeanMora</h1>
+        <p style="margin:0;font-size:17px;line-height:1.9;color:#655448">Conferma la tua e-mail per completare la creazione dell’account nell’app BeanMora.</p>
+        <table role="presentation" align="center" border="0" cellspacing="0" cellpadding="0" style="margin:24px auto 4px"><tr><td align="center" bgcolor="#287b80" style="background:#287b80;border-radius:14px;mso-padding-alt:16px 32px">
+          <a href="https://beanmora-mobile.expo.app/#token_hash={{ .TokenHash }}&amp;type=email" style="display:inline-block;padding:16px 32px;min-width:150px;border:1px solid #287b80;border-radius:14px;background:#287b80;color:#ffffff;text-decoration:none;font-size:19px;line-height:1.5;font-weight:700;mso-padding-alt:0">Conferma e-mail</a>
+        </td></tr></table>
+      </td></tr>
+      <tr><td style="padding:0 20px 16px">
+        <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;border-top:1px solid #e5dccc"><tr><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;">Un caffè migliore</td><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;border-left:1px solid #e5dccc;">Una bella comunità</td><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;border-left:1px solid #e5dccc;">Giornate più belle</td></tr></table>
+      </td></tr>
+      <tr><td style="padding:0 12px 12px">
+        <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;background:#f3efe6;border-radius:14px"><tr><td align="center" style="padding:18px 16px">
+          <p style="margin:0 0 8px;font-size:15px;line-height:1.7;color:#4d3928"><strong>Serve aiuto?</strong> Contattaci</p>
+          <p dir="ltr" style="margin:0;font-size:13px;line-height:1.8;word-break:break-word"><a href="mailto:beanmora.app@gmail.com" style="color:#426a68;text-decoration:underline">beanmora.app@gmail.com</a></p>
+          <p style="margin:6px 0 14px;font-size:13px;line-height:1.8"><a href="https://beanmora-mobile.expo.app/support.html?lang=it" style="color:#426a68;text-decoration:underline">Centro assistenza</a></p>
+          <p style="margin:0;border-top:1px solid #e1d9cb;padding-top:14px;font-size:12px;line-height:1.9;color:#756557">Se non hai creato questo account, ignora questa e-mail. Non condividere il link di conferma.</p>
+        </td></tr></table>
+      </td></tr>
+    </table>
+  </td></tr></table>
+</div>
 {{ else if eq .Data.language "es" }}
-<div lang="es" dir="ltr" style="text-align:left"><h1 style="font-size:24px;line-height:1.5;margin:0 0 16px">Confirma tu correo de BeanMora</h1><p style="font-size:17px;line-height:1.8;margin:0 0 24px">Confirma tu correo para terminar de crear tu cuenta en la app BeanMora.</p><p style="text-align:center;margin:28px 0"><a href="https://beanmora-mobile.expo.app/#token_hash={{ .TokenHash }}&amp;type=email" style="display:inline-block;background:#357c80;color:#ffffff;text-decoration:none;font-size:18px;font-weight:bold;padding:16px 28px;border-radius:12px">Confirmar correo</a></p><p style="font-size:13px;line-height:1.7;color:#685d52;margin:24px 0 0">Si no has creado esta cuenta, ignora este correo. No compartas el enlace de confirmación.</p></div>
+<div lang="es" dir="ltr">
+  <div style="display:none;font-size:1px;line-height:1px;color:#faf7f0;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all">Confirma tu correo para terminar de crear tu cuenta en la app BeanMora.</div>
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;background:#f5f1e9"><tr><td align="center" style="padding:24px 12px">
+    <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;max-width:600px;background:#fffdf8;border:1px solid #eee7db;border-radius:20px">
+      <tr><td align="center" style="padding:28px 20px 18px">
+        <img src="https://raw.githubusercontent.com/elqallaf09/BeanMora/c3e8f5dcc62beb1ac2499200fe7975b12ba719b3/apps/mobile/public/beanmora-auth-logo.png" width="80" height="80" alt="BeanMora" style="display:block;width:80px;height:80px;border:0;border-radius:18px">
+        <p dir="ltr" style="margin:9px 0 5px;font-size:30px;line-height:1.2;font-weight:700;color:#302116">BeanMora</p>
+        <p style="margin:0;font-size:12px;line-height:1.8;color:#956c46">Buen café, días mejores</p>
+      </td></tr>
+      <tr><td style="padding:0 20px">
+        <img src="https://raw.githubusercontent.com/elqallaf09/BeanMora/c3e8f5dcc62beb1ac2499200fe7975b12ba719b3/apps/mobile/public/beanmora-auth-coffee-v1.jpg" width="558" height="186" alt="" role="presentation" style="display:block;border:0;width:100%;max-width:558px;height:auto;border-radius:16px">
+      </td></tr>
+      <tr><td align="center" style="padding:26px 24px 20px">
+        <h1 style="margin:0 0 16px;font-size:27px;line-height:1.5;font-weight:700;color:#302116">Confirma tu correo de BeanMora</h1>
+        <p style="margin:0;font-size:17px;line-height:1.9;color:#655448">Confirma tu correo para terminar de crear tu cuenta en la app BeanMora.</p>
+        <table role="presentation" align="center" border="0" cellspacing="0" cellpadding="0" style="margin:24px auto 4px"><tr><td align="center" bgcolor="#287b80" style="background:#287b80;border-radius:14px;mso-padding-alt:16px 32px">
+          <a href="https://beanmora-mobile.expo.app/#token_hash={{ .TokenHash }}&amp;type=email" style="display:inline-block;padding:16px 32px;min-width:150px;border:1px solid #287b80;border-radius:14px;background:#287b80;color:#ffffff;text-decoration:none;font-size:19px;line-height:1.5;font-weight:700;mso-padding-alt:0">Confirmar correo</a>
+        </td></tr></table>
+      </td></tr>
+      <tr><td style="padding:0 20px 16px">
+        <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;border-top:1px solid #e5dccc"><tr><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;">Mejor café</td><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;border-left:1px solid #e5dccc;">Una gran comunidad</td><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;border-left:1px solid #e5dccc;">Días mejores</td></tr></table>
+      </td></tr>
+      <tr><td style="padding:0 12px 12px">
+        <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;background:#f3efe6;border-radius:14px"><tr><td align="center" style="padding:18px 16px">
+          <p style="margin:0 0 8px;font-size:15px;line-height:1.7;color:#4d3928"><strong>¿Necesitas ayuda?</strong> Contáctanos</p>
+          <p dir="ltr" style="margin:0;font-size:13px;line-height:1.8;word-break:break-word"><a href="mailto:beanmora.app@gmail.com" style="color:#426a68;text-decoration:underline">beanmora.app@gmail.com</a></p>
+          <p style="margin:6px 0 14px;font-size:13px;line-height:1.8"><a href="https://beanmora-mobile.expo.app/support.html?lang=es" style="color:#426a68;text-decoration:underline">Centro de ayuda</a></p>
+          <p style="margin:0;border-top:1px solid #e1d9cb;padding-top:14px;font-size:12px;line-height:1.9;color:#756557">Si no has creado esta cuenta, ignora este correo. No compartas el enlace de confirmación.</p>
+        </td></tr></table>
+      </td></tr>
+    </table>
+  </td></tr></table>
+</div>
 {{ else if eq .Data.language "pt-BR" }}
-<div lang="pt-BR" dir="ltr" style="text-align:left"><h1 style="font-size:24px;line-height:1.5;margin:0 0 16px">Confirme seu e-mail do BeanMora</h1><p style="font-size:17px;line-height:1.8;margin:0 0 24px">Confirme seu e-mail para concluir a criação da sua conta no aplicativo BeanMora.</p><p style="text-align:center;margin:28px 0"><a href="https://beanmora-mobile.expo.app/#token_hash={{ .TokenHash }}&amp;type=email" style="display:inline-block;background:#357c80;color:#ffffff;text-decoration:none;font-size:18px;font-weight:bold;padding:16px 28px;border-radius:12px">Confirmar e-mail</a></p><p style="font-size:13px;line-height:1.7;color:#685d52;margin:24px 0 0">Se você não criou esta conta, ignore este e-mail. Não compartilhe o link de confirmação.</p></div>
+<div lang="pt-BR" dir="ltr">
+  <div style="display:none;font-size:1px;line-height:1px;color:#faf7f0;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all">Confirme seu e-mail para concluir a criação da sua conta no aplicativo BeanMora.</div>
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;background:#f5f1e9"><tr><td align="center" style="padding:24px 12px">
+    <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;max-width:600px;background:#fffdf8;border:1px solid #eee7db;border-radius:20px">
+      <tr><td align="center" style="padding:28px 20px 18px">
+        <img src="https://raw.githubusercontent.com/elqallaf09/BeanMora/c3e8f5dcc62beb1ac2499200fe7975b12ba719b3/apps/mobile/public/beanmora-auth-logo.png" width="80" height="80" alt="BeanMora" style="display:block;width:80px;height:80px;border:0;border-radius:18px">
+        <p dir="ltr" style="margin:9px 0 5px;font-size:30px;line-height:1.2;font-weight:700;color:#302116">BeanMora</p>
+        <p style="margin:0;font-size:12px;line-height:1.8;color:#956c46">Café bom, dias melhores</p>
+      </td></tr>
+      <tr><td style="padding:0 20px">
+        <img src="https://raw.githubusercontent.com/elqallaf09/BeanMora/c3e8f5dcc62beb1ac2499200fe7975b12ba719b3/apps/mobile/public/beanmora-auth-coffee-v1.jpg" width="558" height="186" alt="" role="presentation" style="display:block;border:0;width:100%;max-width:558px;height:auto;border-radius:16px">
+      </td></tr>
+      <tr><td align="center" style="padding:26px 24px 20px">
+        <h1 style="margin:0 0 16px;font-size:27px;line-height:1.5;font-weight:700;color:#302116">Confirme seu e-mail do BeanMora</h1>
+        <p style="margin:0;font-size:17px;line-height:1.9;color:#655448">Confirme seu e-mail para concluir a criação da sua conta no aplicativo BeanMora.</p>
+        <table role="presentation" align="center" border="0" cellspacing="0" cellpadding="0" style="margin:24px auto 4px"><tr><td align="center" bgcolor="#287b80" style="background:#287b80;border-radius:14px;mso-padding-alt:16px 32px">
+          <a href="https://beanmora-mobile.expo.app/#token_hash={{ .TokenHash }}&amp;type=email" style="display:inline-block;padding:16px 32px;min-width:150px;border:1px solid #287b80;border-radius:14px;background:#287b80;color:#ffffff;text-decoration:none;font-size:19px;line-height:1.5;font-weight:700;mso-padding-alt:0">Confirmar e-mail</a>
+        </td></tr></table>
+      </td></tr>
+      <tr><td style="padding:0 20px 16px">
+        <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;border-top:1px solid #e5dccc"><tr><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;">Café melhor</td><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;border-left:1px solid #e5dccc;">Uma comunidade melhor</td><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;border-left:1px solid #e5dccc;">Dias melhores</td></tr></table>
+      </td></tr>
+      <tr><td style="padding:0 12px 12px">
+        <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;background:#f3efe6;border-radius:14px"><tr><td align="center" style="padding:18px 16px">
+          <p style="margin:0 0 8px;font-size:15px;line-height:1.7;color:#4d3928"><strong>Precisa de ajuda?</strong> Fale conosco</p>
+          <p dir="ltr" style="margin:0;font-size:13px;line-height:1.8;word-break:break-word"><a href="mailto:beanmora.app@gmail.com" style="color:#426a68;text-decoration:underline">beanmora.app@gmail.com</a></p>
+          <p style="margin:6px 0 14px;font-size:13px;line-height:1.8"><a href="https://beanmora-mobile.expo.app/support.html?lang=pt-BR" style="color:#426a68;text-decoration:underline">Central de ajuda</a></p>
+          <p style="margin:0;border-top:1px solid #e1d9cb;padding-top:14px;font-size:12px;line-height:1.9;color:#756557">Se você não criou esta conta, ignore este e-mail. Não compartilhe o link de confirmação.</p>
+        </td></tr></table>
+      </td></tr>
+    </table>
+  </td></tr></table>
+</div>
 {{ else if eq .Data.language "zh-CN" }}
-<div lang="zh-CN" dir="ltr" style="text-align:left"><h1 style="font-size:24px;line-height:1.5;margin:0 0 16px">验证您的 BeanMora 邮箱</h1><p style="font-size:17px;line-height:1.8;margin:0 0 24px">请验证邮箱以完成 BeanMora 应用账户的创建。</p><p style="text-align:center;margin:28px 0"><a href="https://beanmora-mobile.expo.app/#token_hash={{ .TokenHash }}&amp;type=email" style="display:inline-block;background:#357c80;color:#ffffff;text-decoration:none;font-size:18px;font-weight:bold;padding:16px 28px;border-radius:12px">验证邮箱</a></p><p style="font-size:13px;line-height:1.7;color:#685d52;margin:24px 0 0">如果您没有创建此账户，请忽略此邮件。请勿分享验证链接。</p></div>
+<div lang="zh-CN" dir="ltr">
+  <div style="display:none;font-size:1px;line-height:1px;color:#faf7f0;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all">请验证邮箱以完成 BeanMora 应用账户的创建。</div>
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;background:#f5f1e9"><tr><td align="center" style="padding:24px 12px">
+    <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;max-width:600px;background:#fffdf8;border:1px solid #eee7db;border-radius:20px">
+      <tr><td align="center" style="padding:28px 20px 18px">
+        <img src="https://raw.githubusercontent.com/elqallaf09/BeanMora/c3e8f5dcc62beb1ac2499200fe7975b12ba719b3/apps/mobile/public/beanmora-auth-logo.png" width="80" height="80" alt="BeanMora" style="display:block;width:80px;height:80px;border:0;border-radius:18px">
+        <p dir="ltr" style="margin:9px 0 5px;font-size:30px;line-height:1.2;font-weight:700;color:#302116">BeanMora</p>
+        <p style="margin:0;font-size:12px;line-height:1.8;color:#956c46">好咖啡，让每一天更美好</p>
+      </td></tr>
+      <tr><td style="padding:0 20px">
+        <img src="https://raw.githubusercontent.com/elqallaf09/BeanMora/c3e8f5dcc62beb1ac2499200fe7975b12ba719b3/apps/mobile/public/beanmora-auth-coffee-v1.jpg" width="558" height="186" alt="" role="presentation" style="display:block;border:0;width:100%;max-width:558px;height:auto;border-radius:16px">
+      </td></tr>
+      <tr><td align="center" style="padding:26px 24px 20px">
+        <h1 style="margin:0 0 16px;font-size:27px;line-height:1.5;font-weight:700;color:#302116">验证您的 BeanMora 邮箱</h1>
+        <p style="margin:0;font-size:17px;line-height:1.9;color:#655448">请验证邮箱以完成 BeanMora 应用账户的创建。</p>
+        <table role="presentation" align="center" border="0" cellspacing="0" cellpadding="0" style="margin:24px auto 4px"><tr><td align="center" bgcolor="#287b80" style="background:#287b80;border-radius:14px;mso-padding-alt:16px 32px">
+          <a href="https://beanmora-mobile.expo.app/#token_hash={{ .TokenHash }}&amp;type=email" style="display:inline-block;padding:16px 32px;min-width:150px;border:1px solid #287b80;border-radius:14px;background:#287b80;color:#ffffff;text-decoration:none;font-size:19px;line-height:1.5;font-weight:700;mso-padding-alt:0">验证邮箱</a>
+        </td></tr></table>
+      </td></tr>
+      <tr><td style="padding:0 20px 16px">
+        <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;border-top:1px solid #e5dccc"><tr><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;">更好的咖啡</td><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;border-left:1px solid #e5dccc;">更美好的社区</td><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;border-left:1px solid #e5dccc;">更美好的每一天</td></tr></table>
+      </td></tr>
+      <tr><td style="padding:0 12px 12px">
+        <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;background:#f3efe6;border-radius:14px"><tr><td align="center" style="padding:18px 16px">
+          <p style="margin:0 0 8px;font-size:15px;line-height:1.7;color:#4d3928"><strong>需要帮助？</strong> 联系我们</p>
+          <p dir="ltr" style="margin:0;font-size:13px;line-height:1.8;word-break:break-word"><a href="mailto:beanmora.app@gmail.com" style="color:#426a68;text-decoration:underline">beanmora.app@gmail.com</a></p>
+          <p style="margin:6px 0 14px;font-size:13px;line-height:1.8"><a href="https://beanmora-mobile.expo.app/support.html?lang=zh-CN" style="color:#426a68;text-decoration:underline">帮助中心</a></p>
+          <p style="margin:0;border-top:1px solid #e1d9cb;padding-top:14px;font-size:12px;line-height:1.9;color:#756557">如果您没有创建此账户，请忽略此邮件。请勿分享验证链接。</p>
+        </td></tr></table>
+      </td></tr>
+    </table>
+  </td></tr></table>
+</div>
 {{ else }}
-<div lang="ar" dir="rtl" style="text-align:right"><h1 style="font-size:24px;line-height:1.5;margin:0 0 16px">تأكيد البريد في BeanMora</h1><p style="font-size:17px;line-height:1.8;margin:0 0 24px">هذه الرسالة لتأكيد بريدك وإكمال إنشاء حسابك في تطبيق BeanMora.</p><p style="text-align:center;margin:28px 0"><a href="https://beanmora-mobile.expo.app/#token_hash={{ .TokenHash }}&amp;type=email" style="display:inline-block;background:#357c80;color:#ffffff;text-decoration:none;font-size:18px;font-weight:bold;padding:16px 28px;border-radius:12px">تأكيد البريد</a></p><p style="font-size:13px;line-height:1.7;color:#685d52;margin:24px 0 0">إذا لم تنشئ هذا الحساب، تجاهل الرسالة. لا تشارك رابط التأكيد مع أي شخص.</p></div>
+<div lang="ar" dir="rtl">
+  <div style="display:none;font-size:1px;line-height:1px;color:#faf7f0;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all">هذه الرسالة لتأكيد بريدك وإكمال إنشاء حسابك في تطبيق BeanMora.</div>
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;background:#f5f1e9"><tr><td align="center" style="padding:24px 12px">
+    <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;max-width:600px;background:#fffdf8;border:1px solid #eee7db;border-radius:20px">
+      <tr><td align="center" style="padding:28px 20px 18px">
+        <img src="https://raw.githubusercontent.com/elqallaf09/BeanMora/c3e8f5dcc62beb1ac2499200fe7975b12ba719b3/apps/mobile/public/beanmora-auth-logo.png" width="80" height="80" alt="BeanMora" style="display:block;width:80px;height:80px;border:0;border-radius:18px">
+        <p dir="ltr" style="margin:9px 0 5px;font-size:30px;line-height:1.2;font-weight:700;color:#302116">BeanMora</p>
+        <p style="margin:0;font-size:12px;line-height:1.8;color:#956c46">قهوة أفضل، أيام أجمل</p>
+      </td></tr>
+      <tr><td style="padding:0 20px">
+        <img src="https://raw.githubusercontent.com/elqallaf09/BeanMora/c3e8f5dcc62beb1ac2499200fe7975b12ba719b3/apps/mobile/public/beanmora-auth-coffee-v1.jpg" width="558" height="186" alt="" role="presentation" style="display:block;border:0;width:100%;max-width:558px;height:auto;border-radius:16px">
+      </td></tr>
+      <tr><td align="center" style="padding:26px 24px 20px">
+        <h1 style="margin:0 0 16px;font-size:27px;line-height:1.5;font-weight:700;color:#302116">تأكيد البريد في BeanMora</h1>
+        <p style="margin:0;font-size:17px;line-height:1.9;color:#655448">هذه الرسالة لتأكيد بريدك وإكمال إنشاء حسابك في تطبيق BeanMora.</p>
+        <table role="presentation" align="center" border="0" cellspacing="0" cellpadding="0" style="margin:24px auto 4px"><tr><td align="center" bgcolor="#287b80" style="background:#287b80;border-radius:14px;mso-padding-alt:16px 32px">
+          <a href="https://beanmora-mobile.expo.app/#token_hash={{ .TokenHash }}&amp;type=email" style="display:inline-block;padding:16px 32px;min-width:150px;border:1px solid #287b80;border-radius:14px;background:#287b80;color:#ffffff;text-decoration:none;font-size:19px;line-height:1.5;font-weight:700;mso-padding-alt:0">تأكيد البريد</a>
+        </td></tr></table>
+      </td></tr>
+      <tr><td style="padding:0 20px 16px">
+        <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;border-top:1px solid #e5dccc"><tr><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;">قهوة أفضل</td><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;border-left:1px solid #e5dccc;">مجتمع أجمل</td><td width="33.33%" align="center" valign="top" style="padding:10px 5px;color:#6f4b2f;font-size:13px;line-height:1.7;border-left:1px solid #e5dccc;">أيام أجمل</td></tr></table>
+      </td></tr>
+      <tr><td style="padding:0 12px 12px">
+        <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="width:100%;background:#f3efe6;border-radius:14px"><tr><td align="center" style="padding:18px 16px">
+          <p style="margin:0 0 8px;font-size:15px;line-height:1.7;color:#4d3928"><strong>تحتاج مساعدة؟</strong> تواصل معنا</p>
+          <p dir="ltr" style="margin:0;font-size:13px;line-height:1.8;word-break:break-word"><a href="mailto:beanmora.app@gmail.com" style="color:#426a68;text-decoration:underline">beanmora.app@gmail.com</a></p>
+          <p style="margin:6px 0 14px;font-size:13px;line-height:1.8"><a href="https://beanmora-mobile.expo.app/support.html?lang=ar" style="color:#426a68;text-decoration:underline">مركز المساعدة</a></p>
+          <p style="margin:0;border-top:1px solid #e1d9cb;padding-top:14px;font-size:12px;line-height:1.9;color:#756557">إذا لم تنشئ هذا الحساب، تجاهل الرسالة. لا تشارك رابط التأكيد مع أي شخص.</p>
+        </td></tr></table>
+      </td></tr>
+    </table>
+  </td></tr></table>
+</div>
 {{ end }}
-</td></tr></table></td></tr></table></body></html>
+</body></html>
