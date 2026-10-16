@@ -24,6 +24,23 @@ import { factLabels } from "./core/equipment-facts";
 import { useReducedMotion } from "./Motion";
 
 export type AssistantTurn = LocalAssistantTurn & { localization?: MessageTrace };
+function AnswerText({ text }: { text: string }) {
+  const ar = useContext(Language) === 'ar';
+  return <View style={{ gap: 14 }}>{text.split(/\n\s*\n/).filter(Boolean).map((paragraph, index) => {
+    const lines = paragraph.split('\n');
+    const amounts = lines.map(line => line.match(/^(.+?[:：])\s+(\d[\d\s.,:–/-]*(?:g|ml|°C|s)?)$/));
+    if (lines.length > 1 && amounts.every(Boolean)) return <View key={index} style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8 }}>
+      {amounts.map((amount, i) => <View key={i} style={{ flexBasis: 100, flexGrow: 1, backgroundColor: colors.chip, borderRadius: 12, padding: 10, gap: 5 }}>
+        <Txt style={{ fontSize: 13, lineHeight: 19 }}>{amount![1]} </Txt>
+        <Txt style={{ fontSize: 19, fontWeight: '700', writingDirection: 'ltr', textAlign: ar ? 'right' : 'left' }}>{amount![2]}</Txt>
+      </View>)}
+    </View>;
+    const heading = lines[0].length < 80 && !/[:：]|^\d+[.)]/.test(lines[0]) && (index === 0 || lines.length > 1);
+    return <View key={index} style={{ gap: 5 }}>{lines.map((line, lineIndex) =>
+      <Txt key={lineIndex} heading={heading && lineIndex === 0} style={{ lineHeight: 25, ...(heading && lineIndex === 0 ? { fontWeight: '700' } : {}), ...(/^\d+:\d+ —/.test(line) ? { writingDirection: 'ltr', textAlign: ar ? 'right' : 'left' } as const : {}) }}>{line}</Txt>
+    )}</View>;
+  })}</View>;
+}
 export function CoffeeAssistant({
   turns,
   setTurns,
@@ -41,23 +58,16 @@ export function CoffeeAssistant({
   const [error, setError] = useState("");
   const active = useRef<AbortController | null>(null);
   const list = useRef<ScrollView>(null);
+  const revealedTurn = useRef<AssistantTurn | null>(null);
+  const scrollFrame = useRef<number | null>(null);
   const reduced = useReducedMotion();
   const [expandedResults, setExpandedResults] = useState<
     Record<number, boolean>
   >({});
-  const [expandedHistory, setExpandedHistory] = useState<
-    Record<number, boolean>
-  >({});
-  useEffect(() => {
-    if (!turns.length) return;
-    const frame = requestAnimationFrame(() =>
-      list.current?.scrollToEnd({ animated: !reduced }),
-    );
-    return () => cancelAnimationFrame(frame);
-  }, [turns, reduced]);
   useEffect(
     () => () => {
       active.current?.abort();
+      if (scrollFrame.current !== null) cancelAnimationFrame(scrollFrame.current);
     },
     [],
   );
@@ -112,7 +122,6 @@ export function CoffeeAssistant({
       setTurns([...turns, { ...turn, question: displayQuestion.trim().slice(0,1000), answer: canonical(turn.answer), suggestions: turn.suggestions?.map(canonical), followUp: turn.followUp ? canonical(turn.followUp) : undefined, localization }].slice(-6));
       setQuestion("");
       setExpandedResults({});
-      setExpandedHistory({});
     } catch {
       if (!controller.signal.aborted) {
         setError(
@@ -193,7 +202,13 @@ export function CoffeeAssistant({
           </View>
         ) : null}
         {turns.map((turn, index) => (
-          <View key={index} style={{ gap: 12 }}>
+          <View key={turn.localization?.nonce ?? `${index}:${turn.question}`} testID="assistant-turn" style={{ gap: 12 }} onLayout={(event) => {
+            if (index !== turns.length - 1 || revealedTurn.current === turn) return;
+            revealedTurn.current = turn;
+            const y = event.nativeEvent.layout.y;
+            if (scrollFrame.current !== null) cancelAnimationFrame(scrollFrame.current);
+            scrollFrame.current = requestAnimationFrame(() => list.current?.scrollTo({ y, animated: !reduced }));
+          }}>
             <View
               style={[
                 styles.card,
@@ -206,32 +221,11 @@ export function CoffeeAssistant({
             >
               <Txt>{turn.question}</Txt>
             </View>
-            {index < turns.length - 1 ? (
-              <Action
-                compact
-                title={
-                  expandedHistory[index]
-                    ? ar
-                      ? "طي الإجابة"
-                      : i18nUi("طي الإجابة", "Collapse answer")
-                    : ar
-                      ? "عرض الإجابة"
-                      : i18nUi("عرض الإجابة", "Show answer")
-                }
-                onPress={() =>
-                  setExpandedHistory((state) => ({
-                    ...state,
-                    [index]: !state[index],
-                  }))
-                }
-              />
-            ) : null}
-            {index === turns.length - 1 || expandedHistory[index] ? (
-              <View accessibilityLiveRegion="polite" style={{ gap: 10 }}>
+              <View testID={index === turns.length - 1 ? 'assistant-latest-answer' : 'assistant-history-answer'} accessibilityLiveRegion={index === turns.length - 1 ? 'polite' : 'none'} style={[styles.card, { gap: 14 }]}>
                 <Txt style={styles.muted}>
                   {ar ? "خبير القهوة" : i18nUi("خبير القهوة", "Coffee expert")}
                 </Txt>
-                <Txt>{turn.localization ? tracedMessage(turn.localization,turn.localization.answer,locale) : systemText(locale,turn.answer)}</Txt>
+                <AnswerText text={turn.localization ? tracedMessage(turn.localization,turn.localization.answer,locale) : systemText(locale,turn.answer)} />
                 {(expandedResults[index]
                   ? turn.matches
                   : turn.matches.slice(0, 3)
@@ -399,13 +393,14 @@ export function CoffeeAssistant({
                   />
                 ) : null}
                 {turn.followUp ? <Txt>{turn.localization?.followUp ? tracedMessage(turn.localization,turn.localization.followUp,locale) : systemText(locale,turn.followUp)}</Txt> : null}
-                {localAssistantSources(turn).map((source) => (
+                <View style={styles.row}>{localAssistantSources(turn).map((source) => (
                   <Action
+                    compact
                     key={source.url}
                     title={source.title}
                     onPress={() => void visit(source.url)}
                   />
-                ))}
+                ))}</View>
                 {index === turns.length - 1 ? (
                   <View
                     style={{
@@ -426,7 +421,6 @@ export function CoffeeAssistant({
                   </View>
                 ) : null}
               </View>
-            ) : null}
           </View>
         ))}
         {busy ? (
@@ -483,7 +477,6 @@ export function CoffeeAssistant({
                 setQuestion("");
                 setError("");
                 setExpandedResults({});
-                setExpandedHistory({});
               }}
             />
           ) : null}

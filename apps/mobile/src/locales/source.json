@@ -874,6 +874,13 @@
     ]
   },
   {
+    "en": "Add the coffee to the filter, level the bed, then tare the scale before pouring.",
+    "ar": "ضع البن في الفلتر وسوِّ سطحه، ثم صفّر الميزان قبل الصب.",
+    "files": [
+      "src/core/local-coffee-assistant.ts"
+    ]
+  },
+  {
     "en": "Add the lot name and available quantity, then record your roasts.",
     "ar": "أضف اسم المحصول والكمية المتوفرة، ثم سجّل حمصاتك منه.",
     "files": [
@@ -10463,6 +10470,20 @@
     ]
   },
   {
+    "en": "Hot V60",
+    "ar": "V60 حار",
+    "files": [
+      "src/core/local-coffee-assistant.ts"
+    ]
+  },
+  {
+    "en": "Hot V60 quantities",
+    "ar": "مقادير V60 الحار",
+    "files": [
+      "src/core/local-coffee-assistant.ts"
+    ]
+  },
+  {
     "en": "Hot water",
     "ar": "الماء الساخن",
     "files": [
@@ -10515,6 +10536,13 @@
       "src/CoffeeAssistant.tsx",
       "src/core/coffee-knowledge.ts",
       "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "How to brew",
+    "ar": "طريقة التحضير",
+    "files": [
+      "src/core/local-coffee-assistant.ts"
     ]
   },
   {
@@ -10698,6 +10726,13 @@
       "src/RecipeDetail.tsx",
       "src/recipeDiscovery.ts",
       "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Iced V60",
+    "ar": "V60 بالثلج",
+    "files": [
+      "src/core/local-coffee-assistant.ts"
     ]
   },
   {
@@ -15741,6 +15776,13 @@
     ]
   },
   {
+    "en": "Pour in gentle circles. The amounts below are added per pour, not cumulative scale readings.",
+    "ar": "صب بحركة دائرية هادئة. الأرقام التالية كمية كل صبّة، وليست قراءة الميزان التراكمية.",
+    "files": [
+      "src/core/local-coffee-assistant.ts"
+    ]
+  },
+  {
     "en": "Pour once textured, then promptly clean milk residue as directed.",
     "ar": "صب بعد التجانس ثم نظّف بقايا الحليب فورًا وفق دليل الأداة.",
     "files": [
@@ -16279,6 +16321,13 @@
     ]
   },
   {
+    "en": "Put the ice in the server and the coffee in the filter, then tare the scale before pouring.",
+    "ar": "ضع الثلج في الإبريق والبن في الفلتر، ثم صفّر الميزان قبل الصب.",
+    "files": [
+      "src/core/local-coffee-assistant.ts"
+    ]
+  },
+  {
     "en": "qa",
     "ar": "قطر",
     "files": [
@@ -16384,6 +16433,13 @@
     "ar": "معدل ارتفاع الحرارة (°C/دقيقة)",
     "files": [
       "src/RoastLab.tsx"
+    ]
+  },
+  {
+    "en": "Ratio",
+    "ar": "النسبة",
+    "files": [
+      "src/core/local-coffee-assistant.ts"
     ]
   },
   {
@@ -17575,6 +17631,13 @@
     "ar": "اشطف الفلتر قبل التحضير، واستخدم حجم الفلتر المطابق للقطّارة. اتبع تعليمات تنظيف مادة هذا الموديل.",
     "files": [
       "src/equipmentGuides.ts"
+    ]
+  },
+  {
+    "en": "Rinse the filter with hot water, then discard the rinse water.",
+    "ar": "اشطف الفلتر بماء ساخن، ثم تخلّص من ماء الشطف.",
+    "files": [
+      "src/core/local-coffee-assistant.ts"
     ]
   },
   {
@@ -20353,6 +20416,20 @@
     ]
   },
   {
+    "en": "Start with a coarse grind for this method, and adjust water temperature to the roast.",
+    "ar": "ابدأ بطحن خشن لهذه الطريقة، واضبط حرارة الماء حسب التحميص.",
+    "files": [
+      "src/core/local-coffee-assistant.ts"
+    ]
+  },
+  {
+    "en": "Start with a medium grind and water just off the boil. After drawdown, stir the drink with the ice.",
+    "ar": "ابدأ بطحن متوسط وماء بعد الغليان مباشرة. بعد التقطير، حرّك المشروب مع الثلج.",
+    "files": [
+      "src/core/local-coffee-assistant.ts"
+    ]
+  },
+  {
     "en": "Start with a recipe intended for your FAST, CLASSIC, OPEN or APEX bottom.",
     "ar": "ابدأ بوصفة مخصصة للقاعدة التي تستخدمها: FAST أو CLASSIC أو OPEN أو APEX.",
     "files": [
@@ -20685,6 +20762,13 @@
     "files": [
       "src/core/flavor-vocabulary.ts",
       "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Suggested pours",
+    "ar": "الصبّات المقترحة",
+    "files": [
+      "src/core/local-coffee-assistant.ts"
     ]
   },
   {
@@ -21453,6 +21537,13 @@
     ]
   },
   {
+    "en": "These are totals for a large batch. Divide it into batches that fit your dripper and server; do not brew it all at once.",
+    "ar": "هذه مقادير إجمالية لكمية كبيرة. قسّمها إلى دفعات تناسب سعة القمع والإبريق؛ لا تحضّرها كلها في دفعة واحدة.",
+    "files": [
+      "src/core/local-coffee-assistant.ts"
+    ]
+  },
+  {
     "en": "These catalog options fit the budget using dated prices. Conversion is indicative; check shipping, taxes and seller availability before buying.",
     "ar": "هذه خيارات من دليلنا ضمن الميزانية بحسب أسعار مؤرخة. التحويل تقديري، والشحن والضرائب وتوفر المتجر تُراجع عند الشراء.",
     "files": [
@@ -21552,6 +21643,13 @@
     "files": [
       "src/AccountSecurity.tsx",
       "src/japaneseLabels.ts"
+    ]
+  },
+  {
+    "en": "This is a calculated starting point adapted from the brew guide. Timing is approximate and depends on the coffee and grind. Rinse water is separate; beverage yield is lower than total water because the grounds retain water.",
+    "ar": "هذه نقطة بداية محسوبة من دليل التحضير؛ التوقيت إرشادي ويتغيّر مع البن والطحن. ماء شطف الفلتر منفصل، ووزن المشروب النهائي أقل من إجمالي الماء بسبب احتفاظ البن بالماء.",
+    "files": [
+      "src/core/local-coffee-assistant.ts"
     ]
   },
   {
