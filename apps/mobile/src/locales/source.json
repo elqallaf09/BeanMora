@@ -24969,5 +24969,26 @@
       "src/core/espresso-control-advice.ts",
       "src/locales/reviewed.json"
     ]
+  },
+  {
+    "en": "Read full photo",
+    "ar": "قراءة الصورة كاملة",
+    "files": [
+      "src/CoffeeLabelCropper.tsx"
+    ]
+  },
+  {
+    "en": "Keep the label flat, fill the frame with text, and avoid glare.",
+    "ar": "افرد الملصق، وقرّب الكتابة داخل الصورة، وتجنّب انعكاس الإضاءة.",
+    "files": [
+      "src/CoffeeLabelScanner.tsx"
+    ]
+  },
+  {
+    "en": "banana",
+    "ar": "موز",
+    "files": [
+      "src/core/flavor-vocabulary.ts"
+    ]
   }
 ]

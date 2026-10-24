@@ -43,6 +43,8 @@ test('real free OCR reads a label, review binds facts only, source ml survive an
   await page.getByRole('button', { name: 'Choose a photo', exact: true }).click();
   await (await chooser).setFiles({ name: 'test-label.png', mimeType: 'image/png', buffer: Buffer.from(image, 'base64') });
   const panel = page.getByTestId('coffee-label-scanner');
+  await expect(panel.getByTestId('coffee-label-cropper')).toBeVisible();
+  await panel.getByRole('button', { name: 'Read full photo', exact: true }).click();
   await expect(panel.getByLabel('Coffee origin', { exact: true })).toHaveValue('Brazil', { timeout: 90000 });
   await expect(panel.getByLabel('Variety', { exact: true })).toHaveValue('Castillo');
   await expect(panel.getByLabel('Tasting notes on the bag', { exact: true })).toHaveValue(/Chocolate/);
@@ -99,6 +101,7 @@ test('real Arabic OCR reads Arabic fields and coconut never becomes the growing 
   await page.getByRole('button', { name: 'اختيار صورة', exact: true }).click();
   await (await chooser).setFiles({ name: 'arabic-label.png', mimeType: 'image/png', buffer: Buffer.from(image, 'base64') });
   const panel = page.getByTestId('coffee-label-scanner');
+  await panel.getByRole('button', { name: 'قراءة الصورة كاملة', exact: true }).click();
   await expect(panel.getByRole('button', { name: 'عرض النص المقروء', exact: true })).toBeVisible({ timeout: 90000 });
   await panel.getByRole('button', { name: 'عرض النص المقروء', exact: true }).click();
   await expect(panel.getByLabel('منشأ البن', { exact: true })).toHaveValue('Colombia');
@@ -115,11 +118,60 @@ test('reported decorated bag does not use its roaster logo as a product name', a
   await page.getByRole('button', { name: 'اختيار صورة', exact: true }).click();
   await (await chooser).setFiles(process.env.BEANMORA_REPORTED_LABEL_PHOTO!);
   const panel = page.getByTestId('coffee-label-scanner');
+  await panel.getByRole('button', { name: 'قراءة الصورة كاملة', exact: true }).click();
   await expect(panel.getByLabel('منشأ البن', { exact: true })).toHaveValue('Colombia', { timeout: 90000 });
   await expect(panel.getByLabel('اسم البن', { exact: true })).not.toHaveValue(/Alarba/i);
   await expect(panel.getByLabel('السلالة', { exact: true })).toHaveValue('');
   await expect(panel.getByLabel('التحميص', { exact: true })).toHaveValue('');
   await expect(panel.getByRole('button', { name: 'اعثر على أقرب وصفة', exact: true })).toBeDisabled();
+});
+test('reported colored Sulaf bag reads its title and fermentation without treating honey as processing', async ({ page }) => {
+  test.skip(!process.env.BEANMORA_SULAF_LABEL_PHOTO, 'Requires the locally supplied regression photo; never committed');
+  test.setTimeout(120000);
+  await fixtures(page); await openScanner(page, false);
+  const chooser = page.waitForEvent('filechooser');
+  await page.getByRole('button', { name: 'اختيار صورة', exact: true }).click();
+  await (await chooser).setFiles(process.env.BEANMORA_SULAF_LABEL_PHOTO!);
+  const panel = page.getByTestId('coffee-label-scanner');
+  await expect(panel.getByTestId('coffee-label-cropper')).toBeVisible();
+  await expect(panel.getByRole('button', { name: 'اعثر على أقرب وصفة', exact: true })).toBeDisabled();
+  await panel.getByRole('button', { name: 'قراءة الصورة كاملة', exact: true }).click();
+  await expect(panel.getByLabel('اسم البن', { exact: true })).toHaveValue('SULAF', { timeout: 90000 });
+  await expect(panel.getByLabel('منشأ البن', { exact: true })).toHaveValue('Yemen');
+  await expect(panel.getByLabel('السلالة', { exact: true })).toHaveValue('Typica');
+  await expect(panel.getByLabel('المعالجة', { exact: true })).toHaveValue('BK Fermentation');
+  for (const note of [/grape/i, /pineapple/i, /banana/i, /honey|عسل/i])
+    await expect(panel.getByLabel('الإيحاءات والطعم المكتوب على الكيس', { exact: true })).toHaveValue(note);
+  await expect(panel.getByLabel('التحميص', { exact: true })).toHaveValue('');
+  await expect(panel.getByRole('button', { name: 'اعثر على أقرب وصفة', exact: true })).toBeDisabled();
+  await expect(panel.getByRole('alert')).toHaveCount(0);
+  await page.screenshot({ path: 'test-results/coffee-label-sulaf-reviewed.png' });
+});
+
+test('real OCR reads a colored inset label and preserves wrapped flavors without using the logo', async ({ page }) => {
+  test.setTimeout(120000);
+  await fixtures(page); await openScanner(page);
+  const buffer = await page.evaluate(() => {
+    const canvas = document.createElement('canvas'); canvas.width = 1100; canvas.height = 1400;
+    const ctx = canvas.getContext('2d')!;
+    ctx.fillStyle = '#ead02b'; ctx.fillRect(0, 0, 1100, 1400);
+    ctx.fillStyle = '#101010'; ctx.font = '56px Arial'; ctx.fillText('Fixture Roastery', 280, 125);
+    ctx.fillStyle = '#8a3b24'; ctx.fillRect(100, 240, 900, 1040);
+    ctx.fillStyle = 'white'; ctx.font = 'bold 92px Arial'; ctx.fillText('AURORA', 300, 405);
+    ctx.font = '34px Arial';
+    ['Yemen - Experimental Fermentation', 'Grape - Pineapple - Banana', 'Honey', 'Variety: Typica']
+      .forEach((line, i) => ctx.fillText(line, 160, 560 + 110 * i));
+    return canvas.toDataURL('image/png').split(',')[1];
+  });
+  const chooser = page.waitForEvent('filechooser');
+  await page.getByRole('button', { name: 'Choose a photo', exact: true }).click();
+  await (await chooser).setFiles({ name: 'colored-fixture.png', mimeType: 'image/png', buffer: Buffer.from(buffer, 'base64') });
+  const panel = page.getByTestId('coffee-label-scanner');
+  await panel.getByRole('button', { name: 'Read full photo', exact: true }).click();
+  await expect(panel.getByLabel('Coffee name', { exact: true })).toHaveValue('AURORA', { timeout: 90000 });
+  await expect(panel.getByLabel('Processing', { exact: true })).toHaveValue('Experimental Fermentation');
+  await expect(panel.getByLabel('Tasting notes on the bag', { exact: true })).toHaveValue(/Honey/);
+  await expect(panel.getByLabel('Roast level', { exact: true })).toHaveValue('');
 });
 test('missing source evidence shows an empty result without manufacturing parameters', async ({ page }) => {
   await fixtures(page, 'empty'); await openScanner(page);

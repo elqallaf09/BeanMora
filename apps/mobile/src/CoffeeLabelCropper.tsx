@@ -12,7 +12,7 @@ export function CoffeeLabelCropper({ photo, apply, cancel }: {
   const ar = useContext(Language) === 'ar';
   const screen = useWindowDimensions();
   const aspect = photo.width / photo.height;
-  const width = Math.min(screen.width - 64, 600, 360 * aspect), height = width / aspect;
+  const width = Math.min(screen.width - 48, 600, Math.min(520, screen.height * .55) * aspect), height = width / aspect;
   const [start, setStart] = useState<{ x: number; y: number } | null>(null);
   const [crop, setCrop] = useState<CoffeeOcrCrop | null>(null);
   return <View testID="coffee-label-cropper" style={{ gap: 8 }}>
@@ -43,6 +43,7 @@ export function CoffeeLabelCropper({ photo, apply, cancel }: {
     </Pressable>
     <View style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8 }}>
       <Action compact variant="primary" title={ar ? 'قراءة الجزء المحدد' : i18nUi('قراءة الجزء المحدد', 'Read selected label')} disabled={!crop} onPress={() => crop && apply(crop)} />
+      <Action compact title={ar ? 'قراءة الصورة كاملة' : i18nUi('قراءة الصورة كاملة', 'Read full photo')} onPress={() => apply({ left: 0, top: 0, width: 1, height: 1 })} />
       <Action compact title={ar ? 'تحديد من جديد' : i18nUi('تحديد من جديد', 'Reset selection')} onPress={() => { setStart(null); setCrop(null); }} />
       <Action compact title={ar ? 'إلغاء' : i18nUi('إلغاء', 'Cancel')} onPress={cancel} />
     </View>

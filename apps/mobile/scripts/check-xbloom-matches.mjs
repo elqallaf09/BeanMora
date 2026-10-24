@@ -95,6 +95,23 @@ test('Arabic sensory origins, bidi controls and value-before-heading labels keep
   assert.equal(readCoffeeLabel('Origin: Colombia\nNotes: Coconut').name, '');
   assert.equal(readCoffeeLabel('المنشاً:كولومبيا\nالسلالة:كاستيلو\nالمعالجة: تنقيعكربوني\nالإيحاءات: جوزالهند').origin, 'Colombia');
 });
+test('colored bilingual labels keep fermentation separate from wrapped tasting notes',()=>{
+  const text='Black Knight\nسُلاف\nSULAF\nYemen - BK Fermentation\nGrape - Pineapple - Banana\nHoney\nRegion: Haraz\nVariety: Typica\nAltitude: 2300\nBody: Moderate\n250 g';
+  const label=readCoffeeLabel(text,['SULAF']);
+  assert.deepEqual(label,{name:'SULAF',origin:'Yemen',variety:'Typica',process:'BK Fermentation',roast:'',notes:'Grape, Pineapple, Banana, Honey'});
+  assert.equal(readCoffeeLabel(text).name,'','An unlabelled title requires spatial OCR evidence');
+  assert.equal(readCoffeeLabel('Origin: Yemen\nNotes: Honey').process,'');
+  assert.equal(readCoffeeLabel('Origin: Yemen\nHoney').process,'');
+  assert.equal(readCoffeeLabel('Processing: Honey\nNotes: Grape').process,'honey');
+  assert.equal(readCoffeeLabel('Processing\nHoney\nNotes: Grape').notes,'Grape');
+  assert.equal(readCoffeeLabel('Origin: Yemen\nGrape - Pinoappic - Banana\nHoney').notes,'Grape, Banana, Honey','Unknown OCR debris is not a flavor');
+  assert.equal(readCoffeeLabel('Origin: Yemen\nGrape - Pingappie - Banana\nHoney').notes,'Grape, Pineapple, Banana, Honey','A unique long-token correction requires neighboring known flavors');
+  assert.equal(readCoffeeLabel('Origin: Yemen\nPingappie').notes,'','No correction without a confirmed flavor list');
+  assert.equal(readCoffeeLabel('Origin: Yemen\nGrape - Wine - Banana').notes.includes('Lime'),false,'Short words are never fuzzy corrected');
+  assert.equal(readCoffeeLabel('اليمن - تخمير بلاك نايت\nعنب - أناناس - موز\nعسل').process,'تخمير بلاك نايت');
+  assert.equal(readCoffeeLabel('Origin: Yemen\nGrape, Banana\nHoney\nعسل').notes,'Grape, Banana, Honey');
+  assert.equal(readCoffeeLabel('Black Knight\nOrigin: Yemen', ['SULAF']).name,'','Title hints cannot invent text');
+});
 test('label ranking parameters are literal and never guess a catalog ID from a name or scope V60 by xBloom model',()=>{
   const label={name:'Brazil Castillo',origin:"Brazil %') OR true --",variety:'كاستيلو',process:'natural',roast:'light',notes:'Chocolate'};
   const params=coffeeLabelMatchParams(label,'v60','Studio');
