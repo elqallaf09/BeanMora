@@ -27,8 +27,19 @@ test('stable codes, transport errors and rate limits stay distinct', () => {
 test('production email rejection is explained even without a machine-readable code', () => {
   assert.equal(authFailure({ status: 400, message: 'Email address "test@test.com" is invalid' }).kind, 'invalidEmail');
 });
+test('serialized Auth responses preserve their machine-readable login reason', () => {
+  assert.equal(authFailure({ error_code: 'invalid_credentials', message: 'Unrelated text', status: 400 }).kind, 'invalidCredentials');
+  assert.equal(authFailure({ error_code: 'email_not_confirmed', status: 400 }).kind, 'emailNotConfirmed');
+  assert.equal(authFailure({ code: 'request_timeout', error_code: 'invalid_credentials' }).kind, 'network');
+});
 test('unknown errors and account existence do not reveal server internals', () => {
   for (const error of [null, undefined, 3, {}, { code: 'email_exists' }, { code: 'unexpected_failure', message: 'private database detail' }]) {
     assert.equal(authFailure(error).kind, 'unknown');
   }
+});
+test('browser and expired OAuth proof errors stay distinct from email/password failures', () => {
+  assert.equal(authFailure({ code: 'oauth_browser_unavailable' }).kind, 'oauthBrowser');
+  for (const code of ['bad_code_verifier', 'flow_state_not_found', 'flow_state_expired'])
+    assert.equal(authFailure({ code, message: 'Different server wording' }).kind, 'oauthSession');
+  assert.equal(authFailure(new Error('PKCE code verifier missing')).kind, 'oauthSession');
 });

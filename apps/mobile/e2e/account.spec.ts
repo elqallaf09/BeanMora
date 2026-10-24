@@ -147,6 +147,65 @@ test('a disabled Google provider explains the problem without a broken redirect'
   expect(authorize).toBe(0);
 });
 
+for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: a Google launch failure does not blame empty email or password fields`, async ({ page }) => {
+  await page.route(project + '/**', route => {
+    const path = new URL(route.request().url()).pathname;
+    return path.endsWith('/settings')
+      ? reply(route, { message: 'isolated provider-settings failure' }, 400)
+      : reply(route, []);
+  });
+  await openAccount(page, ar);
+  const button = page.getByRole('button', { name: ar ? 'تابع باستخدام Google' : 'Continue with Google', exact: true });
+  await button.click();
+  await expect(page.getByRole('alert')).toContainText(ar ? 'تعذّر بدء تسجيل الدخول عبر Google أو Apple.' : 'Could not start Google or Apple sign-in.');
+  await expect(page.getByRole('alert')).not.toContainText(ar ? 'كلمة المرور' : 'password');
+  await expect(button).toBeEnabled();
+});
+
+for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: rejected password sign-in explains Google accounts and the Google button signs in`, async ({ page }, info) => {
+  let passwords = 0;
+  let authorizations = 0;
+  let exchanges = 0;
+  await page.setViewportSize({ width: ar ? 1536 : 390, height: 1009 });
+  await page.route(project + '/**', route => {
+    const url = new URL(route.request().url());
+    if (url.pathname.endsWith('/settings')) return reply(route, { external: { google: true, apple: false } });
+    if (url.pathname.endsWith('/authorize')) {
+      authorizations++;
+      expect(url.searchParams.get('provider')).toBe('google');
+      expect(url.searchParams.get('prompt')).toBe('select_account');
+      return route.fulfill({ status: 302, headers: { location: 'http://127.0.0.1:8088/?code=google_fixture_code' } });
+    }
+    if (url.pathname.endsWith('/token') && url.searchParams.get('grant_type') === 'password') {
+      passwords++;
+      return reply(route, { code: 'invalid_credentials', message: 'Invalid login credentials' }, 400);
+    }
+    if (url.pathname.endsWith('/token')) {
+      exchanges++;
+      expect(url.searchParams.get('grant_type')).toBe('pkce');
+      expect(route.request().postDataJSON().auth_code).toBe('google_fixture_code');
+      expect(route.request().postDataJSON().code_verifier).toBeTruthy();
+      return reply(route, { ...session, user: { ...user, app_metadata: { provider: 'google' } } });
+    }
+    if (url.pathname.endsWith('/user')) return reply(route, user);
+    return reply(route, []);
+  });
+  await openAccount(page, ar);
+  await page.getByLabel(ar ? 'البريد الإلكتروني' : 'Email', { exact: true }).fill(user.email);
+  await page.getByLabel(ar ? 'كلمة المرور' : 'Password', { exact: true }).fill('isolated_password');
+  await page.getByRole('button', { name: ar ? 'تسجيل الدخول' : 'Sign in', exact: true }).click();
+  await expect(page.getByRole('alert')).toContainText(ar ? 'إذا أنشأت حسابك بواسطة Google' : 'If you created your account with Google');
+  await expect(page.getByRole('alert')).not.toContainText(ar ? 'تأكيد البريد والاتصال' : 'email confirmation and connection');
+  await page.screenshot({ path: info.outputPath('google-account-guidance.png') });
+  await page.getByRole('button', { name: ar ? 'تابع باستخدام Google' : 'Continue with Google', exact: true }).click();
+  await expect.poll(() => exchanges).toBe(1);
+  await expect(page).toHaveURL('http://127.0.0.1:8088/');
+  await page.getByRole('button', { name: ar ? 'فتح حسابي' : 'Open account', exact: true }).click();
+  await expect(page.getByTestId('account-screen')).toBeVisible();
+  expect(passwords).toBe(1);
+  expect(authorizations).toBe(1);
+});
+
 for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup validates before sending and guest browsing remains prominent`, async ({ page }, info) => {
   let signups = 0;
   await page.route(project + '/**', route => {

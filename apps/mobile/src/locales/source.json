@@ -6285,6 +6285,14 @@
     ]
   },
   {
+    "en": "Could not open the sign-in browser. Enable your device browser or install Chrome, then try again.",
+    "ar": "تعذّر فتح متصفح تسجيل الدخول. فعّل متصفح الجهاز أو ثبّت Chrome ثم حاول مجددًا.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Could not open this source.",
     "ar": "تعذّر فتح المصدر.",
     "files": [
@@ -6464,6 +6472,14 @@
     "ar": "تعذّر تسجيل الخروج. حاول مجددًا.",
     "files": [
       "src/copy.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.",
+    "ar": "تعذّر بدء تسجيل الدخول عبر Google أو Apple. حاول مجددًا، وإذا استمرت المشكلة حدّث تطبيق BeanMora.",
+    "files": [
+      "src/AccountScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -11018,6 +11034,14 @@
     "files": [
       "src/AccountScreen.tsx",
       "src/japaneseLabels.ts"
+    ]
+  },
+  {
+    "en": "If you created your account with Google, choose “Continue with Google”. Use a BeanMora password only if you have set one.",
+    "ar": "إذا أنشأت حسابك بواسطة Google، اضغط «تابع باستخدام Google». استخدم كلمة مرور BeanMora فقط إذا سبق أن عيّنتها.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -19825,6 +19849,22 @@
     ]
   },
   {
+    "en": "Sign-in opened in your device browser. Choose your account, then return to BeanMora.",
+    "ar": "تم فتح تسجيل الدخول في متصفح الجهاز. أكمل اختيار حسابك ثم ارجع إلى BeanMora.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Sign-in was cancelled. You can try again.",
+    "ar": "تم إلغاء تسجيل الدخول. يمكنك المحاولة مجددًا.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Signed-in visitors from the last 30 days, with their latest visit.",
     "ar": "الزوّار المسجلون خلال آخر 30 يوم. يظهر آخر وقت للزيارة.",
     "files": [
@@ -22156,6 +22196,14 @@
     "ar": "هذه الحمصة تغيّرت في جلسة أخرى. أعد فتحها قبل التعديل.",
     "files": [
       "src/roastLab.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "This sign-in attempt expired. Use the Google or Apple button to start again on this device.",
+    "ar": "انتهت محاولة تسجيل الدخول. اضغط على زر Google أو Apple لبدء محاولة جديدة من هذا الجهاز.",
+    "files": [
+      "src/AccountScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -24863,6 +24911,62 @@
     "files": [
       "src/core/catalog-foreign-titles.ts",
       "src/foreignTitles.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "1. Temperature: look for adjustable brew temperature; PID alone does not provide pressure profiling.\n2. Pressure: changing pressure during a shot differs from setting pump pressure once. A gauge alone does not provide control.\n3. Flow: changes water delivery to the coffee. Pressure also depends on puck resistance, so flow control is not direct pressure control.",
+    "ar": "1. الحرارة: ابحث عن ضبط حرارة التحضير؛ وجود PID وحده لا يعني برمجة الضغط.\n2. الضغط: تغيير الضغط خلال الشوت يختلف عن ضبط ضغط المضخة مرة واحدة، ووجود عداد لا يعني إمكانية التحكم.\n3. التدفق: يغيّر كمية الماء المارة إلى البن؛ يتأثر الضغط أيضًا بمقاومة البن، لذلك التحكم بالتدفق ليس ضبطًا مباشرًا للضغط.",
+    "files": [
+      "src/core/espresso-control-advice.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Before buying, compare the required control type and confirm the model price with the seller.",
+    "ar": "للمقارنة قبل الشراء: تأكد من نوع التحكم المطلوب ومن سعر الموديل لدى البائع.",
+    "files": [
+      "src/core/espresso-control-advice.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Examples to compare by specification\n• Profitec DRIVE: PID temperature settings for both boilers and manual flow control during extraction; this is not direct programmable pressure profiling.\n• Decent DE1: supports stages controlling pressure or flow and brew temperature through its app.",
+    "ar": "أمثلة للمقارنة بالمواصفات\n• Profitec DRIVE: ضبط حرارة الغلايتين عبر PID وتحكم يدوي بالتدفق أثناء الشوت؛ لا أصفه كبرمجة مباشرة لمنحنى الضغط.\n• Decent DE1: يتيح إعداد مراحل للتحكم بالضغط أو التدفق وحرارة التحضير عبر التطبيق.",
+    "files": [
+      "src/core/espresso-control-advice.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "For hands-on adjustment during a shot, compare machines with flow control. To save a profile that repeats automatically, compare pressure and flow profiling machines. Check the exact model manual; a control accessory does not fit every machine.",
+    "ar": "إذا تريد تحكمًا يدويًا أثناء الشوت، قارن أجهزة التحكم بالتدفق. وإذا تريد حفظ منحنى يتكرر تلقائيًا، قارن أجهزة برمجة الضغط والتدفق. راجع دليل الموديل نفسه؛ لا أفترض أن إضافة قطعة تحكم تناسب كل ماكينة.",
+    "files": [
+      "src/core/espresso-control-advice.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "These are specification examples, not confirmed offers within your budget or available in your country. Check price and stock with the seller.",
+    "ar": "هذه أمثلة للمواصفات، وليست عروضًا مؤكدة ضمن ميزانيتك أو متوفرة في بلدك. السعر والتوفر يحتاجان تحققًا من البائع.",
+    "files": [
+      "src/core/espresso-control-advice.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "What is your budget and currency?",
+    "ar": "كم ميزانيتك وبأي عملة؟",
+    "files": [
+      "src/core/espresso-control-advice.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "You need adjustable brew temperature and a clear choice of control during extraction.",
+    "ar": "تحتاج ماكينة تضبط حرارة التحضير، مع تحديد نوع التحكم الذي تريده أثناء الاستخلاص.",
+    "files": [
+      "src/core/espresso-control-advice.ts",
       "src/locales/reviewed.json"
     ]
   }

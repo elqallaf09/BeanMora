@@ -55,6 +55,8 @@ Coffee → Explore xBloom now carries an exact coffee ID through filters and pag
 
 The database changes are already applied: all 2,875 historical unknown public styles are classified (2,829 are explicitly labelled suggestions), with three added roasters and seven official cold guides. An automatically maintained public search index measured the same strawberry query at 42.516 ms instead of 2,299.254 ms; these are database execution measurements, not a physical-device startup benchmark. Source records are in ../../supabase/research/serving-completion-2026-10-06/ and ../../supabase/research/cold-expansion-2026-10-06/. See [release validation](../../docs/RELEASE-0.5.7.md).
 
+Android sign-in also declares HTTPS browser visibility for Android 11+ so browsers without a Custom Tabs service can be discovered. If Expo cannot launch the authentication tab, the app opens the same PKCE URL in the system browser; the existing warm-start and cold-start `beanmora://auth` handlers finish the exchange. Cancelling never launches another browser. Browser failures and expired OAuth attempts have their own translated messages. Run `node scripts/check-oauth-browser.mjs` for the native launch and manifest regressions; physical-device sign-in still needs verification on Huawei/Android and iOS.
+
 Updating source or exporting Metro bundles does not update a previously installed APK.
 
 After the release PR is merged, open the existing BeanMora Expo project's **Builds** page and choose **Build from GitHub**. Use:
