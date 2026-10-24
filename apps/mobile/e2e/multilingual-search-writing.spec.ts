@@ -105,7 +105,8 @@ for (const language of languages) {
     await page.getByRole('button', { name: 'Sign in', exact: true }).click();
     await expect(page.getByTestId('account-screen')).toBeVisible();
     await page.getByRole('button', { name: 'Home', exact: true }).click();
-    await page.getByTestId('library-navigation').getByRole('button', { name: 'Add recipe', exact: true }).click();
+    await page.getByRole('button', { name: 'Add new', exact: true }).click();
+    await page.getByTestId('home-add-menu').getByRole('button', { name: 'Add recipe', exact: true }).click();
     if (language.locale !== 'en') await setLanguage(page, language.locale);
     const name = language.compound.normalize('NFD');
     const steps = [name + ' · 40 g', name + ' · 256 g'];

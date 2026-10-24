@@ -3195,5 +3195,13 @@
   "What is your budget and currency?": "你的预算是多少，使用哪种货币？",
   "Read full photo": "识别整张照片",
   "Keep the label flat, fill the frame with text, and avoid glare.": "请将标签展平，让文字充满画面，并避免反光。",
-  "banana": "香蕉"
+  "banana": "香蕉",
+  "Welcome": "欢迎",
+  "Search now": "搜索",
+  "Search coffees, recipes or roasters": "搜索咖啡、配方或烘焙商",
+  "Browse": "浏览",
+  "Ask about grind, ratio or taste": "询问研磨、比例或风味",
+  "My library": "我的收藏库",
+  "Add new": "新增",
+  "Add new +": "新增 +"
 }

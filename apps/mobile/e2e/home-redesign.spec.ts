@@ -1,0 +1,54 @@
+import { expect, test } from '@playwright/test';
+import { setLanguage } from './settings';
+
+for (const width of [320, 390, 834]) test(`calm home preserves branding, navigation and search at ${width}px`, async ({ page }, info) => {
+  await page.setViewportSize({ width, height: width === 834 ? 600 : 844 });
+  const errors: string[] = [];
+  page.on('pageerror', e => errors.push(e.message));
+  const searches: string[] = [];
+  await page.route('https://mobilefixture.supabase.co/**', async route => {
+    if (route.request().url().includes('/rpc/search_public_recipes')) searches.push(route.request().postDataJSON()?.p_query ?? '');
+    await route.fulfill({ contentType: 'application/json', body: '[]', headers: { 'content-range': '*/0', 'access-control-expose-headers': 'content-range' } });
+  });
+  await page.goto('/');
+  await expect(page.getByTestId('beanmora-brand')).toBeVisible();
+  await expect(page.getByText('وش نحضّر اليوم؟', { exact: true })).toHaveCount(0);
+  await expect(page.getByTestId('home-categories').getByRole('button')).toHaveCount(4);
+  await expect(page.getByTestId('home-library').getByRole('button')).toHaveCount(4);
+  const bottom = page.getByTestId('bottom-navigation');
+  await expect(bottom.getByRole('button')).toHaveCount(5);
+  expect(await bottom.getByRole('button').evaluateAll(nodes => nodes.map(n => n.getAttribute('aria-label')))).toEqual(['الرئيسية', 'اكتشف', 'BeanMora', 'تحضير', 'حسابي']);
+  const logo = bottom.getByRole('button', { name: 'BeanMora', exact: true });
+  const box = await logo.boundingBox();
+  expect(box!.x + box!.width / 2).toBeCloseTo(width / 2, 0);
+  await expect(logo.getByRole('img')).toBeVisible();
+  await page.screenshot({ path: info.outputPath('home-top.png') });
+  await page.getByTestId('home-library').scrollIntoViewIfNeeded();
+  await page.screenshot({ path: info.outputPath('home-library.png') });
+  await page.getByRole('button', { name: 'إضافة جديد', exact: true }).click();
+  await page.getByTestId('home-add-menu').getByRole('button', { name: 'إضافة بن', exact: true }).click();
+  await expect(page.getByText('سجّل دخولك لإضافة وصفة أو بن وصورته.', { exact: true })).toBeVisible();
+  await bottom.getByRole('button', { name: 'الرئيسية', exact: true }).click();
+  await page.getByTestId('home-search-input').fill('فراولة');
+  await page.getByTestId('home-search-input').press('Enter');
+  await expect.poll(() => searches).toContain('فراولة');
+  await bottom.getByRole('button', { name: 'الرئيسية', exact: true }).click();
+  await page.getByTestId('home-expert').click();
+  await expect(page.getByTestId('coffee-assistant')).toBeVisible();
+  await bottom.getByRole('button', { name: 'الرئيسية', exact: true }).click();
+  await setLanguage(page, 'en');
+  await expect(page.getByText('What shall we brew today?', { exact: true })).toHaveCount(0);
+  await expect(page.getByTestId('home-categories').getByRole('button')).toHaveCount(4);
+  await page.getByRole('button', { name: 'Settings', exact: true }).click();
+  await page.getByTestId('settings-screen').getByRole('button', { name: 'Dark', exact: true }).click();
+  await page.getByTestId('settings-screen').getByRole('button', { name: 'Done', exact: true }).click();
+  await expect(page.locator('[aria-modal="true"]')).toHaveCount(0);
+  await expect(page.getByTestId('home-hero')).toBeInViewport();
+  await expect.poll(() => page.getByTestId('home-scroll').evaluate(node => {
+    for (let current: Element | null = node; current; current = current.parentElement) if (Number(getComputedStyle(current).opacity) < 1) return false;
+    return true;
+  })).toBe(true);
+  await page.screenshot({ path: info.outputPath('home-dark-en.png') });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  expect(errors).toEqual([]);
+});

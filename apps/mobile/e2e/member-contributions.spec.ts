@@ -53,7 +53,10 @@ async function signedIn(page: Page) {
 }
 async function more(page: Page, name: string) {
   if (!(await page.getByTestId('library-navigation').isVisible())) await page.getByRole('button', { name: 'Home', exact: true }).click();
-  await page.getByTestId('library-navigation').getByRole("button", { name, exact: true }).click();
+  if (await page.getByTestId('home-library').isVisible()) {
+    if (name.startsWith('Add ')) await page.getByRole('button', { name: 'Add new', exact: true }).click();
+    await page.getByRole('button', { name, exact: true }).click();
+  } else await page.getByTestId('library-navigation').getByRole('button', { name, exact: true }).click();
 }
 function authentication(path: string) {
   return path.endsWith("/token")
