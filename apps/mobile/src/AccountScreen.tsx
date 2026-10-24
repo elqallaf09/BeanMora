@@ -142,7 +142,7 @@ export function AccountScreen({
       case 'rateLimit': return L('محاولات كثيرة خلال وقت قصير. انتظر قليلًا ثم حاول مجددًا.', 'Too many attempts in a short time. Wait a while and try again.');
       case 'signupDisabled': return L('إنشاء الحسابات بالبريد الإلكتروني غير متاح حاليًا. حاول لاحقًا أو تواصل مع الدعم.', 'Email account registration is currently unavailable. Try later or contact support.');
       case 'serviceUnavailable': return L('خدمة الحسابات غير متاحة مؤقتًا. حاول لاحقًا أو تواصل مع الدعم إذا استمرت المشكلة.', 'The account service is temporarily unavailable. Try later or contact support if the problem continues.');
-      case 'invalidCredentials': return t.invalidCredentials;
+      case 'invalidCredentials': return t.invalidCredentials + '\n' + L('إذا أنشأت حسابك بواسطة Google، اضغط «تابع باستخدام Google». استخدم كلمة مرور BeanMora فقط إذا سبق أن عيّنتها.', 'If you created your account with Google, choose “Continue with Google”. Use a BeanMora password only if you have set one.');
       case 'emailNotConfirmed': return t.emailNotConfirmed;
       case 'network': return t.networkError;
     }

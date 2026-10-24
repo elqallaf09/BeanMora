@@ -2369,7 +2369,8 @@
     "This sign-in attempt expired. Use the Google or Apple button to start again on this device.": "このログイン試行は期限切れです。この端末でGoogleまたはAppleのボタンを押してやり直してください。",
     "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.": "GoogleまたはAppleでのログインを開始できませんでした。再試行し、問題が続く場合はBeanMoraを更新してください。",
     "Sign-in opened in your device browser. Choose your account, then return to BeanMora.": "端末のブラウザでログイン画面を開きました。アカウントを選択してからBeanMoraに戻ってください。",
-    "Sign-in was cancelled. You can try again.": "ログインをキャンセルしました。もう一度お試しいただけます。"
+    "Sign-in was cancelled. You can try again.": "ログインをキャンセルしました。もう一度お試しいただけます。",
+    "If you created your account with Google, choose “Continue with Google”. Use a BeanMora password only if you have set one.": "Googleでアカウントを作成した場合は、「Googleで続ける」を選んでください。BeanMoraのパスワードは、設定済みの場合にのみ使用してください。"
   },
   "fr": {
     "Home": "Accueil",
@@ -4828,7 +4829,8 @@
     "This sign-in attempt expired. Use the Google or Apple button to start again on this device.": "Cette tentative de connexion a expiré. Utilisez le bouton Google ou Apple pour recommencer sur cet appareil.",
     "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.": "Impossible de démarrer la connexion avec Google ou Apple. Réessayez et mettez BeanMora à jour si le problème persiste.",
     "Sign-in opened in your device browser. Choose your account, then return to BeanMora.": "La page de connexion est ouverte dans le navigateur de votre appareil. Choisissez votre compte, puis revenez à BeanMora.",
-    "Sign-in was cancelled. You can try again.": "La connexion a été annulée. Vous pouvez réessayer."
+    "Sign-in was cancelled. You can try again.": "La connexion a été annulée. Vous pouvez réessayer.",
+    "If you created your account with Google, choose “Continue with Google”. Use a BeanMora password only if you have set one.": "Si vous avez créé votre compte avec Google, choisissez « Continuer avec Google ». Utilisez un mot de passe BeanMora uniquement si vous en avez défini un."
   },
   "it": {
     "Home": "Home",
@@ -7287,7 +7289,8 @@
     "This sign-in attempt expired. Use the Google or Apple button to start again on this device.": "Questo tentativo di accesso è scaduto. Usa il pulsante Google o Apple per ricominciare su questo dispositivo.",
     "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.": "Impossibile avviare l’accesso con Google o Apple. Riprova e aggiorna BeanMora se il problema persiste.",
     "Sign-in opened in your device browser. Choose your account, then return to BeanMora.": "La pagina di accesso è aperta nel browser del dispositivo. Scegli il tuo account, poi torna a BeanMora.",
-    "Sign-in was cancelled. You can try again.": "Accesso annullato. Puoi riprovare."
+    "Sign-in was cancelled. You can try again.": "Accesso annullato. Puoi riprovare.",
+    "If you created your account with Google, choose “Continue with Google”. Use a BeanMora password only if you have set one.": "Se hai creato il tuo account con Google, scegli «Continua con Google». Usa una password BeanMora solo se ne hai impostata una."
   },
   "es": {
     "Home": "Inicio",
@@ -9746,7 +9749,8 @@
     "This sign-in attempt expired. Use the Google or Apple button to start again on this device.": "Este intento de inicio de sesión ha caducado. Usa el botón de Google o Apple para empezar de nuevo en este dispositivo.",
     "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.": "No se pudo iniciar el acceso con Google o Apple. Vuelve a intentarlo y actualiza BeanMora si el problema persiste.",
     "Sign-in opened in your device browser. Choose your account, then return to BeanMora.": "La página de inicio de sesión se abrió en el navegador de tu dispositivo. Elige tu cuenta y vuelve a BeanMora.",
-    "Sign-in was cancelled. You can try again.": "Se canceló el inicio de sesión. Puedes volver a intentarlo."
+    "Sign-in was cancelled. You can try again.": "Se canceló el inicio de sesión. Puedes volver a intentarlo.",
+    "If you created your account with Google, choose “Continue with Google”. Use a BeanMora password only if you have set one.": "Si creaste tu cuenta con Google, elige «Continuar con Google». Usa una contraseña de BeanMora solo si ya has establecido una."
   },
   "pt-BR": {
     "Home": "Início",
@@ -12205,7 +12209,8 @@
     "This sign-in attempt expired. Use the Google or Apple button to start again on this device.": "Esta tentativa de login expirou. Use o botão do Google ou da Apple para começar novamente neste dispositivo.",
     "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.": "Não foi possível iniciar o login com Google ou Apple. Tente novamente e atualize o BeanMora se o problema continuar.",
     "Sign-in opened in your device browser. Choose your account, then return to BeanMora.": "A página de login foi aberta no navegador do dispositivo. Escolha sua conta e volte ao BeanMora.",
-    "Sign-in was cancelled. You can try again.": "O login foi cancelado. Você pode tentar novamente."
+    "Sign-in was cancelled. You can try again.": "O login foi cancelado. Você pode tentar novamente.",
+    "If you created your account with Google, choose “Continue with Google”. Use a BeanMora password only if you have set one.": "Se você criou sua conta com o Google, escolha “Continuar com o Google”. Use uma senha do BeanMora apenas se já tiver definido uma."
   },
   "zh-CN": {
     "Home": "首页",
@@ -14917,6 +14922,7 @@
     "This sign-in attempt expired. Use the Google or Apple button to start again on this device.": "本次登录尝试已过期。请在此设备上点击Google或Apple按钮重新开始。",
     "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.": "无法开始Google或Apple登录。请重试；如果问题仍然存在，请更新BeanMora。",
     "Sign-in opened in your device browser. Choose your account, then return to BeanMora.": "登录页面已在设备浏览器中打开。请选择账号，然后返回BeanMora。",
-    "Sign-in was cancelled. You can try again.": "登录已取消。你可以重试。"
+    "Sign-in was cancelled. You can try again.": "登录已取消。你可以重试。",
+    "If you created your account with Google, choose “Continue with Google”. Use a BeanMora password only if you have set one.": "如果您通过Google创建了账号，请选择“使用Google继续”。只有在设置过BeanMora密码的情况下，才能使用该密码登录。"
   }
 }

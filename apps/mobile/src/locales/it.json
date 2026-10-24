@@ -3184,5 +3184,6 @@
   "This sign-in attempt expired. Use the Google or Apple button to start again on this device.": "Questo tentativo di accesso è scaduto. Usa il pulsante Google o Apple per ricominciare su questo dispositivo.",
   "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.": "Impossibile avviare l’accesso con Google o Apple. Riprova e aggiorna BeanMora se il problema persiste.",
   "Sign-in opened in your device browser. Choose your account, then return to BeanMora.": "La pagina di accesso è aperta nel browser del dispositivo. Scegli il tuo account, poi torna a BeanMora.",
-  "Sign-in was cancelled. You can try again.": "Accesso annullato. Puoi riprovare."
+  "Sign-in was cancelled. You can try again.": "Accesso annullato. Puoi riprovare.",
+  "If you created your account with Google, choose “Continue with Google”. Use a BeanMora password only if you have set one.": "Se hai creato il tuo account con Google, scegli «Continua con Google». Usa una password BeanMora solo se ne hai impostata una."
 }

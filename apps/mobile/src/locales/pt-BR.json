@@ -3184,5 +3184,6 @@
   "This sign-in attempt expired. Use the Google or Apple button to start again on this device.": "Esta tentativa de login expirou. Use o botão do Google ou da Apple para começar novamente neste dispositivo.",
   "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.": "Não foi possível iniciar o login com Google ou Apple. Tente novamente e atualize o BeanMora se o problema continuar.",
   "Sign-in opened in your device browser. Choose your account, then return to BeanMora.": "A página de login foi aberta no navegador do dispositivo. Escolha sua conta e volte ao BeanMora.",
-  "Sign-in was cancelled. You can try again.": "O login foi cancelado. Você pode tentar novamente."
+  "Sign-in was cancelled. You can try again.": "O login foi cancelado. Você pode tentar novamente.",
+  "If you created your account with Google, choose “Continue with Google”. Use a BeanMora password only if you have set one.": "Se você criou sua conta com o Google, escolha “Continuar com o Google”. Use uma senha do BeanMora apenas se já tiver definido uma."
 }

@@ -1,10 +1,10 @@
 /** Keep machine-readable Auth error details; never display raw server text. */
 export function authFailure(error: unknown) {
   const value = error && typeof error === 'object'
-    ? error as { message?: unknown; code?: unknown; status?: unknown; name?: unknown; reasons?: unknown }
+    ? error as { message?: unknown; code?: unknown; error_code?: unknown; status?: unknown; name?: unknown; reasons?: unknown }
     : {};
   const message = typeof error === 'string' ? error : typeof value.message === 'string' ? value.message : '';
-  const code = typeof value.code === 'string' ? value.code.toLowerCase() : '';
+  const code = (typeof value.code === 'string' ? value.code : typeof value.error_code === 'string' ? value.error_code : '').toLowerCase();
   const lower = message.toLowerCase();
   const reasons = Array.isArray(value.reasons) ? value.reasons : [];
 

@@ -3184,5 +3184,6 @@
   "This sign-in attempt expired. Use the Google or Apple button to start again on this device.": "本次登录尝试已过期。请在此设备上点击Google或Apple按钮重新开始。",
   "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.": "无法开始Google或Apple登录。请重试；如果问题仍然存在，请更新BeanMora。",
   "Sign-in opened in your device browser. Choose your account, then return to BeanMora.": "登录页面已在设备浏览器中打开。请选择账号，然后返回BeanMora。",
-  "Sign-in was cancelled. You can try again.": "登录已取消。你可以重试。"
+  "Sign-in was cancelled. You can try again.": "登录已取消。你可以重试。",
+  "If you created your account with Google, choose “Continue with Google”. Use a BeanMora password only if you have set one.": "如果您通过Google创建了账号，请选择“使用Google继续”。只有在设置过BeanMora密码的情况下，才能使用该密码登录。"
 }

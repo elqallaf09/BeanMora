@@ -6285,6 +6285,14 @@
     ]
   },
   {
+    "en": "Could not open the sign-in browser. Enable your device browser or install Chrome, then try again.",
+    "ar": "تعذّر فتح متصفح تسجيل الدخول. فعّل متصفح الجهاز أو ثبّت Chrome ثم حاول مجددًا.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Could not open this source.",
     "ar": "تعذّر فتح المصدر.",
     "files": [
@@ -6464,6 +6472,14 @@
     "ar": "تعذّر تسجيل الخروج. حاول مجددًا.",
     "files": [
       "src/copy.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.",
+    "ar": "تعذّر بدء تسجيل الدخول عبر Google أو Apple. حاول مجددًا، وإذا استمرت المشكلة حدّث تطبيق BeanMora.",
+    "files": [
+      "src/AccountScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -11018,6 +11034,14 @@
     "files": [
       "src/AccountScreen.tsx",
       "src/japaneseLabels.ts"
+    ]
+  },
+  {
+    "en": "If you created your account with Google, choose “Continue with Google”. Use a BeanMora password only if you have set one.",
+    "ar": "إذا أنشأت حسابك بواسطة Google، اضغط «تابع باستخدام Google». استخدم كلمة مرور BeanMora فقط إذا سبق أن عيّنتها.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -19825,6 +19849,22 @@
     ]
   },
   {
+    "en": "Sign-in opened in your device browser. Choose your account, then return to BeanMora.",
+    "ar": "تم فتح تسجيل الدخول في متصفح الجهاز. أكمل اختيار حسابك ثم ارجع إلى BeanMora.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Sign-in was cancelled. You can try again.",
+    "ar": "تم إلغاء تسجيل الدخول. يمكنك المحاولة مجددًا.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Signed-in visitors from the last 30 days, with their latest visit.",
     "ar": "الزوّار المسجلون خلال آخر 30 يوم. يظهر آخر وقت للزيارة.",
     "files": [
@@ -22156,6 +22196,14 @@
     "ar": "هذه الحمصة تغيّرت في جلسة أخرى. أعد فتحها قبل التعديل.",
     "files": [
       "src/roastLab.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "This sign-in attempt expired. Use the Google or Apple button to start again on this device.",
+    "ar": "انتهت محاولة تسجيل الدخول. اضغط على زر Google أو Apple لبدء محاولة جديدة من هذا الجهاز.",
+    "files": [
+      "src/AccountScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -24863,46 +24911,6 @@
     "files": [
       "src/core/catalog-foreign-titles.ts",
       "src/foreignTitles.ts",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "Could not open the sign-in browser. Enable your device browser or install Chrome, then try again.",
-    "ar": "تعذّر فتح متصفح تسجيل الدخول. فعّل متصفح الجهاز أو ثبّت Chrome ثم حاول مجددًا.",
-    "files": [
-      "src/AccountScreen.tsx",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "This sign-in attempt expired. Use the Google or Apple button to start again on this device.",
-    "ar": "انتهت محاولة تسجيل الدخول. اضغط على زر Google أو Apple لبدء محاولة جديدة من هذا الجهاز.",
-    "files": [
-      "src/AccountScreen.tsx",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.",
-    "ar": "تعذّر بدء تسجيل الدخول عبر Google أو Apple. حاول مجددًا، وإذا استمرت المشكلة حدّث تطبيق BeanMora.",
-    "files": [
-      "src/AccountScreen.tsx",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "Sign-in opened in your device browser. Choose your account, then return to BeanMora.",
-    "ar": "تم فتح تسجيل الدخول في متصفح الجهاز. أكمل اختيار حسابك ثم ارجع إلى BeanMora.",
-    "files": [
-      "src/AccountScreen.tsx",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "Sign-in was cancelled. You can try again.",
-    "ar": "تم إلغاء تسجيل الدخول. يمكنك المحاولة مجددًا.",
-    "files": [
-      "src/AccountScreen.tsx",
       "src/locales/reviewed.json"
     ]
   }
