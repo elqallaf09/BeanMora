@@ -176,7 +176,18 @@ ${tests.slice(tests.indexOf('do $tests$'),tests.indexOf('rollback;'))}
 `;
 const queryMigration = fs.readdirSync(path.join(repo,'supabase/migrations')).filter(name=>name.endsWith('_canonical_flavor_queries.sql')).sort().at(-1);
 if(!queryMigration) throw new Error('Create canonical_flavor_queries with the Supabase CLI first.');
-for(const [file,content] of [[migration,sql],[regression,tests],[path.join(repo,'supabase/migrations',queryMigration),querySql]]) {
+const refreshName = process.argv.find(arg=>arg.endsWith('_refresh_reviewed_flavor_aliases.sql'))
+  ?? fs.readdirSync(path.join(repo,'supabase/migrations')).filter(name=>name.endsWith('_refresh_reviewed_flavor_aliases.sql')).sort().at(-1);
+const refreshPath = refreshName && (path.isAbsolute(refreshName) ? refreshName : refreshName.includes('/') ? path.resolve(repo,refreshName) : path.join(repo,'supabase/migrations',refreshName));
+// Subsequent vocabulary revisions replace only the pure helpers. The first
+// migration's one-time function patches must never run again or be rewritten.
+const refreshSql = sql.slice(0,sql.indexOf('create or replace function public.recipe_discovery_query_normalize'))
+  + querySql + '\nselect private.refresh_recipe_search_documents(null::uuid[]);\n';
+const outputs = refreshPath ? [[refreshPath,refreshSql],[regression,tests]]
+  : [[migration,sql],[regression,tests],[path.join(repo,'supabase/migrations',queryMigration),querySql]];
+if(refreshPath && !process.argv.includes('--check') && fs.statSync(refreshPath).size > 0)
+  throw new Error('Create a new empty refresh_reviewed_flavor_aliases migration; existing migrations are immutable.');
+for(const [file,content] of outputs) {
   if(process.argv.includes('--check')) {
     if(fs.readFileSync(file,'utf8')!==content) throw new Error('Reviewed flavor SQL drift: '+file);
   } else fs.writeFileSync(file,content);
