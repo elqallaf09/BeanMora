@@ -1,9 +1,7 @@
 const assert = require('node:assert/strict');
 const { createRequire } = require('node:module');
 const xcode = require('xcode');
-const fromXcode = createRequire(require.resolve('xcode'));
-// Keep the override scoped to Xcode's tooling-only dependency, not every UUID consumer.
-assert.equal(fromXcode('uuid/package.json').version, '11.1.1');
+// Xcode 4 generates IDs with Node's crypto, so its old UUID override is retired.
 const project = xcode.project('isolated-tooling-fixture.pbxproj');
 project.hash = { project: { objects: { PBXGroup: {} } } };
 const ids = new Set();
@@ -14,7 +12,7 @@ for (let i = 0; i < 20; i++) {
   ids.add(id);
   project.hash.project.objects.PBXGroup[id] = {};
 }
-console.log('PASS: patched UUID CommonJS export and Xcode project identifier generation. No files created.');
+console.log('PASS: Xcode project identifier generation. No files created.');
 
 // Expo still declares Zod 3. Exercise its actual schema consumers with the
 // patched Zod 4 override so an audit fix cannot silently break the CLI.

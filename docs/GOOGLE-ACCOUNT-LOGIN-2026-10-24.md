@@ -40,7 +40,10 @@ The first follow-up CI run was blocked by newly reported dependency advisories.
 The release candidate pins Zod 4.6.6 in both dependency trees, updates the web
 form resolver to 5.9.2 and distinguishes signup input from transformed output
 types. Expo's actual plugin and MCP command schemas are exercised with its Zod
-override. Next.js and its ESLint configuration are patched to 15.5.28, Vitest/UI
+override. Expo is patched to 57.0.31 as required by its compatibility check.
+Its upstream Xcode 4 dependency uses Node crypto for project IDs, replacing
+the old UUID override; generation of valid, distinct IDs remains checked.
+Next.js and its ESLint configuration are patched to 15.5.28, Vitest/UI
 to 4.1.12 and Vite to 8.3.3. The root dependency audit then reports zero
 vulnerabilities. The mobile policy gate passes with the existing verified
 node-forge tooling backport and zero risk exceptions; its raw audit still
