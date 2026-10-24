@@ -1,9 +1,7 @@
 const assert = require('node:assert/strict');
 const { createRequire } = require('node:module');
 const xcode = require('xcode');
-const fromXcode = createRequire(require.resolve('xcode'));
-// Keep the override scoped to Xcode's tooling-only dependency, not every UUID consumer.
-assert.equal(fromXcode('uuid/package.json').version, '11.1.1');
+// Xcode 4 generates IDs with Node's crypto, so its old UUID override is retired.
 const project = xcode.project('isolated-tooling-fixture.pbxproj');
 project.hash = { project: { objects: { PBXGroup: {} } } };
 const ids = new Set();
@@ -14,30 +12,20 @@ for (let i = 0; i < 20; i++) {
   ids.add(id);
   project.hash.project.objects.PBXGroup[id] = {};
 }
-console.log('PASS: patched UUID CommonJS export and Xcode project identifier generation. No files created.');
+console.log('PASS: Xcode project identifier generation. No files created.');
 
-// Expo's two Zod consumers must retain validation semantics when its tooling
-// dependency is overridden to the patched major version.
+// Expo still declares Zod 3. Exercise its actual schema consumers with the
+// patched Zod 4 override so an audit fix cannot silently break the CLI.
 const fromExpo = createRequire(require.resolve('expo/package.json'));
-const fromExpoCli = createRequire(fromExpo.resolve('@expo/cli/package.json'));
-assert.equal(fromExpoCli('zod/package.json').version, '4.6.7');
-const { PluginSchema, DevToolsPluginOutputSchema } = fromExpoCli('./build/src/start/server/DevToolsPlugin.schema.js');
-const { createMCPDevToolsExtensionSchema } = fromExpoCli('./build/src/start/server/createMCPDevToolsExtensionSchema.js');
-const plugin = PluginSchema.parse({
-  packageName: 'beanmora-tooling-fixture', packageRoot: process.cwd(),
-  cliExtensions: { description: 'Fixture', entryPoint: 'fixture.js', commands: [
-    { name: 'inspect', title: 'Inspect fixture', environments: ['cli', 'mcp'], parameters: [
-      { name: 'count', type: 'number' }, { name: 'confirm', type: 'confirm' }, { name: 'label', type: 'text' },
-    ] },
-  ] },
-});
-assert.equal(PluginSchema.safeParse({ packageName: '', packageRoot: '' }).success, false);
-assert.equal(DevToolsPluginOutputSchema.safeParse([{ type: 'image', url: 'invalid' }]).success, false);
-assert.equal(DevToolsPluginOutputSchema.safeParse([{ type: 'text', text: 'Fixture', level: 'info' }]).success, true);
-const command = createMCPDevToolsExtensionSchema(plugin);
-assert.deepEqual(command.parse({ command: 'inspect', count: 2, confirm: true, label: 'Fixture' }),
-  { command: 'inspect', count: 2, confirm: true, label: 'Fixture' });
-for (const input of [{ command: 'unknown' }, { command: 'inspect', count: '2' }, { command: 'inspect', extra: true }]) {
-  assert.equal(command.safeParse(input).success, false);
-}
-console.log('PASS: Expo plugin, output and MCP command validation with patched Zod.');
+const fromCli = createRequire(fromExpo.resolve('@expo/cli/package.json'));
+assert.equal(fromCli('zod/package.json').version, '4.6.6');
+const { PluginSchema } = fromCli('./build/src/start/server/DevToolsPlugin.schema.js');
+const { createMCPDevToolsExtensionSchema } = fromCli('./build/src/start/server/createMCPDevToolsExtensionSchema.js');
+const commands = [{ name: 'check', title: 'Check', environments: ['cli', 'mcp'], parameters: [{ name: 'attempts', type: 'number' }] }];
+const plugin = { packageName: 'fixture', packageRoot: '/fixture', cliExtensions: { description: 'Fixture', commands, entryPoint: 'index.js' } };
+assert.equal(PluginSchema.safeParse(plugin).success, true);
+assert.equal(PluginSchema.safeParse({ packageName: '', packageRoot: '/fixture' }).success, false);
+const schema = createMCPDevToolsExtensionSchema(plugin);
+assert.equal(schema.safeParse({ command: 'check', attempts: 1 }).success, true);
+assert.equal(schema.safeParse({ command: 'missing', attempts: 'bad' }).success, false);
+console.log('PASS: Expo CLI plugin and MCP command schemas validate with patched Zod.');

@@ -33,7 +33,7 @@
     "@supabase/supabase-js": "2.57.4",
     "@tesseract.js-data/ara": "1.0.0",
     "@tesseract.js-data/eng": "1.0.0",
-    "expo": "57.0.30",
+    "expo": "57.0.31",
     "expo-application": "57.0.3",
     "expo-asset": "57.0.20",
     "expo-audio": "57.0.5",
@@ -64,13 +64,8 @@
   },
   "packageManager": "npm@11.19.1",
   "overrides": {
-    "xcode": {
-      "uuid": "11.1.1"
-    },
     "source-map-js": "1.2.2",
     "shell-quote": "1.12.0",
-    "@expo/cli": {
-      "zod": "4.6.7"
-    }
+    "zod": "4.6.6"
   }
 }

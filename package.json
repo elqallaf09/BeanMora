@@ -15,7 +15,7 @@
     "test:brew-outcomes": "node scripts/test-brew-outcomes.mjs"
   },
   "dependencies": {
-    "@hookform/resolvers": "5.2.2",
+    "@hookform/resolvers": "5.9.2",
     "@radix-ui/react-avatar": "1.2.6",
     "@radix-ui/react-checkbox": "1.3.11",
     "@radix-ui/react-dialog": "1.1.23",
@@ -43,7 +43,7 @@
     "react-dom": "19.1.5",
     "react-hook-form": "7.88.0",
     "tailwind-merge": "2.6.1",
-    "zod": "4.6.7"
+    "zod": "4.6.6"
   },
   "devDependencies": {
     "@eslint/compat": "2.1.1",
@@ -75,7 +75,8 @@
       ".": "$@next/eslint-plugin-next",
       "glob": "10.5.0"
     },
-    "source-map-js": "1.2.2"
+    "source-map-js": "1.2.2",
+    "vite": "8.3.3"
   },
   "packageManager": "npm@11.19.1",
   "engines": {

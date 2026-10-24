@@ -56,6 +56,7 @@ const schema = z
     message: "passwords do not match",
   });
 type FormValues = z.infer<typeof schema>;
+type FormInput = z.input<typeof schema>;
 
 export default function SignupPage() {
   const t = useTranslations();
@@ -69,7 +70,7 @@ export default function SignupPage() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<z.input<typeof schema>, unknown, FormValues>({ resolver: zodResolver(schema) });
+  } = useForm<FormInput, unknown, FormValues>({ resolver: zodResolver(schema) });
 
   async function onSubmit(values: FormValues) {
     setServerError(null);
