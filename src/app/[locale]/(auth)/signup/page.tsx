@@ -69,7 +69,7 @@ export default function SignupPage() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>({ resolver: zodResolver(schema) });
+  } = useForm<z.input<typeof schema>, unknown, FormValues>({ resolver: zodResolver(schema) });
 
   async function onSubmit(values: FormValues) {
     setServerError(null);
