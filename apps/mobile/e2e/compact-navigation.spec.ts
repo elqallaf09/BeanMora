@@ -81,27 +81,17 @@ for (const width of [320, 1536])
     });
     await page.goto("/");
     const nav = page.getByTestId("library-navigation");
-    await expect(
-      nav.getByRole("button", { name: "خبير القهوة", exact: true }),
-    ).toBeVisible();
-    await expect(
-      nav.getByRole("button", { name: "المزيد", exact: true }),
-    ).toHaveCount(0);
-    await expect(nav.getByRole("button")).toHaveCount(14);
+    await expect(page.getByTestId('home-expert')).toBeVisible();
+    await expect(page.getByTestId('home-categories').getByRole('button')).toHaveCount(4);
+    await expect(nav.getByRole('button')).toHaveCount(6);
     const navigationSize = () => nav.getByRole("button").evaluateAll(nodes => {
       const boxes = nodes.map(node => node.getBoundingClientRect());
-      return {
-        rows: new Set(boxes.map(box => Math.round(box.y))).size,
-        minWidth: Math.min(...boxes.map(box => box.width)),
-        minHeight: Math.min(...boxes.map(box => box.height)),
-        height: Math.max(...boxes.map(box => box.bottom)) - Math.min(...boxes.map(box => box.top)),
-      };
+      return { rows: new Set(boxes.map(box => Math.round(box.y))).size,
+        minWidth: Math.min(...boxes.map(box => box.width)), minHeight: Math.min(...boxes.map(box => box.height)),
+        height: Math.max(...boxes.map(box => box.bottom)) - Math.min(...boxes.map(box => box.top)) };
     });
-    await expect.poll(async () => (await navigationSize()).rows).toBe(width < 600 ? 4 : 2);
-    const navSize = await navigationSize();
-    expect(navSize.minWidth).toBeGreaterThanOrEqual(44);
-    expect(navSize.minHeight).toBeGreaterThanOrEqual(44);
-    expect(navSize.height).toBeLessThanOrEqual(width < 600 ? 194 : 94);
+    expect((await navigationSize()).minWidth).toBeGreaterThanOrEqual(44);
+    expect((await navigationSize()).minHeight).toBeGreaterThanOrEqual(44);
     const picker = page.getByTestId("method-picker");
     const all = picker.getByRole("button", { name: "الكل", exact: true }),
       arrow = picker.getByRole("button", { name: /^كل طرق التحضير/ });

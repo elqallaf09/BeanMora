@@ -17,7 +17,7 @@ async function fixture(page: Page) {
 }
 for(const locale of ['ar','en'] as const) test(`${locale}: mockup 7 menu, centered community, offline lessons, roast guide and model gallery`, async({page},info)=>{
   const ar=locale==='ar';await page.setViewportSize({width:ar?320:800,height:1000});const searches=await fixture(page);const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));await page.goto('/');if(!ar)await setLanguage(page,'en');
-  const nav=page.getByTestId('library-navigation');await expect(nav.getByRole('button')).toHaveCount(14);
+  const nav=page.getByTestId('library-navigation');await expect(page.getByTestId('home-categories').getByRole('button')).toHaveCount(4);await expect(nav.getByRole('button')).toHaveCount(6);
   await nav.getByRole('button',{name:ar?'البن والإيحاءات':'Coffee & taste',exact:true}).click();
   const box=await nav.getByRole('button',{name:ar?'البن والإيحاءات':'Coffee & taste',exact:true}).boundingBox();expect(box!.x).toBeGreaterThanOrEqual(0);expect(box!.x+box!.width).toBeLessThanOrEqual(ar?320:800);
   for(const name of ar?['البن','الوصفات','كل البن','شخصية البن مكتملة']:['Beans','Recipes','All coffees','Complete personality'])await expect(page.getByRole('button',{name,exact:true})).toHaveCount(0);

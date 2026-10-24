@@ -10,11 +10,11 @@ import { useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import {
   Animated,
   Image,
-  ImageBackground,
   Pressable,
   RefreshControl,
   ScrollView,
   StyleSheet,
+  TextInput,
   View,
   useWindowDimensions,
 } from './native';
@@ -297,7 +297,6 @@ export function Home({
   openCoffee,
   browse,
   brew,
-  personalize,
   bags,
   tools,
   openTool,
@@ -305,6 +304,9 @@ export function Home({
   save,
   refresh,
   refreshing,
+  openSection,
+  search,
+  add,
 }: {
   intro?: ReactNode;
   data: Bundle | null;
@@ -314,7 +316,6 @@ export function Home({
   openCoffee: (item: CoffeeItem) => void;
   browse: () => void;
   brew: () => void;
-  personalize: () => void;
   bags: () => void;
   tools: (category: string) => void;
   openTool: (item: EquipmentItem) => void;
@@ -322,12 +323,29 @@ export function Home({
   save: (item: CoffeeItem) => void;
   refresh: () => void;
   refreshing: boolean;
+  openSection: (id: string) => void;
+  search: (query: string) => void;
+  add: () => void;
 }) {
   const locale = useContext(Language);
   const ar = locale === 'ar';
   const L = useLabels();
   const { width } = useWindowDimensions();
   const [pulling, setPulling] = useState(false);
+  const [query, setQuery] = useState('');
+  const row = { flexDirection: ar ? 'row-reverse' as const : 'row' as const };
+  const categories: { id: string; title: string; label: string; icon: IconName }[] = [
+    { id: 'beans', title: L('البن', 'Coffee'), label: L('البن والإيحاءات', 'Coffee & taste'), icon: 'bean' },
+    { id: 'recipes', title: L('الوصفات', 'Recipes'), label: L('مكتبة الوصفات', 'Recipe library'), icon: 'espresso' },
+    { id: 'equipment', title: L('الأدوات', 'Tools'), label: L('أدوات القهوة', 'Equipment'), icon: 'gear' },
+    { id: 'roasters', title: L('المحامص', 'Roasters'), label: L('المحامص', 'Roasteries'), icon: 'home' },
+  ];
+  const library: { id: string; title: string; label: string; icon: IconName }[] = [
+    { id: 'favorites', title: L('بن محفوظ', 'Saved coffee'), label: L('البن المحفوظ', 'Saved coffees'), icon: 'bean' },
+    { id: 'savedRecipes', title: L('وصفات محفوظة', 'Saved recipes'), label: L('وصفاتي المحفوظة', 'Saved recipes'), icon: 'heart' },
+    { id: 'myRecipes', title: L('وصفاتي', 'My recipes'), label: L('وصفاتي المضافة', 'My recipes'), icon: 'edit' },
+    { id: 'myEquipment', title: L('معداتـي', 'My equipment'), label: L('معداتـي', 'My equipment'), icon: 'gear' },
+  ];
   useEffect(() => {
     if (!refreshing) setPulling(false);
   }, [refreshing]);
@@ -393,18 +411,6 @@ export function Home({
       note: L('ارجع للبن المحفوظ وإعداداتك', 'Your saved coffees and settings'),
       press: bags,
     },
-    {
-      icon: 'search',
-      title: L('اكتشف', 'Discover'),
-      note: L('ابحث بين البن والوصفات والمحامص', 'Search coffees, recipes and roasters'),
-      press: browse,
-    },
-    {
-      icon: 'star',
-      title: L('أفضل إعداد', 'Best setup'),
-      note: L('اقتراحات مبنية على تفضيلاتك', 'Recommendations for your next cup'),
-      press: personalize,
-    },
   ];
   return (
     <ScrollView
@@ -425,41 +431,36 @@ export function Home({
     >
       {intro}
       <View style={s.page}>
-        <ImageBackground
+        <View style={{ gap: 4 }}>
+          <Txt style={{ color: colors.muted, fontSize: 14 }}>{L('أهلًا بك', 'Welcome')}</Txt>
+        </View>
+        <View style={[s.homeSearch, row]}>
+          <IconButton name="search" label={L('ابحث الآن', 'Search now')} onPress={() => search(query.trim())} />
+          <TextInput testID="home-search-input" accessibilityLabel={L('ابحث عن بن، وصفة، أو محمصة', 'Search coffees, recipes or roasters')}
+            placeholder={L('ابحث عن بن، وصفة، أو محمصة', 'Search coffees, recipes or roasters')}
+            placeholderTextColor={colors.muted} value={query} onChangeText={setQuery} returnKeyType="search"
+            onSubmitEditing={() => search(query.trim())}
+            style={{ flex: 1, minWidth: 0, minHeight: 48, color: colors.ink, fontSize: 14, textAlign: ar ? 'right' : 'left', fontFamily: ar ? 'IBMPlexSansArabic-Regular' : undefined }} />
+        </View>
+        <View
           testID="home-hero"
-          source={artwork.hero}
-          style={[
-            s.hero,
-            {
-              minHeight: Math.max(180, Math.min(280, available / 3.1)),
-              paddingVertical: width < 500 ? 22 : 18,
-            },
-          ]}
-          imageStyle={{ borderRadius: 18, width: '100%', height: '100%' }}
+          style={[s.hero, row]}
         >
-          <View style={s.heroShade} />
-          <View
-            style={[
-              s.heroCopy,
-              {
-                width: width < 500 ? '72%' : '55%',
-                paddingHorizontal: width < 500 ? 16 : 25,
-              },
-            ]}
-          >
+          <View style={[s.heroCopy, { alignItems: ar ? 'flex-end' : 'flex-start' }]}>
             <Txt
               heading
               style={[
                 s.heroTitle,
                 {
-                  fontSize: width < 500 ? 24 : 34,
-                  lineHeight: width < 500 ? 34 : 45,
+                  fontSize: width < 500 ? 23 : 30,
+                  lineHeight: width < 500 ? 36 : 44,
+                  textAlign: ar ? 'right' : 'left',
                 },
               ]}
             >
               {L('اكتشف عالم القهوة.', 'Discover the world of coffee.')}
             </Txt>
-            <Txt style={s.heroDescription}>
+            <Txt style={[s.heroDescription, { textAlign: ar ? 'right' : 'left' }]}>
               {L('من الحبوب إلى الكوب، تجربة أفضل كل يوم.', 'From bean to cup, a better experience every day.')}
             </Txt>
             <Pressable
@@ -470,7 +471,7 @@ export function Home({
             >
               <Txt
                 style={{
-                  color: '#FFF',
+                  color: '#2B1D14',
                   fontSize: 14,
                   fontWeight: '700',
                   flexShrink: 1,
@@ -479,36 +480,49 @@ export function Home({
               >
                 {L('استكشف الآن', 'Explore now')}
               </Txt>
-              <Icon name="arrow" color="#FFF" size={17} />
+              <Icon name="arrow" color={colors.brown} size={17} />
             </Pressable>
           </View>
-          {width >= 650 ? (
-            <Txt style={s.heroSignature}>
-              {L('أكثر من القهوة','More Than Coffee')}
-            </Txt>
-          ) : null}
-        </ImageBackground>
+          <View style={s.heroArt} accessible={false}><Icon name="bean" color="#D9AC7F" size={width < 360 ? 45 : 64} /></View>
+        </View>
+        <View testID="library-navigation" style={{ gap: 14 }}>
+          <Txt heading style={s.journeyTitle}>{L('تصفّح', 'Browse')}</Txt>
+          <View testID="home-categories" style={[row, { gap: 12 }]}>
+            {categories.map(item => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.label}
+              onPress={() => openSection(item.id)} style={{ flex: 1, minWidth: 0, alignItems: 'center', gap: 8 }}>
+              <View style={s.categoryIcon}><Icon name={item.icon} color={colors.copper} size={25} /></View>
+              <Txt style={{ fontSize: 13, textAlign: 'center' }}>{item.title}</Txt>
+            </Pressable>)}
+          </View>
+          <View style={[row, { gap: 8 }]}>
+            {[
+              { id: 'capsules', title: L('الكبسولات', 'Capsules'), label: L('الكبسولات', 'Capsules') },
+              { id: 'roastLab', title: L('التحميص', 'Roast Lab'), label: L('مختبر التحميص', 'Roast Lab') },
+            ].map(item => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.label} onPress={() => openSection(item.id)} style={s.homeChip}>
+              <Txt style={{ fontSize: 13 }}>{item.title}</Txt>
+            </Pressable>)}
+          </View>
+        </View>
+        <Pressable testID="home-expert" accessibilityRole="button" accessibilityLabel={L('خبير القهوة', 'Coffee expert')}
+          onPress={() => openSection('assistant')} style={[s.expert, row]}>
+          <View style={s.expertIcon}><Icon name="star" size={24} color="#FFF" /></View>
+          <View style={{ flex: 1, gap: 4 }}>
+            <Txt style={{ color: '#FFF', fontSize: 17, fontWeight: '700' }}>{L('خبير القهوة', 'Coffee expert')}</Txt>
+            <Txt style={{ color: '#FFFFFF', fontSize: 12, lineHeight: 21 }}>{L('اسأله عن الطحنة، النسبة، أو الطعم', 'Ask about grind, ratio or taste')}</Txt>
+          </View>
+          <Icon name="arrow" color="#FFF" size={19} />
+        </Pressable>
         <View style={s.stats}>
           {stats.map((stat) => (
             <View
               key={stat.icon}
               style={[s.stat, width < 500 && { paddingHorizontal: 6 }]}
             >
-              {width >= 600 ? (
-                <View style={s.statIcon}>
-                  <Icon name={stat.icon} size={23} />
-                </View>
-              ) : null}
               <View style={{ flex: 1 }}>
                 <Txt style={s.statNumber}>{stat.value}</Txt>
                 <Txt numberOfLines={2} style={s.statTitle}>
                   {stat.title}
                 </Txt>
-                {width >= 600 ? (
-                  <Txt numberOfLines={1} style={s.statNote}>
-                    {stat.note}
-                  </Txt>
-                ) : null}
               </View>
             </View>
           ))}
@@ -523,11 +537,8 @@ export function Home({
                 {L('ابدأ من البن الذي عندك، ثم ارجع لأفضل نتيجة وصلت لها.', 'Start with the coffee you have, then return to your best result.')}
               </Txt>
             </View>
-            <View style={s.journeyBadge}>
-              <Icon name="bean" size={22} color={colors.copper} />
-            </View>
           </View>
-          <View style={s.journeyGrid}>
+          <View style={[s.journeyGrid, row]}>
             {journey.map((item) => (
               <Pressable
                 key={item.title}
@@ -536,7 +547,7 @@ export function Home({
                 onPress={item.press}
                 style={[
                   s.journeyCard,
-                  available < 340 && { width: '100%' },
+                  { alignItems: ar ? 'flex-end' : 'flex-start' },
                   item.accent && s.journeyCardAccent,
                 ]}
               >
@@ -578,6 +589,23 @@ export function Home({
                 />
               </Pressable>
             ))}
+          </View>
+        </View>
+        <View style={{ gap: 12 }}>
+          <View style={[row, { alignItems: 'center', justifyContent: 'space-between' }]}>
+            <Txt heading style={s.journeyTitle}>{L('مكتبتي', 'My library')}</Txt>
+            <Pressable accessibilityRole="button" accessibilityLabel={L('إضافة جديد', 'Add new')} onPress={add}
+              style={{ minHeight: 44, paddingHorizontal: 8, justifyContent: 'center' }}>
+              <Txt style={{ color: colors.teal, fontSize: 13, fontWeight: '700' }}>{L('إضافة جديد +', 'Add new +')}</Txt>
+            </Pressable>
+          </View>
+          <View testID="home-library" style={s.homeLibrary}>
+            {library.map((item, index) => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.label}
+              onPress={() => openSection(item.id)} style={[s.libraryRow, row, index > 0 && { borderTopWidth: 1, borderColor: colors.line }]}>
+              <View style={s.libraryIcon}><Icon name={item.icon} color={colors.copper} size={21} /></View>
+              <Txt style={{ flex: 1, fontSize: 15 }}>{item.title}</Txt>
+              <Icon name="arrow" color={colors.muted} size={17} />
+            </Pressable>)}
           </View>
         </View>
         <View style={s.section}>
@@ -979,26 +1007,26 @@ const s = StyleSheet.create({
     paddingBottom: 24,
     gap: 18,
   },
+  homeSearch: { alignItems: 'center', borderWidth: 1, borderColor: colors.line, borderRadius: 18, backgroundColor: colors.paper, paddingHorizontal: 10 },
+  categoryIcon: { width: '100%', maxWidth: 76, height: 66, borderRadius: 20, backgroundColor: colors.paper, borderWidth: 1, borderColor: colors.line, alignItems: 'center', justifyContent: 'center' },
+  homeChip: { minHeight: 44, paddingHorizontal: 16, justifyContent: 'center', backgroundColor: colors.chip, borderRadius: 22 },
+  expert: { backgroundColor: colors.teal, borderRadius: 22, padding: 18, alignItems: 'center', gap: 12, minHeight: 88 },
+  expertIcon: { width: 46, height: 46, borderRadius: 15, backgroundColor: '#FFFFFF24', alignItems: 'center', justifyContent: 'center' },
+  homeLibrary: { borderWidth: 1, borderColor: colors.line, borderRadius: 22, backgroundColor: colors.paper, overflow: 'hidden' },
+  libraryRow: { alignItems: 'center', gap: 14, paddingHorizontal: 16, paddingVertical: 12, minHeight: 62 },
+  libraryIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: colors.chip, alignItems: 'center', justifyContent: 'center' },
+  heroArt: { width: '23%', alignItems: 'center', justifyContent: 'center', alignSelf: 'center' },
   hero: {
-    borderRadius: 18,
+    borderRadius: 24,
+    minHeight: 184,
+    padding: 20,
+    alignItems: 'center',
+    gap: 12,
     overflow: 'hidden',
     justifyContent: 'center',
     backgroundColor: colors.brown,
   },
-  heroShade: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'rgba(22,12,6,0.2)',
-  },
-  heroCopy: {
-    paddingHorizontal: 25,
-    gap: 7,
-    alignItems: 'center',
-    zIndex: 1,
-  },
+  heroCopy: { flex: 1, minWidth: 0, gap: 7 },
   heroTitle: { color: '#FFF', fontWeight: '700', textAlign: 'center' },
   heroDescription: {
     color: '#FFFDF7',
@@ -1018,42 +1046,11 @@ const s = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 5,
-    backgroundColor: '#48301F88',
+    backgroundColor: colors.cream,
   },
-  heroSignature: {
-    position: 'absolute',
-    right: 24,
-    bottom: 25,
-    color: '#FFF',
-    fontSize: 22,
-    lineHeight: 30,
-    fontStyle: 'italic',
-    fontFamily: 'cursive',
-    textAlign: 'center',
-    writingDirection: 'ltr',
-  },
-  stats: { flexDirection: 'row', gap: 10 },
-  stat: {
-    flex: 1,
-    minWidth: 0,
-    backgroundColor: colors.paper,
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: 16,
-    minHeight: 84,
-    padding: 12,
-    flexDirection: 'row',
-    gap: 12,
-    alignItems: 'center',
-  },
-  statIcon: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    backgroundColor: colors.chip,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  stats: { flexDirection: 'row', backgroundColor: colors.paper, borderRadius: 22, borderWidth: 1, borderColor: colors.line, paddingVertical: 14 },
+  stat: { flex: 1, minWidth: 0, paddingHorizontal: 6, alignItems: 'center' },
+  statIcon: { width: 42, height: 42, borderRadius: 21, backgroundColor: colors.chip, alignItems: 'center', justifyContent: 'center' },
   statNumber: {
     fontFamily: undefined,
     fontSize: 23,
@@ -1068,20 +1065,7 @@ const s = StyleSheet.create({
     fontWeight: '700',
     textAlign: 'center',
   },
-  statNote: {
-    fontSize: 12,
-    lineHeight: 19,
-    color: colors.muted,
-    textAlign: 'center',
-  },
-  journeyWrap: {
-    gap: 12,
-    backgroundColor: '#F2E7D8',
-    borderRadius: 22,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: '#E2D2C0',
-  },
+  journeyWrap: { gap: 12 },
   journeyHeader: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   journeyTitle: { fontSize: 20, lineHeight: 29, fontWeight: '800' },
   journeyIntro: {
@@ -1090,19 +1074,12 @@ const s = StyleSheet.create({
     color: colors.muted,
     marginTop: 2,
   },
-  journeyBadge: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
-    backgroundColor: '#FFF9F0',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   journeyGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   journeyCard: {
     width: '48%',
-    minWidth: 145,
-    minHeight: 105,
+    flex: 1,
+    minWidth: 0,
+    minHeight: 166,
     backgroundColor: colors.paper,
     borderRadius: 18,
     padding: 13,
@@ -1112,8 +1089,8 @@ const s = StyleSheet.create({
     justifyContent: 'space-between',
   },
   journeyCardAccent: {
-    backgroundColor: colors.teal,
-    borderColor: colors.teal,
+    backgroundColor: colors.brown,
+    borderColor: colors.brown,
   },
   journeyIcon: {
     width: 38,

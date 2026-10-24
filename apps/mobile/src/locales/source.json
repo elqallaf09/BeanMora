@@ -24990,5 +24990,69 @@
     "files": [
       "src/core/flavor-vocabulary.ts"
     ]
+  },
+  {
+    "en": "Welcome",
+    "ar": "أهلًا بك",
+    "files": [
+      "src/CoffeeScreens.tsx",
+      "App.tsx"
+    ]
+  },
+  {
+    "en": "Search now",
+    "ar": "ابحث الآن",
+    "files": [
+      "src/CoffeeScreens.tsx",
+      "App.tsx"
+    ]
+  },
+  {
+    "en": "Search coffees, recipes or roasters",
+    "ar": "ابحث عن بن، وصفة، أو محمصة",
+    "files": [
+      "src/CoffeeScreens.tsx",
+      "App.tsx"
+    ]
+  },
+  {
+    "en": "Browse",
+    "ar": "تصفّح",
+    "files": [
+      "src/CoffeeScreens.tsx",
+      "App.tsx"
+    ]
+  },
+  {
+    "en": "Ask about grind, ratio or taste",
+    "ar": "اسأله عن الطحنة، النسبة، أو الطعم",
+    "files": [
+      "src/CoffeeScreens.tsx",
+      "App.tsx"
+    ]
+  },
+  {
+    "en": "My library",
+    "ar": "مكتبتي",
+    "files": [
+      "src/CoffeeScreens.tsx",
+      "App.tsx"
+    ]
+  },
+  {
+    "en": "Add new",
+    "ar": "إضافة جديد",
+    "files": [
+      "src/CoffeeScreens.tsx",
+      "App.tsx"
+    ]
+  },
+  {
+    "en": "Add new +",
+    "ar": "إضافة جديد +",
+    "files": [
+      "src/CoffeeScreens.tsx",
+      "App.tsx"
+    ]
   }
 ]

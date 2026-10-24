@@ -1,4 +1,5 @@
 import { TabRail } from './src/TabRail';
+import { emptyRecipeFilters } from './src/recipeDiscovery';
 import { PillButton } from './src/PillButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -165,6 +166,7 @@ function Shell() {
   const assistantTurns = assistantConversation.owner === userId ? assistantConversation.turns : [];
   const setAssistantTurns = (turns: AssistantTurn[]) => setAssistantConversation({ owner: userId, turns });
   const [libraryMenu,setLibraryMenu]=useState(false);
+  const [addMenu, setAddMenu] = useState(false);
   const [equipmentToAdd,setEquipmentToAdd]=useState<EquipmentItem|null>(null);
   const [tab, setTab] = useState<Tab>('home');
   const [method, setMethod] = useState<Method>();
@@ -213,6 +215,8 @@ function Shell() {
   const [message, setMessage] = useState('');
   const [notifications, setNotifications] = useState<string[] | null>(null);
   const [fontsLoaded, fontError] = useFonts({
+    'IBMPlexSansArabic-Regular': require('./assets/fonts/IBMPlexSansArabic-Regular.ttf'),
+    'IBMPlexSansArabic-Bold': require('./assets/fonts/IBMPlexSansArabic-Bold.ttf'),
     'Tajawal-Regular': require('./assets/fonts/Tajawal-Regular.ttf'),
     'Tajawal-Bold': require('./assets/fonts/Tajawal-Bold.ttf'),
     Quicksand: require('./assets/fonts/Quicksand.ttf'),
@@ -576,7 +580,7 @@ function Shell() {
   </Modal>;
   const screenIntro = (
     <>
-      {!login && !detail && configured ? (
+      {!homeActive && !login && !detail && configured ? (
         <View style={s.libraryNav}>
           <TabRail compact wrap columns={width >= 900 ? 7 : width >= 600 ? 5 : 4} variant="pills" testID="library-navigation" value={tab}
             items={[
@@ -956,6 +960,12 @@ function Shell() {
                 />
               ) : tab === 'home' ? (
                 <Home
+                  openSection={openLibraryItem}
+                  add={() => setAddMenu(true)}
+                  search={query => {
+                    recipeMemory.current.set('search:all', { search: query, filters: emptyRecipeFilters(), draftFilters: emptyRecipeFilters() });
+                    navigate('search');
+                  }}
                   intro={screenIntro}
                   data={data}
                   coffees={coffees}
@@ -966,7 +976,6 @@ function Shell() {
                   openCoffee={openCoffee}
                   browse={() => { setMethod(undefined); navigate('beans'); }}
                   brew={() => navigate('brewFlow')}
-                  personalize={() => navigate('best')}
                   bags={() => navigate('bags')}
                   tools={(category) => void showTools(category)}
                   openTool={item => openDetail({ type: "equipment", item })}
@@ -1085,6 +1094,17 @@ function Shell() {
           </View>
         ) : null}
         {emailConfirmation ? <EmailConfirmation key={emailConfirmation} url={emailConfirmation} locale={locale} close={() => { setEmailConfirmation(null); navigate('account'); }} /> : null}
+        <Modal transparent visible={addMenu} animationType="fade" onRequestClose={() => setAddMenu(false)}>
+          <View style={s.modalShade}>
+            <Pressable accessibilityRole="button" accessibilityLabel={L('إغلاق القائمة', 'Close menu')} style={StyleSheet.absoluteFill} onPress={() => setAddMenu(false)} />
+            <View testID="home-add-menu" accessibilityViewIsModal style={s.modal}>
+              <Txt heading style={styles.subtitle}>{L('إضافة جديد', 'Add new')}</Txt>
+              <Action title={L('إضافة بن', 'Add coffee')} onPress={() => { setAddMenu(false); openLibraryItem('addBean'); }} />
+              <Action title={L('إضافة وصفة', 'Add recipe')} onPress={() => { setAddMenu(false); openLibraryItem('addRecipe'); }} />
+              <Action title={L('إغلاق', 'Close')} onPress={() => setAddMenu(false)} />
+            </View>
+          </View>
+        </Modal>
         <Modal
           visible={!!message || notifications !== null || !!callbackError}
           transparent

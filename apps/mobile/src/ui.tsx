@@ -62,8 +62,8 @@ export function Txt({
         rtl && {
           fontFamily:
             weight && Number(weight) >= 600
-              ? 'Tajawal-Bold'
-              : 'Tajawal-Regular',
+              ? 'IBMPlexSansArabic-Bold'
+              : 'IBMPlexSansArabic-Regular',
         },
         {
           textAlign: rtl ? 'right' : 'left',
@@ -140,7 +140,7 @@ export function Field({ label, ...props }: TextInputProps & { label: string }) {
           styles.input,
           {
             textAlign: rtl ? 'right' : 'left',
-            fontFamily: rtl ? 'Tajawal-Regular' : undefined,
+            fontFamily: rtl ? 'IBMPlexSansArabic-Regular' : undefined,
           },
           props.style,
         ]}
