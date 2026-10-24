@@ -33,3 +33,23 @@ Automatic approval review blocked starting Google authentication in the cloud
 browser and opening the Expo account dashboard because explicit authorization
 for those account/release operations was missing. No attempt was made to bypass
 that rejection. No real Google sign-in, web deployment or native build is claimed.
+
+## Required dependency repairs
+
+The first follow-up CI run was blocked by newly reported dependency advisories.
+The release candidate pins Zod 4.6.6 in both dependency trees, updates the web
+form resolver to 5.9.2 and distinguishes signup input from transformed output
+types. Expo's actual plugin and MCP command schemas are exercised with its Zod
+override. Next.js and its ESLint configuration are patched to 15.5.28, Vitest/UI
+to 4.1.12 and Vite to 8.3.3. The root dependency audit then reports zero
+vulnerabilities. The mobile policy gate passes with the existing verified
+node-forge tooling backport and zero risk exceptions; its raw audit still
+reports the upstream version-based finding and its dependency ancestors.
+
+Local verification includes the full mobile suite and TypeScript checks,
+26 isolated auth/account/browser scenarios, eight-language message coverage,
+Android manifest introspection and fresh exports for all three platforms after
+the Zod override. The root passed 1,370 unit cases plus recommendation and brew
+outcome checks during validation. Final checks on the patched dependency set
+and the exact uploaded commit are recorded on PR #93; do not infer successful
+CI or publication from these prepared files.
