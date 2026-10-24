@@ -12,6 +12,7 @@ export const multilingualSearchVocabulary: readonly (readonly string[])[] = [
   ["peach","خوخ","peaches","桃","pêche","pesca","melocotón","pêssego","桃子"],
   ["mango","مانجو","منجا","مانجا","マンゴー","mangue","manga","芒果"],
   ["pineapple","اناناس","أناناس","パイナップル","ananas","piña","abacaxi","菠萝"],
+  ["banana","موز","バナナ","banane","plátano","香蕉"],
   ["orange","برتقال","オレンジ","arancia","naranja","laranja","橙子"],
   ["lemon","ليمون","レモン","citron","limone","limón","limão-siciliano","柠檬"],
   ["jasmine","ياسمين","ジャスミン","jasmin","gelsomino","jazmín","jasmim","茉莉"],

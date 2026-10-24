@@ -62,13 +62,13 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, close, openRecipe 
     if (event.type === 'progress') { setProgress(event.progress); return; }
     reading.current = null; setJob(null);
     if (event.type === 'error') { setOcrError(ar ? 'تعذّرت قراءة الصورة. أعد التصوير أو اكتب بيانات الكيس.' : i18nUi('تعذّرت قراءة الصورة. أعد التصوير أو اكتب بيانات الكيس.', 'Could not read the photo. Try again or enter the label details.')); return; }
-    const parsed = readCoffeeLabel(event.text);
+    const parsed = readCoffeeLabel(event.text, event.titles);
     // Product names have no finite vocabulary to validate against. Do not turn
     // a weak reading of a logo/title into an asserted product identity.
-    if (event.confidence !== undefined && event.confidence < 70) parsed.name = '';
+    if (event.confidence !== undefined && event.confidence < 70 && !event.titles?.includes(parsed.name)) parsed.name = '';
     setLabel(parsed); setRawText(event.rawText ?? event.text); setNeedsReview(true);
     setCandidates(coffeeLabelCandidates(event.text, coffees));
-    if (!hasCoffeeLabelFacts(parsed) || (event.confidence !== undefined && event.confidence < 55)) setOcrError(ar ? 'القراءة غير مكتملة. حدّد الملصق أو صوّره من قريب، وراجع الحقول قبل البحث.' : i18nUi('القراءة غير مكتملة. حدّد الملصق أو صوّره من قريب، وراجع الحقول قبل البحث.', 'The reading is incomplete. Crop the label or take a closer photo, then check the fields before searching.'));
+    if (!hasCoffeeLabelFacts(parsed) || (event.confidence !== undefined && event.confidence < 55 && (!parsed.name || !parsed.notes))) setOcrError(ar ? 'القراءة غير مكتملة. حدّد الملصق أو صوّره من قريب، وراجع الحقول قبل البحث.' : i18nUi('القراءة غير مكتملة. حدّد الملصق أو صوّره من قريب، وراجع الحقول قبل البحث.', 'The reading is incomplete. Crop the label or take a closer photo, then check the fields before searching.'));
   };
   useEffect(() => {
     if (!job) return;
@@ -83,18 +83,18 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, close, openRecipe 
         const permission = await ImagePicker.requestCameraPermissionsAsync();
         if (!permission.granted) throw new Error('CAMERA_PERMISSION');
       }
-      const options: ImagePicker.ImagePickerOptions = { mediaTypes: ['images'], base64: true, quality: 1, exif: false };
+      const options: ImagePicker.ImagePickerOptions = { mediaTypes: ['images'], base64: true, quality: 1, exif: false,
+        cameraType: ImagePicker.CameraType.back };
       const result = camera ? await ImagePicker.launchCameraAsync(options) : await ImagePicker.launchImageLibraryAsync(options);
       if (!mounted.current || result.canceled) return;
       const asset = result.assets[0];
       if (!asset?.base64 || asset.base64.length > 14 * 1024 * 1024) throw new Error('IMAGE_SIZE');
-      const mime = asset.base64.startsWith('iVBOR') ? 'image/png' : asset.mimeType || 'image/jpeg';
+      // iOS may report the original HEIC MIME after returning JPEG pixels.
+      const mime = asset.base64.startsWith('/9j/') ? 'image/jpeg' : asset.base64.startsWith('iVBOR') ? 'image/png' : asset.mimeType || 'image/jpeg';
       if (!['image/jpeg', 'image/png', 'image/webp'].includes(mime)) throw new Error('IMAGE_FORMAT');
       invalidate(); setCoffee(null); setCandidates([]); setLabel(emptyCoffeeLabel()); setProgress(0);
-      setRawText(''); setShowText(false); setCropping(false); setNeedsReview(true);
+      setRawText(''); setShowText(false); setCropping(true); setNeedsReview(true);
       setPhoto({ uri: asset.uri, image: `data:${mime};base64,${asset.base64}`, width: asset.width || 1, height: asset.height || 1 });
-      const id = String(++generation.current); reading.current = id;
-      setJob({ id, image: `data:${mime};base64,${asset.base64}` });
     } catch (error) {
       if (mounted.current) setOcrError(error instanceof Error && error.message === 'CAMERA_PERMISSION'
         ? ar ? 'اسمح بالكاميرا أو اختر صورة من المعرض.' : i18nUi('اسمح بالكاميرا أو اختر صورة من المعرض.', 'Allow camera access or choose a photo.')
@@ -105,7 +105,9 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, close, openRecipe 
     if (!photo || job) return;
     invalidate(); setCoffee(null); setCandidates([]); setLabel(emptyCoffeeLabel()); setRawText(''); setOcrError('');
     setCropping(false); setNeedsReview(true); setProgress(0);
-    const id = String(++generation.current); reading.current = id; setJob({ id, image: photo.image, crop });
+    const id = String(++generation.current); reading.current = id;
+    const full = crop.left === 0 && crop.top === 0 && crop.width === 1 && crop.height === 1;
+    setJob({ id, image: photo.image, ...(full ? {} : { crop }) });
   };
   const find = async () => {
     if (matching || job || needsReview || cropping || (!coffee && !hasCoffeeLabelFacts(label))) return;
@@ -128,13 +130,14 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, close, openRecipe 
         </View>
         <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ padding: 12, gap: 10 }}>
           <Txt style={{ fontSize: 14, lineHeight: 22 }}>{ar ? 'صوّر الملصق بوضوح، وراجع البيانات ثم اختر أقرب وصفة لبنك.' : i18nUi('صوّر الملصق بوضوح، وراجع البيانات ثم اختر أقرب وصفة لبنك.', 'Take a clear label photo, review the details, then find the closest recipe for your coffee.')}</Txt>
+          <Txt style={{ fontSize: 12, lineHeight: 19, color: colors.muted }}>{ar ? 'افرد الملصق، وقرّب الكتابة داخل الصورة، وتجنّب انعكاس الإضاءة.' : i18nUi('افرد الملصق، وقرّب الكتابة داخل الصورة، وتجنّب انعكاس الإضاءة.', 'Keep the label flat, fill the frame with text, and avoid glare.')}</Txt>
           <Txt style={{ fontSize: 12, lineHeight: 19, color: colors.muted }}>{ar ? 'مجاني. تُقرأ الصورة على جهازك ولا تُرفع. يحتاج قارئ النص اتصالًا عند تحميله.' : i18nUi('مجاني. تُقرأ الصورة على جهازك ولا تُرفع. يحتاج قارئ النص اتصالًا عند تحميله.', 'Free. Your photo is read on your device and is never uploaded. Loading the text reader needs a connection.')}</Txt>
           <View style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8 }}>
             <Action compact title={ar ? 'تصوير الكيس' : i18nUi('تصوير الكيس', 'Take a label photo')} disabled={pickBusy || !!job} onPress={() => void pick(true)} />
             <Action compact title={ar ? 'اختيار صورة' : i18nUi('اختيار صورة', 'Choose a photo')} disabled={pickBusy || !!job} onPress={() => void pick(false)} />
           </View>
           {photo && !cropping ? <View style={{ flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 12 }}>
-            <Image testID="coffee-label-photo" source={{ uri: photo.uri }} resizeMode="contain" accessibilityLabel={ar ? 'صورة كيسك' : i18nUi('صورة كيسك', 'Your coffee label')} style={{ width: 90, height: 100, borderRadius: 10 }} />
+            <Image testID="coffee-label-photo" source={{ uri: photo.uri }} resizeMode="contain" accessibilityLabel={ar ? 'صورة كيسك' : i18nUi('صورة كيسك', 'Your coffee label')} style={{ width: 110, height: 150, borderRadius: 10 }} />
             <View style={{ flex: 1, gap: 6 }}><Txt style={{ fontSize: 12, lineHeight: 18 }}>{ar ? 'قرّب الكتابة وحدّد الملصق لقراءة أوضح.' : i18nUi('قرّب الكتابة وحدّد الملصق لقراءة أوضح.', 'Fill the photo with text, or crop the label for a clearer reading.')}</Txt>
               <Action compact title={ar ? 'تحديد الملصق وإعادة القراءة' : i18nUi('تحديد الملصق وإعادة القراءة', 'Crop label and reread')} disabled={!!job} onPress={() => { invalidate(); setCropping(true); }} /></View>
           </View> : null}

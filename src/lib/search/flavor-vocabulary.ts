@@ -179,6 +179,7 @@ export const flavorTranslations: Record<string, string> = {
   lychee: "ليتشي",
   cantaloupe: "شمام",
   pineapple: "أناناس",
+  banana: "موز",
   mandarine: "يوسفي",
   tangerine: "يوسفي",
   pomegranate: "رمان",

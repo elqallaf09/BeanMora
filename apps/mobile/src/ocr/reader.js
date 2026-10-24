@@ -18,21 +18,25 @@
       || crop.left < 0 || crop.top < 0 || crop.width <= 0 || crop.height <= 0
       || crop.left + crop.width > 1.001 || crop.top + crop.height > 1.001) throw new Error('CROP');
     const w = image.naturalWidth * crop.width, h = image.naturalHeight * crop.height;
-    const scale = Math.min(job.crop ? 1.5 : 3, 2400 / Math.max(w, h));
-    const border = job.crop ? 32 : 0;
+    const scale = Math.min(3, 2400 / Math.max(w, h));
     const canvas = document.createElement('canvas');
-    canvas.width = Math.max(1, Math.round(w * scale)) + border * 2; canvas.height = Math.max(1, Math.round(h * scale)) + border * 2;
+    canvas.width = Math.max(1, Math.round(w * scale)); canvas.height = Math.max(1, Math.round(h * scale));
     const context = canvas.getContext('2d', { willReadFrequently: true });
     context.fillStyle = '#fff'; context.fillRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(image, image.naturalWidth * crop.left, image.naturalHeight * crop.top, w, h, border, border, canvas.width - border * 2, canvas.height - border * 2);
-    return normalized ? contrast(canvas) : canvas;
+    context.drawImage(image, image.naturalWidth * crop.left, image.naturalHeight * crop.top, w, h, 0, 0, canvas.width, canvas.height);
+    if (normalized) contrast(canvas);
+    if (!job.crop) return canvas;
+    // Add padding AFTER polarity correction, so it always stays white.
+    const padded = document.createElement('canvas'); padded.width = canvas.width + 64; padded.height = canvas.height + 64;
+    const ctx = padded.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, padded.width, padded.height);
+    ctx.drawImage(canvas, 32, 32); return padded;
   }
   function contrast(canvas) {
     const context = canvas.getContext('2d', { willReadFrequently: true });
     const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
     const histogram = new Uint32Array(256);
     for (let i = 0; i < pixels.data.length; i += 4) {
-      histogram[Math.round(pixels.data[i] * .299 + pixels.data[i + 1] * .587 + pixels.data[i + 2] * .114)]++;
+      histogram[Math.max(pixels.data[i], pixels.data[i + 1], pixels.data[i + 2])]++;
     }
     const percentile = fraction => {
       let sum = 0;
@@ -40,15 +44,16 @@
       return 255;
     };
     const low = percentile(.01), high = percentile(.99);
+    const invert = percentile(.5) < (low + high) / 2;
     for (let i = 0; i < pixels.data.length; i += 4) {
-      const gray = pixels.data[i] * .299 + pixels.data[i + 1] * .587 + pixels.data[i + 2] * .114;
+      const gray = Math.max(pixels.data[i], pixels.data[i + 1], pixels.data[i + 2]);
       const value = Math.max(0, Math.min(255, (gray - low) * 255 / Math.max(40, high - low)));
-      pixels.data[i] = pixels.data[i + 1] = pixels.data[i + 2] = value;
+      pixels.data[i] = pixels.data[i + 1] = pixels.data[i + 2] = invert ? 255 - value : value;
     }
     context.putImageData(pixels, 0, 0);
     return canvas;
   }
-  // Find an inset light paper panel, independently of its position on the bag.
+  // Find an inset paper OR colored panel, independently of its position.
   // This is only an OCR retry region, never evidence of any coffee attribute.
   function paperLabel(canvas) {
     const thumb = document.createElement('canvas');
@@ -59,7 +64,12 @@
     const w = thumb.width, h = thumb.height, seen = new Uint8Array(w * h), mask = new Uint8Array(w * h);
     for (let i = 0; i < mask.length; i++) {
       const r = data[i * 4], g = data[i * 4 + 1], b = data[i * 4 + 2];
-      mask[i] = Math.min(r, g, b) > 150 && Math.max(r, g, b) - Math.min(r, g, b) < 35 ? 1 : 0;
+      const max = Math.max(r, g, b), min = Math.min(r, g, b), delta = max - min;
+      if (delta < 35) mask[i] = min > 150 ? 1 : min < 100 ? 2 : 0;
+      else {
+        const hue = max === r ? (g - b) / delta : max === g ? 2 + (b - r) / delta : 4 + (r - g) / delta;
+        mask[i] = 3 + (Math.round((hue * 60 + 360) % 360 / 30) % 12);
+      }
     }
     let best = null;
     for (let i = 0; i < mask.length; i++) {
@@ -71,18 +81,18 @@
         x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y);
         for (const [nx, ny] of [[x - 1, y], [x + 1, y], [x, y - 1], [x, y + 1]]) {
           const next = ny * w + nx;
-          if (nx >= 0 && nx < w && ny >= 0 && ny < h && mask[next] && !seen[next]) { seen[next] = 1; queue.push(next); }
+          if (nx >= 0 && nx < w && ny >= 0 && ny < h && mask[next] === mask[i] && !seen[next]) { seen[next] = 1; queue.push(next); }
         }
       }
       const width = x1 - x0 + 1, height = y1 - y0 + 1, area = width * height;
-      if (x0 <= 1 || y0 <= 1 || x1 >= w - 2 || y1 >= h - 2 || area < w * h * .015 || area > w * h * .5
-        || width / height < 1.2 || width / height > 8 || queue.length / area < .55) continue;
+      if (x0 <= 1 || y0 <= 1 || x1 >= w - 2 || y1 >= h - 2 || area < w * h * .035 || area > w * h * .85
+        || width / height < .35 || width / height > 8 || queue.length / area < .5) continue;
       if (!best || queue.length > best.score) best = { score: queue.length, left: x0 / w, top: y0 / h, width: width / w, height: height / h };
     }
     // Stay just inside the paper: tilted outer edges otherwise become huge
     // vertical characters and make the layout detector join unrelated lines.
-    return best && { left: best.left + best.width * .025, top: best.top + best.height * .06,
-      width: best.width * .95, height: best.height * .88 };
+    return best && { left: best.left + best.width * .02, top: best.top + best.height * .025,
+      width: best.width * .96, height: best.height * .95 };
   }
   function reading(data) {
     const lines = (data.blocks || []).flatMap(b => b.paragraphs || []).flatMap(p => p.lines || []);
@@ -90,7 +100,11 @@
     const trusted = lines.filter(l => l.confidence >= 45 && /(?:\p{L}\p{M}*){3}/u.test(l.text || '')
       && (l.text.match(/\p{L}/gu) || []).length / Math.max(1, l.text.replace(/\s|[\u200e\u200f]/gu, '').length) >= .65);
     const text = trusted.map(l => l.text.trim()).join('\n');
-    return { text: text.slice(0, 20000), rawText: String(data.text || '').slice(0, 20000),
+    const heights = trusted.map(l => l.bbox?.y1 - l.bbox?.y0).filter(h => h > 0).sort((a, b) => a - b);
+    const median = heights[Math.floor(heights.length / 2)];
+    const titleLines = trusted.filter(l => l.confidence >= 80 && l.bbox?.y1 - l.bbox?.y0 >= median * 1.6);
+    const titles = titleLines.map(l => l.text.trim());
+    return { text: text.slice(0, 20000), titles, titleLines, rawText: String(data.text || '').slice(0, 20000),
       confidence: Number.isFinite(data.confidence) ? data.confidence : 0 };
   }
   function mergeReadings(readings) {
@@ -99,7 +113,7 @@
       const key = line.replace(/[\u200e\u200f\u202a-\u202e\u2066-\u2069]/gu, '').replace(/\s+/g, ' ').trim().toLowerCase();
       if (key && !lines.has(key)) lines.set(key, line.trim());
     }
-    return { text: [...lines.values()].join('\n').slice(0, 20000), rawText: readings.map(r => r.rawText).join('\n').slice(0, 20000),
+    return { text: [...lines.values()].join('\n').slice(0, 20000), titles: [...new Set(readings.flatMap(r => r.titles || []))].slice(0, 8), rawText: readings.map(r => r.rawText).join('\n').slice(0, 20000),
       // Never hide a poor scan behind the high confidence of the large logo.
       confidence: Math.min(...readings.map(r => r.confidence)) };
   }
@@ -131,7 +145,10 @@
         if (panel || !hasArabic || (first.rawText.match(/[a-z]/giu) || []).length >= 8) {
           await worker.reinitialize('eng');
           await worker.setParameters({ tessedit_pageseg_mode: '11', thresholding_method: '2', preserve_interword_spaces: '1' });
-          readings.push(reading((await worker.recognize(focused, {}, { text: true, blocks: true })).data));
+          const english = reading((await worker.recognize(focused, {}, { text: true, blocks: true })).data);
+          // Titles are evidence only inside a selected label, never the bag logo.
+          if (!panel && !job.crop) english.titles = [];
+          readings.push(english);
         }
         pass = 2;
         // Mixed-language recognition can prefer Latin lookalikes. Read Arabic
@@ -140,10 +157,14 @@
         await worker.setParameters({ tessedit_pageseg_mode: '11', thresholding_method: '2', preserve_interword_spaces: '1' });
         const arabic = reading((await worker.recognize(focused, {}, { text: true, blocks: true })).data);
         arabic.text = arabic.text.split('\n').filter(line => /\p{Script=Arabic}/u.test(line)).join('\n');
+        arabic.titles = panel || job.crop ? arabic.titles.filter(line => /\p{Script=Arabic}/u.test(line)) : [];
         readings.push(arabic);
       }
+      first.titles = panel ? first.titleLines.filter(l => l.bbox.x0 >= panel.left * canvas.width
+        && l.bbox.x1 <= (panel.left + panel.width) * canvas.width && l.bbox.y0 >= panel.top * canvas.height
+        && l.bbox.y1 <= (panel.top + panel.height) * canvas.height).map(l => l.text.trim()) : job.crop ? first.titles : [];
       const best = mergeReadings(readings);
-      send({ type: 'result', id: job.id, text: best.text, rawText: best.rawText, confidence: best.confidence });
+      send({ type: 'result', id: job.id, text: best.text, titles: best.titles, rawText: best.rawText, confidence: best.confidence });
     } catch { send({ type: 'error', id: job.id }); }
     finally { if (worker) await worker.terminate(); worker = null; active = false; }
   };
