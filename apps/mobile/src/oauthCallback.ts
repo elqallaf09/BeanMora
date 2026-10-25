@@ -10,8 +10,11 @@ export {
 } from './core/native-oauth-callback';
 
 export function getAuthRedirect() {
+  // Native defines window as globalThis, but has no browser location. Return
+  // before evaluating location.href for OAuth, signup and password recovery.
+  if (Platform.OS !== 'web') return authRedirectForPlatform(Platform.OS);
   return authRedirectForPlatform(
-    Platform.OS,
+    'web',
     typeof window === 'undefined' ? undefined : window.location.href,
   );
 }
