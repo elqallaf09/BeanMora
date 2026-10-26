@@ -21,7 +21,7 @@
         "image": "latest"
       },
       "ios": {
-        "image": "latest"
+        "image": "sdk-57"
       }
     }
   },
