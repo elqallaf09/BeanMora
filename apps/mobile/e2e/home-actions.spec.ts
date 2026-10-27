@@ -1,15 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
-import { openCoffeeShortcut } from './navigation';
+import { openCoffeeShortcut, settleScreen } from './navigation';
 import { setLanguage } from './settings';
-
-async function settleScreen(page: Page, id: string) {
-  await expect.poll(() => page.getByTestId(id).evaluate(node => {
-    for (let current: Element | null = node; current; current = current.parentElement) {
-      if (Number(getComputedStyle(current).opacity) < 1) return false;
-    }
-    return true;
-  })).toBe(true);
-}
 
 async function fixture(page: Page) {
   const queries: { p_query?: string; p_method?: string }[] = [];

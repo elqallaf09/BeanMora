@@ -14,7 +14,7 @@ jobs:
     # Match the locked Playwright version and reuse the web workflow's browser image.
     container:
       image: mcr.microsoft.com/playwright:v1.55.1-noble
-    timeout-minutes: 20
+    timeout-minutes: 30
     env:
       CI: '1'
       EXPO_NO_TELEMETRY: '1'
@@ -50,4 +50,11 @@ jobs:
       - name: Verify preinstalled web-preview browser
         run: node -e "const fs=require('node:fs'); const {chromium}=require('@playwright/test'); fs.accessSync(chromium.executablePath(),fs.constants.X_OK)"
       - name: Test React Native Web preview (not a physical-device test)
-        run: npx playwright test --config=playwright.config.ts
+        run: npx playwright test --config=playwright.config.ts --workers=2 --reporter=line
+      - name: Preserve mobile browser diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-browser-${{ github.run_id }}
+          path: apps/mobile/test-results/
+          retention-days: 7
