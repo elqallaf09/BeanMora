@@ -490,7 +490,7 @@
     "en": "A place to share roasts",
     "ar": "مساحة لتبادل الحمصات",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -520,7 +520,7 @@
     "en": "A roast draft is saved on this device.",
     "ar": "لديك مسودة حمصة محفوظة على هذا الجهاز.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -681,7 +681,7 @@
     "en": "Acidity",
     "ar": "الحموضة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/SensoryProfile.tsx",
       "src/locales/reviewed.json"
     ]
@@ -690,7 +690,7 @@
     "en": "Acidity ",
     "ar": "الحموضة ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -706,7 +706,7 @@
     "en": "Actual roast level",
     "ar": "درجة التحميص الفعلية",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -743,7 +743,7 @@
     "en": "Add a custom machine",
     "ar": "إضافة ماكينة باسمها",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -799,7 +799,7 @@
     "en": "Add control setting",
     "ar": "إضافة إعداد",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -822,7 +822,7 @@
     "en": "Add green coffee, choose your batch and record times and stages from your roaster.",
     "ar": "أضف البن الأخضر، حدّد دفعتك، وسجّل الوقت والمراحل من ماكينة التحميص.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -846,14 +846,14 @@
     "en": "Add measurement",
     "ar": "إضافة قراءة",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
     "en": "Add my green coffee",
     "ar": "إضافة بنّي الأخضر",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -886,7 +886,7 @@
     "en": "Add roasting machine",
     "ar": "إضافة ماكينة التحميص",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -902,7 +902,7 @@
     "en": "Add the lot name and available quantity, then record your roasts.",
     "ar": "أضف اسم المحصول والكمية المتوفرة، ثم سجّل حمصاتك منه.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -919,7 +919,7 @@
     "ar": "أضف للمقارنة",
     "files": [
       "src/ExploreScreens.tsx",
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -942,7 +942,7 @@
     "en": "Add to my gear",
     "ar": "أضف إلى معدّاتي",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -950,7 +950,7 @@
     "en": "Add to my gear: ",
     "ar": "أضف إلى معداتي: ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -966,7 +966,7 @@
     "en": "Add your green coffee first",
     "ar": "أضف بنّك الأخضر أولًا",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -1379,7 +1379,7 @@
     "en": "Altitude (m)",
     "ar": "الارتفاع (م)",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/core/member-contributions.ts"
     ]
   },
@@ -1395,7 +1395,7 @@
     "en": "Ambient temperature (°C)",
     "ar": "حرارة الجو (°C)",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -2111,7 +2111,7 @@
     "en": "Batch and target color details",
     "ar": "بيانات الدفعة واللون المستهدف",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -2119,7 +2119,7 @@
     "en": "Batch number",
     "ar": "رقم الدفعة",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -2133,7 +2133,7 @@
     "en": "Bean temperature (°C)",
     "ar": "حرارة البن (°C)",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -2672,7 +2672,7 @@
     "en": "Body",
     "ar": "القوام",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/SensoryProfile.tsx",
       "src/locales/reviewed.json"
     ]
@@ -2681,7 +2681,7 @@
     "en": "Body ",
     "ar": "القوام ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -2807,7 +2807,7 @@
     "en": "Brew ",
     "ar": "تحضير ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -3396,7 +3396,7 @@
       "src/DirectMessages.tsx",
       "src/ExploreScreens.tsx",
       "src/MyBags.tsx",
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/SettingsAccount.tsx",
       "src/locales/reviewed.json",
       "src/localeText.ts"
@@ -3927,7 +3927,7 @@
     "en": "Check the coffee name, quantity and measurements.",
     "ar": "راجع اسم البن والكميات والقياسات المدخلة.",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -4319,7 +4319,7 @@
     "en": "Choose green coffee",
     "ar": "اختَر البن الأخضر",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -4584,7 +4584,7 @@
     "en": "Clear comparison",
     "ar": "مسح المقارنة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -4662,7 +4662,7 @@
     "ar": "إغلاق المقارنة",
     "files": [
       "src/ExploreScreens.tsx",
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -4711,7 +4711,7 @@
     "en": "Close roast",
     "ar": "إغلاق الحمصة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -5364,7 +5364,7 @@
     "en": "Community roasts",
     "ar": "حمصات المجتمع",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -5458,7 +5458,7 @@
     "en": "Compare roasts",
     "ar": "قارن الحمصات",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -5513,7 +5513,7 @@
     "en": "Compare: ",
     "ar": "قارن: ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -5560,7 +5560,7 @@
     "en": "Completed",
     "ar": "مكتملة",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -5820,7 +5820,7 @@
     "en": "Control change time",
     "ar": "وقت تغيير الإعداد",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -5828,7 +5828,7 @@
     "en": "Control value",
     "ar": "قيمة الإعداد",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -5889,7 +5889,7 @@
     "en": "Copy of ",
     "ar": "نسخة من ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -5962,7 +5962,7 @@
     "en": "Could not add roaster.",
     "ar": "تعذّرت إضافة الماكينة.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -6134,7 +6134,7 @@
     "en": "Could not load comparison.",
     "ar": "تعذّر تحميل المقارنة.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -6216,7 +6216,7 @@
     "en": "Could not load Roast Lab. Try again.",
     "ar": "تعذّر تحميل مختبر التحميص. أعد المحاولة.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -6265,7 +6265,7 @@
     "en": "Could not open roast.",
     "ar": "تعذّر فتح الحمصة.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -6672,7 +6672,7 @@
     "en": "Custom event",
     "ar": "حدث إضافي",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/roastLab.ts",
       "src/locales/reviewed.json"
     ]
@@ -6962,7 +6962,7 @@
     "en": "Density (g/l)",
     "ar": "الكثافة (غ/لتر)",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -7021,7 +7021,7 @@
     "ar": "التطوير",
     "files": [
       "src/CommunityScreen.tsx",
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -7029,7 +7029,7 @@
     "en": "Development ratio",
     "ar": "نسبة التطوير",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -7548,7 +7548,7 @@
     "en": "Drying",
     "ar": "التجفيف",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -7667,7 +7667,7 @@
     "en": "Edit or add stock: ",
     "ar": "تعديل أو إضافة كمية: ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -7700,7 +7700,7 @@
     "en": "Edit roast",
     "ar": "تعديل الحمصة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -7872,7 +7872,7 @@
     "en": "Enter a valid control timestamp and value.",
     "ar": "أدخل وقتًا وقيمة صحيحة لإعداد الماكينة.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -7896,7 +7896,7 @@
     "en": "Enter a valid timestamp and measured machine temperature.",
     "ar": "أدخل وقت القراءة وحرارة صحيحة من الماكينة.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -7904,7 +7904,7 @@
     "en": "Enter actual timestamps and temperatures, or mark the running timer.",
     "ar": "سجّل الأوقات والحرارات الفعلية، أو اضغط «سجّل الآن» مع المؤقت.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -7928,7 +7928,7 @@
     "en": "Enter title, green coffee and input weight; check stage times and temperatures.",
     "ar": "أدخل اسم الحمصة والبن ووزن الدفعة، وراجع أوقات المراحل والحرارة.",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -7958,7 +7958,7 @@
     "en": "Environment ",
     "ar": "البيئة ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -7966,7 +7966,7 @@
     "en": "Environment temperature (°C)",
     "ar": "حرارة البيئة (°C)",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -8410,7 +8410,7 @@
     "ar": "المزرعة",
     "files": [
       "src/CoffeeScreens.tsx",
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/japaneseLabels.ts"
     ]
   },
@@ -9261,7 +9261,7 @@
     "en": "Fork for a new attempt",
     "ar": "نسخ الحمصة لمحاولة جديدة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -9480,7 +9480,7 @@
     "en": "FROM GREEN COFFEE TO THE CUP",
     "ar": "من البن الأخضر إلى الكوب",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -9503,7 +9503,7 @@
     "en": "From the equipment catalog",
     "ar": "من دليل الماكينات",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -9582,7 +9582,7 @@
     "en": "g remaining",
     "ar": "غ متبقية",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -9626,7 +9626,7 @@
     "en": "Gas, airflow and power settings",
     "ar": "إعدادات الغاز والهواء والقدرة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -9909,7 +9909,7 @@
     "en": "Green coffee",
     "ar": "البن الأخضر",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -9917,7 +9917,7 @@
     "en": "Green coffee and stock",
     "ar": "بيانات البن والمخزون",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -9925,7 +9925,7 @@
     "en": "Green coffee and stock saved.",
     "ar": "تم حفظ البن وتحديث المخزون.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -9941,7 +9941,7 @@
     "en": "Green coffee name",
     "ar": "اسم البن الأخضر",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -9949,7 +9949,7 @@
     "en": "Green coffee notes",
     "ar": "ملاحظات البن الأخضر",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -9957,7 +9957,7 @@
     "en": "Green input (g)",
     "ar": "وزن البن الأخضر (غ)",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -9965,7 +9965,7 @@
     "en": "Green temperature (°C)",
     "ar": "حرارة البن قبل التحميص (°C)",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -10185,7 +10185,7 @@
     "en": "Ground Agtron (0–150)",
     "ar": "قياس لون المطحون (0–150)",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -10400,7 +10400,7 @@
     "en": "Harvest year",
     "ar": "سنة الحصاد",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -11183,14 +11183,14 @@
     "en": "Input",
     "ar": "وزن البن الأخضر",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
     "en": "Input weight",
     "ar": "وزن الدفعة",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -12107,7 +12107,7 @@
     "en": "Link a recipe or saved brew",
     "ar": "ربط التذوق بوصفة أو تحضير محفوظ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -12262,14 +12262,14 @@
     "en": "Lot details and measurements",
     "ar": "تفاصيل المحصول والقياسات",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
     "en": "Lot number",
     "ar": "رقم المحصول",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -12337,7 +12337,7 @@
     "en": "Machine details",
     "ar": "تفاصيل الماكينة",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -12403,7 +12403,7 @@
     "en": "Maillard",
     "ar": "مرحلة ميلارد",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -12558,7 +12558,7 @@
     "en": "Manage roasting equipment",
     "ar": "إدارة معدات التحميص",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -12691,7 +12691,7 @@
     "en": "Mark now: ",
     "ar": "سجّل الآن: ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -13192,7 +13192,7 @@
     "en": "min",
     "ar": "د",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -13303,7 +13303,7 @@
     "en": "Moisture (%)",
     "ar": "الرطوبة (%)",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -13670,7 +13670,7 @@
     "en": "My custom roasting machine",
     "ar": "اسم ماكينة التحميص الخاصة بي",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -13721,7 +13721,7 @@
     "en": "My roasting machines",
     "ar": "ماكينات التحميص المسجّلة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -13729,7 +13729,7 @@
     "en": "My roasts",
     "ar": "حمصاتي",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -13984,7 +13984,7 @@
     "en": "New batch",
     "ar": "دفعة جديدة",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -14177,7 +14177,7 @@
     "en": "No brew",
     "ar": "دون تحضير",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -14368,7 +14368,7 @@
     "en": "No recipe",
     "ar": "دون وصفة",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -14420,7 +14420,7 @@
     "en": "No results; try a machine or brand name.",
     "ar": "لا توجد نتائج؛ جرّب اسم الماكينة أو الشركة.",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -14457,7 +14457,7 @@
     "en": "No verified machines are available right now.",
     "ar": "لا توجد ماكينات موثقة متاحة الآن.",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -14976,7 +14976,7 @@
     "en": "Open roast",
     "ar": "فتح الحمصة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -15000,7 +15000,7 @@
     "en": "Open tasting recipe",
     "ar": "فتح وصفة التذوق",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -15160,7 +15160,7 @@
     "en": "Origin country",
     "ar": "بلد المنشأ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/core/member-contributions.ts",
       "src/locales/reviewed.json"
     ]
@@ -15233,7 +15233,7 @@
     "files": [
       "src/MyBags.tsx",
       "src/OutcomeForm.tsx",
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/core/member-contributions.ts"
     ]
   },
@@ -15278,7 +15278,7 @@
     "en": "Output weight",
     "ar": "وزن الناتج",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -15516,7 +15516,7 @@
     "ar": "إيقاف مؤقت",
     "files": [
       "src/GuidedBrew.tsx",
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -15839,7 +15839,7 @@
     "en": "Planned",
     "ar": "مسودة",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -16370,7 +16370,7 @@
     "files": [
       "src/MemberProfile.tsx",
       "src/MemberRecipes.tsx",
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json",
       "src/localeText.ts"
     ]
@@ -16388,7 +16388,7 @@
     "en": "Private roast",
     "ar": "حمصة خاصة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -16419,7 +16419,7 @@
     "ar": "المعالجة",
     "files": [
       "src/CoffeeLabelScanner.tsx",
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -16427,7 +16427,7 @@
     "en": "Producer",
     "ar": "المنتج",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -16465,7 +16465,7 @@
     "ar": "عام",
     "files": [
       "src/MemberProfile.tsx",
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json",
       "src/localeText.ts"
     ]
@@ -16530,7 +16530,7 @@
     "en": "Published completed roasts bring their curves, stages and results here for comparison.",
     "ar": "عند نشر حمصة مكتملة، يظهر منحناها ومراحلها ونتائجها هنا للمقارنة.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -16608,7 +16608,7 @@
     "en": "Purchase quantity to add (g)",
     "ar": "كمية شراء لإضافتها (غ)",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -16731,7 +16731,7 @@
     "en": "Rate of rise (°C/min)",
     "ar": "معدل ارتفاع الحرارة (°C/دقيقة)",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -17073,7 +17073,7 @@
     "en": "Record a roast",
     "ar": "ابدأ تسجيل حمصة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -17121,7 +17121,7 @@
     "en": "Record tasting",
     "ar": "سجّل التذوق",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -17175,7 +17175,7 @@
     "en": "Record your roast, follow its stages and compare attempts to understand your cup.",
     "ar": "وثّق حمصتك، تابع مراحلها، وقارن المحاولات لتفهم الفرق في كوبك.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -17207,7 +17207,7 @@
     "en": "Recorded machine controls",
     "ar": "إعدادات الماكينة المسجّلة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -17333,7 +17333,7 @@
     "ar": "المنطقة",
     "files": [
       "src/CoffeeScreens.tsx",
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/japaneseLabels.ts"
     ]
   },
@@ -17401,7 +17401,7 @@
     "en": "Remove control ",
     "ar": "حذف الإعداد ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -17430,7 +17430,7 @@
     "en": "Remove from comparison: ",
     "ar": "إزالة من المقارنة: ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -17466,7 +17466,7 @@
     "en": "Remove sample ",
     "ar": "حذف القراءة ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -17737,7 +17737,7 @@
     "en": "Rest days",
     "ar": "أيام الراحة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -17760,7 +17760,7 @@
     "en": "Resume saved draft",
     "ar": "استكمال المسودة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -17800,7 +17800,7 @@
     "ar": "إعادة المحاولة",
     "files": [
       "src/CoffeeLabelScanner.tsx",
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json",
       "src/localeText.ts"
     ]
@@ -18025,7 +18025,7 @@
     "en": "Roast",
     "ar": "حمصة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18040,7 +18040,7 @@
     "en": "Roast comparison",
     "ar": "مقارنة الحمصات",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18057,7 +18057,7 @@
     "en": "Roast date (YYYY-MM-DD)",
     "ar": "تاريخ الحمصة (سنة-شهر-يوم)",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/core/member-contributions.ts",
       "src/locales/reviewed.json"
     ]
@@ -18090,7 +18090,7 @@
     "en": "Roast Lab",
     "ar": "مختبر التحميص",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "App.tsx",
       "src/locales/reviewed.json",
       "src/localeText.ts"
@@ -18101,7 +18101,7 @@
     "ar": "التحميص",
     "files": [
       "src/CoffeeLabelScanner.tsx",
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/core/member-contributions.ts",
       "src/locales/reviewed.json"
     ]
@@ -18126,7 +18126,7 @@
     "en": "Roast milestones",
     "ar": "مراحل الحمصة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18142,7 +18142,7 @@
     "en": "Roast notes",
     "ar": "ملاحظات الحمصة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18150,7 +18150,7 @@
     "en": "Roast saved and shared with the community.",
     "ar": "تم حفظ الحمصة ونشرها في المجتمع.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18158,7 +18158,7 @@
     "en": "Roast saved privately.",
     "ar": "تم حفظ الحمصة في سجلاتك الخاصة.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18166,7 +18166,7 @@
     "en": "Roast stages",
     "ar": "مراحل الحمصة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18183,7 +18183,7 @@
     "en": "Roast this coffee: ",
     "ar": "حمّص هذا البن: ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18191,7 +18191,7 @@
     "en": "Roast timer",
     "ar": "مؤقت الحمصة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18199,7 +18199,7 @@
     "en": "Roast title",
     "ar": "اسم الحمصة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18239,7 +18239,7 @@
     "en": "Roasted output (g)",
     "ar": "الوزن بعد التحميص (غ)",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18273,7 +18273,7 @@
     "en": "Roaster added to your equipment.",
     "ar": "تمت إضافة ماكينة التحميص إلى معداتك.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18397,7 +18397,7 @@
     "en": "Roasting equipment",
     "ar": "معدات التحميص",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18413,7 +18413,7 @@
     "en": "Roasting guide",
     "ar": "دليل التحميص",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18421,7 +18421,7 @@
     "en": "Roasting machine",
     "ar": "ماكينة التحميص",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18429,7 +18429,7 @@
     "en": "Roasts selected: ",
     "ar": "حمصات محددة للمقارنة: ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18642,7 +18642,7 @@
     "en": "Sample time (minutes:seconds)",
     "ar": "وقت القراءة (دقائق:ثواني)",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -18729,7 +18729,7 @@
     "en": "Save and publish roast",
     "ar": "حفظ ونشر الحمصة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18737,7 +18737,7 @@
     "en": "Save completed roast",
     "ar": "حفظ الحمصة المكتملة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18745,7 +18745,7 @@
     "en": "Save green coffee",
     "ar": "حفظ البن الأخضر",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18792,7 +18792,7 @@
     "en": "Save planned roast",
     "ar": "حفظ المسودة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18845,7 +18845,7 @@
     "en": "Save tasting",
     "ar": "حفظ التذوق",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18861,7 +18861,7 @@
     "en": "Save this roast",
     "ar": "حفظ الحمصة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -18973,7 +18973,7 @@
       "src/ExploreScreens.tsx",
       "src/PasswordRecovery.tsx",
       "src/PostComposer.tsx",
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/copy.ts",
       "src/locales/reviewed.json"
     ]
@@ -19038,7 +19038,7 @@
     "en": "Score ",
     "ar": "التقييم ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -19046,7 +19046,7 @@
     "en": "Score out of 100",
     "ar": "التقييم من 100",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -19054,7 +19054,7 @@
     "en": "Screen size",
     "ar": "مقاس الحبة",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -19149,7 +19149,7 @@
     "en": "Search roasting machines",
     "ar": "ابحث عن ماكينة تحميص",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -19581,7 +19581,7 @@
     "en": "Share with community",
     "ar": "نشر في المجتمع",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -19732,7 +19732,7 @@
       "src/MemberRecipes.tsx",
       "src/MyBags.tsx",
       "src/MyEquipment.tsx",
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/copy.ts",
       "src/locales/reviewed.json"
     ]
@@ -19801,7 +19801,7 @@
     "en": "Sign in to view your own roasts and green coffee.",
     "ar": "سجّل الدخول لعرض حمصاتك والبن الأخضر الخاص بك.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -20345,7 +20345,7 @@
     "en": "Species",
     "ar": "النوع",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -20654,7 +20654,7 @@
     "en": "Start a roast",
     "ar": "ابدأ حمصة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -20727,7 +20727,7 @@
     "en": "Start roast timer",
     "ar": "تشغيل مؤقت الحمصة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -20848,7 +20848,7 @@
     "en": "Start with your green coffee",
     "ar": "ابدأ ببنّك الأخضر",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -21169,7 +21169,7 @@
     "en": "Supplier",
     "ar": "المورّد",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -21293,7 +21293,7 @@
     "en": "Sweetness",
     "ar": "الحلاوة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/SensoryProfile.tsx"
     ]
   },
@@ -21301,7 +21301,7 @@
     "en": "Sweetness ",
     "ar": "الحلاوة ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -21452,7 +21452,7 @@
     "en": "Target roast level",
     "ar": "درجة التحميص المستهدفة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -21499,7 +21499,7 @@
     "en": "Tasting attributes use 1–10; overall score uses 0–100.",
     "ar": "درجات التذوق من 1 إلى 10، والتقييم الإجمالي من 0 إلى 100.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -21546,7 +21546,7 @@
     "en": "Tasting observations",
     "ar": "ملاحظات التذوق",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -21554,7 +21554,7 @@
     "en": "Tasting result",
     "ar": "نتيجة التذوق",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -21562,7 +21562,7 @@
     "en": "Tasting saved.",
     "ar": "تم حفظ نتيجة التذوق.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -21625,7 +21625,7 @@
     "en": "Temperature ",
     "ar": "حرارة ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -21633,7 +21633,7 @@
     "en": "Temperature curve and measurements",
     "ar": "منحنى الحرارة وقراءات الماكينة",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -22187,7 +22187,7 @@
     "en": "This roast",
     "ar": "هذه الحمصة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -22227,7 +22227,7 @@
     "files": [
       "src/BestSetup.tsx",
       "src/CommunityScreen.tsx",
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/core/local-coffee-assistant.ts",
       "src/recipeQuickFacts.ts",
       "src/locales/reviewed.json"
@@ -22238,7 +22238,7 @@
     "ar": "الوقت ",
     "files": [
       "src/MyBags.tsx",
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -22400,14 +22400,14 @@
     "en": "Total time",
     "ar": "إجمالي الوقت",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
     "en": "Total time (minutes:seconds)",
     "ar": "إجمالي الوقت (دقائق:ثواني)",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -22802,7 +22802,7 @@
     "en": "Unit",
     "ar": "وحدة القياس",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -22897,7 +22897,7 @@
     "en": "Unspecified",
     "ar": "غير محددة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -22905,7 +22905,7 @@
     "en": "Unspecified machine",
     "ar": "دون ماكينة محددة",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -23063,7 +23063,7 @@
     "en": "Use elapsed time",
     "ar": "اعتماد الوقت الإجمالي",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -23237,7 +23237,7 @@
     "en": "Varietal",
     "ar": "السلالة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -23601,7 +23601,7 @@
     "en": "Washing station",
     "ar": "محطة المعالجة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -23657,7 +23657,7 @@
     "en": "Water activity (0–1)",
     "ar": "النشاط المائي (0–1)",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -23825,7 +23825,7 @@
     "ar": "فقدان الوزن",
     "files": [
       "src/CommunityScreen.tsx",
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -23833,7 +23833,7 @@
     "en": "Weight loss: ",
     "ar": "فقدان الوزن: ",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -23998,7 +23998,7 @@
     "en": "Whole-bean Agtron (0–150)",
     "ar": "قياس لون الحبة (0–150)",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -24403,7 +24403,7 @@
     "en": "Your first roast starts here",
     "ar": "حمصتك الأولى تبدأ هنا",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -24449,7 +24449,7 @@
     "en": "Your personal 1–10 scores; leave unmeasured values blank.",
     "ar": "درجاتك الشخصية من 1 إلى 10؛ اترك ما لم تقسه فارغًا.",
     "files": [
-      "src/RoastLab.tsx"
+      "src/RoastLabScreen.tsx"
     ]
   },
   {
@@ -24515,7 +24515,7 @@
     "en": "Your roast title, coffee name and origin, stages, measurements, notes and tastings will appear in the community. Stock and supplier details stay private.",
     "ar": "سيظهر عنوان الحمصة واسم البن ومنشؤه ومراحلها وقياساتها وملاحظاتك ونتائج التذوق في المجتمع. مخزونك وبيانات مورّد البن تبقى خاصة.",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -24545,7 +24545,7 @@
     "en": "Your tasting notes (comma separated)",
     "ar": "إيحاءات تذوقك (افصل بفاصلة)",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -24553,7 +24553,7 @@
     "en": "Your tasting of this roast",
     "ar": "تذوقك لهذه الحمصة",
     "files": [
-      "src/RoastLab.tsx",
+      "src/RoastLabScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
