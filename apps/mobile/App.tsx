@@ -550,7 +550,7 @@ function Shell() {
   const homeActive = tab === 'home' && !detail && !recording;
   const socialPage = ['account', 'community', 'members', 'memberProfile', 'messages'].includes(tab);
   const selectedNavTab = tab === 'home' || tab === 'brewFlow' || tab === 'account'
-    ? tab : socialPage ? 'community' : 'search';
+    ? tab : socialPage ? 'community' : 'beans';
   const extraLibraryItems: { id: Tab; label: string; compactLabel?: string; icon: IconName }[] = [
     {id:'assistant',label:L('خبير القهوة', 'Coffee expert'),icon:'comment'},
     {id:'capsules',label:L('الكبسولات', 'Capsules'),icon:'espresso'},

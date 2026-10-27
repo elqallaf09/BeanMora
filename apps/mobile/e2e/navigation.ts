@@ -1,10 +1,16 @@
 import type { Page } from '@playwright/test';
 
 export async function openCoffeeShortcut(page: Page, label: string) {
-  if (!(await page.getByTestId('library-navigation').isVisible())) {
+  const homeShortcut = page.getByTestId('home-scroll').getByRole('button', { name: label, exact: true });
+  if (await homeShortcut.isVisible()) {
+    await homeShortcut.click();
+    return;
+  }
+  const menu = page.getByTestId('library-navigation').getByRole('button', { name: /^(اختصارات القهوة|Coffee shortcuts)$/ });
+  if (!(await menu.isVisible())) {
     await page.getByTestId('bottom-navigation').getByRole('button', { name: /^(اكتشف|Discover)$/ }).click();
   }
-  await page.getByTestId('library-navigation').getByRole('button', { name: /^(اختصارات القهوة|Coffee shortcuts)$/ }).click();
+  await menu.click();
   await page.getByTestId('quick-library-menu').getByRole('button', { name: label, exact: true }).click();
 }
 

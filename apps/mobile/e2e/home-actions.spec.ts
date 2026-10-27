@@ -41,7 +41,7 @@ for (const width of [320, 430, 834]) test(`home actions open destinations after 
     await expect(page.getByTestId('screen-' + destination)).toBeVisible();
     await expect(page.getByTestId('home-scroll')).toHaveCount(0);
     await expect(page.getByTestId('screen-recovery')).toHaveCount(0);
-    await expect(page.getByTestId('bottom-navigation').getByRole('button', { name: 'اكتشف', exact: true })).toHaveAttribute('aria-selected', 'true');
+    await expect(page.getByTestId('bottom-navigation').getByText('اكتشف', { exact: true })).toHaveCSS('font-weight', '700');
     if (destination !== 'assistant') await expect(page.getByTestId('library-navigation').getByRole('button')).toHaveCount(5);
     await home();
   }
