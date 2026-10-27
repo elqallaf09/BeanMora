@@ -31,6 +31,7 @@ for (const width of [320, 430, 834]) test(`home actions open destinations after 
     await page.getByTestId('home-scroll').getByRole('button', { name: label, exact: true }).click();
     await expect(page.getByTestId('screen-' + destination)).toBeVisible();
     await expect(page.getByTestId('home-scroll')).toHaveCount(0);
+    await expect(page.getByTestId('screen-recovery')).toHaveCount(0);
     if (destination !== 'assistant') await expect(page.getByTestId('library-navigation').getByRole('button')).toHaveCount(5);
     await home();
   }

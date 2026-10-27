@@ -1196,7 +1196,7 @@ const s = StyleSheet.create({
     minHeight: 48,
     flexGrow: 0,
     flexShrink: 0,
-    paddingHorizontal: 12,
+    paddingHorizontal: 6,
     paddingTop: 2,
     paddingBottom: 8,
   },
