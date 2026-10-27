@@ -1,0 +1,29 @@
+appId: com.beanmora.mobile
+name: Header search opens once with and without the keyboard
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: home-search-input
+    timeout: 60000
+- tapOn:
+    text: البحث
+    retryTapIfNoChange: false
+- assertVisible:
+    id: screen-search
+- tapOn: الرئيسية
+- tapOn:
+    id: home-search-input
+- inputText: grape
+- tapOn:
+    text: البحث
+    retryTapIfNoChange: false
+- assertVisible:
+    id: screen-search
+- tapOn: الرئيسية
+- tapOn:
+    text: البن والإيحاءات
+    retryTapIfNoChange: false
+- assertVisible:
+    id: screen-beans

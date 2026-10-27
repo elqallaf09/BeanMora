@@ -81,8 +81,12 @@ test('foreground automation refreshes once after five minutes and reuses the cat
   const visibility=async(state:string)=>page.evaluate(state=>{Object.defineProperty(document,'visibilityState',{value:state,configurable:true});document.dispatchEvent(new Event('visibilitychange'));},state);
   await visibility('hidden');await visibility('visible');expect(reads).toBe(5);
   await visibility('hidden');await page.clock.fastForward(300_001);await visibility('visible');
-  await page.clock.runFor(32);
-  await expect.poll(()=>reads).toBe(10);
+  // React's scheduled commit/effect may land after the first animation frame.
+  // Keep advancing the mocked browser clock while waiting for that refresh.
+  await expect.poll(async()=>{
+    await page.clock.runFor(50);
+    return reads;
+  }).toBe(10);
   await visibility('hidden');await visibility('visible');expect(reads).toBe(10);
 });
 

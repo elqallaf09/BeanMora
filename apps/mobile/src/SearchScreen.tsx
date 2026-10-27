@@ -4,8 +4,8 @@ import { Pressable, View, useWindowDimensions } from './native';
 import { publicSupabase as supabase } from './client';
 import { loadRoasters, countryLabel, type RoasterItem } from './catalog';
 import type { CoffeeItem, RecipeItem } from './data';
-import { matchesDeepSearch, matchesIndexedSearch } from './core/deepSearch';
-import { indexedCoffeeSearchDocument } from './searchIndex';
+import { matchesIndexedSearch } from './core/deepSearch';
+import { indexedCoffeeSearchDocument, indexedRoasterSearchDocument } from './searchIndex';
 import { CoffeeCard, SectionTitle } from './CoffeeScreens';
 import { RecipeCatalog, type RecipeCatalogState } from './RecipeCatalog';
 import { Action, Language, Txt, colors, styles } from './ui';
@@ -81,15 +81,7 @@ export function SearchScreen({
     const matchedRoasters = new Set(matches.map((c) => c.roasterId));
     const roasterMatches = roasters.filter(
       (r) =>
-        matchesDeepSearch(
-          [
-            r.searchDocument,
-            r.name,
-            r.description,
-            countryLabel(r.country, locale),
-          ].join(' '),
-          query,
-        ) ||
+        (!query.trim() || matchesIndexedSearch(indexedRoasterSearchDocument(r, locale), query)) ||
         (query.trim() && matchedRoasters.has(r.id)),
     );
     const columns = width >= 600 ? 3 : 2;

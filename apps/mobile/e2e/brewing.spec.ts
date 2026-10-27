@@ -160,12 +160,15 @@ for (const width of [320, 390, 1536]) {
     await expect(page.getByRole('button', { name: 'ابدأ التحضير', exact: true })).toBeDisabled();
     await page.getByLabel('جرعة البن للحساب (g)').fill('20');
     await page.getByRole('button', { name: 'ابدأ التحضير', exact: true }).click();
+    await expect(page.getByRole('button', { name: 'إيقاف مؤقت', exact: true })).toBeVisible();
     await page.clock.fastForward(65000);
     await expect(page.getByTestId('brew-elapsed')).toHaveText('1:05');
     await page.getByRole('button', { name: 'إيقاف مؤقت', exact: true }).click();
     await page.clock.fastForward(10000);
     await expect(page.getByTestId('brew-elapsed')).toHaveText('1:05');
     await page.getByRole('button', { name: 'استئناف المؤقت', exact: true }).click();
+    // Wait for React to commit running state before moving the mocked clock.
+    await expect(page.getByRole('button', { name: 'إيقاف مؤقت', exact: true })).toBeVisible();
     await page.clock.fastForward(5000);
     await page.getByRole('button', { name: 'أنهيت التحضير', exact: true }).click();
     await expect(page.getByTestId('brew-elapsed')).toHaveText('1:10');

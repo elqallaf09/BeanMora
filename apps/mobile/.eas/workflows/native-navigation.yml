@@ -1,0 +1,55 @@
+# Read-only guest navigation against the production catalog. No login or writes.
+name: Verify BeanMora native search and navigation
+
+on:
+  workflow_dispatch: {}
+
+defaults:
+  image: sdk-57
+  tools:
+    node: '22.16.0'
+
+jobs:
+  ios_simulator:
+    name: Build the current app for iOS Simulator
+    type: build
+    environment: production
+    params:
+      platform: ios
+      profile: navigation-test
+    hooks:
+      before_install_node_modules:
+        - name: Reproducible npm resolver
+          run: npm install --global npm@11.19.1 --ignore-scripts
+  ios_taps:
+    name: Verify iOS native taps and keyboard
+    type: maestro
+    environment: production
+    needs: [ios_simulator]
+    params:
+      build_id: ${{ needs.ios_simulator.outputs.build_id }}
+      flow_path: .maestro
+      record_screen: true
+      retries: 0
+  android_apk:
+    name: Build the current app for Android
+    type: build
+    environment: production
+    params:
+      platform: android
+      profile: navigation-test
+    hooks:
+      before_install_node_modules:
+        - name: Reproducible npm resolver
+          run: npm install --global npm@11.19.1 --ignore-scripts
+  android_taps:
+    name: Verify Android native taps and keyboard
+    type: maestro
+    environment: production
+    runs_on: linux-large-nested-virtualization
+    needs: [android_apk]
+    params:
+      build_id: ${{ needs.android_apk.outputs.build_id }}
+      flow_path: .maestro
+      record_screen: true
+      retries: 0
