@@ -2,8 +2,7 @@
 name: Verify BeanMora native search and navigation
 
 on:
-  push:
-    branches: [fix/native-navigation-verification]
+  workflow_dispatch: {}
 
 defaults:
   image: sdk-57
