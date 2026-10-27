@@ -67,16 +67,64 @@ export function normalizeSearch(value: string): string {
 const normalizedVocabulary = searchVocabulary.map((group) =>
   group.map(normalizeSearch),
 );
+
+// A literal trie avoids asking a large Unicode-regexp alternation to try every
+// alias at every character of every catalog description on Hermes.
+type AliasNode = {
+  next: Map<string, AliasNode>;
+  terminal?: { alias: string; rank: number; bounded: boolean };
+};
+function literalAliases(aliases: string[], bounded: (alias: string) => boolean) {
+  const root: AliasNode = { next: new Map() };
+  aliases.forEach((alias, rank) => {
+    let node = root;
+    for (const character of alias) {
+      let next = node.next.get(character);
+      if (!next) { next = { next: new Map() }; node.next.set(character, next); }
+      node = next;
+    }
+    node.terminal = { alias, rank, bounded: bounded(alias) };
+  });
+  return (value: string, replace: (alias: string) => string): string => {
+    const characters = Array.from(value);
+    const words = characters.map(character => /[\p{L}\p{N}_]/u.test(character));
+    const parts: string[] = [];
+    let copied = 0;
+    for (let start = 0; start < characters.length; start++) {
+      let node = root;
+      let best: { alias: string; rank: number; end: number } | undefined;
+      for (let end = start; end < characters.length; end++) {
+        const next = node.next.get(characters[end]);
+        if (!next) break;
+        node = next;
+        const terminal = node.terminal;
+        if (terminal && (!terminal.bounded || (!words[start - 1] && !words[end + 1]))
+          && (!best || terminal.rank < best.rank)) {
+          best = { alias: terminal.alias, rank: terminal.rank, end: end + 1 };
+        }
+      }
+      if (best) {
+        parts.push(characters.slice(copied, start).join(''), replace(best.alias));
+        copied = best.end;
+        start = best.end - 1;
+      }
+    }
+    if (!copied) return value;
+    parts.push(characters.slice(copied).join(''));
+    return parts.join('');
+  };
+}
+
 // Same complete tasting-note aliases as the server query normalizer. Consume
 // longest phrases once, so compound notes and unknown AND terms stay intact.
 const flavorQueryAliases = new Map<string,string>();
 for (const group of [...flavorSearchVocabulary,...flavorRetrievalEquivalents]) {
   for (const alias of group) flavorQueryAliases.set(normalizeSearch(alias),normalizeSearch(group[0]));
 }
-const flavorQueryPattern = new RegExp('(?<![\\p{L}\\p{N}_])(?:'+[...flavorQueryAliases.keys()]
-  .sort((a,b)=>b.length-a.length).map(alias=>alias.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')(?![\\p{L}\\p{N}_])','gu');
+const replaceFlavorAliases = literalAliases(
+  [...flavorQueryAliases.keys()].sort((a,b)=>b.length-a.length), () => true);
 export function canonicalFlavorQuery(value: string): string {
-  return normalizeSearch(value).replace(flavorQueryPattern,alias=>flavorQueryAliases.get(alias)!);
+  return replaceFlavorAliases(normalizeSearch(value), alias => flavorQueryAliases.get(alias)!);
 }
 // Translate known foreign catalog terms only. Literal names and unknown terms
 // remain required search terms; spaces and SQL punctuation never become syntax.
@@ -90,17 +138,15 @@ const foreignTerms = multilingualSearchVocabulary.flatMap(([canonical,...aliases
     (['coconut','cola','wine','chocolate','cocoa'].includes(canonical) || !/\p{Script=Arabic}/u.test(alias)))
     .map(alias=>({canonical,alias:alias.normalize('NFKC').toLowerCase()})))
   .sort((a,b)=>b.alias.length-a.alias.length);
-const escapeSearch = (value:string) => value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-const foreignPattern = (alias:string)=>(
-  (/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(alias)?'':'(?<![\\p{L}\\p{N}_])')+escapeSearch(alias)+
-  (/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(alias)?'':'(?![\\p{L}\\p{N}_])'));
+const foreignIsBounded = (alias: string) =>
+  !/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(alias);
 const exactAliases = new Map<string,string>();
 for(const {canonical,alias} of foreignTerms) if(!exactAliases.has(alias))exactAliases.set(alias,canonical);
 const countryTerms = new Set(multilingualCountryTerms);
 const countryAliases = new Map(exactAliases);
 for(const {canonical,alias} of foreignTerms) if(countryTerms.has(canonical))countryAliases.set(alias,canonical);
 for(const canonical of countryTerms) if(exactAliases.has(canonical))countryAliases.set(canonical,canonical);
-const foreignPatternAll = new RegExp([...exactAliases.keys()].map(foreignPattern).join('|'),'gu');
+const replaceForeignAliases = literalAliases([...exactAliases.keys()], foreignIsBounded);
 const accentTerms = new Map<string,Set<string>>();
 for(const {canonical,alias} of foreignTerms) {
   const normalized=normalizeForeign(alias),terms=accentTerms.get(normalized)??new Set<string>();
@@ -108,7 +154,7 @@ for(const {canonical,alias} of foreignTerms) {
 }
 const accentAliases = new Map([...accentTerms].filter(([,terms])=>terms.size===1).sort((a,b)=>b[0].length-a[0].length)
   .map(([alias,terms])=>[alias,[...terms][0]]));
-const accentPatternAll = new RegExp([...accentAliases.keys()].map(foreignPattern).join('|'),'gu');
+const replaceAccentAliases = literalAliases([...accentAliases.keys()], foreignIsBounded);
 const canonicalQueries = new Map<string,string>();
 export function canonicalSearchQuery(value:string,mode:'general'|'country'='general'):string {
   const cacheKey=mode+'\u0000'+value;
@@ -116,11 +162,11 @@ export function canonicalSearchQuery(value:string,mode:'general'|'country'='gene
   if(mode==='country'&&countryTerms.has(value.trim().toLowerCase()))return value;
   let normalized=value.normalize('NFKC').toLowerCase(),changed=false;
   const slots:string[]=[];
-  normalized=normalized.replace(foreignPatternAll,alias=>{
+  normalized=replaceForeignAliases(normalized,alias=>{
     changed=true;return `\u0000${slots.push((mode==='country'?countryAliases:exactAliases).get(alias)!)-1}\u0000`;
   });
   normalized=normalizeForeign(normalized);
-  normalized=normalized.replace(accentPatternAll,alias=>{
+  normalized=replaceAccentAliases(normalized,alias=>{
     changed=true;return `\u0000${slots.push(accentAliases.get(alias)!)-1}\u0000`;
   });
   // CJK conjunctions between recognized concepts separate terms. An unknown
@@ -130,21 +176,33 @@ export function canonicalSearchQuery(value:string,mode:'general'|'country'='gene
   if(canonicalQueries.size>=128)canonicalQueries.delete(canonicalQueries.keys().next().value!);
   canonicalQueries.set(cacheKey,result);return result;
 }
+// Normalize/classify vocabulary once, not once per alias per coffee render.
+const documentVocabulary = [
+  ...normalizedVocabulary,
+  ...flavorRetrievalEquivalents.map(group => group.map(normalizeSearch)),
+];
+const wordGroups = new Map<string, number[]>();
+const phraseGroups = new Map<string, number[]>();
+documentVocabulary.forEach((group, index) => {
+  for (const alias of group) {
+    const map = /^[\p{L}\p{N}]+$/u.test(alias) ? wordGroups : phraseGroups;
+    const groups = map.get(alias) ?? [];
+    if (!groups.includes(index)) groups.push(index);
+    map.set(alias, groups);
+  }
+});
 export function deepSearchText(value: string, options: { equivalentFlavors?: boolean } = {}): string {
   const original = normalizeSearch(value+' '+canonicalSearchQuery(value,countryTerms.has(value.trim().toLowerCase())?'country':'general'));
-  const words = new Set(original.split(/[^\p{L}\p{N}]+/u));
-  const vocabulary = options.equivalentFlavors === false ? normalizedVocabulary
-    : [...normalizedVocabulary, ...flavorRetrievalEquivalents.map(group => group.map(normalizeSearch))];
-  const extra = vocabulary
-    .filter((group) =>
-      group.some((alias) => {
-        const term = alias;
-        return !/^[\p{L}\p{N}]+$/u.test(term)
-          ? original.includes(term)
-          : words.has(term);
-      }),
-    )
-    .flatMap((group) => group);
+  const matched = new Set<number>();
+  for (const word of original.split(/[^\p{L}\p{N}]+/u)) {
+    for (const index of wordGroups.get(word) ?? []) matched.add(index);
+  }
+  for (const [phrase, groups] of phraseGroups) {
+    if (original.includes(phrase)) for (const index of groups) matched.add(index);
+  }
+  const extra = [...matched].sort((a,b)=>a-b)
+    .filter(index => options.equivalentFlavors !== false || index < normalizedVocabulary.length)
+    .flatMap(index => documentVocabulary[index]);
   return [original, ...extra].join(" ");
 }
 export function matchesDeepSearch(value: string, query: string): boolean {

@@ -1,0 +1,23 @@
+appId: com.beanmora.mobile
+name: Home navigation is responsive while the keyboard is visible
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: home-search-input
+    timeout: 60000
+- tapOn:
+    id: home-search-input
+- inputText: grape
+- tapOn:
+    text: استكشف الآن
+    retryTapIfNoChange: false
+- assertVisible:
+    id: screen-beans
+- tapOn: الرئيسية
+- tapOn:
+    text: مكتبة الوصفات
+    retryTapIfNoChange: false
+- assertVisible:
+    id: screen-recipes

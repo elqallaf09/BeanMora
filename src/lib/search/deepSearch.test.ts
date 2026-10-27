@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { matchesDeepSearch,canonicalSearchQuery,canonicalFlavorQuery } from "./deepSearch";
+import { matchesDeepSearch,canonicalSearchQuery,canonicalFlavorQuery,deepSearchText,matchesIndexedSearch } from "./deepSearch";
 import {multilingualSearchVocabulary} from './multilingual-vocabulary';
 import {flavorSearchVocabulary, flavorRetrievalEquivalents} from './flavor-vocabulary';
 
@@ -88,4 +88,22 @@ it('multilingual compound queries preserve literal AND constraints',()=>{
   }
   expect(canonicalSearchQuery('プディング ココナッツ')).toBe('プディング coconut');
   expect(canonicalSearchQuery("UnknownBrand %') OR true --")).toBe("UnknownBrand %') OR true --");
+});
+
+it('keeps complete-term boundaries and adjacent CJK concepts during literal replacement', () => {
+  expect(canonicalSearchQuery('noix de coco miel')).toBe('coconut honey');
+  expect(canonicalSearchQuery('椰子和蜂蜜')).toBe('coconut honey');
+  expect(canonicalFlavorQuery('cola_ cola winegum')).toBe('cola_ cola winegum');
+  expect(canonicalFlavorQuery('𐐀cola cola𐐀 cola')).toBe(normalizeExpected('𐐀cola cola𐐀 cola'));
+  function normalizeExpected(value: string) { return value.normalize('NFKD').toLowerCase(); }
+});
+it('indexes a full bilingual catalog without a multi-second synchronous stall', () => {
+  const start = performance.now();
+  const documents = Array.from({ length: 239 }, (_,i) => deepSearchText(
+    'Coffee '+i+' العنب إثيوبيا washed red grapes tart berries jasmine '+('other details '.repeat(80)),
+  ));
+  expect(documents.every(document => matchesIndexedSearch(document,'grape'))).toBe(true);
+  // A broad regression budget for shared CI; native single-tap tests enforce
+  // actual navigation on Hermes. This batch took over 10 seconds before the fix.
+  expect(performance.now()-start).toBeLessThan(5000);
 });

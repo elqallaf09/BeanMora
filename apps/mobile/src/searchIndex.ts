@@ -1,4 +1,6 @@
 import type { CoffeeItem } from './data';
+import { countryLabel, type RoasterItem } from './catalog';
+import type { Locale } from './copy';
 import { deepSearchText } from './core/deepSearch';
 
 // Catalog records are immutable. A refresh or language change supplies new records.
@@ -25,4 +27,17 @@ export function coffeeSearchDocument(coffee: CoffeeItem): string {
   ]
     .filter(Boolean)
     .join(' ');
+}
+
+const roasterDocuments = new WeakMap<RoasterItem, Map<Locale, string>>();
+export function indexedRoasterSearchDocument(roaster: RoasterItem, locale: Locale): string {
+  let localized = roasterDocuments.get(roaster);
+  if (!localized) { localized = new Map(); roasterDocuments.set(roaster, localized); }
+  const cached = localized.get(locale);
+  if (cached !== undefined) return cached;
+  const indexed = deepSearchText([
+    roaster.searchDocument, roaster.name, roaster.description, countryLabel(roaster.country, locale),
+  ].join(' '));
+  localized.set(locale, indexed);
+  return indexed;
 }

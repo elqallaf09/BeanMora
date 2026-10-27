@@ -8,7 +8,6 @@
       "extends": "production",
       "autoIncrement": false,
       "distribution": "internal",
-      "withoutCredentials": true,
       "ios": {
         "simulator": true,
         "image": "sdk-57"
