@@ -70,7 +70,7 @@ import { ContributionForm } from './src/ContributionForm';
 import { MyEquipment } from './src/MyEquipment';
 import { MyBags } from './src/MyBags';
 import { BestSetup } from './src/BestSetup';
-import { RoastLab } from './src/RoastLab';
+import { RoastLab } from './src/RoastLabScreen';
 import { CommunityScreen } from './src/CommunityScreen';
 import { DirectMessages } from './src/DirectMessages';
 import type { MemberIdentity } from './src/core/member-social';

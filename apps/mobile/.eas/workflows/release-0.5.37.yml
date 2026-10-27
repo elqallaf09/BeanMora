@@ -1,9 +1,7 @@
 name: Release BeanMora 0.5.37 web, iOS and Android
 
 on:
-  push:
-    branches:
-      - release-0.5.37
+  workflow_dispatch: {}
 
 defaults:
   image: sdk-57
