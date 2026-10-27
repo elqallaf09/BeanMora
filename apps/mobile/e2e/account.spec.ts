@@ -252,7 +252,7 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup validates befo
   await expect(page.getByRole('heading', { name: ar ? 'اكتشف عالم القهوة.' : 'Discover the world of coffee.' })).toBeVisible();
 });
 
-for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup explains server failures and allows correction`, async ({ page }) => {
+for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup explains server failures and allows correction`, async ({ page }, info) => {
   let failure: Record<string, unknown> | null = null;
   let status = 422;
   await page.route(project + '/**', route => {
@@ -279,7 +279,7 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup explains serve
   const submit = page.getByRole('button', { name: ar ? 'إنشاء حساب' : 'Create account', exact: true }).last();
   const cases = [
     ['weak_password', 422, 'كلمة المرور ضعيفة وسهلة التخمين', 'This password is weak and easy to guess'],
-    ['pwned', 422, 'تسريب بيانات سابق', 'known data breach'],
+    ['pwned', 422, 'لحماية حسابك، اختر كلمة مرور أكثر أمانًا ولم تستخدمها من قبل.', 'To protect your account, choose a more secure password you haven’t used before.'],
     ['email_address_invalid', 422, 'البريد الإلكتروني غير مقبول', 'This email address is not accepted'],
     ['email_address_not_authorized', 422, 'إرسال رسائل التأكيد', 'Confirmation emails cannot be sent'],
     ['over_email_send_rate_limit', 429, 'حد إرسال رسائل البريد', 'email sending limit'],
@@ -299,6 +299,23 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup explains serve
     await expect(alert).not.toContainText('private server detail');
     await expect(submit).toBeEnabled();
     await expect(email).toHaveValue('new@example.test');
+    if (code === 'pwned') {
+      const guidance = page.getByTestId('signup-password-error');
+      await expect(guidance).toContainText(ar ? arabic : english);
+      const password = page.getByLabel(ar ? 'كلمة المرور' : 'Password', { exact: true });
+      const confirmation = page.getByLabel(ar ? 'تأكيد كلمة المرور' : 'Confirm password', { exact: true });
+      const [passwordBox, guidanceBox, confirmationBox] = await Promise.all([
+        password.boundingBox(), guidance.boundingBox(), confirmation.boundingBox(),
+      ]);
+      expect(guidanceBox!.y).toBeGreaterThan(passwordBox!.y);
+      expect(guidanceBox!.y + guidanceBox!.height).toBeLessThan(confirmationBox!.y);
+      await expect(page.getByText(/known data breach|breached passwords|تسريب بيانات|المسرّبة/)).toHaveCount(0);
+      await guidance.scrollIntoViewIfNeeded();
+      await page.screenshot({ path: info.outputPath(`password-guidance-${ar ? 'ar' : 'en'}.png`) });
+      await password.fill('corrected-fixture-password');
+      await expect(guidance).toHaveCount(0);
+      await confirmation.fill('corrected-fixture-password');
+    }
   }
   failure = null;
   await submit.click();

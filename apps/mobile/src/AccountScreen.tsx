@@ -93,6 +93,7 @@ export function AccountScreen({
   const [busy, setBusy] = useState(false);
   const [socialProvider, setSocialProvider] = useState<'apple' | 'google' | null>(null);
   const [error, setError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [notice, setNotice] = useState('');
   const [canResend, setCanResend] = useState(false);
   const [appleEnabled, setAppleEnabled] = useState(false);
@@ -134,7 +135,7 @@ export function AccountScreen({
       case 'oauthBrowser': return L('تعذّر فتح متصفح تسجيل الدخول. فعّل متصفح الجهاز أو ثبّت Chrome ثم حاول مجددًا.', 'Could not open the sign-in browser. Enable your device browser or install Chrome, then try again.');
       case 'oauthSession': return L('انتهت محاولة تسجيل الدخول. اضغط على زر Google أو Apple لبدء محاولة جديدة من هذا الجهاز.', 'This sign-in attempt expired. Use the Google or Apple button to start again on this device.');
       case 'weakPassword': return L('كلمة المرور ضعيفة وسهلة التخمين. اختر كلمة مرور أطول وفريدة.', 'This password is weak and easy to guess. Choose a longer, unique password.');
-      case 'breachedPassword': return L('ظهرت كلمة المرور هذه في تسريب بيانات سابق. اختر كلمة مرور جديدة وفريدة.', 'This password appeared in a known data breach. Choose a new, unique password.');
+      case 'breachedPassword': return L('لحماية حسابك، اختر كلمة مرور أكثر أمانًا ولم تستخدمها من قبل.', 'To protect your account, choose a more secure password you haven’t used before.');
       case 'passwordPolicy': return L('كلمة المرور لا تستوفي متطلبات الأمان. استخدم كلمة أطول تتضمن أحرفًا كبيرة وصغيرة وأرقامًا ورموزًا.', 'This password does not meet the security requirements. Use a longer password with uppercase and lowercase letters, numbers and symbols.');
       case 'invalidEmail': return L('البريد الإلكتروني غير مقبول. استخدم عنوانًا صحيحًا يمكنك استقبال الرسائل عليه.', 'This email address is not accepted. Use a valid address where you can receive messages.');
       case 'emailUnavailable': return L('إرسال رسائل التأكيد إلى هذا البريد غير متاح حاليًا. تواصل مع دعم BeanMora.', 'Confirmation emails cannot be sent to this address right now. Contact BeanMora support.');
@@ -163,11 +164,21 @@ export function AccountScreen({
     inFlight.current = true;
     setBusy(true);
     setError('');
+    setPasswordError('');
     setNotice('');
     try {
       await action();
     } catch (e) {
-      setError(authError(e, context));
+      const failure = authFailure(e);
+      const message = authError(e, context);
+      if (context === 'signup' && (
+        ['weakPassword', 'breachedPassword', 'passwordPolicy'].includes(failure.kind) ||
+        failure.message === 'ACCOUNT_PASSWORD'
+      )) {
+        setPasswordError(message);
+      } else {
+        setError(message);
+      }
     } finally {
       inFlight.current = false;
       setBusy(false);
@@ -383,6 +394,7 @@ export function AccountScreen({
                   onPress={() => {
                     setMode(value);
                     setError('');
+                    setPasswordError('');
                     setNotice('');
                     setConfirmation('');
                     setShow(false);
@@ -449,7 +461,11 @@ export function AccountScreen({
                 placeholder={t.password}
                 placeholderTextColor={colors.muted}
                 value={password}
-                onChangeText={setPassword}
+                onChangeText={(value) => {
+                  setPassword(value);
+                  setPasswordError('');
+                }}
+                accessibilityHint={passwordError || undefined}
                 secureTextEntry={!show}
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -484,8 +500,13 @@ export function AccountScreen({
             {mode === 'signup' ? (
               <>
                 <Txt style={s.fieldHint}>
-                  {L('استخدم 8 أحرف على الأقل، وتجنب كلمات المرور الشائعة أو المسرّبة.', 'Use at least 8 characters. Avoid common or breached passwords.')}
+                  {L('استخدم 8 أحرف على الأقل، واختر كلمة مرور خاصة بهذا الحساب.', 'Use at least 8 characters and a password unique to this account.')}
                 </Txt>
+                {passwordError ? (
+                  <View accessibilityRole="alert" accessibilityLiveRegion="polite" testID="signup-password-error">
+                    <Txt style={styles.error}>{passwordError}</Txt>
+                  </View>
+                ) : null}
                 <Txt style={s.label}>
                   {L('تأكيد كلمة المرور', 'Confirm password')}
                 </Txt>

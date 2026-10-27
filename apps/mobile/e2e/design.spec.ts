@@ -142,7 +142,8 @@ for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,
     await expect(done).toBeVisible();
     const doneBox = (await done.boundingBox())!;
     expect(doneBox.width).toBeGreaterThanOrEqual(88);
-    expect(doneBox.height).toBeGreaterThanOrEqual(48);
+    // Chromium geometry can report 47.999969px for this 48px touch target.
+    expect(doneBox.height).toBeGreaterThanOrEqual(48 - 0.001);
     expect(await done.getByText('تم', { exact: true }).evaluate(el => parseFloat(getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(18);
     await done.click();
     await expect(page.locator('[aria-modal="true"]')).toHaveCount(0);
