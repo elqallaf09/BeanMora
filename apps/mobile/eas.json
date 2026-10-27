@@ -4,6 +4,19 @@
     "appVersionSource": "remote"
   },
   "build": {
+    "navigation-test": {
+      "extends": "production",
+      "autoIncrement": false,
+      "distribution": "internal",
+      "withoutCredentials": true,
+      "ios": {
+        "simulator": true,
+        "image": "sdk-57"
+      },
+      "android": {
+        "buildType": "apk"
+      }
+    },
     "preview": {
       "autoIncrement": true,
       "distribution": "internal",

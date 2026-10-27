@@ -1,0 +1,28 @@
+appId: com.beanmora.mobile
+name: Native search icon with visible keyboard - single tap
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: home-search-input
+    timeout: 60000
+- tapOn:
+    id: home-search-input
+- inputText: grape
+- takeScreenshot: search-keyboard
+- tapOn:
+    text: ابحث الآن
+    retryTapIfNoChange: false
+- assertVisible:
+    id: screen-search
+- assertNotVisible:
+    id: home-search-input
+- assertVisible: grape
+- takeScreenshot: search-opened
+- tapOn: الرئيسية
+- tapOn:
+    text: البحث
+    retryTapIfNoChange: false
+- assertVisible:
+    id: screen-search

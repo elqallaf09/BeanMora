@@ -1,0 +1,51 @@
+appId: com.beanmora.mobile
+name: Native home category navigation - single taps
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: home-search-input
+    timeout: 60000
+- tapOn:
+    text: البن والإيحاءات
+    retryTapIfNoChange: false
+- assertVisible:
+    id: screen-beans
+- assertNotVisible:
+    id: home-search-input
+- takeScreenshot: beans-opened
+- tapOn: الرئيسية
+- tapOn:
+    text: مكتبة الوصفات
+    retryTapIfNoChange: false
+- assertVisible:
+    id: screen-recipes
+- takeScreenshot: recipes-opened
+- tapOn: الرئيسية
+- tapOn:
+    text: أدوات القهوة
+    retryTapIfNoChange: false
+- assertVisible:
+    id: screen-equipment
+- takeScreenshot: tools-opened
+- tapOn: الرئيسية
+- tapOn:
+    text: المحامص
+    retryTapIfNoChange: false
+- assertVisible:
+    id: screen-roasters
+- takeScreenshot: roasters-opened
+- tapOn: الرئيسية
+- tapOn:
+    text: اكتشف
+    retryTapIfNoChange: false
+- assertVisible:
+    id: screen-beans
+- tapOn: الرئيسية
+- tapOn:
+    text: تحضير
+    retryTapIfNoChange: false
+- assertVisible:
+    id: screen-brewFlow
+- takeScreenshot: brew-opened
