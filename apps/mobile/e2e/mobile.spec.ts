@@ -1,3 +1,4 @@
+import { openCoffeeShortcut } from './navigation';
 import { setLanguage } from './settings';
 import { test, expect, type Page, type Route } from '@playwright/test';
 import { openRecipeLibrary } from './navigation';
@@ -142,7 +143,7 @@ for (const locale of ['ar', 'en'] as const) {
     await page.getByRole('button', { name: locale === 'ar' ? 'رجوع' : 'Back', exact: true }).click();
     await page.getByRole('button', { name: locale === 'ar' ? 'اكتشف' : 'Discover', exact: true }).click();
     await expect(page.getByRole('button', { name: locale === 'ar' ? 'لك أنت' : 'For you', exact: true })).toHaveCount(0);
-    await page.getByRole('button', { name: locale === 'ar' ? 'البن المحفوظ' : 'Saved coffees', exact: true }).click();
+    await openCoffeeShortcut(page, locale === 'ar' ? 'البن المحفوظ' : 'Saved coffees');
     await expect(page.getByTestId('method-guide')).toHaveCount(0);
     await expect(page.getByRole('heading', { name: locale === 'ar' ? 'البن المحفوظ' : 'Saved coffees', exact: true })).toBeVisible();
     expect(errors).toEqual([]);

@@ -108,6 +108,8 @@ export const ScrollView = forwardRef<Native.ScrollView, Native.ScrollViewProps>(
     const { dark } = useTheme();
     return (
       <Native.ScrollView
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
         {...props}
         ref={ref}
         style={themedStyle(props.style, dark)}
@@ -125,6 +127,8 @@ export const FlatList = forwardRef<
   const { dark } = useTheme();
   return (
     <Native.FlatList
+      keyboardShouldPersistTaps="handled"
+      keyboardDismissMode="on-drag"
       {...props}
       ref={ref}
       style={themedStyle(props.style, dark)}

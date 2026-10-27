@@ -9,6 +9,7 @@ import {
   BackHandler,
   FlatList,
   Image,
+  Keyboard,
   KeyboardAvoidingView,
   Linking,
   Modal,
@@ -74,6 +75,7 @@ import { CommunityScreen } from './src/CommunityScreen';
 import { DirectMessages } from './src/DirectMessages';
 import type { MemberIdentity } from './src/core/member-social';
 import { BrewMyCoffee } from './src/BrewMyCoffee';
+import { BrewMethods } from './src/BrewMethods';
 import {
   CoffeeCard,
   CoffeeDetail,
@@ -110,6 +112,7 @@ type Tab =
   | 'recipes'
   | 'savedRecipes'
   | 'brewFlow'
+  | 'methods'
   | 'favorites'
   | 'bags'
   | 'best'
@@ -281,6 +284,7 @@ function Shell() {
   useEffect(() => setAssistantConversation({ owner: userId, turns: [] }), [userId]);
   const savedIds = saved?.owner === userId ? saved.ids : [];
   function navigate(next: Tab, recipeMethod?: Method) {
+    Keyboard.dismiss();
     if (next !== 'account') loginReturn.current = null;
     setDetail(null);
     setParents([]);
@@ -294,12 +298,13 @@ function Shell() {
       setMethod(recipeMethod);
       setRecipeEntry((n) => n + 1);
     }
-    if (next === 'favorites') setMethod(undefined);
+    if (next === 'favorites' || next === 'home') setMethod(undefined);
     setTab(next);
     setSearch('');
     setRecipeCoffee(null);
   }
   function back() {
+    Keyboard.dismiss();
     if (tab === 'account' && loginReturn.current) restoreLogin(false);
     else if (recording) setRecording(false);
     else if (parents.length) {
@@ -347,6 +352,7 @@ function Shell() {
   }, [data?.coffees, data?.recipes, method, search]);
   const refresh = () => setRevision((n) => n + 1);
   const openDetail = (next: Detail) => {
+    Keyboard.dismiss();
     if (detail) setParents((p) => [...p, detail]);
     else setParents([]);
     setDetail(next);
@@ -581,16 +587,18 @@ function Shell() {
   const screenIntro = (
     <>
       {!homeActive && !login && !detail && configured ? (
-        <View style={s.libraryNav}>
-          <TabRail compact wrap columns={width >= 900 ? 7 : width >= 600 ? 5 : 4} variant="pills" testID="library-navigation" value={tab}
+        <View testID="library-navigation" style={[s.libraryNav, { flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 6 }]}>
+          <View style={{ flex: 1, minWidth: 0 }}>
+          <TabRail compact columns={4} variant="pills" value={tab}
             items={[
               { id: 'beans', label: L('البن والإيحاءات', 'Coffee & taste'), compactLabel: L('البن', 'Coffee'), icon: 'bean' },
               { id: 'recipes', label: L('مكتبة الوصفات', 'Recipe library'), compactLabel: L('الوصفات', 'Recipes'), icon: 'espresso' },
               { id: 'equipment', label: L('أدوات القهوة', 'Equipment'), compactLabel: L('الأدوات', 'Tools', '器具'), icon: 'gear' },
               { id: 'roasters', label: L('المحامص', 'Roasteries'), compactLabel: L('المحامص', 'Roasters', 'ロースター'), icon: 'espresso' },
-              ...extraLibraryItems,
             ]}
             onChange={openLibraryItem} />
+          </View>
+          <IconButton name="more" label={L('اختصارات القهوة', 'Coffee shortcuts')} onPress={() => { Keyboard.dismiss(); setLibraryMenu(true); }} />
         </View>
       ) : null}
       {configured && !login && (data?.stale || (!data && !refreshing)) ? (
@@ -750,8 +758,10 @@ function Shell() {
             home={() => navigate('home')}
           >
             <KeyboardAvoidingView
+              testID={'screen-' + tab}
               style={{ flex: 1 }}
               behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+              enabled={Platform.OS === 'ios' && !homeActive && !login}
             >
               {!configured ? (
                 <View style={styles.content}>
@@ -893,6 +903,8 @@ function Shell() {
                   browseRoasters={query=>{navigate('roasters');setSearch(query);}}
                   recipeOptions={{method,coffee:data?.coffees.find(c=>c.kind===recipeCoffee?.kind&&c.id===recipeCoffee?.id)??recipeCoffee??undefined,locked:Boolean(recipeCoffee),backToCoffee:recipeCoffee?()=>{openCoffee(recipeCoffee);setRecipeCoffee(null);}:undefined}}
                 />
+              ) : tab === 'methods' ? (
+                <BrewMethods choose={value => navigate('recipes', value)} />
               ) : tab === 'brewFlow' ? (
                 <BrewMyCoffee
                   key={userId ?? 'guest'}
@@ -961,7 +973,7 @@ function Shell() {
               ) : tab === 'home' ? (
                 <Home
                   openSection={openLibraryItem}
-                  add={() => setAddMenu(true)}
+                  add={() => { Keyboard.dismiss(); setAddMenu(true); }}
                   search={query => {
                     recipeMemory.current.set('search:all', { search: query, filters: emptyRecipeFilters(), draftFilters: emptyRecipeFilters() });
                     navigate('search');
@@ -969,8 +981,7 @@ function Shell() {
                   intro={screenIntro}
                   data={data}
                   coffees={coffees}
-                  method={method}
-                  setMethod={(value) => {
+                  openMethod={(value) => {
                     navigate('recipes', value);
                   }}
                   openCoffee={openCoffee}

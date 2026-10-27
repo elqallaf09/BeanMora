@@ -1,3 +1,4 @@
+import { openCoffeeShortcut } from './navigation';
 import { setLanguage } from './settings';
 import { test, expect, type Page, type Route } from "@playwright/test";
 
@@ -56,7 +57,7 @@ async function more(page: Page, name: string) {
   if (await page.getByTestId('home-library').isVisible()) {
     if (name.startsWith('Add ')) await page.getByRole('button', { name: 'Add new', exact: true }).click();
     await page.getByRole('button', { name, exact: true }).click();
-  } else await page.getByTestId('library-navigation').getByRole('button', { name, exact: true }).click();
+  } else await openCoffeeShortcut(page, name);
 }
 function authentication(path: string) {
   return path.endsWith("/token")

@@ -1,5 +1,13 @@
 import type { Page } from '@playwright/test';
 
+export async function openCoffeeShortcut(page: Page, label: string) {
+  if (!(await page.getByTestId('library-navigation').isVisible())) {
+    await page.getByTestId('bottom-navigation').getByRole('button', { name: /^(اكتشف|Discover)$/ }).click();
+  }
+  await page.getByTestId('library-navigation').getByRole('button', { name: /^(اختصارات القهوة|Coffee shortcuts)$/ }).click();
+  await page.getByTestId('quick-library-menu').getByRole('button', { name: label, exact: true }).click();
+}
+
 /** The Brew tab opens My Coffee; the public recipe library is under Discover. */
 export async function openRecipeLibrary(page: Page, locale: 'ar' | 'en') {
   await page.getByRole('button', { name: locale === 'ar' ? 'اكتشف' : 'Discover', exact: true }).last().click();

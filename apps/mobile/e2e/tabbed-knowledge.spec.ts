@@ -1,3 +1,4 @@
+import { openCoffeeShortcut } from './navigation';
 import { expect, test, type Page } from '@playwright/test';
 import { setLanguage } from './settings';
 const id='abababab-abab-4bab-abab-abababababab';
@@ -23,13 +24,13 @@ for(const locale of ['ar','en'] as const) test(`${locale}: mockup 7 menu, center
   for(const name of ar?['البن','الوصفات','كل البن','شخصية البن مكتملة']:['Beans','Recipes','All coffees','Complete personality'])await expect(page.getByRole('button',{name,exact:true})).toHaveCount(0);
   const community=await page.getByRole('button',{name:'BeanMora',exact:true}).boundingBox();expect(community!.x+community!.width/2).toBeCloseTo((ar?320:800)/2,0);
   await page.getByRole('button',{name:ar?'الإعدادات':'Settings',exact:true}).first().click();const settings=page.getByTestId('settings-screen');await settings.getByRole('button',{name:ar?'ليلي':'Dark',exact:true}).click();await expect(settings.getByRole('button',{name:ar?'ليلي':'Dark',exact:true})).toHaveAttribute('aria-pressed','true');await settings.screenshot({path:info.outputPath('settings-mock7.png')});await settings.getByRole('button',{name:ar?'تم':'Done',exact:true}).click();
-  await page.getByRole('button',{name:ar?'خبير القهوة':'Coffee expert',exact:true}).click();
+  await openCoffeeShortcut(page, ar?'خبير القهوة':'Coffee expert');
   await page.getByLabel(ar?'سؤالك عن القهوة':'Your coffee question',{exact:true}).fill(ar?'اشرح PID والثبات الحراري':'Explain PID and temperature stability');
   await page.getByRole('button',{name:ar?'إرسال':'Send',exact:true}).click();
   const expert=page.getByTestId('coffee-assistant');await expect(expert).toContainText(ar?'حساس':'sensor');
   await expert.getByRole('button',{name:ar?'اشرح أكثر':'Tell me more',exact:true}).click();await expect(expert).toContainText(ar?'إزاحة الحساس':'sensor offsets');expect(searches).toEqual([]);
   await page.getByRole('button',{name:ar?'الرئيسية':'Home',exact:true}).click();
-  await page.getByRole('button',{name:ar?'مختبر التحميص':'Roast Lab',exact:true}).click();const roast=page.getByTestId('roast-guide');await expect(roast.getByTestId('roast-levels-image')).toBeVisible();
+  await openCoffeeShortcut(page, ar?'مختبر التحميص':'Roast Lab');const roast=page.getByTestId('roast-guide');await expect(roast.getByTestId('roast-levels-image')).toBeVisible();
   await page.getByTestId('roast-level-tabs').getByRole('button',{name:ar?'أخضر':'Green',exact:true}).click();await expect(roast).toContainText(ar?'حبة خام':'Raw seed');await page.getByTestId('roast-level-tabs').getByRole('button',{name:ar?'بني غامق':'Dark brown',exact:true}).click();await expect(roast).toContainText(ar?'الفرقعة الثانية':'second crack');
   await roast.getByRole('button',{name:ar?'دليل التحميص الكامل':'Complete roasting study',exact:true}).click();await roast.getByRole('button',{name:ar?'RoR ومنحنى التحميص':'RoR and the roast curve',exact:true}).click();await expect(roast).toContainText(ar?'لكل دقيقة':'per minute');await roast.screenshot({path:info.outputPath('roast-study.png')});
   await page.getByRole('button',{name:ar?'أدوات القهوة':'Equipment',exact:true}).click();await page.getByRole('button',{name:ar?'ماكينة موثقة':'Verified machine',exact:true}).click();const gallery=page.getByTestId('equipment-gallery');await expect(gallery.getByRole('button',{name:new RegExp(ar?'صورة \\d من 2':'Photo \\d of 2')})).toHaveCount(2);
