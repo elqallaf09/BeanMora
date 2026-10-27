@@ -22124,8 +22124,8 @@
     ]
   },
   {
-    "en": "This password appeared in a known data breach. Choose a new, unique password.",
-    "ar": "ظهرت كلمة المرور هذه في تسريب بيانات سابق. اختر كلمة مرور جديدة وفريدة.",
+    "en": "To protect your account, choose a more secure password you haven’t used before.",
+    "ar": "لحماية حسابك، اختر كلمة مرور أكثر أمانًا ولم تستخدمها من قبل.",
     "files": [
       "src/AccountScreen.tsx",
       "src/locales/reviewed.json"
@@ -23036,8 +23036,8 @@
     ]
   },
   {
-    "en": "Use at least 8 characters. Avoid common or breached passwords.",
-    "ar": "استخدم 8 أحرف على الأقل، وتجنب كلمات المرور الشائعة أو المسرّبة.",
+    "en": "Use at least 8 characters and a password unique to this account.",
+    "ar": "استخدم 8 أحرف على الأقل، واختر كلمة مرور خاصة بهذا الحساب.",
     "files": [
       "src/AccountScreen.tsx",
       "src/locales/reviewed.json"
