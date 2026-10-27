@@ -1,0 +1,186 @@
+name: Release BeanMora 0.5.37 web, iOS and Android
+
+on:
+  push:
+    branches:
+      - release-0.5.37
+
+defaults:
+  image: sdk-57
+  tools:
+    node: '22.16.0'
+
+jobs:
+  deploy_web:
+    name: Publish BeanMora to Expo Hosting
+    type: deploy
+    environment: production
+    params:
+      prod: true
+    hooks:
+      before_install_node_modules:
+        - name: Check BeanMora release destination
+          run: |
+            node --input-type=module <<'NODE'
+            import { readFileSync } from 'node:fs';
+            import { checkBuildConfig } from './scripts/check-build-config.mjs';
+            const { expo } = JSON.parse(readFileSync('./app.json', 'utf8'));
+            const pkg = JSON.parse(readFileSync('./package.json', 'utf8'));
+            if (expo.version !== '0.5.37' || pkg.version !== expo.version
+              || expo.android?.package !== 'com.beanmora.mobile') {
+              throw new Error('This release requires BeanMora 0.5.37 and its existing Android app identifier.');
+            }
+            if (expo.owner !== 'elqallaf09' || expo.slug !== 'beanmora-mobile'
+              || expo.extra?.eas?.projectId !== 'a3785113-b993-49fa-9986-e3dc96d63115') {
+              throw new Error('Release destination must be the BeanMora Expo project.');
+            }
+            if (process.env.EXPO_PUBLIC_SUPABASE_URL !== 'https://ubvzdglrwkkuaigmkjap.supabase.co') {
+              throw new Error('BeanMora releases must use the BeanMora Supabase project.');
+            }
+            const issues = checkBuildConfig(process.env);
+            if (issues.length) throw new Error(issues.join('\n'));
+            console.log('BeanMora release destination and public configuration passed.');
+            NODE
+        - name: Reproducible npm resolver
+          run: npm install --global npm@11.19.1 --ignore-scripts
+      after_install_node_modules:
+        - name: Verify installed security backports
+          run: npm run verify:tooling-security
+
+  build_android:
+    name: Build BeanMora Android 0.5.37 APK
+    type: build
+    environment: production
+    params:
+      platform: android
+      profile: preview
+    hooks:
+      before_install_node_modules:
+        - name: Check BeanMora release destination
+          run: |
+            node --input-type=module <<'NODE'
+            import { readFileSync } from 'node:fs';
+            import { checkBuildConfig } from './scripts/check-build-config.mjs';
+            const { expo } = JSON.parse(readFileSync('./app.json', 'utf8'));
+            const pkg = JSON.parse(readFileSync('./package.json', 'utf8'));
+            if (expo.version !== '0.5.37' || pkg.version !== expo.version
+              || expo.android?.package !== 'com.beanmora.mobile') {
+              throw new Error('This release requires BeanMora 0.5.37 and its existing Android app identifier.');
+            }
+            if (expo.owner !== 'elqallaf09' || expo.slug !== 'beanmora-mobile'
+              || expo.extra?.eas?.projectId !== 'a3785113-b993-49fa-9986-e3dc96d63115') {
+              throw new Error('Release destination must be the BeanMora Expo project.');
+            }
+            if (process.env.EXPO_PUBLIC_SUPABASE_URL !== 'https://ubvzdglrwkkuaigmkjap.supabase.co') {
+              throw new Error('BeanMora releases must use the BeanMora Supabase project.');
+            }
+            const issues = checkBuildConfig(process.env);
+            if (issues.length) throw new Error(issues.join('\n'));
+            console.log('BeanMora release destination and public configuration passed.');
+            NODE
+        - name: Reproducible npm resolver
+          run: npm install --global npm@11.19.1 --ignore-scripts
+      after_install_node_modules:
+        - name: Verify installed security backports
+          run: npm run verify:tooling-security
+
+  build_android_bundle:
+    name: Build BeanMora Android 0.5.37 AAB
+    type: build
+    environment: production
+    params:
+      platform: android
+      profile: production
+    hooks:
+      before_install_node_modules:
+        - name: Check BeanMora release destination
+          run: |
+            node --input-type=module <<'NODE'
+            import { readFileSync } from 'node:fs';
+            import { checkBuildConfig } from './scripts/check-build-config.mjs';
+            const { expo } = JSON.parse(readFileSync('./app.json', 'utf8'));
+            const pkg = JSON.parse(readFileSync('./package.json', 'utf8'));
+            if (expo.version !== '0.5.37' || pkg.version !== expo.version
+              || expo.android?.package !== 'com.beanmora.mobile') {
+              throw new Error('This release requires BeanMora 0.5.37 and its existing Android app identifier.');
+            }
+            if (expo.owner !== 'elqallaf09' || expo.slug !== 'beanmora-mobile'
+              || expo.extra?.eas?.projectId !== 'a3785113-b993-49fa-9986-e3dc96d63115') {
+              throw new Error('Release destination must be the BeanMora Expo project.');
+            }
+            if (process.env.EXPO_PUBLIC_SUPABASE_URL !== 'https://ubvzdglrwkkuaigmkjap.supabase.co') {
+              throw new Error('BeanMora releases must use the BeanMora Supabase project.');
+            }
+            const issues = checkBuildConfig(process.env);
+            if (issues.length) throw new Error(issues.join('\n'));
+            console.log('BeanMora release destination and public configuration passed.');
+            NODE
+        - name: Reproducible npm resolver
+          run: npm install --global npm@11.19.1 --ignore-scripts
+      after_install_node_modules:
+        - name: Verify installed security backports
+          run: npm run verify:tooling-security
+
+  build_ios:
+    name: Build checked BeanMora iOS candidate
+    type: build
+    environment: production
+    runs_on: macos-medium
+    params:
+      platform: ios
+      profile: production
+    hooks:
+      before_install_node_modules:
+        - name: Verify BeanMora identity and release destination
+          run: |
+            node --input-type=module <<'NODE'
+            import { readFileSync } from 'node:fs';
+            import { checkBuildConfig } from './scripts/check-build-config.mjs';
+            const { expo } = JSON.parse(readFileSync('./app.json', 'utf8'));
+            const eas = JSON.parse(readFileSync('./eas.json', 'utf8'));
+            const pkg = JSON.parse(readFileSync('./package.json', 'utf8'));
+            if (expo.owner !== 'elqallaf09' || expo.slug !== 'beanmora-mobile'
+              || expo.extra?.eas?.projectId !== 'a3785113-b993-49fa-9986-e3dc96d63115'
+              || expo.ios?.bundleIdentifier !== 'com.beanmora.mobile'
+              || eas.submit?.production?.ios?.ascAppId !== '6819935215') {
+              throw new Error('App Store candidate must target the existing BeanMora app only.');
+            }
+            if (expo.version !== '0.5.37' || pkg.version !== expo.version) {
+              throw new Error('This release requires matching BeanMora 0.5.37 source versions.');
+            }
+            if (eas.cli?.appVersionSource !== 'remote'
+              || eas.build?.production?.autoIncrement !== true
+              || eas.build?.production?.distribution === 'internal'
+              || eas.build?.production?.ios?.simulator === true) {
+              throw new Error('A store build with remote auto-incremented numbering is required.');
+            }
+            if (process.env.EXPO_PUBLIC_SUPABASE_URL !== 'https://ubvzdglrwkkuaigmkjap.supabase.co') {
+              throw new Error('BeanMora releases must use the BeanMora Supabase project.');
+            }
+            const issues = checkBuildConfig(process.env);
+            if (issues.length) throw new Error(issues.join('\n'));
+            console.log('BeanMora app identity, version, build profile and public configuration passed.');
+            NODE
+        - name: Reproducible npm resolver
+          run: npm install --global npm@11.19.1 --ignore-scripts
+      after_install_node_modules:
+        - name: Verify installed security backports
+          run: npm run verify:tooling-security
+        - name: Check mobile TypeScript
+          run: npm run typecheck
+        - name: Run mobile regression checks
+          run: npm test
+        - name: Record actual Apple build toolchain
+          run: |
+            xcodebuild -version
+            xcrun --sdk iphoneos --show-sdk-version
+
+  submit_ios:
+    name: Upload this exact build to App Store Connect
+    type: submit
+    needs:
+      - build_ios
+    params:
+      build_id: ${{ needs.build_ios.outputs.build_id }}
+      profile: production
+
