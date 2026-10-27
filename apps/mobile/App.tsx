@@ -549,6 +549,8 @@ function Shell() {
   );
   const homeActive = tab === 'home' && !detail && !recording;
   const socialPage = ['account', 'community', 'members', 'memberProfile', 'messages'].includes(tab);
+  const selectedNavTab = tab === 'home' || tab === 'brewFlow' || tab === 'account'
+    ? tab : socialPage ? 'community' : 'search';
   const extraLibraryItems: { id: Tab; label: string; compactLabel?: string; icon: IconName }[] = [
     {id:'assistant',label:L('خبير القهوة', 'Coffee expert'),icon:'comment'},
     {id:'capsules',label:L('الكبسولات', 'Capsules'),icon:'espresso'},
@@ -1078,22 +1080,22 @@ function Shell() {
                   key={item.tab}
                   accessibilityRole="button"
                   accessibilityLabel={item.label}
-                  accessibilityState={{ selected: tab === item.tab }}
+                  accessibilityState={{ selected: selectedNavTab === item.tab }}
                   onPress={() => { if (item.tab === 'community') setCommunityPost(null); navigate(item.tab); }}
                   style={s.navItem}
                 >
                   {item.tab==='community'?<Image source={require('./assets/brand/mark.png')} accessibilityLabel={L('شعار BeanMora','BeanMora logo')} resizeMode="contain" style={{height:25,width:25}}/>:<Icon
                     name={item.icon}
-                    filled={tab === item.tab}
-                    color={tab === item.tab ? colors.brown : colors.muted}
+                    filled={selectedNavTab === item.tab}
+                    color={selectedNavTab === item.tab ? colors.brown : colors.muted}
                     size={23}
                   />}
                   <Txt
                     style={{
                       fontSize: width < 360 ? 11 : 13,
                       lineHeight: 20,
-                      fontWeight: tab === item.tab ? '700' : '400',
-                      color: tab === item.tab ? colors.brown : colors.muted,
+                      fontWeight: selectedNavTab === item.tab ? '700' : '400',
+                      color: selectedNavTab === item.tab ? colors.brown : colors.muted,
                       textAlign: 'center',
                     }}
                   >

@@ -2,6 +2,15 @@ import { expect, test, type Page } from '@playwright/test';
 import { openCoffeeShortcut } from './navigation';
 import { setLanguage } from './settings';
 
+async function settleScreen(page: Page, id: string) {
+  await expect.poll(() => page.getByTestId(id).evaluate(node => {
+    for (let current: Element | null = node; current; current = current.parentElement) {
+      if (Number(getComputedStyle(current).opacity) < 1) return false;
+    }
+    return true;
+  })).toBe(true);
+}
+
 async function fixture(page: Page) {
   const queries: { p_query?: string; p_method?: string }[] = [];
   await page.route('https://mobilefixture.supabase.co/**', async route => {
@@ -32,6 +41,7 @@ for (const width of [320, 430, 834]) test(`home actions open destinations after 
     await expect(page.getByTestId('screen-' + destination)).toBeVisible();
     await expect(page.getByTestId('home-scroll')).toHaveCount(0);
     await expect(page.getByTestId('screen-recovery')).toHaveCount(0);
+    await expect(page.getByTestId('bottom-navigation').getByRole('button', { name: 'اكتشف', exact: true })).toHaveAttribute('aria-selected', 'true');
     if (destination !== 'assistant') await expect(page.getByTestId('library-navigation').getByRole('button')).toHaveCount(5);
     await home();
   }
@@ -51,6 +61,7 @@ for (const width of [320, 430, 834]) test(`home actions open destinations after 
   await expect(page.getByTestId('screen-recipes')).toBeVisible();
   await expect.poll(() => queries.at(-1)?.p_method).toBe('espresso');
   await expect(page.getByTestId('home-scroll')).toHaveCount(0);
+  await settleScreen(page, 'screen-recipes');
   await page.screenshot({ path: info.outputPath('espresso-recipes.png'), animations: 'disabled' });
   await openCoffeeShortcut(page, 'وصفاتي المحفوظة');
   await expect(page.getByTestId('screen-savedRecipes')).toBeVisible();
@@ -59,6 +70,7 @@ for (const width of [320, 430, 834]) test(`home actions open destinations after 
   await methods.getByRole('button', { name: 'عرض الكل', exact: true }).click();
   await expect(page.getByTestId('brew-methods-screen')).toBeVisible();
   await expect(page.getByTestId('brew-method-cards').getByRole('button')).toHaveCount(15);
+  await settleScreen(page, 'screen-methods');
   await page.screenshot({ path: info.outputPath('all-brew-methods.png'), animations: 'disabled' });
   await page.getByTestId('brew-method-moka_pot').click();
   await expect.poll(() => queries.at(-1)?.p_method).toBe('moka_pot');
@@ -76,6 +88,7 @@ test('English dark method chooser retains the theme and returns to search', asyn
   await page.getByTestId('settings-screen').getByRole('button', { name: 'Done', exact: true }).click();
   await page.getByRole('heading', { name: 'Choose your brew method' }).locator('..').getByRole('button', { name: 'View all', exact: true }).click();
   await expect.poll(() => page.getByTestId('brew-method-espresso').evaluate(node => getComputedStyle(node).backgroundColor)).toBe('rgb(32, 27, 23)');
+  await settleScreen(page, 'screen-methods');
   await page.screenshot({ path: info.outputPath('brew-methods-dark.png'), animations: 'disabled' });
   await page.getByTestId('bottom-navigation').getByRole('button', { name: 'Home', exact: true }).click();
   await page.getByTestId('home-search-input').fill('grape');
