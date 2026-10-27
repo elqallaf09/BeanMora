@@ -50,7 +50,7 @@ jobs:
       - name: Verify preinstalled web-preview browser
         run: node -e "const fs=require('node:fs'); const {chromium}=require('@playwright/test'); fs.accessSync(chromium.executablePath(),fs.constants.X_OK)"
       - name: Test React Native Web preview (not a physical-device test)
-        run: npx playwright test --config=playwright.config.ts --workers=2 --reporter=line
+        run: npx playwright test --config=playwright.config.ts --reporter=line
       - name: Preserve mobile browser diagnostics
         if: failure()
         uses: actions/upload-artifact@v4
