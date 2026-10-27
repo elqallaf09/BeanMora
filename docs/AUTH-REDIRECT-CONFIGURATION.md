@@ -53,6 +53,13 @@ owns the OAuth client configured in this Supabase project:
 - Supply the application's actual published privacy/terms pages and support
   contact, and complete any brand verification Google requires.
 
+Saving the name and logo alone is not completion. Google documents that the
+app name is displayed only after brand verification. Check the **Verification
+Center** and whether the intended branding is still a draft, then submit the
+completed branding for verification. Do not report this fixed until the actual
+account chooser displays `BeanMora` for the OAuth client used by the installed
+app. A new TestFlight binary cannot approve Google's branding.
+
 The Google OAuth web client's authorized JavaScript origin is
 `https://beanmora-mobile.expo.app`. Its authorized redirect URI remains
 `https://ubvzdglrwkkuaigmkjap.supabase.co/auth/v1/callback`; the subsequent
@@ -65,3 +72,4 @@ option; this fix does not provision or purchase one.
 
 - [Supabase redirect URL configuration](https://supabase.com/docs/guides/auth/redirect-urls)
 - [Supabase Google login and consent branding](https://supabase.com/docs/guides/auth/social-login/auth-google)
+- [Google OAuth branding and verification requirements](https://support.google.com/cloud/answer/15549049)

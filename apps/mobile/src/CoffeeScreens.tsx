@@ -43,6 +43,7 @@ import { catalogPhotoSource } from './catalogPhotoSource';
 import { useRotatingPicks } from './useRotatingPicks';
 import { BrewMethodCards } from './BrewMethods';
 import { useXBloomMatches } from './useXBloomMatches';
+import { HomeHeroBackground, HomeHeroBean } from './HomeHeroArtwork';
 import { XBloomMatchNotice } from './XBloomMatchNotice';
 import type { XBloomModel } from './xbloomMatching';
 
@@ -448,14 +449,15 @@ export function Home({
           testID="home-hero"
           style={[s.hero, row]}
         >
+          <HomeHeroBackground rtl={ar} />
           <View style={[s.heroCopy, { alignItems: ar ? 'flex-end' : 'flex-start' }]}>
             <Txt
               heading
               style={[
                 s.heroTitle,
                 {
-                  fontSize: width < 500 ? 23 : 30,
-                  lineHeight: width < 500 ? 36 : 44,
+                  fontSize: width < 500 ? 21 : 30,
+                  lineHeight: width < 500 ? 33 : 44,
                   textAlign: ar ? 'right' : 'left',
                 },
               ]}
@@ -485,7 +487,7 @@ export function Home({
               <Icon name="arrow" color={colors.brown} size={17} />
             </Pressable>
           </View>
-          <View style={s.heroArt} accessible={false}><Icon name="bean" color="#D9AC7F" size={width < 360 ? 45 : 64} /></View>
+          <HomeHeroBean />
         </View>
         <View testID="library-navigation" style={{ gap: 14 }}>
           <Txt heading style={s.journeyTitle}>{L('تصفّح', 'Browse')}</Txt>
@@ -1017,7 +1019,6 @@ const s = StyleSheet.create({
   homeLibrary: { borderWidth: 1, borderColor: colors.line, borderRadius: 22, backgroundColor: colors.paper, overflow: 'hidden' },
   libraryRow: { alignItems: 'center', gap: 14, paddingHorizontal: 16, paddingVertical: 12, minHeight: 62 },
   libraryIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: colors.chip, alignItems: 'center', justifyContent: 'center' },
-  heroArt: { width: '23%', alignItems: 'center', justifyContent: 'center', alignSelf: 'center' },
   hero: {
     borderRadius: 24,
     minHeight: 184,

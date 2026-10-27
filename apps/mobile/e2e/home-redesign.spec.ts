@@ -23,6 +23,10 @@ for (const width of [320, 390, 834]) test(`calm home preserves branding, navigat
   expect(box!.x + box!.width / 2).toBeCloseTo(width / 2, 0);
   await expect(logo.getByRole('img')).toBeVisible();
   await page.screenshot({ path: info.outputPath('home-top.png') });
+  // Decorative artwork must never intercept the real hero action.
+  await page.getByTestId('home-hero').getByRole('button', { name: 'استكشف الآن', exact: true }).click();
+  await expect(page.getByTestId('screen-beans')).toBeVisible();
+  await bottom.getByRole('button', { name: 'الرئيسية', exact: true }).click();
   await page.getByTestId('home-library').scrollIntoViewIfNeeded();
   await page.screenshot({ path: info.outputPath('home-library.png') });
   await page.getByRole('button', { name: 'إضافة جديد', exact: true }).click();
@@ -49,6 +53,8 @@ for (const width of [320, 390, 834]) test(`calm home preserves branding, navigat
     return true;
   })).toBe(true);
   await page.screenshot({ path: info.outputPath('home-dark-en.png') });
+  await page.getByTestId('home-hero').getByRole('button', { name: 'Explore now', exact: true }).click();
+  await expect(page.getByTestId('screen-beans')).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   expect(errors).toEqual([]);
 });
