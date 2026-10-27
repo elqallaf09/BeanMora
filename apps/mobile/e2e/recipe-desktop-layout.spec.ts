@@ -1,5 +1,5 @@
 import { expect, test, type Locator, type Page, type Route } from '@playwright/test';
-import { openRecipeLibrary } from './navigation';
+import { openRecipeLibrary, settleScreen } from './navigation';
 import { setLanguage } from './settings';
 
 // Isolated layout fixture, never written to the production catalog.
@@ -49,6 +49,7 @@ async function openRecipe(page: Page, locale: 'ar' | 'en', width: number) {
     name: locale === 'ar' ? recipe.title_ar : recipe.title, exact: true,
   }).click();
   await expect(page.getByTestId('recipe-detail')).toBeVisible();
+  await settleScreen(page, 'recipe-detail');
 }
 
 async function box(locator: Locator) {
@@ -106,12 +107,14 @@ test('resize preserves a running brew and saving still works', async ({ page }) 
   await page.clock.install();
   await openRecipe(page, 'ar', 1440);
   const detail = page.getByTestId('recipe-detail');
+  // Freeze input time so a busy worker cannot cross a timer tick while clicking.
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000));
   await detail.getByRole('button', { name: 'ابدأ التحضير', exact: true }).click();
-  await page.clock.fastForward(5000);
+  await page.clock.runFor(5000);
   await expect(page.getByTestId('brew-elapsed')).toHaveText('0:05');
   await page.setViewportSize({ width: 390, height: 900 });
   await expect(page.getByTestId('brew-elapsed')).toHaveText('0:05');
-  await page.clock.fastForward(3000);
+  await page.clock.runFor(3000);
   await expect(page.getByTestId('brew-elapsed')).toHaveText('0:08');
   await page.setViewportSize({ width: 1440, height: 900 });
   await detail.getByRole('button', { name: 'إيقاف مؤقت', exact: true }).click();

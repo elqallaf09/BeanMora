@@ -86,20 +86,13 @@ for (const width of [320, 1536])
     await expect(nav.getByRole('button')).toHaveCount(6);
     const navigationSize = () => nav.getByRole("button").evaluateAll(nodes => {
       const boxes = nodes.map(node => node.getBoundingClientRect());
-      return { rows: new Set(boxes.map(box => Math.round(box.y))).size,
+      return { rows: new Set(boxes.map(box => Math.round(box.y + box.height / 2))).size,
         minWidth: Math.min(...boxes.map(box => box.width)), minHeight: Math.min(...boxes.map(box => box.height)),
         height: Math.max(...boxes.map(box => box.bottom)) - Math.min(...boxes.map(box => box.top)) };
     });
     expect((await navigationSize()).minWidth).toBeGreaterThanOrEqual(44);
     expect((await navigationSize()).minHeight).toBeGreaterThanOrEqual(44);
-    const picker = page.getByTestId("method-picker");
-    const all = picker.getByRole("button", { name: "الكل", exact: true }),
-      arrow = picker.getByRole("button", { name: /^كل طرق التحضير/ });
-    const [allBox, arrowBox] = await Promise.all([
-      all.boundingBox(),
-      arrow.boundingBox(),
-    ]);
-    expect(Math.abs(allBox!.y - arrowBox!.y)).toBeLessThan(6);
+    await expect(page.getByTestId('brew-method-cards').getByRole('button')).toHaveCount(6);
     const coffee = page.getByTestId("home-coffee-picks"),
       equipment = page.getByTestId("home-tools");
     await expect(coffee.getByRole("button", { name: /^بن مختار/ })).toHaveCount(
@@ -149,10 +142,10 @@ for (const width of [320, 1536])
     );
     if (width === 320) {
       await setLanguage(page, 'en');
-      await expect(nav.getByRole('button', { name: 'Coffee expert', exact: true })).toBeVisible();
-      await expect(nav.getByRole('button')).toHaveCount(14);
-      await expect.poll(async () => (await navigationSize()).rows).toBe(4);
-      expect((await navigationSize()).height).toBeLessThanOrEqual(194);
+      await expect(nav.getByRole('button', { name: 'Coffee shortcuts', exact: true })).toBeVisible();
+      await expect(nav.getByRole('button')).toHaveCount(5);
+      await expect.poll(async () => (await navigationSize()).rows).toBe(1);
+      expect((await navigationSize()).height).toBeLessThanOrEqual(60);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       // The clock is paused for pick rotation; finish the 190 ms screen entrance before capturing it.
       await page.clock.runFor(250);

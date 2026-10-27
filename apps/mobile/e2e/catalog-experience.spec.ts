@@ -1,3 +1,4 @@
+import { openCoffeeShortcut } from './navigation';
 import { setLanguage } from "./settings";
 import { expect, test, type Route } from "@playwright/test";
 const bean = {
@@ -170,7 +171,7 @@ test("compact navigation and capsule systems fit 320px; guest contributions requ
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
-  await page.getByRole("button", { name: "إضافة بن", exact: true }).click();
+  await openCoffeeShortcut(page, 'إضافة بن');
   await expect(
     page.getByText("سجّل دخولك لإضافة وصفة أو بن وصورته.", { exact: true }),
   ).toBeVisible();

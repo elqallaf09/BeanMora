@@ -1,3 +1,4 @@
+import { openCoffeeShortcut } from './navigation';
 import { expect, test } from "@playwright/test";
 import { setLanguage } from "./settings";
 
@@ -93,12 +94,7 @@ for (const [width, locale, dark] of [
       path: info.outputPath("capsules.png"),
       animations: "disabled",
     });
-    await page
-      .getByRole("button", {
-        name: ar ? "مختبر التحميص" : "Roast Lab",
-        exact: true,
-      })
-      .click();
+    await openCoffeeShortcut(page, ar ? 'مختبر التحميص' : 'Roast Lab');
     const image = page.getByTestId("roast-levels-image");
     await expect(image).toBeVisible();
     expect((await image.boundingBox())!.height).toBeLessThanOrEqual(145);
@@ -131,24 +127,14 @@ for (const [width, locale, dark] of [
       path: info.outputPath("roasting-equipment.png"),
       animations: "disabled",
     });
-    await page
-      .getByRole("button", {
-        name: ar ? "البن المحفوظ" : "Saved coffees",
-        exact: true,
-      })
-      .click();
+    await openCoffeeShortcut(page, ar ? 'البن المحفوظ' : 'Saved coffees');
     await expect(page.getByTestId("method-guide")).toHaveCount(0);
     await page
       .getByTestId("method-picker")
       .getByRole("button", { name: ar ? "إيروبرس" : "AeroPress", exact: true })
       .click();
     await expect(page.getByTestId("method-guide")).toHaveCount(0);
-    await page
-      .getByRole("button", {
-        name: ar ? "خبير القهوة" : "Coffee expert",
-        exact: true,
-      })
-      .click();
+    await openCoffeeShortcut(page, ar ? 'خبير القهوة' : 'Coffee expert');
     const expert = page.getByTestId("coffee-assistant"),
       composer = page.getByTestId("assistant-composer");
     await expect(

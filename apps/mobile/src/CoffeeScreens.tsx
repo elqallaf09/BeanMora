@@ -41,6 +41,7 @@ import { recipeQuickFacts } from './recipeQuickFacts';
 import { useContentMedia } from './useContentMedia';
 import { catalogPhotoSource } from './catalogPhotoSource';
 import { useRotatingPicks } from './useRotatingPicks';
+import { BrewMethodCards } from './BrewMethods';
 import { useXBloomMatches } from './useXBloomMatches';
 import { XBloomMatchNotice } from './XBloomMatchNotice';
 import type { XBloomModel } from './xbloomMatching';
@@ -154,7 +155,7 @@ export function SectionTitle({
   const ar = useContext(Language) === 'ar';
   const L = useLabels();
   return (
-    <View style={s.sectionHeading}>
+    <View style={[s.sectionHeading, { flexDirection: ar ? 'row-reverse' : 'row' }]}>
       <Txt heading style={styles.subtitle}>
         {title}
       </Txt>
@@ -292,8 +293,7 @@ export function Home({
   intro,
   data,
   coffees,
-  method,
-  setMethod,
+  openMethod,
   openCoffee,
   browse,
   brew,
@@ -311,8 +311,7 @@ export function Home({
   intro?: ReactNode;
   data: Bundle | null;
   coffees: CoffeeItem[];
-  method?: Method;
-  setMethod: (method?: Method) => void;
+  openMethod: (method: Method) => void;
   openCoffee: (item: CoffeeItem) => void;
   browse: () => void;
   brew: () => void;
@@ -415,6 +414,9 @@ export function Home({
   return (
     <ScrollView
       testID="home-scroll"
+      automaticallyAdjustKeyboardInsets
+      keyboardShouldPersistTaps="handled"
+      keyboardDismissMode="on-drag"
       showsVerticalScrollIndicator={false}
       refreshControl={
         <RefreshControl
@@ -611,9 +613,9 @@ export function Home({
         <View style={s.section}>
           <SectionTitle
             title={L('اختر طريقة التحضير', 'Choose your brew method')}
-            onPress={brew}
+            onPress={() => openSection('methods')}
           />
-          <MethodPicker value={method} onChange={setMethod} />
+          <BrewMethodCards compact choose={openMethod} />
         </View>
         <View style={s.section}>
           <SectionTitle
