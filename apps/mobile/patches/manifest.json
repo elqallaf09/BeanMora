@@ -1,39 +1,5 @@
 [
   {
-    "version": "1.4.0",
-    "url": "https://github.com/advisories/GHSA-86w9-cpqp-85rv",
-    "range": "<=1.4.0",
-    "nodes": [
-      "node_modules/node-forge"
-    ],
-    "dependents": [
-      "@expo/cli",
-      "@expo/code-signing-certificates"
-    ],
-    "upstream": "https://github.com/digitalbazaar/forge/pull/1152",
-    "commit": "ceba34402e329f0365134f23fe19898756527d65",
-    "license": "BSD-3-Clause",
-    "files": [
-      {
-        "path": "lib/rsa.js",
-        "patch": "node-forge/lib-rsa.js.patch",
-        "beforeSha256": "fd4740238145ec26470eb3f06a627c72039538ce1307dbdce40521f94dfd0a50",
-        "afterSha256": "acc22e5d36e27832c34e02dd3933aad7977d45b047eead5016520735efedc9c5"
-      }
-    ],
-    "package": "node-forge",
-    "resolutions": [
-      {
-        "from": "node_modules/expo/node_modules/@expo/cli/package.json",
-        "package": "@expo/cli"
-      },
-      {
-        "from": "node_modules/@expo/code-signing-certificates/package.json",
-        "package": "@expo/code-signing-certificates"
-      }
-    ]
-  },
-  {
     "version": "3.0.3",
     "url": "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm",
     "range": "<=3.0.3",
@@ -89,6 +55,47 @@
       {
         "from": "node_modules/micromatch/package.json",
         "package": "micromatch"
+      }
+    ]
+  },
+  {
+    "package": "deepmerge",
+    "version": "4.3.1",
+    "url": "https://github.com/advisories/GHSA-gcqx-w48m-w2h4",
+    "range": ">=4.2.0 <=4.3.1",
+    "nodes": [
+      "node_modules/deepmerge"
+    ],
+    "dependents": [
+      "@expo/config"
+    ],
+    "upstream": "https://github.com/TehShrike/deepmerge/pull/274",
+    "commit": "c5ad573121574db1c625b0aabcc6114ed7df6c5a",
+    "license": "MIT",
+    "files": [
+      {
+        "path": "index.js",
+        "patch": "deepmerge/index.js.patch",
+        "beforeSha256": "12440c84957c1990ea2d5e33dc0091722dc1dc1585c6d20e0c780e568ffa9d30",
+        "afterSha256": "dbef7cab6abdd1338228a08297f0047b3f56c9d7533b38358629b6024c78dbc7"
+      },
+      {
+        "path": "dist/cjs.js",
+        "patch": "deepmerge/dist-cjs.js.patch",
+        "beforeSha256": "2e5160f84a1141bd927264afe4d15766f1e6cf07daef182b37ff53fea121de7d",
+        "afterSha256": "8983763adcccc772c023cb97bbf8830de52f7eeaa3c997b867345e1e62dd9d3b"
+      },
+      {
+        "path": "dist/umd.js",
+        "patch": "deepmerge/dist-umd.js.patch",
+        "beforeSha256": "f33e6596482d1fb5c7c427f8ef92f2aa849eea9223acd974176b2fb27ddbf73a",
+        "afterSha256": "a8df4049ee8d01f02b935958bace86985d0e8ee1321e1ea42ede78da23f1ca3d"
+      }
+    ],
+    "resolutions": [
+      {
+        "from": "node_modules/@expo/config/package.json",
+        "package": "@expo/config"
       }
     ]
   }

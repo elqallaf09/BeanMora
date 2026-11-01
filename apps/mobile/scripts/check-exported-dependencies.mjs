@@ -18,7 +18,7 @@ export function checkExportedDependencies(root = 'dist') {
     const maps = readdirSync(directory).filter(file => file.endsWith('.map'));
     if (!maps.length) throw new Error(`Missing ${platform} export source maps; export all platforms with --source-maps.`);
     const modules = maps.flatMap(file => sources(JSON.parse(readFileSync(join(directory, file), 'utf8'))));
-    const affected = modules.filter(source => /(?:^|[/\\])node_modules[/\\](?:braces|node-forge)(?:[/\\]|$)/.test(source));
+    const affected = modules.filter(source => /(?:^|[/\\])node_modules[/\\](?:braces|node-forge|deepmerge)(?:[/\\]|$)/.test(source));
     if (affected.length) throw new Error(`Security-patched build tooling entered the ${platform} runtime bundle:\n${affected.join('\n')}`);
     results.push({ platform, maps: maps.length, sources: modules.length });
   }
@@ -27,6 +27,6 @@ export function checkExportedDependencies(root = 'dist') {
 
 if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url) {
   for (const result of checkExportedDependencies()) {
-    console.log(`PASS: ${result.platform}, ${result.sources} mapped sources; no braces/node-forge runtime modules.`);
+    console.log(`PASS: ${result.platform}, ${result.sources} mapped sources; no braces/node-forge/deepmerge runtime modules.`);
   }
 }

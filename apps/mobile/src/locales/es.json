@@ -3203,5 +3203,11 @@
   "Ask about grind, ratio or taste": "Pregunta por la molienda, la proporción o el sabor",
   "My library": "Mi biblioteca",
   "Add new": "Añadir",
-  "Add new +": "Añadir +"
+  "Add new +": "Añadir +",
+  "Use at least 8 characters. You can use a few words you can remember.": "Usa al menos 8 caracteres. Puedes elegir varias palabras fáciles de recordar.",
+  "This password is too short. Use at least 8 characters.": "Esta contraseña es demasiado corta. Usa al menos 8 caracteres.",
+  "Choose a less common password. Try a few words you can remember.": "Elige una contraseña menos común. Prueba varias palabras fáciles de recordar.",
+  "This password does not match the current account requirements. Try another password.": "Esta contraseña no cumple los requisitos actuales de la cuenta. Prueba otra.",
+  "Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.": "¿Cuenta de Google? Continúa con Google o elige «Crear o restablecer contraseña» para crear una contraseña de BeanMora.",
+  "Set or reset password": "Crear o restablecer contraseña"
 }

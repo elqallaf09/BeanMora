@@ -18,7 +18,7 @@ function within(root, path) {
 export function readBackports(root = mobileRoot) {
   const backports = json(join(root, 'patches/manifest.json'));
   if (!Array.isArray(backports) || backports.length > 2 || new Set(backports.map(p => p.package)).size !== backports.length ||
-      backports.some(p => !['braces', 'node-forge'].includes(p.package))) {
+      backports.some(p => !['braces', 'deepmerge'].includes(p.package))) {
     throw new Error('Only the two reviewed tooling security backports are permitted.');
   }
   for (const p of backports) {

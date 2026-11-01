@@ -7,7 +7,7 @@ import { dirname, join } from 'node:path';
 import { applySecurityBackports, mobileRoot, readBackports, verifyPatchedFiles } from './tooling-security-patches.mjs';
 import {
   testKeyPair, checkMalformedDigestInfo, checkUpstreamForgeVector, checkValidSignatures,
-  checkExpoSigning, checkDeepString, checkAstDepth, checkOrdinaryGlobs,
+  checkDeepmerge, checkExpoSigning, checkDeepString, checkAstDepth, checkOrdinaryGlobs,
 } from './tooling-security-regressions.mjs';
 
 const require = createRequire(import.meta.url);
@@ -59,7 +59,7 @@ function installationFixture(t) {
 
 test('missing patches or changed bytes fail verification and cannot be silently repaired', t => {
   const root = installationFixture(t);
-  const file = join(root, 'node_modules/node-forge/lib/rsa.js');
+  const file = join(root, 'node_modules/braces/lib/parse.js');
   writeFileSync(file, readFileSync(file, 'utf8') + '\n// unexpected modification\n');
   assert.throws(() => verifyPatchedFiles(root), /missing or modified/);
   assert.throws(() => applySecurityBackports(root), /Unrecognized source/);
@@ -82,3 +82,5 @@ test('new copies, different versions and consumers resolving an unpatched nested
   writeFileSync(join(nested, 'package.json'), '{"name":"braces","version":"3.0.3"}');
   assert.throws(() => verifyPatchedFiles(root), /resolves an unpatched copy/);
 });
+
+test('deepmerge rejects prototype injection in sources and targets while preserving config merges', () => { checkDeepmerge(require('deepmerge')); checkDeepmerge(require('deepmerge/dist/umd.js')); });

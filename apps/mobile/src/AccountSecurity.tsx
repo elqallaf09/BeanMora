@@ -2,6 +2,7 @@ import { useContext, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { Pressable, View } from "./native";
 import { supabase } from "./client";
+import { passwordFailureMessage, passwordHint } from "./passwordGuidance";
 import { getAuthRedirect } from "./oauthCallback";
 import { useLabels, Action, Field, Icon, Language, Txt, colors, styles } from "./ui";
 
@@ -61,7 +62,7 @@ export function AccountSecurity({
           : "";
       const message = failure instanceof Error ? failure.message : "";
       setError(
-        code === "invalid_credentials" || message.includes("Invalid login")
+        passwordFailureMessage(failure, L) ?? (code === "invalid_credentials" || message.includes("Invalid login")
           ? L("كلمة المرور الحالية غير صحيحة.", "The current password is incorrect.")
           : code === "email_exists" ||
               message.includes("already been registered")
@@ -70,11 +71,9 @@ export function AccountSecurity({
               ? L("اختر كلمة مرور مختلفة عن الحالية.", "Choose a password different from the current one.")
               : code === "reauthentication_not_valid"
                 ? L("رمز التحقق غير صحيح أو انتهت صلاحيته.", "The verification code is incorrect or expired.")
-                : code === "weak_password"
-                  ? L("اختر كلمة مرور أقوى، من 8 أحرف على الأقل.", "Choose a stronger password with at least 8 characters.")
-                  : code.includes("rate_limit")
+                : code.includes("rate_limit")
                     ? L("وصلت لحد المحاولات. انتظر قليلًا ثم حاول.", "Too many attempts. Wait a moment and try again.")
-                    : L("تعذّر تأكيد التغيير. تحقق من الاتصال وأعد المحاولة.", "Could not confirm the change. Check your connection and retry."),
+                    : L("تعذّر تأكيد التغيير. تحقق من الاتصال وأعد المحاولة.", "Could not confirm the change. Check your connection and retry.")),
       );
     } finally {
       inFlight.current = false;
@@ -314,6 +313,7 @@ export function AccountSecurity({
                 autoCorrect={false}
                 editable={!busy}
               />
+              <Txt style={styles.muted}>{passwordHint(L)}</Txt>
               <Field
                 label={
                   L("تأكيد كلمة المرور الجديدة", "Confirm new password")

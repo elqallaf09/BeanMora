@@ -2380,7 +2380,13 @@
     "What is your budget and currency?": "予算と通貨を教えてください。",
     "Read full photo": "写真全体を読み取る",
     "Keep the label flat, fill the frame with text, and avoid glare.": "ラベルを平らにし、文字が画面いっぱいに入るようにして、光の反射を避けてください。",
-    "banana": "バナナ"
+    "banana": "バナナ",
+    "Use at least 8 characters. You can use a few words you can remember.": "8文字以上にしてください。覚えやすい複数の単語も使えます。",
+    "This password is too short. Use at least 8 characters.": "パスワードが短すぎます。8文字以上にしてください。",
+    "Choose a less common password. Try a few words you can remember.": "よく使われるものとは違うパスワードを選んでください。覚えやすい複数の単語を試してください。",
+    "This password does not match the current account requirements. Try another password.": "このパスワードは現在のアカウント要件を満たしていません。別のパスワードを試してください。",
+    "Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.": "Googleアカウントですか？Googleで続けるか、「パスワードの設定・再設定」からBeanMora用のパスワードを作成してください。",
+    "Set or reset password": "パスワードの設定・再設定"
   },
   "fr": {
     "Home": "Accueil",
@@ -4850,7 +4856,13 @@
     "What is your budget and currency?": "Quel est votre budget et dans quelle devise ?",
     "Read full photo": "Lire toute la photo",
     "Keep the label flat, fill the frame with text, and avoid glare.": "Gardez l’étiquette à plat, cadrez le texte de près et évitez les reflets.",
-    "banana": "banane"
+    "banana": "banane",
+    "Use at least 8 characters. You can use a few words you can remember.": "Utilisez au moins 8 caractères. Vous pouvez choisir quelques mots faciles à retenir.",
+    "This password is too short. Use at least 8 characters.": "Ce mot de passe est trop court. Utilisez au moins 8 caractères.",
+    "Choose a less common password. Try a few words you can remember.": "Choisissez un mot de passe moins courant. Essayez quelques mots faciles à retenir.",
+    "This password does not match the current account requirements. Try another password.": "Ce mot de passe ne respecte pas les exigences actuelles du compte. Essayez-en un autre.",
+    "Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.": "Compte Google ? Continuez avec Google ou choisissez « Définir ou réinitialiser le mot de passe » pour créer un mot de passe BeanMora.",
+    "Set or reset password": "Définir ou réinitialiser le mot de passe"
   },
   "it": {
     "Home": "Home",
@@ -7320,7 +7332,13 @@
     "What is your budget and currency?": "Qual è il tuo budget e in quale valuta?",
     "Read full photo": "Leggi tutta la foto",
     "Keep the label flat, fill the frame with text, and avoid glare.": "Tieni l’etichetta piatta, inquadra il testo da vicino ed evita i riflessi.",
-    "banana": "banana"
+    "banana": "banana",
+    "Use at least 8 characters. You can use a few words you can remember.": "Usa almeno 8 caratteri. Puoi scegliere alcune parole facili da ricordare.",
+    "This password is too short. Use at least 8 characters.": "Questa password è troppo corta. Usa almeno 8 caratteri.",
+    "Choose a less common password. Try a few words you can remember.": "Scegli una password meno comune. Prova alcune parole facili da ricordare.",
+    "This password does not match the current account requirements. Try another password.": "Questa password non soddisfa i requisiti attuali dell’account. Prova un’altra password.",
+    "Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.": "Account Google? Continua con Google oppure scegli «Imposta o reimposta password» per creare una password BeanMora.",
+    "Set or reset password": "Imposta o reimposta password"
   },
   "es": {
     "Home": "Inicio",
@@ -9790,7 +9808,13 @@
     "What is your budget and currency?": "¿Cuál es tu presupuesto y en qué moneda?",
     "Read full photo": "Leer la foto completa",
     "Keep the label flat, fill the frame with text, and avoid glare.": "Mantén la etiqueta plana, llena el encuadre con el texto y evita los reflejos.",
-    "banana": "plátano"
+    "banana": "plátano",
+    "Use at least 8 characters. You can use a few words you can remember.": "Usa al menos 8 caracteres. Puedes elegir varias palabras fáciles de recordar.",
+    "This password is too short. Use at least 8 characters.": "Esta contraseña es demasiado corta. Usa al menos 8 caracteres.",
+    "Choose a less common password. Try a few words you can remember.": "Elige una contraseña menos común. Prueba varias palabras fáciles de recordar.",
+    "This password does not match the current account requirements. Try another password.": "Esta contraseña no cumple los requisitos actuales de la cuenta. Prueba otra.",
+    "Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.": "¿Cuenta de Google? Continúa con Google o elige «Crear o restablecer contraseña» para crear una contraseña de BeanMora.",
+    "Set or reset password": "Crear o restablecer contraseña"
   },
   "pt-BR": {
     "Home": "Início",
@@ -12260,7 +12284,13 @@
     "What is your budget and currency?": "Qual é o seu orçamento e em qual moeda?",
     "Read full photo": "Ler a foto inteira",
     "Keep the label flat, fill the frame with text, and avoid glare.": "Mantenha o rótulo plano, preencha o enquadramento com o texto e evite reflexos.",
-    "banana": "banana"
+    "banana": "banana",
+    "Use at least 8 characters. You can use a few words you can remember.": "Use pelo menos 8 caracteres. Você pode escolher algumas palavras fáceis de lembrar.",
+    "This password is too short. Use at least 8 characters.": "Esta senha é muito curta. Use pelo menos 8 caracteres.",
+    "Choose a less common password. Try a few words you can remember.": "Escolha uma senha menos comum. Tente algumas palavras fáceis de lembrar.",
+    "This password does not match the current account requirements. Try another password.": "Esta senha não atende aos requisitos atuais da conta. Tente outra senha.",
+    "Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.": "Conta Google? Continue com o Google ou escolha “Criar ou redefinir senha” para criar uma senha do BeanMora.",
+    "Set or reset password": "Criar ou redefinir senha"
   },
   "zh-CN": {
     "Home": "首页",
@@ -14983,6 +15013,12 @@
     "What is your budget and currency?": "你的预算是多少，使用哪种货币？",
     "Read full photo": "识别整张照片",
     "Keep the label flat, fill the frame with text, and avoid glare.": "请将标签展平，让文字充满画面，并避免反光。",
-    "banana": "香蕉"
+    "banana": "香蕉",
+    "Use at least 8 characters. You can use a few words you can remember.": "至少使用8个字符。可以选择几个容易记住的词。",
+    "This password is too short. Use at least 8 characters.": "密码太短。请至少使用8个字符。",
+    "Choose a less common password. Try a few words you can remember.": "请选择不太常见的密码。试试几个容易记住的词。",
+    "This password does not match the current account requirements. Try another password.": "此密码不符合当前账户要求。请尝试其他密码。",
+    "Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.": "使用Google账户？请通过Google继续，或选择“设置或重置密码”来创建BeanMora密码。",
+    "Set or reset password": "设置或重置密码"
   }
 }

@@ -128,6 +128,25 @@ export function checkOrdinaryGlobs(braces, micromatch) {
   assert.throws(() => micromatch.braceExpand(deep), depthError);
 }
 
+export function checkDeepmerge(merge) {
+  const malicious = JSON.parse('{"__proto__":{"isAdmin":true}}');
+  const check = value => {
+    assert.equal(Object.getPrototypeOf(value), Object.prototype);
+    assert.equal(value.isAdmin, undefined);
+    assert.equal(Object.hasOwn(value, '__proto__'), false);
+  };
+  for (const target of [Object.create(null), null, 0, malicious]) {
+    check(merge(target, malicious));
+  }
+  check(merge(malicious, { verbose: true }));
+  check(merge({ session: null }, { session: malicious }).session);
+  check(merge({ list: [] }, { list: [malicious] }).list[0]);
+  assert.equal(({}).isAdmin, undefined);
+  assert.deepEqual(merge({ ios: { supportsTablet: true }, plugins: ['a'] }, { ios: { buildNumber: '33' }, plugins: ['b'] }),
+    { ios: { supportsTablet: true, buildNumber: '33' }, plugins: ['a', 'b'] });
+  assert.deepEqual(merge.all([{ a: 1 }, { b: 2 }]), { a: 1, b: 2 });
+}
+
 export function verifySecurityBackports(root = mobileRoot) {
   const backports = verifyPatchedFiles(root);
   const require = createRequire(join(root, 'package.json'));
@@ -142,5 +161,6 @@ export function verifySecurityBackports(root = mobileRoot) {
   }
   for (const operation of ['compile', 'expand', 'stringify']) checkAstDepth(braces, operation);
   checkOrdinaryGlobs(braces, require('micromatch'));
+  checkDeepmerge(require('deepmerge'));
   return backports.map(p => ({ ...p, verified: true }));
 }

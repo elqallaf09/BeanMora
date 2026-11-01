@@ -25054,5 +25054,53 @@
       "src/CoffeeScreens.tsx",
       "App.tsx"
     ]
+  },
+  {
+    "en": "Choose a less common password. Try a few words you can remember.",
+    "ar": "اختر كلمة مرور أقل شيوعًا. جرّب عبارة من كلمات يسهل تذكرها.",
+    "files": [
+      "src/passwordGuidance.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.",
+    "ar": "حسابك عبر Google؟ تابع باستخدام Google، أو اضغط «تعيين أو استرجاع كلمة المرور» لإنشاء كلمة مرور خاصة بـBeanMora.",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Set or reset password",
+    "ar": "تعيين أو استرجاع كلمة المرور",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "This password does not match the current account requirements. Try another password.",
+    "ar": "كلمة المرور لا تطابق متطلبات الحساب الحالية. جرّب كلمة مرور أخرى.",
+    "files": [
+      "src/passwordGuidance.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "This password is too short. Use at least 8 characters.",
+    "ar": "كلمة المرور قصيرة. استخدم 8 أحرف على الأقل.",
+    "files": [
+      "src/passwordGuidance.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Use at least 8 characters. You can use a few words you can remember.",
+    "ar": "استخدم 8 أحرف على الأقل. يمكنك اختيار عبارة من كلمات يسهل تذكرها.",
+    "files": [
+      "src/passwordGuidance.ts",
+      "src/locales/reviewed.json"
+    ]
   }
 ]

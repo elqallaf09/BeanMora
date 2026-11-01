@@ -194,7 +194,8 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: rejected password sig
   await page.getByLabel(ar ? 'البريد الإلكتروني' : 'Email', { exact: true }).fill(user.email);
   await page.getByLabel(ar ? 'كلمة المرور' : 'Password', { exact: true }).fill('isolated_password');
   await page.getByRole('button', { name: ar ? 'تسجيل الدخول' : 'Sign in', exact: true }).click();
-  await expect(page.getByRole('alert')).toContainText(ar ? 'إذا أنشأت حسابك بواسطة Google' : 'If you created your account with Google');
+  await expect(page.getByTestId('login-provider-guidance')).toContainText(ar ? 'حسابك عبر Google؟' : 'Google account?');
+  await expect(page.getByRole('alert')).toContainText(ar ? 'البريد الإلكتروني أو كلمة المرور غير صحيحة.' : 'Email or password is incorrect.');
   await expect(page.getByRole('alert')).not.toContainText(ar ? 'تأكيد البريد والاتصال' : 'email confirmation and connection');
   await page.screenshot({ path: info.outputPath('google-account-guidance.png') });
   await page.getByRole('button', { name: ar ? 'تابع باستخدام Google' : 'Continue with Google', exact: true }).click();
@@ -213,6 +214,7 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup validates befo
     if (path.endsWith('/signup')) {
       signups++;
       expect(new URL(route.request().url()).searchParams.get('redirect_to')).toBe('http://127.0.0.1:8088/');
+      expect(route.request().postDataJSON().password).toBe('cafe rain');
       expect(route.request().postDataJSON().email).toBe('new@example.test');
       expect(route.request().postDataJSON().data).toMatchObject({ username: 'new_fixture', country: 'KW', phone: '+96550000000', language: ar ? 'ar' : 'en' });
       return reply(route, { user: { ...user, email: 'new@example.test' }, session: null });
@@ -225,7 +227,7 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup validates befo
   expect((await guest.boundingBox())!.height).toBeGreaterThanOrEqual(64);
   await page.getByRole('button', { name: ar ? 'إنشاء حساب' : 'Create account', exact: true }).first().click();
   await expect(page.getByRole('heading', { name: ar ? 'ابدأ رحلتك مع القهوة' : 'Your coffee journey starts here' })).toBeVisible();
-  await expect(page.getByRole('button', { name: ar ? 'نسيت كلمة المرور؟' : 'Forgot password?' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: ar ? 'تعيين أو استرجاع كلمة المرور' : 'Set or reset password' })).toHaveCount(0);
   const submit = page.getByRole('button', { name: ar ? 'إنشاء حساب' : 'Create account', exact: true }).last();
   await expect(submit).toBeDisabled();
   await page.getByRole('button', { name: ar ? 'الدولة' : 'Country', exact: true }).click();
@@ -234,7 +236,7 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup validates befo
   await page.getByLabel(ar ? 'اسم المستخدم' : 'Username', { exact: true }).fill('new_fixture');
   await page.getByLabel(ar ? 'رقم الهاتف (اختياري)' : 'Phone number (optional)', { exact: true }).fill('+٩٦٥ ٥٠٠٠٠٠٠٠');
   await page.getByLabel(ar ? 'البريد الإلكتروني' : 'Email', { exact: true }).fill('not-an-email');
-  await page.getByLabel(ar ? 'كلمة المرور' : 'Password', { exact: true }).fill('fixture-password');
+  await page.getByLabel(ar ? 'كلمة المرور' : 'Password', { exact: true }).fill('cafe rain');
   await page.getByLabel(ar ? 'تأكيد كلمة المرور' : 'Confirm password', { exact: true }).fill('mismatch');
   await submit.click();
   await expect(page.getByRole('alert')).toContainText(ar ? 'بريدًا إلكترونيًا صحيحًا' : 'valid email');
@@ -242,7 +244,7 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup validates befo
   await submit.click();
   await expect(page.getByRole('alert')).toContainText(ar ? 'غير متطابقتين' : 'do not match');
   expect(signups).toBe(0);
-  await page.getByLabel(ar ? 'تأكيد كلمة المرور' : 'Confirm password', { exact: true }).fill('fixture-password');
+  await page.getByLabel(ar ? 'تأكيد كلمة المرور' : 'Confirm password', { exact: true }).fill('cafe rain');
   await submit.click();
   await expect(page.getByText(ar ? 'راجع بريدك الإلكتروني لتأكيد حسابك.' : 'Check your email to confirm your account.', { exact: true })).toBeVisible();
   expect(signups).toBe(1);
@@ -278,8 +280,8 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: signup explains serve
   await page.getByLabel(ar ? 'تأكيد كلمة المرور' : 'Confirm password', { exact: true }).fill('fixture-password');
   const submit = page.getByRole('button', { name: ar ? 'إنشاء حساب' : 'Create account', exact: true }).last();
   const cases = [
-    ['weak_password', 422, 'كلمة المرور ضعيفة وسهلة التخمين', 'This password is weak and easy to guess'],
-    ['pwned', 422, 'لحماية حسابك، اختر كلمة مرور أكثر أمانًا ولم تستخدمها من قبل.', 'To protect your account, choose a more secure password you haven’t used before.'],
+    ['weak_password', 422, 'اختر كلمة مرور أقل شيوعًا', 'Choose a less common password'],
+    ['pwned', 422, 'اختر كلمة مرور أقل شيوعًا', 'Choose a less common password'],
     ['email_address_invalid', 422, 'البريد الإلكتروني غير مقبول', 'This email address is not accepted'],
     ['email_address_not_authorized', 422, 'إرسال رسائل التأكيد', 'Confirmation emails cannot be sent'],
     ['over_email_send_rate_limit', 429, 'حد إرسال رسائل البريد', 'email sending limit'],
@@ -379,7 +381,7 @@ for (const ar of [true, false])
       .fill(user.email);
     await page
       .getByRole('button', {
-        name: ar ? 'نسيت كلمة المرور؟' : 'Forgot password?',
+        name: ar ? 'تعيين أو استرجاع كلمة المرور' : 'Set or reset password',
         exact: true,
       })
       .click();

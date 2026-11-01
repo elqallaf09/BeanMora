@@ -13,7 +13,8 @@ export function authFailure(error: unknown) {
 
   if (code === 'weak_password' || value.name === 'AuthWeakPasswordError' || /password.*(weak|easy to guess|at least|contain)/.test(lower)) {
     if (reasons.includes('pwned')) return { kind: 'breachedPassword', message } as const;
-    if (reasons.includes('length') || reasons.includes('characters')) return { kind: 'passwordPolicy', message } as const;
+    if (reasons.includes('length')) return { kind: 'passwordLength', message } as const;
+    if (reasons.includes('characters')) return { kind: 'passwordPolicy', message } as const;
     return { kind: 'weakPassword', message } as const;
   }
   if (code === 'email_address_invalid' || /email address.*invalid/.test(lower)) return { kind: 'invalidEmail', message } as const;

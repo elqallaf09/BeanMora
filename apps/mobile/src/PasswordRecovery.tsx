@@ -2,6 +2,7 @@ import { useLabels } from './ui';
 import { useContext, useRef, useState } from 'react';
 import { View } from './native';
 import { supabase } from './client';
+import { passwordFailureMessage, passwordHint } from './passwordGuidance';
 import { Action, Field, Language, Txt, styles } from './ui';
 
 export function PasswordRecovery({ done }: { done: () => void }) {
@@ -31,12 +32,12 @@ export function PasswordRecovery({ done }: { done: () => void }) {
       setPassword('');
       setConfirmation('');
       done();
-    } catch {
-      setError(
+    } catch (failure) {
+      setError(passwordFailureMessage(failure, i18nUi) ?? (
         ar
           ? 'تعذر حفظ كلمة المرور. تحقق من الاتصال، أو اطلب رابط استرجاع جديد إذا انتهت صلاحيته.'
-          : i18nUi('تعذر حفظ كلمة المرور. تحقق من الاتصال، أو اطلب رابط استرجاع جديد إذا انتهت صلاحيته.', 'Could not save your password. Check your connection, or request a new recovery link if this one expired.'),
-      );
+          : i18nUi('تعذر حفظ كلمة المرور. تحقق من الاتصال، أو اطلب رابط استرجاع جديد إذا انتهت صلاحيته.', 'Could not save your password. Check your connection, or request a new recovery link if this one expired.')
+      ));
     } finally {
       inFlight.current = false;
       setBusy(false);
@@ -50,12 +51,13 @@ export function PasswordRecovery({ done }: { done: () => void }) {
       <Field
         label={ar ? 'كلمة المرور الجديدة' : i18nUi('كلمة المرور الجديدة', 'New password')}
         value={password}
-        onChangeText={setPassword}
+        onChangeText={(value) => { setPassword(value); setError(''); }}
         secureTextEntry
         autoComplete="new-password"
         textContentType="newPassword"
         editable={!busy}
       />
+      <Txt style={styles.muted}>{passwordHint(i18nUi)}</Txt>
       <Field
         label={ar ? 'تأكيد كلمة المرور الجديدة' : i18nUi('تأكيد كلمة المرور الجديدة', 'Confirm new password')}
         value={confirmation}
