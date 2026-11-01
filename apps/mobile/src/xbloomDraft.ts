@@ -30,9 +30,10 @@ export function buildXBloomDraft(recipe: RecipeItem, preferences: XBloomPreferen
   const steps = scaled.map((p, i) => `${i + 1}. ${p.volume} ml` + (p.temperature !== null ? ` · ${p.temperature}°C` : '')
     + (p.flow_rate !== null ? ` · ${p.flow_rate} ml/s` : '') + (p.pause_seconds !== null ? ` · ${ar ? 'توقف' : 'Pause'} ${p.pause_seconds}s` : '')).join('\n');
   const source = recipe.sources[0]?.url ?? '';
+  const targetName = preferences.coffee.trim() || recipe.labelMatch?.label.name || recipe.coffeeMatch?.coffee.name || recipe.discovery?.coffeeName || recipe.title;
   return {
-    values: { method: 'xbloom', visibility: 'private', name: `${preferences.coffee.trim() || recipe.title} · ${preferences.model}`,
-      coffee_name: preferences.coffee.trim() || recipe.discovery?.coffeeName || '', roaster_name: recipe.discovery?.roasterName ?? '',
+    values: { method: 'xbloom', visibility: 'private', name: `${targetName} · ${preferences.model}`,
+      coffee_name: targetName, roaster_name: targetName === recipe.discovery?.coffeeName ? recipe.discovery?.roasterName ?? '' : '',
       dose: String(dose), water: String(water), temperature: String(scaled[0].temperature ?? ''), seconds: '',
       grind: String(recipe.sourceBrew.grind_size ?? recipe.grindSetting ?? ''), steps, source_url: source,
       description: `${preferences.model} · ${preferences.cup}\n${ar ? 'مسودة معدّلة من' : 'Draft adapted from'}: ${recipe.title}\n${ar ? 'الماء هو ماء الاستخلاص ولا يشمل الثلج. راجع الصبات على جهازك. رابط المصدر يفتح الوصفة الأصلية.' : 'Water is brew water and excludes ice. Review the pours on your machine. The source link opens the original recipe.'}` },

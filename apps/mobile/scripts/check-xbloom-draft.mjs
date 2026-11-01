@@ -28,3 +28,11 @@ test('dose input and Arabic numerals produce a coherent water total', () => {
  assert.equal(d.values.dose,'20'); assert.equal(d.values.water,'300');
  assert.equal(d.brew.pours.reduce((sum,p)=>sum+p.volume,0),300);
 });
+
+test('scanned target coffee stays distinct from a borrowed source coffee', () => {
+ const scanned={...source,labelMatch:{label:{name:'My scanned bag'}},discovery:{servingStyle:'hot',coffeeName:'Source coffee',roasterName:'Source roaster'}};
+ const d=buildXBloomDraft(scanned,{...prefs,coffee:''},false);
+ assert.equal(d.values.coffee_name,'My scanned bag');
+ assert.equal(d.values.roaster_name,'');
+ assert.equal(d.brew.adapted_from_recipe_id,'source');
+});
