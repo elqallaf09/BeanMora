@@ -184,7 +184,7 @@ export function ContributionForm({
                   title={i18nUi(c[1],c[2])}
                   selected={(values[f.key] ?? "") === c[0]}
                   disabled={busy || locked}
-                  onPress={() => { if (f.key === 'method') setXBloomDraft(null); setValues((v) => ({ ...v, [f.key]: c[0] })); }}
+                  onPress={() => { if (f.key === 'method' && c[0] !== values.method) setXBloomDraft(null); setValues((v) => ({ ...v, [f.key]: c[0] })); }}
                 />
               ))}
             </View>

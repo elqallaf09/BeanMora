@@ -140,3 +140,32 @@ test('the approved Oasis bag photo decodes locally when its source CDN is unreac
   await expect(page.getByTestId('coffee-photo-unavailable')).toHaveCount(0);
   expect(remotePhotoRequests).toBe(0);
 });
+
+test('xBloom planner applies machine and cup choices and opens the selected source recipe', async ({ page }) => {
+  const requests: { model: string; cup: string | null; serving: string }[] = [];
+  const program = { ...recipes[0], serving_style: 'hot', source_brew_parameters: { ...recipes[0].source_brew_parameters, model: 'Studio', cup_type: 'Omni' } };
+  await page.route('https://mobilefixture.supabase.co/**', async route => {
+    const url = new URL(route.request().url());
+    if (url.pathname.endsWith('/recipes') && route.request().method() === 'HEAD') {
+      return route.fulfill({ status: 200, headers: { 'content-range': '*/3312', 'access-control-expose-headers': 'content-range' }, body: '' });
+    }
+    if (url.pathname.endsWith('/rpc/search_public_recipes')) {
+      const body = route.request().postDataJSON();
+      if (body.p_model) requests.push({ model: body.p_model, cup: url.searchParams.get('source_brew_parameters->>cup_type'), serving: body.p_serving_style });
+      return route.fulfill({ status: 200, contentType: 'application/json', headers: { 'content-range': '0-0/1', 'access-control-expose-headers': 'content-range' }, body: JSON.stringify([program]) });
+    }
+    return route.fulfill({ contentType: 'application/json', body: '[]' });
+  });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'xBloom', exact: true }).first().click();
+  const planner = page.getByTestId('xbloom-planner');
+  await planner.getByRole('button', { name: 'اعثر على وصفة xBloom لبنّك', exact: true }).click();
+  await planner.getByLabel('اسم البن أو المحمصة أو نص الكيس', { exact: true }).fill('فراولة');
+  await planner.getByRole('button', { name: 'ابحث عن وصفات متوافقة', exact: true }).click();
+  await expect(planner.getByText(program.title_ar, { exact: true })).toBeVisible();
+  expect(requests).toEqual([{ model: 'Studio', cup: 'ilike.Omni', serving: 'hot' }]);
+  await expect(page.getByText('إجمالي وصفات xBloom: 3,312', { exact: true })).toBeVisible();
+  await planner.getByRole('button', { name: 'تفاصيل الوصفة', exact: true }).click();
+  await expect(page.getByTestId('recipe-detail')).toBeVisible();
+  await expect(page.getByTestId('recipe-detail').getByText('لم تُرفق صورة بهذه الوصفة', { exact: true })).toBeVisible();
+});
