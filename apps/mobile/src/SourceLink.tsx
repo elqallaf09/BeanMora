@@ -10,10 +10,12 @@ export function SourceLink({
   title,
   url,
   compact = false,
+  variant = 'secondary',
 }: {
   title: string;
   url: string;
   compact?: boolean;
+  variant?: 'primary' | 'secondary';
 }) {
   const i18nUi = useLabels();
   const ar = useContext(Language) === 'ar';
@@ -22,6 +24,7 @@ export function SourceLink({
     <View style={{ gap: 4 }}>
       <Action
         compact={compact}
+        variant={variant}
         title={title}
         onPress={() => {
           void (async () => {

@@ -360,7 +360,7 @@ export async function submitContribution(
 ) {
   await requireMember(client, owner);
   const { data, error } = await client.rpc(
-    kind === "bean" ? "submit_member_bean" : "submit_member_recipe",
+    kind === "bean" ? "submit_member_bean" : payload.xbloom ? "submit_member_xbloom_recipe" : "submit_member_recipe",
     { p_id: id, p_payload: payload },
   );
   if (error || data !== id) throw new Error("SUBMISSION_FAILED");

@@ -1,3 +1,4 @@
+import type { XBloomModel } from './xbloomMatching';
 import { useLabels } from './ui';
 import { useContext, useEffect, useRef, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
@@ -17,20 +18,20 @@ import { recipeQuickFacts } from './recipeQuickFacts';
 import { RecipeServingBadge } from './RecipeServingBadge';
 import { CoffeeLabelCropper } from './CoffeeLabelCropper';
 
-export function ScanCoffeeButton({ openRecipe, coffees = [], method }: {
-  openRecipe: (recipe: RecipeItem) => void; coffees?: CoffeeItem[]; method?: Method;
+export function ScanCoffeeButton({ openRecipe, coffees = [], method, model = 'all', serving = '', cup }: {
+  openRecipe: (recipe: RecipeItem) => void; coffees?: CoffeeItem[]; method?: Method; model?: XBloomModel; serving?: LabelServing; cup?: 'Omni' | 'xPod';
 }) {
   const i18nUi = useLabels();
   const ar = useContext(Language) === 'ar';
   const [visible, setVisible] = useState(false);
   return <>
     <Action title={ar ? 'صوّر البن واختر الوصفة' : i18nUi('صوّر البن واختر الوصفة', 'Scan coffee for a recipe')} onPress={() => setVisible(true)} />
-    {visible ? <CoffeeLabelScanner coffees={coffees} method={method} close={() => setVisible(false)}
+    {visible ? <CoffeeLabelScanner coffees={coffees} method={method} model={model} initialServing={serving} cup={cup} close={() => setVisible(false)}
       openRecipe={recipe => { setVisible(false); openRecipe(recipe); }} /> : null}
   </>;
 }
-function CoffeeLabelScanner({ coffees, method: initialMethod, close, openRecipe }: {
-  coffees: CoffeeItem[]; method?: Method; close: () => void; openRecipe: (recipe: RecipeItem) => void;
+function CoffeeLabelScanner({ coffees, method: initialMethod, model, initialServing, cup, close, openRecipe }: {
+  coffees: CoffeeItem[]; method?: Method; model: XBloomModel; initialServing: LabelServing; cup?: 'Omni' | 'xPod'; close: () => void; openRecipe: (recipe: RecipeItem) => void;
 }) {
   const i18nUi = useLabels();
   const locale = useContext(Language); const ar = locale === 'ar'; const { width } = useWindowDimensions();
@@ -40,7 +41,7 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, close, openRecipe 
   const [rawText, setRawText] = useState('');
   const [showText, setShowText] = useState(false);
   const [needsReview, setNeedsReview] = useState(false);
-  const [serving, setServing] = useState<LabelServing>('');
+  const [serving, setServing] = useState<LabelServing>(initialServing);
   const [job, setJob] = useState<CoffeeOcrJob | null>(null);
   const [progress, setProgress] = useState(0);
   const [ocrError, setOcrError] = useState('');
@@ -115,8 +116,8 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, close, openRecipe 
     setMatching(true); setSearched(true);
     try {
       if (!publicSupabase) throw new Error('CONNECTION');
-      const result = await loadCoffeeLabelMatches(publicSupabase, label, method, 'all', contentLocale(locale), abort.signal, coffee, serving);
-      if (mounted.current && generation.current === request) setRecipes(result);
+      const result = await loadCoffeeLabelMatches(publicSupabase, label, method, model, contentLocale(locale), abort.signal, coffee, serving);
+      if (mounted.current && generation.current === request) setRecipes(cup ? result.filter(r => r.sourceBrew.cup_type?.toLowerCase() === cup.toLowerCase()) : result);
     } catch { if (mounted.current && generation.current === request) setMatchError(true); }
     finally { if (mounted.current && generation.current === request) setMatching(false); }
   };
@@ -164,11 +165,11 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, close, openRecipe 
             {showText ? <Txt style={{ fontSize: 12, lineHeight: 19, color: colors.muted }}>{rawText}</Txt> : null}
           </View> : null}
           {needsReview && !job ? <Action compact title={ar ? 'راجعت بيانات الكيس' : i18nUi('راجعت بيانات الكيس', 'I reviewed the label details')} disabled={!hasCoffeeLabelFacts(label)} onPress={() => { setNeedsReview(false); setOcrError(''); }} /> : null}
-          <MethodPicker value={method} onChange={value => { invalidate(); setMethod(value ?? 'xbloom'); }} />
-          <View testID="coffee-label-serving-filters" style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8 }}>
+          {model !== 'all' ? <Txt style={styles.muted}>{`xBloom ${model} · ${cup ?? ''}`}</Txt> : <MethodPicker value={method} onChange={value => { invalidate(); setMethod(value ?? 'xbloom'); }} />}
+          {model === 'all' ? <View testID="coffee-label-serving-filters" style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8 }}>
             {([['', ar ? 'الكل' : i18nUi('الكل', 'All')], ['hot', ar ? 'حار' : i18nUi('حار', 'Hot')], ['cold_or_iced', ar ? 'بارد' : i18nUi('بارد', 'Cold')]] as const).map(([value, title]) =>
               <Action key={value} compact title={title} selected={serving === value} onPress={() => { invalidate(); setServing(value); }} />)}
-          </View>
+          </View> : <Txt style={styles.muted}>{initialServing === 'hot' ? i18nUi('حار', 'Hot') : i18nUi('بارد ومثلج', 'Cold & iced')}</Txt>}
           <Action title={ar ? 'اعثر على أقرب وصفة' : i18nUi('اعثر على أقرب وصفة', 'Find the closest recipe')} variant="primary" disabled={matching || !!job || needsReview || cropping || (!coffee && !hasCoffeeLabelFacts(label))} onPress={() => void find()} />
           {matching ? <ActivityIndicator color={colors.teal} /> : null}
           {matchError ? <View style={{ gap: 8 }}><Txt accessibilityRole="alert" style={styles.error}>{ar ? 'تعذّر البحث عن الوصفات. بياناتك موجودة؛ حاول مرة ثانية.' : i18nUi('تعذّر البحث عن الوصفات. بياناتك موجودة؛ حاول مرة ثانية.', 'Recipe search failed. Your details are kept; try again.')}</Txt><Action title={ar ? 'إعادة المحاولة' : i18nUi('إعادة المحاولة', 'Retry')} onPress={() => void find()} /></View> : null}

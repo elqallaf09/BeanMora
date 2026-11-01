@@ -46,6 +46,7 @@ import {
 } from './recipeDiscovery';
 import { methods } from './copy';
 import { FLAVORS, type Method } from './core/engine';
+import { XBloomPlanner } from './XBloomPlanner';
 import { ScanCoffeeButton } from './CoffeeLabelScanner';
 type DiscoveredRecipe = RecipeItem & { discovery: RecipeDiscovery; nearMatch?: RecipeNearMatch };
 const flavorLabels = {
@@ -104,6 +105,13 @@ export function RecipeCatalog({
   const [busy, setBusy] = useState(true);
   const [error, setError] = useState(false);
   const [total, setTotal] = useState<number | null>(null);
+  const [libraryTotal, setLibraryTotal] = useState<number | null>(null);
+  useEffect(() => {
+    const controller = new AbortController();
+    setLibraryTotal(null);
+    if (method === 'xbloom' && supabase) void supabase.from('recipes').select('id', { count: 'exact', head: true }).eq('visibility', 'public').eq('brew_method', 'xbloom').abortSignal(controller.signal).then(({ count, error }) => { if (!controller.signal.aborted && !error) setLibraryTotal(count); });
+    return () => controller.abort();
+  }, [method]);
   const [more, setMore] = useState(false);
   const [nearMatches, setNearMatches] = useState(false);
   const nearMode = useRef(false);
@@ -307,7 +315,7 @@ export function RecipeCatalog({
                     {total.toLocaleString('en-US')}
                   </Txt>
                   <Txt style={{ fontSize: 10, color: colors.muted }}>
-                    {ar ? 'وصفة' : i18nUi('وصفة', 'recipes')}
+                    {search.trim() || filterCount ? i18nUi('نتيجة', 'matches') : i18nUi('وصفة', 'recipes')}
                   </Txt>
                 </View>
               ) : null}
@@ -323,7 +331,9 @@ export function RecipeCatalog({
                     ? 'Grind, temperature and pours, all ready to explore.'
                     : 'Search the full library and open a recipe for its details and sources.')}
             </Txt>
-            {!coffee ? <ScanCoffeeButton openRecipe={open} method={method} coffees={scanCoffees} /> : null}
+            {method === 'xbloom' && libraryTotal !== null ? <Txt style={styles.muted}>{i18nUi('إجمالي وصفات xBloom: ', 'All xBloom recipes: ') + libraryTotal.toLocaleString('en-US') + (filters.servingStyle === 'cold_or_iced' ? i18nUi(' · المعروض: البارد والمثلج', ' · Showing cold & iced') : filters.servingStyle === 'hot' ? i18nUi(' · المعروض: الساخن', ' · Showing hot') : '')}</Txt> : null}
+            {method === 'xbloom' ? <XBloomPlanner openRecipe={open} coffees={scanCoffees} /> : null}
+            {!coffee && method !== 'xbloom' ? <ScanCoffeeButton openRecipe={open} method={method} coffees={scanCoffees} /> : null}
             {!locked ? (
               <MethodPicker
                 value={method}

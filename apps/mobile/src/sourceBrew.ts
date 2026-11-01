@@ -1,5 +1,6 @@
 import { manualBrew, type ManualBrew } from './manualBrew';
 export interface SourceBrew {
+  adapted?: boolean;
   manual?: ManualBrew;
   water_ml?: number;
   dose?: number;
@@ -31,6 +32,7 @@ export function sourceBrew(value: unknown): SourceBrew {
   const row = value as Record<string, unknown>;
   const result: SourceBrew = {};
   result.manual = manualBrew(row.manual);
+  result.adapted = row.adapted === true;
   for (const field of [
     'water_ml',
     'dose',

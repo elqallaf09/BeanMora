@@ -341,8 +341,9 @@ export function RecipeDetail({
       <View testID="recipe-secondary-details" style={s.section}>
         {primary ? (
           <SourceLink
+            variant="primary"
             title={
-              primary.url.includes("share-h5.xbloom.com")
+              primary.url.includes("share-h5.xbloom.com") && !recipe.sourceBrew.adapted
                 ? ar
                   ? "فتح الوصفة في xBloom"
                   : i18nUi("فتح الوصفة في xBloom", "Open recipe in xBloom")
@@ -354,6 +355,7 @@ export function RecipeDetail({
           />
         ) : null}
         <Disclosure
+          primary
           title={ar ? "عن الوصفة وإعدادات المصدر" : i18nUi("عن الوصفة وإعدادات المصدر", "Recipe and source details")}
           subtitle={
             ar

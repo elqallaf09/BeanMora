@@ -388,6 +388,7 @@ export function GuidedBrew({
         </View>
       ) : null}
       <Action
+        variant="primary"
         title={ar ? 'مشاركة الوصفة والإعدادات' : i18nUi('مشاركة الوصفة والإعدادات', 'Share recipe and settings')}
         onPress={() => void share()}
         disabled={!!invalid}

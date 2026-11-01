@@ -161,6 +161,8 @@ export type IconName =
   | 'back'
   | 'arrow'
   | 'share'
+  | 'capsule'
+  | 'roaster'
   | 'bean'
   | 'espresso'
   | 'v60'
@@ -210,6 +212,8 @@ export function Icon({
   const { dark } = useTheme();
   color = themeColor(color, dark) as string;
   const body: Record<IconName, ReactNode> = {
+    capsule: <><Ellipse cx="12" cy="5" rx="9" ry="2.5" /><Path d="M4 6l3 14q5 3 10 0l3-14M8 9l1.5 9M16 9l-1.5 9" /></>,
+    roaster: <><Rect x="3" y="8" width="18" height="13" rx="3" /><Circle cx="12" cy="14" r="4" /><Path d="M8 5V2m4 3V1m4 4V2M5 21v2m14-2v2" /></>,
     close: <Path d="m6 6 12 12M18 6 6 18" />,
     pause: <><Path d="M8 5v14M16 5v14" /></>,
     inbox: <><Path d="m4 4-2 10v6h20v-6L20 4H4Z" /><Path d="M2 14h6l2 3h4l2-3h6" /></>,

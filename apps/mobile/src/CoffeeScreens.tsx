@@ -338,7 +338,7 @@ export function Home({
     { id: 'beans', title: L('البن', 'Coffee'), label: L('البن والإيحاءات', 'Coffee & taste'), icon: 'bean' },
     { id: 'recipes', title: L('الوصفات', 'Recipes'), label: L('مكتبة الوصفات', 'Recipe library'), icon: 'espresso' },
     { id: 'equipment', title: L('الأدوات', 'Tools'), label: L('أدوات القهوة', 'Equipment'), icon: 'gear' },
-    { id: 'roasters', title: L('المحامص', 'Roasters'), label: L('المحامص', 'Roasteries'), icon: 'home' },
+    { id: 'roasters', title: L('المحامص', 'Roasters'), label: L('المحامص', 'Roasteries'), icon: 'roaster' },
   ];
   const library: { id: string; title: string; label: string; icon: IconName }[] = [
     { id: 'favorites', title: L('بن محفوظ', 'Saved coffee'), label: L('البن المحفوظ', 'Saved coffees'), icon: 'bean' },
@@ -500,10 +500,12 @@ export function Home({
           </View>
           <View style={[row, { gap: 8 }]}>
             {[
-              { id: 'capsules', title: L('الكبسولات', 'Capsules'), label: L('الكبسولات', 'Capsules') },
-              { id: 'roastLab', title: L('التحميص', 'Roast Lab'), label: L('مختبر التحميص', 'Roast Lab') },
-            ].map(item => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.label} onPress={() => openSection(item.id)} style={s.homeChip}>
-              <Txt style={{ fontSize: 13 }}>{item.title}</Txt>
+              { id: 'capsules', title: L('الكبسولات', 'Capsules'), label: L('الكبسولات', 'Capsules'), icon: 'capsule' as const },
+              { id: 'roastLab', title: L('التحميص', 'Roast Lab'), label: L('مختبر التحميص', 'Roast Lab'), icon: 'roaster' as const },
+            ].map(item => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.label} onPress={() => openSection(item.id)} style={[s.homeChip, row, { flex: 1, borderRadius: 18, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.paper, padding: 14, gap: 10, alignItems: 'center' }]}>
+              <Icon name={item.icon} size={28} color={colors.teal} />
+              <Txt style={{ fontSize: 14, fontWeight: '700', flex: 1 }}>{item.title}</Txt>
+              <Icon name="arrow" size={16} color={colors.teal} />
             </Pressable>)}
           </View>
         </View>

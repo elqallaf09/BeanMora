@@ -476,3 +476,16 @@ test('coffee context binds an exact ID in v2 before pagination; the global endpo
   assert.equal(calls[1].url.pathname, '/rest/v1/rpc/search_public_recipes');
   assert.equal(Object.keys(calls[1].body).length, 16);
 });
+
+test('explicit xBloom planner selections preserve device, cup and serving across page boundaries', async () => {
+  const requests=[];
+  const db=database(async(url,init)=>{requests.push({url:new URL(url),body:JSON.parse(init.body)});return new Response('[]',{headers:{'content-type':'application/json','content-range':'*/0'}});});
+  const criteria={...search({servingStyle:'cold_or_iced',flavorFamily:'fruity'}),query:'كولومبيا فراولة',method:'xbloom',deviceModel:'Studio',cup:'Omni'};
+  await recipeCatalogPage(db,criteria,1,'id,title,source_brew_parameters',new AbortController().signal,12);
+  assert.equal(requests[0].body.p_model,'Studio');
+  assert.equal(requests[0].body.p_serving_style,'cold_or_iced');
+  assert.equal(requests[0].url.searchParams.get('source_brew_parameters->>cup_type'),'ilike.Omni');
+  assert.equal(requests[0].url.searchParams.get('offset'),'12');
+  await recipeCatalogPage(db,criteria,0,'id,title',new AbortController().signal,12);
+  assert.equal(requests.length,2,'an empty compatible result must not silently relax the device or cup');
+});

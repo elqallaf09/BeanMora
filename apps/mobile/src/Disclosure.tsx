@@ -7,12 +7,14 @@ export function Disclosure({
   children,
   initial = false,
   testID,
+  primary = false,
 }: {
   title: string;
   subtitle?: string;
   children: ReactNode;
   initial?: boolean;
   testID?: string;
+  primary?: boolean;
 }) {
   const ar = useContext(Language) === 'ar';
   const [open, setOpen] = useState(initial);
@@ -27,6 +29,7 @@ export function Disclosure({
         accessibilityState={{ expanded: open }}
         onPress={() => setOpen((v) => !v)}
         style={{
+          backgroundColor: primary ? colors.teal : undefined,
           minHeight: 54,
           paddingHorizontal: 15,
           paddingVertical: 12,
@@ -38,15 +41,15 @@ export function Disclosure({
         <View style={{ flex: 1, gap: 2 }}>
           <Txt
             heading
-            style={{ fontSize: 16, lineHeight: 24, fontWeight: '700' }}
+            style={{ fontSize: 16, lineHeight: 24, fontWeight: '700', color: primary ? '#FFF' : colors.ink }}
           >
             {title}
           </Txt>
           {subtitle ? (
-            <Txt style={{ fontSize: 12, color: colors.muted }}>{subtitle}</Txt>
+            <Txt style={{ fontSize: 12, color: primary ? '#FFF' : colors.muted }}>{subtitle}</Txt>
           ) : null}
         </View>
-        <Txt style={{ fontSize: 20, color: colors.teal }}>
+        <Txt style={{ fontSize: 20, color: primary ? '#FFF' : colors.teal }}>
           {open ? '−' : '+'}
         </Txt>
       </Pressable>
