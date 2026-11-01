@@ -30,7 +30,7 @@ export function buildXBloomDraft(recipe: RecipeItem, preferences: XBloomPreferen
   const steps = scaled.map((p, i) => `${i + 1}. ${p.volume} ml` + (p.temperature !== null ? ` · ${p.temperature}°C` : '')
     + (p.flow_rate !== null ? ` · ${p.flow_rate} ml/s` : '') + (p.pause_seconds !== null ? ` · ${ar ? 'توقف' : 'Pause'} ${p.pause_seconds}s` : '')).join('\n');
   const source = recipe.sources[0]?.url ?? '';
-  const targetName = preferences.coffee.trim() || recipe.labelMatch?.label.name || recipe.coffeeMatch?.coffee.name || recipe.discovery?.coffeeName || recipe.title;
+  const targetName = recipe.labelMatch?.label.name || preferences.coffee.trim() || recipe.coffeeMatch?.coffee.name || recipe.discovery?.coffeeName || recipe.title;
   return {
     values: { method: 'xbloom', visibility: 'private', name: `${targetName} · ${preferences.model}`,
       coffee_name: targetName, roaster_name: targetName === recipe.discovery?.coffeeName ? recipe.discovery?.roasterName ?? '' : '',
