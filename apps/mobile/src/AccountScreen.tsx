@@ -27,6 +27,7 @@ import { SignupPhoneField } from './SignupPhoneField';
 import { changeSignupPhoneCountry, signupPhoneValue } from './signupPhone';
 import { signupDetails, usernameAvailable } from './core/account-profile';
 import { authFailure } from './authFailure';
+import { passwordFailureMessage, passwordHint } from './passwordGuidance';
 import { openOAuthBrowser } from './oauthBrowser';
 import { useLabels,
   Action,
@@ -131,19 +132,18 @@ export function AccountScreen({
     };
     if (fieldErrors[message]) return fieldErrors[message];
     if (message === 'OAUTH_STORAGE_UNAVAILABLE') return L('اسمح بحفظ بيانات الموقع في المتصفح ثم أعد تسجيل الدخول عبر Google.', 'Allow site storage in your browser, then try Google sign-in again.', 'ブラウザでサイトデータの保存を許可して、Googleログインを再試行してください。');
+    const passwordMessage = passwordFailureMessage(error, L);
+    if (passwordMessage) return passwordMessage;
     switch (kind) {
       case 'oauthBrowser': return L('تعذّر فتح متصفح تسجيل الدخول. فعّل متصفح الجهاز أو ثبّت Chrome ثم حاول مجددًا.', 'Could not open the sign-in browser. Enable your device browser or install Chrome, then try again.');
       case 'oauthSession': return L('انتهت محاولة تسجيل الدخول. اضغط على زر Google أو Apple لبدء محاولة جديدة من هذا الجهاز.', 'This sign-in attempt expired. Use the Google or Apple button to start again on this device.');
-      case 'weakPassword': return L('كلمة المرور ضعيفة وسهلة التخمين. اختر كلمة مرور أطول وفريدة.', 'This password is weak and easy to guess. Choose a longer, unique password.');
-      case 'breachedPassword': return L('لحماية حسابك، اختر كلمة مرور أكثر أمانًا ولم تستخدمها من قبل.', 'To protect your account, choose a more secure password you haven’t used before.');
-      case 'passwordPolicy': return L('كلمة المرور لا تستوفي متطلبات الأمان. استخدم كلمة أطول تتضمن أحرفًا كبيرة وصغيرة وأرقامًا ورموزًا.', 'This password does not meet the security requirements. Use a longer password with uppercase and lowercase letters, numbers and symbols.');
       case 'invalidEmail': return L('البريد الإلكتروني غير مقبول. استخدم عنوانًا صحيحًا يمكنك استقبال الرسائل عليه.', 'This email address is not accepted. Use a valid address where you can receive messages.');
       case 'emailUnavailable': return L('إرسال رسائل التأكيد إلى هذا البريد غير متاح حاليًا. تواصل مع دعم BeanMora.', 'Confirmation emails cannot be sent to this address right now. Contact BeanMora support.');
       case 'emailRateLimit': return L('تم بلوغ حد إرسال رسائل البريد. انتظر قليلًا قبل طلب رسالة أخرى.', 'The email sending limit has been reached. Wait before requesting another message.');
       case 'rateLimit': return L('محاولات كثيرة خلال وقت قصير. انتظر قليلًا ثم حاول مجددًا.', 'Too many attempts in a short time. Wait a while and try again.');
       case 'signupDisabled': return L('إنشاء الحسابات بالبريد الإلكتروني غير متاح حاليًا. حاول لاحقًا أو تواصل مع الدعم.', 'Email account registration is currently unavailable. Try later or contact support.');
       case 'serviceUnavailable': return L('خدمة الحسابات غير متاحة مؤقتًا. حاول لاحقًا أو تواصل مع الدعم إذا استمرت المشكلة.', 'The account service is temporarily unavailable. Try later or contact support if the problem continues.');
-      case 'invalidCredentials': return t.invalidCredentials + '\n' + L('إذا أنشأت حسابك بواسطة Google، اضغط «تابع باستخدام Google». استخدم كلمة مرور BeanMora فقط إذا سبق أن عيّنتها.', 'If you created your account with Google, choose “Continue with Google”. Use a BeanMora password only if you have set one.');
+      case 'invalidCredentials': return t.invalidCredentials;
       case 'emailNotConfirmed': return t.emailNotConfirmed;
       case 'network': return t.networkError;
     }
@@ -172,7 +172,7 @@ export function AccountScreen({
       const failure = authFailure(e);
       const message = authError(e, context);
       if (context === 'signup' && (
-        ['weakPassword', 'breachedPassword', 'passwordPolicy'].includes(failure.kind) ||
+        ['weakPassword', 'breachedPassword', 'passwordLength', 'passwordPolicy'].includes(failure.kind) ||
         failure.message === 'ACCOUNT_PASSWORD'
       )) {
         setPasswordError(message);
@@ -225,10 +225,9 @@ export function AccountScreen({
     }, mode);
   }
   async function resetPassword() {
-    if (!email.trim()) {
-      setNotice(
-        L('أدخل بريدك الإلكتروني أولاً.', 'Enter your email first.'),
-      );
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setError(L('أدخل بريدًا إلكترونيًا صحيحًا.', 'Enter a valid email address.'));
+      setNotice('');
       emailRef.current?.focus();
       return;
     }
@@ -452,6 +451,11 @@ export function AccountScreen({
                 ]}
               />
             </View>
+            {mode === 'login' ? (
+              <View testID="login-provider-guidance"><Txt style={s.fieldHint}>
+                {L('حسابك عبر Google؟ تابع باستخدام Google، أو اضغط «تعيين أو استرجاع كلمة المرور» لإنشاء كلمة مرور خاصة بـBeanMora.', 'Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.')}
+              </Txt></View>
+            ) : null}
             <Txt style={s.label}>{t.password}</Txt>
             <View style={s.field}>
               <Icon name="lock" size={21} color={colors.muted} />
@@ -500,7 +504,7 @@ export function AccountScreen({
             {mode === 'signup' ? (
               <>
                 <Txt style={s.fieldHint}>
-                  {L('استخدم 8 أحرف على الأقل، واختر كلمة مرور خاصة بهذا الحساب.', 'Use at least 8 characters and a password unique to this account.')}
+                  {passwordHint(L)}
                 </Txt>
                 {passwordError ? (
                   <View accessibilityRole="alert" accessibilityLiveRegion="polite" testID="signup-password-error">
@@ -546,7 +550,7 @@ export function AccountScreen({
               <Pressable
                 accessibilityRole="button"
                 accessibilityLabel={
-                  L('نسيت كلمة المرور؟', 'Forgot password?')
+                  L('تعيين أو استرجاع كلمة المرور', 'Set or reset password')
                 }
                 onPress={() => void resetPassword()}
                 disabled={busy}
@@ -557,7 +561,7 @@ export function AccountScreen({
                 }}
               >
                 <Txt style={{ fontSize: 13, color: colors.muted }}>
-                  {L('نسيت كلمة المرور؟', 'Forgot password?')}
+                  {L('تعيين أو استرجاع كلمة المرور', 'Set or reset password')}
                 </Txt>
               </Pressable>
             )}

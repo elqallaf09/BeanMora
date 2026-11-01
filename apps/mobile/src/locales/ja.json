@@ -3203,5 +3203,11 @@
   "Ask about grind, ratio or taste": "挽き目、比率、味について相談",
   "My library": "マイライブラリ",
   "Add new": "新規追加",
-  "Add new +": "新規追加 +"
+  "Add new +": "新規追加 +",
+  "Use at least 8 characters. You can use a few words you can remember.": "8文字以上にしてください。覚えやすい複数の単語も使えます。",
+  "This password is too short. Use at least 8 characters.": "パスワードが短すぎます。8文字以上にしてください。",
+  "Choose a less common password. Try a few words you can remember.": "よく使われるものとは違うパスワードを選んでください。覚えやすい複数の単語を試してください。",
+  "This password does not match the current account requirements. Try another password.": "このパスワードは現在のアカウント要件を満たしていません。別のパスワードを試してください。",
+  "Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.": "Googleアカウントですか？Googleで続けるか、「パスワードの設定・再設定」からBeanMora用のパスワードを作成してください。",
+  "Set or reset password": "パスワードの設定・再設定"
 }

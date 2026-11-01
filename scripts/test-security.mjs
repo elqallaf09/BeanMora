@@ -75,7 +75,7 @@ test('the official lint plugin retains all Next rules without the unpatched brac
   assert.equal(configRequire('@next/eslint-plugin-next/package.json').version, '14.2.35');
   assert.equal(require('@next/eslint-plugin-next'), plugin);
   const pluginRequire = createRequire(configRequire.resolve('@next/eslint-plugin-next/package.json'));
-  assert.equal(pluginRequire('glob/package.json').version, '10.5.0');
+  assert.equal(pluginRequire('glob/package.json').version, '14.0.3');
   assert.equal(require('next/package.json').version, pkg.dependencies.next);
   assert.deepEqual(Object.keys(plugin.rules).sort(), [
     'google-font-display', 'google-font-preconnect', 'inline-script-id', 'next-script-for-ga',

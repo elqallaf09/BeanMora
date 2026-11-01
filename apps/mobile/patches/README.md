@@ -1,4 +1,4 @@
-# Reviewed security backports (2026-10-08)
+# Reviewed security backports (2026-11-01)
 
 The upstream npm releases still contain the two reported flaws. Keep their real
 versions and registry integrity in the lock; apply these narrowly scoped source
@@ -6,13 +6,12 @@ fixes after installation instead of claiming a nonexistent patched release.
 
 | Package | Fix | Pinned upstream source | License |
 | --- | --- | --- | --- |
-| node-forge 1.4.0 | Validate nested DigestAlgorithm element count in RSA PKCS#1 v1.5 verification, CVE-2026-85393 | [PR #1152](https://github.com/digitalbazaar/forge/pull/1152), `ceba34402e329f0365134f23fe19898756527d65` | BSD-3-Clause |
+| deepmerge 4.3.1 | Reject `__proto__` in both merge loops, including null-prototype and nested targets, CVE-2026-93753 | [PR #274](https://github.com/TehShrike/deepmerge/pull/274), `c5ad573121574db1c625b0aabcc6114ed7df6c5a` | MIT |
 | braces 3.0.3 | Bound parser nesting and compile/expand/stringify recursion to AST depth 100, CVE-2026-93687 | [PR #78](https://github.com/micromatch/braces/pull/78), `97308a01d091b211cf015314a2d0696da28a5392` | MIT |
 
 These are project-reviewed backports of open upstream proposals, not upstream
-releases or approvals. The patch hunks are unmodified library changes from the
-pinned commits. License notices are retained in each package directory. The
-forge regression vector is attributed to the same PR and BSD license.
+releases or approvals. The library changes follow the pinned commits. The deepmerge change is also applied
+to its published CJS and UMD builds, which are the actual runtime entry points. License notices are retained in each package directory. The retained forge regression vector is attributed in its fixture source and retains its BSD license.
 
 `npm ci` runs `postinstall`. Application start/export and EAS post-install hooks
 verify the installed patches. The installer checks package versions, lockfile
@@ -37,3 +36,9 @@ When upstream publishes compatible fixes, update the relevant parents/locks,
 verify installed source and behavior, remove the corresponding manifest/hunks,
 and repeat all mobile checks. Do not edit expected hashes merely to pass an
 upgrade. See [the verification report](../../../docs/SECURITY-TOOLING-2026-10-08.md).
+
+The obsolete node-forge backport was retired after upgrading to the upstream
+1.4.2 release. Its exploit/signing regression tests remain active. glob 14.0.3 and
+minimatch 11.0.3 are pinned to fix the October 30 advisories. deepmerge has no
+patched npm release; the audit gate still reports its raw findings and verifies
+installed hashes, consumer resolution, exploit rejection and ordinary config merges.

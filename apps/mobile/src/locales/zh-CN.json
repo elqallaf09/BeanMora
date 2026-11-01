@@ -3203,5 +3203,11 @@
   "Ask about grind, ratio or taste": "询问研磨、比例或风味",
   "My library": "我的收藏库",
   "Add new": "新增",
-  "Add new +": "新增 +"
+  "Add new +": "新增 +",
+  "Use at least 8 characters. You can use a few words you can remember.": "至少使用8个字符。可以选择几个容易记住的词。",
+  "This password is too short. Use at least 8 characters.": "密码太短。请至少使用8个字符。",
+  "Choose a less common password. Try a few words you can remember.": "请选择不太常见的密码。试试几个容易记住的词。",
+  "This password does not match the current account requirements. Try another password.": "此密码不符合当前账户要求。请尝试其他密码。",
+  "Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.": "使用Google账户？请通过Google继续，或选择“设置或重置密码”来创建BeanMora密码。",
+  "Set or reset password": "设置或重置密码"
 }

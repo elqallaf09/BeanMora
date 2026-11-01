@@ -12,7 +12,7 @@ test('real production weak-password error is actionable with or without a code',
   assert.equal(authFailure(new Error(message)).kind, 'weakPassword');
   assert.equal(authFailure({ code: 'weak_password', message: 'Different server wording' }).kind, 'weakPassword');
   assert.equal(authFailure({ code: 'weak_password', reasons: ['pwned'] }).kind, 'breachedPassword');
-  assert.equal(authFailure({ code: 'weak_password', reasons: ['length', 'characters'] }).kind, 'passwordPolicy');
+  assert.equal(authFailure({ code: 'weak_password', reasons: ['length', 'characters'] }).kind, 'passwordLength');
 });
 test('stable codes, transport errors and rate limits stay distinct', () => {
   for (const [code, kind] of Object.entries({ email_address_invalid: 'invalidEmail', email_address_not_authorized: 'emailUnavailable', over_email_send_rate_limit: 'emailRateLimit', over_request_rate_limit: 'rateLimit', signup_disabled: 'signupDisabled', email_provider_disabled: 'signupDisabled', invalid_credentials: 'invalidCredentials', email_not_confirmed: 'emailNotConfirmed', request_timeout: 'network' })) {
@@ -42,4 +42,21 @@ test('browser and expired OAuth proof errors stay distinct from email/password f
   for (const code of ['bad_code_verifier', 'flow_state_not_found', 'flow_state_expired'])
     assert.equal(authFailure({ code, message: 'Different server wording' }).kind, 'oauthSession');
   assert.equal(authFailure(new Error('PKCE code verifier missing')).kind, 'oauthSession');
+});
+
+const guidanceCode = ts.transpileModule(readFileSync(new URL('../src/passwordGuidance.ts', import.meta.url), 'utf8'), {
+  compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext },
+}).outputText.replace("'./authFailure'", JSON.stringify('data:text/javascript;base64,' + Buffer.from(code).toString('base64')));
+const { passwordFailureMessage } = await import('data:text/javascript;base64,' + Buffer.from(guidanceCode).toString('base64'));
+test('password guidance distinguishes length from character rules and non-password failures', () => {
+  const english = (_ar, en) => en;
+  assert.match(passwordFailureMessage({ code: 'weak_password', reasons: ['length'] }, english), /too short/);
+  assert.match(passwordFailureMessage({ code: 'weak_password', reasons: ['characters'] }, english), /current account requirements/);
+  for (const reasons of [['pwned'], []]) {
+    const message = passwordFailureMessage({ code: 'weak_password', reasons }, english);
+    assert.match(message, /few words/);
+    assert.doesNotMatch(message, /uppercase|lowercase|symbols|numbers/);
+  }
+  assert.equal(passwordFailureMessage({ code: 'invalid_credentials' }, english), null);
+  assert.equal(passwordFailureMessage({ status: 503 }, english), null);
 });
