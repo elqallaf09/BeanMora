@@ -1,3 +1,5 @@
+import { XBloomPlanner } from './XBloomPlanner';
+import type { XBloomDraft } from './xbloomDraft';
 import { useLabels } from './ui';
 import { uiMessage } from './localeText';
 import { useContext, useRef, useState } from "react";
@@ -30,6 +32,7 @@ export function ContributionForm({
   const i18nUi = useLabels();
   const locale = useContext(Language),
     ar = locale === "ar";
+  const [xbloomDraft, setXBloomDraft] = useState<XBloomDraft | null>(null);
   const [values, setValues] = useState(() => initialContribution(kind));
   const [photo, setPhoto] = useState<{ uri: string; bytes: Uint8Array } | null>(
     null,
@@ -75,7 +78,8 @@ export function ContributionForm({
     setBusy(true);
     try {
       if (!attempt.current) {
-        const payload = contributionPayload(kind, values, locale);
+        const payload: Record<string, unknown> = contributionPayload(kind, values, locale);
+        if (xbloomDraft && values.method === 'xbloom') payload.xbloom = xbloomDraft.brew;
         if (photo && !rights)
           throw new Error(
             ar
@@ -160,6 +164,8 @@ export function ContributionForm({
           ? "الحقول المميزة بنجمة مطلوبة. اترك المعلومة غير المعروفة فارغة."
           : i18nUi("الحقول المميزة بنجمة مطلوبة. اترك المعلومة غير المعروفة فارغة.", "Starred fields are required. Leave unknown details blank.")}
       </Txt>
+      {kind === 'recipe' && !locked ? <XBloomPlanner openRecipe={() => {}} onDraft={draft => { setXBloomDraft(draft); setValues(draft.values); }} /> : null}
+      {xbloomDraft ? <Txt style={styles.muted}>{i18nUi('مسودة xBloom جاهزة للمراجعة. رابط المصدر يفتح الوصفة الأصلية؛ نقل التعديلات إلى الجهاز يدوي. لإعادة ضبط المقادير استخدم مُنشئ الوصفة أعلاه.', 'xBloom draft ready to review. The source link opens the original recipe; transfer changes to the machine manually. Use the builder above to change amounts.')}</Txt> : null}
       {contributionFields[kind].map((f) => (
         <View key={f.key} style={{ gap: 6 }}>
           <Txt>{(i18nUi(f.ar,f.en)) + (f.required ? " *" : "")}</Txt>
@@ -178,7 +184,7 @@ export function ContributionForm({
                   title={i18nUi(c[1],c[2])}
                   selected={(values[f.key] ?? "") === c[0]}
                   disabled={busy || locked}
-                  onPress={() => setValues((v) => ({ ...v, [f.key]: c[0] }))}
+                  onPress={() => { if (f.key === 'method') setXBloomDraft(null); setValues((v) => ({ ...v, [f.key]: c[0] })); }}
                 />
               ))}
             </View>
@@ -186,7 +192,7 @@ export function ContributionForm({
             <Field
               label={i18nUi(f.ar,f.en)}
               value={values[f.key] ?? ""}
-              editable={!busy && !locked}
+              editable={!busy && !locked && !(xbloomDraft && ['dose','water','temperature','seconds','grind','steps'].includes(f.key))}
               onChangeText={(text) =>
                 setValues((v) => ({ ...v, [f.key]: text }))
               }

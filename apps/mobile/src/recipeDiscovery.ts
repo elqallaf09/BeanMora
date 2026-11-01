@@ -51,6 +51,8 @@ export interface RecipeSearch {
   query: string;
   method?: Method;
   filters: RecipeDiscoveryFilters;
+  deviceModel?: 'Studio' | 'Original';
+  cup?: 'Omni' | 'xPod';
   coffee?: { kind: 'bean' | 'product'; id: string };
 }
 const parameter = (value: string | undefined) =>
@@ -73,7 +75,7 @@ export function recipeSearchParams(search: RecipeSearch) {
     // General recipe discovery includes every public source and machine model,
     // including when an older screen state still carries removed restrictions.
     p_source: null,
-    p_model: null,
+    p_model: search.method === 'xbloom' ? search.deviceModel ?? null : null,
     p_flavor_note: searchParameter(f.flavorNote),
     p_flavor_family: parameter(f.flavorFamily),
     p_creator_name: parameter(f.creatorName),
@@ -124,15 +126,17 @@ export function recipePageQuery(
       ? requestedPageSize
       : RECIPE_PAGE_SIZE;
   const offset = Math.max(0, Math.floor(page)) * pageSize;
-  return db
+  const request = db
     .rpc(
       search.coffee ? 'search_public_recipes_v2' : 'search_public_recipes',
       recipeSearchParams(search),
       {
         count: 'exact',
       },
-    )
-    .select(selectWithRecipeSortKeys(fields))
+    );
+  const filtered = search.method === 'xbloom' && search.cup
+    ? request.ilike('source_brew_parameters->>cup_type', search.cup) : request;
+  return filtered.select(selectWithRecipeSortKeys(fields))
     .order('updated_at', { ascending: false })
     .order('id')
     .range(offset, offset + pageSize - 1)
@@ -178,7 +182,7 @@ export async function recipeCatalogPage(
   const matches: Record<string,RecipeNearMatch> = {};
   if (!near) {
     const exact = await recipePageQuery(db,search,page,fields,signal,pageSize);
-    if (exact.error || page > 0 || exact.data?.length || recipeSearchCriterionCount(search) < 2)
+    if (exact.error || page > 0 || exact.data?.length || recipeSearchCriterionCount(search) < 2 || search.deviceModel || search.cup)
       return { ...exact,near:false,matches };
   }
   const result = await db.rpc('search_public_recipe_near_matches',{

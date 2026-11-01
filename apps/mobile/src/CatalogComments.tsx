@@ -94,8 +94,8 @@ export function CatalogComments({
     }
   }
   return (
-    <View style={[styles.card, { padding: 15, gap: 10 }]}>
-      <Action title={ar ? "التعليقات" : i18nUi("التعليقات", "Comments")} onPress={() => setExpanded(v => !v)} selected={expanded} />
+    <View style={kind === 'recipe' ? { gap: 10 } : [styles.card, { padding: 15, gap: 10 }]}>
+      <Action variant={kind === 'recipe' ? 'primary' : 'secondary'} title={ar ? "التعليقات" : i18nUi("التعليقات", "Comments")} onPress={() => setExpanded(v => !v)} selected={expanded} />
       {expanded ? <>
       {rows.map((c) => (
         <View key={c.id} style={{ gap: 5, paddingVertical: 8 }}>

@@ -6,7 +6,7 @@ import { capsuleProducts, capsuleSystems } from "./core/capsules";
 import { matchesDeepSearch } from "./core/deepSearch";
 import { SelectionMenu } from "./SelectionMenu";
 import { Disclosure } from "./Disclosure";
-import { CatalogPhoto } from "./CatalogPhoto";
+import { CapsuleVisual } from "./CapsuleVisual";
 import { SourceLink } from "./SourceLink";
 import { Action, Field, Language, Txt, colors, styles } from "./ui";
 
@@ -117,14 +117,7 @@ export function CapsuleCatalog() {
               },
             ]}
           >
-            {p.image ? (
-              <CatalogPhoto
-                uri={p.image}
-                alt={i18nUi(p.name.ar,p.name.en)}
-                height={84}
-                icon="bean"
-              />
-            ) : null}
+            <CapsuleVisual uri={p.image} system={p.system} name={i18nUi(p.name.ar,p.name.en)} />
             <Txt
               heading
               numberOfLines={2}
@@ -134,14 +127,14 @@ export function CapsuleCatalog() {
             </Txt>
             <Txt
               numberOfLines={1}
-              style={{ fontSize: 11, lineHeight: 16, color: colors.teal }}
+              style={{ fontSize: 13, lineHeight: 19, color: colors.teal }}
             >
               {i18nUi(capsuleSystems.find((c) => c.id === p.system)?.name.ar ?? '',capsuleSystems.find((c) => c.id === p.system)?.name.en ?? '')}
             </Txt>
             {p.detail ? (
               <Txt
                 numberOfLines={2}
-                style={{ fontSize: 12, lineHeight: 18, color: colors.muted }}
+                style={{ fontSize: 13, lineHeight: 19, color: colors.muted }}
               >
                 {i18nUi(p.detail.ar,p.detail.en)}
               </Txt>
