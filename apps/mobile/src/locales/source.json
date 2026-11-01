@@ -25102,5 +25102,21 @@
       "src/passwordGuidance.ts",
       "src/locales/reviewed.json"
     ]
+  },
+  {
+    "en": "Share your coffee moment for 24 hours.",
+    "ar": "شارك لحظتك مع القهوة لمدة 24 ساعة.",
+    "files": [
+      "src/CoffeeStories.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "By publishing, you confirm you have permission to share this content.",
+    "ar": "بنشر القصة، تؤكد حقك في مشاركة محتواها.",
+    "files": [
+      "src/CoffeeStories.tsx",
+      "src/locales/reviewed.json"
+    ]
   }
 ]

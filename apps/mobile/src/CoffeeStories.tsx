@@ -6,18 +6,17 @@ import { Action, Field, Icon, Language, Txt, colors, styles } from './ui';
 import { ConfirmDialog } from './ConfirmDialog';
 import { StoryViewer } from './StoryViewer';
 import { MemberAvatar } from './MemberAvatar';
-import { SelectionMenu } from './SelectionMenu';
+import { StoryTopics } from './StoryTopics';
 import { chooseSocialMedia, MediaChoices, SocialMediaView } from './SocialMedia';
 import { submitCoffeeStory, type CoffeeStory, type SocialMedia, type SocialSanction } from './core/community-social';
 import type { MemberIdentity } from './core/member-social';
 
-export const storyCategories = [['coffee', 'القهوة', 'Coffee'], ['brewing', 'التحضير', 'Brewing'], ['equipment', 'المعدات', 'Equipment'], ['coffee_corner', 'ركن القهوة', 'Coffee corner']] as const;
 export function CoffeeStories({ owner, login }: { owner: string | null; login: () => void }) {
   const i18nUi = useLabels();
   const ar = useContext(Language) === 'ar';
   const [rows, setRows] = useState<CoffeeStory[]>([]), [profiles, setProfiles] = useState<Record<string, MemberIdentity>>({});
   const [sanction, setSanction] = useState<SocialSanction | null>(null), [open, setOpen] = useState(false), [selected, setSelected] = useState<CoffeeStory | null>(null);
-  const [draft, setDraft] = useState<SocialMedia | null>(null), [caption, setCaption] = useState(''), [category, setCategory] = useState<CoffeeStory['category']>('coffee'), [rights, setRights] = useState(false);
+  const [draft, setDraft] = useState<SocialMedia | null>(null), [caption, setCaption] = useState(''), [category, setCategory] = useState<CoffeeStory['category']>('coffee');
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [notice, setNotice] = useState(''), [revision, setRevision] = useState(0), [confirmDelete, setConfirmDelete] = useState<CoffeeStory | null>(null), [reporting, setReporting] = useState<CoffeeStory | null>(null), [discard, setDiscard] = useState(false);
   useEffect(() => {
     if (!supabase) return; let active = true; const db = supabase;
@@ -37,14 +36,14 @@ export function CoffeeStories({ owner, login }: { owner: string | null; login: (
   }, [owner, revision, ar, i18nUi]);
   async function choose(type: 'image' | 'video', camera = false) {
     setError(''); setBusy(true);
-    try { const media = await chooseSocialMedia(type, camera); if (media) { setDraft(media); setRights(false); } }
+    try { const media = await chooseSocialMedia(type, camera); if (media) { setDraft(media); } }
     catch { setError(ar ? 'اختر صورة حتى 5 MB أو فيديو MP4 / WebM حتى 15 MB، واسمح بالكاميرا عند التصوير.' : i18nUi('اختر صورة حتى 5 MB أو فيديو MP4 / WebM حتى 15 MB، واسمح بالكاميرا عند التصوير.', 'Choose a photo up to 5 MB or MP4 / WebM video up to 15 MB, and allow the camera when capturing.')); }
     finally { setBusy(false); }
   }
   async function publish() {
-    if (!owner || !supabase || !draft || !rights || busy) return;
+    if (!owner || !supabase || !draft || busy) return;
     setBusy(true); setError('');
-    try { await submitCoffeeStory(supabase, owner, draft, category, caption); setDraft(null); setCaption(''); setRights(false); setOpen(false); setNotice(ar ? 'تم نشر قصتك. تظهر لمدة 24 ساعة.' : i18nUi('تم نشر قصتك. تظهر لمدة 24 ساعة.', 'Your story is published for 24 hours.')); setRevision(n => n + 1); }
+    try { await submitCoffeeStory(supabase, owner, draft, category, caption); setDraft(null); setCaption(''); setOpen(false); setNotice(ar ? 'تم نشر قصتك. تظهر لمدة 24 ساعة.' : i18nUi('تم نشر قصتك. تظهر لمدة 24 ساعة.', 'Your story is published for 24 hours.')); setRevision(n => n + 1); }
     catch { setError(ar ? 'تعذّر حفظ القصة. مسودتك موجودة للمحاولة مرة ثانية.' : i18nUi('تعذّر حفظ القصة. مسودتك موجودة للمحاولة مرة ثانية.', 'Could not save story. Your draft is kept for retry.')); }
     finally { setBusy(false); }
   }
@@ -87,19 +86,24 @@ export function CoffeeStories({ owner, login }: { owner: string | null; login: (
     </ScrollView>
     {notice ? <View accessibilityLiveRegion="polite"><Txt style={styles.success}>{notice}</Txt></View> : null}
     {error ? <View><Txt accessibilityRole="alert" style={styles.error}>{error}</Txt><Action compact title={ar ? 'تحديث القصص' : i18nUi('تحديث القصص', 'Refresh stories')} onPress={() => { setError(''); setRevision(n => n + 1); }} /></View> : null}
-    {open ? <View style={[styles.card, { padding: 14, gap: 12 }]}>
-      <Txt heading style={styles.subtitle}>{ar ? 'قصتك مع القهوة' : i18nUi('قصتك مع القهوة', 'Your coffee story')}</Txt>
-      <Txt style={styles.muted}>{ar ? 'للقهوة والتحضير والمعدات فقط. تُنشر القصة فورًا لمدة 24 ساعة. المخالفة المؤكدة تحذير، وتكرارها حظر من المشاركة والرسائل.' : i18nUi('للقهوة والتحضير والمعدات فقط. تُنشر القصة فورًا لمدة 24 ساعة. المخالفة المؤكدة تحذير، وتكرارها حظر من المشاركة والرسائل.', 'Coffee, brewing and equipment only. Stories publish immediately for 24 hours. A confirmed violation gives a warning; repetition suspends participation and messages.')}</Txt>
-      <SelectionMenu label={ar ? 'موضوع القصة' : i18nUi('موضوع القصة', 'Story topic')} value={category} items={storyCategories.map(c => ({ id: c[0], name: i18nUi(c[1],c[2]) }))} onChange={v => setCategory(v as CoffeeStory['category'])} />
+    {open ? <View testID="story-composer" style={[styles.card, { padding: 18, gap: 16, borderRadius: 24 }]}>
+      <View style={{ flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 12 }}>
+        <View style={{ width: 46, height: 46, borderRadius: 16, backgroundColor: colors.chip, alignItems: 'center', justifyContent: 'center' }}><Icon name="story" size={28} color={colors.teal} /></View>
+        <View style={{ flex: 1, gap: 2 }}>
+          <Txt heading style={styles.subtitle}>{i18nUi('قصتك مع القهوة', 'Your coffee story')}</Txt>
+          <Txt style={styles.muted}>{i18nUi('شارك لحظتك مع القهوة لمدة 24 ساعة.', 'Share your coffee moment for 24 hours.')}</Txt>
+        </View>
+      </View>
+      <StoryTopics value={category} onChange={setCategory} disabled={busy} />
       <MediaChoices camera choose={(type, camera) => void choose(type, camera)} disabled={busy} />
       {draft ? <SocialMediaView source={draft.uri} type={draft.type} label={ar ? 'معاينة القصة' : i18nUi('معاينة القصة', 'Story preview')} /> : null}
       <Field label={ar ? 'وصف القصة' : i18nUi('وصف القصة', 'Story caption')} value={caption} onChangeText={setCaption} maxLength={1000} editable={!busy} />
-      <Pressable accessibilityRole="checkbox" accessibilityState={{ checked: rights }} disabled={busy} onPress={() => setRights(!rights)} style={[styles.row, { minHeight: 48, flexDirection: ar ? 'row-reverse' : 'row' }]}><Txt>{rights ? '☑' : '☐'}</Txt><Txt style={{ flex: 1 }}>{ar ? 'المحتوى يخص القهوة وأملك حق نشره' : i18nUi('المحتوى يخص القهوة وأملك حق نشره', 'This is coffee content and I have permission to share it')}</Txt></Pressable>
-      <Action selected title={ar ? 'نشر القصة' : i18nUi('نشر القصة', 'Publish story')} disabled={busy || !draft || !rights} onPress={() => void publish()} />
+      <Txt style={[styles.muted, { fontSize: 13 }]}>{i18nUi('بنشر القصة، تؤكد حقك في مشاركة محتواها.', 'By publishing, you confirm you have permission to share this content.')}</Txt>
+      <Action selected title={ar ? 'نشر القصة' : i18nUi('نشر القصة', 'Publish story')} disabled={busy || !draft} onPress={() => void publish()} />
       <Action compact title={ar ? 'إغلاق القصة' : i18nUi('إغلاق القصة', 'Close story composer')} disabled={busy} onPress={discardComposer} />
     </View> : null}
     {selected ? <StoryViewer key={selected.id} stories={visibleStories} initialId={selected.id} profiles={profiles} owner={owner} close={() => setSelected(null)} remove={setConfirmDelete} report={setReporting} busy={busy} suspended={Boolean(confirmDelete || reporting)} overlay={<>{deleteDialog}{reportDialog}</>} /> : <>{deleteDialog}{reportDialog}</>}
-    <ConfirmDialog visible={discard} title={ar ? 'مسح مسودة القصة' : i18nUi('مسح مسودة القصة', 'Discard story draft')} message={ar ? 'مسح القصة التي لم تنشرها؟' : i18nUi('مسح القصة التي لم تنشرها؟', 'Discard this unpublished story?')} busy={busy} onCancel={() => setDiscard(false)} onConfirm={() => { setDraft(null); setCaption(''); setRights(false); setOpen(false); setDiscard(false); }} />
+    <ConfirmDialog visible={discard} title={ar ? 'مسح مسودة القصة' : i18nUi('مسح مسودة القصة', 'Discard story draft')} message={ar ? 'مسح القصة التي لم تنشرها؟' : i18nUi('مسح القصة التي لم تنشرها؟', 'Discard this unpublished story?')} busy={busy} onCancel={() => setDiscard(false)} onConfirm={() => { setDraft(null); setCaption(''); setOpen(false); setDiscard(false); }} />
   </View>;
 }
 

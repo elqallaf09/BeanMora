@@ -3209,5 +3209,7 @@
   "Choose a less common password. Try a few words you can remember.": "Choisissez un mot de passe moins courant. Essayez quelques mots faciles à retenir.",
   "This password does not match the current account requirements. Try another password.": "Ce mot de passe ne respecte pas les exigences actuelles du compte. Essayez-en un autre.",
   "Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.": "Compte Google ? Continuez avec Google ou choisissez « Définir ou réinitialiser le mot de passe » pour créer un mot de passe BeanMora.",
-  "Set or reset password": "Définir ou réinitialiser le mot de passe"
+  "Set or reset password": "Définir ou réinitialiser le mot de passe",
+  "Share your coffee moment for 24 hours.": "Partagez votre moment café pendant 24 heures.",
+  "By publishing, you confirm you have permission to share this content.": "En publiant, vous confirmez avoir le droit de partager ce contenu."
 }

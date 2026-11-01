@@ -5,22 +5,21 @@ import { View } from './native';
 import { catalogScope, supabase } from './client';
 import { Action, Field, Language, Txt, styles } from './ui';
 import { ConfirmDialog } from "./ConfirmDialog";
-import { SelectionMenu } from './SelectionMenu';
 import { chooseSocialMedia, MediaChoices, SocialMediaView } from './SocialMedia';
 import { saveCommunityPost, uploadSocialMedia, type SocialMedia } from './core/community-social';
 import { contentMediaPath } from './core/content-media';
 
 export type EditablePost = { id: string; body: string | null; primary_media_path?: string | null; content_type?: 'topic' | 'image' | 'video'; media?: { url: string; media_type: 'image' | 'video' }[]; brew_log_id: string | null; recipe_id: string | null; roast_profile_id: string | null };
-export function PostComposer({ owner, brews, post, saved, close }: { owner: string; brews: { id: string; label: string }[]; post?: EditablePost | null; saved: () => void; close: () => void }) {
+export function PostComposer({ owner, post, saved, close }: { owner: string; post?: EditablePost | null; saved: () => void; close: () => void }) {
   const i18nUi = useLabels();
   const locale = useContext(Language), ar = locale === 'ar';
-  const [body, setBody] = useState(post?.body ?? ''), [media, setMedia] = useState<SocialMedia | null>(null), [brewId, setBrewId] = useState<string | null>(null);
+  const [body, setBody] = useState(post?.body ?? ''), [media, setMedia] = useState<SocialMedia | null>(null);
   const [path, setPath] = useState(post?.primary_media_path ?? null), [type, setType] = useState<'image' | 'video' | null>(post?.content_type === 'image' || post?.content_type === 'video' ? post.content_type : null);
   const [mediaChanged, setMediaChanged] = useState(false);
   const legacyMedia = !mediaChanged && !path ? post?.media ?? [] : [];
   const [busy, setBusy] = useState(false), [error, setError] = useState('');
   const [confirmation, setConfirmation] = useState<"media" | "draft" | null>(null);
-  const dirty = body !== (post?.body ?? "") || mediaChanged || Boolean(media) || Boolean(brewId);
+  const dirty = body !== (post?.body ?? "") || mediaChanged || Boolean(media);
   const id = useRef(post?.id ?? randomUUID()), sending = useRef(false);
   async function choose(kind: 'image' | 'video') {
     setBusy(true); setError('');
@@ -32,7 +31,7 @@ export function PostComposer({ owner, brews, post, saved, close }: { owner: stri
     if (!supabase || sending.current) return; sending.current = true; setBusy(true); setError('');
     try {
       const nextPath = media ? await uploadSocialMedia(supabase, owner, 'post-media', media) : path;
-      await saveCommunityPost(supabase, owner, { id: id.current, body, language: locale, path: nextPath, type, brewId: post?.brew_log_id ?? brewId, replaceMedia: !post || mediaChanged });
+      await saveCommunityPost(supabase, owner, { id: id.current, body, language: locale, path: nextPath, type, brewId: post?.brew_log_id ?? null, replaceMedia: !post || mediaChanged });
       if (post && mediaChanged) {
         const oldPaths = [...new Set([post.primary_media_path, ...(post.media ?? []).map(m => { const target = contentMediaPath(m.url, catalogScope); return target?.bucket === 'post-media' ? target.path : null; })].filter((p): p is string => Boolean(p && p.startsWith(owner + '/') && p !== nextPath)))];
         if (oldPaths.length) await supabase.storage.from('post-media').remove(oldPaths);
@@ -49,8 +48,7 @@ export function PostComposer({ owner, brews, post, saved, close }: { owner: stri
       {media || path ? <SocialMediaView source={media?.uri ?? 'storage://post-media/' + path} type={type ?? 'image'} label={ar ? 'وسائط المنشور' : i18nUi('وسائط المنشور', 'Post media')} /> : legacyMedia.map(m => <SocialMediaView key={m.url} source={m.url} type={m.media_type} label={ar ? 'وسائط المنشور' : i18nUi('وسائط المنشور', 'Post media')} />)}
       <Action compact title={ar ? 'إزالة الوسائط' : i18nUi('إزالة الوسائط', 'Remove media')} disabled={busy} onPress={() => setConfirmation("media")} />
     </> : <Txt style={styles.muted}>{ar ? 'موضوع، صورة أو فيديو عن القهوة.' : i18nUi('موضوع، صورة أو فيديو عن القهوة.', 'A topic, photo or video about coffee.')}</Txt>}
-    {!post && brews.length ? <SelectionMenu label={ar ? 'إرفاق تحضير (اختياري)' : i18nUi('إرفاق تحضير (اختياري)', 'Attach brew (optional)')} value={brewId ?? 'none'} items={[{ id: 'none', name: ar ? 'بدون تحضير' : i18nUi('بدون تحضير', 'No brew attached') }, ...brews.map(b => ({ id: b.id, name: b.label }))]} onChange={value => setBrewId(value === 'none' ? null : value)} /> : null}
-    <Action selected title={busy ? (ar ? 'جارٍ الحفظ…' : i18nUi('جارٍ الحفظ…', 'Saving…')) : post ? (ar ? 'حفظ تعديل المنشور' : i18nUi('حفظ تعديل المنشور', 'Save post changes')) : (ar ? 'انشر التجربة' : i18nUi('انشر التجربة', 'Publish'))} disabled={busy || (!body.trim() && !media && !path && !legacyMedia.length && !brewId && !post?.recipe_id && !post?.roast_profile_id && !post?.brew_log_id)} onPress={() => void save()} />
+    <Action selected title={busy ? (ar ? 'جارٍ الحفظ…' : i18nUi('جارٍ الحفظ…', 'Saving…')) : post ? (ar ? 'حفظ تعديل المنشور' : i18nUi('حفظ تعديل المنشور', 'Save post changes')) : (ar ? 'انشر التجربة' : i18nUi('انشر التجربة', 'Publish'))} disabled={busy || (!body.trim() && !media && !path && !legacyMedia.length && !post?.recipe_id && !post?.roast_profile_id && !post?.brew_log_id)} onPress={() => void save()} />
     <Action compact title={ar ? 'إغلاق المحرر' : i18nUi('إغلاق المحرر', 'Close composer')} disabled={busy} onPress={() => dirty ? setConfirmation("draft") : close()} />
     <ConfirmDialog visible={confirmation !== null} title={confirmation === 'media' ? (ar ? 'إزالة الوسائط' : i18nUi('إزالة الوسائط', 'Remove media')) : (ar ? 'مسح المسودة' : i18nUi('مسح المسودة', 'Discard draft'))} message={confirmation === 'media' ? (ar ? 'إزالة الصورة أو الفيديو من المنشور؟' : i18nUi('إزالة الصورة أو الفيديو من المنشور؟', 'Remove the photo or video from this post?')) : (ar ? 'إغلاق المحرر ومسح التغييرات التي لم تحفظها؟' : i18nUi('إغلاق المحرر ومسح التغييرات التي لم تحفظها؟', 'Close the composer and discard unsaved changes?'))} confirmLabel={ar ? 'موافقة' : i18nUi('موافقة', 'Confirm')} busy={busy} onCancel={() => setConfirmation(null)} onConfirm={() => { if (confirmation === 'draft') close(); else { setMedia(null); setPath(null); setType(null); setMediaChanged(true); } setConfirmation(null); }} />
     {error ? <Txt accessibilityRole="alert" style={styles.error}>{error}</Txt> : null}

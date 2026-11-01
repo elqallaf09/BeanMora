@@ -58,17 +58,6 @@ type PostRow = {
   primary_media_path?: string | null;
   media?: {url: string; media_type: 'image' | 'video'}[];
 };
-type BrewRow = {
-  id: string;
-  recipe_id: string | null;
-  bean_id: string | null;
-  brew_method: string | null;
-  dose_grams: number | null;
-  water_grams: number | null;
-  actual_time_seconds: number | null;
-  outcome_submission: unknown;
-  created_at: string;
-};
 type ProfileRow = {
   id: string;
   name: string;
@@ -160,7 +149,6 @@ export function CommunityScreen({
   const [linkedRecipes, setLinkedRecipes] = useState<RecipeItem[]>([]);
   const [likes, setLikes] = useState<LikeRow[]>([]);
   const [comments, setComments] = useState<CommentRow[]>([]);
-  const [recentBrews, setRecentBrews] = useState<BrewRow[]>([]);
   const [editingPost, setEditingPost] = useState<EditablePost | null>(null);
   const [deletePost, setDeletePost] = useState<PostRow | null>(null);
   const [sharePost, setSharePost] = useState<PostRow | null>(null);
@@ -227,7 +215,7 @@ export function CommunityScreen({
         if (result.error) throw result.error;
         const rows = (result.data ?? []) as unknown as PostRow[];
         const ids = rows.map((p) => p.id);
-        const [likeResult, commentResult, brewResult, recipeResult] =
+        const [likeResult, commentResult, recipeResult] =
           await Promise.all([
             ids.length
               ? db
@@ -244,16 +232,6 @@ export function CommunityScreen({
                   .eq('is_hidden', false)
                   .order('created_at', { ascending: true })
                   .limit(300)
-              : Promise.resolve({ data: [], error: null }),
-            userId
-              ? db
-                  .from('brew_logs')
-                  .select(
-                    'id,recipe_id,bean_id,brew_method,dose_grams,water_grams,actual_time_seconds,outcome_submission,created_at',
-                  )
-                  .eq('user_id', userId)
-                  .order('created_at', { ascending: false })
-                  .limit(12)
               : Promise.resolve({ data: [], error: null }),
             rows.some((p) => p.recipe_id)
               ? db
@@ -289,7 +267,6 @@ export function CommunityScreen({
         setPosts(rows);
         setLikes((likeResult.data ?? []) as LikeRow[]);
         setComments(commentRows);
-        setRecentBrews((brewResult.data ?? []) as BrewRow[]);
         setProfiles(Object.fromEntries(members.map((p) => [p.id, p])));
         setLinkedRecipes(
           ((recipeResult.data ?? []) as unknown as RecipeRow[]).flatMap(
@@ -414,16 +391,6 @@ export function CommunityScreen({
       if (active.current) setCommentBusy(null);
     }
   };
-  const brewTitle = (b: BrewRow) => {
-    const r = recipeRows.find((r) => r.id === b.recipe_id),
-      c = coffees.find((c) => (c.beanId ?? c.id) === b.bean_id);
-    return (
-      c?.name ??
-      r?.discovery?.coffeeName ??
-      r?.title ??
-      methodLabel(b.brew_method, locale)
-    );
-  };
   const write = () => {
     if (!userId) {
       login();
@@ -538,7 +505,7 @@ export function CommunityScreen({
             ))}
           </View> : null}
           {compose && userId ? (
-            <PostComposer key={editingPost?.id ?? 'new'} owner={userId} post={editingPost} brews={recentBrews.map(b => ({ id: b.id, label: brewTitle(b) + ' · ' + methodLabel(b.brew_method, locale) }))} close={() => { setCompose(false); setEditingPost(null); }} saved={() => { setCompose(false); setEditingPost(null); setRevision(r => r + 1); setMessage(ar ? 'تم حفظ المنشور.' : i18nUi('تم حفظ المنشور.', 'Post saved.')); }} />
+            <PostComposer key={editingPost?.id ?? 'new'} owner={userId} post={editingPost} close={() => { setCompose(false); setEditingPost(null); }} saved={() => { setCompose(false); setEditingPost(null); setRevision(r => r + 1); setMessage(ar ? 'تم حفظ المنشور.' : i18nUi('تم حفظ المنشور.', 'Post saved.')); }} />
           ) : (!embedded || authorId === userId) && !postId ? (
             <Pressable
               accessibilityRole="button"

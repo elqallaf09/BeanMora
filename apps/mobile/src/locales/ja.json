@@ -3209,5 +3209,7 @@
   "Choose a less common password. Try a few words you can remember.": "よく使われるものとは違うパスワードを選んでください。覚えやすい複数の単語を試してください。",
   "This password does not match the current account requirements. Try another password.": "このパスワードは現在のアカウント要件を満たしていません。別のパスワードを試してください。",
   "Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.": "Googleアカウントですか？Googleで続けるか、「パスワードの設定・再設定」からBeanMora用のパスワードを作成してください。",
-  "Set or reset password": "パスワードの設定・再設定"
+  "Set or reset password": "パスワードの設定・再設定",
+  "Share your coffee moment for 24 hours.": "コーヒーのひとときを24時間シェア。",
+  "By publishing, you confirm you have permission to share this content.": "投稿することで、このコンテンツを共有する権利があることを確認します。"
 }

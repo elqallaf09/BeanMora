@@ -167,6 +167,7 @@ test('clearing post media and discarding a draft wait for confirmation and cance
   const f = await fixture(page); await login(page); await page.getByRole('button', { name: 'BeanMora', exact: true }).click();
   await page.getByRole('button', { name: 'Open experience composer', exact: true }).click();
   const editor = page.getByTestId('community-composer'), confirm = page.getByTestId('confirm-dialog');
+  await expect(editor.getByRole('button', { name: /Attach brew/ })).toHaveCount(0);
   await editor.getByLabel('Write your experience', { exact: true }).fill('My unsaved coffee experience');
   await pickPhoto(page, () => editor.getByRole('button', { name: 'Photo', exact: true }).click());
   await editor.getByRole('button', { name: 'Remove media', exact: true }).click();
@@ -246,9 +247,12 @@ test('a coffee story publishes immediately, opens fullscreen and can be reviewed
   const f = await fixture(page, { reviewer: true }); await login(page); await page.getByRole('button', { name: 'BeanMora', exact: true }).click();
   const stories = page.getByTestId('coffee-stories'); await stories.getByRole('button', { name: 'Add my story', exact: true }).click();
   const send = stories.getByRole('button', { name: 'Publish story', exact: true }); await expect(send).toBeDisabled();
-  await pickPhoto(page, () => stories.getByRole('button', { name: 'Photo', exact: true }).click()); await expect(send).toBeDisabled();
+  await expect(stories.getByRole('checkbox')).toHaveCount(0);
+  await stories.getByRole('radio', { name: 'Equipment', exact: true }).click();
+  await pickPhoto(page, () => stories.getByRole('button', { name: 'Photo', exact: true }).click()); await expect(send).toBeEnabled();
   await stories.getByLabel('Story caption', { exact: true }).fill('Freshly brewed coffee');
-  await stories.getByRole('checkbox').click(); await send.click();
+  await send.click();
+  await expect.poll(() => f.stories[0]?.category).toBe('equipment');
   await expect(stories).toContainText('published for 24 hours'); await expect(stories).not.toContainText('Pending'); expect(f.stories[0].status).toBe('approved');
   await stories.getByRole('button', { name: 'Story by Coffee Owner', exact: true }).click();
   await expect(page.getByTestId('story-viewer').getByRole('img', { name: 'Freshly brewed coffee', exact: true })).toBeVisible();
@@ -271,7 +275,7 @@ test('fullscreen story video autoplays, pauses, resumes and advances when the cl
   const chooser = page.waitForEvent('filechooser');
   await rail.getByRole('button', { name: 'Video', exact: true }).click();
   await (await chooser).setFiles('e2e/fixtures/story-test-video.webm');
-  await rail.getByRole('checkbox').click(); await rail.getByRole('button', { name: 'Publish story', exact: true }).click();
+  await rail.getByRole('button', { name: 'Publish story', exact: true }).click();
   await rail.getByRole('button', { name: 'Story by Coffee Owner', exact: true }).click();
   const viewer = page.getByTestId('story-viewer'), video = viewer.locator('video');
   await expect.poll(() => video.evaluate(v => (v as HTMLVideoElement).currentTime)).toBeGreaterThan(0);
@@ -423,4 +427,30 @@ test('all profile sections stay visible and the message entry is an icon above t
   const menu = page.getByTestId('quick-library-menu'); await expect(menu).toBeVisible();
   expect((await menu.boundingBox())!.width).toBeLessThanOrEqual(390);
   await page.screenshot({ path: info.outputPath('compact-shortcuts-arabic-tablet.png'), animations: 'disabled' });
+});
+
+
+test('Arabic story topics and media actions fit a narrow phone in both themes', async ({ page }, info) => {
+  await page.setViewportSize({ width: 320, height: 844 });
+  await fixture(page); await login(page); await setLanguage(page, 'ar');
+  await page.getByRole('button', { name: 'BeanMora', exact: true }).click();
+  await page.getByRole('button', { name: 'إضافة قصتي', exact: true }).click();
+  const editor = page.getByTestId('story-composer');
+  await expect(editor.getByRole('checkbox')).toHaveCount(0);
+  await editor.getByRole('radio', { name: 'ركن القهوة', exact: true }).click();
+  await expect(editor.getByRole('radio', { name: 'ركن القهوة', exact: true })).toBeChecked();
+  for (const label of ['صورة', 'فيديو', 'تصوير الآن', 'تصوير فيديو']) {
+    const button = editor.getByRole('button', { name: label, exact: true });
+    const box = await button.boundingBox();
+    expect(box!.width).toBeGreaterThanOrEqual(44);
+    expect(box!.height).toBeGreaterThanOrEqual(44);
+    expect(box!.x).toBeGreaterThanOrEqual(0);
+    expect(box!.x + box!.width).toBeLessThanOrEqual(320);
+  }
+  await editor.screenshot({ path: info.outputPath('story-composer-ar-light.png') });
+  await page.getByRole('button', { name: 'الإعدادات', exact: true }).first().click();
+  await page.getByRole('button', { name: 'ليلي', exact: true }).click();
+  await page.getByRole('button', { name: 'تم', exact: true }).click();
+  await expect(page.locator('[aria-modal="true"]')).toHaveCount(0);
+  await editor.screenshot({ path: info.outputPath('story-composer-ar-dark.png') });
 });
