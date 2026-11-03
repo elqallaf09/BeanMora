@@ -30,6 +30,18 @@ do $$ begin
   if exists(select 1 from public.recipes where rights_suspended) then raise exception 'member reads held recipes'; end if;
 end $$;
 reset role;
+-- Definer profile aggregation must obey the same hold for owners as for guests.
+do $$ declare item record; d jsonb; section text; begin
+  for item in select distinct p.id,p.username from public.profiles p join public.recipes r on r.user_id=p.id where r.rights_suspended and p.username is not null loop
+    perform set_config('request.jwt.claim.sub',item.id::text,true);
+    d:=public.get_member_profile(item.username);
+    foreach section in array array['recipes','favorites'] loop
+      if exists(select 1 from jsonb_array_elements(coalesce(d->section,'[]'::jsonb)) e join public.recipes r on r.id=(e->>'id')::uuid where r.rights_suspended) then raise exception 'profile collection exposes held recipe'; end if;
+    end loop;
+    if exists(select 1 from jsonb_array_elements(coalesce(d->'comments','[]'::jsonb)) e join public.recipes r on r.id=(e->>'target_id')::uuid where e->>'kind'='recipe' and r.rights_suspended) then raise exception 'profile comment exposes held recipe'; end if;
+  end loop;
+  perform set_config('request.jwt.claim.sub','',true);
+end $$;
 -- Exercise the documented release path within this rolled-back transaction only.
 do $$ declare held_id uuid; begin
   select record_id into held_id from private.content_rights_holds where table_name='recipes' limit 1;

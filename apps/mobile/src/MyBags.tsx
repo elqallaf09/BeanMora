@@ -37,7 +37,7 @@ export function MyBags({ userId, coffees, savedIds, recipes, openCoffee, openRec
       const [i,b,own]=await Promise.all([
         supabase.from('user_bean_inventory').select('id,roasted_product_id,legacy_bean_id,roast_date,opened_at,original_weight_grams,remaining_weight_grams,storage_location,preferred_recipe_id,last_grind_setting,brew_count,created_at,updated_at').eq('user_id',userId).is('archived_at',null).order('updated_at',{ascending:false}),
         supabase.from('brew_logs').select('id,recipe_id,bean_id,dose_grams,water_grams,actual_time_seconds,grind_setting,taste_signal,outcome_submission,created_at').eq('user_id',userId).order('created_at',{ascending:false}).limit(150),
-        supabase.from('beans').select('*,roaster:roasters(name_ar,name_en,logo_url,country),flavors:bean_flavor_notes(flavor)').eq('created_by',userId),
+        supabase.from('beans').select('*,roaster:roasters(name_ar,name_en,logo_url,logo_usage_status,logo_permission_ref,country),flavors:bean_flavor_notes(flavor)').eq('created_by',userId),
       ]);
       if(i.error||b.error||own.error)throw i.error||b.error||own.error;setOwnCoffees(((own.data??[]) as CoffeeRow[]).map(row=>mapCoffee(row,'bean',ar)));setInventory((i.data??[]) as InventoryRow[]);setBrews((b.data??[]) as BrewRow[]);
     }catch{setError(ar?'تعذّر تحميل المخزون.':i18nUi('تعذّر تحميل المخزون.', 'Could not load inventory.'));}finally{setBusy(false);}
