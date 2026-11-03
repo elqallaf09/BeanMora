@@ -22,6 +22,12 @@ numbering are retained. The manual ios-0.5.39 workflow verifies app identity and
 configuration, runs the mobile checks, builds iOS and uploads that exact build
 ID to App Store Connect. It does not submit the app for public review.
 
+The first release browser run exposed two Settings animation races: deletion
+and password tests clicked mounted controls before the modal finished opening.
+Both tests now use the existing presentation check shared with language tests.
+They still require one click and retain all password/deletion assertions. No
+account behavior or security requirement is changed by this test adjustment.
+
 Run the workflow against the exact merged commit after the complete GitHub
 quality and mobile checks pass. Record build, upload and Apple processing
 receipts separately; source changes alone do not prove any of these outcomes.

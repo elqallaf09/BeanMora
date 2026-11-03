@@ -1,4 +1,4 @@
-import { setLanguage } from './settings';
+import { openSettings, setLanguage } from './settings';
 import { expect, test, type Page, type Route } from '@playwright/test';
 
 // All users, sessions, Storage operations and deletions below are isolated fixtures.
@@ -51,7 +51,7 @@ for (const ar of [true, false]) test(`${ar ? 'ar' : 'en'}: deletion requires con
     localStorage.setItem(guestShelf, 'isolated guest shelf');
   }, { ownShelf, guestShelf, ownDraft });
   await expect(page.getByTestId('account-screen').getByRole('button', { name: ar ? 'حذف الحساب والبيانات' : 'Delete account and data', exact: true })).toHaveCount(0);
-  await page.getByRole('button', { name: ar ? 'الإعدادات' : 'Settings', exact: true }).first().click();
+  await openSettings(page);
   const start = page.getByRole('button', { name: ar ? 'حذف الحساب والبيانات' : 'Delete account and data', exact: true });
   await start.click();
   const confirm = page.getByRole('button', { name: ar ? 'احذف حسابي نهائيًا' : 'Permanently delete my account', exact: true });
