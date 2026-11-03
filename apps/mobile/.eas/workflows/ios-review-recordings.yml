@@ -54,6 +54,7 @@ jobs:
   iphone:
     name: Record real native iPhone Simulator guest flow
     type: maestro
+    image: sdk-57
     environment: production
     runs_on: macos-medium
     needs: [build_simulator, devices]
@@ -66,6 +67,7 @@ jobs:
   ipad:
     name: Record real native iPad Simulator guest flow
     type: maestro
+    image: sdk-57
     environment: production
     runs_on: macos-medium
     needs: [build_simulator, devices]
