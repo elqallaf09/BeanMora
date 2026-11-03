@@ -218,10 +218,14 @@ export function useRecipeShelf(owner: string | null, locale: Locale) {
     }
   }
   const snapshots = entries.map((entry) => displaySnapshot(entry, locale));
-  const available = snapshots.filter(recipe => !recipe.public || recipe.contentRevision === CATALOG_CONTENT_REVISION);
+  // The owner restored the recipe library. Keep legacy saved recipes readable;
+  // an old snapshot cannot authorize its publisher cover photograph.
+  const available = snapshots.map(recipe => recipe.public && recipe.contentRevision !== CATALOG_CONTENT_REVISION
+    ? { ...recipe, coverUrl: null, coverKind: undefined }
+    : recipe);
   return {
     recipes: available,
-    unavailable: snapshots.length - available.length,
+    unavailable: 0,
     ids: entries.map((entry) => entry.id),
     toggle,
     busy: busy || state.scope !== scope || state.loading,

@@ -317,7 +317,7 @@ test('device storage failure is visible and does not report a recipe as saved', 
 });
 
 
-test('pre-review public saved recipes stay archived on the device but cannot be reopened', async ({ page }) => {
+test('restored pre-review saved recipes stay readable without republishing their old cover images', async ({ page }) => {
   await page.route('https://mobilefixture.supabase.co/**', route => {
     const path = new URL(route.request().url()).pathname;
     return reply(route, path.endsWith('/recipes') || path.endsWith('/rpc/search_public_recipes') ? [records[42]] : [], 200, 1);
@@ -326,16 +326,24 @@ test('pre-review public saved recipes stay archived on the device but cannot be 
   await page.getByRole('button', { name: 'وصفة بومب 100', exact: true }).click();
   await page.getByRole('button', { name: 'حفظ الوصفة على الجهاز', exact: true }).click();
   await expect(page.getByRole('button', { name: 'إزالة الوصفة من المحفوظة', exact: true })).toBeEnabled();
+  let oldCoverRequests = 0;
+  await page.route('https://unreviewed-fixture.example/**', route => { oldCoverRequests++; return route.abort(); });
   const saved = await page.evaluate(() => {
     const key = Object.keys(localStorage).find(k => k.startsWith('beanmora-recipe-shelf-v1:'))!;
     const data = JSON.parse(localStorage.getItem(key)!);
-    for (const entry of data.entries) for (const recipe of Object.values(entry.snapshots) as Record<string, unknown>[]) delete recipe.contentRevision;
+    for (const entry of data.entries) for (const recipe of Object.values(entry.snapshots) as Record<string, unknown>[]) {
+      delete recipe.contentRevision;
+      recipe.coverUrl = 'https://unreviewed-fixture.example/recipe-cover.jpg';
+    }
     const value = JSON.stringify(data); localStorage.setItem(key,value); return {key,value};
   });
   await page.reload();
   await page.getByRole('button', { name: 'وصفاتي المحفوظة', exact: true }).click();
   const shelf = page.getByTestId('saved-recipe-library');
-  await expect(shelf.getByText('بعض الوصفات المحفوظة غير متاحة مؤقتًا. بقيت مراجعها محفوظة.', {exact:true})).toBeVisible();
-  await expect(shelf.getByRole('button',{name:'وصفة بومب 100',exact:true})).toHaveCount(0);
+  await expect(shelf.getByRole('button',{name:'وصفة بومب 100',exact:true})).toBeVisible();
+  await shelf.getByRole('button',{name:'وصفة بومب 100',exact:true}).click();
+  await expect(page.getByTestId('recipe-detail')).toContainText('288');
+  await expect(page.getByTestId('recipe-detail')).toContainText('اتّبع خطوات المصدر.');
   expect(await page.evaluate(key=>localStorage.getItem(key),saved.key)).toBe(saved.value);
+  expect(oldCoverRequests).toBe(0);
 });
