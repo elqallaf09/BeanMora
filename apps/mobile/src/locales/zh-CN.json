@@ -3211,5 +3211,10 @@
   "Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.": "使用Google账户？请通过Google继续，或选择“设置或重置密码”来创建BeanMora密码。",
   "Set or reset password": "设置或重置密码",
   "Share your coffee moment for 24 hours.": "分享你的咖啡时刻，保留24小时。",
-  "By publishing, you confirm you have permission to share this content.": "发布即表示你确认有权分享此内容。"
+  "By publishing, you confirm you have permission to share this content.": "发布即表示你确认有权分享此内容。",
+  "Action was not confirmed. Please retry.": "操作未确认，请重试。",
+  "Comment options": "评论选项",
+  "Member blocked.": "已屏蔽该成员。",
+  "Post options": "帖子选项",
+  "Report content": "举报内容"
 }

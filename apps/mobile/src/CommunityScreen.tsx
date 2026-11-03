@@ -37,6 +37,7 @@ import { CoffeeStories } from './CoffeeStories';
 import { PostComposer, type EditablePost } from './PostComposer';
 import { SocialMediaView } from './SocialMedia';
 import { deleteCommunityPost } from './core/community-social';
+import { CommunityModeration, type ModerationTarget } from './CommunityModeration';
 
 type PostRow = {
   id: string;
@@ -152,8 +153,10 @@ export function CommunityScreen({
   const [editingPost, setEditingPost] = useState<EditablePost | null>(null);
   const [deletePost, setDeletePost] = useState<PostRow | null>(null);
   const [sharePost, setSharePost] = useState<PostRow | null>(null);
+  const [moderation, setModeration] = useState<ModerationTarget | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [pageLimit, setPageLimit] = useState(60);
+  const [hasMorePosts, setHasMorePosts] = useState(false);
   const [commentsOpen, setCommentsOpen] = useState<string | null>(null);
   const [commentText, setCommentText] = useState<Record<string, string>>({});
   const [commentBusy, setCommentBusy] = useState<string | null>(null);
@@ -213,7 +216,10 @@ export function CommunityScreen({
             ? { data: [], error: null }
             : await query;
         if (result.error) throw result.error;
-        const rows = (result.data ?? []) as unknown as PostRow[];
+        const blockResult = userId ? await db.from('blocks').select('blocked_id').eq('blocker_id', userId) : { data: [], error: null };
+        if (blockResult.error) throw blockResult.error;
+        const blockedAuthors = new Set((blockResult.data ?? []).map(row => row.blocked_id));
+        const rows = ((result.data ?? []) as unknown as PostRow[]).filter(row => !blockedAuthors.has(row.user_id));
         const ids = rows.map((p) => p.id);
         const [likeResult, commentResult, recipeResult] =
           await Promise.all([
@@ -247,7 +253,7 @@ export function CommunityScreen({
           ]);
         if (likeResult.error || commentResult.error)
           throw likeResult.error ?? commentResult.error;
-        const commentRows = (commentResult.data ?? []) as CommentRow[];
+        const commentRows = ((commentResult.data ?? []) as CommentRow[]).filter(row => !blockedAuthors.has(row.user_id));
         const userIds = [
           ...new Set([
             ...rows.map((p) => p.user_id),
@@ -265,6 +271,7 @@ export function CommunityScreen({
         }
         if (!alive) return;
         setPosts(rows);
+        setHasMorePosts((result.data?.length ?? 0) >= pageLimit);
         setLikes((likeResult.data ?? []) as LikeRow[]);
         setComments(commentRows);
         setProfiles(Object.fromEntries(members.map((p) => [p.id, p])));
@@ -642,6 +649,7 @@ export function CommunityScreen({
                       </Txt>
                     </View>
                     {p.user_id === userId ? <View style={{ flexDirection: "row", flexWrap: "wrap" }}><IconButton name="edit" label={ar ? "تعديل المنشور" : i18nUi("تعديل المنشور", "Edit post")} onPress={() => { setEditingPost(p); setCompose(true); }} /><IconButton name="trash" label={ar ? "حذف المنشور" : i18nUi("حذف المنشور", "Delete post")} onPress={() => { setDeletePost(p); setError(""); }} /></View> : null}
+                    {p.user_id !== userId ? <IconButton name="more" label={i18nUi('خيارات المنشور', 'Post options')} onPress={() => userId ? setModeration({ kind: 'post', id: p.id, author: p.user_id }) : login()} /> : null}
                     {p.content_language && p.content_language !== locale ? (
                       <Txt style={{ fontSize: 11, color: colors.muted }}>
                         {(ar ? 'ب' : '')+languageName(locale,p.content_language)}
@@ -894,6 +902,7 @@ export function CommunityScreen({
                                 (ar ? 'عضو المجتمع' : i18nUi('عضو المجتمع', 'Member'))}
                             </Txt>
                             <Txt>{c.body}</Txt>
+                            {c.user_id !== userId ? <Action compact title={i18nUi('خيارات التعليق', 'Comment options')} onPress={() => userId ? setModeration({ kind: 'comment', id: c.id, author: c.user_id }) : login()} /> : null}
                           </View>
                         ))}
                       {userId ? (
@@ -961,7 +970,7 @@ export function CommunityScreen({
               );
             })}
           </View>
-          {!postId && posts.length >= pageLimit && !loading ? <Action compact title={ar ? "منشورات أقدم" : i18nUi("منشورات أقدم", "Older posts")} onPress={() => setPageLimit(n => n + 60)} /> : null}
+          {!postId && hasMorePosts && !loading ? <Action compact title={ar ? "منشورات أقدم" : i18nUi("منشورات أقدم", "Older posts")} onPress={() => setPageLimit(n => n + 60)} /> : null}
           {!visible.length && !loading && !error ? (
             <View testID="community-empty" style={s.empty}>
               <Txt heading style={[styles.subtitle, { textAlign: 'center' }]}>
@@ -1062,6 +1071,14 @@ export function CommunityScreen({
         <Action compact title={ar ? 'إغلاق المشاركة' : i18nUi('إغلاق المشاركة', 'Close sharing')} onPress={() => setSharePost(null)} />
       </View> : null}
       <ConfirmDialog visible={Boolean(deletePost)} title={ar ? 'حذف المنشور' : i18nUi('حذف المنشور', 'Delete post')} message={ar ? 'حذف المنشور نهائيًا؟ سجل التحضير يبقى محفوظًا.' : i18nUi('حذف المنشور نهائيًا؟ سجل التحضير يبقى محفوظًا.', 'Delete this post? Your brew record stays saved.')} confirmLabel={ar ? 'تأكيد حذف المنشور' : i18nUi('تأكيد حذف المنشور', 'Confirm delete post')} cancelLabel={ar ? 'إلغاء حذف المنشور' : i18nUi('إلغاء حذف المنشور', 'Cancel post deletion')} busy={deleting} error={error} onCancel={() => setDeletePost(null)} onConfirm={() => { if (!supabase || !userId || !deletePost || deleting) return; setDeleting(true); void deleteCommunityPost(supabase, userId, deletePost.id).then(async () => { if (deletePost.primary_media_path) await supabase?.storage.from('post-media').remove([deletePost.primary_media_path]); setDeletePost(null); setRevision(n => n + 1); }).catch(() => setError(ar ? 'تعذّر تأكيد حذف المنشور.' : i18nUi('تعذّر تأكيد حذف المنشور.', 'Could not confirm post deletion.'))).finally(() => setDeleting(false)); }} />
+      {moderation && userId ? <CommunityModeration key={moderation.kind + moderation.id} owner={userId} target={moderation} close={() => setModeration(null)}
+        reported={() => { setModeration(null); setMessage(i18nUi('وصل البلاغ لفريق المراجعة.', 'Your report was sent for review.')); }}
+        blocked={author => {
+          setModeration(null);
+          setPosts(rows => rows.filter(row => row.user_id !== author));
+          setComments(rows => rows.filter(row => row.user_id !== author));
+          setMessage(i18nUi('تم حظر الحساب.', 'Member blocked.'));
+        }} /> : null}
     </Container>
   );
 }

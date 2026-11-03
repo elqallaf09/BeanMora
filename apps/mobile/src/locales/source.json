@@ -25118,5 +25118,40 @@
       "src/CoffeeStories.tsx",
       "src/locales/reviewed.json"
     ]
+  },
+  {
+    "en": "Action was not confirmed. Please retry.",
+    "ar": "لم يتأكد الإجراء. حاول مرة ثانية.",
+    "files": [
+      "src/CommunityModeration.tsx"
+    ]
+  },
+  {
+    "en": "Comment options",
+    "ar": "خيارات التعليق",
+    "files": [
+      "src/CommunityScreen.tsx"
+    ]
+  },
+  {
+    "en": "Member blocked.",
+    "ar": "تم حظر الحساب.",
+    "files": [
+      "src/CommunityScreen.tsx"
+    ]
+  },
+  {
+    "en": "Post options",
+    "ar": "خيارات المنشور",
+    "files": [
+      "src/CommunityScreen.tsx"
+    ]
+  },
+  {
+    "en": "Report content",
+    "ar": "الإبلاغ عن المحتوى",
+    "files": [
+      "src/CommunityModeration.tsx"
+    ]
   }
 ]
