@@ -24,7 +24,7 @@ jobs:
           const runtime = Object.keys(devices).filter(k => k.includes('.iOS-')).sort((a,b) => b.localeCompare(a, undefined, {numeric:true})).find(k => devices[k].some(d=>d.isAvailable && d.name.startsWith('iPhone')) && devices[k].some(d=>d.isAvailable && d.name.startsWith('iPad')));
           if (!runtime) throw Error('No runtime contains both iPhone and iPad simulators.');
           const available = devices[runtime].filter(d=>d.isAvailable);
-          const iphone = available.find(d=>d.name === 'iPhone 17 Pro Max') || available.find(d=>d.name.startsWith('iPhone'));
+          const iphone = available.find(d=>d.name === 'iPhone 17 Pro') || available.find(d=>d.name.startsWith('iPhone'));
           const ipad = available.find(d=>d.name.includes('iPad Pro 13')) || available.find(d=>d.name.startsWith('iPad'));
           for (const [key, value] of Object.entries({iphone:iphone.name,ipad:ipad.name,runtime})) fs.writeFileSync('/tmp/beanmora-'+key, value);
           console.log(JSON.stringify({iphone:iphone.name,ipad:ipad.name,runtime}));

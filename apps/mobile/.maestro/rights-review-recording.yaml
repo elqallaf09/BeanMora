@@ -20,7 +20,6 @@ name: Supplementary simulator recording - public guest catalog only
     retryTapIfNoChange: false
 - assertVisible:
     id: screen-recipes
-- assertVisible: ".*نقطة بداية من BeanMora.*"
 - takeScreenshot: review-recipes
 - tapOn: اختصارات القهوة
 - tapOn: الكبسولات

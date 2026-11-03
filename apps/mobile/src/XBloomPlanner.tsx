@@ -69,7 +69,7 @@ export function XBloomPlanner({ openRecipe, coffees = [], onDraft }: {
     <Action variant="primary" disabled={busy} title={L('ابحث عن وصفات متوافقة', 'Find compatible recipes')} onPress={() => void search()} />
     {busy ? <ActivityIndicator color={colors.teal} /> : null}
     {error ? <Txt accessibilityRole="alert" style={styles.error}>{error}</Txt> : null}
-    {searched && !rows.length ? <Txt>{L('لا توجد وصفات متاحة لهذا البحث حاليًا. بعض وصفات الناشرين معلّقة مؤقتًا أثناء مراجعة إذن استخدامها.', 'No recipes are currently available for this search. Some publisher recipes are temporarily unavailable while their permissions are reviewed.')}</Txt> : null}
+    {searched && !rows.length ? <Txt>{L('لا توجد وصفات مطابقة. جرّب اسم البن فقط أو غيّر المذاق. طحنة Studio لا تُخلط مع Original.', 'No matching recipes. Try the coffee name alone or another taste. Studio and Original grind settings are kept separate.')}</Txt> : null}
     {total !== null ? <Txt style={styles.muted}>{L('نتائج متوافقة: ', 'Compatible matches: ') + total.toLocaleString('en-US')}</Txt> : null}
     {rows.map(r => <View key={r.id} style={[styles.card, { gap: 8, marginBottom: 0 }]}>
       <Txt heading>{r.title}</Txt><Txt style={styles.muted}>{r.author || ''} · {p.model} · {p.cup}</Txt>

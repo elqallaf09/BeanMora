@@ -1,5 +1,12 @@
 # Reversible content review, 3 November 2026
 
+## Current owner decision: restore the recipe library
+
+The owner subsequently explicitly requested all recipes be restored because they are the core product. Migration `20261103194742_restore_recipe_library_keep_media_review.sql` restores all 3,474 publisher recipes immediately while keeping only their cover photographs under the reversible media hold. Their ingredients, steps, source links, search results, saves and history remain available. This publication decision is **not** evidence of third-party licensing. Recipe rights review and any App Review response must state that it remains pending. Never describe the publisher recipe library as suspended after this restoration.
+
+Legacy saved recipes remain readable in the next client build; unreviewed cached cover images are suppressed without deleting the saved snapshot. The original hold implementation below records the earlier decision and is superseded only for recipe publication.
+
+
 The owner authorized replacement and temporary suspension of external content lacking permission, without permanent deletion. The owner separately confirmed commercial rights to the BeanMora identity/design reference. Logo and login-background bytes are unchanged.
 
 ## Publication changes
