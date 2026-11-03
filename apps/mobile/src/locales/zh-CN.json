@@ -3209,5 +3209,7 @@
   "Choose a less common password. Try a few words you can remember.": "请选择不太常见的密码。试试几个容易记住的词。",
   "This password does not match the current account requirements. Try another password.": "此密码不符合当前账户要求。请尝试其他密码。",
   "Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.": "使用Google账户？请通过Google继续，或选择“设置或重置密码”来创建BeanMora密码。",
-  "Set or reset password": "设置或重置密码"
+  "Set or reset password": "设置或重置密码",
+  "Share your coffee moment for 24 hours.": "分享你的咖啡时刻，保留24小时。",
+  "By publishing, you confirm you have permission to share this content.": "发布即表示你确认有权分享此内容。"
 }
