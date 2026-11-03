@@ -2,7 +2,7 @@ import { factLabels } from './core/equipment-facts';
 export { factLabels } from './core/equipment-facts';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Locale } from './copy';
-import { safeUrl } from './guards';
+import { safeUrl, licensedCatalogImage } from './guards';
 import { catalogName } from './localizedContent';
 
 export interface EquipmentItem {
@@ -29,9 +29,9 @@ export function reviewedEquipmentGallery(specifications: Record<string, unknown>
   return catalog.images.flatMap((entry: unknown) => {
     if (!entry || typeof entry !== 'object' || Array.isArray(entry)) return [];
     const row = entry as Record<string, unknown>;
-    const url = typeof row.url === 'string' ? safeUrl(row.url) : null;
+    const url = licensedCatalogImage(row.url, row.usage_status, row.permission_ref);
     const sourceUrl = typeof row.source_url === 'string' ? safeUrl(row.source_url) : null;
-    if (!url || !sourceUrl || !['source_linked', 'rights_confirmed'].includes(String(row.usage_status)) || seen.has(url)) return [];
+    if (!url || !sourceUrl || seen.has(url)) return [];
     seen.add(url);
     const alt = locale === 'ar' ? row.alt_ar : row.alt_en;
     return [{ url, sourceUrl, alt: typeof alt === 'string' ? alt.slice(0, 200) : '' }];
@@ -245,7 +245,7 @@ async function readEquipment(
   const { data, error } = await db
     .from('equipment_models')
     .select(
-      'id,name,category,description,notes,specifications,suitable_brew_methods,source_url,official_url,image_url,image_source_url,image_usage_status,last_verified_at,data_confidence,requires_review,brand:equipment_brands(name)',
+      'id,name,category,description,notes,specifications,suitable_brew_methods,source_url,official_url,image_url,image_source_url,image_usage_status,image_permission_ref,last_verified_at,data_confidence,requires_review,brand:equipment_brands(name)',
     )
     .eq('requires_review', false)
     .order('name')
@@ -267,7 +267,7 @@ async function readEquipment(
       name?: string;
     } | null;
     const photos = reviewedEquipmentGallery(row.specifications ?? {}, locale);
-    const cover = row.image_usage_status === 'rights_confirmed' || (row.image_usage_status === 'source_linked' && safeUrl(row.source_url)) ? safeUrl(row.image_url) : null;
+    const cover = licensedCatalogImage(row.image_url, row.image_usage_status, row.image_permission_ref);
     return {
       id: row.id,
       localeContent: {

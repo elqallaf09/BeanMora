@@ -14,7 +14,7 @@ const coffees = Array.from({ length: 8 }, (_, n) => ({
   is_published: true,
   suitable_for_v60: true,
   image_url: "https://picks-fixture.test/coffee.png",
-  image_usage_status: "rights_confirmed",
+  image_usage_status:'rights_confirmed',image_permission_ref:'fixture-only-permission',
   roaster: { name_ar: "محمصة التجربة", name_en: "Test roaster" },
   flavors: [],
   images: [],
@@ -26,7 +26,7 @@ const tools = Array.from({ length: 9 }, (_, n) => ({
   category: n % 2 ? "grinder" : "espresso_machine",
   brand: { name: "Fixture" },
   image_url: "https://picks-fixture.test/tool.png",
-  image_usage_status: "rights_confirmed",
+  image_usage_status:'rights_confirmed',image_permission_ref:'fixture-only-permission',
   specifications: {
     catalog: { schema_version: 1, name_ar: "معدة مختارة " + n },
   },

@@ -11,7 +11,7 @@ const recipes=Array.from({length:15},(_,i)=>({
   id:'88888888-8888-4888-8888-'+String(i).padStart(12,'0'),title:`Complete source program ${i}`,title_ar:`وصفة المصدر ${i}`,
   brew_method:'xbloom',visibility:'public',recipe_type:'community',bean_id:null,roasted_product_id:null,
   dose_grams:null,water_grams:null,water_temp_c:null,total_time_seconds:null,
-  cover_image_url:i===1?'https://broken-photo.test/cover.jpg':null,
+  cover_image_url:i===1?'https://broken-photo.test/cover.jpg':null, cover_image_usage_status:'rights_confirmed',cover_image_permission_ref:'fixture-only-permission',
   source_brew_parameters:{dose:15,water_ml:225,grind_size:60,model:'Original',pours:[{volume:50,temperature:88},{volume:70,temperature:87},{volume:75,temperature:87},{volume:30,temperature:85}]},
   sources:[{source_url:'https://source-fixture.test/recipe/'+i,source_name:'Recipe publisher'}],steps:[],equipment:[],
 }));
@@ -124,7 +124,7 @@ test('an owned bag keeps the xBloom source water unit and present facts in Brew 
   await expect(page.getByTestId('recipe-detail')).toContainText(recipe.title);
 });
 
-test('the approved Oasis bag photo decodes locally when its source CDN is unreachable',async({page})=>{
+test('the unlicensed Oasis bag photo stays hidden without requesting its source CDN',async({page})=>{
   const photo='https://images.squarespace-cdn.com/content/v1/5626184ce4b0581ff0294cfe/1593350415515-UAU8BG9WMUYTUTU2LK6P/image-asset.jpeg';
   const oasis={...bean,slug:'crossbridge-oasis-blend',name_ar:'أوايسس بليند',image_url:photo,image_kind:'packaging',image_usage_status:'source_linked'};
   let remotePhotoRequests=0;
@@ -135,9 +135,8 @@ test('the approved Oasis bag photo decodes locally when its source CDN is unreac
   });
   await page.goto('/');await page.getByRole('button',{name:oasis.name_ar,exact:true}).click();
   const image=page.getByTestId('coffee-product-photo');
-  await expect(image).toBeVisible();
-  await expect.poll(()=>image.evaluate(element=>Array.from(element.querySelectorAll('img')).some(img=>img.complete&&img.naturalWidth===640&&img.naturalHeight===640))).toBe(true);
-  await expect(page.getByTestId('coffee-photo-unavailable')).toHaveCount(0);
+  await expect(image).toHaveCount(0);
+  await expect(page.getByTestId('coffee-photo-unavailable')).toBeVisible();
   expect(remotePhotoRequests).toBe(0);
 });
 

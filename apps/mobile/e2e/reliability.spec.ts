@@ -44,7 +44,7 @@ test('coffee cards appear while recipe reads are delayed and language changes do
     await expect(page.getByRole('button', { name: bean.name_ar, exact: true })).toBeVisible();
     expect(calls).toHaveLength(5);
     release();
-    await expect.poll(() => page.evaluate(() => Object.keys(localStorage).filter(k => k.startsWith('beanmora-public-catalog-v2:')).length)).toBe(1);
+    await expect.poll(() => page.evaluate(() => Object.keys(localStorage).filter(k => k.startsWith('beanmora-public-catalog-v3:')).length)).toBe(1);
     await setLanguage(page, 'en');
     await expect(page.getByRole('button', { name: bean.name_en, exact: true })).toBeVisible();
     expect(calls).toHaveLength(5);
@@ -143,7 +143,7 @@ for (const idleCallbacks of [true, false]) test(`last-good catalog opens offline
   });
   await page.goto('/');
   await expect(page.getByRole('button', { name: bean.name_ar, exact: true })).toBeVisible();
-  await expect.poll(() => page.evaluate(() => Object.keys(localStorage).filter(k => k.startsWith('beanmora-public-catalog-v2:')).length)).toBe(1);
+  await expect.poll(() => page.evaluate(() => Object.keys(localStorage).filter(k => k.startsWith('beanmora-public-catalog-v3:')).length)).toBe(1);
   await expect(page.getByTestId('catalog-connection-status')).toHaveCount(0);
   phase = 'offline'; await page.reload();
   await expect(page.getByRole('button', { name: bean.name_ar, exact: true })).toBeVisible();
@@ -160,7 +160,7 @@ test('a device storage failure does not report a catalog connection failure', as
     const state = window as unknown as { catalogSaveAttempts: number };
     state.catalogSaveAttempts = 0;
     Storage.prototype.setItem = function (key, value) {
-      if (key.startsWith('beanmora-public-catalog-v2:')) {
+      if (key.startsWith('beanmora-public-catalog-v3:')) {
         state.catalogSaveAttempts += 1;
         throw new DOMException('Storage full', 'QuotaExceededError');
       }
@@ -314,4 +314,28 @@ test('device storage failure is visible and does not report a recipe as saved', 
   await expect(page.getByText(/تعذّر الحفظ/)).toBeVisible();
   await expect(page.getByRole('button', { name: 'حفظ الوصفة على الجهاز', exact: true })).toBeEnabled();
   await expect(page.getByRole('button', { name: 'إزالة الوصفة من المحفوظة', exact: true })).toHaveCount(0);
+});
+
+
+test('pre-review public saved recipes stay archived on the device but cannot be reopened', async ({ page }) => {
+  await page.route('https://mobilefixture.supabase.co/**', route => {
+    const path = new URL(route.request().url()).pathname;
+    return reply(route, path.endsWith('/recipes') || path.endsWith('/rpc/search_public_recipes') ? [records[42]] : [], 200, 1);
+  });
+  await page.goto('/'); await openRecipeLibrary(page, 'ar');
+  await page.getByRole('button', { name: 'وصفة بومب 100', exact: true }).click();
+  await page.getByRole('button', { name: 'حفظ الوصفة على الجهاز', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'إزالة الوصفة من المحفوظة', exact: true })).toBeEnabled();
+  const saved = await page.evaluate(() => {
+    const key = Object.keys(localStorage).find(k => k.startsWith('beanmora-recipe-shelf-v1:'))!;
+    const data = JSON.parse(localStorage.getItem(key)!);
+    for (const entry of data.entries) for (const recipe of Object.values(entry.snapshots) as Record<string, unknown>[]) delete recipe.contentRevision;
+    const value = JSON.stringify(data); localStorage.setItem(key,value); return {key,value};
+  });
+  await page.reload();
+  await page.getByRole('button', { name: 'وصفاتي المحفوظة', exact: true }).click();
+  const shelf = page.getByTestId('saved-recipe-library');
+  await expect(shelf.getByText('بعض الوصفات المحفوظة غير متاحة مؤقتًا. بقيت مراجعها محفوظة.', {exact:true})).toBeVisible();
+  await expect(shelf.getByRole('button',{name:'وصفة بومب 100',exact:true})).toHaveCount(0);
+  expect(await page.evaluate(key=>localStorage.getItem(key),saved.key)).toBe(saved.value);
 });

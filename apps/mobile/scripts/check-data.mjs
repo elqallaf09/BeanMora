@@ -211,12 +211,12 @@ test('approved gallery photos are ordered and never replaced by roaster logos or
             {
               url: 'https://example.test/second.jpg',
               position: 2,
-              image_usage_status: 'rights_confirmed',
+              image_usage_status: 'rights_confirmed', image_permission_ref: 'fixture-only-permission',
             },
             {
               url: 'https://example.test/first.jpg',
               position: 0,
-              image_usage_status: 'rights_confirmed',
+              image_usage_status: 'rights_confirmed', image_permission_ref: 'fixture-only-permission',
             },
             {
               url: 'https://example.test/removed.jpg',
@@ -398,34 +398,25 @@ test('sensory intensity needs provenance and an explicit original scale, never a
   );
   assert.equal(data.coffees[0].sensory.acidity, undefined);
 });
-test('source-linked gallery requires provenance and reports actual artwork kind without claiming rights', async () => {
-  const gallery = {
-    url: 'https://example.test/art.jpg',
-    position: 0,
-    image_usage_status: 'source_linked',
-  };
-  const withSource = await loadData(
-    database({
-      beans: [
-        {
-          ...base,
-          source_url: 'https://example.test/coffee',
-          image_kind: 'product_artwork',
-          images: [gallery],
-        },
-      ],
-    }),
-    'en',
-    null,
-  );
-  assert.equal(withSource.coffees[0].imageUrl, gallery.url);
-  assert.equal(withSource.coffees[0].imageKind, 'product_artwork');
-  const withoutSource = await loadData(
-    database({ beans: [{ ...base, images: [gallery] }] }),
-    'en',
-    null,
-  );
-  assert.equal(withoutSource.coffees[0].imageUrl, null);
+test('publisher images need confirmed rights and a permission reference, not just a source link', async () => {
+  const gallery = { url: 'https://example.test/art.jpg', position: 0, image_usage_status: 'source_linked' };
+  const coffee = { ...base, source_url: 'https://example.test/coffee', image_kind: 'product_artwork' };
+  for (const image of [gallery, {...gallery,image_usage_status:'rights_confirmed'}, {...gallery,image_usage_status:'rights_confirmed',image_permission_ref:' '}]) {
+    const data = await loadData(database({beans:[{...coffee,images:[image]}]}),'en',null);
+    assert.equal(data.coffees[0].imageUrl,null);
+  }
+  const licensed = {...gallery,image_usage_status:'rights_confirmed',image_permission_ref:'fixture-only-permission'};
+  const data = await loadData(database({beans:[{...coffee,images:[licensed]}]}),'en',null);
+  assert.equal(data.coffees[0].imageUrl, gallery.url);
+  assert.equal(data.coffees[0].imageKind, 'product_artwork');
+});
+test('suspended recipes are excluded and external cover images need permission evidence', () => {
+  const row = {id:'rights-recipe',title:'Test',brew_method:'v60',visibility:'public',cover_image_url:'https://example.test/cover.jpg'};
+  assert.equal(mapRecipe({...row,rights_suspended:true},'en'),null);
+  assert.equal(mapRecipe(row,'en').coverUrl,null);
+  assert.equal(mapRecipe({...row,cover_image_usage_status:'rights_confirmed'},'en').coverUrl,null);
+  assert.equal(mapRecipe({...row,cover_image_usage_status:'rights_confirmed',cover_image_permission_ref:'fixture-only-permission'},'en').coverUrl,row.cover_image_url);
+  assert.equal(mapRecipe({...row,cover_image_url:'storage://recipe-images/owner/cover.jpg'},'en').coverUrl,'storage://recipe-images/owner/cover.jpg');
 });
 test('espresso yield and source ranges stay separate from input water and retain calculation disclosure', () => {
   const espresso = mapRecipe(
@@ -510,6 +501,8 @@ test('recipe cover kind is used only for the exact provenance image, preserving 
     brew_method: 'v60',
     visibility: 'public',
     cover_image_url: 'https://example.test/coffee.png',
+    cover_image_usage_status: 'rights_confirmed',
+    cover_image_permission_ref: 'fixture-only-permission',
     source_brew_parameters: {
       global_roasters_import: {
         photo_url: 'https://example.test/coffee.png',
@@ -684,6 +677,12 @@ test('public cache rejects a different project, language, future timestamp, expi
   for (const corrupt of ['{', JSON.stringify({ ...JSON.parse(encoded), data: { ...bundle, coffees: [null] } }), JSON.stringify({ ...JSON.parse(encoded), data: { ...bundle, recipes: [{ public: false }] } })]) {
     assert.equal(decodeCatalog(corrupt, 'project-a', 'en', 1001), null);
   }
+});
+test('pre-review public caches are ignored without mutating their saved data', async () => {
+  const bundle = await loadData(database({ beans: [base] }), 'ar', null);
+  const previous = JSON.stringify({...JSON.parse(encodeCatalog(bundle,'project-a','ar',1000)),version:2});
+  assert.equal(decodeCatalog(previous,'project-a','ar',1001),null);
+  assert.equal(JSON.parse(previous).data.coffees[0].id,base.id);
 });
 test('an oversized public catalog saves complete records within budget and discloses its offline subset', async () => {
   const bundle = await loadData(database({ beans: [base] }), 'ar', null);
@@ -932,8 +931,8 @@ test('equipment opinions accept three trimmed Unicode characters and preserve ra
   assert.equal(validateReview(4, 'زين', '', 'ز'.repeat(501)), false);
 });
 test('equipment gallery only exposes reviewed sourced photos, deduplicates and localizes alt text', () => {
-  const photo = {url:'https://manufacturer.example/front.jpg', source_url:'https://manufacturer.example/model', usage_status:'source_linked', alt_ar:'أمام', alt_en:'Front'};
-  const spec = {catalog:{schema_version:1,images:[photo,photo,{...photo,url:'javascript:alert(1)'},{...photo,url:'https://manufacturer.example/private.jpg',usage_status:'unreviewed'},{...photo,url:'https://manufacturer.example/no-source.jpg',source_url:''},{...photo,url:'https://manufacturer.example/side.jpg',usage_status:'rights_confirmed'}]}};
+  const photo = {url:'https://manufacturer.example/front.jpg', source_url:'https://manufacturer.example/model', usage_status:'rights_confirmed', permission_ref:'fixture-only-permission', alt_ar:'أمام', alt_en:'Front'};
+  const spec = {catalog:{schema_version:1,images:[photo,photo,{...photo,url:'https://manufacturer.example/no-license.jpg',permission_ref:''},{...photo,url:'https://manufacturer.example/source-linked.jpg',usage_status:'source_linked'},{...photo,url:'javascript:alert(1)'},{...photo,url:'https://manufacturer.example/private.jpg',usage_status:'unreviewed'},{...photo,url:'https://manufacturer.example/no-source.jpg',source_url:''},{...photo,url:'https://manufacturer.example/side.jpg',usage_status:'rights_confirmed'}]}};
   assert.deepEqual(reviewedEquipmentGallery(spec,'ar').map(p=>p.alt),['أمام','أمام']);
   assert.deepEqual(reviewedEquipmentGallery(spec,'en').map(p=>p.url),['https://manufacturer.example/front.jpg','https://manufacturer.example/side.jpg']);
   assert.deepEqual(reviewedEquipmentGallery({catalog:{schema_version:2,images:[photo]}},'en'),[]);

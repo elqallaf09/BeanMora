@@ -96,7 +96,7 @@ const beans = Array.from({ length: 8 }, (_, i) => ({
   roast_level:'light',origin_country:['Colombia','Ethiopia','Bolivia','Guatemala'][i%4],process:'natural',
   origin_region:'Test region',farm:'Test farm',bag_weight_grams:250,
   roaster:{name_ar:'محمصة الاختبار',name_en:'Test roaster'},flavors:[{flavor:'chocolate'}],
-  images:[{url:'https://photo-fixture.test/coffee.jpg',position:0,image_usage_status:'rights_confirmed'}],
+  images:[{url:'https://photo-fixture.test/coffee.jpg',position:0,image_usage_status:'rights_confirmed',image_permission_ref:'fixture-only-permission'}],
 }));
 const recipe={id:'11111111-1111-4111-8111-111111111111',title:'Design brew',title_ar:'وصفة اختبار التصميم',brew_method:'xbloom',visibility:'public',bean_id:beans[0].id,roasted_product_id:null,flavor_notes:['chocolate'],dose_grams:18,water_grams:288,water_temp_c:92,total_time_seconds:150,steps:[],equipment:[]};
 for(const viewport of [{width:320,height:740},{width:390,height:844},{width:768,height:1024},{width:1024,height:600},{width:1536,height:1024}]) {

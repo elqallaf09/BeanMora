@@ -2,6 +2,12 @@ export function safeUrl(value: unknown): string | null {
   if (typeof value !== 'string') return null;
   try { const url = new URL(value); return url.protocol === 'https:' && !url.username && !url.password ? url.toString() : null; } catch { return null; }
 }
+export const CATALOG_CONTENT_REVISION = 3;
+/** Attribution is not permission. Only reviewed evidence enables publisher media. */
+export function licensedCatalogImage(value: unknown, status: unknown, permission: unknown): string | null {
+  return status === 'rights_confirmed' && typeof permission === 'string' && permission.trim().length > 0
+    ? safeUrl(value) : null;
+}
 export function isPublicKey(key: string): boolean {
   if (/^sb_publishable_[A-Za-z0-9_-]+$/.test(key)) return true;
   try {

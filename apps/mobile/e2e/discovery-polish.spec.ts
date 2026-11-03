@@ -18,7 +18,7 @@ const beans = [coffeeId, secondId].map((id, i) => ({
   suitable_for_xbloom: true,
   source_url: "https://catalog.example/coffee-" + i,
   image_url: "https://images.example/coffee-" + i + ".png",
-  image_usage_status: "source_linked",
+  image_usage_status:'rights_confirmed',image_permission_ref:'fixture-only-permission',
   image_kind: "packaging",
   flavors: [],
   roaster: { name_en: "Fixture roaster", name_ar: "محمصة التجربة" },
@@ -30,7 +30,7 @@ const gear = Array.from({ length: 6 }, (_, i) => ({
   brand: { name: "Brand " + i },
   source_url: "https://catalog.example/tool-" + i,
   image_url: "https://images.example/tool-" + i + ".png",
-  image_usage_status: "source_linked",
+  image_usage_status:'rights_confirmed',image_permission_ref:'fixture-only-permission',
   requires_review: false,
 }));
 async function fixture(page: Page) {

@@ -1,0 +1,652 @@
+[
+  {
+    "slug": "beanmora-starting-point-v60",
+    "method": "v60",
+    "title": "BeanMora starting point — V60",
+    "title_ar": "نقطة بداية من BeanMora — V60",
+    "dose": 16,
+    "water": 256,
+    "temp": 93,
+    "seconds": 180,
+    "grind": "Medium-fine",
+    "steps": [
+      {
+        "title": "Prepare your setup",
+        "description": "Use clean equipment on a stable surface. Follow its manufacturer’s operating and capacity instructions.",
+        "title_ar": "جهّز أدواتك",
+        "description_ar": "استخدم أدوات نظيفة على سطح ثابت، والتزم بتعليمات التشغيل والسعة الخاصة بجهازك.",
+        "kind": "other",
+        "seconds": null
+      },
+      {
+        "title": "Prepare the coffee",
+        "description": "Fit and rinse the correct paper filter, discard the rinse water, and add 16 g of freshly ground coffee. Level the bed gently.",
+        "title_ar": "جهّز البن",
+        "description_ar": "ركّب المرشح الورقي المناسب واشطفه وتخلّص من ماء الشطف. أضف 16 غ من البن المطحون وسوِّ سطحه برفق.",
+        "kind": "rinse",
+        "seconds": null
+      },
+      {
+        "title": "Wet the grounds",
+        "description": "At about 0 seconds, add 40 g of water gently. Let the water level fall between pours; do not overflow the brewer.",
+        "title_ar": "بلّل البن",
+        "description_ar": "عند نحو 0 ثانية، أضف 40 غ من الماء بهدوء. اترك مستوى الماء ينخفض بين الصبات وتجنب تجاوز سعة الأداة.",
+        "kind": "bloom",
+        "seconds": null
+      },
+      {
+        "title": "Pour 2",
+        "description": "At about 40 seconds, add 108 g of water gently. Let the water level fall between pours; do not overflow the brewer.",
+        "title_ar": "الصبة 2",
+        "description_ar": "عند نحو 40 ثانية، أضف 108 غ من الماء بهدوء. اترك مستوى الماء ينخفض بين الصبات وتجنب تجاوز سعة الأداة.",
+        "kind": "pour",
+        "seconds": null
+      },
+      {
+        "title": "Pour 3",
+        "description": "At about 85 seconds, add 108 g of water gently. Let the water level fall between pours; do not overflow the brewer.",
+        "title_ar": "الصبة 3",
+        "description_ar": "عند نحو 85 ثانية، أضف 108 غ من الماء بهدوء. اترك مستوى الماء ينخفض بين الصبات وتجنب تجاوز سعة الأداة.",
+        "kind": "pour",
+        "seconds": null
+      },
+      {
+        "title": "Finish and taste",
+        "description": "Let the water drain. Stir the brewed coffee gently and let it cool before tasting. Change one variable next time and record the result.",
+        "title_ar": "أكمل وتذوّق",
+        "description_ar": "اترك الماء يمرّ، ثم حرّك القهوة برفق واتركها تبرد قبل التذوق. غيّر عاملًا واحدًا في المحاولة التالية وسجّل النتيجة.",
+        "kind": "serve",
+        "seconds": null
+      }
+    ],
+    "pours": [
+      {
+        "grams": 40,
+        "seconds": 0,
+        "bloom": true
+      },
+      {
+        "grams": 108,
+        "seconds": 40,
+        "bloom": false
+      },
+      {
+        "grams": 108,
+        "seconds": 85,
+        "bloom": false
+      }
+    ],
+    "notes": "An original BeanMora starting guide, not a manufacturer-approved program or a device-tested recipe. Adjust to your coffee, grind and equipment; the stated time is approximate.",
+    "notes_ar": "دليل بداية أصلي من BeanMora، وليس برنامجًا معتمدًا من المصنع أو وصفة جرى اختبارها على جهاز بعينه. عدّل حسب البن والطحن والأداة؛ الزمن المذكور تقريبي.",
+    "parameters": {
+      "content_rights": {
+        "origin": "beanmora_original",
+        "revision": "2026-11-03"
+      },
+      "discovery": {
+        "serving_style": "hot",
+        "creator_name": "BeanMora",
+        "creator_name_ar": "BeanMora"
+      }
+    }
+  },
+  {
+    "slug": "beanmora-starting-point-pour-over",
+    "method": "pour_over",
+    "title": "BeanMora starting point — Pour-over",
+    "title_ar": "نقطة بداية من BeanMora — الترشيح اليدوي",
+    "dose": 18,
+    "water": 288,
+    "temp": 93,
+    "seconds": 195,
+    "grind": "Medium-fine",
+    "steps": [
+      {
+        "title": "Prepare your setup",
+        "description": "Use clean equipment on a stable surface. Follow its manufacturer’s operating and capacity instructions.",
+        "title_ar": "جهّز أدواتك",
+        "description_ar": "استخدم أدوات نظيفة على سطح ثابت، والتزم بتعليمات التشغيل والسعة الخاصة بجهازك.",
+        "kind": "other",
+        "seconds": null
+      },
+      {
+        "title": "Prepare the coffee",
+        "description": "Fit and rinse the correct paper filter, discard the rinse water, and add 18 g of freshly ground coffee. Level the bed gently.",
+        "title_ar": "جهّز البن",
+        "description_ar": "ركّب المرشح الورقي المناسب واشطفه وتخلّص من ماء الشطف. أضف 18 غ من البن المطحون وسوِّ سطحه برفق.",
+        "kind": "rinse",
+        "seconds": null
+      },
+      {
+        "title": "Wet the grounds",
+        "description": "At about 0 seconds, add 54 g of water gently. Let the water level fall between pours; do not overflow the brewer.",
+        "title_ar": "بلّل البن",
+        "description_ar": "عند نحو 0 ثانية، أضف 54 غ من الماء بهدوء. اترك مستوى الماء ينخفض بين الصبات وتجنب تجاوز سعة الأداة.",
+        "kind": "bloom",
+        "seconds": null
+      },
+      {
+        "title": "Pour 2",
+        "description": "At about 45 seconds, add 117 g of water gently. Let the water level fall between pours; do not overflow the brewer.",
+        "title_ar": "الصبة 2",
+        "description_ar": "عند نحو 45 ثانية، أضف 117 غ من الماء بهدوء. اترك مستوى الماء ينخفض بين الصبات وتجنب تجاوز سعة الأداة.",
+        "kind": "pour",
+        "seconds": null
+      },
+      {
+        "title": "Pour 3",
+        "description": "At about 100 seconds, add 117 g of water gently. Let the water level fall between pours; do not overflow the brewer.",
+        "title_ar": "الصبة 3",
+        "description_ar": "عند نحو 100 ثانية، أضف 117 غ من الماء بهدوء. اترك مستوى الماء ينخفض بين الصبات وتجنب تجاوز سعة الأداة.",
+        "kind": "pour",
+        "seconds": null
+      },
+      {
+        "title": "Finish and taste",
+        "description": "Let the water drain. Stir the brewed coffee gently and let it cool before tasting. Change one variable next time and record the result.",
+        "title_ar": "أكمل وتذوّق",
+        "description_ar": "اترك الماء يمرّ، ثم حرّك القهوة برفق واتركها تبرد قبل التذوق. غيّر عاملًا واحدًا في المحاولة التالية وسجّل النتيجة.",
+        "kind": "serve",
+        "seconds": null
+      }
+    ],
+    "pours": [
+      {
+        "grams": 54,
+        "seconds": 0,
+        "bloom": true
+      },
+      {
+        "grams": 117,
+        "seconds": 45,
+        "bloom": false
+      },
+      {
+        "grams": 117,
+        "seconds": 100,
+        "bloom": false
+      }
+    ],
+    "notes": "An original BeanMora starting guide, not a manufacturer-approved program or a device-tested recipe. Adjust to your coffee, grind and equipment; the stated time is approximate.",
+    "notes_ar": "دليل بداية أصلي من BeanMora، وليس برنامجًا معتمدًا من المصنع أو وصفة جرى اختبارها على جهاز بعينه. عدّل حسب البن والطحن والأداة؛ الزمن المذكور تقريبي.",
+    "parameters": {
+      "content_rights": {
+        "origin": "beanmora_original",
+        "revision": "2026-11-03"
+      },
+      "discovery": {
+        "serving_style": "hot",
+        "creator_name": "BeanMora",
+        "creator_name_ar": "BeanMora"
+      }
+    }
+  },
+  {
+    "slug": "beanmora-starting-point-kalita-wave",
+    "method": "kalita_wave",
+    "title": "BeanMora starting point — Kalita Wave",
+    "title_ar": "نقطة بداية من BeanMora — كاليتا ويف",
+    "dose": 18,
+    "water": 288,
+    "temp": 94,
+    "seconds": 210,
+    "grind": "Medium-fine",
+    "steps": [
+      {
+        "title": "Prepare your setup",
+        "description": "Use clean equipment on a stable surface. Follow its manufacturer’s operating and capacity instructions.",
+        "title_ar": "جهّز أدواتك",
+        "description_ar": "استخدم أدوات نظيفة على سطح ثابت، والتزم بتعليمات التشغيل والسعة الخاصة بجهازك.",
+        "kind": "other",
+        "seconds": null
+      },
+      {
+        "title": "Prepare the coffee",
+        "description": "Fit and rinse the correct paper filter, discard the rinse water, and add 18 g of freshly ground coffee. Level the bed gently.",
+        "title_ar": "جهّز البن",
+        "description_ar": "ركّب المرشح الورقي المناسب واشطفه وتخلّص من ماء الشطف. أضف 18 غ من البن المطحون وسوِّ سطحه برفق.",
+        "kind": "rinse",
+        "seconds": null
+      },
+      {
+        "title": "Wet the grounds",
+        "description": "At about 0 seconds, add 54 g of water gently. Let the water level fall between pours; do not overflow the brewer.",
+        "title_ar": "بلّل البن",
+        "description_ar": "عند نحو 0 ثانية، أضف 54 غ من الماء بهدوء. اترك مستوى الماء ينخفض بين الصبات وتجنب تجاوز سعة الأداة.",
+        "kind": "bloom",
+        "seconds": null
+      },
+      {
+        "title": "Pour 2",
+        "description": "At about 45 seconds, add 78 g of water gently. Let the water level fall between pours; do not overflow the brewer.",
+        "title_ar": "الصبة 2",
+        "description_ar": "عند نحو 45 ثانية، أضف 78 غ من الماء بهدوء. اترك مستوى الماء ينخفض بين الصبات وتجنب تجاوز سعة الأداة.",
+        "kind": "pour",
+        "seconds": null
+      },
+      {
+        "title": "Pour 3",
+        "description": "At about 85 seconds, add 78 g of water gently. Let the water level fall between pours; do not overflow the brewer.",
+        "title_ar": "الصبة 3",
+        "description_ar": "عند نحو 85 ثانية، أضف 78 غ من الماء بهدوء. اترك مستوى الماء ينخفض بين الصبات وتجنب تجاوز سعة الأداة.",
+        "kind": "pour",
+        "seconds": null
+      },
+      {
+        "title": "Pour 4",
+        "description": "At about 125 seconds, add 78 g of water gently. Let the water level fall between pours; do not overflow the brewer.",
+        "title_ar": "الصبة 4",
+        "description_ar": "عند نحو 125 ثانية، أضف 78 غ من الماء بهدوء. اترك مستوى الماء ينخفض بين الصبات وتجنب تجاوز سعة الأداة.",
+        "kind": "pour",
+        "seconds": null
+      },
+      {
+        "title": "Finish and taste",
+        "description": "Let the water drain. Stir the brewed coffee gently and let it cool before tasting. Change one variable next time and record the result.",
+        "title_ar": "أكمل وتذوّق",
+        "description_ar": "اترك الماء يمرّ، ثم حرّك القهوة برفق واتركها تبرد قبل التذوق. غيّر عاملًا واحدًا في المحاولة التالية وسجّل النتيجة.",
+        "kind": "serve",
+        "seconds": null
+      }
+    ],
+    "pours": [
+      {
+        "grams": 54,
+        "seconds": 0,
+        "bloom": true
+      },
+      {
+        "grams": 78,
+        "seconds": 45,
+        "bloom": false
+      },
+      {
+        "grams": 78,
+        "seconds": 85,
+        "bloom": false
+      },
+      {
+        "grams": 78,
+        "seconds": 125,
+        "bloom": false
+      }
+    ],
+    "notes": "An original BeanMora starting guide, not a manufacturer-approved program or a device-tested recipe. Adjust to your coffee, grind and equipment; the stated time is approximate.",
+    "notes_ar": "دليل بداية أصلي من BeanMora، وليس برنامجًا معتمدًا من المصنع أو وصفة جرى اختبارها على جهاز بعينه. عدّل حسب البن والطحن والأداة؛ الزمن المذكور تقريبي.",
+    "parameters": {
+      "content_rights": {
+        "origin": "beanmora_original",
+        "revision": "2026-11-03"
+      },
+      "discovery": {
+        "serving_style": "hot",
+        "creator_name": "BeanMora",
+        "creator_name_ar": "BeanMora"
+      }
+    }
+  },
+  {
+    "slug": "beanmora-starting-point-origami",
+    "method": "origami",
+    "title": "BeanMora starting point — Origami",
+    "title_ar": "نقطة بداية من BeanMora — أوريغامي",
+    "dose": 15,
+    "water": 240,
+    "temp": 92,
+    "seconds": 165,
+    "grind": "Medium-fine",
+    "steps": [
+      {
+        "title": "Prepare your setup",
+        "description": "Use clean equipment on a stable surface. Follow its manufacturer’s operating and capacity instructions.",
+        "title_ar": "جهّز أدواتك",
+        "description_ar": "استخدم أدوات نظيفة على سطح ثابت، والتزم بتعليمات التشغيل والسعة الخاصة بجهازك.",
+        "kind": "other",
+        "seconds": null
+      },
+      {
+        "title": "Prepare the coffee",
+        "description": "Fit and rinse the correct paper filter, discard the rinse water, and add 15 g of freshly ground coffee. Level the bed gently.",
+        "title_ar": "جهّز البن",
+        "description_ar": "ركّب المرشح الورقي المناسب واشطفه وتخلّص من ماء الشطف. أضف 15 غ من البن المطحون وسوِّ سطحه برفق.",
+        "kind": "rinse",
+        "seconds": null
+      },
+      {
+        "title": "Wet the grounds",
+        "description": "At about 0 seconds, add 45 g of water gently. Let the water level fall between pours; do not overflow the brewer.",
+        "title_ar": "بلّل البن",
+        "description_ar": "عند نحو 0 ثانية، أضف 45 غ من الماء بهدوء. اترك مستوى الماء ينخفض بين الصبات وتجنب تجاوز سعة الأداة.",
+        "kind": "bloom",
+        "seconds": null
+      },
+      {
+        "title": "Pour 2",
+        "description": "At about 40 seconds, add 95 g of water gently. Let the water level fall between pours; do not overflow the brewer.",
+        "title_ar": "الصبة 2",
+        "description_ar": "عند نحو 40 ثانية، أضف 95 غ من الماء بهدوء. اترك مستوى الماء ينخفض بين الصبات وتجنب تجاوز سعة الأداة.",
+        "kind": "pour",
+        "seconds": null
+      },
+      {
+        "title": "Pour 3",
+        "description": "At about 80 seconds, add 100 g of water gently. Let the water level fall between pours; do not overflow the brewer.",
+        "title_ar": "الصبة 3",
+        "description_ar": "عند نحو 80 ثانية، أضف 100 غ من الماء بهدوء. اترك مستوى الماء ينخفض بين الصبات وتجنب تجاوز سعة الأداة.",
+        "kind": "pour",
+        "seconds": null
+      },
+      {
+        "title": "Finish and taste",
+        "description": "Let the water drain. Stir the brewed coffee gently and let it cool before tasting. Change one variable next time and record the result.",
+        "title_ar": "أكمل وتذوّق",
+        "description_ar": "اترك الماء يمرّ، ثم حرّك القهوة برفق واتركها تبرد قبل التذوق. غيّر عاملًا واحدًا في المحاولة التالية وسجّل النتيجة.",
+        "kind": "serve",
+        "seconds": null
+      }
+    ],
+    "pours": [
+      {
+        "grams": 45,
+        "seconds": 0,
+        "bloom": true
+      },
+      {
+        "grams": 95,
+        "seconds": 40,
+        "bloom": false
+      },
+      {
+        "grams": 100,
+        "seconds": 80,
+        "bloom": false
+      }
+    ],
+    "notes": "An original BeanMora starting guide, not a manufacturer-approved program or a device-tested recipe. Adjust to your coffee, grind and equipment; the stated time is approximate.",
+    "notes_ar": "دليل بداية أصلي من BeanMora، وليس برنامجًا معتمدًا من المصنع أو وصفة جرى اختبارها على جهاز بعينه. عدّل حسب البن والطحن والأداة؛ الزمن المذكور تقريبي.",
+    "parameters": {
+      "content_rights": {
+        "origin": "beanmora_original",
+        "revision": "2026-11-03"
+      },
+      "discovery": {
+        "serving_style": "hot",
+        "creator_name": "BeanMora",
+        "creator_name_ar": "BeanMora"
+      }
+    }
+  },
+  {
+    "slug": "beanmora-starting-point-chemex",
+    "method": "chemex",
+    "title": "BeanMora starting point — Chemex",
+    "title_ar": "نقطة بداية من BeanMora — كيمكس",
+    "dose": 24,
+    "water": 384,
+    "temp": 94,
+    "seconds": 240,
+    "grind": "Medium-coarse",
+    "steps": [
+      {
+        "title": "Prepare your setup",
+        "description": "Use clean equipment on a stable surface. Follow its manufacturer’s operating and capacity instructions.",
+        "title_ar": "جهّز أدواتك",
+        "description_ar": "استخدم أدوات نظيفة على سطح ثابت، والتزم بتعليمات التشغيل والسعة الخاصة بجهازك.",
+        "kind": "other",
+        "seconds": null
+      },
+      {
+        "title": "Prepare the coffee",
+        "description": "Fit and rinse the correct paper filter, discard the rinse water, and add 24 g of freshly ground coffee. Level the bed gently.",
+        "title_ar": "جهّز البن",
+        "description_ar": "ركّب المرشح الورقي المناسب واشطفه وتخلّص من ماء الشطف. أضف 24 غ من البن المطحون وسوِّ سطحه برفق.",
+        "kind": "rinse",
+        "seconds": null
+      },
+      {
+        "title": "Wet the grounds",
+        "description": "At about 0 seconds, add 72 g of water gently. Let the water level fall between pours; do not overflow the brewer.",
+        "title_ar": "بلّل البن",
+        "description_ar": "عند نحو 0 ثانية، أضف 72 غ من الماء بهدوء. اترك مستوى الماء ينخفض بين الصبات وتجنب تجاوز سعة الأداة.",
+        "kind": "bloom",
+        "seconds": null
+      },
+      {
+        "title": "Pour 2",
+        "description": "At about 45 seconds, add 156 g of water gently. Let the water level fall between pours; do not overflow the brewer.",
+        "title_ar": "الصبة 2",
+        "description_ar": "عند نحو 45 ثانية، أضف 156 غ من الماء بهدوء. اترك مستوى الماء ينخفض بين الصبات وتجنب تجاوز سعة الأداة.",
+        "kind": "pour",
+        "seconds": null
+      },
+      {
+        "title": "Pour 3",
+        "description": "At about 110 seconds, add 156 g of water gently. Let the water level fall between pours; do not overflow the brewer.",
+        "title_ar": "الصبة 3",
+        "description_ar": "عند نحو 110 ثانية، أضف 156 غ من الماء بهدوء. اترك مستوى الماء ينخفض بين الصبات وتجنب تجاوز سعة الأداة.",
+        "kind": "pour",
+        "seconds": null
+      },
+      {
+        "title": "Finish and taste",
+        "description": "Let the water drain. Stir the brewed coffee gently and let it cool before tasting. Change one variable next time and record the result.",
+        "title_ar": "أكمل وتذوّق",
+        "description_ar": "اترك الماء يمرّ، ثم حرّك القهوة برفق واتركها تبرد قبل التذوق. غيّر عاملًا واحدًا في المحاولة التالية وسجّل النتيجة.",
+        "kind": "serve",
+        "seconds": null
+      }
+    ],
+    "pours": [
+      {
+        "grams": 72,
+        "seconds": 0,
+        "bloom": true
+      },
+      {
+        "grams": 156,
+        "seconds": 45,
+        "bloom": false
+      },
+      {
+        "grams": 156,
+        "seconds": 110,
+        "bloom": false
+      }
+    ],
+    "notes": "An original BeanMora starting guide, not a manufacturer-approved program or a device-tested recipe. Adjust to your coffee, grind and equipment; the stated time is approximate.",
+    "notes_ar": "دليل بداية أصلي من BeanMora، وليس برنامجًا معتمدًا من المصنع أو وصفة جرى اختبارها على جهاز بعينه. عدّل حسب البن والطحن والأداة؛ الزمن المذكور تقريبي.",
+    "parameters": {
+      "content_rights": {
+        "origin": "beanmora_original",
+        "revision": "2026-11-03"
+      },
+      "discovery": {
+        "serving_style": "hot",
+        "creator_name": "BeanMora",
+        "creator_name_ar": "BeanMora"
+      }
+    }
+  },
+  {
+    "slug": "beanmora-starting-point-aeropress",
+    "method": "aeropress",
+    "title": "BeanMora starting point — AeroPress",
+    "title_ar": "نقطة بداية من BeanMora — إيروبرس",
+    "dose": 14,
+    "water": 210,
+    "temp": 88,
+    "seconds": 120,
+    "grind": "Medium-fine",
+    "steps": [
+      {
+        "title": "Prepare your setup",
+        "description": "Use clean equipment on a stable surface. Follow its manufacturer’s operating and capacity instructions.",
+        "title_ar": "جهّز أدواتك",
+        "description_ar": "استخدم أدوات نظيفة على سطح ثابت، والتزم بتعليمات التشغيل والسعة الخاصة بجهازك.",
+        "kind": "other",
+        "seconds": null
+      },
+      {
+        "title": "Prepare upright",
+        "description": "Fit the filter and secure the cap. Place the brewer upright on a sturdy, compatible mug and add 14 g of ground coffee.",
+        "title_ar": "جهّز الأداة بوضعها المعتدل",
+        "description_ar": "ركّب المرشح وأحكم غطاءه، ثم ضع الأداة بوضعها المعتدل على كوب متين ومناسب وأضف 14 غ من البن.",
+        "kind": "other",
+        "seconds": null
+      },
+      {
+        "title": "Add water and steep",
+        "description": "Add 210 g of water, stir gently, and allow about 60 seconds of steeping. Stay within the marked capacity.",
+        "title_ar": "أضف الماء وانقع",
+        "description_ar": "أضف 210 غ من الماء وحرّك برفق، ثم اترك البن نحو 60 ثانية. التزم بالسعة المحددة على الأداة.",
+        "kind": "steep",
+        "seconds": 60
+      },
+      {
+        "title": "Press gently",
+        "description": "Support the mug and press slowly for roughly 30 seconds. Stop if the plunger resists; never force it. Let the drink cool before tasting.",
+        "title_ar": "اضغط برفق",
+        "description_ar": "ثبّت الكوب واضغط ببطء لنحو 30 ثانية. توقف عند وجود مقاومة ولا تجبر المكبس. اترك القهوة تبرد قبل التذوق.",
+        "kind": "press",
+        "seconds": 30
+      }
+    ],
+    "pours": [],
+    "notes": "An original BeanMora starting guide, not a manufacturer-approved program or a device-tested recipe. Adjust to your coffee, grind and equipment; the stated time is approximate.",
+    "notes_ar": "دليل بداية أصلي من BeanMora، وليس برنامجًا معتمدًا من المصنع أو وصفة جرى اختبارها على جهاز بعينه. عدّل حسب البن والطحن والأداة؛ الزمن المذكور تقريبي.",
+    "parameters": {
+      "content_rights": {
+        "origin": "beanmora_original",
+        "revision": "2026-11-03"
+      },
+      "discovery": {
+        "serving_style": "hot",
+        "creator_name": "BeanMora",
+        "creator_name_ar": "BeanMora"
+      }
+    }
+  },
+  {
+    "slug": "beanmora-starting-point-french-press",
+    "method": "french_press",
+    "title": "BeanMora starting point — French press",
+    "title_ar": "نقطة بداية من BeanMora — فرنش برس",
+    "dose": 18,
+    "water": 288,
+    "temp": 94,
+    "seconds": 270,
+    "grind": "Medium-coarse",
+    "steps": [
+      {
+        "title": "Prepare your setup",
+        "description": "Use clean equipment on a stable surface. Follow its manufacturer’s operating and capacity instructions.",
+        "title_ar": "جهّز أدواتك",
+        "description_ar": "استخدم أدوات نظيفة على سطح ثابت، والتزم بتعليمات التشغيل والسعة الخاصة بجهازك.",
+        "kind": "other",
+        "seconds": null
+      },
+      {
+        "title": "Add coffee and water",
+        "description": "Add 18 g of coarsely ground coffee and 288 g of water. Stir gently so all grounds are wet.",
+        "title_ar": "أضف البن والماء",
+        "description_ar": "أضف 18 غ من البن الخشن و288 غ من الماء، وحرّك برفق حتى يبتل البن كله.",
+        "kind": "stir",
+        "seconds": null
+      },
+      {
+        "title": "Steep",
+        "description": "Place the lid on without pressing. Let the coffee steep for about 4 minutes.",
+        "title_ar": "انقع",
+        "description_ar": "ضع الغطاء دون ضغط المكبس واترك القهوة نحو 4 دقائق.",
+        "kind": "steep",
+        "seconds": 240
+      },
+      {
+        "title": "Separate and serve",
+        "description": "Lower the plunger slowly without force, then pour the coffee into a separate cup or server. Let it cool before tasting.",
+        "title_ar": "افصل وقدّم",
+        "description_ar": "أنزل المكبس ببطء دون قوة، ثم اسكب القهوة في كوب أو إبريق منفصل واتركها تبرد قبل التذوق.",
+        "kind": "serve",
+        "seconds": null
+      }
+    ],
+    "pours": [],
+    "notes": "An original BeanMora starting guide, not a manufacturer-approved program or a device-tested recipe. Adjust to your coffee, grind and equipment; the stated time is approximate.",
+    "notes_ar": "دليل بداية أصلي من BeanMora، وليس برنامجًا معتمدًا من المصنع أو وصفة جرى اختبارها على جهاز بعينه. عدّل حسب البن والطحن والأداة؛ الزمن المذكور تقريبي.",
+    "parameters": {
+      "content_rights": {
+        "origin": "beanmora_original",
+        "revision": "2026-11-03"
+      },
+      "discovery": {
+        "serving_style": "hot",
+        "creator_name": "BeanMora",
+        "creator_name_ar": "BeanMora"
+      }
+    }
+  },
+  {
+    "slug": "beanmora-starting-point-espresso",
+    "method": "espresso",
+    "title": "BeanMora starting point — Espresso",
+    "title_ar": "نقطة بداية من BeanMora — إسبريسو",
+    "dose": 18,
+    "water": null,
+    "temp": 93,
+    "seconds": 28,
+    "grind": "Fine",
+    "steps": [
+      {
+        "title": "Prepare your setup",
+        "description": "Use clean equipment on a stable surface. Follow its manufacturer’s operating and capacity instructions.",
+        "title_ar": "جهّز أدواتك",
+        "description_ar": "استخدم أدوات نظيفة على سطح ثابت، والتزم بتعليمات التشغيل والسعة الخاصة بجهازك.",
+        "kind": "other",
+        "seconds": null
+      },
+      {
+        "title": "Prepare the basket",
+        "description": "Use a basket designed for an 18 g dose. Distribute the coffee evenly and tamp level following the machine’s instructions.",
+        "title_ar": "جهّز السلة",
+        "description_ar": "استخدم سلة مناسبة لجرعة 18 غ. وزّع البن بالتساوي واكبس بشكل مستوٍ وفق تعليمات الجهاز.",
+        "kind": "other",
+        "seconds": null
+      },
+      {
+        "title": "Brew a starting shot",
+        "description": "Place a scale under the cup and aim for about 36 g of beverage. A 25–30 second extraction is a starting observation, not a guaranteed target for every coffee.",
+        "title_ar": "حضّر جرعة البداية",
+        "description_ar": "ضع ميزانًا تحت الكوب واستهدف نحو 36 غ من المشروب. زمن 25–30 ثانية نقطة بداية للملاحظة وليس نتيجة مضمونة لكل بن.",
+        "kind": "pour",
+        "seconds": null
+      },
+      {
+        "title": "Taste and adjust",
+        "description": "Let the drink cool. Record yield and time, then adjust grind in small steps while keeping dose and yield consistent.",
+        "title_ar": "تذوّق وعدّل",
+        "description_ar": "اترك المشروب يبرد وسجّل الناتج والزمن. عدّل الطحن بخطوات صغيرة مع تثبيت الجرعة والناتج.",
+        "kind": "serve",
+        "seconds": null
+      }
+    ],
+    "pours": [],
+    "notes": "An original BeanMora starting guide, not a manufacturer-approved program or a device-tested recipe. Adjust to your coffee, grind and equipment; the stated time is approximate.",
+    "notes_ar": "دليل بداية أصلي من BeanMora، وليس برنامجًا معتمدًا من المصنع أو وصفة جرى اختبارها على جهاز بعينه. عدّل حسب البن والطحن والأداة؛ الزمن المذكور تقريبي.",
+    "parameters": {
+      "content_rights": {
+        "origin": "beanmora_original",
+        "revision": "2026-11-03"
+      },
+      "discovery": {
+        "serving_style": "hot",
+        "creator_name": "BeanMora",
+        "creator_name_ar": "BeanMora"
+      },
+      "manual": {
+        "yield_grams": 36,
+        "time_min_seconds": 25,
+        "time_max_seconds": 30
+      }
+    }
+  }
+]

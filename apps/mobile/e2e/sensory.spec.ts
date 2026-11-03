@@ -17,7 +17,7 @@ const scored = {
   name_en: 'Coffee with a sourced scale', name_ar: 'بن بدرجات موثقة',
   source_url: sourceUrl, flavors: [{ flavor: 'citrus' }, { flavor: 'jasmine' }],
   sensory_profile: { source_url: sourceUrl, scale_max: 5, acidity: 3, sweetness: 4, body: 2 },
-  images: [{ url: photoUrl, position: 0, image_usage_status: 'rights_confirmed' }],
+  images: [{ url: photoUrl, position: 0, image_usage_status:'rights_confirmed',image_permission_ref:'fixture-only-permission' }],
 };
 const unknown = {
   ...base, id: '77777777-7777-4777-8777-777777777772', slug: 'unknown-sensory',
