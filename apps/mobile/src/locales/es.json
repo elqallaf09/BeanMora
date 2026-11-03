@@ -3211,5 +3211,10 @@
   "Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.": "¿Cuenta de Google? Continúa con Google o elige «Crear o restablecer contraseña» para crear una contraseña de BeanMora.",
   "Set or reset password": "Crear o restablecer contraseña",
   "Share your coffee moment for 24 hours.": "Comparte tu momento de café durante 24 horas.",
-  "By publishing, you confirm you have permission to share this content.": "Al publicar, confirmas que tienes permiso para compartir este contenido."
+  "By publishing, you confirm you have permission to share this content.": "Al publicar, confirmas que tienes permiso para compartir este contenido.",
+  "Action was not confirmed. Please retry.": "No se confirmó la acción. Inténtalo de nuevo.",
+  "Comment options": "Opciones del comentario",
+  "Member blocked.": "Miembro bloqueado.",
+  "Post options": "Opciones de la publicación",
+  "Report content": "Denunciar contenido"
 }

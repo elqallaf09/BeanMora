@@ -23,7 +23,8 @@ async function fixture(page: Page, { reviewer = false, expiresSoon = false } = {
   const messages: Record<string, any>[] = expiresSoon ? [{ id: '99999999-9999-4999-8999-999999999999', conversation_id: thread, sender_id: other, kind: 'text', body: 'Short-lived test message', post_id: null, audio_path: null, duration_seconds: null, created_at: date(), expires_at: new Date(Date.now() + 12000).toISOString() }] : [];
   const stories: Record<string, any>[] = [];
   let photos: Record<string, any>[] = [{ id: galleryId, kind: 'extraction', image_url: 'storage://profile-gallery/' + uid + '/initial.png', image_path: uid + '/initial.png', caption: 'Original coffee extraction', created_at: date() }];
-  let audience = 'everyone', allowed = true, blocked = false, failPost = false, failSend = false, failPhoto = false;
+  let audience = 'everyone', allowed = true, blocked = false, failPost = false, failSend = false, failPhoto = false, failReport = false, lostReportResponse = false;
+  const reports: Record<string, any>[] = [], reportWrites: Record<string, any>[] = [];
   const postWrites: Record<string, any>[] = [], messageWrites: Record<string, any>[] = [], uploads: { bucket: string; path: string; bytes: Buffer }[] = [], profilePostQueries: URLSearchParams[] = [];
   const reply = (r: Route, data: unknown, status = 200) => r.fulfill({ status, contentType: 'application/json', headers: { 'x-supabase-api-version': '2024-01-01', 'access-control-expose-headers': 'x-supabase-api-version' }, body: JSON.stringify(data) });
   await page.route('https://social-photo-fixture.test/**', r => r.fulfill({ contentType: 'image/png', body: png }));
@@ -82,6 +83,17 @@ async function fixture(page: Page, { reviewer = false, expiresSoon = false } = {
       if (method === 'POST') audience = body().audience;
       return reply(r, { audience });
     }
+    if (p.endsWith('/reports')) {
+      if (method === 'POST') {
+        const value = body(); reportWrites.push(value);
+        if (failReport) return reply(r, { message: 'isolated moderation outage' }, 503);
+        if (reports.some(x => x.id === value.id)) return reply(r, { code: '23505' }, 409);
+        reports.push(value);
+        return lostReportResponse ? reply(r, { message: 'response lost after commit' }, 503) : reply(r, { id: value.id }, 201);
+      }
+      return reply(r, reports.filter(x => 'eq.' + x.id === url.searchParams.get('id') && 'eq.' + x.reporter_id === url.searchParams.get('reporter_id')));
+    }
+    if (p.endsWith('/comments') && method === 'GET') return reply(r, [{ id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', post_id: ownPost, user_id: other, body: 'A test coffee comment', created_at: date() }]);
     if (p.endsWith('/rpc/save_community_post')) {
       const value = body(); postWrites.push(value);
       if (failPost) return reply(r, { message: 'isolated post failure' }, 503);
@@ -121,7 +133,7 @@ async function fixture(page: Page, { reviewer = false, expiresSoon = false } = {
     }
     return reply(r, []);
   });
-  return { posts, messages, stories, uploads, postWrites, messageWrites, profilePostQueries, setAllowed: (v: boolean) => { allowed = v; }, failPost: (v: boolean) => { failPost = v; }, failSend: (v: boolean) => { failSend = v; }, failPhoto: (v: boolean) => { failPhoto = v; }, audience: () => audience };
+  return { posts, messages, stories, uploads, postWrites, messageWrites, profilePostQueries, reports, reportWrites, failReport: (v: boolean) => { failReport = v; }, loseReportResponse: (v: boolean) => { lostReportResponse = v; }, setAllowed: (v: boolean) => { allowed = v; }, failPost: (v: boolean) => { failPost = v; }, failSend: (v: boolean) => { failSend = v; }, failPhoto: (v: boolean) => { failPhoto = v; }, audience: () => audience };
 }
 async function login(page: Page) {
   await page.goto('/'); await setLanguage(page, 'en');
@@ -298,6 +310,65 @@ test('gallery caption/file replacement and confirmed deletion retain failures an
   await expect(page.getByRole('img', { name: 'My updated coffee corner', exact: true })).toBeVisible(); expect(f.uploads.some(u => u.bucket === 'profile-gallery')).toBe(true);
   await page.getByRole('button', { name: 'Delete gallery photo', exact: true }).click(); await page.getByRole('button', { name: 'Confirm delete photo', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Edit gallery photo', exact: true })).toHaveCount(0);
+});
+
+test('community moderation preserves a failed report, confirms recovery, and keeps blocked content hidden after reload', async ({ page }) => {
+  const f = await fixture(page); await login(page);
+  await page.getByRole('button', { name: 'BeanMora', exact: true }).click();
+  const post = page.getByTestId('community-post-88888888-8888-4888-8888-888888888888');
+  await post.getByRole('button', { name: 'Post options', exact: true }).click();
+  const modal = page.getByTestId('community-moderation');
+  await modal.getByRole('button', { name: 'Report content', exact: true }).click();
+  await expect(modal.getByRole('button', { name: 'Send report', exact: true })).toBeDisabled();
+  await modal.getByLabel('Report reason', { exact: true }).fill('Controlled QA report, no real member accusation.');
+  f.failReport(true);
+  await modal.getByRole('button', { name: 'Send report', exact: true }).click();
+  await expect(modal.getByRole('alert')).toContainText('Action was not confirmed');
+  await expect(modal.getByLabel('Report reason', { exact: true })).toHaveValue('Controlled QA report, no real member accusation.');
+  expect(f.reports).toHaveLength(0);
+  f.failReport(false); f.loseReportResponse(true);
+  await modal.getByRole('button', { name: 'Send report', exact: true }).click();
+  await expect(modal).toHaveCount(0);
+  expect(f.reports).toHaveLength(1);
+  expect(f.reportWrites[0].id).toBe(f.reportWrites[1].id);
+  expect(f.reports[0]).toMatchObject({ reporter_id: uid, target_type: 'post', target_id: '88888888-8888-4888-8888-888888888888', reason: 'other' });
+  await post.getByRole('button', { name: 'Post options', exact: true }).click();
+  await modal.getByRole('button', { name: 'Block member', exact: true }).click();
+  await expect(post).toBeVisible();
+  await modal.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await expect(post).toBeVisible();
+  await post.getByRole('button', { name: 'Post options', exact: true }).click();
+  await modal.getByRole('button', { name: 'Block member', exact: true }).click();
+  await modal.getByRole('button', { name: 'Confirm block', exact: true }).click();
+  await expect(modal).toHaveCount(0); await expect(post).toHaveCount(0);
+  await expect(page.getByTestId('community-post-' + ownPost)).toBeVisible();
+  await page.reload(); await page.getByRole('button', { name: 'BeanMora', exact: true }).click();
+  await expect(page.getByTestId('community-post-' + ownPost)).toBeVisible();
+  await expect(post).toHaveCount(0);
+});
+
+test('Arabic community comment reporting keeps the comment target separate from its post', async ({ page }) => {
+  await page.setViewportSize({ width: 1024, height: 768 });
+  const f = await fixture(page); await login(page); await setLanguage(page, 'ar');
+  await page.getByRole('button', { name: 'BeanMora', exact: true }).click();
+  const post = page.getByTestId('community-post-' + ownPost);
+  await post.getByRole('button', { name: 'التعليقات', exact: true }).click();
+  await post.getByRole('button', { name: 'خيارات التعليق', exact: true }).click();
+  const modal = page.getByTestId('community-moderation');
+  await modal.getByRole('button', { name: 'الإبلاغ عن المحتوى', exact: true }).click();
+  await modal.getByLabel('سبب البلاغ', { exact: true }).fill('بلاغ اختبار مضبوط على تعليق تجريبي.');
+  await modal.getByRole('button', { name: 'إرسال البلاغ', exact: true }).click();
+  await expect(modal).toHaveCount(0);
+  expect(f.reports).toHaveLength(1);
+  expect(f.reports[0]).toMatchObject({ reporter_id: uid, target_type: 'comment', target_id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa' });
+});
+
+test('guest community moderation requires sign-in and makes no report write', async ({ page }) => {
+  const f = await fixture(page); await page.goto('/'); await setLanguage(page, 'en');
+  await page.getByRole('button', { name: 'BeanMora', exact: true }).click();
+  await page.getByTestId('community-post-88888888-8888-4888-8888-888888888888').getByRole('button', { name: 'Post options', exact: true }).click();
+  await expect(page.getByLabel('Email', { exact: true })).toBeVisible();
+  expect(f.reportWrites).toHaveLength(0);
 });
 
 test.describe('actual browser voice recording', () => {

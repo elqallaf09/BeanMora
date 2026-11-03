@@ -3211,5 +3211,10 @@
   "Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.": "Googleアカウントですか？Googleで続けるか、「パスワードの設定・再設定」からBeanMora用のパスワードを作成してください。",
   "Set or reset password": "パスワードの設定・再設定",
   "Share your coffee moment for 24 hours.": "コーヒーのひとときを24時間シェア。",
-  "By publishing, you confirm you have permission to share this content.": "投稿することで、このコンテンツを共有する権利があることを確認します。"
+  "By publishing, you confirm you have permission to share this content.": "投稿することで、このコンテンツを共有する権利があることを確認します。",
+  "Action was not confirmed. Please retry.": "操作を確認できませんでした。もう一度お試しください。",
+  "Comment options": "コメントのオプション",
+  "Member blocked.": "メンバーをブロックしました。",
+  "Post options": "投稿のオプション",
+  "Report content": "コンテンツを報告"
 }
