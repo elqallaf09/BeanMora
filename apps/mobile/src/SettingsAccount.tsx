@@ -2,7 +2,9 @@ import { useContext, useRef, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { Session } from '@supabase/supabase-js';
 import {
+  Keyboard,
   Modal,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -44,6 +46,18 @@ export function SettingsAccount({
   const [confirmDelete, setConfirmDelete] = useState('');
   const [deleteError, setDeleteError] = useState('');
   const inFlight = useRef(false);
+  const deleteDismissed = useRef<(() => void) | null>(null);
+  async function dismissDeletedAccountDialog() {
+    Keyboard.dismiss();
+    // iOS must release the child modal before sign-out unmounts this account
+    // and dismisses its parent Settings sheet. Otherwise an empty native window
+    // can remain above the home screen and intercept every touch.
+    await new Promise<void>((resolve) => {
+      if (Platform.OS === 'ios') deleteDismissed.current = resolve;
+      setDeleteOpen(false);
+      if (Platform.OS !== 'ios') resolve();
+    });
+  }
   async function deleteAccount() {
     if (
       !supabase ||
@@ -57,6 +71,7 @@ export function SettingsAccount({
     setDeleteError('');
     try {
       const owner = await deleteCurrentAccount(supabase);
+      await dismissDeletedAccountDialog();
       invalidatePublicCatalog(supabase);
       if (publicSupabase) invalidatePublicCatalog(publicSupabase);
       let localCleanupFailed = false;
@@ -142,6 +157,11 @@ export function SettingsAccount({
         visible={deleteOpen}
         transparent
         animationType="fade"
+        onDismiss={() => {
+          const complete = deleteDismissed.current;
+          deleteDismissed.current = null;
+          complete?.();
+        }}
         onRequestClose={() => {
           if (!busy) setDeleteOpen(false);
         }}
