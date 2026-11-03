@@ -1,0 +1,18 @@
+{
+  "beans": {
+    "count": 245,
+    "ids_md5": "2b1089a20bd0098b7b3683d574049285"
+  },
+  "equipment": {
+    "count": 142,
+    "ids_md5": "b430d513db6638449271bb735baaaca0"
+  },
+  "roasters": {
+    "count": 96,
+    "ids_md5": "60f2361e96c55ebd5388cbbec262e2fc"
+  },
+  "recipes": {
+    "count": 3474,
+    "ids_md5": "425c7a4515b2e3ef3f98926a6d0003b4"
+  }
+}

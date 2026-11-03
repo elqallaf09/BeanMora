@@ -14,7 +14,7 @@ import {
   type Method,
 } from './core/engine';
 import { contentMediaPath } from './core/content-media';
-import { safeUrl } from './guards';
+import { safeUrl, licensedCatalogImage, CATALOG_CONTENT_REVISION } from './guards';
 import type { ManualPour } from './manualBrew';
 import {
   publishedFlavorNotes,
@@ -52,6 +52,7 @@ export interface RecipeSource {
 }
 export type { SourceBrew } from './sourceBrew';
 export interface RecipeItem extends Recipe {
+  contentRevision?: number;
   coffeeMatch?: CoffeeRecipeMatch;
   labelMatch?: import('./coffeeLabelMatches').LabelRecipeMatch;
   localeContent?: Record<'ar' | 'en', Pick<RecipeItem, 'title' | 'notes' | 'author' | 'steps' | 'discovery'>>;
@@ -101,6 +102,8 @@ interface Name {
   name_ar?: string | null;
   name_en?: string | null;
   logo_url?: string | null;
+  logo_usage_status?: string | null;
+  logo_permission_ref?: string | null;
   country?: string | null;
 }
 export interface CoffeeRow extends Name {
@@ -129,6 +132,7 @@ export interface CoffeeRow extends Name {
   image_url?: string | null;
   image_source_url?: string | null;
   image_usage_status?: string | null;
+  image_permission_ref?: string | null;
   image_kind?: string;
   process?: string;
   varietal?: string | null;
@@ -137,6 +141,7 @@ export interface CoffeeRow extends Name {
     url?: string;
     image_source_url?: string;
     image_usage_status: string;
+    image_permission_ref?: string | null;
     position: number;
   }[];
   lot?:
@@ -145,6 +150,9 @@ export interface CoffeeRow extends Name {
     | null;
 }
 export interface RecipeRow {
+  rights_suspended?: boolean;
+  cover_image_usage_status?: string | null;
+  cover_image_permission_ref?: string | null;
   id: string;
   title: string;
   title_ar: string | null;
@@ -191,7 +199,7 @@ export interface RecipeRow {
   water_temp_c_max?: number | null;
 }
 export const RECIPE_FIELDS =
-  'id,title,title_ar,brew_method,visibility,bean_id,roasted_product_id,flavor_notes,difficulty,is_incomplete_source,dose_grams,water_grams,water_temp_c,water_temp_c_min,water_temp_c_max,grinder_setting,source_author_name,source_brew_parameters,total_time_seconds,notes,notes_ar,cover_image_url,video_url,recipe_type,sources:recipe_sources(source_url,source_name,data_confidence,last_verified_at),steps:recipe_steps(step_number,title,description,title_ar,description_ar),pours:recipe_pours(pour_number,water_grams,start_at_seconds,is_bloom),equipment:recipe_equipment(category,equipment_model_id)';
+  'id,title,title_ar,brew_method,visibility,bean_id,roasted_product_id,flavor_notes,difficulty,is_incomplete_source,dose_grams,water_grams,water_temp_c,water_temp_c_min,water_temp_c_max,grinder_setting,source_author_name,source_brew_parameters,total_time_seconds,notes,notes_ar,cover_image_url,cover_image_usage_status,cover_image_permission_ref,rights_suspended,video_url,recipe_type,sources:recipe_sources(source_url,source_name,data_confidence,last_verified_at),steps:recipe_steps(step_number,title,description,title_ar,description_ar),pours:recipe_pours(pour_number,water_grams,start_at_seconds,is_bloom),equipment:recipe_equipment(category,equipment_model_id)';
 interface OwnAttempt {
   recipe_id: string;
   outcome: string | null;
@@ -283,7 +291,7 @@ export function mapRecipe(
   profile: RecipeItem['xBloom'] = null,
   includeTranslations = true,
 ): RecipeItem | null {
-  if (!isMethod(row.brew_method)) return null;
+  if (!isMethod(row.brew_method) || row.rights_suspended === true) return null;
   const ar = locale === 'ar';
   const source = sourceBrew(row.source_brew_parameters);
   const discovery = readRecipeDiscovery(row, contentLocale(locale));
@@ -294,8 +302,9 @@ export function mapRecipe(
     rawMedia && typeof rawMedia === 'object' && !Array.isArray(rawMedia)
       ? (rawMedia as Record<string, unknown>)
       : {};
-  const coverUrl = contentMediaPath(row.cover_image_url, '') ? row.cover_image_url ?? null : safeUrl(row.cover_image_url);
+  const coverUrl = contentMediaPath(row.cover_image_url, '') ? row.cover_image_url ?? null : licensedCatalogImage(row.cover_image_url, row.cover_image_usage_status, row.cover_image_permission_ref);
   const result: RecipeItem = {
+    contentRevision: CATALOG_CONTENT_REVISION,
     id: row.id,
     originalTitle: row.title,
     title:
@@ -426,11 +435,11 @@ export function invalidatePublicCatalog(db: SupabaseClient) {
 // Public rows only: language and account changes reuse the same in-flight reads.
 function startPublicReads(db: SupabaseClient, method?: Method) {
   const fields =
-    'id,slug,roaster_id,name_ar,name_en,requires_review,roast_level,last_verified_at,suitable_for_v60,suitable_for_espresso,suitable_for_xbloom,source_url,image_url,image_source_url,image_usage_status,image_kind,sensory_profile,roaster:roasters(name_ar,name_en,logo_url,country)';
+    'id,slug,roaster_id,name_ar,name_en,requires_review,roast_level,last_verified_at,suitable_for_v60,suitable_for_espresso,suitable_for_xbloom,source_url,image_url,image_source_url,image_usage_status,image_permission_ref,image_kind,sensory_profile,roaster:roasters(name_ar,name_en,logo_url,logo_usage_status,logo_permission_ref,country)';
   let beans = db
     .from('beans')
     .select(
-      `${fields},source_name,roaster_website_url,origin_region,farm,altitude_meters,bag_weight_grams,roast_date,is_published,origin_country,process,varietal,description_ar,description_en,flavors:bean_flavor_notes(flavor),images:bean_images(url,position,image_usage_status)`,
+      `${fields},source_name,roaster_website_url,origin_region,farm,altitude_meters,bag_weight_grams,roast_date,is_published,origin_country,process,varietal,description_ar,description_en,flavors:bean_flavor_notes(flavor),images:bean_images(url,position,image_usage_status,image_permission_ref)`,
     )
     .eq('requires_review', false)
     .eq('is_published', true);
@@ -530,9 +539,7 @@ export function mapCoffee(
       (row.images ?? [])
         .filter(
           (i) =>
-            i.image_usage_status === 'rights_confirmed' ||
-            (i.image_usage_status === 'source_linked' &&
-              safeUrl(row.source_url)),
+            licensedCatalogImage(i.url ?? i.image_source_url, i.image_usage_status, i.image_permission_ref),
         )
         .sort((a, b) => a.position - b.position)
         .flatMap((i) => {
@@ -542,8 +549,7 @@ export function mapCoffee(
     ),
   ];
   const direct =
-    row.image_usage_status === 'rights_confirmed' ||
-    (row.image_usage_status === 'source_linked' && safeUrl(row.source_url))
+    row.image_usage_status === 'rights_confirmed' && row.image_permission_ref?.trim()
       ? (contentMediaPath(row.image_url, '') ? row.image_url ?? null : safeUrl(row.image_url))
       : null;
   if (direct && !images.includes(direct)) images.unshift(direct);
@@ -590,7 +596,7 @@ export function mapCoffee(
     roasterCountry: one(row.roaster)?.country ?? '',
     sensory: readSensory(row.sensory_profile),
     sourceUrl: safeUrl(row.source_url),
-    logoUrl: safeUrl(one(row.roaster)?.logo_url),
+    logoUrl: licensedCatalogImage(one(row.roaster)?.logo_url, one(row.roaster)?.logo_usage_status, one(row.roaster)?.logo_permission_ref),
     imageUrl: images[0] ?? null,
     imageSourceUrl: safeUrl(row.image_source_url),
     imageKind:

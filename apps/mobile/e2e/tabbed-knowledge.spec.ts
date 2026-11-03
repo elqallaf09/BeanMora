@@ -8,9 +8,9 @@ async function fixture(page: Page) {
   await page.route('https://mobilefixture.supabase.co/**', route => {
     const path=new URL(route.request().url()).pathname;
     if(path.endsWith('/rpc/search_coffee_assistant')) searches.push(route.request().postDataJSON());
-    const data=path.endsWith('/equipment_models') ? [{id,name:'Verified machine',category:'espresso_machine',requires_review:false,source_url:'https://manufacturer.example/model',image_url:'https://photos.example/old.jpg',image_usage_status:'source_linked',specifications:{catalog:{schema_version:1,name_ar:'ماكينة موثقة',images:[
-      {url:'https://photos.example/front.jpg',source_url:'https://manufacturer.example/model',usage_status:'source_linked',alt_ar:'الموديل من الأمام',alt_en:'Model front'},
-      {url:'https://photos.example/side.jpg',source_url:'https://manufacturer.example/model',usage_status:'source_linked',alt_ar:'الموديل من الجانب',alt_en:'Model side'},
+    const data=path.endsWith('/equipment_models') ? [{id,name:'Verified machine',category:'espresso_machine',requires_review:false,source_url:'https://manufacturer.example/model',image_url:'https://photos.example/old.jpg',image_usage_status:'rights_confirmed',image_permission_ref:'fixture-only-permission',specifications:{catalog:{schema_version:1,name_ar:'ماكينة موثقة',images:[
+      {url:'https://photos.example/front.jpg',source_url:'https://manufacturer.example/model',usage_status:'rights_confirmed',permission_ref:'fixture-only-permission',alt_ar:'الموديل من الأمام',alt_en:'Model front'},
+      {url:'https://photos.example/side.jpg',source_url:'https://manufacturer.example/model',usage_status:'rights_confirmed',permission_ref:'fixture-only-permission',alt_ar:'الموديل من الجانب',alt_en:'Model side'},
       {url:'https://photos.example/unreviewed.jpg',source_url:'https://manufacturer.example/model',usage_status:'unreviewed'},
     ]}}}] : [];
     return route.fulfill({status:200,contentType:'application/json',headers:{'content-range':data.length?'0-0/1':'*/0','access-control-expose-headers':'content-range'},body:JSON.stringify(data)});

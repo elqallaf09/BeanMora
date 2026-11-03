@@ -869,6 +869,7 @@ function Shell() {
               ) : tab === 'savedRecipes' ? (
                 <RecipeShelf
                   recipes={shelf.recipes}
+                  unavailable={shelf.unavailable}
                   loading={shelf.busy}
                   error={shelf.error}
                   open={openRecipe}

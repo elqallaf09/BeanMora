@@ -218,7 +218,7 @@ async function fixtures(
                 name_ar: "طاحونة تجريبية",
                 operation: ["يدوية", "Manual"],
                 image_url: "https://account-photo-fixture.test/grinder.jpg",
-                image_usage_status: "source_linked",
+                image_usage_status:'rights_confirmed',image_permission_ref:'fixture-only-permission',
               },
             ]
           : [],
@@ -231,7 +231,7 @@ async function fixtures(
                 name_en: "Fixture coffee",
                 name_ar: "بن التجربة",
                 image_url: "https://account-photo-fixture.test/coffee-bag.jpg",
-                image_usage_status: "source_linked",
+                image_usage_status:'rights_confirmed',image_permission_ref:'fixture-only-permission',
               },
             ]
           : [],

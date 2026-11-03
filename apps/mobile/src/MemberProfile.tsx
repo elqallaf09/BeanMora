@@ -196,17 +196,19 @@ function ProfileImage({ url, caption }: { url: string; caption: string }) {
 function CollectionPhoto({
   url,
   status,
+  permission,
   name,
   bean = false,
   large = false,
 }: {
   url?: string | null;
   status?: string | null;
+  permission?: string | null;
   name: string;
   bean?: boolean;
   large?: boolean;
 }) {
-  const allowed = ["source_linked", "rights_confirmed"].includes(status ?? "");
+  const allowed = status === "rights_confirmed" && Boolean(permission?.trim());
   const resolved = useContentMedia(allowed ? (url ?? null) : null);
   return (
     <View style={{ width: large ? 180 : 88, flexShrink: 0 }}>
@@ -981,6 +983,7 @@ export function MemberProfile({
                       note={L(e.operation?.[0] ?? '', e.operation?.[1] ?? '')}
                       url={e.image_url}
                       status={e.image_usage_status}
+                      permission={e.image_permission_ref}
                       large={wide}
                       onPress={() => {
                         if (e.equipment_model_id)
@@ -1009,6 +1012,7 @@ export function MemberProfile({
                       subtitle={L("من أكياس البن", "From my coffee bags")}
                       url={data.beans[0].image_url}
                       status={data.beans[0].image_usage_status}
+                      permission={data.beans[0].image_permission_ref}
                       onPress={() =>
                         openItem(data.beans![0].kind, data.beans![0].coffee_id)
                       }
@@ -1051,6 +1055,7 @@ export function MemberProfile({
                   }
                   url={b.image_url}
                   status={b.image_usage_status}
+                  permission={b.image_permission_ref}
                   large={wide}
                   onPress={() => openItem(b.kind, b.coffee_id)}
                   manage={own ? () => manage("bags") : undefined}
@@ -1359,6 +1364,7 @@ function CollectionCard({
   note,
   url,
   status,
+  permission,
   bean = false,
   large = false,
   onPress,
@@ -1369,6 +1375,7 @@ function CollectionCard({
   note?: string;
   url?: string | null;
   status?: string | null;
+  permission?: string | null;
   bean?: boolean;
   large?: boolean;
   onPress: () => void;
@@ -1393,6 +1400,7 @@ function CollectionCard({
           name={name}
           url={url}
           status={status}
+          permission={permission}
           bean={bean}
           large={large}
         />

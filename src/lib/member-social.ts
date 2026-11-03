@@ -44,6 +44,7 @@ export type MemberProfileData = {
     operation: [string, string] | null;
     image_url?: string | null;
     image_usage_status?: string | null;
+    image_permission_ref?: string | null;
   }[];
   beans?: {
     id: string;
@@ -54,6 +55,7 @@ export type MemberProfileData = {
     slug: string;
     image_url?: string | null;
     image_usage_status?: string | null;
+    image_permission_ref?: string | null;
   }[];
   comments?: {
     id: string;

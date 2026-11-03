@@ -11,6 +11,7 @@ import { catalogScope, supabase } from "./client";
 import { setMemberFavorite } from "./core/member-social";
 import { storageFits, validRecipe } from "./catalogCache";
 import { catalogName, localizeStep } from "./localizedContent";
+import { CATALOG_CONTENT_REVISION } from "./guards";
 
 type Entry = {
   id: string;
@@ -146,7 +147,7 @@ export function useRecipeShelf(owner: string | null, locale: Locale) {
           ...new Map(
             // Confirmed account saves follow the server after removals on another device.
             // Retain older device-only entries until the owner explicitly removes them.
-            [...local.filter((entry) => !entry.cloud), ...remote].map(
+            [...local.filter((entry) => !entry.cloud || Object.values(entry.snapshots).some(r => r?.public && r.contentRevision !== CATALOG_CONTENT_REVISION)), ...remote].map(
               (entry) => [entry.id, entry],
             ),
           ).values(),
@@ -216,8 +217,11 @@ export function useRecipeShelf(owner: string | null, locale: Locale) {
       setBusy(false);
     }
   }
+  const snapshots = entries.map((entry) => displaySnapshot(entry, locale));
+  const available = snapshots.filter(recipe => !recipe.public || recipe.contentRevision === CATALOG_CONTENT_REVISION);
   return {
-    recipes: entries.map((entry) => displaySnapshot(entry, locale)),
+    recipes: available,
+    unavailable: snapshots.length - available.length,
     ids: entries.map((entry) => entry.id),
     toggle,
     busy: busy || state.scope !== scope || state.loading,

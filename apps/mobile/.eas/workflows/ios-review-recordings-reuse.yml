@@ -1,0 +1,29 @@
+# Supplementary Simulator evidence, using the already validated 0.5.39 (34) build.
+name: Record existing BeanMora 0.5.39 simulator build
+on:
+  workflow_dispatch: {}
+jobs:
+  iphone:
+    name: iPhone 17 Pro Simulator guest walkthrough
+    type: maestro
+    image: sdk-57
+    runs_on: macos-medium
+    environment: production
+    params:
+      build_id: 2d230bee-9a2f-4b18-908d-32c5231042eb
+      device_identifier: iPhone 17 Pro
+      flow_path: .maestro/review-guest-recording.yaml
+      record_screen: true
+      retries: 0
+  ipad:
+    name: iPad Pro 13-inch M5 Simulator guest walkthrough
+    type: maestro
+    image: sdk-57
+    runs_on: macos-medium
+    environment: production
+    params:
+      build_id: 2d230bee-9a2f-4b18-908d-32c5231042eb
+      device_identifier: iPad Pro 13-inch (M5)
+      flow_path: .maestro/review-guest-recording.yaml
+      record_screen: true
+      retries: 0

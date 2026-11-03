@@ -1,0 +1,55 @@
+appId: com.beanmora.mobile
+name: Supplementary simulator recording - public guest catalog only
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: home-search-input
+    timeout: 60000
+- takeScreenshot: review-home
+- tapOn:
+    text: البن والإيحاءات
+    retryTapIfNoChange: false
+- assertVisible:
+    id: screen-beans
+- takeScreenshot: review-coffee
+- tapOn: الرئيسية
+- tapOn:
+    text: مكتبة الوصفات
+    retryTapIfNoChange: false
+- assertVisible:
+    id: screen-recipes
+- takeScreenshot: review-recipes
+- tapOn: اختصارات القهوة
+- tapOn: الكبسولات
+- assertVisible:
+    id: capsule-catalog
+- takeScreenshot: review-capsules
+- scroll
+- takeScreenshot: review-capsules-more
+- tapOn: الرئيسية
+- tapOn:
+    text: أدوات القهوة
+    retryTapIfNoChange: false
+- assertVisible:
+    id: screen-equipment
+- takeScreenshot: review-equipment
+- tapOn: الرئيسية
+- tapOn:
+    text: المحامص
+    retryTapIfNoChange: false
+- assertVisible:
+    id: screen-roasters
+- takeScreenshot: review-roasters
+- tapOn: الرئيسية
+- tapOn:
+    id: home-search-input
+- inputText: grape
+- tapOn:
+    text: ابحث الآن
+    retryTapIfNoChange: false
+- assertVisible:
+    id: screen-search
+- takeScreenshot: review-search
+- tapOn: الرئيسية

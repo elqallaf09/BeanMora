@@ -1,0 +1,79 @@
+# Supplementary simulator evidence. This is not physical-device App Review QA.
+name: Record BeanMora 0.5.39 on iPhone and iPad simulators
+on:
+  workflow_dispatch: {}
+defaults:
+  image: sdk-57
+  tools:
+    node: '22.16.0'
+jobs:
+  devices:
+    name: Select installed iPhone and iPad simulators
+    runs_on: macos-medium
+    outputs:
+      iphone: ${{ steps.choose.outputs.iphone }}
+      ipad: ${{ steps.choose.outputs.ipad }}
+      runtime: ${{ steps.choose.outputs.runtime }}
+    steps:
+      - id: choose
+        run: |
+          xcrun simctl list devices available --json > /tmp/beanmora-devices.json
+          node <<'NODE'
+          const fs = require('fs');
+          const { devices } = JSON.parse(fs.readFileSync('/tmp/beanmora-devices.json', 'utf8'));
+          const runtime = Object.keys(devices).filter(k => k.includes('.iOS-')).sort((a,b) => b.localeCompare(a, undefined, {numeric:true})).find(k => devices[k].some(d=>d.isAvailable && d.name.startsWith('iPhone')) && devices[k].some(d=>d.isAvailable && d.name.startsWith('iPad')));
+          if (!runtime) throw Error('No runtime contains both iPhone and iPad simulators.');
+          const available = devices[runtime].filter(d=>d.isAvailable);
+          const iphone = available.find(d=>d.name.startsWith('iPhone'));
+          const ipad = available.find(d=>d.name.includes('iPad Pro 13')) || available.find(d=>d.name.startsWith('iPad'));
+          for (const [key, value] of Object.entries({iphone:iphone.name,ipad:ipad.name,runtime})) fs.writeFileSync('/tmp/beanmora-'+key, value);
+          console.log(JSON.stringify({iphone:iphone.name,ipad:ipad.name,runtime}));
+          NODE
+          set-output iphone "$(cat /tmp/beanmora-iphone)"
+          set-output ipad "$(cat /tmp/beanmora-ipad)"
+          set-output runtime "$(cat /tmp/beanmora-runtime)"
+  build_simulator:
+    name: Build unchanged 0.5.39 application for Simulator
+    type: build
+    environment: production
+    runs_on: macos-medium
+    params:
+      platform: ios
+      profile: navigation-test
+    hooks:
+      before_install_node_modules:
+        - name: Check candidate identity and public production destination
+          run: |
+            node --input-type=module <<'NODE'
+            import { readFileSync } from 'node:fs';
+            const { expo } = JSON.parse(readFileSync('app.json', 'utf8'));
+            if (expo.version !== '0.5.39' || expo.ios.bundleIdentifier !== 'com.beanmora.mobile' || process.env.EXPO_PUBLIC_SUPABASE_URL !== 'https://ubvzdglrwkkuaigmkjap.supabase.co') throw Error('Unexpected candidate or catalog destination');
+            NODE
+        - name: Reproducible npm resolver
+          run: npm install --global npm@11.19.1 --ignore-scripts
+  iphone:
+    name: Record real native iPhone Simulator guest flow
+    type: maestro
+    image: sdk-57
+    environment: production
+    runs_on: macos-medium
+    needs: [build_simulator, devices]
+    params:
+      build_id: ${{ needs.build_simulator.outputs.build_id }}
+      device_identifier: ${{ needs.devices.outputs.iphone }}
+      flow_path: .maestro/review-guest-recording.yaml
+      record_screen: true
+      retries: 0
+  ipad:
+    name: Record real native iPad Simulator guest flow
+    type: maestro
+    image: sdk-57
+    environment: production
+    runs_on: macos-medium
+    needs: [build_simulator, devices]
+    params:
+      build_id: ${{ needs.build_simulator.outputs.build_id }}
+      device_identifier: ${{ needs.devices.outputs.ipad }}
+      flow_path: .maestro/review-guest-recording.yaml
+      record_screen: true
+      retries: 0

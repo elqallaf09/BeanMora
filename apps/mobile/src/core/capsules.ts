@@ -1048,8 +1048,6 @@ export const capsuleProducts: CapsuleProduct[] = [
       ar: "حمصة متوسط · ٦ كبسولات · ١٠–١٢ فنجالًا للكبسولة. لجهاز Zill فقط. يحتوي مشتقات الحليب.",
       en: "Medium roast · 6 capsules · 10–12 finjals per capsule. Zill machines only. Contains milk derivatives.",
     },
-    image:
-      "https://cdn.shopify.com/s/files/1/0275/3537/6495/files/ChatGPTImageSep10_2026_02_04_29PM.png?v=1790071825",
   },
   {
     id: "zill-shagra-zill-capsules",
@@ -1063,8 +1061,6 @@ export const capsuleProducts: CapsuleProduct[] = [
       ar: "حمصة فاتح · ٦ كبسولات · ١٠–١٢ فنجالًا للكبسولة. لجهاز Zill فقط. يحتوي مشتقات الحليب.",
       en: "Light roast · 6 capsules · 10–12 finjals per capsule. Zill machines only. Contains milk derivatives.",
     },
-    image:
-      "https://cdn.shopify.com/s/files/1/0275/3537/6495/files/Zill-21.jpg?v=1696430634",
   },
   {
     id: "zill-ghamjah-zill-capsules",
@@ -1078,8 +1074,6 @@ export const capsuleProducts: CapsuleProduct[] = [
       ar: "حمصة داكن · ٦ كبسولات · ١٠–١٢ فنجالًا للكبسولة. لجهاز Zill فقط. يحتوي مشتقات الحليب.",
       en: "Dark roast · 6 capsules · 10–12 finjals per capsule. Zill machines only. Contains milk derivatives.",
     },
-    image:
-      "https://cdn.shopify.com/s/files/1/0275/3537/6495/files/Zill-19.jpg?v=1696430578",
   },
   {
     id: "zill-original-zill-capsules",
@@ -1094,7 +1088,5 @@ export const capsuleProducts: CapsuleProduct[] = [
       ar: "حمصة متوسط · ٦ كبسولات · ١٠–١٢ فنجالًا للكبسولة. لجهاز Zill فقط. يحتوي مشتقات الحليب.",
       en: "Medium roast · 6 capsules · 10–12 finjals per capsule. Zill machines only. Contains milk derivatives.",
     },
-    image:
-      "https://cdn.shopify.com/s/files/1/0275/3537/6495/files/Zill-20.jpg?v=1696430611",
   },
 ];

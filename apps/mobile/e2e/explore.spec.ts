@@ -284,7 +284,7 @@ const model = {
   requires_review: false,
   source_url: 'https://manufacturer-fixture.test/moka',
   image_url: 'https://photo-fixture.test/moka.jpg',
-  image_usage_status: 'source_linked',
+  image_usage_status:'rights_confirmed',image_permission_ref:'fixture-only-permission',
   suitable_brew_methods: [],
   specifications: {},
 };

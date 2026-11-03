@@ -2,7 +2,7 @@ import type { Bundle, CoffeeItem, RecipeItem } from './data';
 import { emptyProfile, isMethod } from './core/engine';
 import type { Locale } from './localeText';
 
-export const CACHE_VERSION = 2;
+export const CACHE_VERSION = 3;
 export const CACHE_MAX_AGE = 7 * 86400000;
 export const MAX_STORAGE_BYTES = 1_500_000;
 /** Bound serialized payloads by bytes; Arabic and emoji use multiple bytes. */
@@ -18,7 +18,7 @@ function storageBytes(value: string): number {
 }
 export const storageFits = (value: string): boolean => storageBytes(value) <= MAX_STORAGE_BYTES;
 export type PublicCatalog = Pick<Bundle, 'coffees' | 'recipes' | 'recipeTotal' | 'limited'>;
-export const catalogCacheKey = (project: string, locale: Locale) => `beanmora-public-catalog-v2:${project}:${locale}`;
+export const catalogCacheKey = (project: string, locale: Locale) => `beanmora-public-catalog-v${CACHE_VERSION}:${project}:${locale}`;
 
 /** Device profiles enrich recipes; their failure does not mean the catalog is offline. */
 export function catalogReadFailed(bundle: Bundle): boolean {

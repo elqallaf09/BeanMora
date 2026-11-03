@@ -75,7 +75,7 @@ test('foreground automation refreshes once after five minutes and reuses the cat
     return reply(route,path.endsWith('/beans')?[bean]:[]);
   });
   await page.goto('/');await expect.poll(()=>reads).toBe(5);
-  await expect.poll(()=>page.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith('beanmora-public-catalog-v2:')).length)).toBe(1);
+  await expect.poll(()=>page.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith('beanmora-public-catalog-v3:')).length)).toBe(1);
   // Flush the initial React commit before moving the mocked browser clock.
   await page.clock.runFor(32);
   const visibility=async(state:string)=>page.evaluate(state=>{Object.defineProperty(document,'visibilityState',{value:state,configurable:true});document.dispatchEvent(new Event('visibilitychange'));},state);

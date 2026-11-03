@@ -41,7 +41,7 @@ const model = {
   brand: { name: "Baratza" },
   source_url: "https://www.baratza.com/en-us/product/encore-esp-zcg495",
   image_url: "https://member-photo-fixture.test/grinder.png",
-  image_usage_status: "source_linked",
+  image_usage_status:'rights_confirmed',image_permission_ref:'fixture-only-permission',
   specifications: {
     catalog: {
       schema_version: 1,
@@ -143,7 +143,7 @@ async function setup(
             name_ar: "بن الحساب",
             name_en: "Fixture coffee",
             image_url: "https://member-photo-fixture.test/coffee.png",
-            image_usage_status: "source_linked",
+            image_usage_status:'rights_confirmed',image_permission_ref:'fixture-only-permission',
           },
         ],
         equipment: gear
@@ -155,7 +155,7 @@ async function setup(
                 name: model.name,
                 name_ar: "باراتزا إنكور ESP",
                 image_url: model.image_url,
-                image_usage_status: "source_linked",
+                image_usage_status:'rights_confirmed',image_permission_ref:'fixture-only-permission',
               },
             ]
           : [],

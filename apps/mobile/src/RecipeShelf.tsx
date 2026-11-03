@@ -9,7 +9,7 @@ import type { Method } from './core/engine';
 import { methods } from './copy';
 import { Action, Field, Icon, Language, Txt, styles, colors } from './ui';
 
-export function RecipeShelf({ recipes, loading, error, open }: { recipes: RecipeItem[]; loading: boolean; error: boolean; open: (r: RecipeItem) => void }) {
+export function RecipeShelf({ recipes, loading, error, open, unavailable = 0 }: { recipes: RecipeItem[]; loading: boolean; error: boolean; open: (r: RecipeItem) => void; unavailable?: number }) {
   const i18nUi = useLabels();
   const locale = useContext(Language); const ar = locale === 'ar';
   const [search, setSearch] = useState(''); const [method, setMethod] = useState<Method>();
@@ -20,6 +20,7 @@ export function RecipeShelf({ recipes, loading, error, open }: { recipes: Recipe
     <Txt style={styles.muted}>{ar ? 'المقادير والخطوات محفوظة على هذا الجهاز وتُفتح بدون اتصال. الصور وروابط المصدر تحتاج اتصالًا.' : i18nUi('المقادير والخطوات محفوظة على هذا الجهاز وتُفتح بدون اتصال. الصور وروابط المصدر تحتاج اتصالًا.', 'Amounts and steps are saved on this device and open offline. Photos and source links need a connection.')}</Txt>
     <Field label={ar ? 'ابحث في وصفاتك' : i18nUi('ابحث في وصفاتك', 'Search saved recipes')} value={search} onChangeText={setSearch} />
     <MethodPicker value={method} onChange={setMethod} />
+    {unavailable > 0 ? <Txt style={styles.muted}>{i18nUi('بعض الوصفات المحفوظة غير متاحة مؤقتًا. بقيت مراجعها محفوظة.', 'Some saved recipes are temporarily unavailable. Their saved references have been retained.')}</Txt> : null}
     {loading ? <Txt>{ar ? 'جارٍ تحميل وصفاتك…' : i18nUi('جارٍ تحميل وصفاتك…', 'Loading your recipes…')}</Txt> : null}
     {error ? <Txt style={styles.warning}>{ar ? 'تعذّر الحفظ على الجهاز. تحقّق من المساحة المتاحة (حتى 50 وصفة).' : i18nUi('تعذّر الحفظ على الجهاز. تحقّق من المساحة المتاحة (حتى 50 وصفة).', 'Could not save on this device. Check available storage (up to 50 recipes).')}</Txt> : null}
     {rows.map(recipe => <View key={recipe.id} style={styles.card}>
