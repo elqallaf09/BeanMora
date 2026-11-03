@@ -1,5 +1,5 @@
 import { expect, test, type Page, type Route } from "@playwright/test";
-import { setLanguage } from "./settings";
+import { openSettings, setLanguage } from "./settings";
 import { selectProfileExtra } from "./profile-navigation";
 
 // Only isolated fixture accounts and email endpoints are used in this suite.
@@ -371,10 +371,7 @@ test("password validates matching fields and completes a server-required email n
 }) => {
   const f = await fixtures(page, { nonce: true });
   await signIn(page);
-  await page
-    .getByRole("button", { name: "Settings", exact: true })
-    .first()
-    .click();
+  await openSettings(page);
   const s = page.getByTestId("account-security");
   await s.getByRole("button", { name: "Change password", exact: true }).click();
   await s

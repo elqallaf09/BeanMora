@@ -1,7 +1,7 @@
 import { expect, type Page } from '@playwright/test';
 const languages = {ar:'العربية',en:'English',ja:'日本語',fr:'Français',it:'Italiano',es:'Español','pt-BR':'Português (Brasil)','zh-CN':'简体中文'};
 const done = {ar:'تم',en:'Done',ja:'完了',fr:'Terminé',it:'Fine',es:'Listo','pt-BR':'Concluído','zh-CN':'完成'};
-export async function setLanguage(page: Page, locale: keyof typeof languages) {
+export async function openSettings(page: Page) {
   await page.getByRole('button', { name: /^(الإعدادات|Settings|設定|Paramètres|Impostazioni|Configuración|Configurações|设置)$/, exact: true }).first().click();
   const panel = page.getByTestId('settings-screen');
   // RN Web mounts the controls before its modal slide-in finishes. A click
@@ -15,6 +15,10 @@ export async function setLanguage(page: Page, locale: keyof typeof languages) {
     }
     return true;
   })).toBe(true);
+  return panel;
+}
+export async function setLanguage(page: Page, locale: keyof typeof languages) {
+  const panel = await openSettings(page);
   await panel.getByRole('button', { name: languages[locale], exact: true }).click();
   await expect(panel.getByRole('button', { name: languages[locale], exact: true })).toHaveAttribute('aria-pressed', 'true');
   await panel.getByRole('button', { name: done[locale], exact: true }).click();
