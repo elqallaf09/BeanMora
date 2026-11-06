@@ -18,6 +18,8 @@ The OCR failure had multiple causes: a thin footer could be selected as the enti
 
 The first CI run passed TypeScript and mobile tests but required the current SDK 57 patch versions. Expo, expo-asset and expo-image-picker are now pinned to 57.0.32, 57.0.21 and 57.0.21. The updated Expo config removes deepmerge, so its obsolete backport was retired; a regression rejects any reintroduction. The braces backport and all other audit/signing checks remain enforced.
 
+Expo CLI 57.0.33 also replaces its direct Zod dependency with schema-utils and moves the plugin schema into `server/devtools`. The tooling compatibility check now exercises that installed validator with valid and malformed plugin/command definitions. It no longer requires the retired Zod module or the optional, uninstalled expo-mcp integration.
+
 ## Existing catalog state and release limits
 
 The production catalog still has the prior owner-authorized media holds: 245 beans and 3,474 recipe records. No archived photos were deleted or restored, no licence status was fabricated, and these holds were not changed by this fix. Held or missing photos therefore show the approved BeanMora illustration. At inspection, no bean row had a `member-media` upload reference; member-upload recovery was verified with isolated fixtures.
