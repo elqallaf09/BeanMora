@@ -9,7 +9,6 @@ import { usePressMotion } from './Motion';
 import { useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import {
   Animated,
-  Image,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -31,15 +30,15 @@ import { useLabels,
 import { catalogName, processLabel, modelLabel } from './localizedContent';
 import { methods } from './copy';
 import { METHODS, type Method } from './core/engine';
-import type { Bundle, CoffeeItem, RecipeItem, CoffeeImageKind } from './data';
+import type { Bundle, CoffeeItem, RecipeItem } from './data';
 import { CoffeeSensory, FlavorNotes } from './SensoryProfile';
 import { useCoffeeRecipes } from './useCoffeeRecipes';
 import { GrinderSettings } from './GrinderSettings';
 import { SourceLink } from './SourceLink';
 import { useBrewStarter } from './useBrewStarter';
 import { recipeQuickFacts } from './recipeQuickFacts';
-import { useContentMedia } from './useContentMedia';
-import { catalogPhotoSource } from './catalogPhotoSource';
+import { CoffeePhoto } from './CoffeePhoto';
+export { CoffeePhoto } from './CoffeePhoto';
 import { useRotatingPicks } from './useRotatingPicks';
 import { BrewMethodCards } from './BrewMethods';
 import { useXBloomMatches } from './useXBloomMatches';
@@ -81,69 +80,6 @@ export const originLabel = (origin: string, locale: import('./copy').Locale = 'e
   [flags[origin], catalogName(origin, locale)]
     .filter(Boolean)
     .join(' ');
-export function CoffeePhoto({
-  uri,
-  uris = [],
-  detail = false,
-  kind = 'unclassified',
-  fallback,
-}: {
-  uri?: string | null;
-  uris?: string[];
-  seed?: string;
-  detail?: boolean;
-  kind?: CoffeeImageKind;
-  fallback?: ReactNode;
-}) {
-  const ar = useContext(Language) === 'ar';
-  const L = useLabels();
-  const [attempt, setAttempt] = useState(0);
-  const candidates = [
-    ...new Set(
-      [uri, ...uris].filter((value): value is string => Boolean(value)),
-    ),
-  ];
-  const identity = candidates.join('|');
-  useEffect(() => setAttempt(0), [identity]);
-  const current = useContentMedia(candidates[attempt] ?? null);
-  const label =
-    kind === 'origin_photo'
-      ? L('صورة منشأ البن', 'Coffee origin photo')
-      : kind === 'product_artwork'
-        ? L('صورة المنتج من المحمصة', 'Roaster product artwork')
-        : L('صورة عبوة البن', 'Coffee product photo');
-  return (
-    <View style={s.photo}>
-      {current ? (
-        <>
-          <Image
-            key={current}
-            testID="coffee-product-photo"
-            accessibilityLabel={label}
-            source={catalogPhotoSource(current)}
-            resizeMode="contain"
-            style={[StyleSheet.absoluteFill, { width: '100%', height: '100%' }]}
-            onError={() => setAttempt((n) => n + 1)}
-          />
-          {kind === 'product_artwork' || kind === 'origin_photo' ? (
-            <View style={s.photoNote}>
-              <Txt style={{ fontSize: 9, lineHeight: 14, color: '#FFF' }}>
-                {label}
-              </Txt>
-            </View>
-          ) : null}
-        </>
-      ) : (
-        (fallback ?? (
-          <View testID="coffee-photo-unavailable" style={[s.photoPlaceholder, { width: '100%', height: '100%' }]}>
-            <Icon name="bean" size={34} color={colors.copper} />
-            <Txt style={{ fontSize: 11, color: colors.muted }}>{L('صورة البن غير متوفرة', 'Coffee photo unavailable')}</Txt>
-          </View>
-        ))
-      )}
-    </View>
-  );
-}
 export function SectionTitle({
   title,
   onPress,

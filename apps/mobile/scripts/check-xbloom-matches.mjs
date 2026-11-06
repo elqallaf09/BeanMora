@@ -118,6 +118,16 @@ test('label ranking parameters are literal and never guess a catalog ID from a n
   assert.equal(params.p_origin,label.origin); assert.equal(params.p_variety,'كاستيلو');
   assert.equal(params.p_bean_id,null); assert.equal(params.p_product_id,null); assert.equal(params.p_model,null);
 });
+test('blend names with spatial evidence do not require an unstated growing country', () => {
+  const text = 'ROASTING HOUSE\nAL BALAD BLEND\nمزيجالبلد\nHAZELNUT, NUTTY, CHOCOLATE\nBlend\nUpto 1850 Meters';
+  const label = readCoffeeLabel(text, ['مزيجالبلد']);
+  assert.equal(label.name, 'مزيج البلد');
+  assert.equal(label.origin, ''); assert.equal(label.variety, ''); assert.equal(label.process, ''); assert.equal(label.roast, '');
+  assert.equal(label.notes, 'HAZELNUT, NUTTY, CHOCOLATE');
+  assert.equal(readCoffeeLabel(text, ['AL BALAD BLEND']).name, 'AL BALAD BLEND');
+  assert.equal(readCoffeeLabel('ROASTING HOUSE\nNotes: Chocolate', ['ROASTING HOUSE']).name, '');
+  assert.equal(readCoffeeLabel('AL BALAD BLEND\nNotes: Chocolate').name, '', 'Unconfirmed logo text is not promoted');
+});
 test('photo recommendation retains published source measurements and unknown coffee brews cannot become evidence for the source bean',async()=>{
   const label=readCoffeeLabel('Origin: Indonesia\nNotes: Tea, Citrus');
   const result=await loadCoffeeLabelMatches(db(async(input,init)=>{

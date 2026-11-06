@@ -36,7 +36,7 @@
     const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
     const histogram = new Uint32Array(256);
     for (let i = 0; i < pixels.data.length; i += 4) {
-      histogram[Math.max(pixels.data[i], pixels.data[i + 1], pixels.data[i + 2])]++;
+      histogram[Math.round(.2126 * pixels.data[i] + .7152 * pixels.data[i + 1] + .0722 * pixels.data[i + 2])]++;
     }
     const percentile = fraction => {
       let sum = 0;
@@ -46,7 +46,9 @@
     const low = percentile(.01), high = percentile(.99);
     const invert = percentile(.5) < (low + high) / 2;
     for (let i = 0; i < pixels.data.length; i += 4) {
-      const gray = Math.max(pixels.data[i], pixels.data[i + 1], pixels.data[i + 2]);
+      // Luminance preserves red/brown print on beige paper; max(R,G,B)
+      // used to wash that lettering into the pale background.
+      const gray = .2126 * pixels.data[i] + .7152 * pixels.data[i + 1] + .0722 * pixels.data[i + 2];
       const value = Math.max(0, Math.min(255, (gray - low) * 255 / Math.max(40, high - low)));
       pixels.data[i] = pixels.data[i + 1] = pixels.data[i + 2] = invert ? 255 - value : value;
     }
@@ -86,7 +88,7 @@
       }
       const width = x1 - x0 + 1, height = y1 - y0 + 1, area = width * height;
       if (x0 <= 1 || y0 <= 1 || x1 >= w - 2 || y1 >= h - 2 || area < w * h * .035 || area > w * h * .85
-        || width / height < .35 || width / height > 8 || queue.length / area < .5) continue;
+        || height < h * .2 || width / height < .35 || width / height > 3.5 || queue.length / area < .5) continue;
       if (!best || queue.length > best.score) best = { score: queue.length, left: x0 / w, top: y0 / h, width: width / w, height: height / h };
     }
     // Stay just inside the paper: tilted outer edges otherwise become huge
@@ -102,9 +104,17 @@
     const text = trusted.map(l => l.text.trim()).join('\n');
     const heights = trusted.map(l => l.bbox?.y1 - l.bbox?.y0).filter(h => h > 0).sort((a, b) => a - b);
     const median = heights[Math.floor(heights.length / 2)];
-    const titleLines = trusted.filter(l => l.confidence >= 80 && l.bbox?.y1 - l.bbox?.y0 >= median * 1.6);
+    const titleLines = trusted.filter((l, i) => {
+      const height = l.bbox?.y1 - l.bbox?.y0, next = trusted[i + 1];
+      // A label heading above smaller detail text can be prominent even when
+      // a large roaster logo distorts the overall median font height.
+      const aboveDetails = next && next.confidence >= 70 && next.bbox?.y0 >= l.bbox?.y1
+        && next.bbox.y0 - l.bbox.y1 <= height * 4 && next.bbox.y1 - next.bbox.y0 <= height / 1.6;
+      return l.confidence >= 80 && (height >= median * 1.6 || aboveDetails);
+    });
     const titles = titleLines.map(l => l.text.trim());
-    return { text: text.slice(0, 20000), titles, titleLines, rawText: String(data.text || '').slice(0, 20000),
+    return { text: text.slice(0, 20000), nameText: trusted.filter(l => l.confidence >= 70).map(l => l.text.trim()).join('\n'),
+      titles, titleLines, rawText: String(data.text || '').slice(0, 20000),
       confidence: Number.isFinite(data.confidence) ? data.confidence : 0 };
   }
   function mergeReadings(readings) {
@@ -113,7 +123,9 @@
       const key = line.replace(/[\u200e\u200f\u202a-\u202e\u2066-\u2069]/gu, '').replace(/\s+/g, ' ').trim().toLowerCase();
       if (key && !lines.has(key)) lines.set(key, line.trim());
     }
-    return { text: [...lines.values()].join('\n').slice(0, 20000), titles: [...new Set(readings.flatMap(r => r.titles || []))].slice(0, 8), rawText: readings.map(r => r.rawText).join('\n').slice(0, 20000),
+    return { text: [...lines.values()].join('\n').slice(0, 20000),
+      nameText: readings.map(r => r.nameText).join('\n').slice(0, 20000),
+      titles: [...new Set(readings.flatMap(r => r.titles || []))].slice(0, 8), rawText: readings.map(r => r.rawText).join('\n').slice(0, 20000),
       // Never hide a poor scan behind the high confidence of the large logo.
       confidence: Math.min(...readings.map(r => r.confidence)) };
   }
@@ -136,35 +148,47 @@
       const first = reading((await worker.recognize(canvas, {}, { text: true, blocks: true })).data);
       const readings = [first];
       const panel = !job.crop ? paperLabel(canvas) : null;
-      // Sparse mode respects separate columns. A dense-block retry on decorated
-      // packaging used to join illustrations and English/Arabic into false lines.
+      // Selected panels use sparse mode to respect separate columns. Full-bag
+      // retries use automatic layout, rather than forcing a single dense block.
       const hasArabic = /\p{Script=Arabic}/u.test(first.rawText);
       if (panel || hasArabic || first.confidence < 70 || first.text.length < 30) {
         pass = 1;
-        const focused = await prepare({ ...job, crop: panel || job.crop }, true);
-        if (panel || !hasArabic || (first.rawText.match(/[a-z]/giu) || []).length >= 8) {
+        const hasLatin = (first.rawText.match(/[a-z]/giu) || []).length >= 8;
+        const fullLayout = !panel && !job.crop && (!hasArabic || hasLatin);
+        const focused = fullLayout ? canvas : await prepare({ ...job, crop: panel || job.crop }, true);
+        // Without a reliable panel, automatic layout keeps complete text rows
+        // together. Sparse mode was splitting NUTTY / CHOCOLATE into fragments.
+        const parameters = { tessedit_pageseg_mode: fullLayout ? '3' : '11',
+          thresholding_method: fullLayout ? '0' : '2', preserve_interword_spaces: '1' };
+        if (panel || !hasArabic || hasLatin) {
           await worker.reinitialize('eng');
-          await worker.setParameters({ tessedit_pageseg_mode: '11', thresholding_method: '2', preserve_interword_spaces: '1' });
+          await worker.setParameters(parameters);
           const english = reading((await worker.recognize(focused, {}, { text: true, blocks: true })).data);
-          // Titles are evidence only inside a selected label, never the bag logo.
-          if (!panel && !job.crop) english.titles = [];
+          // Outside a selected label, require an explicit blend heading.
+          if (!panel && !job.crop) english.titles = english.titles.filter(line => /\p{L}.+\s+blend\b/iu.test(line));
           readings.push(english);
         }
         pass = 2;
         // Mixed-language recognition can prefer Latin lookalikes. Read Arabic
         // independently, retaining only confident Arabic lines from that pass.
         await worker.reinitialize('ara');
-        await worker.setParameters({ tessedit_pageseg_mode: '11', thresholding_method: '2', preserve_interword_spaces: '1' });
+        await worker.setParameters(parameters);
         const arabic = reading((await worker.recognize(focused, {}, { text: true, blocks: true })).data);
         arabic.text = arabic.text.split('\n').filter(line => /\p{Script=Arabic}/u.test(line)).join('\n');
-        arabic.titles = panel || job.crop ? arabic.titles.filter(line => /\p{Script=Arabic}/u.test(line)) : [];
+        arabic.nameText = arabic.nameText.split('\n').filter(line => /\p{Script=Arabic}/u.test(line)).join('\n');
+        arabic.titles = arabic.titles.filter(line => /\p{Script=Arabic}/u.test(line));
+        if (!panel && !job.crop) {
+          // On an uncropped bag, only a literal blend heading can be promoted
+          // without a country. Bare roaster logos remain excluded.
+          arabic.titles = arabic.titles.filter(line => /^(?:مزيج|خلطة)\s*\p{Script=Arabic}/u.test(line));
+        }
         readings.push(arabic);
       }
       first.titles = panel ? first.titleLines.filter(l => l.bbox.x0 >= panel.left * canvas.width
         && l.bbox.x1 <= (panel.left + panel.width) * canvas.width && l.bbox.y0 >= panel.top * canvas.height
         && l.bbox.y1 <= (panel.top + panel.height) * canvas.height).map(l => l.text.trim()) : job.crop ? first.titles : [];
       const best = mergeReadings(readings);
-      send({ type: 'result', id: job.id, text: best.text, titles: best.titles, rawText: best.rawText, confidence: best.confidence });
+      send({ type: 'result', id: job.id, text: best.text, nameText: best.nameText, titles: best.titles, rawText: best.rawText, confidence: best.confidence });
     } catch { send({ type: 'error', id: job.id }); }
     finally { if (worker) await worker.terminate(); worker = null; active = false; }
   };

@@ -19,8 +19,9 @@ const headings = {
   notes: '(?:tasting |flavou?r )?notes|flavou?rs?|الإيحاءات|الايحاءات|إيحاءات|ايحاءات|النكهات|نكهات',
 } as const;
 const heading = new RegExp(`^(?:${Object.values(headings).join('|')})(?:\\s*[:：|–-]|$)`, 'iu');
-const packaging = /roast(?:ed|ery)|address|street|specialty|speciality|net weight|www\.|https?:|@|محمصة|محمصه|العنوان|هاتف|تحميص|قهوة مختصة|تاريخ|الوزن/iu;
-const cleanOcrLine = (value: string) => value.replace(/[\u200e\u200f\u202a-\u202e\u2066-\u2069]/gu, '').replace(/\s+/g, ' ').trim();
+const packaging = /roast(?:ed|ery|ing|ers?)|address|street|specialty|speciality|net weight|produced|packed|factory|since|www\.|https?:|@|محمصة|محمصه|العنوان|هاتف|تحميص|قهوة مختصة|تاريخ|الوزن|إنتاج|انتاج|مصنع/iu;
+const cleanOcrLine = (value: string) => value.replace(/[\u200e\u200f\u202a-\u202e\u2066-\u2069]/gu, '').replace(/\s+/g, ' ').trim()
+  .replace(/^(مزيج|خلطة)(?=ال\p{Script=Arabic})/u, '$1 ');
 function recoverFlavorToken(token: string): string | null {
   const value = normalized(token);
   // A long OCR token inside a confirmed tasting-note list may lose a couple
@@ -108,8 +109,8 @@ export function readCoffeeLabel(text: string, titles: readonly string[] = []): C
   lines.forEach((line, index) => {
     if (/^(?:roastery|roasters?|محمصة|محمصه)$/iu.test(line) && index > 0) roasterNames.add(index - 1);
   });
-  // A logo alone is not evidence of a coffee name. Require a name heading or
-  // a product title on/just after a growing-country line; never take the first OCR line.
+  // A logo alone is not evidence of a coffee name. A spatially confirmed title
+  // inside the label also works for blends that state no growing country.
   const isTitle = (line: string, index: number) => plausibleCoffeeName(line) && !roasterNames.has(index)
     && !/[:：]|^\d|fermentation|تخمير/iu.test(line) && line !== explicitNotes && !noteLines.includes(line) && line !== processLine && line !== roastLine && !standaloneFlavor(line)
     && ![...coffeeOrigins, ...coffeeVarieties].some(g => g.some(t => normalized(line) === normalized(t)))
@@ -117,7 +118,8 @@ export function readCoffeeLabel(text: string, titles: readonly string[] = []): C
   const title = lines.find((line, index) => isTitle(line, index)
     && (found(line, coffeeOrigins).length === 1 || (index > 0 && coffeeOrigins.some(g => g.some(t => normalized(lines[index - 1]) === normalized(t))))));
   const countryIndex = lines.findIndex(line => found(line, coffeeOrigins).length === 1 && !packaging.test(line) && !noteLines.includes(line));
-  const prominentTitle = lines.slice(0, countryIndex).filter((line, index) => titles.map(cleanOcrLine).includes(line) && isTitle(line, index)).at(-1);
+  const prominentTitle = lines.slice(0, countryIndex < 0 ? lines.length : countryIndex)
+    .filter((line, index) => titles.map(cleanOcrLine).includes(line) && isTitle(line, index)).at(-1);
   const name = explicitName ? (plausibleCoffeeName(explicitName) ? explicitName : '') : title || prominentTitle || '';
   // Keep an explicitly labeled process even when it is absent from the small
   // normalization vocabulary (e.g. carbonic infusion). Do not invent an equivalent.

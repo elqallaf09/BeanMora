@@ -17,6 +17,7 @@ import { publicSupabase } from './client';
 import { recipeQuickFacts } from './recipeQuickFacts';
 import { RecipeServingBadge } from './RecipeServingBadge';
 import { CoffeeLabelCropper } from './CoffeeLabelCropper';
+import { RecipeVisual } from './RecipeVisual';
 
 export function ScanCoffeeButton({ openRecipe, coffees = [], method, model = 'all', serving = '', cup }: {
   openRecipe: (recipe: RecipeItem) => void; coffees?: CoffeeItem[]; method?: Method; model?: XBloomModel; serving?: LabelServing; cup?: 'Omni' | 'xPod';
@@ -66,9 +67,10 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, model, initialServ
     const parsed = readCoffeeLabel(event.text, event.titles);
     // Product names have no finite vocabulary to validate against. Do not turn
     // a weak reading of a logo/title into an asserted product identity.
-    if (event.confidence !== undefined && event.confidence < 70 && !event.titles?.includes(parsed.name)) parsed.name = '';
+    if (event.nameText !== undefined) parsed.name = readCoffeeLabel(event.nameText, event.titles).name;
+    else if (event.confidence !== undefined && event.confidence < 70 && !event.titles?.includes(parsed.name)) parsed.name = '';
     setLabel(parsed); setRawText(event.rawText ?? event.text); setNeedsReview(true);
-    setCandidates(coffeeLabelCandidates(event.text, coffees));
+    setCandidates(coffeeLabelCandidates([event.text, parsed.name].join('\n'), coffees));
     if (!hasCoffeeLabelFacts(parsed) || (event.confidence !== undefined && event.confidence < 55 && (!parsed.name || !parsed.notes))) setOcrError(ar ? 'القراءة غير مكتملة. حدّد الملصق أو صوّره من قريب، وراجع الحقول قبل البحث.' : i18nUi('القراءة غير مكتملة. حدّد الملصق أو صوّره من قريب، وراجع الحقول قبل البحث.', 'The reading is incomplete. Crop the label or take a closer photo, then check the fields before searching.'));
   };
   useEffect(() => {
@@ -179,6 +181,7 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, model, initialServ
             <Txt style={{ fontSize: 12, lineHeight: 19, color: colors.muted }}>{ar ? 'الترتيب حسب البيانات المشتركة. وصفات البن المشابه نقطة بداية؛ عدّلها حسب طعم كوبك.' : i18nUi('الترتيب حسب البيانات المشتركة. وصفات البن المشابه نقطة بداية؛ عدّلها حسب طعم كوبك.', 'Ranked by shared details. Similar-coffee recipes are a starting point; adjust to your taste.')}</Txt>
           </View> : null}
           {recipes.map((recipe, i) => <View key={recipe.id} testID="coffee-label-recipe" style={[styles.card, { padding: 10, marginBottom: 0, gap: 7 }]}>
+            <View style={{ height: 130, borderRadius: 10, overflow: 'hidden' }}><RecipeVisual recipe={recipe} /></View>
             <View style={{ flexDirection: ar ? 'row-reverse' : 'row', justifyContent: 'space-between', flexWrap: 'wrap', gap: 6 }}>
               <Txt style={{ fontSize: 12, color: colors.muted }}>{recipe.labelMatch?.match_kind === 'exact' ? ar ? 'لنفس البن' : i18nUi('لنفس البن', 'Same coffee') : i === 0 ? ar ? 'أقرب بن مشابه' : i18nUi('أقرب بن مشابه', 'Closest similar coffee') : ar ? 'بن مشابه' : i18nUi('بن مشابه', 'Similar coffee')}</Txt>
               <RecipeServingBadge recipe={recipe} />

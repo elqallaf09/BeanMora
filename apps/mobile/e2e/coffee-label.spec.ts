@@ -195,3 +195,25 @@ test('cold choice is sent before ranking and editing the facts clears stale reci
   await panel.getByLabel('منشأ البن', { exact: true }).fill('برازيل');
   await expect(panel.getByTestId('coffee-label-recipe')).toHaveCount(0);
 });
+
+// The thumbnail from the report remains local and is never committed.
+test('reported blend keeps its name and notes without inventing origin, variety or roast', async ({ page }) => {
+  test.skip(!process.env.BEANMORA_BLEND_LABEL_PHOTO, 'Requires the locally supplied bag thumbnail');
+  test.setTimeout(120000);
+  await fixtures(page); await openScanner(page, false);
+  const chooser = page.waitForEvent('filechooser');
+  await page.getByRole('button', { name: 'اختيار صورة', exact: true }).click();
+  await (await chooser).setFiles(process.env.BEANMORA_BLEND_LABEL_PHOTO!);
+  const panel = page.getByTestId('coffee-label-scanner');
+  await panel.getByRole('button', { name: 'قراءة الصورة كاملة', exact: true }).click();
+  await expect(panel.getByLabel('اسم البن', { exact: true })).toHaveValue('مزيج البلد', { timeout: 90000 });
+  await expect(panel.getByLabel('الإيحاءات والطعم المكتوب على الكيس', { exact: true })).toHaveValue('HAZELNUT, NUTTY, CHOCOLATE');
+  for (const label of ['منشأ البن', 'السلالة', 'المعالجة', 'التحميص'])
+    await expect(panel.getByLabel(label, { exact: true })).toHaveValue('');
+  await expect(panel.getByRole('alert')).toHaveCount(0);
+  await expect(panel.getByRole('button', { name: 'اعثر على أقرب وصفة', exact: true })).toBeDisabled();
+  await panel.getByRole('button', { name: 'راجعت بيانات الكيس', exact: true }).click();
+  await panel.getByRole('button', { name: 'اعثر على أقرب وصفة', exact: true }).click();
+  await expect(panel.getByTestId('coffee-label-recipe').getByTestId('coffee-fallback-art')).toBeVisible();
+  await page.screenshot({ path: 'test-results/blend-label-reviewed.png' });
+});
