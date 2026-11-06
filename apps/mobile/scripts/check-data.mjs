@@ -91,7 +91,7 @@ const { recipeQuickFacts } = await import(
 const { isGeneralBrewGuide } = await import(
   pathToFileURL(temp + '/brewStarter.mjs').href
 );
-const { encodeCatalog, decodeCatalog, mergeCatalog, CACHE_MAX_AGE, storageFits, catalogReadFailed, scheduleCatalogSave } = await import(pathToFileURL(temp + '/catalogCache.mjs').href);
+const { validRecipe, encodeCatalog, decodeCatalog, mergeCatalog, CACHE_MAX_AGE, storageFits, catalogReadFailed, scheduleCatalogSave } = await import(pathToFileURL(temp + '/catalogCache.mjs').href);
 function database(tables) {
   return {
     from(name) {
@@ -956,4 +956,13 @@ test('equipment gallery only exposes reviewed sourced photos, deduplicates and l
   assert.deepEqual(reviewedEquipmentGallery(spec,'en').map(p=>p.url),['https://manufacturer.example/front.jpg','https://manufacturer.example/side.jpg']);
   assert.deepEqual(reviewedEquipmentGallery({catalog:{schema_version:2,images:[photo]}},'en'),[]);
   assert.deepEqual(reviewedEquipmentGallery({catalog:{schema_version:1,images:'bad'}},'en'),[]);
+});
+
+
+test('old saved recipes remain valid while malformed coffee image candidates are rejected', () => {
+  const recipe = mapRecipe({ id: 'cached-photo', title: 'Saved recipe', brew_method: 'xbloom', visibility: 'public' }, 'en');
+  assert.equal(validRecipe({ ...recipe, coffeeImages: undefined }), true);
+  assert.equal(validRecipe({ ...recipe, coffeeImages: ['storage://member-media/owner/photo.jpg'] }), true);
+  for (const coffeeImages of [{ url: 'https://example.test/photo.jpg' }, 'bad-array', [null], [123]])
+    assert.equal(validRecipe({ ...recipe, coffeeImages }), false);
 });

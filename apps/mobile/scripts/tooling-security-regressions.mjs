@@ -161,6 +161,5 @@ export function verifySecurityBackports(root = mobileRoot) {
   }
   for (const operation of ['compile', 'expand', 'stringify']) checkAstDepth(braces, operation);
   checkOrdinaryGlobs(braces, require('micromatch'));
-  checkDeepmerge(require('deepmerge'));
   return backports.map(p => ({ ...p, verified: true }));
 }

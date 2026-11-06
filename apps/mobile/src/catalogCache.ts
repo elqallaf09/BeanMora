@@ -67,6 +67,7 @@ export function validRecipe(value: unknown): value is RecipeItem {
     && Array.isArray(r.flavors) && r.flavors.every(f => typeof f === 'string')
     && Array.isArray(r.steps) && r.steps.every(s => s && typeof s.title === 'string' && typeof s.description === 'string')
     && Array.isArray(r.pours) && Array.isArray(r.sources) && Array.isArray(r.equipment)
+    && (r.coffeeImages === undefined || (Array.isArray(r.coffeeImages) && r.coffeeImages.every(image => typeof image === 'string')))
     && !!r.sourceBrew && typeof r.sourceBrew === 'object';
 }
 /** Only public catalog fields are written, never a session, saved IDs or account preferences. */

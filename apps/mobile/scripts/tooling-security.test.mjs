@@ -7,7 +7,7 @@ import { dirname, join } from 'node:path';
 import { applySecurityBackports, mobileRoot, readBackports, verifyPatchedFiles } from './tooling-security-patches.mjs';
 import {
   testKeyPair, checkMalformedDigestInfo, checkUpstreamForgeVector, checkValidSignatures,
-  checkDeepmerge, checkExpoSigning, checkDeepString, checkAstDepth, checkOrdinaryGlobs,
+  checkExpoSigning, checkDeepString, checkAstDepth, checkOrdinaryGlobs,
 } from './tooling-security-regressions.mjs';
 
 const require = createRequire(import.meta.url);
@@ -15,8 +15,8 @@ const forge = require('node-forge'), braces = require('braces');
 const keys = testKeyPair(forge);
 
 test('all installed backport bytes, versions and actual consumer resolutions are verified', () => {
-  assert.equal(verifyPatchedFiles().length, 2);
-  assert.equal(applySecurityBackports().length, 2); // repeated postinstall is idempotent
+  assert.equal(verifyPatchedFiles().length, 1);
+  assert.equal(applySecurityBackports().length, 1); // repeated postinstall is idempotent
 });
 test('node-forge rejects extra DigestAlgorithm children with normal PKCS#1 padding', () => checkMalformedDigestInfo(forge, keys));
 test('node-forge rejects the upstream low-exponent regression vector', () => checkUpstreamForgeVector(forge));
@@ -83,4 +83,10 @@ test('new copies, different versions and consumers resolving an unpatched nested
   assert.throws(() => verifyPatchedFiles(root), /resolves an unpatched copy/);
 });
 
-test('deepmerge rejects prototype injection in sources and targets while preserving config merges', () => { checkDeepmerge(require('deepmerge')); checkDeepmerge(require('deepmerge/dist/umd.js')); });
+test('retired deepmerge cannot silently re-enter the dependency tree', t => {
+  const root = installationFixture(t);
+  const file = join(root, 'package-lock.json'), lock = JSON.parse(readFileSync(file, 'utf8'));
+  lock.packages['node_modules/some-consumer/node_modules/deepmerge'] = { version: '4.3.1' };
+  writeFileSync(file, JSON.stringify(lock));
+  assert.throws(() => verifyPatchedFiles(root), /Retired deepmerge dependency/);
+});
