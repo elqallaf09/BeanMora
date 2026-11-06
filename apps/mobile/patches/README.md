@@ -1,3 +1,5 @@
+> 6 November 2026: Expo 57.0.32 / @expo/config 57.0.11 removes deepmerge entirely. Its backport is retired, with original evidence retained in `deepmerge/retired-manifest.json`. Verification rejects any reintroduced deepmerge lock entry. Only the braces backport remains active. The earlier notes below document the retained patch history.
+
 # Reviewed security backports (2026-11-01)
 
 The upstream npm releases still contain the two reported flaws. Keep their real

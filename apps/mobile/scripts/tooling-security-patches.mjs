@@ -33,6 +33,10 @@ export function readBackports(root = mobileRoot) {
 
 function checkInstall(root, backports) {
   const lock = json(join(root, 'package-lock.json'));
+  // Expo 57.0.32 removes this dependency. Do not silently reintroduce it.
+  if (Object.keys(lock.packages).some(path => path.endsWith('node_modules/deepmerge'))) {
+    throw new Error('Retired deepmerge dependency was reintroduced; review its security before use.');
+  }
   for (const p of backports) {
     const nodes = Object.keys(lock.packages).filter(path => path.endsWith(`node_modules/${p.package}`));
     if (!same(nodes, p.nodes)) throw new Error(`Unreviewed installation of ${p.package}; review the backport scope.`);

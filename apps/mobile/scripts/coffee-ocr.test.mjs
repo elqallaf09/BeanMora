@@ -42,6 +42,14 @@ test('Arabic gets a dedicated pass even when the mixed-language average looks hi
   assert.deepEqual(calls.filter(c => typeof c === 'string'), ['ara']);
   assert.match(result.text, /جوز الهند/); assert.match(result.text, /كولومبيا/);
 });
+test('confident name lines survive a noisy scan average without accepting weak debris', async () => {
+  const first = scan('Coffee: Literal estate\nNotes: Chocolate', 92);
+  first.data.confidence = 35;
+  const { result } = await run([first, scan('Unreadable fragments', 20), scan('كلام مشوش', 20)]);
+  assert.match(result.nameText, /Coffee: Literal estate/);
+  assert.doesNotMatch(result.nameText, /Unreadable|مشوش/);
+  assert.equal(result.confidence, 20);
+});
 test('malformed crops and remote images never reach OCR and failures terminate the worker', async () => {
   const crop = await run([], { crop: { left: .9, top: 0, width: .5, height: 1 } });
   assert.equal(crop.result, undefined); assert.equal(crop.messages.at(-1).type, 'error');

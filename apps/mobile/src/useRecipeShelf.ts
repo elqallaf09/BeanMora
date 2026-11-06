@@ -221,7 +221,7 @@ export function useRecipeShelf(owner: string | null, locale: Locale) {
   // The owner restored the recipe library. Keep legacy saved recipes readable;
   // an old snapshot cannot authorize its publisher cover photograph.
   const available = snapshots.map(recipe => recipe.public && recipe.contentRevision !== CATALOG_CONTENT_REVISION
-    ? { ...recipe, coverUrl: null, coverKind: undefined }
+    ? { ...recipe, coverUrl: null, coverKind: undefined, coffeeImages: [] }
     : recipe);
   return {
     recipes: available,

@@ -91,7 +91,7 @@ const { recipeQuickFacts } = await import(
 const { isGeneralBrewGuide } = await import(
   pathToFileURL(temp + '/brewStarter.mjs').href
 );
-const { encodeCatalog, decodeCatalog, mergeCatalog, CACHE_MAX_AGE, storageFits, catalogReadFailed, scheduleCatalogSave } = await import(pathToFileURL(temp + '/catalogCache.mjs').href);
+const { validRecipe, encodeCatalog, decodeCatalog, mergeCatalog, CACHE_MAX_AGE, storageFits, catalogReadFailed, scheduleCatalogSave } = await import(pathToFileURL(temp + '/catalogCache.mjs').href);
 function database(tables) {
   return {
     from(name) {
@@ -417,6 +417,25 @@ test('suspended recipes are excluded and external cover images need permission e
   assert.equal(mapRecipe({...row,cover_image_usage_status:'rights_confirmed'},'en').coverUrl,null);
   assert.equal(mapRecipe({...row,cover_image_usage_status:'rights_confirmed',cover_image_permission_ref:'fixture-only-permission'},'en').coverUrl,row.cover_image_url);
   assert.equal(mapRecipe({...row,cover_image_url:'storage://recipe-images/owner/cover.jpg'},'en').coverUrl,'storage://recipe-images/owner/cover.jpg');
+});
+test('member bag photos survive mapping and gallery failures retain other candidates', async () => {
+  const upload = 'storage://member-media/owner/bean.jpg';
+  const row = { ...base, image_url: upload, image_usage_status: 'rights_confirmed', images: [
+    { url: 'https://example.test/backup.jpg', position: 1, image_usage_status: 'rights_confirmed', image_permission_ref: 'fixture-permission' },
+  ] };
+  const data = await loadData(database({ beans: [row] }), 'en', null);
+  assert.deepEqual(data.coffees[0].images, [upload, 'https://example.test/backup.jpg']);
+  const held = await loadData(database({ beans: [{ ...row, image_usage_status: 'removal_requested' }] }), 'en', null);
+  assert.equal(held.coffees[0].images.includes(upload), false);
+});
+test('recipe fallback images belong to its linked coffee and retain their own media permissions', () => {
+  const row = { id: 'recipe', title: 'Recipe', brew_method: 'xbloom', visibility: 'public', bean_id: 'bean', roasted_product_id: 'product',
+    coffee_bean: { id: 'bean', image_url: 'storage://member-media/owner/bean.jpg' },
+    coffee_product: { id: 'product', image_url: 'https://example.test/product.jpg', image_usage_status: 'rights_confirmed', image_permission_ref: 'fixture-permission' } };
+  assert.deepEqual(mapRecipe(row, 'en').coffeeImages, ['https://example.test/product.jpg', 'storage://member-media/owner/bean.jpg']);
+  assert.equal(mapRecipe(row, 'en').coverUrl, null);
+  assert.deepEqual(mapRecipe({ ...row, bean_id: 'other', coffee_product: { ...row.coffee_product, image_permission_ref: null } }, 'en').coffeeImages, []);
+  assert.deepEqual(mapRecipe({ ...row, coffee_bean: null, coffee_product: null }, 'en').coffeeImages, []);
 });
 test('espresso yield and source ranges stay separate from input water and retain calculation disclosure', () => {
   const espresso = mapRecipe(
@@ -937,4 +956,13 @@ test('equipment gallery only exposes reviewed sourced photos, deduplicates and l
   assert.deepEqual(reviewedEquipmentGallery(spec,'en').map(p=>p.url),['https://manufacturer.example/front.jpg','https://manufacturer.example/side.jpg']);
   assert.deepEqual(reviewedEquipmentGallery({catalog:{schema_version:2,images:[photo]}},'en'),[]);
   assert.deepEqual(reviewedEquipmentGallery({catalog:{schema_version:1,images:'bad'}},'en'),[]);
+});
+
+
+test('old saved recipes remain valid while malformed coffee image candidates are rejected', () => {
+  const recipe = mapRecipe({ id: 'cached-photo', title: 'Saved recipe', brew_method: 'xbloom', visibility: 'public' }, 'en');
+  assert.equal(validRecipe({ ...recipe, coffeeImages: undefined }), true);
+  assert.equal(validRecipe({ ...recipe, coffeeImages: ['storage://member-media/owner/photo.jpg'] }), true);
+  for (const coffeeImages of [{ url: 'https://example.test/photo.jpg' }, 'bad-array', [null], [123]])
+    assert.equal(validRecipe({ ...recipe, coffeeImages }), false);
 });

@@ -42,8 +42,8 @@ for (const width of [320,1536]) test(`xBloom covers, source facts, short paginat
   const first=page.getByRole('button',{name:recipes[0].title_ar,exact:true});
   await expect(first).toContainText('15 g');await expect(first).toContainText('225 ml');
   await expect(first).toContainText('85–88°C');await expect(first).toContainText('60');
-  await expect(first.getByText('لم تُرفق صورة بهذه الوصفة', { exact: true })).toBeVisible();
-  await expect(page.getByRole('button',{name:recipes[1].title_ar,exact:true}).getByText('تعذّر تحميل الصورة', { exact: true })).toBeVisible();
+  await expect(first.getByTestId('coffee-fallback-art')).toBeVisible();
+  await expect(page.getByRole('button',{name:recipes[1].title_ar,exact:true}).getByTestId('coffee-fallback-art')).toBeVisible();
   await expect(page.getByRole('button',{name:recipes[12].title_ar,exact:true})).toHaveCount(0);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await page.screenshot({path:testInfo.outputPath(`xbloom-${width}.png`)});
@@ -166,5 +166,5 @@ test('xBloom planner applies machine and cup choices and opens the selected sour
   await expect(page.getByText('إجمالي وصفات xBloom: 3,312', { exact: true })).toBeVisible();
   await planner.getByRole('button', { name: 'تفاصيل الوصفة', exact: true }).click();
   await expect(page.getByTestId('recipe-detail')).toBeVisible();
-  await expect(page.getByTestId('recipe-detail').getByText('لم تُرفق صورة بهذه الوصفة', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('recipe-detail').getByTestId('coffee-fallback-art')).toBeVisible();
 });

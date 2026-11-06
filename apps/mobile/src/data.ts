@@ -70,6 +70,7 @@ export interface RecipeItem extends Recipe {
   notes: string;
   temperature: number | null;
   coverUrl: string | null;
+  coffeeImages?: string[];
   coverKind?: CoffeeImageKind;
   videoUrl: string | null;
   xBloom: {
@@ -150,6 +151,8 @@ export interface CoffeeRow extends Name {
     | null;
 }
 export interface RecipeRow {
+  coffee_bean?: CoffeeRow | CoffeeRow[] | null;
+  coffee_product?: CoffeeRow | CoffeeRow[] | null;
   rights_suspended?: boolean;
   cover_image_usage_status?: string | null;
   cover_image_permission_ref?: string | null;
@@ -199,7 +202,7 @@ export interface RecipeRow {
   water_temp_c_max?: number | null;
 }
 export const RECIPE_FIELDS =
-  'id,title,title_ar,brew_method,visibility,bean_id,roasted_product_id,flavor_notes,difficulty,is_incomplete_source,dose_grams,water_grams,water_temp_c,water_temp_c_min,water_temp_c_max,grinder_setting,source_author_name,source_brew_parameters,total_time_seconds,notes,notes_ar,cover_image_url,cover_image_usage_status,cover_image_permission_ref,rights_suspended,video_url,recipe_type,sources:recipe_sources(source_url,source_name,data_confidence,last_verified_at),steps:recipe_steps(step_number,title,description,title_ar,description_ar),pours:recipe_pours(pour_number,water_grams,start_at_seconds,is_bloom),equipment:recipe_equipment(category,equipment_model_id)';
+  'id,title,title_ar,brew_method,visibility,bean_id,roasted_product_id,flavor_notes,difficulty,is_incomplete_source,dose_grams,water_grams,water_temp_c,water_temp_c_min,water_temp_c_max,grinder_setting,source_author_name,source_brew_parameters,total_time_seconds,notes,notes_ar,cover_image_url,cover_image_usage_status,cover_image_permission_ref,rights_suspended,video_url,recipe_type,sources:recipe_sources(source_url,source_name,data_confidence,last_verified_at),steps:recipe_steps(step_number,title,description,title_ar,description_ar),pours:recipe_pours(pour_number,water_grams,start_at_seconds,is_bloom),equipment:recipe_equipment(category,equipment_model_id),coffee_bean:beans!bean_id(id,image_url,image_usage_status,image_permission_ref,images:bean_images(url,position,image_usage_status,image_permission_ref)),coffee_product:roasted_products!roasted_product_id(id,image_url,image_usage_status,image_permission_ref)';
 interface OwnAttempt {
   recipe_id: string;
   outcome: string | null;
@@ -364,6 +367,10 @@ export function mapRecipe(
     // This mobile preview does not fetch public user-level evidence. Never imply community validation.
     evidence: communityEvidence([], []),
     coverUrl,
+    coffeeImages: [...new Set([
+      ...[one(row.coffee_product ?? null)].flatMap(coffee => coffee && coffee.id === row.roasted_product_id ? coffeeImageUrls(coffee) : []),
+      ...[one(row.coffee_bean ?? null)].flatMap(coffee => coffee && coffee.id === row.bean_id ? coffeeImageUrls(coffee) : []),
+    ])],
     coverKind:
       coverUrl && coverUrl === safeUrl(media.photo_url)
         ? (validChoice(media.photo_kind, [
@@ -529,30 +536,27 @@ function getPublicReads(
   return entry;
 }
 
+export function coffeeImageUrls(row: Pick<CoffeeRow, 'image_url' | 'image_usage_status' | 'image_permission_ref' | 'images'>): string[] {
+  const allowed = (url: string | null | undefined, status: string | null | undefined, permission: string | null | undefined) => {
+    if (status === 'removal_requested' || status === 'placeholder_only') return null;
+    // Member uploads are private Storage references, resolved with the user's
+    // session and Storage policies, just like uploaded recipe covers.
+    if (contentMediaPath(url, '')?.bucket === 'member-media') return url!;
+    return licensedCatalogImage(url, status, permission);
+  };
+  return [...new Set([
+    allowed(row.image_url, row.image_usage_status, row.image_permission_ref),
+    ...[...(row.images ?? [])].sort((a, b) => a.position - b.position)
+      .map(i => allowed(i.url ?? i.image_source_url, i.image_usage_status, i.image_permission_ref)),
+  ].filter((url): url is string => !!url))];
+}
+
 export function mapCoffee(
   row: CoffeeRow,
   kind: Coffee['kind'],
   ar: boolean,
 ): CoffeeItem {
-  const images = [
-    ...new Set(
-      (row.images ?? [])
-        .filter(
-          (i) =>
-            licensedCatalogImage(i.url ?? i.image_source_url, i.image_usage_status, i.image_permission_ref),
-        )
-        .sort((a, b) => a.position - b.position)
-        .flatMap((i) => {
-          const url = safeUrl(i.url ?? i.image_source_url);
-          return url ? [url] : [];
-        }),
-    ),
-  ];
-  const direct =
-    row.image_usage_status === 'rights_confirmed' && row.image_permission_ref?.trim()
-      ? (contentMediaPath(row.image_url, '') ? row.image_url ?? null : safeUrl(row.image_url))
-      : null;
-  if (direct && !images.includes(direct)) images.unshift(direct);
+  const images = coffeeImageUrls(row);
   const flavors = inferredFlavors(row);
   return {
     id: row.id,

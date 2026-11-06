@@ -57,46 +57,5 @@
         "package": "micromatch"
       }
     ]
-  },
-  {
-    "package": "deepmerge",
-    "version": "4.3.1",
-    "url": "https://github.com/advisories/GHSA-gcqx-w48m-w2h4",
-    "range": ">=4.2.0 <=4.3.1",
-    "nodes": [
-      "node_modules/deepmerge"
-    ],
-    "dependents": [
-      "@expo/config"
-    ],
-    "upstream": "https://github.com/TehShrike/deepmerge/pull/274",
-    "commit": "c5ad573121574db1c625b0aabcc6114ed7df6c5a",
-    "license": "MIT",
-    "files": [
-      {
-        "path": "index.js",
-        "patch": "deepmerge/index.js.patch",
-        "beforeSha256": "12440c84957c1990ea2d5e33dc0091722dc1dc1585c6d20e0c780e568ffa9d30",
-        "afterSha256": "dbef7cab6abdd1338228a08297f0047b3f56c9d7533b38358629b6024c78dbc7"
-      },
-      {
-        "path": "dist/cjs.js",
-        "patch": "deepmerge/dist-cjs.js.patch",
-        "beforeSha256": "2e5160f84a1141bd927264afe4d15766f1e6cf07daef182b37ff53fea121de7d",
-        "afterSha256": "8983763adcccc772c023cb97bbf8830de52f7eeaa3c997b867345e1e62dd9d3b"
-      },
-      {
-        "path": "dist/umd.js",
-        "patch": "deepmerge/dist-umd.js.patch",
-        "beforeSha256": "f33e6596482d1fb5c7c427f8ef92f2aa849eea9223acd974176b2fb27ddbf73a",
-        "afterSha256": "a8df4049ee8d01f02b935958bace86985d0e8ee1321e1ea42ede78da23f1ca3d"
-      }
-    ],
-    "resolutions": [
-      {
-        "from": "node_modules/@expo/config/package.json",
-        "package": "@expo/config"
-      }
-    ]
   }
 ]
