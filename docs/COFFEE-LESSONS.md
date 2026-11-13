@@ -58,3 +58,19 @@ UPDATE_COFFEE_LESSONS_SEED=1 npx vitest run src/lib/coffee-lessons-seed.test.ts
 Once a lesson exists in the database, the database copy is what online users
 see. Changing the bundled text later does not change that row; update the row
 too.
+
+## Learned wordings
+
+`public.coffee_lesson_phrases` holds words and question wordings (Kuwaiti,
+Gulf, American, British…) that route a question to a lesson. `lesson_id` may
+name a bundled lesson that has no row in `coffee_lessons`.
+
+- A phrase is plain text and matches as whole words; a leading Arabic prefix
+  (و، بـ، لـ، الـ) is allowed.
+- The app ignores phrases shorter than four characters, so a generic word
+  cannot capture unrelated questions. Store the distinctive part of a
+  question in `phrase` and the full sentence in `example`.
+- To withdraw a phrase, set `status = 'archived'`.
+
+A daily scheduled task adds wordings and new sourced lessons; each run records
+a `research_jobs` row whose `job_key` starts with `coffee_expert_learning_`.
