@@ -1,5 +1,5 @@
-import { expect, it } from 'vitest';
-import { coffeeKnowledgeAnswer, coffeeLearningTopics, coffeeLessonById } from './coffee-knowledge';
+import { afterEach, describe, expect, it } from 'vitest';
+import { applyRemoteCoffeeLessons, coffeeKnowledgeAnswer, coffeeLearningTopics, coffeeLessonById } from './coffee-knowledge';
 import { converseLocally } from './local-coffee-assistant';
 const offline = { search: async () => { throw new Error('Education must work offline'); } };
 it.each(['بارد', 'باردة', 'قهوه باردة', 'باريستا', 'اختبار'])('does not read a partial Arabic word as pressure: %s', question => {
@@ -85,4 +85,41 @@ it('keeps earlier routing intact after the expansion', async () => {
   expect((await converseLocally('احسب 18 غرام بنسبة 1:16', 'ar', [], offline)).intent).toBe('calculate');
   expect((await converseLocally('قهوتي V60 حامضة', 'ar', [], offline)).intent).toBe('coach');
   expect(coffeeLessonById('caffeine', 'en')?.answer).toContain('400 mg');
+});
+describe('database lessons', () => {
+  const row = {
+    id: 'siphon', course_group: 'brewing', title_ar: 'السايفون', title_en: 'Siphon brewing',
+    body_ar: 'س'.repeat(120), body_en: 'A siphon brewer uses vapor pressure and vacuum to move water. '.repeat(3),
+    more_ar: 'جرّب تثبيت الحرارة وقارن الطعم.', more_en: 'Hold heat steady and compare taste.',
+    source_title: 'Example — Siphon', source_url: 'https://example.com/siphon',
+    supporting_sources: [{ title: 'Second', url: 'https://example.com/2' }, { title: 'Bad', url: 'http://example.com/insecure' }],
+    keywords: ['سايفون', 'Siphon', 'x', '(.*)+$'], priority: 110,
+  };
+  afterEach(() => { applyRemoteCoffeeLessons(null); });
+  it('adds a published lesson, routes it by plain phrases and keeps it sourced', async () => {
+    const before = coffeeLearningTopics('ar').length;
+    expect(applyRemoteCoffeeLessons([row])).toBe(1);
+    expect(coffeeLearningTopics('ar').length).toBe(before + 1);
+    const turn = await converseLocally('شلون أستخدم السايفون؟', 'ar', [], offline);
+    expect(turn.knowledgeTopic).toBe('siphon');
+    expect(turn.sources?.map(source => source.url)).toEqual(['https://example.com/siphon', 'https://example.com/2']);
+    expect(coffeeKnowledgeAnswer('Siphon brewing', 'en')?.topic).toBe('siphon');
+    expect(coffeeKnowledgeAnswer('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!', 'en')).toBeNull();
+  });
+  it('overrides bundled text by id while keeping reviewed routing', () => {
+    applyRemoteCoffeeLessons([{ ...row, id: 'crema', keywords: [] }]);
+    expect(coffeeLessonById('crema', 'en')?.answer).toContain('siphon brewer');
+    expect(coffeeKnowledgeAnswer('What is crema?', 'en')?.topic).toBe('crema');
+  });
+  it('skips invalid rows and restores the bundle', () => {
+    const bundled = coffeeLessonById('crema', 'en')?.answer;
+    expect(applyRemoteCoffeeLessons([
+      { ...row, id: 'Bad Id' }, { ...row, course_group: 'gossip' }, { ...row, source_url: 'http://example.com' },
+      { ...row, body_en: 'short' }, null, 'text', { ...row, id: 'crema', body_ar: 5 },
+    ])).toBe(0);
+    expect(coffeeLessonById('crema', 'en')?.answer).toBe(bundled);
+    applyRemoteCoffeeLessons([row]);
+    expect(applyRemoteCoffeeLessons({ not: 'an array' })).toBe(0);
+    expect(coffeeLessonById('siphon', 'en')).toBeNull();
+  });
 });

@@ -82,18 +82,73 @@ const basicLabels: Record<string, { group: CoffeeCourseGroup; titles: [string, s
   rest: { group: 'beans', titles: ['راحة البن بعد التحميص', 'Resting after roasting'], more: ['تذوق نفس البن في عدة أيام بنفس الوصفة وسجل التدفق والطعم. تاريخ التحميص وحده لا يحدد يوم الذروة لكل البن.', 'Taste the same coffee on several days with the same recipe, recording flow and taste. Roast date alone cannot predict a universal peak day.'] },
   roast: { group: 'roasting', titles: ['درجات التحميص', 'Roast levels'], more: ['الفاتح ليس مرادفًا لنقص التطوير، والغامق ليس مرادفًا للجودة المنخفضة. قارن لونًا وطعمًا مستهدفين، ولا تحكم من اسم الحمصة فقط.', 'Light does not mean underdeveloped, and dark does not automatically mean low quality. Compare intended color and flavor rather than judging roast names alone.'] },
 };
-const articles: (CoffeeLesson & { suggestions: string[]; suggestionsEn: string[] })[] = [
+type Article = CoffeeLesson & { suggestions: string[]; suggestionsEn: string[] };
+const bundledArticles: Article[] = [
   ...basics.map(row => ({ ...row, ...basicLabels[row.id], priority: row.id === 'water' ? 5 : 55 })),
   ...COFFEE_CURRICULUM.map(row => ({ ...row, suggestions: [] as string[], suggestionsEn: [] as string[] })),
 ];
-const lessonSources = (row: typeof articles[number]) => [{ title: row.title, url: row.url }, ...(row.supportingSources ?? [])];
+/** Bundled lessons plus any published database lessons applied at runtime. */
+let articles: Article[] = bundledArticles;
+const lessonSources = (row: Article) => [{ title: row.title, url: row.url }, ...(row.supportingSources ?? [])];
 export const coffeeCourseGroups: Record<CoffeeCourseGroup, [string, string]> = {
   beans: ['البن والمعالجة', 'Beans and processing'], grinding: ['الطحن', 'Grinding'],
   water: ['الماء', 'Water'], equipment: ['المكاين والأدوات', 'Machines and tools'],
   brewing: ['التحضير', 'Brewing'], roasting: ['التحميص', 'Roasting'], sensory: ['التذوق والإيحاءات', 'Tasting and flavor'],
 };
+/** Columns the app reads from public.coffee_lessons. */
+export const remoteCoffeeLessonColumns = 'id,course_group,title_ar,title_en,body_ar,body_en,more_ar,more_en,source_title,source_url,supporting_sources,keywords,priority';
+const boundedText = (value: unknown, min: number, max: number) => typeof value === 'string' && value.trim().length >= min && value.trim().length <= max ? value.trim() : null;
+const httpsUrl = (value: unknown) => {
+  const url = boundedText(value, 9, 500);
+  try { return url && new URL(url).protocol === 'https:' ? url : null; } catch { return null; }
+};
+/**
+ * Applies published lessons from the database over the bundled copy. A row with
+ * a bundled id replaces that lesson's text and keeps its reviewed routing; a new
+ * id adds a lesson routed by its plain phrases. Rows are untrusted input: an
+ * invalid row is skipped, phrases are escaped and never run as expressions.
+ * Returns the number of rows applied; anything but an array restores the bundle.
+ */
+export function applyRemoteCoffeeLessons(rows: unknown): number {
+  const byId = new Map<string, Article>();
+  for (const value of Array.isArray(rows) ? rows.slice(0, 400) : []) {
+    if (!value || typeof value !== 'object') continue;
+    const row = value as Record<string, unknown>;
+    const id = typeof row.id === 'string' && /^[a-z0-9][a-z0-9-]{1,59}$/.test(row.id) ? row.id : null;
+    const group = typeof row.course_group === 'string' && Object.hasOwn(coffeeCourseGroups, row.course_group) ? row.course_group as CoffeeCourseGroup : null;
+    const titleAr = boundedText(row.title_ar, 2, 120), titleEn = boundedText(row.title_en, 2, 120);
+    const ar = boundedText(row.body_ar, 100, 2400), en = boundedText(row.body_en, 100, 2400);
+    const moreAr = boundedText(row.more_ar, 20, 1200), moreEn = boundedText(row.more_en, 20, 1200);
+    const title = boundedText(row.source_title, 2, 160), url = httpsUrl(row.source_url);
+    if (!id || !group || !titleAr || !titleEn || !ar || !en || !moreAr || !moreEn || !title || !url) continue;
+    const phrases = [...new Set((Array.isArray(row.keywords) ? row.keywords : [])
+      .map(phrase => typeof phrase === 'string' ? normalizeSearch(phrase) : '')
+      .filter(phrase => phrase.length >= 3 && phrase.length <= 60))].slice(0, 24)
+      .map(phrase => phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    const supportingSources = (Array.isArray(row.supporting_sources) ? row.supporting_sources : []).flatMap(source => {
+      const item = source && typeof source === 'object' ? source as Record<string, unknown> : {};
+      const sourceTitle = boundedText(item.title, 2, 160), sourceUrl = httpsUrl(item.url);
+      return sourceTitle && sourceUrl ? [{ title: sourceTitle, url: sourceUrl }] : [];
+    }).slice(0, 4);
+    const bundled = bundledArticles.find(article => article.id === id);
+    const priority = typeof row.priority === 'number' && Number.isFinite(row.priority) ? Math.min(200, Math.max(1, Math.round(row.priority))) : bundled?.priority ?? 60;
+    const keywords = bundled
+      ? phrases.length ? new RegExp(bundled.keywords.source + '|' + phrases.join('|'), bundled.keywords.flags) : bundled.keywords
+      : phrases.length ? new RegExp(phrases.join('|')) : /(?!)/;
+    byId.set(id, {
+      id, group, titles: [titleAr, titleEn], keywords, priority, ar, en, more: [moreAr, moreEn], title, url,
+      ...(supportingSources.length ? { supportingSources } : {}),
+      suggestions: bundled?.suggestions ?? [], suggestionsEn: bundled?.suggestionsEn ?? [],
+    });
+  }
+  articles = [
+    ...bundledArticles.map(article => byId.get(article.id) ?? article),
+    ...[...byId.values()].filter(article => !bundledArticles.some(bundled => bundled.id === article.id)),
+  ];
+  return byId.size;
+}
 export function coffeeLearningTopics(locale: 'ar' | 'en') {
-  return articles.map(row => ({ id: row.id, group: row.group, title: row.titles[locale === 'ar' ? 0 : 1] }));
+  return articles.map(row => ({ id: row.id, group: row.group, title: row.titles[locale === 'ar' ? 0 : 1], priority: row.priority }));
 }
 export function coffeeLessonById(id: string, locale: 'ar' | 'en') {
   const row = articles.find(row => row.id === id);

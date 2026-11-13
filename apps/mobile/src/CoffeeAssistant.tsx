@@ -20,6 +20,7 @@ import {
   type LocalAssistantTurn,
 } from "./core/local-coffee-assistant";
 import methodGuides from "./methodGuides.json";
+import { loadRemoteCoffeeLessons } from "./remoteLessons";
 import { factLabels } from "./core/equipment-facts";
 import { useReducedMotion } from "./Motion";
 
@@ -64,6 +65,7 @@ export function CoffeeAssistant({
   const [expandedResults, setExpandedResults] = useState<
     Record<number, boolean>
   >({});
+  useEffect(() => { void loadRemoteCoffeeLessons(); }, []);
   useEffect(
     () => () => {
       active.current?.abort();
