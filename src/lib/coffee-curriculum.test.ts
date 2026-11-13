@@ -39,7 +39,7 @@ it.each([
   ['اشرح ضبط وصفة الإسبريسو', 'espresso-dial-in'], ['Dialing in espresso', 'espresso-dial-in'],
   ['اشرح الموكا بوت وصمام الأمان', 'moka-safety'], ['Moka pot and safety valve', 'moka-safety'],
 ])('answers %s locally', async (question, id) => {
-  const locale = /[\u0600-\u06FF]/.test(question) ? 'ar' : 'en';
+  const locale = /[؀-ۿ]/.test(question) ? 'ar' : 'en';
   const turn = await converseLocally(question, locale, [], offline);
   expect(turn.knowledgeTopic).toBe(id);
   expect(turn.sources?.[0]?.url).toMatch(/^https:\/\//);
@@ -110,6 +110,22 @@ describe('database lessons', () => {
     applyRemoteCoffeeLessons([{ ...row, id: 'crema', keywords: [] }]);
     expect(coffeeLessonById('crema', 'en')?.answer).toContain('siphon brewer');
     expect(coffeeKnowledgeAnswer('What is crema?', 'en')?.topic).toBe('crema');
+  });
+  it('learns dialect wordings for bundled lessons as whole words only', async () => {
+    applyRemoteCoffeeLessons([], [
+      { lesson_id: 'immersion-percolation', phrase: 'Cafetière' }, { lesson_id: 'immersion-percolation', phrase: 'كبّاسة القهوة' },
+      { lesson_id: 'crema', phrase: 'وجه القهوة' }, { lesson_id: 'crema', phrase: 'شنو' }, { lesson_id: 'crema', phrase: '(.*)+$' },
+      { lesson_id: 'no-such-lesson', phrase: 'whatever phrase' }, { lesson_id: 5, phrase: 'x' }, null,
+    ]);
+    expect((await converseLocally('How do I use a cafetiere?', 'en', [], offline)).knowledgeTopic).toBe('immersion-percolation');
+    expect((await converseLocally('شلون أستخدم كباسة القهوة؟', 'ar', [], offline)).knowledgeTopic).toBe('immersion-percolation');
+    expect(coffeeKnowledgeAnswer('ليش يختفي وجه القهوة بسرعة؟', 'ar')?.topic).toBe('crema');
+    expect(coffeeKnowledgeAnswer('بوجه القهوة', 'ar')?.topic).toBe('crema');
+    expect(coffeeKnowledgeAnswer('شنو', 'ar')).toBeNull();
+    expect(coffeeKnowledgeAnswer('cafetieres123', 'en')).toBeNull();
+    expect(coffeeKnowledgeAnswer('ليش نسوي بلوم؟', 'ar')?.topic).toBe('bloom');
+    applyRemoteCoffeeLessons(null);
+    expect(coffeeKnowledgeAnswer('ليش يختفي وجه القهوة بسرعة؟', 'ar')).toBeNull();
   });
   it('skips invalid rows and restores the bundle', () => {
     const bundled = coffeeLessonById('crema', 'en')?.answer;
