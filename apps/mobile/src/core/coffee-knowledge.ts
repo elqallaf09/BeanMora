@@ -82,7 +82,7 @@ const basicLabels: Record<string, { group: CoffeeCourseGroup; titles: [string, s
   rest: { group: 'beans', titles: ['راحة البن بعد التحميص', 'Resting after roasting'], more: ['تذوق نفس البن في عدة أيام بنفس الوصفة وسجل التدفق والطعم. تاريخ التحميص وحده لا يحدد يوم الذروة لكل البن.', 'Taste the same coffee on several days with the same recipe, recording flow and taste. Roast date alone cannot predict a universal peak day.'] },
   roast: { group: 'roasting', titles: ['درجات التحميص', 'Roast levels'], more: ['الفاتح ليس مرادفًا لنقص التطوير، والغامق ليس مرادفًا للجودة المنخفضة. قارن لونًا وطعمًا مستهدفين، ولا تحكم من اسم الحمصة فقط.', 'Light does not mean underdeveloped, and dark does not automatically mean low quality. Compare intended color and flavor rather than judging roast names alone.'] },
 };
-type Article = CoffeeLesson & { suggestions: string[]; suggestionsEn: string[] };
+type Article = Omit<CoffeeLesson, 'keywords'> & { keywords: { test(question: string): boolean }; suggestions: string[]; suggestionsEn: string[] };
 const bundledArticles: Article[] = [
   ...basics.map(row => ({ ...row, ...basicLabels[row.id], priority: row.id === 'water' ? 5 : 55 })),
   ...COFFEE_CURRICULUM.map(row => ({ ...row, suggestions: [] as string[], suggestionsEn: [] as string[] })),
@@ -102,14 +102,26 @@ const httpsUrl = (value: unknown) => {
   const url = boundedText(value, 9, 500);
   try { return url && new URL(url).protocol === 'https:' ? url : null; } catch { return null; }
 };
+/** Whole-word matcher for plain phrases; common Arabic prefixes (و، بـ، الـ…) may precede a phrase. */
+function phraseMatcher(phrases: string[]) {
+  const escaped = phrases.map(phrase => phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  return new RegExp('(?:^|[^\\p{L}\\p{N}])(?:[وفبلك]?(?:ال|لل)?)?(?:' + escaped.join('|') + ')(?=$|[^\\p{L}\\p{N}])', 'u');
+}
+const plainPhrases = (values: unknown[], min: number, limit: number) => [...new Set(values
+  .map(phrase => typeof phrase === 'string' ? normalizeSearch(phrase) : '')
+  .filter(phrase => phrase.length >= min && phrase.length <= 60))].slice(0, limit);
+/** Columns the app reads from public.coffee_lesson_phrases. */
+export const remoteCoffeePhraseColumns = 'lesson_id,phrase';
 /**
  * Applies published lessons from the database over the bundled copy. A row with
  * a bundled id replaces that lesson's text and keeps its reviewed routing; a new
  * id adds a lesson routed by its plain phrases. Rows are untrusted input: an
  * invalid row is skipped, phrases are escaped and never run as expressions.
- * Returns the number of rows applied; anything but an array restores the bundle.
+ * `learned` holds rows of public.coffee_lesson_phrases: extra wordings (Kuwaiti,
+ * Gulf, American, British…) that route a question to an existing lesson.
+ * Returns the number of lesson rows applied; anything but an array restores the bundle.
  */
-export function applyRemoteCoffeeLessons(rows: unknown): number {
+export function applyRemoteCoffeeLessons(rows: unknown, learned?: unknown): number {
   const byId = new Map<string, Article>();
   for (const value of Array.isArray(rows) ? rows.slice(0, 400) : []) {
     if (!value || typeof value !== 'object') continue;
@@ -121,10 +133,7 @@ export function applyRemoteCoffeeLessons(rows: unknown): number {
     const moreAr = boundedText(row.more_ar, 20, 1200), moreEn = boundedText(row.more_en, 20, 1200);
     const title = boundedText(row.source_title, 2, 160), url = httpsUrl(row.source_url);
     if (!id || !group || !titleAr || !titleEn || !ar || !en || !moreAr || !moreEn || !title || !url) continue;
-    const phrases = [...new Set((Array.isArray(row.keywords) ? row.keywords : [])
-      .map(phrase => typeof phrase === 'string' ? normalizeSearch(phrase) : '')
-      .filter(phrase => phrase.length >= 3 && phrase.length <= 60))].slice(0, 24)
-      .map(phrase => phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    const phrases = plainPhrases(Array.isArray(row.keywords) ? row.keywords : [], 3, 24);
     const supportingSources = (Array.isArray(row.supporting_sources) ? row.supporting_sources : []).flatMap(source => {
       const item = source && typeof source === 'object' ? source as Record<string, unknown> : {};
       const sourceTitle = boundedText(item.title, 2, 160), sourceUrl = httpsUrl(item.url);
@@ -132,19 +141,30 @@ export function applyRemoteCoffeeLessons(rows: unknown): number {
     }).slice(0, 4);
     const bundled = bundledArticles.find(article => article.id === id);
     const priority = typeof row.priority === 'number' && Number.isFinite(row.priority) ? Math.min(200, Math.max(1, Math.round(row.priority))) : bundled?.priority ?? 60;
-    const keywords = bundled
-      ? phrases.length ? new RegExp(bundled.keywords.source + '|' + phrases.join('|'), bundled.keywords.flags) : bundled.keywords
-      : phrases.length ? new RegExp(phrases.join('|')) : /(?!)/;
+    const own = phrases.length ? phraseMatcher(phrases) : null;
+    const keywords = bundled && own ? { test: (question: string) => bundled.keywords.test(question) || own.test(question) } : bundled?.keywords ?? own ?? /(?!)/;
     byId.set(id, {
       id, group, titles: [titleAr, titleEn], keywords, priority, ar, en, more: [moreAr, moreEn], title, url,
       ...(supportingSources.length ? { supportingSources } : {}),
       suggestions: bundled?.suggestions ?? [], suggestionsEn: bundled?.suggestionsEn ?? [],
     });
   }
+  const learnedByLesson = new Map<string, unknown[]>();
+  for (const value of Array.isArray(learned) ? learned.slice(0, 20000) : []) {
+    const item = value && typeof value === 'object' ? value as Record<string, unknown> : {};
+    if (typeof item.lesson_id !== 'string') continue;
+    learnedByLesson.set(item.lesson_id, [...(learnedByLesson.get(item.lesson_id) ?? []), item.phrase]);
+  }
   articles = [
     ...bundledArticles.map(article => byId.get(article.id) ?? article),
     ...[...byId.values()].filter(article => !bundledArticles.some(bundled => bundled.id === article.id)),
-  ];
+  ].map(article => {
+    // Learned wordings need at least four characters so a short generic word cannot capture questions.
+    const phrases = plainPhrases(learnedByLesson.get(article.id) ?? [], 4, 400);
+    if (!phrases.length) return article;
+    const extra = phraseMatcher(phrases), base = article.keywords;
+    return { ...article, keywords: { test: (question: string) => base.test(question) || extra.test(question) } };
+  });
   return byId.size;
 }
 export function coffeeLearningTopics(locale: 'ar' | 'en') {
