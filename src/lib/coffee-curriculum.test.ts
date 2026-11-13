@@ -55,3 +55,34 @@ it('keeps budgets out of scale education and separates manufacturer water limits
   expect(coffeeLessonById('grind-size', 'ar')?.answer).toContain('رقم');
   expect(coffeeLessonById('roast-color', 'ar')?.answer).toContain('الإضاءة');
 });
+it.each([
+  ['شلون أحضر V60؟', 'v60-technique'], ['How do I brew a V60?', 'v60-technique'],
+  ['شنو أفضل نسبة قهوة للماء؟', 'brew-ratio'], ['What is a good brew ratio?', 'brew-ratio'],
+  ['شنو الراو سبن؟', 'pour-agitation'], ['ليش ينسد الفلتر والتصفية بطيئة؟', 'drawdown'],
+  ['شلون أستخدم الإيروبرس؟', 'aeropress'], ['Chemex instructions', 'chemex'],
+  ['القهوة التركية', 'turkish-coffee'], ['آداب القهوة العربية', 'arabic-coffee'],
+  ['شنو الإسبريسو؟', 'espresso-basics'], ['What is espresso?', 'espresso-basics'],
+  ['شنو الفرق بين الريستريتو واللونغو؟', 'espresso-ratio'], ['What is crema?', 'crema'],
+  ['شنو الفلات وايت؟', 'espresso-drinks'], ['كم كافيين بالقهوة؟', 'caffeine'],
+  ['How much caffeine is safe?', 'caffeine'], ['مناطق زراعة البن', 'origins'],
+  ['شنو يعني قهوة مختصة؟', 'specialty'], ['Single origin or blend?', 'blends'],
+  ['شنو فايدة صمام الكيس؟', 'freshness'], ['Drum roaster or air roaster?', 'roaster-types'],
+  ['شلون أحسب فاقد الوزن؟', 'roast-weight-loss'], ['شنو الفرقعة الثانية؟', 'second-crack'],
+  ['What is second crack?', 'second-crack'], ['شنو الفرق بين تحميص الإسبريسو والفلتر؟', 'roast-for-brew'],
+  ['هل دخان التحميص خطر؟', 'roast-safety'], ['شنو نقطة التحول؟', 'turning-point'],
+  ['What is a between-batch protocol?', 'between-batch'], ['Sample roasting', 'sample-roast'],
+])('covers the V60, espresso, bean and roasting expansion: %s', async (question, id) => {
+  const locale = /[؀-ۿ]/.test(question) ? 'ar' : 'en';
+  const turn = await converseLocally(question, locale, [], offline);
+  expect(turn.knowledgeTopic).toBe(id);
+  expect(turn.sources?.[0]?.url).toMatch(/^https:\/\//);
+});
+it('keeps earlier routing intact after the expansion', async () => {
+  expect(coffeeLearningTopics('ar').length).toBeGreaterThanOrEqual(80);
+  expect(coffeeKnowledgeAnswer('القهوة منزوعة الكافيين', 'ar')?.topic).toBe('decaf');
+  expect(coffeeKnowledgeAnswer('الفرقعة الأولى', 'ar')?.topic).toBe('development-time');
+  expect(coffeeKnowledgeAnswer('ليش نسوي بلوم؟', 'ar')?.topic).toBe('bloom');
+  expect((await converseLocally('احسب 18 غرام بنسبة 1:16', 'ar', [], offline)).intent).toBe('calculate');
+  expect((await converseLocally('قهوتي V60 حامضة', 'ar', [], offline)).intent).toBe('coach');
+  expect(coffeeLessonById('caffeine', 'en')?.answer).toContain('400 mg');
+});

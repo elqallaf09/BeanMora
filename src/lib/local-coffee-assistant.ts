@@ -124,6 +124,8 @@ export function parseLocalAssistantQuery(message: string, previous?: AssistantQu
 
 function selectedResults(q: string, matches: AssistantMatch[]) {
   const ordinals = [['الاول', 'اول', 'first'], ['الثاني', 'ثاني', 'second'], ['الثالث', 'ثالث', 'third'], ['الرابع', 'fourth'], ['الخامس', 'fifth'], ['السادس', 'sixth']];
+  // "Second crack" names a roasting event, not the second search result.
+  q = q.replace(/\b(?:first|second) crack\b|(?:ال)?فرقعه (?:ال)?(?:اول|ثاني)[يه]?/g, ' ');
   const indexes = ordinals.flatMap((words, i) => words.some(word => has(q, word)) ? [i] : []);
   for (const m of q.matchAll(/(?:رقم|number|option|#)\s*(\d+)/g)) indexes.push(Number(m[1]) - 1);
   const named = matches.filter(m => [m.document.title_ar, m.document.title_en].some(name => name && q.includes(norm(name))));
@@ -285,6 +287,9 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
   const bareDose = previous?.intent === 'calculate' && previous.calculation?.dose === null && /^-?\d+(?:\.\d+)?$/.test(q) ? Number(q) : null;
   const calculate = quantityQuestion || doseServingRequest || preparationReply || bareDose !== null || /احسب|حساب|نسبه|ريشو|ratio|calculate/.test(q) || !!ratioMatch || (!!doseMatch && !differentIntent && (previous?.intent === 'calculate' || /خل|غير|اضبط|make|change/.test(q)));
 
+  // "What ratio should I use?" with no numbers is a lesson, not arithmetic.
+  const ratioLesson = calculate && !shopping && !/\d/.test(q) && previous?.intent !== 'calculate' && !doseMatch && !ratioMatch ? coffeeKnowledgeAnswer(question, locale, undefined, L) : null;
+  if (ratioLesson && ['brew-ratio', 'espresso-ratio', 'roast-weight-loss'].includes(ratioLesson.topic)) return reply(ratioLesson.answer, { intent: 'knowledge', knowledgeTopic: ratioLesson.topic, sources: ratioLesson.sources, suggestions: ratioLesson.suggestions });
   if (calculate) {
     const methodChanged = methods.length > 0 && previous?.calculation?.method && methods[0] !== previous.calculation.method;
     const last = previous?.intent === 'calculate' && !methodChanged ? previous.calculation : undefined;
@@ -439,7 +444,9 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
   }
   // Symptoms and labeled follow-up measurements take precedence over broad
   // lesson keywords such as "water" and "grind". Catalog references stay first.
-  if (knowledge) return reply(knowledge.answer, { intent: 'knowledge', knowledgeTopic: knowledge.topic, sources: knowledge.sources, suggestions: knowledge.suggestions });
+  // A bundled device guide outranks the general method lesson for "how do I use…" questions.
+  const bundledGuide = methods.length && /شلون|كيف|طريقه|دليل|how|guide|use/.test(q) ? dependencies.guides?.[methods[0]] : undefined;
+  if (knowledge && !(bundledGuide && ['v60-technique', 'aeropress', 'chemex'].includes(knowledge.topic))) return reply(knowledge.answer, { intent: 'knowledge', knowledgeTopic: knowledge.topic, sources: knowledge.sources, suggestions: knowledge.suggestions });
   if (methods.length && /شلون|كيف|طريقه|دليل|how|guide|use/.test(q)) {
     const guide = dependencies.guides?.[methods[0]];
     if (guide) return reply([L(guide.title_ar, guide.title), L(guide.intro_ar, guide.intro), ...guide.tips.map((t, i) => '• ' + L(guide.tips_ar[i] ?? t, t))].join('\n'), { intent: 'guide', sources: [{ title: guide.source_name, url: guide.source }], suggestions: [L(`أبي وصفة ${methods[0]}`, `Find a ${methods[0]} recipe`)] });
