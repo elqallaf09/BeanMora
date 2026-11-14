@@ -31,7 +31,9 @@ export async function loadCoffeeLessonContent(signal: AbortSignal): Promise<Coff
           .eq('status', 'published').order('id').limit(2000).abortSignal(requestSignal),
       ]);
       if (lessons.error || phrases.error || (lessons.count ?? 0) > 500 || (phrases.count ?? 0) > 2000
-        || !Array.isArray(lessons.data) || !Array.isArray(phrases.data)) throw new Error('LESSONS_UNAVAILABLE');
+        || !Array.isArray(lessons.data) || !Array.isArray(phrases.data)
+        || (lessons.count !== null && lessons.data.length !== lessons.count)
+        || (phrases.count !== null && phrases.data.length !== phrases.count)) throw new Error('LESSONS_UNAVAILABLE');
       return { lessons: lessons.data, phrases: phrases.data };
     }, { signal, timeoutMs: 3500 });
     const content = parseCoffeeLessonContent(payload);

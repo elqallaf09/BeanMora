@@ -19,7 +19,7 @@ async function ask(page: Page, question: string, ar = true) {
 }
 for (const locale of ['ar', 'en'] as const) test(`${locale}: database edits appear on the next question and remain usable offline`, async ({ page }) => {
   const ar = locale === 'ar';
-  let revision = 1, online = true, published = true;
+  let revision = 1, online = true, published = true, truncated = false;
   const lessonRequests: URL[] = [];
   await page.route('https://mobilefixture.supabase.co/**', route => {
     const url = new URL(route.request().url());
@@ -31,7 +31,7 @@ for (const locale of ['ar', 'en'] as const) test(`${locale}: database edits appe
     }
     const data = !published ? [] : lessons ? [{ ...lesson, body_ar: lesson.body_ar + ` مراجعة ${revision}`, body_en: lesson.body_en + ` Revision ${revision}` }]
       : phrases ? [{ lesson_id: lesson.id, phrase: 'قيشا تجريبية', status: 'published' }] : [];
-    return route.fulfill({ status: 200, contentType: 'application/json', headers: { 'content-range': data.length ? '0-0/1' : '*/0', 'access-control-expose-headers': 'content-range' }, body: JSON.stringify(data) });
+    return route.fulfill({ status: 200, contentType: 'application/json', headers: { 'content-range': data.length ? (truncated ? '0-0/2' : '0-0/1') : '*/0', 'access-control-expose-headers': 'content-range' }, body: JSON.stringify(data) });
   });
   await page.goto('/');
   if (!ar) await setLanguage(page, 'en');
@@ -46,6 +46,9 @@ for (const locale of ['ar', 'en'] as const) test(`${locale}: database edits appe
     expect(url.searchParams.get('status')).toBe('eq.published');
     if (url.pathname.endsWith('/coffee_lessons')) expect(url.searchParams.get('requires_review')).toBe('eq.false');
   }
+  revision = 3; truncated = true;
+  await expect(await ask(page, question, ar)).toContainText(ar ? 'مراجعة 2' : 'Revision 2');
+  truncated = false;
   // Reload the app, losing module memory, to verify the persistent offline copy.
   online = false;
   await page.reload();
