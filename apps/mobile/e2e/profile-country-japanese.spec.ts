@@ -1,5 +1,5 @@
 import { expect, test, type Route } from '@playwright/test';
-import { setLanguage } from './settings';
+import { openSettings, setLanguage } from './settings';
 
 const project = 'https://mobilefixture.supabase.co';
 const reply = (route: Route, data: unknown, status = 200) => route.fulfill({ status, contentType: 'application/json', body: JSON.stringify(data) });
@@ -66,7 +66,7 @@ test('Japanese persists after restart, uses LTR navigation and submits country /
 
 for (const ar of [true, false]) test(`${ar ? 'Arabic' : 'English'}: bio uses the profile editor without a duplicate shortcut; country flag updates after settings save, phone stays private and retry keeps input`, async ({ page }, info) => {
   let current = { ...user, user_metadata: { ...user.user_metadata } };
-  let profile = { id: user.id, name: 'Profile fixture', username: 'profile_fixture', avatar_url: null, bio: '', country: 'JP', is_private: false, share_collection: false };
+  let profile = { id: user.id, name: 'Coffee enthusiast profile', username: 'profile_fixture', avatar_url: null, bio: '', country: 'JP', is_private: false, share_collection: false };
   let failSave = true, saves = 0;
   await page.route(project + '/**', route => {
     const url = new URL(route.request().url()), path = url.pathname;
@@ -95,11 +95,31 @@ for (const ar of [true, false]) test(`${ar ? 'Arabic' : 'English'}: bio uses the
   await page.getByRole('button', { name: ar ? 'تسجيل الدخول' : 'Sign in', exact: true }).click();
   await expect(page.getByTestId('profile-country-flag')).toContainText('🇯🇵');
   const editButton = page.getByRole('button', { name: ar ? 'تعديل الملف' : 'Edit profile', exact: true });
-  const editBounds = await editButton.boundingBox();
-  expect(editBounds!.height).toBeGreaterThanOrEqual(44);
-  expect(editBounds!.height).toBeLessThanOrEqual(52);
-  expect(editBounds!.width).toBeLessThanOrEqual(176);
-  await page.screenshot({ path: info.outputPath(`profile-edit-compact-${ar ? 'ar' : 'en'}.png`), animations: 'disabled' });
+  for (const width of [320, 390, 430, 768]) {
+    await page.setViewportSize({ width, height: 900 });
+    const visitors = page.getByTestId('profile-visitors');
+    // RN's window-dimension update follows the browser resize event.
+    await expect.poll(async () => {
+      const edit = await editButton.boundingBox();
+      const cover = await page.getByTestId('profile-cover').boundingBox();
+      const views = await visitors.boundingBox();
+      return Boolean(edit && cover && views && edit.height === 44
+        && edit.width > edit.height * 2 && edit.width <= 176
+        && edit.y >= cover.y + cover.height && views.y > edit.y + edit.height);
+    }).toBe(true);
+    await expect(visitors).toContainText(ar ? 'من زار حسابي' : 'Profile visitors');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    if (width === 390 || width === 768) await page.screenshot({ path: info.outputPath(`profile-header-${ar ? 'ar' : 'en'}-${width}.png`), animations: 'disabled' });
+  }
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const dark of [true, false]) {
+    const appearance = await openSettings(page);
+    await appearance.getByRole('button', { name: ar ? dark ? 'ليلي' : 'نهاري' : dark ? 'Dark' : 'Light', exact: true }).click();
+    await appearance.getByRole('button', { name: ar ? 'تم' : 'Done', exact: true }).click();
+    await expect(page.locator('[aria-modal="true"]')).toHaveCount(0);
+    expect((await editButton.boundingBox())!.height).toBe(44);
+    if (dark) await page.screenshot({ path: info.outputPath(`profile-header-${ar ? 'ar' : 'en'}-dark.png`), animations: 'disabled' });
+  }
   await expect(page.getByRole('button', { name: ar ? 'أضف نبذة عنك' : 'Add a bio', exact: true })).toHaveCount(0);
   const sections = page.getByTestId('profile-sections');
   await expect(sections.getByRole('button')).toHaveCount(7);
