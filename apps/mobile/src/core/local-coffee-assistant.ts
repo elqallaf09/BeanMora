@@ -2,6 +2,7 @@ import { assistantRecipeServingStyle, assistantReply, assistantSafeUrl, assistan
 import { factLabels } from './equipment-facts';
 import { normalizeSearch } from './deepSearch';
 import { coffeeKnowledgeAnswer, coffeeLearningTopics, coffeeLessonById } from './coffee-knowledge';
+import type { CoffeeLessonContent } from './coffee-lesson-content';
 import { ESPRESSO_CONTROLS_TOPIC, espressoControlAdvice, isEspressoControlFollowUp, isEspressoControlRequest } from './espresso-control-advice';
 
 /** A bounded coffee expert system, not a generative model. No provider, keys or training uploads. */
@@ -18,6 +19,7 @@ export interface LocalAssistantTurn {
 }
 export interface LocalGuide { title_ar: string; title: string; intro_ar: string; intro: string; tips_ar: string[]; tips: string[]; source: string; source_name: string }
 export interface LocalAssistantDependencies {
+  loadLessons?: () => Promise<CoffeeLessonContent>;
   search: (query: AssistantQuery) => Promise<{ documents: AssistantDocument[]; rates: CatalogRate[] }>;
   guides?: Record<string, LocalGuide>; now?: number;
   translate?: (arabic:string,english:string)=>string;
@@ -388,8 +390,12 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
     const outputLabel = brewMethod === 'espresso' ? (L('ناتج الإسبريسو المستهدف', 'Target espresso beverage yield')) : (L('ماء التحضير', 'Brew water'));
     return reply(`${L('حساب النسبة المطلوبة', 'Requested ratio calculation')}: ${number(dose)} g × ${number(ratio)} = ${number(dose * ratio)} g\n${outputLabel}: ${number(dose * ratio)} g\n${L('هذا حساب رياضي، وليس وصفة مختبرة. لا يحدد درجة الطحن أو الحرارة أو الوقت؛ تحقق من سعة أداتك.', 'This is arithmetic, not a tested recipe. It does not set grind, temperature or time; check your brewer capacity.')}`, { intent: 'calculate', calculation, matches: selected, suggestions: [L('خلها 20 غرام', 'Make it 20 g'), L('غير النسبة إلى 1:15', 'Change ratio to 1:15')] });
   }
-  const lessonRequest = /^(?:اشرح|وضح|ليش|لماذا|ما هو|ما هي|explain|what|why|how)(?:\s|$)/.test(q) || coffeeLearningTopics(locale).some(topic => norm(topic.title) === q.replace(/[؟?!.,،]/g,'').trim());
-  const knowledge = !shopping && (!hasRecipeIntent(q) || lessonRequest) && !selection.explicit && !(compare && references.length) ? coffeeKnowledgeAnswer(question, locale, previous?.knowledgeTopic, L) : null;
+  // Resolve a fresh editorial snapshot before matching: entirely new lessons
+  // and dialect phrases must work without being bundled in the application.
+  const canReadLessons = !shopping && !selection.explicit && !(compare && references.length);
+  const content = canReadLessons ? await dependencies.loadLessons?.() : undefined;
+  const lessonRequest = /^(?:اشرح|وضح|ليش|لماذا|ما هو|ما هي|شنو|شو|explain|what|why|how)(?:\s|$)/.test(q) || coffeeLearningTopics(locale, content).some(topic => norm(topic.title) === q.replace(/[؟?!.,،]/g,'').trim());
+  const knowledge = canReadLessons && (!hasRecipeIntent(q) || lessonRequest) ? coffeeKnowledgeAnswer(question, locale, previous?.knowledgeTopic, L, content) : null;
   if (!shopping && ((compare && (references.length > 0 || !knowledge)) || selection.explicit || (explain && references.length && !knowledge))) {
     const chosen = selection.explicit ? selection.matches : compare ? references.slice(0, 3) : references.length === 1 ? references : [];
     if (selection.invalid || !chosen.length || (compare && chosen.length < 2)) return reply(L('ابحث عن الخيارات أولًا، ثم قل «اشرح الأول» أو «قارن الأول والثاني». اختر رقمًا من النتائج الظاهرة.', 'Search for options first, then say “explain the first” or “compare the first and second”. Use a displayed result number.'), { matches: references, query: previous?.query ?? query, equipmentAdvice: previous?.equipmentAdvice, recipeAlternative: previous?.recipeAlternative });

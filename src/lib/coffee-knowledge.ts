@@ -1,6 +1,7 @@
 import { isCoffeeRecommendationRequest } from './coffee-assistant';
 import { normalizeSearch } from "./search/deepSearch";
 import { COFFEE_CURRICULUM, type CoffeeCourseGroup, type CoffeeLesson } from './coffee-curriculum';
+import { coffeePhrasePattern, type CoffeeLessonContent } from './coffee-lesson-content';
 /** Reviewed bilingual education. Product settings always remain with their source. */
 const basics = [
   {
@@ -82,21 +83,34 @@ const basicLabels: Record<string, { group: CoffeeCourseGroup; titles: [string, s
   rest: { group: 'beans', titles: ['راحة البن بعد التحميص', 'Resting after roasting'], more: ['تذوق نفس البن في عدة أيام بنفس الوصفة وسجل التدفق والطعم. تاريخ التحميص وحده لا يحدد يوم الذروة لكل البن.', 'Taste the same coffee on several days with the same recipe, recording flow and taste. Roast date alone cannot predict a universal peak day.'] },
   roast: { group: 'roasting', titles: ['درجات التحميص', 'Roast levels'], more: ['الفاتح ليس مرادفًا لنقص التطوير، والغامق ليس مرادفًا للجودة المنخفضة. قارن لونًا وطعمًا مستهدفين، ولا تحكم من اسم الحمصة فقط.', 'Light does not mean underdeveloped, and dark does not automatically mean low quality. Compare intended color and flavor rather than judging roast names alone.'] },
 };
-const articles: (CoffeeLesson & { suggestions: string[]; suggestionsEn: string[] })[] = [
+const bundledArticles: (CoffeeLesson & { suggestions: string[]; suggestionsEn: string[] })[] = [
   ...basics.map(row => ({ ...row, ...basicLabels[row.id], priority: row.id === 'water' ? 5 : 55 })),
   ...COFFEE_CURRICULUM.map(row => ({ ...row, suggestions: [] as string[], suggestionsEn: [] as string[] })),
 ];
-const lessonSources = (row: typeof articles[number]) => [{ title: row.title, url: row.url }, ...(row.supportingSources ?? [])];
+function lessonArticles(content?: CoffeeLessonContent) {
+  if (!content) return bundledArticles;
+  const merged = new Map(bundledArticles.map(row => [row.id, row]));
+  for (const row of content.lessons) {
+    const bundled = merged.get(row.id);
+    merged.set(row.id, { ...row, suggestions: [], suggestionsEn: [],
+      keywords: bundled ? new RegExp('(?:' + bundled.keywords.source + ')|(?:' + row.keywords.source + ')', 'u') : row.keywords });
+  }
+  return [...merged.values()].map(row => {
+    const aliases = content.phrases.filter(phrase => phrase.lessonId === row.id).map(phrase => phrase.phrase);
+    return aliases.length ? { ...row, keywords: new RegExp('(?:' + row.keywords.source + ')|(?:' + coffeePhrasePattern(aliases).source + ')', 'u') } : row;
+  });
+}
+const lessonSources = (row: CoffeeLesson) => [{ title: row.title, url: row.url }, ...(row.supportingSources ?? [])];
 export const coffeeCourseGroups: Record<CoffeeCourseGroup, [string, string]> = {
   beans: ['البن والمعالجة', 'Beans and processing'], grinding: ['الطحن', 'Grinding'],
   water: ['الماء', 'Water'], equipment: ['المكاين والأدوات', 'Machines and tools'],
   brewing: ['التحضير', 'Brewing'], roasting: ['التحميص', 'Roasting'], sensory: ['التذوق والإيحاءات', 'Tasting and flavor'],
 };
-export function coffeeLearningTopics(locale: 'ar' | 'en') {
-  return articles.map(row => ({ id: row.id, group: row.group, title: row.titles[locale === 'ar' ? 0 : 1] }));
+export function coffeeLearningTopics(locale: 'ar' | 'en', content?: CoffeeLessonContent) {
+  return lessonArticles(content).map(row => ({ id: row.id, group: row.group, title: row.titles[locale === 'ar' ? 0 : 1] }));
 }
-export function coffeeLessonById(id: string, locale: 'ar' | 'en') {
-  const row = articles.find(row => row.id === id);
+export function coffeeLessonById(id: string, locale: 'ar' | 'en', content?: CoffeeLessonContent) {
+  const row = lessonArticles(content).find(row => row.id === id);
   return row ? { title: row.titles[locale === 'ar' ? 0 : 1], answer: locale === 'ar' ? row.ar : row.en, more: row.more[locale === 'ar' ? 0 : 1], source: { title: row.title, url: row.url }, sources: lessonSources(row) } : null;
 }
 export function coffeeKnowledgeAnswer(
@@ -104,7 +118,9 @@ export function coffeeKnowledgeAnswer(
   locale: "ar" | "en",
   previousTopic?: string,
   translate?: (arabic: string, english: string) => string,
+  content?: CoffeeLessonContent,
 ) {
+  const articles = lessonArticles(content);
   const L = translate ?? ((arabic: string, english: string) => locale === 'ar' ? arabic : english);
   const q = normalizeSearch(question);
   // Shopping follow-ups must keep their catalog context instead of matching
