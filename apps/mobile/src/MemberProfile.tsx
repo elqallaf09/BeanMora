@@ -476,11 +476,11 @@ export function MemberProfile({
             )}
             <View
               style={{
-                maxWidth: wide ? 280 : "70%",
+                maxWidth: wide ? 280 : "64%",
                 paddingBottom: 6,
                 flexDirection: ar ? "row-reverse" : "row",
                 alignItems: "center",
-                gap: 4,
+                gap: 8,
               }}
             >
               {own && userId ? (
@@ -492,9 +492,14 @@ export function MemberProfile({
                 />
               ) : null}
               {own ? (
-                <ProfileAction
+                <PillButton
                   title={L("تعديل الملف", "Edit profile")}
                   icon="edit"
+                  compact
+                  snug
+                  selected={editing}
+                  accessibilityState={{ expanded: editing }}
+                  style={{ alignSelf: 'center', flexShrink: 1, maxWidth: 176 }}
                   disabled={busy}
                   onPress={() => {
                     setEditing((v) => !v);

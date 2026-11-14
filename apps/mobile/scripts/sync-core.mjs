@@ -11,6 +11,8 @@ const pairs = [
   ['../../../src/lib/search/flavor-vocabulary.ts', '../src/core/flavor-vocabulary.ts'],
   ['../../../src/lib/search/multilingual-vocabulary.ts', '../src/core/multilingual-vocabulary.ts'],
   ['../../../src/lib/coffee-curriculum.ts', '../src/core/coffee-curriculum.ts'],
+  ['../../../src/lib/coffee-practical-content.json', '../src/core/coffee-practical-content.json'],
+  ['../../../src/lib/coffee-practical-guidance.ts', '../src/core/coffee-practical-guidance.ts'],
   ['../../../src/lib/coffee-knowledge.ts', '../src/core/coffee-knowledge.ts'],
   ['../../../src/lib/coffee-lesson-content.ts', '../src/core/coffee-lesson-content.ts'],
   ['../../../src/lib/espresso-control-advice.ts', '../src/core/espresso-control-advice.ts'],
@@ -39,7 +41,7 @@ for (const [source, destination] of pairs) {
   const targetUrl = new URL(destination, import.meta.url);
   const raw = readFileSync(sourceUrl, 'utf8');
   const adapted = /deepSearch\.ts$/.test(source) ? raw.replace('../catalog-names', './catalog-names') : /grinder-context\.ts$/.test(source) ? raw.replace('./brewing/outcome', './outcome') : raw;
-  const content = /(?:coffee-assistant|coffee-knowledge|coffee-lesson-content|espresso-control-advice)\.ts$/.test(source) ? adapted.replace(/(['"])\.\/search\/(deepSearch|flavor-vocabulary)\1/g, '$1./$2$1') : adapted;
+  const content = /(?:coffee-assistant|coffee-knowledge|coffee-lesson-content|coffee-practical-guidance|espresso-control-advice)\.ts$/.test(source) ? adapted.replace(/(['"])\.\/search\/(deepSearch|flavor-vocabulary)\1/g, '$1./$2$1') : adapted;
   if (process.argv.includes('--check')) {
     if (readFileSync(targetUrl, 'utf8') !== content) throw new Error('Shared core drift: run npm run sync:core in apps/mobile');
   } else writeFileSync(targetUrl, content);

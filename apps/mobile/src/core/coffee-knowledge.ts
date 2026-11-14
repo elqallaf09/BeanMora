@@ -137,7 +137,7 @@ export function coffeeKnowledgeAnswer(
     return null;
   const clean = q.replace(/[؟?!.,،]/g, '').trim();
   const followUp = /^(?:اشرح اكثر|وضح اكثر|اكمل|كمل|tell me more|explain more|continue)$/.test(clean);
-  const ranked = articles.map(row => ({ row, score: row.titles.some(title => normalizeSearch(title) === clean) ? 1000 : row.keywords.test(q) ? row.priority : 0 })).filter(hit => hit.score > 0).sort((a, b) => b.score - a.score);
+  const ranked = articles.map(row => ({ row, score: row.titles.some(title => normalizeSearch(title).replace(/[؟?!.,،]/g, '').trim() === clean) ? 1000 : row.keywords.test(q) ? row.priority : 0 })).filter(hit => hit.score > 0).sort((a, b) => b.score - a.score);
   const article = followUp ? articles.find(row => row.id === previousTopic) : ranked[0]?.row;
   if (!article && /علمني.*قهوه|تعلم.*قهوه|من الالف|من ا.*ي|a to z|learn.*coffee|all about coffee/.test(q)) {
     return {

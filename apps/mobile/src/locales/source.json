@@ -25174,5 +25174,19 @@
     "files": [
       "src/CommunityModeration.tsx"
     ]
+  },
+  {
+    "en": "How do I make espresso?",
+    "ar": "شلون أسوي إسبريسو؟",
+    "files": [
+      "src/core/local-coffee-assistant.ts"
+    ]
+  },
+  {
+    "en": "I do not have a verified explanation for this question yet. Specify the coffee topic or model and what you want to do; I can help with the available guidance or identify what is missing.",
+    "ar": "ما عندي شرح موثّق لهذا السؤال بعد. حدّد موضوع القهوة أو اسم الموديل وما تريد عمله، وأقدر أساعدك بما هو متوفر أو أوضح المعلومة الناقصة.",
+    "files": [
+      "src/core/local-coffee-assistant.ts"
+    ]
   }
 ]

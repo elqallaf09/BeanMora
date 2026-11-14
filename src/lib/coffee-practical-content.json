@@ -1,0 +1,62 @@
+[
+  {
+    "id": "espresso-start",
+    "course_group": "brewing",
+    "title_ar": "تحضير الإسبريسو خطوة بخطوة",
+    "title_en": "Make espresso step by step",
+    "body_ar": "1. سخّن الماكينة وحامل الفلتر حسب دليل جهازك، وجهّز سلة نظيفة وجافة.\n2. اختر جرعة تناسب السلة: مثال البداية 18 g بن في سلة مصممة لهذه الجرعة.\n3. اطحن ناعمًا للإسبريسو، ووزّع البن ثم اكبس بشكل مستوٍ.\n4. ضع الكوب على الميزان وصفّره. ابدأ الاستخلاص واستهدف 36 g من المشروب؛ هذه نسبة 1:2، وليست كمية الماء في الخزان.\n5. راقب نحو 25–30 ثانية كنقطة بداية، وسجّل هل حسبت الوقت من تشغيل المضخة أو أول قطرة.\n6. تذوّق: إذا وصل للناتج بسرعة كبيرة جرّب أنعم قليلًا؛ إذا كان بطيئًا جدًا جرّب أخشن قليلًا، مع تثبيت الجرعة والناتج. الأرقام بداية للتجربة وتختلف مع البن والسلة.",
+    "body_en": "1. Warm the machine and portafilter according to its manual; use a clean, dry basket.\n2. Match the dose to the basket: start, for example, with 18 g in a basket designed for that dose.\n3. Grind fine for espresso, distribute evenly and tamp level.\n4. Tare the cup on a scale. Start brewing and aim for 36 g of beverage: a 1:2 ratio, not the water in the tank.\n5. Observe roughly 25–30 seconds as a starting point. Record whether timing starts at pump activation or the first drop.\n6. Taste. If the target arrives much too quickly, try a little finer; if much too slowly, try a little coarser. Keep dose and yield fixed. These are starting values that vary with coffee and basket.",
+    "more_ar": "اذكر موديل الماكينة والطاحونة، وسعة السلة، ونوع البن. وإذا جرّبت شوتًا، اكتب الجرعة والناتج والوقت والطعم حتى نضبط الخطوة التالية.",
+    "more_en": "Tell me the machine and grinder models, basket capacity and coffee. If you have pulled a shot, give its dose, yield, time and taste so we can choose the next adjustment.",
+    "source_title": "La Marzocco — How to make espresso",
+    "source_url": "https://home.lamarzoccousa.com/how-to-make-espresso/",
+    "supporting_sources": [],
+    "keywords": ["شلون اسوي اسبرسو", "كيف احضر اسبريسو", "how to make espresso", "espresso step by step"],
+    "priority": 90
+  },
+  {
+    "id": "espresso-dose-grind",
+    "course_group": "brewing",
+    "title_ar": "جرعة الإسبريسو والطحن وضبط الحموضة",
+    "title_en": "Espresso dose, grind and acidity",
+    "body_ar": "• الجرعة: اتبع سعة السلة؛ إذا كانت لسعة 18 g ابدأ بـ18 g بن، واستهدف نحو 36 g مشروب بنسبة 1:2. لا تضع نفس الجرعة في كل السلال.\n• الطحن: ناعم للإسبريسو. رقم الدرجة يعتمد على موديل الطاحونة ومعايرتها؛ لا يوجد رقم واحد لكل الطواحين. راقب زمن الوصول إلى الناتج: نحو 25–30 ثانية نقطة بداية، ثم عدّل بالطعم.\n• إذا لا تريد حموضة حادة: جرّب بنًا بتحميص متوسط أو أغمق قليلًا يناسب ذوقك. إذا كان الشوت حامضًا وسريعًا، حسّن التوزيع وجرّب طحنًا أنعم قليلًا مع تثبيت الجرعة والناتج. إذا كان التدفق طبيعيًا وما زال حادًا، جرّب زيادة الناتج قليلًا وحده وقارن الطعم. الحموضة الطبيعية في بعض أنواع البن لا تختفي دائمًا بتعديل الطحن.",
+    "body_en": "• Dose: follow the basket capacity. For an 18 g basket, start with 18 g of grounds and about 36 g of beverage at 1:2. The same dose does not fit every basket.\n• Grind: fine for espresso. The dial number depends on grinder model and calibration; there is no universal setting. Observe about 25–30 seconds to reach the yield as a starting point, then adjust by taste.\n• For less sharp acidity, try a medium or slightly darker roast that suits you. If the shot is sour and fast, improve distribution and try a slightly finer grind with dose and yield fixed. If flow is normal but it remains sharp, try a slightly larger yield as the only change and compare. Natural acidity does not always disappear with a grind adjustment.",
+    "more_ar": "ما موديل طاحونتك وسعة سلتك؟ أرسل أيضًا جرعة البن وناتج المشروب والوقت إن كانت عندك تجربة، ولا تغيّر الطحن والنسبة معًا في المحاولة نفسها.",
+    "more_en": "What are your grinder model and basket capacity? Share dose, beverage yield and time if you have a test shot. Do not change grind and ratio together in the same trial.",
+    "source_title": "La Marzocco — Dialing in your grinder",
+    "source_url": "https://home.lamarzoccousa.com/how-to-dial-in-your-grinder-for-espresso/",
+    "supporting_sources": [{"title":"Barista Hustle — Espresso Compass","url":"https://www.baristahustle.com/the-espresso-compass/"}],
+    "keywords": ["جرعة الاسبريسو", "جم جرام للاسبرسو", "espresso dose and grind", "espresso without sourness"],
+    "priority": 95
+  },
+  {
+    "id": "lamarzocco-first-use",
+    "course_group": "equipment",
+    "title_ar": "بدء استخدام ماكينة لامارزوكو",
+    "title_en": "Getting started with La Marzocco",
+    "body_ar": "تقدر تبدأ بتحضير الإسبريسو، لكن نحتاج اسم موديل لامارزوكو لتحديد الأزرار والإعدادات: هل هي Linea Mini أو Linea Micra أو GS3 أو موديل آخر؟\nإلى أن تحدده: جهّز الماء والسلة والتسخين وفق دليل الموديل، ثم زن البن ووزّعه واكبسه، وضع ميزانًا تحت الكوب وتابع وزن الناتج. مثال لسلة مناسبة: 18 g بن إلى 36 g مشروب كنقطة بداية.\nلا أفترض أن طريقة تشغيل البخار أو ضبط الحرارة أو الترطيب المسبق متطابقة بين الموديلات. رابط الشركة أدناه يجمع أدلة التشغيل؛ اختر موديلك وإصداره.",
+    "body_en": "You can start with espresso, but I need the La Marzocco model to identify its controls: Linea Mini, Linea Micra, GS3 or another model?\nMeanwhile, prepare water, basket and warm-up according to that model’s manual. Weigh, distribute and tamp the grounds, then use a scale under the cup to follow beverage yield. For a suitable basket, 18 g in and 36 g out is a starting example.\nSteam controls, temperature settings and preinfusion differ between models. The manufacturer link below collects operating manuals; select your model and revision.",
+    "more_ar": "اكتب اسم الموديل الكامل، ثم حدّد المطلوب: أول كوب، ضبط الطحن، تبخير الحليب أو التنظيف. إذا كان سؤالك عن الطحن، اذكر موديل الطاحونة أيضًا.",
+    "more_en": "Give the full model name and choose what you need: a first shot, dialing in, steaming milk or cleaning. For grind settings, include the grinder model too.",
+    "source_title": "La Marzocco — Operating manuals",
+    "source_url": "https://home.lamarzoccousa.com/maintenance-service/",
+    "supporting_sources": [{"title":"La Marzocco — How to make espresso","url":"https://home.lamarzoccousa.com/how-to-make-espresso/"}],
+    "keywords": ["استخدام لامارزوكو", "لامرزوكو شلون استخدمها", "how to use la marzocco"],
+    "priority": 95
+  },
+  {
+    "id": "equipment-use-help",
+    "course_group": "equipment",
+    "title_ar": "استخدام معدّتك",
+    "title_en": "Using your equipment",
+    "body_ar": "أقدر أساعدك بخطوات الاستخدام. اكتب اسم الشركة والموديل الكامل وما تريد عمله: تحضير القهوة، ضبط الطحن، البخار أو التنظيف. نوع الماكينة أو الطاحونة وحده لا يكفي لتحديد أزرارها أو درجة الطحن. راجع دليل الموديل قبل أول تشغيل؛ وبعدها نضبط وصفة الكوب بالجرعة والناتج والوقت.",
+    "body_en": "I can help with using your equipment. Give the brand, full model name and goal: brewing, grind adjustment, steaming or cleaning. Machine or grinder type alone does not identify its controls or grind setting. Check the model manual before first use; then we can adjust your cup using dose, yield and time.",
+    "more_ar": "مثال للسؤال: عندي ماكينة إسبريسو، اسم الموديل … والطاحونة … وأريد تحضير أول كوب. إذا كانت عندك مشكلة، اذكر ما يحدث عند التشغيل.",
+    "more_en": "For example: my espresso machine model is …, my grinder is …, and I want to make my first cup. If there is a problem, describe what happens when you operate it.",
+    "source_title": "La Marzocco — Brewing basics",
+    "source_url": "https://home.lamarzoccousa.com/how-to-make-espresso/",
+    "supporting_sources": [],
+    "keywords": ["شلون استخدم المكينه", "كيف استخدم الطاحونه", "how to use my coffee machine"],
+    "priority": 80
+  }
+]
