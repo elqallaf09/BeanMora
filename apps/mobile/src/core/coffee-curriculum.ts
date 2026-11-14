@@ -1,3 +1,4 @@
+import practicalContent from './coffee-practical-content.json';
 /** Editorial lessons. Moka safety reviewed 2026-10-14. Model settings belong to their manuals. */
 export type CoffeeCourseGroup = 'beans' | 'grinding' | 'water' | 'equipment' | 'brewing' | 'roasting' | 'sensory';
 export interface CoffeeLesson {
@@ -6,6 +7,14 @@ export interface CoffeeLesson {
   supportingSources?: { title: string; url: string }[];
 }
 export const COFFEE_CURRICULUM: CoffeeLesson[] = [
+  ...practicalContent.map(row => ({
+    id: row.id, group: row.course_group as CoffeeCourseGroup,
+    titles: [row.title_ar, row.title_en] as [string, string],
+    keywords: new RegExp(row.keywords.map(word => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'iu'),
+    priority: row.priority, ar: row.body_ar, en: row.body_en,
+    more: [row.more_ar, row.more_en] as [string, string],
+    title: row.source_title, url: row.source_url, supportingSources: row.supporting_sources,
+  })),
   {
     id: 'processing-comparison', group: 'beans', titles: ['المجففة واللاهوائية والتقشير الرطب', 'Natural, anaerobic natural and wet-hulled'], priority: 85,
     keywords: /مجفف|لا\s?هوا[ئي]|تقشير(?:\s+ال)?\s*رطب|التقشير الرطب|مقشور.*رطب|anaerobic|wet[ -]hull|giling basah|\bnatural(?:ly)?(?:[ -](?:process(?:ed|ing)?|dried|coffee))?\b|dry[ -]process/,

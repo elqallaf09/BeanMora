@@ -94,6 +94,12 @@ for (const ar of [true, false]) test(`${ar ? 'Arabic' : 'English'}: bio uses the
   await page.getByLabel(ar ? 'كلمة المرور' : 'Password', { exact: true }).fill('fixture_password');
   await page.getByRole('button', { name: ar ? 'تسجيل الدخول' : 'Sign in', exact: true }).click();
   await expect(page.getByTestId('profile-country-flag')).toContainText('🇯🇵');
+  const editButton = page.getByRole('button', { name: ar ? 'تعديل الملف' : 'Edit profile', exact: true });
+  const editBounds = await editButton.boundingBox();
+  expect(editBounds!.height).toBeGreaterThanOrEqual(44);
+  expect(editBounds!.height).toBeLessThanOrEqual(52);
+  expect(editBounds!.width).toBeLessThanOrEqual(176);
+  await page.screenshot({ path: info.outputPath(`profile-edit-compact-${ar ? 'ar' : 'en'}.png`), animations: 'disabled' });
   await expect(page.getByRole('button', { name: ar ? 'أضف نبذة عنك' : 'Add a bio', exact: true })).toHaveCount(0);
   const sections = page.getByTestId('profile-sections');
   await expect(sections.getByRole('button')).toHaveCount(7);

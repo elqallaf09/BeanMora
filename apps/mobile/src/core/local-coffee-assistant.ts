@@ -1,8 +1,9 @@
-import { assistantRecipeServingStyle, assistantReply, assistantSafeUrl, assistantSearchTerms, assistantTermLabel, hasEquipmentIntent, hasRecipeIntent, parseAssistantQuery, rankAssistantDocuments, type AssistantDocument, type AssistantMatch, type AssistantQuery, type CatalogRate } from './coffee-assistant';
+import { assistantRecipeServingStyle, assistantReply, assistantSafeUrl, assistantSearchTerms, assistantTermLabel, hasEquipmentIntent, hasRecipeIntent, isCoffeeRecommendationRequest, parseAssistantQuery, rankAssistantDocuments, type AssistantDocument, type AssistantMatch, type AssistantQuery, type CatalogRate } from './coffee-assistant';
 import { factLabels } from './equipment-facts';
 import { normalizeSearch } from './deepSearch';
 import { coffeeKnowledgeAnswer, coffeeLearningTopics, coffeeLessonById } from './coffee-knowledge';
 import type { CoffeeLessonContent } from './coffee-lesson-content';
+import { practicalCoffeeLesson } from './coffee-practical-guidance';
 import { ESPRESSO_CONTROLS_TOPIC, espressoControlAdvice, isEspressoControlFollowUp, isEspressoControlRequest } from './espresso-control-advice';
 
 /** A bounded coffee expert system, not a generative model. No provider, keys or training uploads. */
@@ -394,7 +395,14 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
   // and dialect phrases must work without being bundled in the application.
   const canReadLessons = !shopping && !selection.explicit && !(compare && references.length);
   const content = canReadLessons ? await dependencies.loadLessons?.() : undefined;
-  const lessonRequest = /^(?:اشرح|وضح|ليش|لماذا|ما هو|ما هي|شنو|شو|explain|what|why|how)(?:\s|$)/.test(q) || coffeeLearningTopics(locale, content).some(topic => norm(topic.title) === q.replace(/[؟?!.,،]/g,'').trim());
+  const practicalId = canReadLessons ? practicalCoffeeLesson(question, method, previous?.knowledgeTopic) : null;
+  const practical = practicalId ? coffeeLessonById(practicalId, locale, content) : null;
+  if (practical) return reply([practical.title, practical.answer].join('\n\n'), {
+    intent: 'guide', knowledgeTopic: practicalId!, sources: practical.sources, followUp: practical.more,
+    query: { ...query, methods: practicalId === 'equipment-use-help' ? query.methods : ['espresso'], terms: [] },
+    suggestions: [L('اشرح أكثر', 'Tell me more')],
+  });
+  const lessonRequest = /^(?:اشرح|وضح|ليش|لماذا|ما هو|ما هي|شنو|شو|شلون|كيف|explain|what|why|how)(?:\s|$)/.test(q) || coffeeLearningTopics(locale, content).some(topic => norm(topic.title) === q.replace(/[؟?!.,،]/g,'').trim());
   const knowledge = canReadLessons && (!hasRecipeIntent(q) || lessonRequest) ? coffeeKnowledgeAnswer(question, locale, previous?.knowledgeTopic, L, content) : null;
   if (!shopping && ((compare && (references.length > 0 || !knowledge)) || selection.explicit || (explain && references.length && !knowledge))) {
     const chosen = selection.explicit ? selection.matches : compare ? references.slice(0, 3) : references.length === 1 ? references : [];
@@ -437,11 +445,12 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
     else if (signal === 'weak') advice = L('الخفة وحدها لا تحدد اتجاه الطحن. اذكر جرعة البن ووزن الماء أو ناتج الإسبريسو لنراجع النسبة.', 'Weakness alone does not tell us which way to move the grind. Give the dose and water weight or espresso yield so we can review the ratio.');
     else if (method === 'espresso') {
       const flow = signal === 'fast' ? (L('إذا كان الشوت أسرع من وصفتك المعتادة، جرّب طحنًا أنعم قليلًا بعد مراجعة تجانس التوزيع.', 'If the shot is faster than your usual recipe, try a slightly finer grind after checking even distribution.')) : signal === 'slow' ? (L('إذا كان الشوت أبطأ من وصفتك المعتادة، جرّب طحنًا أخشن قليلًا وراجع نظافة السلة وتجانس التوزيع.', 'If the shot is slower than your usual recipe, try a slightly coarser grind and check basket cleanliness and even distribution.')) : '';
-      advice = flow + (flow ? '\n' : '') + (L('ثبّت الجرعة والناتج وطريقة حساب الوقت، ثم عدّل عاملًا واحدًا وقارن الطعم. لا أقدر أحدد رقم طاحونة من الطعم وحده؛ لا توجد مدة واحدة مناسبة لكل البن والأجهزة.', 'Keep dose, yield and the timing convention fixed, then change one variable and compare taste. Taste alone cannot determine a grinder setting; no single duration suits every coffee and machine.'));
+      const tasteAdvice = signal === 'sour' ? coffeeLessonById('espresso-dose-grind', locale, content)?.answer : '';
+      advice = [flow, tasteAdvice, L('ثبّت الجرعة والناتج وطريقة حساب الوقت، ثم عدّل عاملًا واحدًا وقارن الطعم. لا أقدر أحدد رقم طاحونة من الطعم وحده؛ لا توجد مدة واحدة مناسبة لكل البن والأجهزة.', 'Keep dose, yield and the timing convention fixed, then change one variable and compare taste. Taste alone cannot determine a grinder setting; no single duration suits every coffee and machine.')].filter(Boolean).join('\n\n');
     }
     else advice = signal === 'sour' || signal === 'fast' ? (L('جرّب طحنًا أنعم قليلًا مع تثبيت بقية الوصفة، ثم قارن الطعم. الحموضة وحدها لا تثبت نقص الاستخلاص.', 'Try a slightly finer grind while keeping the rest of the recipe fixed, then compare taste. Sourness alone does not prove under-extraction.')) : (L('جرّب طحنًا أخشن قليلًا مع تثبيت بقية الوصفة، ثم قارن الطعم. تأكد أيضًا من نظافة الفلتر وانتظام الصب.', 'Try a slightly coarser grind while keeping the rest of the recipe fixed, then compare taste. Also check the filter and even pouring.'));
     if (positive(coach.dose) && positive(coach.output)) advice = `${L('حسب الأوزان التي ذكرتها، النسبة', 'From the weights you provided, the ratio is')} 1:${number(coach.output / coach.dose)}${positive(coach.seconds) ? ` · ${number(coach.seconds)} s` : ''}.\n${advice}`;
-    return reply(advice, { intent: 'coach', coach, followUp: L('اكتب الأوزان بهذا الشكل: جرعة 18، الناتج 36، الوقت 30 ثانية؛ هذه أمثلة لطريقة الإدخال وليست وصفة.', 'Label measurements, for example: dose 18, yield 36, 30 seconds. These are input examples, not a recipe.'), sources: [{ title: 'Barista Hustle — ' + (method === 'espresso' ? 'Espresso Compass' : 'Coffee Compass'), url: method === 'espresso' ? 'https://www.baristahustle.com/the-espresso-compass/' : 'https://www.baristahustle.com/coffee-compass/' }, ...(method === 'espresso' && ['fast', 'slow'].includes(signal) ? [{ title: 'Flair — Dialing in espresso', url: 'https://flairespresso.com/blogs/news/dialing-in-flair-58-plus-manual-espresso-maker' }] : [])] });
+    return reply(advice, { intent: 'coach', coach, followUp: L('اكتب الأوزان بهذا الشكل: جرعة 18، الناتج 36، الوقت 30 ثانية؛ هذه أمثلة لطريقة الإدخال وليست وصفة.', 'Label measurements, for example: dose 18, yield 36, 30 seconds. These are input examples, not a recipe.'), sources: [...(method === 'espresso' && signal === 'sour' ? coffeeLessonById('espresso-dose-grind', locale, content)?.sources ?? [] : []), { title: 'Barista Hustle — ' + (method === 'espresso' ? 'Espresso Compass' : 'Coffee Compass'), url: method === 'espresso' ? 'https://www.baristahustle.com/the-espresso-compass/' : 'https://www.baristahustle.com/coffee-compass/' }, ...(method === 'espresso' && ['fast', 'slow'].includes(signal) ? [{ title: 'Flair — Dialing in espresso', url: 'https://flairespresso.com/blogs/news/dialing-in-flair-58-plus-manual-espresso-maker' }] : [])].filter((source, index, sources) => sources.findIndex(other => other.url === source.url) === index) });
   }
   // Symptoms and labeled follow-up measurements take precedence over broad
   // lesson keywords such as "water" and "grind". Catalog references stay first.
@@ -451,6 +460,9 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
     if (guide) return reply([L(guide.title_ar, guide.title), L(guide.intro_ar, guide.intro), ...guide.tips.map((t, i) => '• ' + L(guide.tips_ar[i] ?? t, t))].join('\n'), { intent: 'guide', sources: [{ title: guide.source_name, url: guide.source }], suggestions: [L(`أبي وصفة ${methods[0]}`, `Find a ${methods[0]} recipe`)] });
   }
   if (/^(?:هلا|مرحبا|السلام عليكم|hello|hi|شكرا|مشكور|thanks|thank you)[! .؟?]*$/.test(q) || /شنو تقدر|شقاعد تسوي|what can you|help|مساعده/.test(q)) return reply(L('أنا خبير القهوة. أشرح البن والماء والطحن والمكاين والأدوات والتحميص والتذوق، وأحسب النسب وأقارن مواصفات الكتالوغ. اكتب سؤالك أو الموضوع الذي تريد تعلّمه.', 'I am your coffee expert. I explain beans, water, grinding, machines, tools, roasting and tasting, calculate ratios and compare catalog specifications. Ask your question or name a topic you want to learn.'), { suggestions: [L('علمني القهوة من الألف إلى الياء', 'Teach me coffee from A to Z'), L('احسب 18 غرام بنسبة 1:16', 'Calculate 18 g at 1:16'), L('قهوتي V60 حامضة', 'My V60 tastes sour')] });
+  if (!shopping && query.kind !== 'equipment' && !hasRecipeIntent(q) && !isCoffeeRecommendationRequest(q) && lessonRequest) return reply(
+    L('ما عندي شرح موثّق لهذا السؤال بعد. حدّد موضوع القهوة أو اسم الموديل وما تريد عمله، وأقدر أساعدك بما هو متوفر أو أوضح المعلومة الناقصة.', 'I do not have a verified explanation for this question yet. Specify the coffee topic or model and what you want to do; I can help with the available guidance or identify what is missing.'),
+    { suggestions: [L('شلون أسوي إسبريسو؟', 'How do I make espresso?'), L('علمني القهوة من الألف إلى الياء', 'Teach me coffee from A to Z')] });
   if (query.clarification) return reply(assistantReply(query, [], locale, L, dependencies.translateValue), { intent: 'search', suggestions: query.clarification === 'currency' ? ['USD', 'KWD', 'SAR'] : [] });
   const searched = await dependencies.search(query);
   const now = dependencies.now ?? Date.now();
