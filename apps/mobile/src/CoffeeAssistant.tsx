@@ -9,6 +9,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Linking, ScrollView, View } from "./native";
 import { Action, Field, Language, Txt, colors, styles } from "./ui";
 import { publicSupabase } from "./client";
+import { loadCoffeeLessonContent } from './coffeeLessonContent';
 import {
   assistantRecipeServingStyle,
   assistantSafeUrl,
@@ -84,6 +85,7 @@ export function CoffeeAssistant({
         translate: trace.label,
         translateValue: trace.value,
         guides: methodGuides,
+        loadLessons: () => loadCoffeeLessonContent(controller.signal),
         search: async (query) => {
           if (!publicSupabase) throw new Error("CATALOG_UNAVAILABLE");
           const [result, exchange] = await Promise.all([
