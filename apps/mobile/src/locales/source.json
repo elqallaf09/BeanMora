@@ -184,6 +184,27 @@
     ]
   },
   {
+    "en": "Compare three cups using the same recipe and water, with similar roast levels. Record aroma, perceived sweetness, acidity and body as they cool. Read the bag details: anaerobic alone does not mean added fruit or flavoring. All these processes include drying; natural specifically means drying the whole cherry. If origin or variety differs between samples, do not attribute every difference to processing.",
+    "ar": "قارن ثلاثة أكواب بالوصفة والماء نفسيهما وبدرجات تحميص متقاربة. سجّل الرائحة والحلاوة المدركة والحموضة والقوام بعد أن تبرد قليلًا. اقرأ تفاصيل المعالجة على الكيس؛ اسم «لاهوائية» وحده لا يعني إضافة فواكه أو منكهات. جميع هذه الطرق تشمل التجفيف، وكلمة «مجففة» هنا تعني تجفيف الثمرة كاملة. إذا اختلف المنشأ أو الصنف بين العينات، فلا تنسب كل فرق إلى المعالجة.",
+    "files": [
+      "src/core/coffee-curriculum.ts"
+    ]
+  },
+  {
+    "en": "Natural, anaerobic natural and wet-hulled",
+    "ar": "المجففة واللاهوائية والتقشير الرطب",
+    "files": [
+      "src/core/coffee-curriculum.ts"
+    ]
+  },
+  {
+    "en": "Processing prepares coffee seeds after harvest and before roasting.\n\n• Natural: the whole cherry dries around the seeds, then the dried fruit is removed. Perceived sweetness, fruity notes and a full body may stand out.\n• Anaerobic natural: cherries usually ferment in a closed, low-oxygen vessel before drying whole and being hulled. Fruit or fermentation notes may be more pronounced, but the outcome depends on the process.\n• Wet-hulled (Giling Basah): skin and pulp are removed and the seeds are partially dried; parchment is then removed while they are still moist, before final drying. Common in Indonesia, it may bring a heavy body with herbal, earthy or chocolate notes.\n\nWet-hulled is not washed processing: washed coffee keeps its parchment during drying and is hulled afterward. Anaerobic describes the fermentation environment and can accompany other processes. These are tendencies, not guarantees of flavor or quality; variety, roasting and brewing matter too.",
+    "ar": "المعالجة هي تجهيز بذور القهوة بعد قطف الثمار وقبل التحميص.\n\n• المجففة (Natural): تجف الثمرة كاملة حول البذور، ثم تزال الأجزاء الجافة. قد تبرز الحلاوة المدركة والنكهات الفاكهية وقوام ممتلئ.\n• المجففة اللاهوائية (Anaerobic Natural): تمر الثمار عادة بتخمير في وعاء مغلق قليل الأكسجين، ثم تجف كاملة وتزال قشرتها. قد تظهر نكهات فاكهية أو تخمرية أوضح، لكن النتيجة تختلف حسب التنفيذ.\n• التقشير الرطب (Wet-hulled / Giling Basah): تزال القشرة الخارجية واللب، وتجف البذور جزئيًا؛ ثم تزال القشرة الرقّية وهي ما زالت رطبة، ويكتمل التجفيف بعدها. تشتهر به إندونيسيا، وقد يعطي قوامًا ثقيلًا وإيحاءات عشبية أو ترابية أو شوكولاتة.\n\nالتقشير الرطب ليس المعالجة المغسولة؛ في المغسولة تبقى القشرة الرقّية أثناء التجفيف وتزال بعده. «لاهوائية» تصف بيئة التخمير، ويمكن جمعها مع معالجات أخرى. هذه صفات شائعة وليست ضمانًا للطعم أو الجودة؛ الصنف والتحميص والتحضير تؤثر أيضًا.",
+    "files": [
+      "src/core/coffee-curriculum.ts"
+    ]
+  },
+  {
     "en": "· Scale:",
     "ar": "· الميزان:",
     "files": [

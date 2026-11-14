@@ -3,6 +3,7 @@ import {
   converseLocally,
   type LocalAssistantDependencies,
 } from "./local-coffee-assistant";
+import { coffeeLessonById } from './coffee-knowledge';
 const offline: LocalAssistantDependencies = {
   search: async () => {
     throw new Error("Unexpected catalog request");
@@ -43,4 +44,34 @@ it("keeps educational follow-ups, calculation units and shopping separate", asyn
     },
   });
   expect(searched).toBe(true);
+});
+it.each([
+  ['شو الفرق بالمعالجة في القهوه\nمجففة لاهوائية\nتقشير رطب\nمجففة؟', 'ar'],
+  ['شنو تقشير رطب؟', 'ar'],
+  ['التقشير الرطب والمغسول نفس الشي؟', 'ar'],
+  ['شنو يعني لاهوائية؟', 'ar'],
+  ['معالجة لا هوائية', 'ar'],
+  ['شنو يعني مجففة؟', 'ar'],
+  ['Natural vs anaerobic natural vs wet-hulled coffee', 'en'],
+  ['What is wet hulled coffee?', 'en'],
+  ['Giling Basah', 'en'],
+  ['Dry-processed coffee', 'en'],
+] as const)('routes processing labels to the comparison lesson offline: %s', async (question, locale) => {
+  const turn = await converseLocally(question, locale, [], offline);
+  expect(turn.knowledgeTopic).toBe('processing-comparison');
+  expect(turn.answer).toContain(locale === 'ar' ? 'التقشير الرطب ليس المعالجة المغسولة' : 'Wet-hulled is not washed processing');
+  expect(turn.sources).toHaveLength(3);
+  const followUp = await converseLocally(locale === 'ar' ? 'اشرح أكثر' : 'Tell me more', locale, [turn], offline);
+  expect(followUp.answer).toBe(coffeeLessonById('processing-comparison', locale)!.more);
+});
+it('keeps an anaerobic coffee shopping request in catalog search', async () => {
+  let searched = false;
+  const turn = await converseLocally('أبي بن مجفف لاهوائي', 'ar', [], {
+    search: async () => {
+      searched = true;
+      return { documents: [], rates: [] };
+    },
+  });
+  expect(searched).toBe(true);
+  expect(turn.knowledgeTopic).toBeUndefined();
 });
