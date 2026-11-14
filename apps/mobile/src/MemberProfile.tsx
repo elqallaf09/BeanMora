@@ -428,7 +428,7 @@ export function MemberProfile({
     <View style={{ gap: 16 }} testID="member-profile">
       <View testID="profile-identity" style={{ gap: 8 }}>
         <ProfileCover compact={!wide} />
-        <View style={{ paddingHorizontal: wide ? 20 : 10, gap: 8 }}>
+        <View style={{ paddingHorizontal: wide ? 20 : 10, gap: 12 }}>
           <View
             style={{
               marginTop: wide ? -52 : -32,
@@ -475,37 +475,52 @@ export function MemberProfile({
               </View>
             )}
             <View
+              testID="profile-header-actions"
               style={{
-                maxWidth: wide ? 280 : "64%",
-                paddingBottom: 6,
+                maxWidth: "60%",
+                // A bounded row is required by native Yoga: an unbounded
+                // flex child can otherwise grow to the avatar's height.
+                height: 44,
+                marginBottom: 6,
+                flexGrow: 0,
+                flexShrink: 0,
                 flexDirection: ar ? "row-reverse" : "row",
                 alignItems: "center",
-                gap: 8,
               }}
             >
-              {own && userId ? (
-                <ViewInsights
-                  kind="profile"
-                  owner={userId}
-                  target={p.id}
-                  openMember={openMember}
-                />
-              ) : null}
               {own ? (
-                <PillButton
-                  title={L("تعديل الملف", "Edit profile")}
-                  icon="edit"
-                  compact
-                  snug
-                  selected={editing}
-                  accessibilityState={{ expanded: editing }}
-                  style={{ alignSelf: 'center', flexShrink: 1, maxWidth: 176 }}
+                <Pressable
+                  testID="profile-edit-action"
+                  accessibilityRole="button"
+                  accessibilityLabel={L("تعديل الملف", "Edit profile")}
+                  accessibilityState={{ expanded: editing, disabled: busy }}
+                  style={({ pressed }) => ({
+                    height: 44,
+                    minHeight: 44,
+                    maxHeight: 44,
+                    maxWidth: 176,
+                    flexGrow: 0,
+                    flexShrink: 1,
+                    flexDirection: ar ? "row-reverse" : "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    paddingHorizontal: 14,
+                    gap: 8,
+                    borderRadius: 12,
+                    backgroundColor: colors.teal,
+                    opacity: busy ? 0.45 : pressed ? 0.8 : 1,
+                  })}
                   disabled={busy}
                   onPress={() => {
                     setEditing((v) => !v);
                     setNotice("");
                   }}
-                />
+                >
+                  <Icon name="edit" size={16} color="#FFFFFF" />
+                  <Txt numberOfLines={1} style={{ color: "#FFFFFF", fontSize: 13, lineHeight: 20, fontWeight: "600", flexShrink: 1 }}>
+                    {L("تعديل الملف", "Edit profile")}
+                  </Txt>
+                </Pressable>
               ) : (
                 <ProfileAction
                   selected
@@ -550,7 +565,7 @@ export function MemberProfile({
           ) : null}
           <View
             style={{
-              gap: 2,
+              gap: 4,
               minWidth: 0,
               marginTop: wide ? -58 : 0,
               ...(wide
@@ -657,11 +672,15 @@ export function MemberProfile({
             </View>
           </View>
           <View
+            testID="profile-social-summary"
             style={{
               flexDirection: ar ? "row-reverse" : "row",
-              gap: 14,
+              gap: 8,
               alignItems: "center",
               flexWrap: "wrap",
+              borderTopWidth: 1,
+              borderColor: colors.line,
+              paddingTop: 4,
             }}
           >
             <ProfileCount
@@ -678,6 +697,15 @@ export function MemberProfile({
               onPress={() => selectSection("following")}
               disabled={data.can_view_following === false}
             />
+            {own && userId ? (
+              <ViewInsights
+                kind="profile"
+                owner={userId}
+                target={p.id}
+                openMember={openMember}
+                buttonStyle={ar ? { marginRight: "auto" } : { marginLeft: "auto" }}
+              />
+            ) : null}
           </View>
         </View>
       </View>
@@ -1343,24 +1371,30 @@ function ProfileCount({
   disabled?: boolean;
 }) {
   const L = useLabels();
+  const ar = useContext(Language) === "ar";
+  const privateList = count === null;
+  const title = privateList ? label + " · " + L("خاص", "Private", "非公開") : `${count} ${label}`;
   return (
-    <PillButton
-      title={
-        count === null ? label + " · " + L("خاص", "Private", "非公開") : label
-      }
-      icon={count === null ? "lock" : undefined}
-      count={count ?? undefined}
-      leadingCount
-      compact
-      disabled={disabled || count === null}
-      selected={selected}
-      accessibilityLabel={
-        count === null
-          ? label + " · " + L("خاص", "Private", "非公開")
-          : `${count} ${label}`
-      }
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={title}
+      accessibilityState={{ disabled: disabled || privateList, selected }}
+      disabled={disabled || privateList}
       onPress={onPress}
-    />
+      style={({ pressed }) => ({
+        minHeight: 44,
+        flexDirection: ar ? "row-reverse" : "row",
+        alignItems: "center",
+        gap: 5,
+        paddingHorizontal: 4,
+        borderBottomWidth: 2,
+        borderColor: selected ? colors.teal : "transparent",
+        opacity: pressed ? 0.6 : 1,
+      })}
+    >
+      {privateList ? <Icon name="lock" size={14} color={colors.muted} /> : <Txt style={{ fontSize: 17, lineHeight: 24, fontWeight: "700", writingDirection: "ltr" }}>{count}</Txt>}
+      <Txt style={{ fontSize: 13, lineHeight: 20, color: colors.muted }}>{privateList ? label + " · " + L("خاص", "Private", "非公開") : label}</Txt>
+    </Pressable>
   );
 }
 function CollectionCard({

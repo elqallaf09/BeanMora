@@ -245,7 +245,7 @@ export function ViewInsights({
           {
             minHeight: 44,
             minWidth: 44,
-            flexDirection: "row",
+            flexDirection: ar ? "row-reverse" : "row",
             alignItems: "center",
             justifyContent: "center",
             gap: 6,
@@ -255,10 +255,13 @@ export function ViewInsights({
         ]}
       >
         <Icon
-          name={kind === "profile" ? "eyes" : "eye"}
-          size={24}
+          name="eye"
+          size={kind === "profile" ? 16 : 24}
           color={kind === "story" ? "#FFFFFF" : colors.teal}
         />
+        {kind === "profile" ? (
+          <Txt numberOfLines={1} style={{ fontSize: 12, lineHeight: 18, color: colors.teal }}>{title}</Txt>
+        ) : null}
         {kind === "story" ? (
           <Txt style={{ color: "#FFFFFF" }}>{result ? result.count : "…"}</Txt>
         ) : null}
