@@ -400,7 +400,7 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
 
   const negated = q.replace(/(?:مو|مش|ليس|بدون|not|isnt|isn't)\s+(?:حامض|حامضه|مر|مره|sour|bitter)/g, '');
   const sour = /حامض|حموضه (?:قويه|زايده)|\bsour\b/.test(negated);
-  const bitter = /مراره|جفاف|\bbitter\b|\bdry\b/.test(negated) || has(negated, 'مر') || has(negated, 'مره');
+  const bitter = /مراره|جفاف|\bbitter\b|\bdry\b(?![ -]process)/.test(negated) || has(negated, 'مر') || has(negated, 'مره');
   const weak = /خفيفه|مائي|ضعيف|\bweak\b|\bwatery\b/.test(negated);
   const measurements = {
     dose: coachingMass(q, 'الجرعه|جرعه|جرعتي|dose'),
