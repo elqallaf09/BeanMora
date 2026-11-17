@@ -3,6 +3,7 @@ import { searchAssistantCatalog } from '../_shared/assistant-catalog.ts';
 import type { AssistantDocument } from '../_shared/coffee-assistant.ts';
 import { converse, parseConversationInput } from './service.ts';
 import { openAIModel } from './model.ts';
+import { coffeeAssistantConfig } from './config.ts';
 
 const cors = {
   'Access-Control-Allow-Origin': '*',
@@ -30,10 +31,12 @@ async function boundedJson(request: Request) {
 }
 Deno.serve(async request => {
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
-  if (request.method === 'GET') return reply({ status: 'ok', conversation_enabled: Boolean(Deno.env.get('OPENAI_API_KEY') && Deno.env.get('COFFEE_ASSISTANT_ENABLED') === 'true'), authentication_required: true });
-  if (request.method !== 'POST') return reply({ error: 'METHOD_NOT_ALLOWED' }, 405);
+  const config = coffeeAssistantConfig(name => Deno.env.get(name));
+  const availability = (allowed: boolean) => reply({ status: 'ok', api_contract: 1, conversation_enabled: config.enabled && allowed, authentication_required: true });
+  if (request.method === 'GET' && (!config.enabled || !config.pilotUserIds)) return availability(true);
+  if (request.method !== 'POST' && request.method !== 'GET') return reply({ error: 'METHOD_NOT_ALLOWED' }, 405);
   const authorization = request.headers.get('authorization') ?? '';
-  if (!/^Bearer \S+$/i.test(authorization)) return reply({ error: 'SIGN_IN_REQUIRED' }, 401);
+  if (!/^Bearer \S+$/i.test(authorization)) return request.method === 'GET' ? availability(false) : reply({ error: 'SIGN_IN_REQUIRED' }, 401);
   const url = Deno.env.get('SUPABASE_URL') ?? '';
   const anonKey = Deno.env.get('SUPABASE_ANON_KEY') ?? '';
   if (!url || !anonKey) return reply({ error: 'SERVICE_UNAVAILABLE' }, 503);
@@ -41,23 +44,47 @@ Deno.serve(async request => {
   // verify_jwt may be disabled at the gateway for asymmetric Auth keys;
   // this server-side check is mandatory and never trusts a client user ID.
   const { data: { user }, error } = await member.auth.getUser(authorization.slice(7));
-  if (error || !user || user.is_anonymous) return reply({ error: 'SIGN_IN_REQUIRED' }, 401);
+  if (error || !user || user.is_anonymous) return request.method === 'GET' ? availability(false) : reply({ error: 'SIGN_IN_REQUIRED' }, 401);
+  const allowed = !config.pilotUserIds || config.pilotUserIds.includes(user.id);
+  if (request.method === 'GET') return availability(allowed);
+  if (!allowed) return reply({ error: 'AI_PILOT_ONLY' }, 403);
   let input;
   try { input = parseConversationInput(await boundedJson(request)); }
   catch { return reply({ error: 'INVALID_INPUT' }, 400); }
-  const apiKey = Deno.env.get('OPENAI_API_KEY');
   const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
-  if (!apiKey || Deno.env.get('COFFEE_ASSISTANT_ENABLED') !== 'true') return reply({ mode: 'catalog', notice: 'not_configured' });
+  if (!config.enabled || !config.apiKey || !config.model) return reply({ mode: 'catalog', notice: 'not_configured' });
   if (!serviceKey) return reply({ error: 'SERVICE_UNAVAILABLE' }, 503);
   const admin = createClient(url, serviceKey, { auth: { persistSession: false, autoRefreshToken: false } });
+  // Verify metering before incurring provider charges (including first rollout).
+  const { error: ledgerError } = await admin.from('coffee_assistant_api_usage').select('id').limit(1).abortSignal(AbortSignal.timeout(3000));
+  if (ledgerError) return reply({ error: 'SERVICE_UNAVAILABLE' }, 503);
   const { data: permitted, error: quotaError } = await admin.rpc('consume_coffee_assistant_quota', { p_user_id: user.id });
   if (quotaError) return reply({ error: 'SERVICE_UNAVAILABLE' }, 503);
   if (!permitted) return reply({ error: 'RATE_LIMIT' }, 429);
   // Catalog retrieval always uses the anonymous public projection, even for members.
   const catalog = createClient(url, anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
+  const requestId = crypto.randomUUID();
   try {
     const result = await converse(input, {
-      model: openAIModel(apiKey, Deno.env.get('COFFEE_ASSISTANT_MODEL') || 'gpt-4.1-mini'),
+      model: openAIModel(config.apiKey, config.model, fetch, {
+        organizationId: config.organizationId, projectId: config.projectId, reasoningEffort: config.reasoningEffort,
+        onStart: async usage => {
+          const { error: startError } = await admin.from('coffee_assistant_api_usage')
+            .insert({ request_id: requestId, feature: 'coffee_expert', ...usage })
+            .abortSignal(AbortSignal.timeout(3000));
+          if (startError) throw new Error('METERING_UNAVAILABLE');
+        },
+        onUsage: async usage => {
+          const { error: usageError } = await admin.from('coffee_assistant_api_usage')
+            .update(usage).eq('request_id', requestId).eq('operation', usage.operation).select('id').single()
+            .abortSignal(AbortSignal.timeout(3000));
+          if (usageError) {
+            // Reconciliation aid only. This contains no question, answer, key or user ID.
+            console.error(JSON.stringify({ event: 'coffee_assistant_usage_write_failed', request_id: requestId, ...usage }));
+            throw new Error('METERING_UNAVAILABLE');
+          }
+        },
+      }),
       search: query => searchAssistantCatalog(catalog, query, AbortSignal.timeout(5000)),
       references: async ids => {
         const { data, error } = await catalog.from('assistant_public_documents').select('*').in('id', ids).abortSignal(AbortSignal.timeout(5000));

@@ -3221,5 +3221,14 @@
   "Processing prepares coffee seeds after harvest and before roasting.\n\n• Natural: the whole cherry dries around the seeds, then the dried fruit is removed. Perceived sweetness, fruity notes and a full body may stand out.\n• Anaerobic natural: cherries usually ferment in a closed, low-oxygen vessel before drying whole and being hulled. Fruit or fermentation notes may be more pronounced, but the outcome depends on the process.\n• Wet-hulled (Giling Basah): skin and pulp are removed and the seeds are partially dried; parchment is then removed while they are still moist, before final drying. Common in Indonesia, it may bring a heavy body with herbal, earthy or chocolate notes.\n\nWet-hulled is not washed processing: washed coffee keeps its parchment during drying and is hulled afterward. Anaerobic describes the fermentation environment and can accompany other processes. These are tendencies, not guarantees of flavor or quality; variety, roasting and brewing matter too.": "处理法是指采收之后、烘焙之前对咖啡种子进行的加工。\n\n• 日晒：让整颗咖啡果实包裹着种子干燥，再去除干燥的果实部分。可能突出感知甜度、果香和饱满醇厚度。\n• 厌氧日晒：通常先将果实放在密闭、低氧的容器中发酵，再整果干燥并脱壳。果香或发酵风味可能更明显，但结果取决于具体工艺。\n• 湿刨（Giling Basah）：去除果皮和果肉，先部分干燥种子；趁种子仍湿润时去除羊皮纸层，然后完成最后的干燥。这在印度尼西亚很常见，可能带来厚重醇厚度，以及草本、泥土或巧克力风味。\n\n湿刨不同于水洗：水洗咖啡在干燥时保留羊皮纸层，干燥后才脱壳。厌氧描述的是发酵环境，也可结合其他处理法。这些只是常见倾向，并不保证风味或品质；品种、烘焙和冲煮也有影响。",
   "Compare three cups using the same recipe and water, with similar roast levels. Record aroma, perceived sweetness, acidity and body as they cool. Read the bag details: anaerobic alone does not mean added fruit or flavoring. All these processes include drying; natural specifically means drying the whole cherry. If origin or variety differs between samples, do not attribute every difference to processing.": "使用相同配方和水，选择烘焙程度相近的三杯咖啡进行比较。随着温度降低，记录香气、感知甜度、酸质和醇厚度。阅读包装上的处理细节：“厌氧”本身不代表添加了水果或香料。所有这些处理法都包含干燥；日晒特指整颗果实一起干燥。如果样品的产地或品种不同，不要将所有差异都归因于处理法。",
   "How do I make espresso?": "如何制作浓缩咖啡？",
-  "I do not have a verified explanation for this question yet. Specify the coffee topic or model and what you want to do; I can help with the available guidance or identify what is missing.": "我暂时没有关于这个问题的已核实说明。请说明咖啡主题或型号，以及你想做什么；我可以根据现有指南提供帮助，或指出还缺少哪些信息。"
+  "I do not have a verified explanation for this question yet. Specify the coffee topic or model and what you want to do; I can help with the available guidance or identify what is missing.": "我暂时没有关于这个问题的已核实说明。请说明咖啡主题或型号，以及你想做什么；我可以根据现有指南提供帮助，或指出还缺少哪些信息。",
+  "AI assistance is unavailable right now. You can continue using the coffee guide.": "AI 辅助目前不可用。您可以继续使用咖啡指南。",
+  "Could not connect to AI assistance. The coffee guide is available.": "无法连接 AI 辅助。咖啡指南仍可使用。",
+  "The coffee guide was used for this answer.": "此回答使用了咖啡指南。",
+  "AI assistance is temporarily unavailable; this answer comes from the coffee guide.": "AI 辅助暂时不可用；此回答来自咖啡指南。",
+  "Checking…": "正在检查…",
+  "Use the coffee guide": "使用咖啡指南",
+  "Enable AI assistance": "启用 AI 辅助",
+  "AI assists search and comparisons. Lessons and calculations use the coffee guide.": "AI 辅助搜索和比较。课程和计算使用咖啡指南。",
+  "Coffee expert · AI assisted": "咖啡专家 · AI 辅助"
 }
