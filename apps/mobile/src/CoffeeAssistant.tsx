@@ -79,9 +79,39 @@ export function CoffeeAssistant({
     },
     [],
   );
+  // When the signed-in owner's pilot is enabled on the server, try AI by
+  // default. A failed/unavailable provider always leaves the local guide usable.
+  // The availability endpoint never invokes a paid model.
+  const optedOut = useRef(false);
+  useEffect(() => {
+    if (!signedIn || optedOut.current) {
+      setAiEnabled(false);
+      return;
+    }
+    const controller = new AbortController();
+    availabilityRequest.current?.abort();
+    availabilityRequest.current = controller;
+    void (async () => {
+      try {
+        const session = (await supabase?.auth.getSession())?.data.session;
+        if (!session || session.user.is_anonymous) return;
+        const available = await coffeeAssistantAvailable({
+          url: catalogScope,
+          publicKey: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '',
+          accessToken: session.access_token,
+          signal: controller.signal,
+        });
+        if (!controller.signal.aborted && !optedOut.current) setAiEnabled(available);
+      } catch {
+        if (!controller.signal.aborted) setAiEnabled(false);
+      }
+    })();
+    return () => controller.abort();
+  }, [signedIn]);
   async function toggleAi() {
-    if (aiEnabled) { setAiEnabled(false); setAiNotice(''); return; }
+    if (aiEnabled) { optedOut.current = true; setAiEnabled(false); setAiNotice(''); return; }
     if (!signedIn || checkingAi) return;
+    optedOut.current = false;
     const controller = new AbortController();
     availabilityRequest.current = controller;
     setCheckingAi(true);
@@ -92,7 +122,7 @@ export function CoffeeAssistant({
       const available = await coffeeAssistantAvailable({ url: catalogScope, publicKey: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '', accessToken: session.access_token, signal: controller.signal });
       if (!controller.signal.aborted) {
         setAiEnabled(available);
-        if (!available) setAiNotice(i18nUi('المساعدة الذكية غير متاحة حاليًا. يمكنك متابعة استخدام دليل القهوة.', 'AI assistance is unavailable right now. You can continue using the coffee guide.'));
+        if (!available) setAiNotice(i18nUi('رصيد أو خدمة الذكاء الاصطناعي غير متاحين الآن؛ دليل القهوة شغال.', 'AI credits or service are unavailable; the coffee guide still works.'));
       }
     } catch {
       if (!controller.signal.aborted) setAiNotice(i18nUi('تعذّر الاتصال بالمساعدة الذكية. دليل القهوة متاح.', 'Could not connect to AI assistance. The coffee guide is available.'));
@@ -159,7 +189,7 @@ export function CoffeeAssistant({
           if (remote) { turn = remote; usedAi = true; setAiNotice(''); }
           else if (!controller.signal.aborted) setAiNotice(i18nUi('استخدمنا دليل القهوة لهذا الرد.', 'The coffee guide was used for this answer.'));
         } catch {
-          if (!controller.signal.aborted) setAiNotice(i18nUi('المساعدة الذكية غير متاحة مؤقتًا؛ هذا الرد من دليل القهوة.', 'AI assistance is temporarily unavailable; this answer comes from the coffee guide.'));
+          if (!controller.signal.aborted) setAiNotice(i18nUi('تعذّرت إجابة OpenAI (قد يكون الرصيد انتهى). رجعنا تلقائيًا لدليل القهوة.', 'OpenAI could not answer (credits may be exhausted). Automatically using the coffee guide.'));
         }
       }
       if (controller.signal.aborted) return;
@@ -274,7 +304,7 @@ export function CoffeeAssistant({
             </View>
               <View testID={index === turns.length - 1 ? 'assistant-latest-answer' : 'assistant-history-answer'} accessibilityLiveRegion={index === turns.length - 1 ? 'polite' : 'none'} style={[styles.card, { gap: 14 }]}>
                 <Txt style={styles.muted}>
-                  {turn.mode === 'ai' ? i18nUi('خبير القهوة · بمساعدة الذكاء الاصطناعي', 'Coffee expert · AI assisted') : ar ? "خبير القهوة" : i18nUi("خبير القهوة", "Coffee expert")}
+                  {turn.mode === 'ai' ? i18nUi('خبير القهوة · بمساعدة الذكاء الاصطناعي', 'Coffee expert · AI assisted') : i18nUi('خبير القهوة · دليل القهوة المحلي', 'Coffee expert · Local coffee guide')}
                 </Txt>
                 <AnswerText text={turn.localization ? tracedMessage(turn.localization,turn.localization.answer,locale) : systemText(locale,turn.answer)} />
                 {(expandedResults[index]
