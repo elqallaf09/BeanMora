@@ -184,10 +184,66 @@
     ]
   },
   {
+    "en": "AI assistance is temporarily unavailable; this answer comes from the coffee guide.",
+    "ar": "المساعدة الذكية غير متاحة مؤقتًا؛ هذا الرد من دليل القهوة.",
+    "files": [
+      "src/CoffeeAssistant.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "AI assistance is unavailable right now. You can continue using the coffee guide.",
+    "ar": "المساعدة الذكية غير متاحة حاليًا. يمكنك متابعة استخدام دليل القهوة.",
+    "files": [
+      "src/CoffeeAssistant.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "AI assists search and comparisons. Lessons and calculations use the coffee guide.",
+    "ar": "البحث والمقارنة بمساعدة الذكاء الاصطناعي. الدروس والحسابات من دليل القهوة.",
+    "files": [
+      "src/CoffeeAssistant.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Checking…",
+    "ar": "جارٍ التحقق…",
+    "files": [
+      "src/CoffeeAssistant.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Coffee expert · AI assisted",
+    "ar": "خبير القهوة · بمساعدة الذكاء الاصطناعي",
+    "files": [
+      "src/CoffeeAssistant.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Compare three cups using the same recipe and water, with similar roast levels. Record aroma, perceived sweetness, acidity and body as they cool. Read the bag details: anaerobic alone does not mean added fruit or flavoring. All these processes include drying; natural specifically means drying the whole cherry. If origin or variety differs between samples, do not attribute every difference to processing.",
     "ar": "قارن ثلاثة أكواب بالوصفة والماء نفسيهما وبدرجات تحميص متقاربة. سجّل الرائحة والحلاوة المدركة والحموضة والقوام بعد أن تبرد قليلًا. اقرأ تفاصيل المعالجة على الكيس؛ اسم «لاهوائية» وحده لا يعني إضافة فواكه أو منكهات. جميع هذه الطرق تشمل التجفيف، وكلمة «مجففة» هنا تعني تجفيف الثمرة كاملة. إذا اختلف المنشأ أو الصنف بين العينات، فلا تنسب كل فرق إلى المعالجة.",
     "files": [
       "src/core/coffee-curriculum.ts"
+    ]
+  },
+  {
+    "en": "Could not connect to AI assistance. The coffee guide is available.",
+    "ar": "تعذّر الاتصال بالمساعدة الذكية. دليل القهوة متاح.",
+    "files": [
+      "src/CoffeeAssistant.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Enable AI assistance",
+    "ar": "تفعيل المساعدة الذكية",
+    "files": [
+      "src/CoffeeAssistant.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -21784,6 +21840,14 @@
     ]
   },
   {
+    "en": "The coffee guide was used for this answer.",
+    "ar": "استخدمنا دليل القهوة لهذا الرد.",
+    "files": [
+      "src/CoffeeAssistant.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "The comparison is limited to available published information.",
     "ar": "المقارنة محدودة بالمعلومات المنشورة المتوفرة.",
     "files": [
@@ -23109,6 +23173,14 @@
     "ar": "سجل لحظة الاصفرار بمعيار واحد لكل دفعاتك، وقارن الرائحة واللون في نفس الإضاءة. لا تنقل العلامة الحرارية بين حساسَي محمصتين مختلفتين.",
     "files": [
       "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Use the coffee guide",
+    "ar": "العودة إلى دليل القهوة",
+    "files": [
+      "src/CoffeeAssistant.tsx",
       "src/locales/reviewed.json"
     ]
   },

@@ -8,7 +8,8 @@ import { assistantCatalogSummary, assistantCatalogFact } from './assistantCatalo
 import { useContext, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Linking, ScrollView, View } from "./native";
 import { Action, Field, Language, Txt, colors, styles } from "./ui";
-import { publicSupabase } from "./client";
+import { publicSupabase, supabase, catalogScope } from "./client";
+import { coffeeAssistantAvailable, converseRemotely, shouldUseRemoteAssistant, type CoffeeAssistantTurn } from './coffeeAssistantRemote';
 import { loadCoffeeLessonContent } from './coffeeLessonContent';
 import {
   assistantRecipeServingStyle,
@@ -18,13 +19,12 @@ import {
   converseLocally,
   localAssistantSearchTerms,
   localAssistantSources,
-  type LocalAssistantTurn,
 } from "./core/local-coffee-assistant";
 import methodGuides from "./methodGuides.json";
 import { factLabels } from "./core/equipment-facts";
 import { useReducedMotion } from "./Motion";
 
-export type AssistantTurn = LocalAssistantTurn & { localization?: MessageTrace };
+export type AssistantTurn = CoffeeAssistantTurn & { localization?: MessageTrace };
 function AnswerText({ text }: { text: string }) {
   const ar = useContext(Language) === 'ar';
   return <View style={{ gap: 14 }}>{text.split(/\n\s*\n/).filter(Boolean).map((paragraph, index) => {
@@ -46,10 +46,12 @@ export function CoffeeAssistant({
   turns,
   setTurns,
   openItem,
+  signedIn = false,
 }: {
   turns: AssistantTurn[];
   setTurns: (turns: AssistantTurn[]) => void;
   openItem: (kind: "equipment" | "recipe", id: string) => void;
+  signedIn?: boolean;
 }) {
   const i18nUi = useLabels();
   const locale = useContext(Language),
@@ -57,6 +59,10 @@ export function CoffeeAssistant({
   const [question, setQuestion] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [aiEnabled, setAiEnabled] = useState(false);
+  const [checkingAi, setCheckingAi] = useState(false);
+  const [aiNotice, setAiNotice] = useState('');
+  const availabilityRequest = useRef<AbortController | null>(null);
   const active = useRef<AbortController | null>(null);
   const list = useRef<ScrollView>(null);
   const revealedTurn = useRef<AssistantTurn | null>(null);
@@ -68,10 +74,33 @@ export function CoffeeAssistant({
   useEffect(
     () => () => {
       active.current?.abort();
+      availabilityRequest.current?.abort();
       if (scrollFrame.current !== null) cancelAnimationFrame(scrollFrame.current);
     },
     [],
   );
+  async function toggleAi() {
+    if (aiEnabled) { setAiEnabled(false); setAiNotice(''); return; }
+    if (!signedIn || checkingAi) return;
+    const controller = new AbortController();
+    availabilityRequest.current = controller;
+    setCheckingAi(true);
+    setAiNotice('');
+    try {
+      const session = (await supabase?.auth.getSession())?.data.session;
+      if (!session || session.user.is_anonymous) throw new Error('SIGN_IN_REQUIRED');
+      const available = await coffeeAssistantAvailable({ url: catalogScope, publicKey: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '', accessToken: session.access_token, signal: controller.signal });
+      if (!controller.signal.aborted) {
+        setAiEnabled(available);
+        if (!available) setAiNotice(i18nUi('المساعدة الذكية غير متاحة حاليًا. يمكنك متابعة استخدام دليل القهوة.', 'AI assistance is unavailable right now. You can continue using the coffee guide.'));
+      }
+    } catch {
+      if (!controller.signal.aborted) setAiNotice(i18nUi('تعذّر الاتصال بالمساعدة الذكية. دليل القهوة متاح.', 'Could not connect to AI assistance. The coffee guide is available.'));
+    } finally {
+      if (!controller.signal.aborted) setCheckingAi(false);
+      if (availabilityRequest.current === controller) availabilityRequest.current = null;
+    }
+  }
   async function ask(message = question, displayQuestion = message) {
     const text = message.trim();
     if (!text || active.current) return;
@@ -81,7 +110,7 @@ export function CoffeeAssistant({
     setError("");
     try {
       const trace = createMessageTrace(randomUUID());
-      const turn = await converseLocally(assistantInput(locale, text), contentLocale(locale), turns, {
+      let turn: CoffeeAssistantTurn = await converseLocally(assistantInput(locale, text), contentLocale(locale), turns.map(previous => ({ ...previous, mode: 'local' as const })), {
         translate: trace.label,
         translateValue: trace.value,
         guides: methodGuides,
@@ -118,9 +147,24 @@ export function CoffeeAssistant({
           };
         },
       });
+      let usedAi = false;
+      if (aiEnabled && signedIn && supabase && shouldUseRemoteAssistant({ ...turn, mode: 'local' })) {
+        try {
+          const { data: { session } } = await supabase.auth.getSession();
+          if (!session || session.user.is_anonymous) throw new Error('SIGN_IN_REQUIRED');
+          const remote = await converseRemotely({ ...turn, mode: 'local' }, turns, contentLocale(locale), {
+            url: catalogScope, publicKey: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '',
+            accessToken: session.access_token, signal: controller.signal,
+          });
+          if (remote) { turn = remote; usedAi = true; setAiNotice(''); }
+          else if (!controller.signal.aborted) setAiNotice(i18nUi('استخدمنا دليل القهوة لهذا الرد.', 'The coffee guide was used for this answer.'));
+        } catch {
+          if (!controller.signal.aborted) setAiNotice(i18nUi('المساعدة الذكية غير متاحة مؤقتًا؛ هذا الرد من دليل القهوة.', 'AI assistance is temporarily unavailable; this answer comes from the coffee guide.'));
+        }
+      }
       if (controller.signal.aborted) return;
-      const localization = trace.snapshot(turn.answer, turn.suggestions, turn.followUp);
-      const canonical = (text:string) => tracedMessage(localization,text,contentLocale(locale));
+      const localization = usedAi ? undefined : trace.snapshot(turn.answer, turn.suggestions, turn.followUp);
+      const canonical = (text:string) => localization ? tracedMessage(localization,text,contentLocale(locale)) : text;
       setTurns([...turns, { ...turn, question: displayQuestion.trim().slice(0,1000), answer: canonical(turn.answer), suggestions: turn.suggestions?.map(canonical), followUp: turn.followUp ? canonical(turn.followUp) : undefined, localization }].slice(-6));
       setQuestion("");
       setExpandedResults({});
@@ -168,6 +212,11 @@ export function CoffeeAssistant({
           alignSelf: "center",
         }}
       >
+        {signedIn ? <View style={{ gap: 8 }}>
+          <Action compact title={checkingAi ? i18nUi('جارٍ التحقق…', 'Checking…') : aiEnabled ? i18nUi('العودة إلى دليل القهوة', 'Use the coffee guide') : i18nUi('تفعيل المساعدة الذكية', 'Enable AI assistance')} disabled={busy || checkingAi} onPress={() => void toggleAi()} />
+          {aiEnabled ? <Txt style={styles.muted}>{i18nUi('البحث والمقارنة بمساعدة الذكاء الاصطناعي. الدروس والحسابات من دليل القهوة.', 'AI assists search and comparisons. Lessons and calculations use the coffee guide.')}</Txt> : null}
+          {aiNotice ? <View accessibilityLiveRegion="polite"><Txt style={styles.muted}>{aiNotice}</Txt></View> : null}
+        </View> : null}
         {!turns.length ? (
           <View
             style={{
@@ -225,7 +274,7 @@ export function CoffeeAssistant({
             </View>
               <View testID={index === turns.length - 1 ? 'assistant-latest-answer' : 'assistant-history-answer'} accessibilityLiveRegion={index === turns.length - 1 ? 'polite' : 'none'} style={[styles.card, { gap: 14 }]}>
                 <Txt style={styles.muted}>
-                  {ar ? "خبير القهوة" : i18nUi("خبير القهوة", "Coffee expert")}
+                  {turn.mode === 'ai' ? i18nUi('خبير القهوة · بمساعدة الذكاء الاصطناعي', 'Coffee expert · AI assisted') : ar ? "خبير القهوة" : i18nUi("خبير القهوة", "Coffee expert")}
                 </Txt>
                 <AnswerText text={turn.localization ? tracedMessage(turn.localization,turn.localization.answer,locale) : systemText(locale,turn.answer)} />
                 {(expandedResults[index]
@@ -396,7 +445,7 @@ export function CoffeeAssistant({
                   />
                 ) : null}
                 {turn.followUp ? <Txt>{turn.localization?.followUp ? tracedMessage(turn.localization,turn.localization.followUp,locale) : systemText(locale,turn.followUp)}</Txt> : null}
-                <View style={styles.row}>{localAssistantSources(turn).map((source) => (
+                <View style={styles.row}>{localAssistantSources({ ...turn, mode: 'local' }).map((source) => (
                   <Action
                     compact
                     key={source.url}
