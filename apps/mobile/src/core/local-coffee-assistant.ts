@@ -239,6 +239,18 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
   const base: LocalAssistantTurn = { question: question.trim().slice(0, 1000), query, matches: [], mode: 'local', intent: 'help', answer: '' };
   const reply = (answer: string, extra: Partial<LocalAssistantTurn> = {}) => ({ ...base, answer:L(answer,answer), ...extra });
   if (!q || question.length > 1000) return reply(L('اكتب سؤالًا عن القهوة لا يزيد على 1000 حرف.', 'Ask a coffee question using no more than 1000 characters.'));
+  // "بار" is the pressure unit bar, never an abbreviation for "بارد" (iced).
+  // A short pressure question needs a useful answer before broad lesson lookup.
+  const asksPressure = (has(q, 'بار') || has(q, 'bar') || has(q, 'ضغط') || has(q, 'pressure'))
+    && /اضبط|ضبط|كم|جم|شكثر|شلون|كيف|what|how|set|adjust/.test(q)
+    && /قهو|اسبرسو|اسبريسو|espresso|ماكين|مكين|ضغط|pressure|bar|بار/.test(q)
+    && !/بارد|بارده|cold|iced|مثلج/.test(q);
+  if (asksPressure) {
+    return reply(L(
+      'إذا تقصد ضغط الإسبريسو بوحدة bar: ابدأ بمرجع يقارب 9 بار أثناء الاستخلاص عند قرص البن، إذا كانت ماكينتك تدعم قياسه. الرقم الظاهر على عداد المضخة قد يختلف عن الضغط عند البن. لا ترفع ضغط المضخة عشوائيًا؛ الطحن والجرعة والتوزيع ونسبة الاستخلاص تؤثر على النتيجة. شنو موديل مكينتك؟ وهل تقرأ الضغط أثناء نزول القهوة أو والمكينة واقفة؟ أعطيك طريقة الضبط حسب دليلها.',
+      'If you mean espresso pressure in bar: about 9 bar at the coffee puck during extraction is a common starting reference, if your machine can measure it. The pump gauge can show a different value from puck pressure. Do not randomly increase pump pressure; grind, dose, distribution and yield matter too. What is your machine model, and are you reading the gauge while the shot runs or while idle? I can guide you using its manual.'
+    ), { intent: 'knowledge', knowledgeTopic: 'espresso-pressure-bar', suggestions: [L('عندي بروفيتك درايف', 'I have a Profitec DRIVE')] });
+  }
   const methods = methodOf(q), method = methods[0] ?? previous?.calculation?.method ?? previous?.coach?.method ?? previous?.query.methods[0] ?? null;
   const references = previous?.matches ?? [];
   const selection = selectedResults(q, references);
