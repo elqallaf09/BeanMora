@@ -4,6 +4,7 @@ import type { AssistantDocument } from '../_shared/coffee-assistant.ts';
 import { converse, parseConversationInput } from './service.ts';
 import { openAIModel } from './model.ts';
 import { coffeeAssistantConfig } from './config.ts';
+import { publicAssistantFailure } from './errors.ts';
 
 const cors = {
   'Access-Control-Allow-Origin': '*',
@@ -32,7 +33,7 @@ async function boundedJson(request: Request) {
 Deno.serve(async request => {
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
   const config = coffeeAssistantConfig(name => Deno.env.get(name));
-  const availability = (allowed: boolean) => reply({ status: 'ok', api_contract: 1, conversation_enabled: config.enabled && allowed, authentication_required: true });
+  const availability = (allowed: boolean) => reply({ status: 'ok', api_contract: 2, conversation_enabled: config.enabled && allowed, authentication_required: true });
   if (request.method === 'GET' && (!config.enabled || !config.pilotUserIds)) return availability(true);
   if (request.method !== 'POST' && request.method !== 'GET') return reply({ error: 'METHOD_NOT_ALLOWED' }, 405);
   const authorization = request.headers.get('authorization') ?? '';
@@ -60,7 +61,7 @@ Deno.serve(async request => {
   if (ledgerError) return reply({ error: 'SERVICE_UNAVAILABLE' }, 503);
   const { data: permitted, error: quotaError } = await admin.rpc('consume_coffee_assistant_quota', { p_user_id: user.id });
   if (quotaError) return reply({ error: 'SERVICE_UNAVAILABLE' }, 503);
-  if (!permitted) return reply({ error: 'RATE_LIMIT' }, 429);
+  if (!permitted) return reply({ error: 'RATE_LIMITED' }, 429);
   // Catalog retrieval always uses the anonymous public projection, even for members.
   const catalog = createClient(url, anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
   const requestId = crypto.randomUUID();
@@ -94,8 +95,9 @@ Deno.serve(async request => {
       },
     });
     return reply(result);
-  } catch {
+  } catch (error) {
     // No questions, catalog text, identifiers, tokens or provider responses in logs.
-    return reply({ error: 'ASSISTANT_UNAVAILABLE' }, 503);
+    const failure = publicAssistantFailure(error);
+    return reply(failure.body, failure.status);
   }
 });

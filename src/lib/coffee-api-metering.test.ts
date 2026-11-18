@@ -48,7 +48,7 @@ describe('coffee expert metering', () => {
   });
   it.each([401, 429, 500])('records rejected provider HTTP %s without inventing token counts', async status => {
     const records: ModelUsage[] = [];
-    await expect(run(openAIModel('test', 'model', async () => response({ error: { message: 'private' } }, status), { onUsage: async usage => { records.push(usage); } }))).rejects.toThrow('MODEL_UNAVAILABLE');
+    await expect(run(openAIModel('test', 'model', async () => response({ error: { message: 'private' } }, status), { onUsage: async usage => { records.push(usage); } }))).rejects.toThrow(status === 429 ? 'RATE_LIMITED' : 'MODEL_UNAVAILABLE');
     expect(records[0]).toMatchObject({ outcome: 'http_error', http_status: status, total_tokens: null });
     expect(JSON.stringify(records)).not.toContain('private');
   });

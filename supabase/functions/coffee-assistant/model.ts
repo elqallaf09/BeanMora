@@ -1,3 +1,5 @@
+import { classifyProviderFailure } from './errors.ts';
+
 export interface StructuredModel {
   generate(name: string, schema: Record<string, unknown>, instructions: string, input: unknown): Promise<unknown>;
 }
@@ -70,7 +72,9 @@ export function openAIModel(apiKey: string, model: string, fetcher: typeof fetch
         usage.provider_request_id = identifier(response.headers.get('x-request-id'));
         if (!response.ok) {
           usage.outcome = 'http_error';
-          throw new Error('MODEL_UNAVAILABLE');
+          // Classify only stable error codes; never persist or return provider messages.
+          const errorBody = await response.json().catch(() => null);
+          throw classifyProviderFailure(response.status, errorBody);
         }
         usage.outcome = 'invalid';
         const data = await response.json();

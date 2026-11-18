@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLabels } from './ui';
 import { contentLocale } from "./localeText";
 import { systemText } from './localeText';
@@ -9,7 +10,8 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Linking, ScrollView, View } from "./native";
 import { Action, Field, Language, Txt, colors, styles } from "./ui";
 import { publicSupabase, supabase, catalogScope } from "./client";
-import { coffeeAssistantAvailable, converseRemotely, shouldUseRemoteAssistant, type CoffeeAssistantTurn } from './coffeeAssistantRemote';
+import { CoffeeAssistantError, coffeeAssistantAvailable, converseRemotely, type AssistantFailure, type CoffeeAssistantTurn } from './coffeeAssistantRemote';
+import { assistantPreferenceKey, defaultAssistantPreference, readAssistantPreference, resolveCoffeeAnswer, saveAssistantPreference, type AssistantPreference } from './coffeeAssistantPolicy';
 import { loadCoffeeLessonContent } from './coffeeLessonContent';
 import {
   assistantRecipeServingStyle,
@@ -61,7 +63,10 @@ export function CoffeeAssistant({
   const [error, setError] = useState("");
   const [aiEnabled, setAiEnabled] = useState(false);
   const [checkingAi, setCheckingAi] = useState(false);
-  const [aiNotice, setAiNotice] = useState('');
+  const [aiNotice, setAiNotice] = useState<AssistantFailure | ''>('');
+  const [memberId, setMemberId] = useState<string | null>(null);
+  const member = useRef<string | null>(null);
+  const preference = useRef<AssistantPreference>(defaultAssistantPreference());
   const availabilityRequest = useRef<AbortController | null>(null);
   const active = useRef<AbortController | null>(null);
   const list = useRef<ScrollView>(null);
@@ -79,58 +84,105 @@ export function CoffeeAssistant({
     },
     [],
   );
-  // When the signed-in owner's pilot is enabled on the server, try AI by
-  // default. A failed/unavailable provider always leaves the local guide usable.
-  // The availability endpoint never invokes a paid model.
-  const optedOut = useRef(false);
+  // Observe identity itself: an account switch may leave signedIn === true.
   useEffect(() => {
-    if (!signedIn || optedOut.current) {
-      setAiEnabled(false);
-      return;
-    }
+    let stopped = false, sessionEvents = 0;
+    const accept = (id: string | null) => {
+      if (stopped) return;
+      if (member.current !== id) {
+        active.current?.abort(); active.current = null;
+        availabilityRequest.current?.abort(); availabilityRequest.current = null;
+        setBusy(false); setCheckingAi(false); setAiEnabled(false); setAiNotice('');
+        preference.current = defaultAssistantPreference();
+        if (member.current) { setTurns([]); setQuestion(''); }
+        member.current = id;
+        setMemberId(id);
+      }
+    };
+    if (!signedIn || !supabase) { accept(null); return; }
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      sessionEvents++;
+      accept(session && !session.user.is_anonymous ? session.user.id : null);
+    });
+    const revision = sessionEvents;
+    void supabase.auth.getSession().then(({ data: { session } }) => {
+      if (revision === sessionEvents) accept(session && !session.user.is_anonymous ? session.user.id : null);
+    }).catch(() => { if (revision === sessionEvents) accept(null); });
+    return () => { stopped = true; subscription.unsubscribe(); };
+  }, [signedIn]);
+
+  useEffect(() => {
+    setAiEnabled(false); setAiNotice('');
+    if (!memberId) return;
     const controller = new AbortController();
     availabilityRequest.current?.abort();
     availabilityRequest.current = controller;
+    setCheckingAi(true);
     void (async () => {
       try {
+        const saved = await readAssistantPreference(AsyncStorage, assistantPreferenceKey(catalogScope, memberId));
+        if (controller.signal.aborted || member.current !== memberId) return;
+        preference.current = saved;
+        if (saved.creditPaused) setAiNotice('credits');
+        else if (saved.retryAt > Date.now()) setAiNotice('unavailable');
+        if (saved.optedOut || saved.creditPaused) return;
         const session = (await supabase?.auth.getSession())?.data.session;
-        if (!session || session.user.is_anonymous) return;
+        if (!session || session.user.is_anonymous || session.user.id !== memberId) return;
         const available = await coffeeAssistantAvailable({
-          url: catalogScope,
-          publicKey: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '',
-          accessToken: session.access_token,
-          signal: controller.signal,
+          url: catalogScope, publicKey: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '',
+          accessToken: session.access_token, signal: controller.signal,
         });
-        if (!controller.signal.aborted && !optedOut.current) setAiEnabled(available);
+        if (!controller.signal.aborted && member.current === memberId) setAiEnabled(available);
       } catch {
-        if (!controller.signal.aborted) setAiEnabled(false);
+        if (!controller.signal.aborted && member.current === memberId) setAiEnabled(false);
+      } finally {
+        if (!controller.signal.aborted && member.current === memberId) setCheckingAi(false);
+        if (availabilityRequest.current === controller) availabilityRequest.current = null;
       }
     })();
     return () => controller.abort();
-  }, [signedIn]);
+  }, [memberId]);
+
+  function persistPreference(owner: string, next: AssistantPreference) {
+    if (member.current !== owner) return;
+    preference.current = next;
+    void saveAssistantPreference(AsyncStorage, assistantPreferenceKey(catalogScope, owner), next);
+  }
   async function toggleAi() {
-    if (aiEnabled) { optedOut.current = true; setAiEnabled(false); setAiNotice(''); return; }
-    if (!signedIn || checkingAi) return;
-    optedOut.current = false;
+    const owner = member.current;
+    if (!owner || checkingAi) return;
+    availabilityRequest.current?.abort();
+    if (aiEnabled) {
+      persistPreference(owner, { ...preference.current, optedOut: true });
+      setAiEnabled(false); setAiNotice(''); return;
+    }
     const controller = new AbortController();
     availabilityRequest.current = controller;
-    setCheckingAi(true);
-    setAiNotice('');
+    setCheckingAi(true); setAiNotice('');
     try {
       const session = (await supabase?.auth.getSession())?.data.session;
-      if (!session || session.user.is_anonymous) throw new Error('SIGN_IN_REQUIRED');
+      if (!session || session.user.is_anonymous || session.user.id !== owner) throw new CoffeeAssistantError('signin');
       const available = await coffeeAssistantAvailable({ url: catalogScope, publicKey: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '', accessToken: session.access_token, signal: controller.signal });
-      if (!controller.signal.aborted) {
+      if (!controller.signal.aborted && member.current === owner) {
         setAiEnabled(available);
-        if (!available) setAiNotice(i18nUi('رصيد أو خدمة الذكاء الاصطناعي غير متاحين الآن؛ دليل القهوة شغال.', 'AI credits or service are unavailable; the coffee guide still works.'));
+        if (available) persistPreference(owner, defaultAssistantPreference());
+        else setAiNotice('unavailable');
       }
-    } catch {
-      if (!controller.signal.aborted) setAiNotice(i18nUi('تعذّر الاتصال بالمساعدة الذكية. دليل القهوة متاح.', 'Could not connect to AI assistance. The coffee guide is available.'));
+    } catch (error) {
+      if (!controller.signal.aborted && member.current === owner) setAiNotice(error instanceof CoffeeAssistantError ? error.reason : 'unavailable');
     } finally {
-      if (!controller.signal.aborted) setCheckingAi(false);
+      if (!controller.signal.aborted && member.current === owner) setCheckingAi(false);
       if (availabilityRequest.current === controller) availabilityRequest.current = null;
     }
   }
+  const aiNoticeText = aiNotice === 'credits'
+    ? i18nUi('الرصيد أو حد الاستخدام غير متاح. رجعنا إلى دليل القهوة؛ أعد تفعيل المساعدة الذكية بعد تجديده.', 'Credits or the usage allowance are unavailable. We switched to the coffee guide; re-enable AI after renewing them.')
+    : aiNotice === 'rate'
+      ? i18nUi('وصلنا إلى حد الطلبات مؤقتًا. دليل القهوة يجاوبك الآن، وتعود المساعدة الذكية بعد الانتظار.', 'The request limit was reached temporarily. The coffee guide answers now; AI resumes after the waiting period.')
+      : aiNotice === 'signin'
+        ? i18nUi('سجّل الدخول مجددًا لاستخدام المساعدة الذكية. دليل القهوة متاح.', 'Sign in again to use AI assistance. The coffee guide is available.')
+        : aiNotice === 'unavailable'
+          ? i18nUi('تعذّر الاتصال بالمساعدة الذكية مؤقتًا. رجعنا إلى دليل القهوة.', 'AI assistance is temporarily unavailable. We switched to the coffee guide.') : '';
   async function ask(message = question, displayQuestion = message) {
     const text = message.trim();
     if (!text || active.current) return;
@@ -139,8 +191,16 @@ export function CoffeeAssistant({
     setBusy(true);
     setError("");
     try {
+      const owner = member.current;
       const trace = createMessageTrace(randomUUID());
-      let turn: CoffeeAssistantTurn = await converseLocally(assistantInput(locale, text), contentLocale(locale), turns.map(previous => ({ ...previous, mode: 'local' as const })), {
+      const normalized = assistantInput(locale, text);
+      const localHistory = turns.map(previous => ({ ...previous, mode: 'local' as const }));
+      // Classification is offline and bounded; it cannot block the remote answer
+      // behind a slow catalog call or a failed lesson download.
+      const draft = await converseLocally(normalized, contentLocale(locale), localHistory, {
+        guides: methodGuides, search: async () => ({ documents: [], rates: [] }),
+      });
+      const localAnswer = () => converseLocally(normalized, contentLocale(locale), localHistory, {
         translate: trace.label,
         translateValue: trace.value,
         guides: methodGuides,
@@ -177,21 +237,28 @@ export function CoffeeAssistant({
           };
         },
       });
-      let usedAi = false;
-      if (aiEnabled && signedIn && supabase && shouldUseRemoteAssistant({ ...turn, mode: 'local' })) {
-        try {
-          const { data: { session } } = await supabase.auth.getSession();
-          if (!session || session.user.is_anonymous) throw new Error('SIGN_IN_REQUIRED');
-          const remote = await converseRemotely({ ...turn, mode: 'local' }, turns, contentLocale(locale), {
+      const turn = await resolveCoffeeAnswer({
+        draft, available: aiEnabled && signedIn && !!owner, preference: preference.current,
+        signal: controller.signal,
+        remote: async () => {
+          const session = (await supabase?.auth.getSession())?.data.session;
+          if (controller.signal.aborted || member.current !== owner) throw Object.assign(new Error('Request cancelled'), { name: 'AbortError' });
+          if (!session || session.user.is_anonymous || session.user.id !== owner) throw new CoffeeAssistantError('signin');
+          return converseRemotely(draft, turns, locale, {
             url: catalogScope, publicKey: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '',
-            accessToken: session.access_token, signal: controller.signal,
+            accessToken: session.access_token, signal: controller.signal, question: displayQuestion,
           });
-          if (remote) { turn = remote; usedAi = true; setAiNotice(''); }
-          else if (!controller.signal.aborted) { setAiEnabled(false); setAiNotice(i18nUi('OpenAI غير متاح لهذا الرد. استخدمنا دليل القهوة؛ تقدر تعيد تفعيل الذكاء الاصطناعي لاحقًا.', 'OpenAI did not return an answer. We used the coffee guide; you can re-enable AI later.')); }
-        } catch {
-          if (!controller.signal.aborted) { setAiEnabled(false); setAiNotice(i18nUi('تعذّرت إجابة OpenAI (قد يكون الرصيد انتهى). رجعنا إلى دليل القهوة، وأوقفنا محاولات OpenAI إلى أن تعيد تفعيله.', 'OpenAI could not answer (credits may be exhausted). We switched to the coffee guide and paused OpenAI until you re-enable it.')); }
-        }
-      }
+        },
+        local: localAnswer,
+        onFallback: (reason, next) => {
+          if (controller.signal.aborted || !owner || member.current !== owner) return;
+          persistPreference(owner, next);
+          if (next.creditPaused || reason === 'signin') setAiEnabled(false);
+          setAiNotice(reason);
+        },
+      });
+      const usedAi = turn.mode === 'ai';
+      if (usedAi && !controller.signal.aborted) setAiNotice('');
       if (controller.signal.aborted) return;
       const localization = usedAi ? undefined : trace.snapshot(turn.answer, turn.suggestions, turn.followUp);
       const canonical = (text:string) => localization ? tracedMessage(localization,text,contentLocale(locale)) : text;
@@ -244,8 +311,8 @@ export function CoffeeAssistant({
       >
         {signedIn ? <View style={{ gap: 8 }}>
           <Action compact title={checkingAi ? i18nUi('جارٍ التحقق…', 'Checking…') : aiEnabled ? i18nUi('العودة إلى دليل القهوة', 'Use the coffee guide') : i18nUi('تفعيل المساعدة الذكية', 'Enable AI assistance')} disabled={busy || checkingAi} onPress={() => void toggleAi()} />
-          {aiEnabled ? <Txt style={styles.muted}>{i18nUi('البحث والمقارنة بمساعدة الذكاء الاصطناعي. الدروس والحسابات من دليل القهوة.', 'AI assists search and comparisons. Lessons and calculations use the coffee guide.')}</Txt> : null}
-          {aiNotice ? <View accessibilityLiveRegion="polite"><Txt style={styles.muted}>{aiNotice}</Txt></View> : null}
+          {aiEnabled ? <Txt style={styles.muted}>{i18nUi('المساعدة الذكية تجيب عن القهوة والتحضير. الحسابات الدقيقة من دليل القهوة.', 'AI answers coffee and brewing questions. Exact calculations use the coffee guide.')}</Txt> : null}
+          {aiNoticeText ? <View accessibilityLiveRegion="polite"><Txt style={styles.muted}>{aiNoticeText}</Txt></View> : null}
         </View> : null}
         {!turns.length ? (
           <View

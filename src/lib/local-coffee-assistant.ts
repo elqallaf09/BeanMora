@@ -265,6 +265,32 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
     const advice = espressoControlAdvice(L, query.amount !== null, more);
     return reply(advice.answer, { ...advice, intent: 'knowledge', knowledgeTopic: ESPRESSO_CONTROLS_TOPIC, query: controlQuery });
   }
+  // A standalone bar/بار is pressure, never a partial match for بارد.
+  // Preserve equipment shopping, control selection, arithmetic and new brewers.
+  const pressureUnit = has(q, 'بار') || has(q, 'bar') || has(q, 'bars');
+  const pressureWord = has(q, 'ضغط') || has(q, 'pressure');
+  const pressureQuestion = /اضبط|ضبط|كم|جم|شكثر|شلون|كيف|what|how|set|adjust/.test(q);
+  const coffeeContext = /قهو|اسبرسو|اسبريسو|espresso|coffee|ماكين|مكين|machine/.test(q)
+    || methods.length > 0 || previous?.query.methods.includes('espresso') || previous?.knowledgeTopic === 'espresso-pressure-bar';
+  const shortPressure = /^(?:كم|جم|شكثر|how many)\s+(?:بار|bars?)[؟?!. ]*$/.test(q);
+  const pressureFollowUp = previous?.knowledgeTopic === 'espresso-pressure-bar' && q.length < 140
+    && /عندي|ماكينتي|مكينتي|profitec|breville|flair|delonghi|lelit|بروفيتك|بريفيل|دي.?لونجي|ليليت|عداد|gauge|reading|i have|my machine|tell me more|اشرح اكثر/.test(q);
+  const newPurchase = shopping || query.amount !== null || /ابي.*(?:ماكين|مكين)|ابحث|اشتري|قارن|مقارنه|\b(?:buy|find|recommend|compare|comparison|budget)\b/.test(q);
+  if (!newPurchase && !selection.explicit && !/1\s*[:/]|\bcalculate\b|احسب/.test(q)
+    && ((pressureQuestion && (pressureUnit || pressureWord) && (coffeeContext || shortPressure)) || pressureFollowUp)) {
+    if (methods.length && !methods.includes('espresso')) return reply(L(
+      'البار وحدة ضغط، لكن إعداد الإسبريسو لا ينطبق على كل أدوات التحضير. حدّد الأداة والموديل وما الذي تقيسه؛ اتبع دليلها ولا ترفع الضغط للوصول إلى رقم عام.',
+      'Bar measures pressure, but an espresso setting does not apply to every brewer. Specify the brewer, model and what you are measuring; follow its manual rather than raising pressure to reach a general number.',
+    ), { intent: 'knowledge', knowledgeTopic: 'brewer-pressure-context' });
+    const lesson = coffeeLessonById('espresso-pressure-bar', locale)!;
+    return reply(pressureFollowUp ? lesson.more : lesson.answer, {
+      intent: 'knowledge', knowledgeTopic: 'espresso-pressure-bar',
+      query: { ...query, kind: 'recipe', methods: ['espresso'], terms: [], clarification: null }, sources: lesson.sources,
+      followUp: pressureFollowUp
+        ? L('شنو قراءة العداد أثناء نزول القهوة؟ وهل هو عداد التحضير أو البخار؟', 'What does the gauge read during extraction, and is it the brew or steam gauge?')
+        : L('شنو موديل مكينتك، وشنو قراءة العداد أثناء نزول القهوة؟', 'What is your machine model, and what does the gauge read during extraction?'),
+    });
+  }
   const compare = /قارن|مقارنه|الفرق|compare|comparison|difference/.test(q);
   const explain = /اشرح|تفاصيل|مواصفات|خطوات|explain|details|specs|steps|ليش|why/.test(q);
   const ratioMatch = q.match(/1\s*[:/]\s*(-?\d+(?:\.\d+)?)/);

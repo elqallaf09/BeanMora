@@ -239,18 +239,6 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
   const base: LocalAssistantTurn = { question: question.trim().slice(0, 1000), query, matches: [], mode: 'local', intent: 'help', answer: '' };
   const reply = (answer: string, extra: Partial<LocalAssistantTurn> = {}) => ({ ...base, answer:L(answer,answer), ...extra });
   if (!q || question.length > 1000) return reply(L('اكتب سؤالًا عن القهوة لا يزيد على 1000 حرف.', 'Ask a coffee question using no more than 1000 characters.'));
-  // "بار" is the pressure unit bar, never an abbreviation for "بارد" (iced).
-  // A short pressure question needs a useful answer before broad lesson lookup.
-  const asksPressure = (has(q, 'بار') || has(q, 'bar') || has(q, 'ضغط') || has(q, 'pressure'))
-    && /اضبط|ضبط|كم|جم|شكثر|شلون|كيف|what|how|set|adjust/.test(q)
-    && /قهو|اسبرسو|اسبريسو|espresso|ماكين|مكين|ضغط|pressure|bar|بار/.test(q)
-    && !/بارد|بارده|cold|iced|مثلج/.test(q);
-  if (asksPressure) {
-    return reply(L(
-      'إذا تقصد ضغط الإسبريسو بوحدة bar: ابدأ بمرجع يقارب 9 بار أثناء الاستخلاص عند قرص البن، إذا كانت ماكينتك تدعم قياسه. الرقم الظاهر على عداد المضخة قد يختلف عن الضغط عند البن. لا ترفع ضغط المضخة عشوائيًا؛ الطحن والجرعة والتوزيع ونسبة الاستخلاص تؤثر على النتيجة. شنو موديل مكينتك؟ وهل تقرأ الضغط أثناء نزول القهوة أو والمكينة واقفة؟ أعطيك طريقة الضبط حسب دليلها.',
-      'If you mean espresso pressure in bar: about 9 bar at the coffee puck during extraction is a common starting reference, if your machine can measure it. The pump gauge can show a different value from puck pressure. Do not randomly increase pump pressure; grind, dose, distribution and yield matter too. What is your machine model, and are you reading the gauge while the shot runs or while idle? I can guide you using its manual.'
-    ), { intent: 'knowledge', knowledgeTopic: 'espresso-pressure-bar', suggestions: [L('عندي بروفيتك درايف', 'I have a Profitec DRIVE')] });
-  }
   const methods = methodOf(q), method = methods[0] ?? previous?.calculation?.method ?? previous?.coach?.method ?? previous?.query.methods[0] ?? null;
   const references = previous?.matches ?? [];
   const selection = selectedResults(q, references);
@@ -276,6 +264,32 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
     const more = controlsFollowUp && /اشرح|وضح|اكمل|كمل|more|continue/.test(q);
     const advice = espressoControlAdvice(L, query.amount !== null, more);
     return reply(advice.answer, { ...advice, intent: 'knowledge', knowledgeTopic: ESPRESSO_CONTROLS_TOPIC, query: controlQuery });
+  }
+  // A standalone bar/بار is pressure, never a partial match for بارد.
+  // Preserve equipment shopping, control selection, arithmetic and new brewers.
+  const pressureUnit = has(q, 'بار') || has(q, 'bar') || has(q, 'bars');
+  const pressureWord = has(q, 'ضغط') || has(q, 'pressure');
+  const pressureQuestion = /اضبط|ضبط|كم|جم|شكثر|شلون|كيف|what|how|set|adjust/.test(q);
+  const coffeeContext = /قهو|اسبرسو|اسبريسو|espresso|coffee|ماكين|مكين|machine/.test(q)
+    || methods.length > 0 || previous?.query.methods.includes('espresso') || previous?.knowledgeTopic === 'espresso-pressure-bar';
+  const shortPressure = /^(?:كم|جم|شكثر|how many)\s+(?:بار|bars?)[؟?!. ]*$/.test(q);
+  const pressureFollowUp = previous?.knowledgeTopic === 'espresso-pressure-bar' && q.length < 140
+    && /عندي|ماكينتي|مكينتي|profitec|breville|flair|delonghi|lelit|بروفيتك|بريفيل|دي.?لونجي|ليليت|عداد|gauge|reading|i have|my machine|tell me more|اشرح اكثر/.test(q);
+  const newPurchase = shopping || query.amount !== null || /ابي.*(?:ماكين|مكين)|ابحث|اشتري|قارن|مقارنه|\b(?:buy|find|recommend|compare|comparison|budget)\b/.test(q);
+  if (!newPurchase && !selection.explicit && !/1\s*[:/]|\bcalculate\b|احسب/.test(q)
+    && ((pressureQuestion && (pressureUnit || pressureWord) && (coffeeContext || shortPressure)) || pressureFollowUp)) {
+    if (methods.length && !methods.includes('espresso')) return reply(L(
+      'البار وحدة ضغط، لكن إعداد الإسبريسو لا ينطبق على كل أدوات التحضير. حدّد الأداة والموديل وما الذي تقيسه؛ اتبع دليلها ولا ترفع الضغط للوصول إلى رقم عام.',
+      'Bar measures pressure, but an espresso setting does not apply to every brewer. Specify the brewer, model and what you are measuring; follow its manual rather than raising pressure to reach a general number.',
+    ), { intent: 'knowledge', knowledgeTopic: 'brewer-pressure-context' });
+    const lesson = coffeeLessonById('espresso-pressure-bar', locale)!;
+    return reply(pressureFollowUp ? lesson.more : lesson.answer, {
+      intent: 'knowledge', knowledgeTopic: 'espresso-pressure-bar',
+      query: { ...query, kind: 'recipe', methods: ['espresso'], terms: [], clarification: null }, sources: lesson.sources,
+      followUp: pressureFollowUp
+        ? L('شنو قراءة العداد أثناء نزول القهوة؟ وهل هو عداد التحضير أو البخار؟', 'What does the gauge read during extraction, and is it the brew or steam gauge?')
+        : L('شنو موديل مكينتك، وشنو قراءة العداد أثناء نزول القهوة؟', 'What is your machine model, and what does the gauge read during extraction?'),
+    });
   }
   const compare = /قارن|مقارنه|الفرق|compare|comparison|difference/.test(q);
   const explain = /اشرح|تفاصيل|مواصفات|خطوات|explain|details|specs|steps|ليش|why/.test(q);
