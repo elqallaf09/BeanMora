@@ -187,9 +187,9 @@ export function CoffeeAssistant({
             accessToken: session.access_token, signal: controller.signal,
           });
           if (remote) { turn = remote; usedAi = true; setAiNotice(''); }
-          else if (!controller.signal.aborted) setAiNotice(i18nUi('استخدمنا دليل القهوة لهذا الرد.', 'The coffee guide was used for this answer.'));
+          else if (!controller.signal.aborted) { setAiEnabled(false); setAiNotice(i18nUi('OpenAI غير متاح لهذا الرد. استخدمنا دليل القهوة؛ تقدر تعيد تفعيل الذكاء الاصطناعي لاحقًا.', 'OpenAI did not return an answer. We used the coffee guide; you can re-enable AI later.')); }
         } catch {
-          if (!controller.signal.aborted) setAiNotice(i18nUi('تعذّرت إجابة OpenAI (قد يكون الرصيد انتهى). رجعنا تلقائيًا لدليل القهوة.', 'OpenAI could not answer (credits may be exhausted). Automatically using the coffee guide.'));
+          if (!controller.signal.aborted) { setAiEnabled(false); setAiNotice(i18nUi('تعذّرت إجابة OpenAI (قد يكون الرصيد انتهى). رجعنا إلى دليل القهوة، وأوقفنا محاولات OpenAI إلى أن تعيد تفعيله.', 'OpenAI could not answer (credits may be exhausted). We switched to the coffee guide and paused OpenAI until you re-enable it.')); }
         }
       }
       if (controller.signal.aborted) return;
