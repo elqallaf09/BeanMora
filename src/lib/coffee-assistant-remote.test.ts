@@ -39,6 +39,31 @@ describe('optional remote coffee expert', () => {
   ])('preserves newer local search filters unsupported by the legacy server', extra => {
     expect(shouldUseRemoteAssistant({ ...local, ...extra })).toBe(false);
   });
+  it.each([
+    'شلون أضبط القهوة جم بار؟',
+    'جم بار ضغط الإسبريسو؟',
+    'How many bar for espresso pressure?',
+  ])('explains espresso bar as pressure, not an iced drink: %s', async question => {
+    const search = vi.fn(async () => ({ documents: [], rates: [] }));
+    const answer = await converseLocally(question, /[a-z]/i.test(question) && !/[\u0600-\u06ff]/.test(question) ? 'en' : 'ar', [], { search });
+    expect(answer.intent).toBe('knowledge');
+    expect(answer.knowledgeTopic).toBe('espresso-pressure-bar');
+    expect(answer.answer).toMatch(/9 bar|9 بار/);
+    expect(answer.answer).not.toMatch(/بارد|iced/i);
+    expect(search).not.toHaveBeenCalled();
+  });
+  it('does not confuse a request for cold coffee with the espresso pressure unit', async () => {
+    const answer = await converseLocally('أبي قهوة باردة بالثلج', 'ar', [], { search: async () => ({ documents: [], rates: [] }) });
+    expect(answer.knowledgeTopic).not.toBe('espresso-pressure-bar');
+  });
+  it('keeps the local guide available when the provider rejects a request for insufficient quota', async () => {
+    const localAnswer = await converseLocally('شلون أضبط القهوة جم بار؟', 'ar', [], { search: async () => ({ documents: [], rates: [] }) });
+    await expect(converseRemotely({ ...local, intent: 'help' }, [], 'ar', {
+      ...options,
+      fetcher: async () => new Response(JSON.stringify({ error: 'insufficient_quota' }), { status: 429 }),
+    })).rejects.toThrow('ASSISTANT_UNAVAILABLE');
+    expect(localAnswer.answer).toContain('9 بار');
+  });
   it('never sends catalog facts, answers or non-UUID result IDs back to the model service', async () => {
     const fetcher = vi.fn(async (_url: unknown, init?: RequestInit) => {
       const body = JSON.parse(String(init?.body));
