@@ -14,6 +14,7 @@ const pairs = [
   ['../../../src/lib/coffee-practical-content.json', '../src/core/coffee-practical-content.json'],
   ['../../../src/lib/coffee-practical-guidance.ts', '../src/core/coffee-practical-guidance.ts'],
   ['../../../src/lib/coffee-knowledge.ts', '../src/core/coffee-knowledge.ts'],
+  ['../../../src/lib/coffee-knowledge-basics.ts', '../src/core/coffee-knowledge-basics.ts'],
   ['../../../src/lib/coffee-lesson-content.ts', '../src/core/coffee-lesson-content.ts'],
   ['../../../src/lib/espresso-control-advice.ts', '../src/core/espresso-control-advice.ts'],
   ['../../../src/lib/local-coffee-assistant.ts', '../src/core/local-coffee-assistant.ts'],

@@ -16,6 +16,17 @@ export const COFFEE_CURRICULUM: CoffeeLesson[] = [
     title: row.source_title, url: row.source_url, supportingSources: row.supporting_sources,
   })),
   {
+    // Manufacturer extraction guidance checked 2026-11-19; this is not a
+    // machine-specific pump adjustment or permission to open a machine.
+    id: 'espresso-pressure-bar', group: 'brewing', titles: ['ضغط الإسبريسو بالبار', 'Espresso pressure in bar'], priority: 140,
+    keywords: /^(?:ضغط الاسبريسو بالبار|espresso pressure in bar)[؟?!. ]*$/,
+    ar: 'البار (bar) وحدة ضغط. إذا تقصد الإسبريسو، 9 بار مرجع شائع أثناء الاستخلاص، وليس رقمًا مطلوبًا لكل ماكينة ووصفة. مثلًا Breville تذكر استخلاصًا عند 9 بار بمضخة مصنّفة 15 بار، وFlair تذكر 6–9 بار لبعض أجهزتها.\n\nثبّت الجرعة والناتج، وراجع الطحن وتوزيع البن قبل محاولة تغيير ضغط الماكينة. اتبع دليل موديلك، ولا تعدّل صمامًا أو جزءًا داخليًا اعتمادًا على هذا المرجع العام.',
+    en: 'Bar is a unit of pressure. For espresso, 9 bar is a common extraction reference, not a required setting for every machine or recipe. For example, Breville describes extraction at 9 bar from a pump rated at 15 bar, while Flair specifies 6–9 bar for some of its brewers.\n\nKeep dose and yield fixed, and check grind and puck preparation before changing machine pressure. Follow your model manual; this general reference is not an instruction to adjust an internal valve or component.',
+    more: ['قراءة العداد تعتمد على مكان القياس ومرحلة التحضير. ميّز بين ضغط التحضير وضغط غلاية البخار، وبين قراءة أثناء نزول القهوة وقراءة بدون تدفق. للتحقق من إعداد الموديل، نحتاج دليل الشركة واسم العداد؛ اسم الماكينة وحده لا يثبت أن الضغط قابل للضبط.', 'Gauge readings depend on the measurement point and brew phase. Distinguish brew pressure from steam-boiler pressure, and readings during extraction from readings without flow. Checking a model setting requires its manufacturer manual and gauge identity; a machine name alone does not establish adjustable pressure.'],
+    title: 'Breville — Barista Express extraction pressure', url: 'https://www.breville.com/en-us/product/bes870',
+    supportingSources: [{ title: 'Flair — Pressure gauge guidance', url: 'https://support.flairespresso.com/knowledge/what' }],
+  },
+  {
     id: 'processing-comparison', group: 'beans', titles: ['المجففة واللاهوائية والتقشير الرطب', 'Natural, anaerobic natural and wet-hulled'], priority: 85,
     keywords: /مجفف|لا\s?هوا[ئي]|تقشير(?:\s+ال)?\s*رطب|التقشير الرطب|مقشور.*رطب|anaerobic|wet[ -]hull|giling basah|\bnatural(?:ly)?(?:[ -](?:process(?:ed|ing)?|dried|coffee))?\b|dry[ -]process/,
     ar: 'المعالجة هي تجهيز بذور القهوة بعد قطف الثمار وقبل التحميص.\n\n• المجففة (Natural): تجف الثمرة كاملة حول البذور، ثم تزال الأجزاء الجافة. قد تبرز الحلاوة المدركة والنكهات الفاكهية وقوام ممتلئ.\n• المجففة اللاهوائية (Anaerobic Natural): تمر الثمار عادة بتخمير في وعاء مغلق قليل الأكسجين، ثم تجف كاملة وتزال قشرتها. قد تظهر نكهات فاكهية أو تخمرية أوضح، لكن النتيجة تختلف حسب التنفيذ.\n• التقشير الرطب (Wet-hulled / Giling Basah): تزال القشرة الخارجية واللب، وتجف البذور جزئيًا؛ ثم تزال القشرة الرقّية وهي ما زالت رطبة، ويكتمل التجفيف بعدها. تشتهر به إندونيسيا، وقد يعطي قوامًا ثقيلًا وإيحاءات عشبية أو ترابية أو شوكولاتة.\n\nالتقشير الرطب ليس المعالجة المغسولة؛ في المغسولة تبقى القشرة الرقّية أثناء التجفيف وتزال بعده. «لاهوائية» تصف بيئة التخمير، ويمكن جمعها مع معالجات أخرى. هذه صفات شائعة وليست ضمانًا للطعم أو الجودة؛ الصنف والتحميص والتحضير تؤثر أيضًا.',

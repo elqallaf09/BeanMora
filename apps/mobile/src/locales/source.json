@@ -72,6 +72,22 @@
     ]
   },
   {
+    "en": " · Showing cold & iced",
+    "ar": " · المعروض: البارد والمثلج",
+    "files": [
+      "src/RecipeCatalog.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": " · Showing hot",
+    "ar": " · المعروض: الساخن",
+    "files": [
+      "src/RecipeCatalog.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": " · Some data could not update",
     "ar": " · تعذّر تحديث بعض البيانات",
     "files": [
@@ -184,83 +200,6 @@
     ]
   },
   {
-    "en": "AI assistance is temporarily unavailable; this answer comes from the coffee guide.",
-    "ar": "المساعدة الذكية غير متاحة مؤقتًا؛ هذا الرد من دليل القهوة.",
-    "files": [
-      "src/CoffeeAssistant.tsx",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "AI assistance is unavailable right now. You can continue using the coffee guide.",
-    "ar": "المساعدة الذكية غير متاحة حاليًا. يمكنك متابعة استخدام دليل القهوة.",
-    "files": [
-      "src/CoffeeAssistant.tsx",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "AI assists search and comparisons. Lessons and calculations use the coffee guide.",
-    "ar": "البحث والمقارنة بمساعدة الذكاء الاصطناعي. الدروس والحسابات من دليل القهوة.",
-    "files": [
-      "src/CoffeeAssistant.tsx",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "Checking…",
-    "ar": "جارٍ التحقق…",
-    "files": [
-      "src/CoffeeAssistant.tsx",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "Coffee expert · AI assisted",
-    "ar": "خبير القهوة · بمساعدة الذكاء الاصطناعي",
-    "files": [
-      "src/CoffeeAssistant.tsx",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "Compare three cups using the same recipe and water, with similar roast levels. Record aroma, perceived sweetness, acidity and body as they cool. Read the bag details: anaerobic alone does not mean added fruit or flavoring. All these processes include drying; natural specifically means drying the whole cherry. If origin or variety differs between samples, do not attribute every difference to processing.",
-    "ar": "قارن ثلاثة أكواب بالوصفة والماء نفسيهما وبدرجات تحميص متقاربة. سجّل الرائحة والحلاوة المدركة والحموضة والقوام بعد أن تبرد قليلًا. اقرأ تفاصيل المعالجة على الكيس؛ اسم «لاهوائية» وحده لا يعني إضافة فواكه أو منكهات. جميع هذه الطرق تشمل التجفيف، وكلمة «مجففة» هنا تعني تجفيف الثمرة كاملة. إذا اختلف المنشأ أو الصنف بين العينات، فلا تنسب كل فرق إلى المعالجة.",
-    "files": [
-      "src/core/coffee-curriculum.ts"
-    ]
-  },
-  {
-    "en": "Could not connect to AI assistance. The coffee guide is available.",
-    "ar": "تعذّر الاتصال بالمساعدة الذكية. دليل القهوة متاح.",
-    "files": [
-      "src/CoffeeAssistant.tsx",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "Enable AI assistance",
-    "ar": "تفعيل المساعدة الذكية",
-    "files": [
-      "src/CoffeeAssistant.tsx",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "Natural, anaerobic natural and wet-hulled",
-    "ar": "المجففة واللاهوائية والتقشير الرطب",
-    "files": [
-      "src/core/coffee-curriculum.ts"
-    ]
-  },
-  {
-    "en": "Processing prepares coffee seeds after harvest and before roasting.\n\n• Natural: the whole cherry dries around the seeds, then the dried fruit is removed. Perceived sweetness, fruity notes and a full body may stand out.\n• Anaerobic natural: cherries usually ferment in a closed, low-oxygen vessel before drying whole and being hulled. Fruit or fermentation notes may be more pronounced, but the outcome depends on the process.\n• Wet-hulled (Giling Basah): skin and pulp are removed and the seeds are partially dried; parchment is then removed while they are still moist, before final drying. Common in Indonesia, it may bring a heavy body with herbal, earthy or chocolate notes.\n\nWet-hulled is not washed processing: washed coffee keeps its parchment during drying and is hulled afterward. Anaerobic describes the fermentation environment and can accompany other processes. These are tendencies, not guarantees of flavor or quality; variety, roasting and brewing matter too.",
-    "ar": "المعالجة هي تجهيز بذور القهوة بعد قطف الثمار وقبل التحميص.\n\n• المجففة (Natural): تجف الثمرة كاملة حول البذور، ثم تزال الأجزاء الجافة. قد تبرز الحلاوة المدركة والنكهات الفاكهية وقوام ممتلئ.\n• المجففة اللاهوائية (Anaerobic Natural): تمر الثمار عادة بتخمير في وعاء مغلق قليل الأكسجين، ثم تجف كاملة وتزال قشرتها. قد تظهر نكهات فاكهية أو تخمرية أوضح، لكن النتيجة تختلف حسب التنفيذ.\n• التقشير الرطب (Wet-hulled / Giling Basah): تزال القشرة الخارجية واللب، وتجف البذور جزئيًا؛ ثم تزال القشرة الرقّية وهي ما زالت رطبة، ويكتمل التجفيف بعدها. تشتهر به إندونيسيا، وقد يعطي قوامًا ثقيلًا وإيحاءات عشبية أو ترابية أو شوكولاتة.\n\nالتقشير الرطب ليس المعالجة المغسولة؛ في المغسولة تبقى القشرة الرقّية أثناء التجفيف وتزال بعده. «لاهوائية» تصف بيئة التخمير، ويمكن جمعها مع معالجات أخرى. هذه صفات شائعة وليست ضمانًا للطعم أو الجودة؛ الصنف والتحميص والتحضير تؤثر أيضًا.",
-    "files": [
-      "src/core/coffee-curriculum.ts"
-    ]
-  },
-  {
     "en": "· Scale:",
     "ar": "· الميزان:",
     "files": [
@@ -345,6 +284,14 @@
     "ar": "١. ثبّت المحصول، وزن الدفعة، الماكينة، نوع الحساس وروتين التسخين.",
     "files": [
       "src/RoastGuide.tsx"
+    ]
+  },
+  {
+    "en": "1. Temperature: look for adjustable brew temperature; PID alone does not provide pressure profiling.\n2. Pressure: changing pressure during a shot differs from setting pump pressure once. A gauge alone does not provide control.\n3. Flow: changes water delivery to the coffee. Pressure also depends on puck resistance, so flow control is not direct pressure control.",
+    "ar": "1. الحرارة: ابحث عن ضبط حرارة التحضير؛ وجود PID وحده لا يعني برمجة الضغط.\n2. الضغط: تغيير الضغط خلال الشوت يختلف عن ضبط ضغط المضخة مرة واحدة، ووجود عداد لا يعني إمكانية التحكم.\n3. التدفق: يغيّر كمية الماء المارة إلى البن؛ يتأثر الضغط أيضًا بمقاومة البن، لذلك التحكم بالتدفق ليس ضبطًا مباشرًا للضغط.",
+    "files": [
+      "src/core/espresso-control-advice.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -772,6 +719,13 @@
     ]
   },
   {
+    "en": "Action was not confirmed. Please retry.",
+    "ar": "لم يتأكد الإجراء. حاول مرة ثانية.",
+    "files": [
+      "src/CommunityModeration.tsx"
+    ]
+  },
+  {
     "en": "Actual grind setting",
     "ar": "درجة الطحن الفعلية",
     "files": [
@@ -939,6 +893,21 @@
     "ar": "إضافة قصتي",
     "files": [
       "src/CoffeeStories.tsx"
+    ]
+  },
+  {
+    "en": "Add new",
+    "ar": "إضافة جديد",
+    "files": [
+      "src/CoffeeScreens.tsx",
+      "App.tsx"
+    ]
+  },
+  {
+    "en": "Add new +",
+    "ar": "إضافة جديد +",
+    "files": [
+      "src/CoffeeScreens.tsx"
     ]
   },
   {
@@ -1219,6 +1188,43 @@
     ]
   },
   {
+    "en": "AI answers coffee and brewing questions. Exact calculations use the coffee guide.",
+    "ar": "المساعدة الذكية تجيب عن القهوة والتحضير. الحسابات الدقيقة من دليل القهوة.",
+    "files": [
+      "src/CoffeeAssistant.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "AI assistance is temporarily unavailable; this answer comes from the coffee guide.",
+    "ar": "",
+    "files": [
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "AI assistance is temporarily unavailable. We switched to the coffee guide.",
+    "ar": "تعذّر الاتصال بالمساعدة الذكية مؤقتًا. رجعنا إلى دليل القهوة.",
+    "files": [
+      "src/CoffeeAssistant.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "AI assistance is unavailable right now. You can continue using the coffee guide.",
+    "ar": "",
+    "files": [
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "AI assists search and comparisons. Lessons and calculations use the coffee guide.",
+    "ar": "",
+    "files": [
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Aiden grind setup video guide",
     "ar": "شرح Aiden والطحن بالفيديو",
     "files": [
@@ -1360,10 +1366,26 @@
     ]
   },
   {
+    "en": "All tastes",
+    "ar": "كل المذاقات",
+    "files": [
+      "src/XBloomPlanner.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "All xBloom devices",
     "ar": "كل أجهزة xBloom",
     "files": [
       "src/CoffeeScreens.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "All xBloom recipes: ",
+    "ar": "إجمالي وصفات xBloom: ",
+    "files": [
+      "src/RecipeCatalog.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -1875,6 +1897,13 @@
     ]
   },
   {
+    "en": "Ask about grind, ratio or taste",
+    "ar": "اسأله عن الطحنة، النسبة، أو الطعم",
+    "files": [
+      "src/CoffeeScreens.tsx"
+    ]
+  },
+  {
     "en": "Ask the coffee expert…",
     "ar": "اسأل خبير القهوة…",
     "files": [
@@ -1908,9 +1937,8 @@
   },
   {
     "en": "Attach brew (optional)",
-    "ar": "إرفاق تحضير (اختياري)",
+    "ar": "",
     "files": [
-      "src/PostComposer.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -2116,6 +2144,14 @@
     ]
   },
   {
+    "en": "banana",
+    "ar": "موز",
+    "files": [
+      "src/core/flavor-vocabulary.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "bangladesh",
     "ar": "",
     "files": [
@@ -2127,6 +2163,22 @@
     "ar": "بنغلاديش",
     "files": [
       "src/core/account-countries.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Bar is a unit of pressure. For espresso, 9 bar is a common extraction reference, not a required setting for every machine or recipe. For example, Breville describes extraction at 9 bar from a pump rated at 15 bar, while Flair specifies 6–9 bar for some of its brewers.\n\nKeep dose and yield fixed, and check grind and puck preparation before changing machine pressure. Follow your model manual; this general reference is not an instruction to adjust an internal valve or component.",
+    "ar": "البار (bar) وحدة ضغط. إذا تقصد الإسبريسو، 9 بار مرجع شائع أثناء الاستخلاص، وليس رقمًا مطلوبًا لكل ماكينة ووصفة. مثلًا Breville تذكر استخلاصًا عند 9 بار بمضخة مصنّفة 15 بار، وFlair تذكر 6–9 بار لبعض أجهزتها.\n\nثبّت الجرعة والناتج، وراجع الطحن وتوزيع البن قبل محاولة تغيير ضغط الماكينة. اتبع دليل موديلك، ولا تعدّل صمامًا أو جزءًا داخليًا اعتمادًا على هذا المرجع العام.",
+    "files": [
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Bar measures pressure, but an espresso setting does not apply to every brewer. Specify the brewer, model and what you are measuring; follow its manual rather than raising pressure to reach a general number.",
+    "ar": "البار وحدة ضغط، لكن إعداد الإسبريسو لا ينطبق على كل أدوات التحضير. حدّد الأداة والموديل وما الذي تقيسه؛ اتبع دليلها ولا ترفع الضغط للوصول إلى رقم عام.",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -2311,6 +2363,14 @@
     ]
   },
   {
+    "en": "Before buying, compare the required control type and confirm the model price with the seller.",
+    "ar": "للمقارنة قبل الشراء: تأكد من نوع التحكم المطلوب ومن سعر الموديل لدى البائع.",
+    "files": [
+      "src/core/espresso-control-advice.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Before roasting, record origin, variety, process, lot, moisture and density when measured. Inspect uniformity, defects and sample aroma. Green coffee can look grayish or yellowish; decaf can start brown. Color alone does not establish freshness or quality.",
     "ar": "قبل التحميص، سجل المنشأ والصنف والمعالجة والمحصول والرطوبة والكثافة إن كانت مقاسة. افحص التجانس والعيوب ورائحة العينة. الأخضر قد يكون مائلًا للرمادي أو الأصفر، والديكاف قد يبدأ بنيًا؛ اللون وحده لا يثبت النضارة أو الجودة.",
     "files": [
@@ -2453,7 +2513,6 @@
     "ar": "أفضل إعداد",
     "files": [
       "src/BestSetup.tsx",
-      "src/CoffeeScreens.tsx",
       "src/MyBags.tsx",
       "src/japaneseLabels.ts"
     ]
@@ -2622,6 +2681,7 @@
     "en": "Block member",
     "ar": "حظر الحساب",
     "files": [
+      "src/CommunityModeration.tsx",
       "src/DirectMessages.tsx",
       "src/locales/reviewed.json"
     ]
@@ -2638,6 +2698,7 @@
     "en": "Block this member and stop new messages between you? You can unblock in Settings.",
     "ar": "حظر هذا الحساب ومنع الرسائل الجديدة بينكما؟ يمكنك إلغاء الحظر من الإعدادات.",
     "files": [
+      "src/CommunityModeration.tsx",
       "src/DirectMessages.tsx"
     ]
   },
@@ -2685,7 +2746,7 @@
     "en": "Blooming wets the grounds with a small part of the brew water before the remaining pours. It helps wet the bed evenly and releases roasting gas, so fresh coffee can expand more. Keep wetting and agitation consistent. Follow the recipe for water amount and waiting time; bloom size alone does not measure coffee quality.",
     "ar": "البلوم هو ترطيب البن بقليل من ماء التحضير قبل بقية الصبات. يساعد على وصول الماء لكل البن وخروج غازات التحميص، لذلك قد ينتفخ البن الطازج أكثر. حافظ على ترطيب متجانس وطريقة تحريك ثابتة. كمية الماء والانتظار تتبع الوصفة؛ كبر البلوم وحده لا يقيس جودة البن.",
     "files": [
-      "src/core/coffee-knowledge.ts",
+      "src/core/coffee-knowledge-basics.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -3016,6 +3077,22 @@
     ]
   },
   {
+    "en": "Brew water (ml)",
+    "ar": "ماء الاستخلاص (ml)",
+    "files": [
+      "src/XBloomPlanner.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Brew water excluding ice (ml)",
+    "ar": "ماء الاستخلاص دون الثلج (ml)",
+    "files": [
+      "src/XBloomPlanner.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Brew your own beans with the dripper appropriate to your model.",
     "ar": "استخدام حبوبك الخاصة مع القطّارة المناسبة للجهاز.",
     "files": [
@@ -3050,7 +3127,7 @@
     "en": "Brewing",
     "ar": "التحضير",
     "files": [
-      "src/CoffeeStories.tsx",
+      "src/StoryTopics.tsx",
       "src/core/coffee-knowledge.ts",
       "src/locales/reviewed.json"
     ]
@@ -3163,6 +3240,13 @@
     "files": [
       "src/core/flavor-vocabulary.ts",
       "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Browse",
+    "ar": "تصفّح",
+    "files": [
+      "src/CoffeeScreens.tsx"
     ]
   },
   {
@@ -3322,6 +3406,14 @@
     ]
   },
   {
+    "en": "By publishing, you confirm you have permission to share this content.",
+    "ar": "بنشر القصة، تؤكد حقك في مشاركة محتواها.",
+    "files": [
+      "src/CoffeeStories.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Bypass adds water that does not pass through the grounds to the extracted beverage. Dilution lowers concentration but does not extract more from grounds once the beverage is separated. Record brew water, dilution water and measured beverage yield separately. SCAA’s bypass guidance relates the recipe to batch volume and taste; no single dilution percentage suits every coffee and brewer.",
     "ar": "البايباس يضيف ماء لا يمر عبر البن إلى المشروب المستخلص. التخفيف يقلل تركيزه، لكنه لا يستخلص مواد إضافية من البن بعد فصل المشروب عنه. سجّل ماء التحضير وماء التخفيف والناتج المقاس منفصلة. إرشادات SCAA للبايباس تربط الوصفة بحجم الدفعة والطعم؛ لا توجد نسبة تخفيف واحدة لكل البن والأدوات.",
     "files": [
@@ -3381,7 +3473,7 @@
     "en": "Calculate 18 g at 1:16",
     "ar": "احسب 18 غرام بنسبة 1:16",
     "files": [
-      "src/core/coffee-knowledge.ts",
+      "src/core/coffee-knowledge-basics.ts",
       "src/core/local-coffee-assistant.ts",
       "src/locales/reviewed.json"
     ]
@@ -3469,6 +3561,7 @@
       "src/AvatarEditor.tsx",
       "src/CoffeeAssistant.tsx",
       "src/CoffeeLabelCropper.tsx",
+      "src/CommunityModeration.tsx",
       "src/ConfirmDialog.tsx",
       "src/DirectMessages.tsx",
       "src/ExploreScreens.tsx",
@@ -3655,10 +3748,19 @@
     ]
   },
   {
+    "en": "Capsule shape illustration",
+    "ar": "رسم توضيحي لشكل الكبسولة",
+    "files": [
+      "src/CapsuleVisual.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Capsules",
     "ar": "الكبسولات",
     "files": [
       "src/CapsuleCatalog.tsx",
+      "src/CoffeeScreens.tsx",
       "App.tsx",
       "src/localeText.ts"
     ]
@@ -3683,6 +3785,7 @@
     "ar": "كراميل",
     "files": [
       "src/RecipeCatalog.tsx",
+      "src/XBloomPlanner.tsx",
       "src/recipeDiscovery.ts",
       "src/locales/reviewed.json"
     ]
@@ -4100,6 +4203,14 @@
     ]
   },
   {
+    "en": "Checking…",
+    "ar": "جارٍ التحقق…",
+    "files": [
+      "src/CoffeeAssistant.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "chelchele",
     "ar": "",
     "files": [
@@ -4207,6 +4318,7 @@
     "files": [
       "src/RecipeCatalog.tsx",
       "src/XBloomMatchNotice.tsx",
+      "src/XBloomPlanner.tsx",
       "src/recipeDiscovery.ts",
       "src/locales/reviewed.json"
     ]
@@ -4234,6 +4346,14 @@
       "src/SelectionMenu.tsx",
       "src/locales/reviewed.json",
       "src/localeText.ts"
+    ]
+  },
+  {
+    "en": "Choose a base recipe. Water, coffee and pours are scaled while source grind and temperatures are retained. Review before saving.",
+    "ar": "اختر وصفة أساس؛ نضبط الماء والبن والصبات مع إبقاء الطحنة والحرارة من المصدر. راجع المسودة قبل حفظها.",
+    "files": [
+      "src/XBloomPlanner.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -4281,6 +4401,14 @@
     "ar": "اختر صورة JPG أو PNG أو WebP.",
     "files": [
       "src/AvatarEditor.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Choose a less common password. Try a few words you can remember.",
+    "ar": "اختر كلمة مرور أقل شيوعًا. جرّب عبارة من كلمات يسهل تذكرها.",
+    "files": [
+      "src/passwordGuidance.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -4347,9 +4475,8 @@
   },
   {
     "en": "Choose a stronger password with at least 8 characters.",
-    "ar": "اختر كلمة مرور أقوى، من 8 أحرف على الأقل.",
+    "ar": "",
     "files": [
-      "src/AccountSecurity.tsx",
       "src/japaneseLabels.ts"
     ]
   },
@@ -4485,6 +4612,7 @@
     "en": "Choose your brew method",
     "ar": "اختر طريقة التحضير",
     "files": [
+      "src/BrewMethods.tsx",
       "src/CoffeeScreens.tsx",
       "src/locales/reviewed.json",
       "src/japaneseLabels.ts"
@@ -4582,6 +4710,7 @@
     "files": [
       "src/RecipeCatalog.tsx",
       "src/XBloomMatchNotice.tsx",
+      "src/XBloomPlanner.tsx",
       "src/recipeDiscovery.ts",
       "src/locales/reviewed.json"
     ]
@@ -4943,12 +5072,13 @@
   },
   {
     "en": "Coffee",
-    "ar": "القهوة",
+    "ar": "البن",
     "files": [
-      "src/CoffeeStories.tsx",
+      "src/CoffeeScreens.tsx",
       "src/GuidedBrew.tsx",
       "src/MemberProfile.tsx",
       "src/RecipeDetail.tsx",
+      "src/StoryTopics.tsx",
       "src/copy.ts",
       "src/core/local-coffee-assistant.ts",
       "src/recipeDiscovery.ts",
@@ -4977,6 +5107,7 @@
     "en": "Coffee & taste",
     "ar": "البن والإيحاءات",
     "files": [
+      "src/CoffeeScreens.tsx",
       "App.tsx",
       "src/japaneseLabels.ts"
     ]
@@ -5022,9 +5153,9 @@
     "en": "Coffee corner",
     "ar": "ركن القهوة",
     "files": [
-      "src/CoffeeStories.tsx",
       "src/MemberProfile.tsx",
       "src/ProfilePhotoActions.tsx",
+      "src/StoryTopics.tsx",
       "src/japaneseLabels.ts"
     ]
   },
@@ -5045,8 +5176,9 @@
   },
   {
     "en": "Coffee dose (g)",
-    "ar": "جرعة البن (غرام)",
+    "ar": "جرعة البن (g)",
     "files": [
+      "src/XBloomPlanner.tsx",
       "src/core/member-contributions.ts",
       "src/locales/reviewed.json"
     ]
@@ -5063,10 +5195,26 @@
     "en": "Coffee expert",
     "ar": "خبير القهوة",
     "files": [
-      "src/CoffeeAssistant.tsx",
+      "src/CoffeeScreens.tsx",
       "App.tsx",
       "src/locales/reviewed.json",
       "src/localeText.ts"
+    ]
+  },
+  {
+    "en": "Coffee expert · AI assisted",
+    "ar": "خبير القهوة · بمساعدة الذكاء الاصطناعي",
+    "files": [
+      "src/CoffeeAssistant.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Coffee expert · Local coffee guide",
+    "ar": "خبير القهوة · دليل القهوة المحلي",
+    "files": [
+      "src/CoffeeAssistant.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -5102,6 +5250,14 @@
     ]
   },
   {
+    "en": "Coffee name or photo, machine, dripper and taste",
+    "ar": "اسم البن أو صورته، الجهاز، القمع والمذاق",
+    "files": [
+      "src/XBloomPlanner.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Coffee origin",
     "ar": "منشأ البن",
     "files": [
@@ -5115,7 +5271,7 @@
     "en": "Coffee origin photo",
     "ar": "صورة منشأ البن",
     "files": [
-      "src/CoffeeScreens.tsx",
+      "src/CoffeePhoto.tsx",
       "src/japaneseLabels.ts"
     ]
   },
@@ -5137,9 +5293,8 @@
   },
   {
     "en": "Coffee photo unavailable",
-    "ar": "صورة البن غير متوفرة",
+    "ar": "",
     "files": [
-      "src/CoffeeScreens.tsx",
       "src/japaneseLabels.ts"
     ]
   },
@@ -5163,7 +5318,7 @@
     "en": "Coffee product photo",
     "ar": "صورة عبوة البن",
     "files": [
-      "src/CoffeeScreens.tsx",
+      "src/CoffeePhoto.tsx",
       "src/japaneseLabels.ts"
     ]
   },
@@ -5253,9 +5408,16 @@
   },
   {
     "en": "Coffee, brewing and equipment only. Stories publish immediately for 24 hours. A confirmed violation gives a warning; repetition suspends participation and messages.",
-    "ar": "للقهوة والتحضير والمعدات فقط. تُنشر القصة فورًا لمدة 24 ساعة. المخالفة المؤكدة تحذير، وتكرارها حظر من المشاركة والرسائل.",
+    "ar": "",
     "files": [
-      "src/CoffeeStories.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Coffee, roaster or bag text",
+    "ar": "اسم البن أو المحمصة أو نص الكيس",
+    "files": [
+      "src/XBloomPlanner.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -5318,7 +5480,9 @@
     "ar": "بارد ومثلّج",
     "files": [
       "src/BrewMyCoffee.tsx",
+      "src/CoffeeLabelScanner.tsx",
       "src/RecipeCatalog.tsx",
+      "src/XBloomPlanner.tsx",
       "src/recipeDiscovery.ts",
       "src/locales/reviewed.json"
     ]
@@ -5394,6 +5558,13 @@
     "files": [
       "src/CommunityScreen.tsx",
       "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Comment options",
+    "ar": "خيارات التعليق",
+    "files": [
+      "src/CommunityScreen.tsx"
     ]
   },
   {
@@ -5548,6 +5719,14 @@
     ]
   },
   {
+    "en": "Compare three cups using the same recipe and water, with similar roast levels. Record aroma, perceived sweetness, acidity and body as they cool. Read the bag details: anaerobic alone does not mean added fruit or flavoring. All these processes include drying; natural specifically means drying the whole cherry. If origin or variety differs between samples, do not attribute every difference to processing.",
+    "ar": "قارن ثلاثة أكواب بالوصفة والماء نفسيهما وبدرجات تحميص متقاربة. سجّل الرائحة والحلاوة المدركة والحموضة والقوام بعد أن تبرد قليلًا. اقرأ تفاصيل المعالجة على الكيس؛ اسم «لاهوائية» وحده لا يعني إضافة فواكه أو منكهات. جميع هذه الطرق تشمل التجفيف، وكلمة «مجففة» هنا تعني تجفيف الثمرة كاملة. إذا اختلف المنشأ أو الصنف بين العينات، فلا تنسب كل فرق إلى المعالجة.",
+    "files": [
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Compare time and taste with the same dose and grind and rinse after use.",
     "ar": "قارن الوقت والطعم مع نفس الجرعة والطحن، واشطف الأداة بعد الاستخدام.",
     "files": [
@@ -5618,6 +5797,14 @@
     ]
   },
   {
+    "en": "Compatible matches: ",
+    "ar": "نتائج متوافقة: ",
+    "files": [
+      "src/XBloomPlanner.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Complete roasting study",
     "ar": "دليل التحميص الكامل",
     "files": [
@@ -5675,6 +5862,7 @@
     "en": "Confirm block",
     "ar": "تأكيد الحظر",
     "files": [
+      "src/CommunityModeration.tsx",
       "src/DirectMessages.tsx"
     ]
   },
@@ -6153,6 +6341,13 @@
     ]
   },
   {
+    "en": "Could not connect to AI assistance. The coffee guide is available.",
+    "ar": "",
+    "files": [
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Could not connect to confirm your email. Check your connection and try again.",
     "ar": "تعذّر الاتصال لتأكيد البريد. تحقق من اتصالك وحاول مجددًا.",
     "files": [
@@ -6621,6 +6816,14 @@
     ]
   },
   {
+    "en": "Create an xBloom recipe for your coffee",
+    "ar": "أنشئ وصفة xBloom لبنّك",
+    "files": [
+      "src/XBloomPlanner.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Creator",
     "ar": "صانع الوصفة",
     "files": [
@@ -6649,6 +6852,14 @@
     "ar": "بلد عمل صانع الوصفة",
     "files": [
       "src/RecipeCatalog.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Credits or the usage allowance are unavailable. We switched to the coffee guide; re-enable AI after renewing them.",
+    "ar": "الرصيد أو حد الاستخدام غير متاح. رجعنا إلى دليل القهوة؛ أعد تفعيل المساعدة الذكية بعد تجديده.",
+    "files": [
+      "src/CoffeeAssistant.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -7293,7 +7504,6 @@
     "en": "Discover",
     "ar": "اكتشف",
     "files": [
-      "src/CoffeeScreens.tsx",
       "App.tsx",
       "src/locales/reviewed.json",
       "src/localeText.ts"
@@ -7542,6 +7752,14 @@
     ]
   },
   {
+    "en": "Draft adapted from",
+    "ar": "مسودة معدّلة من",
+    "files": [
+      "src/xbloomDraft.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Drain and serve",
     "ar": "التصريف والتقديم",
     "files": [
@@ -7594,6 +7812,14 @@
     "ar": "فواكه مجففة",
     "files": [
       "src/core/flavor-vocabulary.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Dripper",
+    "ar": "القمع",
+    "files": [
+      "src/XBloomPlanner.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -7906,6 +8132,14 @@
     ]
   },
   {
+    "en": "Enable AI assistance",
+    "ar": "تفعيل المساعدة الذكية",
+    "files": [
+      "src/CoffeeAssistant.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Encore ESP manual and starting settings",
     "ar": "دليل Encore ESP ودرجات البداية",
     "files": [
@@ -8017,9 +8251,8 @@
   },
   {
     "en": "Enter your email first.",
-    "ar": "أدخل بريدك الإلكتروني أولاً.",
+    "ar": "",
     "files": [
-      "src/AccountScreen.tsx",
       "src/localeText.ts"
     ]
   },
@@ -8063,11 +8296,12 @@
   },
   {
     "en": "Equipment",
-    "ar": "المعدات",
+    "ar": "أدوات القهوة",
     "files": [
-      "src/CoffeeStories.tsx",
+      "src/CoffeeScreens.tsx",
       "src/MemberProfile.tsx",
       "src/MyEquipment.tsx",
+      "src/StoryTopics.tsx",
       "App.tsx",
       "src/locales/reviewed.json",
       "src/localeText.ts"
@@ -8204,6 +8438,14 @@
     ]
   },
   {
+    "en": "Espresso pressure in bar",
+    "ar": "ضغط الإسبريسو بالبار",
+    "files": [
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Espresso Roma",
     "ar": "إسبريسو روما",
     "files": [
@@ -8294,6 +8536,14 @@
     "ar": "الجميع",
     "files": [
       "src/SettingsSocial.tsx"
+    ]
+  },
+  {
+    "en": "Examples to compare by specification\n• Profitec DRIVE: PID temperature settings for both boilers and manual flow control during extraction; this is not direct programmable pressure profiling.\n• Decent DE1: supports stages controlling pressure or flow and brew temperature through its app.",
+    "ar": "أمثلة للمقارنة بالمواصفات\n• Profitec DRIVE: ضبط حرارة الغلايتين عبر PID وتحكم يدوي بالتدفق أثناء الشوت؛ لا أصفه كبرمجة مباشرة لمنحنى الضغط.\n• Decent DE1: يتيح إعداد مراحل للتحكم بالضغط أو التدفق وحرارة التحضير عبر التطبيق.",
+    "files": [
+      "src/core/espresso-control-advice.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -8732,6 +8982,22 @@
     ]
   },
   {
+    "en": "Find an xBloom recipe for your coffee",
+    "ar": "اعثر على وصفة xBloom لبنّك",
+    "files": [
+      "src/XBloomPlanner.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Find compatible recipes",
+    "ar": "ابحث عن وصفات متوافقة",
+    "files": [
+      "src/XBloomPlanner.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Find equipment",
     "ar": "ابحث عن أداة",
     "files": [
@@ -9045,6 +9311,7 @@
     "files": [
       "src/RecipeCatalog.tsx",
       "src/XBloomMatchNotice.tsx",
+      "src/XBloomPlanner.tsx",
       "src/recipeDiscovery.ts",
       "src/locales/reviewed.json"
     ]
@@ -9295,6 +9562,14 @@
     ]
   },
   {
+    "en": "For hands-on adjustment during a shot, compare machines with flow control. To save a profile that repeats automatically, compare pressure and flow profiling machines. Check the exact model manual; a control accessory does not fit every machine.",
+    "ar": "إذا تريد تحكمًا يدويًا أثناء الشوت، قارن أجهزة التحكم بالتدفق. وإذا تريد حفظ منحنى يتكرر تلقائيًا، قارن أجهزة برمجة الضغط والتدفق. راجع دليل الموديل نفسه؛ لا أفترض أن إضافة قطعة تحكم تناسب كل ماكينة.",
+    "files": [
+      "src/core/espresso-control-advice.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "For help, questions and reports, contact the BeanMora team at this email address.",
     "ar": "للدعم والاستفسارات والبلاغات، راسل فريق BeanMora عبر البريد التالي.",
     "files": [
@@ -9328,9 +9603,8 @@
   },
   {
     "en": "Forgot password?",
-    "ar": "نسيت كلمة المرور؟",
+    "ar": "",
     "files": [
-      "src/AccountScreen.tsx",
       "src/localeText.ts"
     ]
   },
@@ -9635,6 +9909,7 @@
     "files": [
       "src/RecipeCatalog.tsx",
       "src/XBloomMatchNotice.tsx",
+      "src/XBloomPlanner.tsx",
       "src/recipeDiscovery.ts",
       "src/locales/reviewed.json"
     ]
@@ -9712,6 +9987,14 @@
     "ar": "جهّز جميع المقادير والأدوات.",
     "files": [
       "src/localizedContent.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Gauge readings depend on the measurement point and brew phase. Distinguish brew pressure from steam-boiler pressure, and readings during extraction from readings without flow. Checking a model setting requires its manufacturer manual and gauge identity; a machine name alone does not establish adjustable pressure.",
+    "ar": "قراءة العداد تعتمد على مكان القياس ومرحلة التحضير. ميّز بين ضغط التحضير وضغط غلاية البخار، وبين قراءة أثناء نزول القهوة وقراءة بدون تدفق. للتحقق من إعداد الموديل، نحتاج دليل الشركة واسم العداد؛ اسم الماكينة وحده لا يثبت أن الضغط قابل للضبط.",
+    "files": [
+      "src/core/coffee-curriculum.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -9893,6 +10176,14 @@
       "src/GrinderSettings.tsx",
       "src/MyBags.tsx",
       "src/copy.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.",
+    "ar": "حسابك عبر Google؟ تابع باستخدام Google، أو اضغط «تعيين أو استرجاع كلمة المرور» لإنشاء كلمة مرور خاصة بـBeanMora.",
+    "files": [
+      "src/AccountScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -10750,6 +11041,7 @@
       "src/RecipeCatalog.tsx",
       "src/RecipeDetail.tsx",
       "src/RecipeServingBadge.tsx",
+      "src/XBloomPlanner.tsx",
       "src/core/local-coffee-assistant.ts",
       "src/recipeDiscovery.ts",
       "src/locales/reviewed.json"
@@ -10788,6 +11080,13 @@
     ]
   },
   {
+    "en": "How do I make espresso?",
+    "ar": "شلون أسوي إسبريسو؟",
+    "files": [
+      "src/core/local-coffee-assistant.ts"
+    ]
+  },
+  {
     "en": "How do we reach it?",
     "ar": "شلون نوصل لها؟",
     "files": [
@@ -10822,7 +11121,7 @@
     "ar": "شلون أخزن البن؟",
     "files": [
       "src/CoffeeAssistant.tsx",
-      "src/core/coffee-knowledge.ts",
+      "src/core/coffee-knowledge-basics.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -10917,6 +11216,13 @@
     "ar": "عدّلت على الوصفة",
     "files": [
       "src/copy.ts"
+    ]
+  },
+  {
+    "en": "I do not have a verified explanation for this question yet. Specify the coffee topic or model and what you want to do; I can help with the available guidance or identify what is missing.",
+    "ar": "ما عندي شرح موثّق لهذا السؤال بعد. حدّد موضوع القهوة أو اسم الموديل وما تريد عمله، وأقدر أساعدك بما هو متوفر أو أوضح المعلومة الناقصة.",
+    "files": [
+      "src/core/local-coffee-assistant.ts"
     ]
   },
   {
@@ -11115,9 +11421,8 @@
   },
   {
     "en": "If you created your account with Google, choose “Continue with Google”. Use a BeanMora password only if you have set one.",
-    "ar": "إذا أنشأت حسابك بواسطة Google، اضغط «تابع باستخدام Google». استخدم كلمة مرور BeanMora فقط إذا سبق أن عيّنتها.",
+    "ar": "",
     "files": [
-      "src/AccountScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -11141,7 +11446,16 @@
     "en": "Illustration · BeanMora",
     "ar": "صورة توضيحية · BeanMora",
     "files": [
+      "src/CoffeePhoto.tsx",
       "src/MethodPhoto.tsx"
+    ]
+  },
+  {
+    "en": "Illustration · not a product photo",
+    "ar": "شكل توضيحي · ليست صورة المنتج",
+    "files": [
+      "src/CapsuleVisual.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -11600,7 +11914,7 @@
     "en": "Keep beans airtight, away from light, heat and moisture. Grind what you need before brewing and buy an amount suited to your use. For longer storage, freeze in small airtight portions; take what you need without repeatedly moving the whole supply in and out. Moisture and odors affect coffee.",
     "ar": "احفظ البن في وعاء محكم بعيد عن الضوء والحرارة والرطوبة، واطحن حاجتك قبل التحضير. اشترِ كمية تناسب استهلاكك. للتخزين الطويل، استخدم عبوات صغيرة محكمة في الفريزر وخذ حاجتك دون تكرار إخراج الكمية كلها وإرجاعها؛ الرطوبة والروائح تؤثر في البن.",
     "files": [
-      "src/core/coffee-knowledge.ts",
+      "src/core/coffee-knowledge-basics.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -11625,6 +11939,14 @@
     "ar": "حافظ على شكل الفلتر وعدم انسداد فتحات التصريف. راجع مقاس الفلتر وتعليمات تنظيف الموديل.",
     "files": [
       "src/equipmentGuides.ts"
+    ]
+  },
+  {
+    "en": "Keep the label flat, fill the frame with text, and avoid glare.",
+    "ar": "افرد الملصق، وقرّب الكتابة داخل الصورة، وتجنّب انعكاس الإضاءة.",
+    "files": [
+      "src/CoffeeLabelScanner.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -12136,7 +12458,7 @@
     "en": "Lighter roasts tend to emphasize the coffee’s character; darker roasts bring more roast flavors. Colors and roast names vary between roasters and alone do not establish quality or caffeine content. Start with the roaster’s recipe, then change one variable at a time based on taste.",
     "ar": "التحميص الفاتح غالبًا يبرز شخصية البن، والغامق يبرز نكهات التحميص أكثر. لون البن وأسماء درجات التحميص تختلف بين المحامص ولا تعني وحدها الجودة أو كمية الكافيين. ابدأ بوصفة المحمصة ثم عدّل عاملًا واحدًا بحسب الطعم.",
     "files": [
-      "src/core/coffee-knowledge.ts",
+      "src/core/coffee-knowledge-basics.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -12249,6 +12571,14 @@
     "files": [
       "src/MemberProfile.tsx",
       "src/japaneseLabels.ts"
+    ]
+  },
+  {
+    "en": "Loading recipe photo",
+    "ar": "جارٍ تحميل صورة الوصفة",
+    "files": [
+      "src/CoffeePhoto.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -12855,6 +13185,14 @@
     ]
   },
   {
+    "en": "matches",
+    "ar": "نتيجة",
+    "files": [
+      "src/RecipeCatalog.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Matches in the published recipe data: ",
     "ar": "يطابق في بيانات الوصفة: ",
     "files": [
@@ -13123,9 +13461,17 @@
     ]
   },
   {
+    "en": "Member blocked.",
+    "ar": "تم حظر الحساب.",
+    "files": [
+      "src/CommunityScreen.tsx"
+    ]
+  },
+  {
     "en": "Member options",
     "ar": "خيارات الحساب",
     "files": [
+      "src/CommunityModeration.tsx",
       "src/DirectMessages.tsx"
     ]
   },
@@ -13586,9 +13932,8 @@
   },
   {
     "en": "More Than Coffee",
-    "ar": "أكثر من القهوة",
+    "ar": "",
     "files": [
-      "src/CoffeeScreens.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -13755,6 +14100,7 @@
     "en": "My equipment",
     "ar": "معداتـي",
     "files": [
+      "src/CoffeeScreens.tsx",
       "src/MyEquipment.tsx",
       "App.tsx",
       "src/locales/reviewed.json",
@@ -13766,6 +14112,13 @@
     "ar": "معداتـي",
     "files": [
       "App.tsx"
+    ]
+  },
+  {
+    "en": "My library",
+    "ar": "مكتبتي",
+    "files": [
+      "src/CoffeeScreens.tsx"
     ]
   },
   {
@@ -13787,8 +14140,9 @@
   },
   {
     "en": "My recipes",
-    "ar": "وصفاتي المضافة",
+    "ar": "وصفاتي",
     "files": [
+      "src/CoffeeScreens.tsx",
       "App.tsx",
       "src/locales/reviewed.json",
       "src/localeText.ts"
@@ -13830,7 +14184,7 @@
     "ar": "قهوتي V60 حامضة",
     "files": [
       "src/CoffeeAssistant.tsx",
-      "src/core/coffee-knowledge.ts",
+      "src/core/coffee-knowledge-basics.ts",
       "src/core/local-coffee-assistant.ts",
       "src/locales/reviewed.json"
     ]
@@ -13921,6 +14275,14 @@
       "src/localizedContent.ts",
       "src/locales/reviewed.json",
       "src/japaneseLabels.ts"
+    ]
+  },
+  {
+    "en": "Natural, anaerobic natural and wet-hulled",
+    "ar": "المجففة واللاهوائية والتقشير الرطب",
+    "files": [
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -14260,9 +14622,8 @@
   },
   {
     "en": "No brew attached",
-    "ar": "بدون تحضير",
+    "ar": "",
     "files": [
-      "src/PostComposer.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -14378,6 +14739,14 @@
     "ar": "لا توجد نتائج مطابقة.",
     "files": [
       "src/RecipeCatalog.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "No matching recipes. Try the coffee name alone or another taste. Studio and Original grind settings are kept separate.",
+    "ar": "لا توجد وصفات مطابقة. جرّب اسم البن فقط أو غيّر المذاق. طحنة Studio لا تُخلط مع Original.",
+    "files": [
+      "src/XBloomPlanner.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -14793,6 +15162,7 @@
     "files": [
       "src/RecipeCatalog.tsx",
       "src/XBloomMatchNotice.tsx",
+      "src/XBloomPlanner.tsx",
       "src/recipeDiscovery.ts",
       "src/locales/reviewed.json"
     ]
@@ -15581,6 +15951,14 @@
     ]
   },
   {
+    "en": "Pause",
+    "ar": "توقف",
+    "files": [
+      "src/xbloomDraft.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Pause story",
     "ar": "إيقاف القصة مؤقتًا",
     "files": [
@@ -16073,6 +16451,13 @@
     ]
   },
   {
+    "en": "Post options",
+    "ar": "خيارات المنشور",
+    "files": [
+      "src/CommunityScreen.tsx"
+    ]
+  },
+  {
     "en": "Post saved.",
     "ar": "تم حفظ المنشور.",
     "files": [
@@ -16284,6 +16669,14 @@
     "ar": "عائلة التحميص المفضلة",
     "files": [
       "src/copy.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Preferred taste",
+    "ar": "المذاق المفضل",
+    "files": [
+      "src/XBloomPlanner.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -16501,6 +16894,14 @@
     ]
   },
   {
+    "en": "Processing prepares coffee seeds after harvest and before roasting.\n\n• Natural: the whole cherry dries around the seeds, then the dried fruit is removed. Perceived sweetness, fruity notes and a full body may stand out.\n• Anaerobic natural: cherries usually ferment in a closed, low-oxygen vessel before drying whole and being hulled. Fruit or fermentation notes may be more pronounced, but the outcome depends on the process.\n• Wet-hulled (Giling Basah): skin and pulp are removed and the seeds are partially dried; parchment is then removed while they are still moist, before final drying. Common in Indonesia, it may bring a heavy body with herbal, earthy or chocolate notes.\n\nWet-hulled is not washed processing: washed coffee keeps its parchment during drying and is hulled afterward. Anaerobic describes the fermentation environment and can accompany other processes. These are tendencies, not guarantees of flavor or quality; variety, roasting and brewing matter too.",
+    "ar": "المعالجة هي تجهيز بذور القهوة بعد قطف الثمار وقبل التحميص.\n\n• المجففة (Natural): تجف الثمرة كاملة حول البذور، ثم تزال الأجزاء الجافة. قد تبرز الحلاوة المدركة والنكهات الفاكهية وقوام ممتلئ.\n• المجففة اللاهوائية (Anaerobic Natural): تمر الثمار عادة بتخمير في وعاء مغلق قليل الأكسجين، ثم تجف كاملة وتزال قشرتها. قد تظهر نكهات فاكهية أو تخمرية أوضح، لكن النتيجة تختلف حسب التنفيذ.\n• التقشير الرطب (Wet-hulled / Giling Basah): تزال القشرة الخارجية واللب، وتجف البذور جزئيًا؛ ثم تزال القشرة الرقّية وهي ما زالت رطبة، ويكتمل التجفيف بعدها. تشتهر به إندونيسيا، وقد يعطي قوامًا ثقيلًا وإيحاءات عشبية أو ترابية أو شوكولاتة.\n\nالتقشير الرطب ليس المعالجة المغسولة؛ في المغسولة تبقى القشرة الرقّية أثناء التجفيف وتزال بعده. «لاهوائية» تصف بيئة التخمير، ويمكن جمعها مع معالجات أخرى. هذه صفات شائعة وليست ضمانًا للطعم أو الجودة؛ الصنف والتحميص والتحضير تؤثر أيضًا.",
+    "files": [
+      "src/core/coffee-curriculum.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Producer",
     "ar": "المنتج",
     "files": [
@@ -16632,6 +17033,14 @@
     "ar": "أرقام الطحن المنشورة مرتبطة بطاحونة محددة؛ استخدمها كنقطة مرجعية فقط.",
     "files": [
       "src/methodGuides.json",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Published pours and dose are required. Choose half to twice the original size, within 5–30 g coffee and 50–500 ml water.",
+    "ar": "تحتاج وصفة بصبات وجرعة منشورة. اختر حجمًا بين نصف وضعف الأصل، بجرعة 5–30 g وماء 50–500 ml.",
+    "files": [
+      "src/XBloomPlanner.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -16843,6 +17252,14 @@
     ]
   },
   {
+    "en": "Read full photo",
+    "ar": "قراءة الصورة كاملة",
+    "files": [
+      "src/CoffeeLabelCropper.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Read selected label",
     "ar": "قراءة الجزء المحدد",
     "files": [
@@ -16931,6 +17348,14 @@
     ]
   },
   {
+    "en": "Recipe details",
+    "ar": "تفاصيل الوصفة",
+    "files": [
+      "src/XBloomPlanner.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Recipe for this coffee",
     "ar": "وصفة لهذا البن",
     "files": [
@@ -16955,6 +17380,8 @@
     "en": "Recipe library",
     "ar": "مكتبة الوصفات",
     "files": [
+      "src/BrewMethods.tsx",
+      "src/CoffeeScreens.tsx",
       "src/RecipeCatalog.tsx",
       "App.tsx",
       "src/locales/reviewed.json",
@@ -17052,7 +17479,7 @@
   },
   {
     "en": "Recipes",
-    "ar": "وصفة",
+    "ar": "الوصفات",
     "files": [
       "src/CoffeeScreens.tsx",
       "src/MemberProfile.tsx",
@@ -17102,9 +17529,8 @@
   },
   {
     "en": "Recommendations for your next cup",
-    "ar": "اقتراحات مبنية على تفضيلاتك",
+    "ar": "",
     "files": [
-      "src/CoffeeScreens.tsx",
       "src/japaneseLabels.ts"
     ]
   },
@@ -17689,6 +18115,13 @@
     ]
   },
   {
+    "en": "Report content",
+    "ar": "الإبلاغ عن المحتوى",
+    "files": [
+      "src/CommunityModeration.tsx"
+    ]
+  },
+  {
     "en": "Report content or a user",
     "ar": "بلاغ عن محتوى أو مستخدم",
     "files": [
@@ -17707,6 +18140,7 @@
     "en": "Report reason",
     "ar": "سبب البلاغ",
     "files": [
+      "src/CommunityModeration.tsx",
       "src/ExploreScreens.tsx"
     ]
   },
@@ -18165,8 +18599,9 @@
   },
   {
     "en": "Roast Lab",
-    "ar": "مختبر التحميص",
+    "ar": "التحميص",
     "files": [
+      "src/CoffeeScreens.tsx",
       "src/RoastLabScreen.tsx",
       "App.tsx",
       "src/locales/reviewed.json",
@@ -18390,7 +18825,7 @@
     "en": "Roaster product artwork",
     "ar": "صورة المنتج من المحمصة",
     "files": [
-      "src/CoffeeScreens.tsx",
+      "src/CoffeePhoto.tsx",
       "src/locales/reviewed.json",
       "src/japaneseLabels.ts"
     ]
@@ -18439,6 +18874,7 @@
     "en": "Roasteries",
     "ar": "المحامص",
     "files": [
+      "src/CoffeeScreens.tsx",
       "src/ExploreScreens.tsx",
       "App.tsx",
       "src/japaneseLabels.ts"
@@ -18455,6 +18891,7 @@
     "en": "Roasters",
     "ar": "المحامص",
     "files": [
+      "src/CoffeeScreens.tsx",
       "src/SearchScreen.tsx",
       "App.tsx",
       "src/locales/reviewed.json",
@@ -18482,7 +18919,7 @@
     "en": "Roasting gas leaves the beans gradually, and resting time varies with the coffee and roast. Follow your roaster’s guidance and track taste over time. La Cabra recommends at least ten days for its own coffee and sometimes longer for dense coffees; that is its roast guidance, not a rule for every roaster.",
     "ar": "بعد التحميص يخرج الغاز تدريجيًا، ومدة الراحة تختلف حسب البن ودرجة التحميص. اتبع توصية محمصتك وسجّل تغير الطعم مع الأيام. لا كابرا توصي لبنها براحة عشرة أيام على الأقل وقد يناسب بعض بنها الكثيف وقت أطول؛ هذا يخص تحميصها وليس قاعدة لكل المحامص.",
     "files": [
-      "src/core/coffee-knowledge.ts",
+      "src/core/coffee-knowledge-basics.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -18987,6 +19424,7 @@
     "en": "Saved coffee",
     "ar": "بن محفوظ",
     "files": [
+      "src/CoffeeScreens.tsx",
       "App.tsx"
     ]
   },
@@ -19002,6 +19440,7 @@
     "en": "Saved coffees",
     "ar": "البن المحفوظ",
     "files": [
+      "src/CoffeeScreens.tsx",
       "App.tsx",
       "src/locales/reviewed.json",
       "src/localeText.ts"
@@ -19017,8 +19456,9 @@
   },
   {
     "en": "Saved recipes",
-    "ar": "وصفاتي المحفوظة",
+    "ar": "وصفات محفوظة",
     "files": [
+      "src/CoffeeScreens.tsx",
       "src/RecipeShelf.tsx",
       "App.tsx",
       "src/locales/reviewed.json",
@@ -19193,11 +19633,17 @@
   },
   {
     "en": "Search coffees, recipes and roasters",
-    "ar": "ابحث بين البن والوصفات والمحامص",
+    "ar": "",
     "files": [
-      "src/CoffeeScreens.tsx",
       "src/locales/reviewed.json",
       "src/japaneseLabels.ts"
+    ]
+  },
+  {
+    "en": "Search coffees, recipes or roasters",
+    "ar": "ابحث عن بن، وصفة، أو محمصة",
+    "files": [
+      "src/CoffeeScreens.tsx"
     ]
   },
   {
@@ -19216,10 +19662,25 @@
     ]
   },
   {
+    "en": "Search failed. Try again.",
+    "ar": "تعذّر البحث. حاول مرة أخرى.",
+    "files": [
+      "src/XBloomPlanner.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Search for options first, then say “explain the first” or “compare the first and second”. Use a displayed result number.",
     "ar": "ابحث عن الخيارات أولًا، ثم قل «اشرح الأول» أو «قارن الأول والثاني». اختر رقمًا من النتائج الظاهرة.",
     "files": [
       "src/core/local-coffee-assistant.ts"
+    ]
+  },
+  {
+    "en": "Search now",
+    "ar": "ابحث الآن",
+    "files": [
+      "src/CoffeeScreens.tsx"
     ]
   },
   {
@@ -19417,6 +19878,7 @@
     "ar": "إرسال البلاغ",
     "files": [
       "src/CoffeeStories.tsx",
+      "src/CommunityModeration.tsx",
       "src/ExploreScreens.tsx"
     ]
   },
@@ -19496,6 +19958,22 @@
     "ar": "تعيين كلمة مرور جديدة",
     "files": [
       "src/PasswordRecovery.tsx"
+    ]
+  },
+  {
+    "en": "Set amount by",
+    "ar": "تحديد الكمية حسب",
+    "files": [
+      "src/XBloomPlanner.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Set or reset password",
+    "ar": "تعيين أو استرجاع كلمة المرور",
+    "files": [
+      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -19669,6 +20147,14 @@
     ]
   },
   {
+    "en": "Share your coffee moment for 24 hours.",
+    "ar": "شارك لحظتك مع القهوة لمدة 24 ساعة.",
+    "files": [
+      "src/CoffeeStories.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Share your experience",
     "ar": "شارك تجربتك",
     "files": [
@@ -19756,6 +20242,14 @@
     ]
   },
   {
+    "en": "Show more recipes",
+    "ar": "عرض وصفات أكثر",
+    "files": [
+      "src/XBloomPlanner.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Show password",
     "ar": "إظهار كلمة المرور",
     "files": [
@@ -19811,6 +20305,14 @@
       "src/MyEquipment.tsx",
       "src/RoastLabScreen.tsx",
       "src/copy.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Sign in again to use AI assistance. The coffee guide is available.",
+    "ar": "سجّل الدخول مجددًا لاستخدام المساعدة الذكية. دليل القهوة متاح.",
+    "files": [
+      "src/CoffeeAssistant.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -20204,6 +20706,14 @@
     "ar": "بعض المعدات مختلفة؛ لا تنقل أرقام الطحن بين الطواحين.",
     "files": [
       "src/copy.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Some saved recipes are temporarily unavailable. Their saved references have been retained.",
+    "ar": "بعض الوصفات المحفوظة غير متاحة مؤقتًا. بقيت مراجعها محفوظة.",
+    "files": [
+      "src/RecipeShelf.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -21100,7 +21610,7 @@
     "en": "Story topic",
     "ar": "موضوع القصة",
     "files": [
-      "src/CoffeeStories.tsx"
+      "src/StoryTopics.tsx"
     ]
   },
   {
@@ -21678,7 +22188,9 @@
     "en": "Tell me more",
     "ar": "اشرح أكثر",
     "files": [
-      "src/core/coffee-knowledge.ts"
+      "src/core/coffee-knowledge.ts",
+      "src/core/espresso-control-advice.ts",
+      "src/core/local-coffee-assistant.ts"
     ]
   },
   {
@@ -21841,9 +22353,8 @@
   },
   {
     "en": "The coffee guide was used for this answer.",
-    "ar": "استخدمنا دليل القهوة لهذا الرد.",
+    "ar": "",
     "files": [
-      "src/CoffeeAssistant.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -21923,6 +22434,14 @@
     "ar": "القراءة غير مكتملة. حدّد الملصق أو صوّره من قريب، وراجع الحقول قبل البحث.",
     "files": [
       "src/CoffeeLabelScanner.tsx"
+    ]
+  },
+  {
+    "en": "The request limit was reached temporarily. The coffee guide answers now; AI resumes after the waiting period.",
+    "ar": "وصلنا إلى حد الطلبات مؤقتًا. دليل القهوة يجاوبك الآن، وتعود المساعدة الذكية بعد الانتظار.",
+    "files": [
+      "src/CoffeeAssistant.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -22013,6 +22532,14 @@
     "ar": "هذه روابط بائعين للمعدات التي طلبتها، من بيانات كتالوغنا. افتح «موقع البائع» للشراء، وراجع السعر والتوفر والشحن إلى بلدك في المتجر.",
     "files": [
       "src/core/coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "These are specification examples, not confirmed offers within your budget or available in your country. Check price and stock with the seller.",
+    "ar": "هذه أمثلة للمواصفات، وليست عروضًا مؤكدة ضمن ميزانيتك أو متوفرة في بلدك. السعر والتوفر يحتاجان تحققًا من البائع.",
+    "files": [
+      "src/core/espresso-control-advice.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -22180,13 +22707,6 @@
     ]
   },
   {
-    "en": "This is coffee content and I have permission to share it",
-    "ar": "المحتوى يخص القهوة وأملك حق نشره",
-    "files": [
-      "src/CoffeeStories.tsx"
-    ]
-  },
-  {
     "en": "This is the unroasted starting point. Record lot, mass, moisture and density when measured, and use a starting profile suited to your roaster.",
     "ar": "هذه نقطة البداية قبل التحميص. سجل المحصول ووزنه ورطوبته وكثافته إن كانت مقاسة، واتبع إعداد بدء يناسب محمصتك.",
     "files": [
@@ -22209,26 +22729,32 @@
     ]
   },
   {
-    "en": "To protect your account, choose a more secure password you haven’t used before.",
-    "ar": "لحماية حسابك، اختر كلمة مرور أكثر أمانًا ولم تستخدمها من قبل.",
+    "en": "This password does not match the current account requirements. Try another password.",
+    "ar": "كلمة المرور لا تطابق متطلبات الحساب الحالية. جرّب كلمة مرور أخرى.",
     "files": [
-      "src/AccountScreen.tsx",
+      "src/passwordGuidance.ts",
       "src/locales/reviewed.json"
     ]
   },
   {
     "en": "This password does not meet the security requirements. Use a longer password with uppercase and lowercase letters, numbers and symbols.",
-    "ar": "كلمة المرور لا تستوفي متطلبات الأمان. استخدم كلمة أطول تتضمن أحرفًا كبيرة وصغيرة وأرقامًا ورموزًا.",
+    "ar": "",
     "files": [
-      "src/AccountScreen.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "This password is too short. Use at least 8 characters.",
+    "ar": "كلمة المرور قصيرة. استخدم 8 أحرف على الأقل.",
+    "files": [
+      "src/passwordGuidance.ts",
       "src/locales/reviewed.json"
     ]
   },
   {
     "en": "This password is weak and easy to guess. Choose a longer, unique password.",
-    "ar": "كلمة المرور ضعيفة وسهلة التخمين. اختر كلمة مرور أطول وفريدة.",
+    "ar": "",
     "files": [
-      "src/AccountScreen.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -22237,6 +22763,14 @@
     "ar": "الخطة مثال باستخدام حدود نطاق المصدر؛ اتبع النطاق والتدفق المذكورين.",
     "files": [
       "src/GuidedBrew.tsx"
+    ]
+  },
+  {
+    "en": "This recipe does not match the selected machine, dripper or serving style.",
+    "ar": "الوصفة لا تطابق الجهاز أو القمع أو نوع التحضير المحدد.",
+    "files": [
+      "src/XBloomPlanner.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -22358,6 +22892,13 @@
     ]
   },
   {
+    "en": "To protect your account, choose a more secure password you haven’t used before.",
+    "ar": "",
+    "files": [
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Toby's Estate",
     "ar": "توبيز إيستيت",
     "files": [
@@ -22446,6 +22987,7 @@
     "en": "Tools",
     "ar": "الأدوات",
     "files": [
+      "src/CoffeeScreens.tsx",
       "src/ExploreScreens.tsx",
       "App.tsx"
     ]
@@ -23097,6 +23639,21 @@
     ]
   },
   {
+    "en": "Use as my base recipe",
+    "ar": "استخدم هذه الوصفة كأساس",
+    "files": [
+      "src/XBloomPlanner.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Use at least 8 characters and a password unique to this account.",
+    "ar": "",
+    "files": [
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "Use at least 8 characters and matching passwords.",
     "ar": "استخدم 8 أحرف على الأقل وتأكد من تطابق كلمتي المرور.",
     "files": [
@@ -23121,10 +23678,10 @@
     ]
   },
   {
-    "en": "Use at least 8 characters and a password unique to this account.",
-    "ar": "استخدم 8 أحرف على الأقل، واختر كلمة مرور خاصة بهذا الحساب.",
+    "en": "Use at least 8 characters. You can use a few words you can remember.",
+    "ar": "استخدم 8 أحرف على الأقل. يمكنك اختيار عبارة من كلمات يسهل تذكرها.",
     "files": [
-      "src/AccountScreen.tsx",
+      "src/passwordGuidance.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -23686,7 +24243,7 @@
     "en": "Washed processing removes the fruit and mucilage before drying the seeds. Natural processing dries the whole cherry. Honey processing removes the skin and keeps some mucilage during drying; its name does not mean honey is added. Processing affects taste alongside variety, origin, roasting and brewing, so one recipe cannot fit every coffee with the same process.",
     "ar": "المغسولة: تزال القشرة واللب والطبقة اللزجة قبل تجفيف البذور. المجففة: تجف الحبة داخل كرزة القهوة كاملة. العسلية: تزال القشرة وتبقى كمية من الطبقة اللزجة أثناء التجفيف؛ الاسم لا يعني إضافة عسل. المعالجة تؤثر في الطعم مع الصنف والمنشأ والتحميص والتحضير، لذلك لا تحدد وصفة واحدة لكل معالجة.",
     "files": [
-      "src/core/coffee-knowledge.ts",
+      "src/core/coffee-knowledge-basics.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -23758,7 +24315,15 @@
     "en": "Water changes coffee flavor. Hardness reflects minerals such as calcium and magnesium; alkalinity buffers acidity, and too much can flatten the cup. TDS alone does not show the mineral balance. Compare two water sources while keeping coffee and recipe fixed. For espresso, follow your machine manufacturer’s water limits to manage scale.",
     "ar": "نوع الماء يغيّر طعم القهوة. العسر يقيس معادن مثل الكالسيوم والمغنيسيوم، والقلوية تخفف الإحساس بالحموضة؛ زيادتها قد تجعل الكوب مسطحًا. رقم TDS وحده لا يبين توازن هذه المعادن. قارن مصدرَي ماء مع تثبيت البن والوصفة. للإسبريسو، اتبع حدود الماء التي يحددها صانع الماكينة لتجنب الترسبات.",
     "files": [
-      "src/core/coffee-knowledge.ts",
+      "src/core/coffee-knowledge-basics.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Water is brew water and excludes ice. Review the pours on your machine. The source link opens the original recipe.",
+    "ar": "الماء هو ماء الاستخلاص ولا يشمل الثلج. راجع الصبات على جهازك. رابط المصدر يفتح الوصفة الأصلية.",
+    "files": [
+      "src/xbloomDraft.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -23931,6 +24496,13 @@
     ]
   },
   {
+    "en": "Welcome",
+    "ar": "أهلًا بك",
+    "files": [
+      "src/CoffeeScreens.tsx"
+    ]
+  },
+  {
     "en": "Welcome back",
     "ar": "مرحباً بك مجدداً",
     "files": [
@@ -23979,10 +24551,34 @@
     ]
   },
   {
+    "en": "What does the gauge read during extraction, and is it the brew or steam gauge?",
+    "ar": "شنو قراءة العداد أثناء نزول القهوة؟ وهل هو عداد التحضير أو البخار؟",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
     "en": "What is the difference between processes?",
     "ar": "شنو الفرق بين المعالجات؟",
     "files": [
-      "src/core/coffee-knowledge.ts",
+      "src/core/coffee-knowledge-basics.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "What is your budget and currency?",
+    "ar": "كم ميزانيتك وبأي عملة؟",
+    "files": [
+      "src/core/espresso-control-advice.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "What is your machine model, and what does the gauge read during extraction?",
+    "ar": "شنو موديل مكينتك، وشنو قراءة العداد أثناء نزول القهوة؟",
+    "files": [
+      "src/core/local-coffee-assistant.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -24099,7 +24695,7 @@
     "en": "Why bloom coffee?",
     "ar": "ليش نسوي بلوم؟",
     "files": [
-      "src/core/coffee-knowledge.ts",
+      "src/core/coffee-knowledge-basics.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -24213,6 +24809,22 @@
     "ar": "جهاز xBloom",
     "files": [
       "src/CoffeeScreens.tsx"
+    ]
+  },
+  {
+    "en": "xBloom draft ready to review. The source link opens the original recipe; transfer changes to the machine manually. Use the builder above to change amounts.",
+    "ar": "مسودة xBloom جاهزة للمراجعة. رابط المصدر يفتح الوصفة الأصلية؛ نقل التعديلات إلى الجهاز يدوي. لإعادة ضبط المقادير استخدم مُنشئ الوصفة أعلاه.",
+    "files": [
+      "src/ContributionForm.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "xBloom machine",
+    "ar": "جهاز xBloom",
+    "files": [
+      "src/XBloomPlanner.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -24339,6 +24951,14 @@
     "ar": "أعجبتك آخر تجربة لهذه الوصفة",
     "files": [
       "src/copy.ts",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "You need adjustable brew temperature and a clear choice of control during extraction.",
+    "ar": "تحتاج ماكينة تضبط حرارة التحضير، مع تحديد نوع التحكم الذي تريده أثناء الاستخلاص.",
+    "files": [
+      "src/core/espresso-control-advice.ts",
       "src/locales/reviewed.json"
     ]
   },
@@ -24563,6 +25183,7 @@
     "en": "Your report was sent for review.",
     "ar": "وصل البلاغ لفريق المراجعة.",
     "files": [
+      "src/CommunityScreen.tsx",
       "src/ExploreScreens.tsx"
     ]
   },
@@ -25005,260 +25626,6 @@
       "src/core/catalog-foreign-titles.ts",
       "src/foreignTitles.ts",
       "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "1. Temperature: look for adjustable brew temperature; PID alone does not provide pressure profiling.\n2. Pressure: changing pressure during a shot differs from setting pump pressure once. A gauge alone does not provide control.\n3. Flow: changes water delivery to the coffee. Pressure also depends on puck resistance, so flow control is not direct pressure control.",
-    "ar": "1. الحرارة: ابحث عن ضبط حرارة التحضير؛ وجود PID وحده لا يعني برمجة الضغط.\n2. الضغط: تغيير الضغط خلال الشوت يختلف عن ضبط ضغط المضخة مرة واحدة، ووجود عداد لا يعني إمكانية التحكم.\n3. التدفق: يغيّر كمية الماء المارة إلى البن؛ يتأثر الضغط أيضًا بمقاومة البن، لذلك التحكم بالتدفق ليس ضبطًا مباشرًا للضغط.",
-    "files": [
-      "src/core/espresso-control-advice.ts",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "Before buying, compare the required control type and confirm the model price with the seller.",
-    "ar": "للمقارنة قبل الشراء: تأكد من نوع التحكم المطلوب ومن سعر الموديل لدى البائع.",
-    "files": [
-      "src/core/espresso-control-advice.ts",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "Examples to compare by specification\n• Profitec DRIVE: PID temperature settings for both boilers and manual flow control during extraction; this is not direct programmable pressure profiling.\n• Decent DE1: supports stages controlling pressure or flow and brew temperature through its app.",
-    "ar": "أمثلة للمقارنة بالمواصفات\n• Profitec DRIVE: ضبط حرارة الغلايتين عبر PID وتحكم يدوي بالتدفق أثناء الشوت؛ لا أصفه كبرمجة مباشرة لمنحنى الضغط.\n• Decent DE1: يتيح إعداد مراحل للتحكم بالضغط أو التدفق وحرارة التحضير عبر التطبيق.",
-    "files": [
-      "src/core/espresso-control-advice.ts",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "For hands-on adjustment during a shot, compare machines with flow control. To save a profile that repeats automatically, compare pressure and flow profiling machines. Check the exact model manual; a control accessory does not fit every machine.",
-    "ar": "إذا تريد تحكمًا يدويًا أثناء الشوت، قارن أجهزة التحكم بالتدفق. وإذا تريد حفظ منحنى يتكرر تلقائيًا، قارن أجهزة برمجة الضغط والتدفق. راجع دليل الموديل نفسه؛ لا أفترض أن إضافة قطعة تحكم تناسب كل ماكينة.",
-    "files": [
-      "src/core/espresso-control-advice.ts",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "These are specification examples, not confirmed offers within your budget or available in your country. Check price and stock with the seller.",
-    "ar": "هذه أمثلة للمواصفات، وليست عروضًا مؤكدة ضمن ميزانيتك أو متوفرة في بلدك. السعر والتوفر يحتاجان تحققًا من البائع.",
-    "files": [
-      "src/core/espresso-control-advice.ts",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "What is your budget and currency?",
-    "ar": "كم ميزانيتك وبأي عملة؟",
-    "files": [
-      "src/core/espresso-control-advice.ts",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "You need adjustable brew temperature and a clear choice of control during extraction.",
-    "ar": "تحتاج ماكينة تضبط حرارة التحضير، مع تحديد نوع التحكم الذي تريده أثناء الاستخلاص.",
-    "files": [
-      "src/core/espresso-control-advice.ts",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "Read full photo",
-    "ar": "قراءة الصورة كاملة",
-    "files": [
-      "src/CoffeeLabelCropper.tsx"
-    ]
-  },
-  {
-    "en": "Keep the label flat, fill the frame with text, and avoid glare.",
-    "ar": "افرد الملصق، وقرّب الكتابة داخل الصورة، وتجنّب انعكاس الإضاءة.",
-    "files": [
-      "src/CoffeeLabelScanner.tsx"
-    ]
-  },
-  {
-    "en": "banana",
-    "ar": "موز",
-    "files": [
-      "src/core/flavor-vocabulary.ts"
-    ]
-  },
-  {
-    "en": "Welcome",
-    "ar": "أهلًا بك",
-    "files": [
-      "src/CoffeeScreens.tsx",
-      "App.tsx"
-    ]
-  },
-  {
-    "en": "Search now",
-    "ar": "ابحث الآن",
-    "files": [
-      "src/CoffeeScreens.tsx",
-      "App.tsx"
-    ]
-  },
-  {
-    "en": "Search coffees, recipes or roasters",
-    "ar": "ابحث عن بن، وصفة، أو محمصة",
-    "files": [
-      "src/CoffeeScreens.tsx",
-      "App.tsx"
-    ]
-  },
-  {
-    "en": "Browse",
-    "ar": "تصفّح",
-    "files": [
-      "src/CoffeeScreens.tsx",
-      "App.tsx"
-    ]
-  },
-  {
-    "en": "Ask about grind, ratio or taste",
-    "ar": "اسأله عن الطحنة، النسبة، أو الطعم",
-    "files": [
-      "src/CoffeeScreens.tsx",
-      "App.tsx"
-    ]
-  },
-  {
-    "en": "My library",
-    "ar": "مكتبتي",
-    "files": [
-      "src/CoffeeScreens.tsx",
-      "App.tsx"
-    ]
-  },
-  {
-    "en": "Add new",
-    "ar": "إضافة جديد",
-    "files": [
-      "src/CoffeeScreens.tsx",
-      "App.tsx"
-    ]
-  },
-  {
-    "en": "Add new +",
-    "ar": "إضافة جديد +",
-    "files": [
-      "src/CoffeeScreens.tsx",
-      "App.tsx"
-    ]
-  },
-  {
-    "en": "Choose a less common password. Try a few words you can remember.",
-    "ar": "اختر كلمة مرور أقل شيوعًا. جرّب عبارة من كلمات يسهل تذكرها.",
-    "files": [
-      "src/passwordGuidance.ts",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.",
-    "ar": "حسابك عبر Google؟ تابع باستخدام Google، أو اضغط «تعيين أو استرجاع كلمة المرور» لإنشاء كلمة مرور خاصة بـBeanMora.",
-    "files": [
-      "src/AccountScreen.tsx",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "Set or reset password",
-    "ar": "تعيين أو استرجاع كلمة المرور",
-    "files": [
-      "src/AccountScreen.tsx",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "This password does not match the current account requirements. Try another password.",
-    "ar": "كلمة المرور لا تطابق متطلبات الحساب الحالية. جرّب كلمة مرور أخرى.",
-    "files": [
-      "src/passwordGuidance.ts",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "This password is too short. Use at least 8 characters.",
-    "ar": "كلمة المرور قصيرة. استخدم 8 أحرف على الأقل.",
-    "files": [
-      "src/passwordGuidance.ts",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "Use at least 8 characters. You can use a few words you can remember.",
-    "ar": "استخدم 8 أحرف على الأقل. يمكنك اختيار عبارة من كلمات يسهل تذكرها.",
-    "files": [
-      "src/passwordGuidance.ts",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "Share your coffee moment for 24 hours.",
-    "ar": "شارك لحظتك مع القهوة لمدة 24 ساعة.",
-    "files": [
-      "src/CoffeeStories.tsx",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "By publishing, you confirm you have permission to share this content.",
-    "ar": "بنشر القصة، تؤكد حقك في مشاركة محتواها.",
-    "files": [
-      "src/CoffeeStories.tsx",
-      "src/locales/reviewed.json"
-    ]
-  },
-  {
-    "en": "Action was not confirmed. Please retry.",
-    "ar": "لم يتأكد الإجراء. حاول مرة ثانية.",
-    "files": [
-      "src/CommunityModeration.tsx"
-    ]
-  },
-  {
-    "en": "Comment options",
-    "ar": "خيارات التعليق",
-    "files": [
-      "src/CommunityScreen.tsx"
-    ]
-  },
-  {
-    "en": "Member blocked.",
-    "ar": "تم حظر الحساب.",
-    "files": [
-      "src/CommunityScreen.tsx"
-    ]
-  },
-  {
-    "en": "Post options",
-    "ar": "خيارات المنشور",
-    "files": [
-      "src/CommunityScreen.tsx"
-    ]
-  },
-  {
-    "en": "Report content",
-    "ar": "الإبلاغ عن المحتوى",
-    "files": [
-      "src/CommunityModeration.tsx"
-    ]
-  },
-  {
-    "en": "How do I make espresso?",
-    "ar": "شلون أسوي إسبريسو؟",
-    "files": [
-      "src/core/local-coffee-assistant.ts"
-    ]
-  },
-  {
-    "en": "I do not have a verified explanation for this question yet. Specify the coffee topic or model and what you want to do; I can help with the available guidance or identify what is missing.",
-    "ar": "ما عندي شرح موثّق لهذا السؤال بعد. حدّد موضوع القهوة أو اسم الموديل وما تريد عمله، وأقدر أساعدك بما هو متوفر أو أوضح المعلومة الناقصة.",
-    "files": [
-      "src/core/local-coffee-assistant.ts"
     ]
   }
 ]

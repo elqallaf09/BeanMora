@@ -75,5 +75,6 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   console.log('Raw npm audit:', JSON.stringify(audit.metadata?.vulnerabilities));
   const blocked = blockedFindings(audit, verifyLegacyMinimatch());
   if (blocked.length) { console.error(blocked.join('\n')); process.exitCode = 1; }
+  else if (audit.metadata.vulnerabilities.total === 0) console.log('Audit gate passed: zero vulnerabilities and zero exceptions.');
   else console.log('Audit gate passed. The exact minimatch 3.1.5 source lacks the implicated preprocessing; all other findings remain blocking. Raw npm audit is not clean.');
 }

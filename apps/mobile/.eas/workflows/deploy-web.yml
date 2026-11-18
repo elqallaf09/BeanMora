@@ -2,6 +2,9 @@ name: Publish BeanMora web
 
 on:
   workflow_dispatch: {}
+  push:
+    branches:
+      - release/web-coffee-expert-2026-11-17
 
 defaults:
   image: sdk-57
