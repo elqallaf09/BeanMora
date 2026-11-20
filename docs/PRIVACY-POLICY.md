@@ -1,6 +1,6 @@
 # BeanMora Privacy Policy / سياسة خصوصية BeanMora
 
-Effective date / تاريخ السريان: 24 October 2026 / 24 أكتوبر 2026
+Effective date / تاريخ السريان: 20 November 2026 / 20 نوفمبر 2026
 
 ## English
 
@@ -25,6 +25,12 @@ BeanMora does not include an advertising network or an advertising-tracking syst
 Supabase provides authentication, database and storage services. Application distribution and hosting providers process information needed to deliver the service. If you choose a social sign-in provider, such as Google or Apple when offered, that provider processes the sign-in under its own privacy policy and provides the account information authorized by you. These services may process information outside your country.
 
 Content that you publish publicly may be displayed with your public profile. Choose visibility carefully. Follow relationships are used within BeanMora; the app does not upload your device address book. Third-party websites, product links and videos opened from the app have their own privacy practices.
+
+### Coffee Expert and OpenAI
+
+When online AI assistance is available and active in Coffee Expert, BeanMora sends your question, up to six recent questions from the same conversation, and relevant public coffee information to OpenAI to prepare an answer in your selected language. Text you type can include personal details, so keep questions about coffee and brewing. You can switch to **Use the coffee guide** in Coffee Expert to stop sending new questions to OpenAI. The guide can still look up BeanMora’s public catalog.
+
+BeanMora requests that OpenAI disable response storage for these calls. BeanMora’s usage record contains technical details such as the model, token counts, request status and request identifiers. It excludes the text of questions and answers.
 
 ### Device storage and permissions
 
@@ -65,6 +71,12 @@ We update this policy when the service's data practices change. The effective da
 تقدم Supabase خدمات المصادقة وقاعدة البيانات والتخزين. وتعالج جهات توزيع التطبيق واستضافته المعلومات اللازمة لتقديم الخدمة. إذا اخترت الدخول بواسطة مزود اجتماعي مثل Google أو Apple عند توفره، فتطبق سياسة ذلك المزود ويزوّدنا بمعلومات الحساب التي وافقت على مشاركتها. قد تُعالج المعلومات خارج بلد إقامتك.
 
 قد يظهر المحتوى الذي تنشره للعامة مع ملفك العام، لذلك راجع الرؤية قبل النشر. تُستخدم علاقات المتابعة داخل BeanMora، ولا يرفع التطبيق دفتر عناوين جهازك. للمواقع وروابط المنتجات والفيديوهات الخارجية سياسات خصوصية خاصة بها.
+
+### خبير القهوة وOpenAI
+
+عندما تكون المساعدة الذكية عبر الإنترنت متاحة ومفعّلة في «خبير القهوة»، يرسل BeanMora سؤالك وما يصل إلى ستة أسئلة سابقة من المحادثة نفسها ومعلومات القهوة العامة ذات الصلة إلى OpenAI لإعداد إجابة بلغتك المختارة. قد يتضمن ما تكتبه تفاصيل شخصية، لذا يُفضّل أن يقتصر السؤال على القهوة والتحضير. يمكنك اختيار **العودة إلى دليل القهوة** في شاشة الخبير لإيقاف إرسال الأسئلة الجديدة إلى OpenAI. ويستطيع الدليل مواصلة البحث في كتالوج BeanMora العام.
+
+يطلب BeanMora من OpenAI تعطيل تخزين الردود لهذه الطلبات. يقتصر سجل الاستخدام في BeanMora على تفاصيل تقنية مثل النموذج وعدد وحدات النص المستخدمة وحالة الطلب ومعرّفاته، ويستبعد نصوص الأسئلة والأجوبة.
 
 ### التخزين والأذونات على الجهاز
 
