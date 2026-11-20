@@ -1189,9 +1189,8 @@
   },
   {
     "en": "AI answers coffee and brewing questions. Exact calculations use the coffee guide.",
-    "ar": "المساعدة الذكية تجيب عن القهوة والتحضير. الحسابات الدقيقة من دليل القهوة.",
+    "ar": "",
     "files": [
-      "src/CoffeeAssistant.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -1221,6 +1220,14 @@
     "en": "AI assists search and comparisons. Lessons and calculations use the coffee guide.",
     "ar": "",
     "files": [
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "AI is currently unavailable because of a usage limit. The coffee guide is available; a later question checks again automatically after a waiting period.",
+    "ar": "المساعدة الذكية غير متاحة حاليًا بسبب حد الاستخدام. دليل القهوة متاح، ونتحقق تلقائيًا مع سؤالك القادم بعد فترة انتظار.",
+    "files": [
+      "src/CoffeeAssistant.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -4204,9 +4211,8 @@
   },
   {
     "en": "Checking…",
-    "ar": "جارٍ التحقق…",
+    "ar": "",
     "files": [
-      "src/CoffeeAssistant.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -5196,6 +5202,7 @@
     "ar": "خبير القهوة",
     "files": [
       "src/CoffeeScreens.tsx",
+      "src/SettingsCoffeeAssistant.tsx",
       "App.tsx",
       "src/locales/reviewed.json",
       "src/localeText.ts"
@@ -6857,9 +6864,8 @@
   },
   {
     "en": "Credits or the usage allowance are unavailable. We switched to the coffee guide; re-enable AI after renewing them.",
-    "ar": "الرصيد أو حد الاستخدام غير متاح. رجعنا إلى دليل القهوة؛ أعد تفعيل المساعدة الذكية بعد تجديده.",
+    "ar": "",
     "files": [
-      "src/CoffeeAssistant.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -8133,9 +8139,8 @@
   },
   {
     "en": "Enable AI assistance",
-    "ar": "تفعيل المساعدة الذكية",
+    "ar": "",
     "files": [
-      "src/CoffeeAssistant.tsx",
       "src/locales/reviewed.json"
     ]
   },
@@ -15311,6 +15316,30 @@
     "ar": "رأي واحد لكل أداة. نوع التجربة تصريح منك ويمكنك تعديل رأيك.",
     "files": [
       "src/ExploreScreens.tsx"
+    ]
+  },
+  {
+    "en": "Online AI answers are not currently enabled by the service. Coffee Expert uses the guide and checks automatically on a later question.",
+    "ar": "الإجابات الذكية غير متاحة على الخدمة حاليًا. يعرض خبير القهوة إجابة من الدليل، ويتحقق تلقائيًا مع سؤال لاحق.",
+    "files": [
+      "src/CoffeeAssistant.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Online AI answers use your question and recent conversation questions. Turn this off to use only the coffee guide.",
+    "ar": "تستخدم الإجابات الذكية سؤالك والأسئلة الأخيرة من المحادثة. يمكنك إيقافها هنا للاكتفاء بدليل القهوة.",
+    "files": [
+      "src/SettingsCoffeeAssistant.tsx",
+      "src/locales/reviewed.json"
+    ]
+  },
+  {
+    "en": "Online answers",
+    "ar": "الإجابات عبر الإنترنت",
+    "files": [
+      "src/SettingsCoffeeAssistant.tsx",
+      "src/locales/reviewed.json"
     ]
   },
   {
@@ -23735,9 +23764,8 @@
   },
   {
     "en": "Use the coffee guide",
-    "ar": "العودة إلى دليل القهوة",
+    "ar": "",
     "files": [
-      "src/CoffeeAssistant.tsx",
       "src/locales/reviewed.json"
     ]
   },

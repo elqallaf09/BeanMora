@@ -3275,5 +3275,9 @@
   "What does the gauge read during extraction, and is it the brew or steam gauge?": "抽出中の圧力計の値はいくつですか？抽出用とスチーム用のどちらの圧力計ですか？",
   "What is your machine model, and what does the gauge read during extraction?": "マシンのモデル名と、抽出中の圧力計の値を教えてください。",
   "xBloom draft ready to review. The source link opens the original recipe; transfer changes to the machine manually. Use the builder above to change amounts.": "xBloomの下書きを確認できます。出典リンクは元のレシピを開きます。変更内容はマシンに手動で反映してください。量を変えるには上のレシピ作成機能を使ってください。",
-  "xBloom machine": "xBloomマシン"
+  "xBloom machine": "xBloomマシン",
+  "Online answers": "オンライン回答",
+  "Online AI answers use your question and recent conversation questions. Turn this off to use only the coffee guide.": "オンラインのAI回答には、今回の質問と会話内の最近の質問を使用します。コーヒーガイドだけを使う場合はオフにしてください。",
+  "AI is currently unavailable because of a usage limit. The coffee guide is available; a later question checks again automatically after a waiting period.": "利用上限のため、現在AIを利用できません。コーヒーガイドは利用できます。待機時間後に新しい質問を送ると、自動的に再確認します。",
+  "Online AI answers are not currently enabled by the service. Coffee Expert uses the guide and checks automatically on a later question.": "現在、サービス側でオンラインのAI回答が有効になっていません。コーヒーエキスパートはガイドで回答し、次回以降の質問時に自動で再確認します。"
 }

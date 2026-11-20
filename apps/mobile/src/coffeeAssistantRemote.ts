@@ -5,10 +5,10 @@ import { withDeadline } from './requestDeadline';
 
 export type CoffeeAssistantTurn = Omit<LocalAssistantTurn, 'mode'> & { mode: 'local' | 'ai' };
 type Options = { url: string; publicKey: string; signal?: AbortSignal; fetcher?: typeof fetch };
-export type AssistantFailure = 'credits' | 'rate' | 'signin' | 'unavailable';
+export type AssistantFailure = 'credits' | 'rate' | 'signin' | 'disabled' | 'unavailable';
 export class CoffeeAssistantError extends Error {
   constructor(readonly reason: AssistantFailure, readonly retryAfterMs = 60000) {
-    super(reason === 'credits' ? 'CREDIT_BALANCE_EXHAUSTED' : reason === 'rate' ? 'RATE_LIMITED' : reason === 'signin' ? 'SIGN_IN_REQUIRED' : 'ASSISTANT_UNAVAILABLE');
+    super(reason === 'credits' ? 'CREDIT_BALANCE_EXHAUSTED' : reason === 'rate' ? 'RATE_LIMITED' : reason === 'signin' ? 'SIGN_IN_REQUIRED' : reason === 'disabled' ? 'ASSISTANT_DISABLED' : 'ASSISTANT_UNAVAILABLE');
   }
 }
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -19,15 +19,21 @@ function endpoint(url: string) {
   return `${url}/functions/v1/coffee-assistant`;
 }
 
-export async function coffeeAssistantAvailable(options: Options & { accessToken?: string }): Promise<boolean> {
-  if (!options.accessToken) return false;
+export async function coffeeAssistantReadiness(options: Options & { accessToken?: string }): Promise<'ready' | 'disabled' | 'incompatible'> {
+  if (!options.accessToken) throw new CoffeeAssistantError('signin');
   return withDeadline(async signal => {
     const response = await (options.fetcher ?? fetch)(endpoint(options.url), { headers: { apikey: options.publicKey, Authorization: `Bearer ${options.accessToken}` }, signal });
-    if (!response.ok) return false;
+    if (!response.ok) throw await responseError(response);
     const data = await response.json();
     // Version 2 supports grounded brewing conversations and typed failures.
-    return data.api_contract === 2 && data.conversation_enabled === true && data.authentication_required === true;
+    if (data.api_contract !== 2 || data.authentication_required !== true) return 'incompatible';
+    return data.conversation_enabled === true ? 'ready' : 'disabled';
   }, { signal: options.signal, timeoutMs: 7000 });
+}
+
+export async function coffeeAssistantAvailable(options: Options & { accessToken?: string }): Promise<boolean> {
+  if (!options.accessToken) return false;
+  return await coffeeAssistantReadiness(options) === 'ready';
 }
 
 export function shouldUseRemoteAssistant(turn: LocalAssistantTurn): boolean {
@@ -37,7 +43,7 @@ export function shouldUseRemoteAssistant(turn: LocalAssistantTurn): boolean {
   if (['knowledge', 'guide', 'coach'].includes(turn.intent)) return true;
   // Keep advanced catalog filters on the richer local query implementation.
   return !turn.query.servingStyle && turn.query.minAmount == null && !turn.query.purchaseIntent
-    && !turn.query.noteTerms?.length && !turn.recipeAlternative && !turn.equipmentAdvice;
+    && !(turn.query.kind === 'recipe' && turn.query.noteTerms?.length) && !turn.recipeAlternative;
 }
 
 function validQuery(value: unknown): value is AssistantQuery {
@@ -97,9 +103,10 @@ export async function converseRemotely(local: LocalAssistantTurn, history: Coffe
     const raw = await response.text();
     if (raw.length > 200000) throw new CoffeeAssistantError('unavailable');
     const data = JSON.parse(raw);
+    if (record(data) && data.mode === 'catalog' && ['guidance_not_found', 'clarification_required', 'catalog_no_matches'].includes(String(data.notice))) return null;
     if (!record(data) || data.mode !== 'ai' || typeof data.answer !== 'string' || !data.answer.trim() || data.answer.length > 16000
-      || !Array.isArray(data.matches) || data.matches.length > 6 || !data.matches.every(validMatch) || !validQuery(data.query)) return null;
-    if (local.matches.length && !data.matches.length && ['search', 'compare', 'explain'].includes(local.intent)) return null;
+      || !Array.isArray(data.matches) || data.matches.length > 6 || !data.matches.every(validMatch) || !validQuery(data.query)) throw new CoffeeAssistantError('unavailable');
+    if (local.matches.length && !data.matches.length && ['search', 'compare', 'explain'].includes(local.intent)) throw new CoffeeAssistantError('unavailable');
     const sources = Array.isArray(data.sources) ? data.sources.slice(0, 12).flatMap(source => record(source)
       && typeof source.title === 'string' && source.title.length <= 160 && assistantSafeUrl(source.url)
       ? [{ title: source.title, url: assistantSafeUrl(source.url)! }] : []) : [];

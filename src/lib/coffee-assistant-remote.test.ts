@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, expect, it, vi } from 'vitest';
-import { CoffeeAssistantError, coffeeAssistantAvailable, converseRemotely, shouldUseRemoteAssistant } from '../../apps/mobile/src/coffeeAssistantRemote';
-import { assistantPreferenceKey, canUseAssistant, defaultAssistantPreference, readAssistantPreference, resolveCoffeeAnswer, saveAssistantPreference } from '../../apps/mobile/src/coffeeAssistantPolicy';
+import { CoffeeAssistantError, coffeeAssistantAvailable, coffeeAssistantReadiness, converseRemotely, shouldUseRemoteAssistant } from '../../apps/mobile/src/coffeeAssistantRemote';
+import { CREDIT_RETRY_MS, assistantPreferenceKey, canUseAssistant, defaultAssistantPreference, readAssistantPreference, resolveCoffeeAnswer, saveAssistantAvailability, saveAssistantPreference } from '../../apps/mobile/src/coffeeAssistantPolicy';
 import { converseLocally, type LocalAssistantTurn } from './local-coffee-assistant';
 
 const query = { kind: null, category: null, methods: [], terms: [], amount: null, currency: null, clarification: null };
@@ -47,11 +47,24 @@ describe('grounded remote coffee expert', () => {
     { query: { ...query, servingStyle: 'cold' as const } },
     { query: { ...query, minAmount: 100, amount: 300, currency: 'KWD' as const } },
     { query: { ...query, purchaseIntent: true } },
-    { query: { ...query, noteTerms: ['coconut'] } },
+    { query: { ...query, kind: 'recipe' as const, noteTerms: ['coconut'] } },
     { recipeAlternative: true },
-    { equipmentAdvice: 'unverified-price' as const },
   ])('preserves advanced catalog filters', extra => {
     expect(shouldUseRemoteAssistant({ ...local, ...extra })).toBe(false);
+  });
+  it('routes strawberry bean recommendations and ordinary machine budgets to the model', async () => {
+    for (const question of ['شنو البن الي طعمه او ايحاءه على فراولة', 'أبي ماكينة إسبريسو تحت 480 دولار', 'Coffee with strawberry notes']) {
+      const draft = await converseLocally(question, 'ar', [], offline);
+      expect(shouldUseRemoteAssistant(draft), question).toBe(true);
+    }
+  });
+  it('distinguishes disabled readiness from a network or authentication failure', async () => {
+    expect(await coffeeAssistantReadiness({ ...options, fetcher: async () => json({ api_contract: 2, conversation_enabled: false, authentication_required: true }) })).toBe('disabled');
+    await expect(coffeeAssistantReadiness({ ...options, fetcher: async () => json({}, 503) })).rejects.toMatchObject({ reason: 'unavailable' });
+    await expect(coffeeAssistantReadiness({ ...options, fetcher: async () => json({}, 401) })).rejects.toMatchObject({ reason: 'signin' });
+  });
+  it.each(['guidance_not_found', 'clarification_required', 'catalog_no_matches'])('recognizes a deliberate catalog response: %s', async notice => {
+    expect(await converseRemotely(local, [], 'en', { ...options, fetcher: async () => json({ mode: 'catalog', notice }) })).toBeNull();
   });
   it('sends original language questions and UUID references without client facts or answers', async () => {
     const fetcher = vi.fn(async (_url: unknown, init?: RequestInit) => {
@@ -84,7 +97,7 @@ describe('grounded remote coffee expert', () => {
     { mode: 'ai', answer: 'x', matches: [], query: { ...query, methods: 'espresso' } },
     { mode: 'ai', answer: 'x', matches: [], query: { ...query, amount: '999' } },
   ])('rejects a malformed response for safe fallback', async body => {
-    expect(await converseRemotely(local, [], 'en', { ...options, fetcher: async () => json(body) })).toBeNull();
+    await expect(converseRemotely(local, [], 'en', { ...options, fetcher: async () => json(body) })).rejects.toMatchObject({ reason: 'unavailable' });
   });
   it('does not issue a request after cancellation or without a member token', async () => {
     const fetcher = vi.fn();
@@ -103,24 +116,40 @@ describe('AI to local orchestration', () => {
     expect(remote).toHaveBeenCalledTimes(1);
     expect(fallback).not.toHaveBeenCalled();
   });
-  it('exhausted credits return local advice and stop later paid calls across remounts and account changes', async () => {
-    const saved = storage();
-    const ownerKey = assistantPreferenceKey(options.url, 'owner-one');
+  it('exhausted credit cooldown persists and recovers on a later question without a manual activation', async () => {
+    const saved = storage(), ownerKey = assistantPreferenceKey(options.url, 'owner-one');
     const draft = await converseLocally('شلون أضبط القهوة جم بار؟', 'ar', [], offline);
-    const remote = vi.fn(async () => { throw new CoffeeAssistantError('credits'); });
-    let preference = defaultAssistantPreference();
-    const answer = await resolveCoffeeAnswer({ draft, available: true, preference, remote, local: async () => draft, onFallback: (_reason, next) => { preference = next; } });
-    expect(answer.mode).toBe('local'); expect(answer.answer).toContain('9 بار');
+    const remote = vi.fn().mockRejectedValueOnce(new CoffeeAssistantError('credits')).mockResolvedValue(ai);
+    let clock = 1000, preference = defaultAssistantPreference();
+    const answer = () => resolveCoffeeAnswer({ draft, available: true, preference, remote, local: async () => draft, now: () => clock, onFallback: (_reason, next) => { preference = next; }, onRecovered: next => { preference = next; } });
+    expect((await answer()).answer).toContain('9 بار');
     await saveAssistantPreference(saved, ownerKey, preference);
-    const remounted = await readAssistantPreference(saved, ownerKey);
-    await resolveCoffeeAnswer({ draft, available: true, preference: remounted, remote, local: async () => draft });
+    preference = await readAssistantPreference(saved, ownerKey);
+    await answer();
     expect(remote).toHaveBeenCalledTimes(1);
-    expect(canUseAssistant(remounted, Date.now() + 31 * 86400000)).toBe(false);
+    expect(canUseAssistant(preference, clock + CREDIT_RETRY_MS - 1)).toBe(false);
     const other = await readAssistantPreference(saved, assistantPreferenceKey(options.url, 'other-owner'));
     expect(canUseAssistant(other)).toBe(true);
-    await saveAssistantPreference(saved, ownerKey, defaultAssistantPreference());
-    expect(canUseAssistant(await readAssistantPreference(saved, ownerKey))).toBe(true);
+    clock += CREDIT_RETRY_MS;
+    expect((await answer()).mode).toBe('ai');
+    expect(preference).toEqual(defaultAssistantPreference());
+    expect(remote).toHaveBeenCalledTimes(2);
     expect(saved.setItem.mock.calls[0][1]).not.toContain(options.accessToken);
+  });
+  it('migrates old indefinite credit pauses without changing explicit privacy choices', async () => {
+    const saved = storage(), key = 'legacy-credit-pause';
+    await saved.setItem(key, JSON.stringify({ version: 1, optedOut: false, creditPaused: true, retryAt: 0 }));
+    const preference = await readAssistantPreference(saved, key), remote = vi.fn(async () => ai);
+    expect((await resolveCoffeeAnswer({ draft: local, available: true, preference, remote, local: async () => local })).mode).toBe('ai');
+    expect(remote).toHaveBeenCalledTimes(1);
+    expect(canUseAssistant({ ...preference, optedOut: true })).toBe(false);
+  });
+  it('uses the guide for a valid catalog response without reporting a connectivity failure or pausing AI', async () => {
+    const remote = vi.fn(async () => null), onFallback = vi.fn(), onRecovered = vi.fn();
+    expect(await resolveCoffeeAnswer({ draft: local, available: true, preference: defaultAssistantPreference(), remote, local: async () => local, onFallback, onRecovered })).toEqual(local);
+    expect(remote).toHaveBeenCalledTimes(1);
+    expect(onFallback).not.toHaveBeenCalled();
+    expect(onRecovered).toHaveBeenCalledWith(defaultAssistantPreference());
   });
   it('temporary network failures fall back and resume only on a later question after cooldown', async () => {
     let clock = 1000, preference = defaultAssistantPreference();
@@ -155,6 +184,18 @@ describe('AI to local orchestration', () => {
     const preference = await readAssistantPreference(broken, 'failed-preference-read');
     expect(preference.optedOut).toBe(true);
     expect(canUseAssistant(preference)).toBe(false);
+  });
+  it('retries a transient failed preference read on the next question', async () => {
+    const saved = { getItem: vi.fn().mockRejectedValueOnce(new Error('Storage unavailable')).mockResolvedValue(JSON.stringify({ version: 1, ...defaultAssistantPreference() })), setItem: async () => {} };
+    expect((await readAssistantPreference(saved, 'transient-preference-read')).optedOut).toBe(true);
+    expect((await readAssistantPreference(saved, 'transient-preference-read')).optedOut).toBe(false);
+    expect(saved.getItem).toHaveBeenCalledTimes(2);
+  });
+  it('a request completing after a Settings opt-out cannot overwrite that privacy choice', async () => {
+    const saved = storage(), key = 'settings-opt-out-during-request';
+    await saveAssistantPreference(saved, key, { ...defaultAssistantPreference(), optedOut: true });
+    await saveAssistantAvailability(saved, key, defaultAssistantPreference());
+    expect((await readAssistantPreference(saved, key)).optedOut).toBe(true);
   });
   it('a delayed preference read cannot overwrite a newer manual choice', async () => {
     let finish!: (value: string) => void;

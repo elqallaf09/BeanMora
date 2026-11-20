@@ -267,7 +267,7 @@ describe('local conversational coffee assistant', () => {
     ['Find beans with black currant notes', 'blackcurrant'],
   ])('understands the full tasting-note request %s across languages', async (question, note) => {
     const coffee: AssistantDocument = { ...recipe, id: 'matching-coffee', kind: 'coffee', title_ar: 'بن مطابق', search_text: note, facts: { notes: [note] } };
-    const unrelated = { ...coffee, id: 'unrelated', search_text: 'Whole coffee beans chocolate winegum India walnut' };
+    const unrelated = { ...coffee, id: 'unrelated', search_text: 'Whole coffee beans chocolate winegum India walnut', facts: { notes: ['Walnut'] } };
     const lookup = vi.fn(async () => ({ documents: [unrelated, coffee, recipe], rates: [] }));
     const turn = await ask(question, [], { search: lookup, now });
     expect(turn.intent).toBe('search');
