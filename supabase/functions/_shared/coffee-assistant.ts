@@ -7,6 +7,7 @@ export interface AssistantQuery {
   terms: string[]; amount: number | null; currency: AssistantCurrency | null;
   clarification: 'currency' | 'budget' | 'intent' | null;
   region?: 'KW' | 'SA' | 'US' | null; availableOnly?: boolean;
+  noteTerms?: string[];
 }
 export interface CatalogOffer {
   amount: number; currency: AssistantCurrency; url: string; checked_at: string;
@@ -24,6 +25,7 @@ export interface AssistantDocument {
 export interface AssistantMatch {
   document: AssistantDocument; matchedTerms: string[]; allTerms: boolean;
   price: { offer: CatalogOffer; converted: number; currency: AssistantCurrency; rateDates: string[]; rateSources: string[] } | null;
+  confirmedNotes?: string[];
 }
 const notes = [
   ['strawberry','فراولة','فراوله'], ['cola','كولا'], ['blueberry','توت ازرق'],
@@ -39,7 +41,7 @@ const places = [['kuwait','الكويت','كويت','kw'],['saudi','السعود
 // Published spaced brand and Arabic catalog label, reviewed 2026-10-11:
 // https://www.ark.com.kw/pages/about . Keep matching at word boundaries.
 const catalogNames = [['ark','آرك','a r k','ارك']];
-const stop = new Set(normalizeSearch('ابي ابغى اريد عندي عندكم عنده عندها لي له لها فيه فيها عن من على الى في مع حق حقي هذا هذه شنو وش اي احسن افضل اقرب يناسب مناسبة مناسب نبي ابيها ممكن طلعلي يقوله يقولي سعر بسعر بسعره ميزانية ميزانيه بميزانية بميزانيه تحت لحد حدود ماكينة مكينة مكنة ممكينه ممكينة اله جهاز اجهزه معدات طاحونة طاحونه مطحنة مطحنه وصفة وصفه وصفات بن قهوة قهوه ايحاء ايحاءات ايحاءه طعم نكهة نكهه نكهات ابحث ابيهم ابيك اريدها دولار دولارات دينار كويتي ريال سعودي dollars dollar dinar riyal usd kwd sar machine espresso grinder recipe coffee roaster please find recommend want need for with under budget price best nearest closest have has tasting notes note flavor flavours flavor i a an the and or to me my of is it about tell show give up buy').split(' '));
+const stop = new Set(normalizeSearch('ابي ابغى اريد عندي عندكم عنده عندها لي له لها فيه فيها عن من على الى في مع حق حقي هذا هذه شنو وش اي احسن افضل اقرب يناسب مناسبة مناسب نبي ابيها ممكن طلعلي يقوله يقولي سعر بسعر بسعره ميزانية ميزانيه بميزانية بميزانيه تحت لحد حدود ماكينة مكينة مكنة ممكينه ممكينة اله جهاز اجهزه معدات طاحونة طاحونه مطحنة مطحنه وصفة وصفه وصفات بن حبوب beans bean قهوة قهوه ايحاء ايحاءات ايحاءه ايحائه ايحاءها طعم طعمه طعمها نكهة نكهه نكهات نكهته نكهتها ابحث ابيهم ابيك اريدها دولار دولارات دينار كويتي ريال سعودي dollars dollar dinar riyal usd kwd sar machine espresso grinder recipe coffee roaster please find recommend want need for with under budget price best nearest closest have has tasting notes note flavor flavours flavor i a an the and or to me my of is it about tell show give up buy').split(' '));
 const methods: [string, string[]][] = [
   ['xbloom',['xbloom','x bloom','اكسبلوم','اكس بلوم','بالاكسبلوم']],
   ['espresso',['espresso','اسبرسو','اسبريسو','اسبر يسو','بالاسبرسو']],
@@ -51,6 +53,12 @@ const methods: [string, string[]][] = [
 function matchesAlias(text:string,alias:string):boolean {
   const escaped=normalizeSearch(alias).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   return new RegExp('(?:^|[^\\p{L}\\p{N}])(?:و|ب|ال)?'+escaped+'(?=$|[^\\p{L}\\p{N}])','u').test(text);
+}
+function isCoffeeRecommendation(message: string, foundNotes: string[]): boolean {
+  const namesBeans = ['بن', 'حبوب', 'قهوه', 'coffee', 'bean', 'beans'].some(alias => matchesAlias(message, alias));
+  const request = ['ابي', 'ابغي', 'ابغى', 'اريد', 'نبي', 'رشح', 'رشحلي', 'اقترح', 'تنصحني', 'عطني', 'عطيني', 'want', 'recommend', 'find', 'give', 'buy', 'best'].some(alias => matchesAlias(message, alias));
+  const meaning = /يعني|معني|اشرح|ليش|لماذا|\b(?:mean|meaning|explain|why)\b/.test(message);
+  return namesBeans && !meaning && (request || (foundNotes.length > 0 && /ايحاء|نكه|طعم|\b(?:notes?|flavou?rs?|taste)\b/.test(message)));
 }
 export function assistantSafeUrl(value: unknown): string | null {
   if (typeof value !== 'string') return null;
@@ -64,7 +72,9 @@ export function parseAssistantQuery(message: string, previous?: AssistantQuery |
   const foundNames = catalogNames.filter(group=>group.some(alias=>matchesAlias(q,alias))).map(group=>group[0]);
   const recipe = /وصف|تحضير|استخلاص|recipe|brew|ايحاء|نكه|طعم/.test(q) || foundNotes.length > 0;
   const gear = /ماكين|مكين|ممكين|اله|معدات|طاحون|مطحن|machine|grinder|equipment|kettle|\bscale\b/.test(q) || matchesAlias(q,'ميزان');
-  const kind: AssistantKind | null = gear ? 'equipment' : recipe ? 'recipe' : /محمص|محامص|roaster/.test(q) ? 'roaster' : /حبوب|\bbeans?\b/.test(q) ? 'coffee' : previous?.kind ?? null;
+  const explicitRecipe = ['وصفة', 'وصفات', 'recipe', 'recipes'].some(alias => matchesAlias(q, alias));
+  const kind: AssistantKind | null = explicitRecipe ? 'recipe' : gear ? 'equipment' : isCoffeeRecommendation(q, foundNotes) ? 'coffee' : recipe ? 'recipe' : /محمص|محامص|roaster/.test(q) ? 'roaster' : /حبوب|\bbeans?\b/.test(q) ? 'coffee' : previous?.kind ?? null;
+  const noteTerms = kind === 'coffee' ? foundNotes : [];
   const category = /طاحون|مطحن|grinder/.test(q) ? 'grinder' : /غلاي|kettle/.test(q) ? 'kettle' : matchesAlias(q,'ميزان') || /\bscale\b/.test(q) ? 'scale' : gear && foundMethods.includes('espresso') ? 'espresso_machine' : gear && foundMethods.includes('xbloom') ? 'xbloom' : gear ? null : kind === previous?.kind ? previous?.category ?? null : null;
   const currencies: AssistantCurrency[] = [];
   if (/(?:\b|\d)usd\b|\$|دولار/.test(q)) currencies.push('USD');
@@ -75,11 +85,11 @@ export function parseAssistantQuery(message: string, previous?: AssistantQuery |
   const budgetMentioned = !!rawNumber && (currencies.length > 0 || /سعر|ميزاني|تحت|لحد|حدود|budget|under|price/.test(q) || previous?.clarification === 'budget');
   const value = rawNumber ? Number(rawNumber.replace(/,(?=\d{3}(?:,|$))/g,'')) : null;
   const amount = budgetMentioned ? value : (gear && previous?.kind !== 'equipment') || (kind !== 'equipment') ? null : previous?.amount ?? null;
-  const unknownTerms = q.split(/[^\p{L}\p{N}]+/u).map(word=>/^[وب]/.test(word)&&[...stop,...notes.flat(),...methods.flatMap(([,aliases])=>aliases)].some(alias=>normalizeSearch(alias)===word.slice(1))?word.slice(1):word).filter(word=>word.length > 2 && !stop.has(word) && !/^(\d|محامص|محمص|roasters?$|in$)/.test(word) && !methods.some(([,aliases])=>aliases.some(alias=>normalizeSearch(alias).includes(word))) && !notes.some(group=>group.some(alias=>normalizeSearch(alias).includes(word)))).map(word=>places.find(group=>group.some(alias=>normalizeSearch(alias)===word))?.[0]??word);
+  const unknownTerms = q.split(/[^\p{L}\p{N}]+/u).map(word=>/^[وب]/.test(word)&&[...stop,...notes.flat(),...methods.flatMap(([,aliases])=>aliases)].some(alias=>normalizeSearch(alias)===word.slice(1))?word.slice(1):word).filter(word=>word.length > 2 && ![...stop].some(alias=>matchesAlias(word,alias)) && !/^(\d|محامص|محمص|roasters?$|in$)/.test(word) && !methods.some(([,aliases])=>aliases.some(alias=>normalizeSearch(alias).includes(word))) && !notes.some(group=>group.some(alias=>normalizeSearch(alias).includes(word)))).map(word=>places.find(group=>group.some(alias=>normalizeSearch(alias)===word))?.[0]??word);
   const region = kind==='equipment' ? (/بالكويت|في الكويت|in kuwait/.test(q)?'KW':/بالسعوديه|في السعوديه|in saudi/.test(q)?'SA':previous?.region??null) : null;
   const availableOnly = kind==='equipment' && /متوفر|متاح|in stock|available/.test(q) && !/غير متوفر|نفاد|out of stock/.test(q) ? true : kind==='equipment' ? previous?.availableOnly??false : false;
   const terms = [...new Set(kind==='recipe'&&foundNotes.length?foundNotes:[...foundNames, ...foundNotes, ...unknownTerms.filter(term=>!catalogNames.some(group=>group.some(alias=>normalizeSearch(alias)===term))&&!(kind==='equipment'&&(/^(متوفر|متاح)/.test(term)||['available','stock'].includes(term)))&&!(region&&['kuwait','saudi','بالكويت','بالسعوديه'].includes(term)))])].slice(0,8);
-  return { kind, category, methods: foundMethods.length ? foundMethods : (gear || recipe) && kind !== previous?.kind ? [] : previous?.methods ?? [], terms: terms.length ? terms : !gear && !recipe ? previous?.terms ?? [] : [], amount, currency, region, availableOnly,
+  return { kind, category, methods: foundMethods.length ? foundMethods : (gear || recipe) && kind !== previous?.kind ? [] : previous?.methods ?? [], terms: terms.length ? terms : !gear && !recipe ? previous?.terms ?? [] : [], amount, currency, region, availableOnly, noteTerms,
     clarification: amount !== null && (!Number.isFinite(amount) || amount <= 0) ? 'budget' : amount !== null && (!currency || currencies.length > 1) ? 'currency' : !kind ? 'intent' : null };
 }
 export function assistantSearchTerms(query: AssistantQuery): string[] {
@@ -104,7 +114,12 @@ export function rankAssistantDocuments(documents: AssistantDocument[], query: As
     if (query.kind==='equipment' && query.category==='grinder' && query.methods.length && !document.methods.some(method=>query.methods.includes(method))) return [];
     if (document.kind !== query.kind || (query.category && document.category !== query.category) || (query.methods.length && query.kind==='recipe' && !document.methods.some(method=>query.methods.includes(method)))) return [];
     const search = deepSearchText(document.search_text);
-    const matchedTerms = query.terms.filter(term=>assistantSearchTerms({...query,terms:[term]}).some(alias=>matchesAlias(search,alias)));
+    const noteTerms = query.kind === 'coffee' ? query.noteTerms ?? [] : [];
+    const rawNotes = document.facts?.notes;
+    const noteText = typeof rawNotes === 'string' ? rawNotes : Array.isArray(rawNotes) ? rawNotes.filter(note => typeof note === 'string').join(' ') : '';
+    const publishedNotes = normalizeSearch(noteText);
+    const confirmedNotes = noteTerms.filter(term => assistantSearchTerms({ ...query, terms: [term] }).some(alias => matchesAlias(publishedNotes, alias)));
+    const matchedTerms = query.terms.filter(term=>assistantSearchTerms({...query,terms:[term]}).some(alias=>matchesAlias(noteTerms.includes(term) && publishedNotes ? publishedNotes : search,alias)));
     if (query.terms.length && !matchedTerms.length) return [];
     const prices = (Array.isArray(document.offers)?document.offers:[]).flatMap(offer=>{
       if (query.region && (offer.region !== query.region || offer.excluded_destinations?.includes(query.region))) return [];
@@ -116,7 +131,7 @@ export function rankAssistantDocuments(documents: AssistantDocument[], query: As
       return price && (query.amount===null || price.converted<=query.amount) ? [{offer,currency:effectiveCurrency,...price}] : [];
     }).sort((a,b)=>Number(a.offer.availability==='out_of_stock')-Number(b.offer.availability==='out_of_stock') || (a.currency===b.currency?a.converted-b.converted:0));
     if ((query.amount!==null || query.region || query.availableOnly) && !prices.length) return [];
-    return [{document,matchedTerms,allTerms:matchedTerms.length===query.terms.length,price:prices[0]??null}];
+    return [{document,matchedTerms,allTerms:matchedTerms.length===query.terms.length && confirmedNotes.length===noteTerms.length,price:prices[0]??null,confirmedNotes}];
   }).sort((a,b)=>Number(b.allTerms)-Number(a.allTerms) || b.matchedTerms.length-a.matchedTerms.length || Number(a.price?.offer.availability==='out_of_stock')-Number(b.price?.offer.availability==='out_of_stock') || (a.price?.currency===b.price?.currency?(a.price?.converted??Infinity)-(b.price?.converted??Infinity):0) || a.document.id.localeCompare(b.document.id)).slice(0,6);
 }
 export function assistantReply(query: AssistantQuery, matches: AssistantMatch[], locale: 'ar'|'en'): string {

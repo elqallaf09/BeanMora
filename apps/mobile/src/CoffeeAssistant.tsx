@@ -10,8 +10,8 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Linking, ScrollView, View } from "./native";
 import { Action, Field, Language, Txt, colors, styles } from "./ui";
 import { publicSupabase, supabase, catalogScope } from "./client";
-import { CoffeeAssistantError, coffeeAssistantAvailable, converseRemotely, type AssistantFailure, type CoffeeAssistantTurn } from './coffeeAssistantRemote';
-import { assistantPreferenceKey, defaultAssistantPreference, readAssistantPreference, resolveCoffeeAnswer, saveAssistantPreference, type AssistantPreference } from './coffeeAssistantPolicy';
+import { CoffeeAssistantError, coffeeAssistantReadiness, converseRemotely, type AssistantFailure, type CoffeeAssistantTurn } from './coffeeAssistantRemote';
+import { assistantPreferenceKey, defaultAssistantPreference, readAssistantPreference, resolveCoffeeAnswer, saveAssistantAvailability, type AssistantPreference } from './coffeeAssistantPolicy';
 import { loadCoffeeLessonContent } from './coffeeLessonContent';
 import {
   assistantRecipeServingStyle,
@@ -61,13 +61,9 @@ export function CoffeeAssistant({
   const [question, setQuestion] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const [aiEnabled, setAiEnabled] = useState(false);
-  const [checkingAi, setCheckingAi] = useState(false);
   const [aiNotice, setAiNotice] = useState<AssistantFailure | ''>('');
-  const [memberId, setMemberId] = useState<string | null>(null);
   const member = useRef<string | null>(null);
   const preference = useRef<AssistantPreference>(defaultAssistantPreference());
-  const availabilityRequest = useRef<AbortController | null>(null);
   const active = useRef<AbortController | null>(null);
   const list = useRef<ScrollView>(null);
   const revealedTurn = useRef<AssistantTurn | null>(null);
@@ -79,7 +75,6 @@ export function CoffeeAssistant({
   useEffect(
     () => () => {
       active.current?.abort();
-      availabilityRequest.current?.abort();
       if (scrollFrame.current !== null) cancelAnimationFrame(scrollFrame.current);
     },
     [],
@@ -91,12 +86,10 @@ export function CoffeeAssistant({
       if (stopped) return;
       if (member.current !== id) {
         active.current?.abort(); active.current = null;
-        availabilityRequest.current?.abort(); availabilityRequest.current = null;
-        setBusy(false); setCheckingAi(false); setAiEnabled(false); setAiNotice('');
+        setBusy(false); setAiNotice('');
         preference.current = defaultAssistantPreference();
         if (member.current) { setTurns([]); setQuestion(''); }
         member.current = id;
-        setMemberId(id);
       }
     };
     if (!signedIn || !supabase) { accept(null); return; }
@@ -111,76 +104,19 @@ export function CoffeeAssistant({
     return () => { stopped = true; subscription.unsubscribe(); };
   }, [signedIn]);
 
-  useEffect(() => {
-    setAiEnabled(false); setAiNotice('');
-    if (!memberId) return;
-    const controller = new AbortController();
-    availabilityRequest.current?.abort();
-    availabilityRequest.current = controller;
-    setCheckingAi(true);
-    void (async () => {
-      try {
-        const saved = await readAssistantPreference(AsyncStorage, assistantPreferenceKey(catalogScope, memberId));
-        if (controller.signal.aborted || member.current !== memberId) return;
-        preference.current = saved;
-        if (saved.creditPaused) setAiNotice('credits');
-        else if (saved.retryAt > Date.now()) setAiNotice('unavailable');
-        if (saved.optedOut || saved.creditPaused) return;
-        const session = (await supabase?.auth.getSession())?.data.session;
-        if (!session || session.user.is_anonymous || session.user.id !== memberId) return;
-        const available = await coffeeAssistantAvailable({
-          url: catalogScope, publicKey: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '',
-          accessToken: session.access_token, signal: controller.signal,
-        });
-        if (!controller.signal.aborted && member.current === memberId) setAiEnabled(available);
-      } catch {
-        if (!controller.signal.aborted && member.current === memberId) setAiEnabled(false);
-      } finally {
-        if (!controller.signal.aborted && member.current === memberId) setCheckingAi(false);
-        if (availabilityRequest.current === controller) availabilityRequest.current = null;
-      }
-    })();
-    return () => controller.abort();
-  }, [memberId]);
-
   function persistPreference(owner: string, next: AssistantPreference) {
     if (member.current !== owner) return;
     preference.current = next;
-    void saveAssistantPreference(AsyncStorage, assistantPreferenceKey(catalogScope, owner), next);
-  }
-  async function toggleAi() {
-    const owner = member.current;
-    if (!owner || checkingAi) return;
-    availabilityRequest.current?.abort();
-    if (aiEnabled) {
-      persistPreference(owner, { ...preference.current, optedOut: true });
-      setAiEnabled(false); setAiNotice(''); return;
-    }
-    const controller = new AbortController();
-    availabilityRequest.current = controller;
-    setCheckingAi(true); setAiNotice('');
-    try {
-      const session = (await supabase?.auth.getSession())?.data.session;
-      if (!session || session.user.is_anonymous || session.user.id !== owner) throw new CoffeeAssistantError('signin');
-      const available = await coffeeAssistantAvailable({ url: catalogScope, publicKey: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '', accessToken: session.access_token, signal: controller.signal });
-      if (!controller.signal.aborted && member.current === owner) {
-        setAiEnabled(available);
-        if (available) persistPreference(owner, defaultAssistantPreference());
-        else setAiNotice('unavailable');
-      }
-    } catch (error) {
-      if (!controller.signal.aborted && member.current === owner) setAiNotice(error instanceof CoffeeAssistantError ? error.reason : 'unavailable');
-    } finally {
-      if (!controller.signal.aborted && member.current === owner) setCheckingAi(false);
-      if (availabilityRequest.current === controller) availabilityRequest.current = null;
-    }
+    void saveAssistantAvailability(AsyncStorage, assistantPreferenceKey(catalogScope, owner), next);
   }
   const aiNoticeText = aiNotice === 'credits'
-    ? i18nUi('الرصيد أو حد الاستخدام غير متاح. رجعنا إلى دليل القهوة؛ أعد تفعيل المساعدة الذكية بعد تجديده.', 'Credits or the usage allowance are unavailable. We switched to the coffee guide; re-enable AI after renewing them.')
+    ? i18nUi('المساعدة الذكية غير متاحة حاليًا بسبب حد الاستخدام. دليل القهوة متاح، ونتحقق تلقائيًا مع سؤالك القادم بعد فترة انتظار.', 'AI is currently unavailable because of a usage limit. The coffee guide is available; a later question checks again automatically after a waiting period.')
     : aiNotice === 'rate'
       ? i18nUi('وصلنا إلى حد الطلبات مؤقتًا. دليل القهوة يجاوبك الآن، وتعود المساعدة الذكية بعد الانتظار.', 'The request limit was reached temporarily. The coffee guide answers now; AI resumes after the waiting period.')
       : aiNotice === 'signin'
         ? i18nUi('سجّل الدخول مجددًا لاستخدام المساعدة الذكية. دليل القهوة متاح.', 'Sign in again to use AI assistance. The coffee guide is available.')
+        : aiNotice === 'disabled'
+          ? i18nUi('الإجابات الذكية غير متاحة على الخدمة حاليًا. يعرض خبير القهوة إجابة من الدليل، ويتحقق تلقائيًا مع سؤال لاحق.', 'Online AI answers are not currently enabled by the service. Coffee Expert uses the guide and checks automatically on a later question.')
         : aiNotice === 'unavailable'
           ? i18nUi('تعذّر الاتصال بالمساعدة الذكية مؤقتًا. رجعنا إلى دليل القهوة.', 'AI assistance is temporarily unavailable. We switched to the coffee guide.') : '';
   async function ask(message = question, displayQuestion = message) {
@@ -237,13 +173,33 @@ export function CoffeeAssistant({
           };
         },
       });
+      // Settings and stored preferences are read for each submitted question.
+      // A stale readiness result must never leave the expert permanently offline.
+      if (owner) {
+        const saved = await readAssistantPreference(AsyncStorage, assistantPreferenceKey(catalogScope, owner));
+        if (controller.signal.aborted || member.current !== owner) return;
+        preference.current = saved;
+        if (saved.optedOut) setAiNotice('');
+        else if (saved.creditPaused && saved.retryAt > Date.now()) setAiNotice('credits');
+      }
       const turn = await resolveCoffeeAnswer({
-        draft, available: aiEnabled && signedIn && !!owner, preference: preference.current,
+        draft, available: signedIn && !!owner, preference: preference.current,
         signal: controller.signal,
         remote: async () => {
           const session = (await supabase?.auth.getSession())?.data.session;
           if (controller.signal.aborted || member.current !== owner) throw Object.assign(new Error('Request cancelled'), { name: 'AbortError' });
           if (!session || session.user.is_anonymous || session.user.id !== owner) throw new CoffeeAssistantError('signin');
+          const readiness = await coffeeAssistantReadiness({
+            url: catalogScope, publicKey: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '',
+            accessToken: session.access_token, signal: controller.signal,
+          });
+          if (controller.signal.aborted || member.current !== owner) throw Object.assign(new Error('Request cancelled'), { name: 'AbortError' });
+          if (readiness !== 'ready') throw new CoffeeAssistantError(readiness === 'disabled' ? 'disabled' : 'unavailable');
+          // Settings may change while the readiness request is pending. Check
+          // the latest privacy choice before sending any conversation text.
+          const latest = await readAssistantPreference(AsyncStorage, assistantPreferenceKey(catalogScope, owner));
+          if (controller.signal.aborted || member.current !== owner) throw Object.assign(new Error('Request cancelled'), { name: 'AbortError' });
+          if (latest.optedOut) return null;
           return converseRemotely(draft, turns, locale, {
             url: catalogScope, publicKey: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '',
             accessToken: session.access_token, signal: controller.signal, question: displayQuestion,
@@ -253,8 +209,12 @@ export function CoffeeAssistant({
         onFallback: (reason, next) => {
           if (controller.signal.aborted || !owner || member.current !== owner) return;
           persistPreference(owner, next);
-          if (next.creditPaused || reason === 'signin') setAiEnabled(false);
           setAiNotice(reason);
+        },
+        onRecovered: (next) => {
+          if (controller.signal.aborted || !owner || member.current !== owner) return;
+          persistPreference(owner, next);
+          setAiNotice('');
         },
       });
       const usedAi = turn.mode === 'ai';
@@ -309,11 +269,7 @@ export function CoffeeAssistant({
           alignSelf: "center",
         }}
       >
-        {signedIn ? <View style={{ gap: 8 }}>
-          <Action compact title={checkingAi ? i18nUi('جارٍ التحقق…', 'Checking…') : aiEnabled ? i18nUi('العودة إلى دليل القهوة', 'Use the coffee guide') : i18nUi('تفعيل المساعدة الذكية', 'Enable AI assistance')} disabled={busy || checkingAi} onPress={() => void toggleAi()} />
-          {aiEnabled ? <Txt style={styles.muted}>{i18nUi('المساعدة الذكية تجيب عن القهوة والتحضير. الحسابات الدقيقة من دليل القهوة.', 'AI answers coffee and brewing questions. Exact calculations use the coffee guide.')}</Txt> : null}
-          {aiNoticeText ? <View accessibilityLiveRegion="polite"><Txt style={styles.muted}>{aiNoticeText}</Txt></View> : null}
-        </View> : null}
+        {signedIn && aiNoticeText ? <View accessibilityLiveRegion="polite"><Txt style={styles.muted}>{aiNoticeText}</Txt></View> : null}
         {!turns.length ? (
           <View
             style={{

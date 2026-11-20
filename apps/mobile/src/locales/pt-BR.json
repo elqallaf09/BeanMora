@@ -3275,5 +3275,9 @@
   "What does the gauge read during extraction, and is it the brew or steam gauge?": "O que o manômetro indica durante a extração? Ele mede a pressão de extração ou do vapor?",
   "What is your machine model, and what does the gauge read during extraction?": "Qual é o modelo da sua máquina e o que o manômetro indica durante a extração?",
   "xBloom draft ready to review. The source link opens the original recipe; transfer changes to the machine manually. Use the builder above to change amounts.": "O rascunho xBloom está pronto para revisão. O link da fonte abre a receita original; transfira as alterações para a máquina manualmente. Use o criador de receitas acima para mudar as quantidades.",
-  "xBloom machine": "Máquina xBloom"
+  "xBloom machine": "Máquina xBloom",
+  "Online answers": "Respostas online",
+  "Online AI answers use your question and recent conversation questions. Turn this off to use only the coffee guide.": "As respostas de IA online usam sua pergunta e as perguntas recentes da conversa. Desative esta opção para usar apenas o guia de café.",
+  "AI is currently unavailable because of a usage limit. The coffee guide is available; a later question checks again automatically after a waiting period.": "A IA está indisponível devido a um limite de uso. O guia de café continua disponível; uma pergunta posterior fará uma nova verificação automática após um período de espera.",
+  "Online AI answers are not currently enabled by the service. Coffee Expert uses the guide and checks automatically on a later question.": "As respostas de IA online não estão ativadas no serviço no momento. O especialista em café usa o guia e verifica novamente de forma automática em uma pergunta posterior."
 }

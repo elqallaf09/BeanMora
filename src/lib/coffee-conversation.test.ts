@@ -61,6 +61,29 @@ describe('grounded coffee conversation contract', () => {
     expect(await converse(input, deps)).toMatchObject({ mode: 'catalog', notice: 'guidance_not_found' });
     expect(deps.model.generate).toHaveBeenCalledOnce();
   });
+  it('returns a normal catalog handoff when a successful search has no published matches', async () => {
+    const deps = dependencies([{ ...guidePlan, intent: 'search', query: { ...query, kind: 'coffee', terms: ['strawberry'] }, guidance_ids: [] }]);
+    expect(await converse({ question: 'أبي بن بإيحاء فراولة', locale: 'ar', history: [] }, deps)).toEqual({ mode: 'catalog', notice: 'catalog_no_matches' });
+    expect(deps.search).toHaveBeenCalledOnce();
+    expect(deps.model.generate).toHaveBeenCalledOnce();
+  });
+  it('preserves the reported bean flavor request when the planner chooses recipes or drops the note', async () => {
+    const document: AssistantDocument = {
+      id: '11111111-1111-4111-8111-111111111111', kind: 'coffee', slug: 'reviewed-coffee',
+      title_ar: 'بن موثّق', title_en: 'Reviewed coffee', summary_ar: '', summary_en: '', search_text: 'Strawberry coffee',
+      source_url: 'https://roaster.example/coffee', category: null, methods: [], facts: { notes: ['Strawberry'] }, offers: [], verified_at: null,
+    };
+    const deps = dependencies([
+      { ...guidePlan, intent: 'search', query: { ...query, kind: 'recipe' }, guidance_ids: [] },
+      { selected_ids: [document.id], evidence: [{ id: document.id, keys: ['notes'] }], answer: 'تذكر المحمصة إيحاء الفراولة لهذا البن.', follow_up: '' },
+    ]);
+    deps.search.mockResolvedValue({ documents: [document], rates: [] });
+    const result = await converse({ question: 'شنو البن الي طعمه او ايحاءه على فراولة', locale: 'ar', history: [] }, deps);
+    expect(deps.search).toHaveBeenCalledWith(expect.objectContaining({ kind: 'coffee', terms: ['strawberry'], noteTerms: ['strawberry'] }));
+    expect(result).toMatchObject({ mode: 'ai', query: { kind: 'coffee' }, matches: [{ allTerms: true, confirmedNotes: ['strawberry'] }] });
+    expect(deps.model.generate).toHaveBeenCalledTimes(2);
+    expect(deps.model.generate.mock.calls[1][3]).toMatchObject({ matches: [{ confirmedNotes: ['strawberry'], allTerms: true }] });
+  });
   it('rejects a private or invented product reference selected by the planner', async () => {
     const deps = dependencies([{ ...guidePlan, intent: 'explain', focus_ids: ['99999999-9999-4999-8999-999999999999'] }]);
     await expect(converse(input, deps)).rejects.toThrow('MODEL_UNKNOWN_REFERENCE');

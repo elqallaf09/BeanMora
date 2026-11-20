@@ -3275,5 +3275,9 @@
   "What does the gauge read during extraction, and is it the brew or steam gauge?": "萃取时压力表的读数是多少？它是萃取压力表还是蒸汽压力表？",
   "What is your machine model, and what does the gauge read during extraction?": "你的机器是什么型号？萃取时压力表的读数是多少？",
   "xBloom draft ready to review. The source link opens the original recipe; transfer changes to the machine manually. Use the builder above to change amounts.": "xBloom草稿已可供检查。来源链接会打开原始配方；请手动将修改应用到机器。要调整用量，请使用上方的配方创建工具。",
-  "xBloom machine": "xBloom机器"
+  "xBloom machine": "xBloom机器",
+  "Online answers": "在线回答",
+  "Online AI answers use your question and recent conversation questions. Turn this off to use only the coffee guide.": "在线 AI 回答会使用你的问题及对话中最近提出的问题。关闭此选项后，仅使用咖啡指南。",
+  "AI is currently unavailable because of a usage limit. The coffee guide is available; a later question checks again automatically after a waiting period.": "由于使用额度限制，AI 暂时不可用。咖啡指南仍可使用；等待一段时间后再次提问时，系统会自动重新检查。",
+  "Online AI answers are not currently enabled by the service. Coffee Expert uses the guide and checks automatically on a later question.": "服务目前尚未启用在线 AI 回答。咖啡专家将使用指南作答，并在后续提问时自动重新检查。"
 }

@@ -39,7 +39,7 @@ const places = [['kuwait','الكويت','كويت','kw'],['saudi','السعود
 // Published spaced brand and Arabic catalog label, reviewed 2026-10-11:
 // https://www.ark.com.kw/pages/about . Keep matching at word boundaries.
 const catalogNames = [['ark','آرك','a r k','ارك']];
-const stop = new Set(normalizeSearch('طلعي عطيني قيمتها قيمته تكلفتها تكلفته ما بين يتراوح تتراوح ranging between from cost costs costing priced ابي ابغى اريد عندي عندكم عنده عندها لي له لها فيه فيها عن من على الى في مع حق حقي هذا هذه شنو وش اي احسن افضل اقرب يناسب مناسبة مناسب نبي ابيها ممكن طلعلي طلع طلع لي رشح اقترح تنصحني يقوله يقولي سعر بسعر بسعره ميزانية ميزانيه بميزانية بميزانيه تحت لحد حدود ماكينة مكينة مكنة ممكينه ممكينة اله جهاز اجهزه معدات طاحونة طاحونه مطحنة مطحنه وصفة وصفه وصفات بن حبوب beans bean قهوة قهوه ايحاء ايحاءات ايحاءه طعم نكهة نكهه نكهات نكهته نكتة نكته ابحث ابيهم ابيك اريدها دولار دولارات دينار كويتي ريال سعودي dollars dollar dinar riyal usd kwd sar machine espresso grinder recipe coffee roaster please find recommend want need for with under budget price best nearest closest have has tasting tastes taste notes note flavor flavors flavour flavours i a an the and or to me my of is it about tell show give up buy').split(' '));
+const stop = new Set(normalizeSearch('طلعي عطيني قيمتها قيمته تكلفتها تكلفته ما بين يتراوح تتراوح ranging between from cost costs costing priced ابي ابغى اريد عندي عندكم عنده عندها لي له لها فيه فيها عن من على الى في مع حق حقي هذا هذه شنو وش اي احسن افضل اقرب يناسب مناسبة مناسب نبي ابيها ممكن طلعلي طلع طلع لي رشح اقترح تنصحني يقوله يقولي سعر بسعر بسعره ميزانية ميزانيه بميزانية بميزانيه تحت لحد حدود ماكينة مكينة مكنة ممكينه ممكينة اله جهاز اجهزه معدات طاحونة طاحونه مطحنة مطحنه وصفة وصفه وصفات بن حبوب beans bean قهوة قهوه ايحاء ايحاءات ايحاءه ايحائه ايحاءها طعم طعمه طعمها نكهة نكهه نكهات نكهته نكهتها نكتة نكته ابحث ابيهم ابيك اريدها دولار دولارات دينار كويتي ريال سعودي dollars dollar dinar riyal usd kwd sar machine espresso grinder recipe coffee roaster please find recommend want need for with under budget price best nearest closest have has tasting tastes taste notes note flavor flavors flavour flavours i a an the and or to me my of is it about tell show give up buy').split(' '));
 const methods: [string, string[]][] = [
   ['xbloom',['xbloom','x bloom','اكسبلوم','اكس بلوم','بالاكسبلوم']],
   ['espresso',['espresso','اسبرسو','اسبريسو','اسبر يسو','بالاسبرسو']],
@@ -120,14 +120,18 @@ export function parseAssistantQuery(message: string, previous?: AssistantQuery |
   const foundNames = catalogNames.filter(group=>group.some(alias=>matchesAlias(q,alias))).map(group=>group[0]);
   const recipe = /وصف|تحضير|استخلاص|recipe|brew|ايحاء|نكه|طعم/.test(q) || foundNotes.length > 0;
   const gear = hasEquipmentIntent(q);
-  const kind: AssistantKind | null = hasRecipeIntent(q) ? 'recipe' : gear ? 'equipment' : recipe ? 'recipe' : /محمص|محامص|roaster/.test(q) ? 'roaster' : /حبوب|\bbeans?\b/.test(q) ? 'coffee' : previous?.kind ?? null;
+  // Asking for beans with a flavor is a coffee recommendation, not a recipe.
+  // The same classifier is shared by mobile and the server planner baseline.
+  const coffee = isCoffeeRecommendationRequest(q);
+  const kind: AssistantKind | null = hasRecipeIntent(q) ? 'recipe' : gear ? 'equipment' : coffee ? 'coffee' : recipe ? 'recipe' : /محمص|محامص|roaster/.test(q) ? 'roaster' : /حبوب|\bbeans?\b/.test(q) ? 'coffee' : previous?.kind ?? null;
   const purchaseFollowUp = /ميزاني|سعر|دولار|دينار|ريال|budget|price|under|\b(?:usd|kwd|sar)\b|متوفر|متاح|in stock|available|بالكويت|في الكويت|بالسعوديه|في السعوديه|in kuwait|in saudi/.test(q) || /^\d+(?:[.,]\d+)?$/.test(q);
   const purchaseIntent = kind === 'equipment' && (isEquipmentShoppingRequest(q) || (!gear && purchaseFollowUp && previous?.purchaseIntent === true));
   const category = kind !== 'equipment' ? null : /طاحون|مطحن|طواحين|مطاحن|grinder/.test(q) ? 'grinder' : /غلاي|kettle/.test(q) ? 'kettle' : matchesAlias(q,'ميزان') || /\bscale\b/.test(q) ? 'scale' : gear && foundMethods.includes('espresso') ? 'espresso_machine' : gear && foundMethods.includes('xbloom') ? 'xbloom' : gear ? null : kind === previous?.kind ? previous?.category ?? null : null;
   const requestedStyles = (['cold', 'hot'] as const).filter(style => servingAliases[style].some(alias => matchesAlias(q, alias)));
   const servingStyle = kind === 'recipe' ? requestedStyles.length === 1 ? requestedStyles[0] : requestedStyles.length ? null : previous?.kind === 'recipe' ? previous.servingStyle ?? null : null : null;
   const noteRequest = ['إيحاء', 'إيحاءات', 'إيحاءة', 'نكهة', 'نكهات', 'طعم', 'notes', 'flavor', 'flavors', 'flavour', 'flavours', 'taste'].some(alias => matchesAlias(q, alias));
-  const noteTerms = kind === 'recipe' ? noteRequest ? foundNotes : !gear && !recipe ? previous?.noteTerms ?? [] : [] : [];
+  const noteTerms = kind === 'coffee' ? foundNotes
+    : kind === 'recipe' ? noteRequest ? foundNotes : !gear && !recipe ? previous?.noteTerms ?? [] : [] : [];
   const currencies: AssistantCurrency[] = [];
   if (/(?:\b|\d)usd\b|\$|دولار/.test(q)) currencies.push('USD');
   if (/(?:\b|\d)kwd\b|دينار|د\.?\s?ك(?:\s|$)/.test(q)) currencies.push('KWD');
@@ -187,7 +191,7 @@ export function rankAssistantDocuments(documents: AssistantDocument[], query: As
     const noteText = typeof rawNotes === 'string' ? rawNotes : Array.isArray(rawNotes) ? rawNotes.filter(note => typeof note === 'string').join(' ') : '';
     const publishedNotes = deepSearchText(noteText, { equivalentFlavors: false });
     const retrievalNotes = deepSearchText(noteText);
-    const noteTerms = query.kind === 'recipe' ? query.noteTerms ?? [] : [];
+    const noteTerms = query.kind === 'recipe' || query.kind === 'coffee' ? query.noteTerms ?? [] : [];
     const confirmedNotes = noteTerms.filter(term => assistantSearchTerms({ ...query, terms: [term] }).some(alias => matchesAlias(publishedNotes, alias)));
     // Honey processing is not a honey tasting note. Sparse catalog records may
     // remain nearby search results, but cannot claim confirmed flavor matching.
@@ -232,7 +236,7 @@ export function assistantReply(query: AssistantQuery, matches: AssistantMatch[],
     const requested = query.terms.map(term=>termLabel(term)).join(ar?'، ':', ');
     if(!matches.length)return L(`لم أجد بنًا منشورًا يطابق${requested?' «'+requested+'»':' طلبك'} في مكتبتنا. جرّب إيحاءً آخر أو اسم البن أو المحمصة.`, `I found no published coffee matching ${requested||'your request'} in our catalog. Try another tasting note, coffee or roaster name.`);
     const best = matches[0], name = V(best.document.title_ar||best.document.title_en,best.document.title_en||best.document.title_ar);
-    const matched = best.matchedTerms.map(term=>termLabel(term)).join(ar?'، ':', ');
+    const matched = best.matchedTerms.filter(term => !query.noteTerms?.includes(term) || best.confirmedNotes?.includes(term)).map(term=>termLabel(term)).join(ar?'، ':', ');
     const heading = best.allTerms ? L('أقرب ترشيح لطلبك', 'My closest catalog recommendation') : L('لم أجد بنًا يطابق كل طلبك؛ أقرب خيار جزئي', 'No coffee matched everything; the closest partial match is');
     return `${heading}: ${name}.${matched?'\n'+L('يطابق: ', 'Matches: ')+matched+L('، بحسب البيانات المنشورة.', ', according to the published information.'):''}\n${L('راجع وصف المحمصة لمعرفة المعالجة والإيحاءات قبل الاختيار.', 'Check the roaster’s description for processing and tasting notes before choosing.')}`;
   }

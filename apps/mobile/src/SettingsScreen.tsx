@@ -12,6 +12,7 @@ import { SupportContact } from './SupportContact';
 import { SettingsAccount } from './SettingsAccount';
 import { TabRail } from './TabRail';
 import { SettingsSocial } from './SettingsSocial';
+import { SettingsCoffeeAssistant } from './SettingsCoffeeAssistant';
 
 export function SettingsScreen({
   visible,
@@ -102,6 +103,7 @@ export function SettingsScreen({
                 items={languageOptions}
                 onChange={value => changeLanguage(value as Locale)} />
             </View>
+            {session && !session.user.is_anonymous ? <SettingsCoffeeAssistant key={'coffee-' + session.user.id} owner={session.user.id} /> : null}
             {session ? (
               <SettingsSocial key={'social-' + session.user.id} owner={session.user.id} />
             ) : null}

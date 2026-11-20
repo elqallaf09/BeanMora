@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { assistantReply, assistantSafeUrl, convertCatalogPrice, parseAssistantQuery, rankAssistantDocuments, type AssistantDocument, type CatalogOffer, type CatalogRate } from './coffee-assistant';
+import { parseAssistantQuery as parseServerAssistantQuery, rankAssistantDocuments as rankServerAssistantDocuments } from '../../supabase/functions/_shared/coffee-assistant';
 
 const now = Date.parse('2026-10-08T12:00:00Z');
 const stamp = new Date(now).toISOString();
@@ -21,6 +22,29 @@ const rates: CatalogRate[] = [
 ];
 
 describe('coffee assistant catalog constraints', () => {
+  it.each(['شنو البن الي طعمه او ايحاءه على فراولة', 'شنو البن الي طعمه او ايحائه على فراولة', 'أبي بن إيحاء فراولة'])('keeps the reported flavor question as a bean recommendation: %s', question => {
+    for (const parse of [parseAssistantQuery, parseServerAssistantQuery]) {
+      expect(parse(question)).toMatchObject({ kind: 'coffee', terms: ['strawberry'], noteTerms: ['strawberry'], clarification: null });
+      expect(parse('أبي وصفة بن بإيحاء فراولة')).toMatchObject({ kind: 'recipe' });
+    }
+  });
+  it('requires published bean tasting notes before claiming a complete flavor match', () => {
+    const query = parseAssistantQuery('أبي بن بإيحاء عسل');
+    const coffee: AssistantDocument = { ...equipment, kind: 'coffee', category: null, methods: [], offers: [], search_text: 'Honey', facts: { notes: ['Honey'] } };
+    const documents = [
+      { ...coffee, id: 'processing', search_text: 'Honey processed', facts: { notes: ['Mango'] } },
+      { ...coffee, id: 'sparse', title_en: 'Nearby coffee', search_text: 'Honey coffee', facts: {} },
+      { ...coffee, id: 'confirmed' },
+    ];
+    for (const rank of [rankAssistantDocuments, rankServerAssistantDocuments]) {
+      const matches = rank(documents, query, [], now);
+      expect(matches.map(match => match.document.id)).toEqual(['confirmed', 'sparse']);
+      expect(matches[0]).toMatchObject({ allTerms: true, confirmedNotes: ['honey'] });
+      expect(matches[1]).toMatchObject({ allTerms: false, confirmedNotes: [] });
+    }
+    const sparse = rankAssistantDocuments([documents[1]], query, [], now);
+    expect(assistantReply(query, sparse, 'en')).not.toContain('Matches: honey');
+  });
   it('retrieves related cocoa/chocolate notes without claiming they are the same published fact', () => {
     const cocoa: AssistantDocument = { ...equipment, kind: 'recipe', category: null, offers: [], methods: ['v60'], search_text: 'Cocoa beans', facts: { notes: ['Cocoa'] } };
     const matches = rankAssistantDocuments([cocoa], parseAssistantQuery('recipe with chocolate notes'), [], now);
