@@ -35,12 +35,12 @@ describe('grounded coffee conversation contract', () => {
     expect(deps.search).not.toHaveBeenCalled();
     expect(deps.model.generate.mock.calls.map(call => call[0])).toEqual(['coffee_plan', 'coffee_evidence']);
   });
-  it('passes previous user measurements to the guide, without previous model answers or client facts', async () => {
+  it('passes previous user measurements to the guide with server-assigned dialogue roles', async () => {
     const conversation: ConversationInput = { question: 'والطحنة شلون أعدلها؟', locale: 'ar', history: [{ question: 'عندي اسبريسو والناتج سريع', resultIds: [] }] };
     const deps = dependencies([{ ...guidePlan, guidance_ids: ['espresso-dial-in'] }, { answer: 'ثبّت الجرعة والناتج ثم عدّل الطحن تدريجيًا، وقارن الوقت والطعم.', source_ids: ['espresso-dial-in'], follow_up: 'شنو الجرعة والناتج ووقت الشوت؟' }]);
     await converse(conversation, deps);
     expect(deps.model.generate).toHaveBeenCalledTimes(2);
-    expect(deps.model.generate.mock.calls[1][3]).toMatchObject({ question: conversation.question, history: ['عندي اسبريسو والناتج سريع'] });
+    expect(deps.model.generate.mock.calls[1][3]).toMatchObject({ question: conversation.question, history: [{ role: 'user', content: 'عندي اسبريسو والناتج سريع' }] });
   });
   it.each([
     { ...guidedAnswer, source_ids: ['invented-reference'] },

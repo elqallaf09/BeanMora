@@ -1163,7 +1163,7 @@
   "French Press": "法压壶",
   "French Press Brew Guide - Stumptown Coffee Roasters": "French Press Brew Guide - Stumptown Coffee Roasters",
   "French press guide": "法压壶指南",
-  "French press steeps coffee in water before a metal-filter plunger separates it. Percolation moves water through a bed of grounds. A Switch combines stages using its valve; follow the recipe’s open and close times. Espresso yield does not represent steeping water. Record fresh measurements when changing methods.": "法压壶先让咖啡粉在水中浸泡，再用金属滤网活塞分离。渗滤式冲煮让水通过粉层。Switch 通过阀门结合这些阶段，请遵守配方规定的开启和关闭时间。意式浓缩出液量不代表浸泡用水量。更换方法后应重新记录测量值。",
+  "A brewing method is how coffee is prepared: for example, espresso, pour-over with a V60 dripper, or immersion with a French press. French press steeps coffee in water before a metal-filter plunger separates it. Percolation moves water through a bed of grounds. A Switch combines stages using its valve; follow the recipe’s open and close times. Espresso yield does not represent steeping water. Record fresh measurements when changing methods.": "冲煮方式就是制作咖啡的方法，例如意式浓缩、用 V60 滤杯手冲，或用法压壶浸泡。法压壶先让咖啡粉在水中浸泡，再用金属滤网活塞分离。渗滤式冲煮让水通过粉层。Switch 通过阀门结合这些阶段，请遵守配方规定的开启和关闭时间。意式浓缩出液量不代表浸泡用水量。更换方法后应重新记录测量值。",
   "french southern territories": "法属南部领地",
   "French Southern Territories": "法属南部领地",
   "From around the world": "从世界各地",
@@ -3277,7 +3277,7 @@
   "xBloom draft ready to review. The source link opens the original recipe; transfer changes to the machine manually. Use the builder above to change amounts.": "xBloom草稿已可供检查。来源链接会打开原始配方；请手动将修改应用到机器。要调整用量，请使用上方的配方创建工具。",
   "xBloom machine": "xBloom机器",
   "Online answers": "在线回答",
-  "Online AI answers use your question and recent conversation questions. Turn this off to use only the coffee guide.": "在线 AI 回答会使用你的问题及对话中最近提出的问题。关闭此选项后，仅使用咖啡指南。",
+  "Online AI answers use your question and recent conversation messages, including assistant replies. Turn this off to use only the coffee guide.": "在线 AI 回答会使用你的问题及最近的对话消息，包括助手的回复。关闭此选项后，仅使用咖啡指南。",
   "AI is currently unavailable because of a usage limit. The coffee guide is available; a later question checks again automatically after a waiting period.": "由于使用额度限制，AI 暂时不可用。咖啡指南仍可使用；等待一段时间后再次提问时，系统会自动重新检查。",
   "Online AI answers are not currently enabled by the service. Coffee Expert uses the guide and checks automatically on a later question.": "服务目前尚未启用在线 AI 回答。咖啡专家将使用指南作答，并在后续提问时自动重新检查。"
 }

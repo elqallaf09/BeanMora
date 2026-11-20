@@ -5,6 +5,7 @@ import { converse, parseConversationInput } from './service.ts';
 import { openAIModel } from './model.ts';
 import { coffeeAssistantConfig } from './config.ts';
 import { publicAssistantFailure } from './errors.ts';
+import { boundedConversationJson } from './request.ts';
 
 const cors = {
   'Access-Control-Allow-Origin': '*',
@@ -12,24 +13,6 @@ const cors = {
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
 };
 const reply = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { ...cors, 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } });
-async function boundedJson(request: Request) {
-  if (!request.headers.get('content-type')?.includes('application/json')) throw new Error('INVALID_INPUT');
-  const reader = request.body?.getReader();
-  if (!reader) throw new Error('INVALID_INPUT');
-  const chunks: Uint8Array[] = []; let size = 0;
-  try {
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      size += value.byteLength;
-      if (size > 32768) throw new Error('INVALID_INPUT');
-      chunks.push(value);
-    }
-  } finally { await reader.cancel(); }
-  const all = new Uint8Array(size); let offset = 0;
-  for (const chunk of chunks) { all.set(chunk, offset); offset += chunk.length; }
-  return JSON.parse(new TextDecoder().decode(all));
-}
 Deno.serve(async request => {
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
   const config = coffeeAssistantConfig(name => Deno.env.get(name));
@@ -50,7 +33,7 @@ Deno.serve(async request => {
   if (request.method === 'GET') return availability(allowed);
   if (!allowed) return reply({ error: 'AI_PILOT_ONLY' }, 403);
   let input;
-  try { input = parseConversationInput(await boundedJson(request)); }
+  try { input = parseConversationInput(await boundedConversationJson(request)); }
   catch { return reply({ error: 'INVALID_INPUT' }, 400); }
   const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
   if (!config.enabled || !config.apiKey || !config.model) return reply({ mode: 'catalog', notice: 'not_configured' });

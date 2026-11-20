@@ -50,6 +50,15 @@ describe('coffee service evidence boundaries', () => {
     ]))).rejects.toThrow('MODEL_UNKNOWN_FACT');
   });
 
+  it.each(['user', 'assistant'])('does not promote historic %s figures into catalog specifications', async role => {
+    const history = [{ question: role === 'user' ? 'Does this grinder have 777 mm burrs?' : 'Tell me about the grinder.', resultIds: [],
+      ...(role === 'assistant' ? { answer: 'This grinder has 777 mm burrs.', followUp: 'Would you like 888 mm instead?' } : {}),
+    }];
+    await expect(converse({ ...input, history }, dependencies([
+      plan, { ...catalogAnswer, answer: 'This grinder has 777 mm burrs.' },
+    ]))).rejects.toThrow('MODEL_UNKNOWN_FACT');
+  });
+
   it('accepts an explicit specification from the selected record and cited fact', async () => {
     const answer = { ...catalogAnswer, answer: 'Its published burr size is 47 mm.', evidence: [{ id: document.id, keys: ['burr_size_mm'] }] };
     expect(await converse(input, dependencies([plan, answer]))).toMatchObject({ mode: 'ai', answer: answer.answer, evidence: { [document.id]: ['burr_size_mm'] } });

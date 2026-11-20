@@ -10,6 +10,10 @@ const options = { url: 'https://mobilefixture.supabase.co', publicKey: 'public-t
 const json = (body: unknown, status = 200, headers: Record<string, string> = {}) => new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json', ...headers } });
 const ai = { ...local, mode: 'ai' as const, answer: 'Grounded AI answer' };
 const offline = { search: async () => ({ documents: [], rates: [] }) };
+const reference = (id: string): LocalAssistantTurn['matches'][number] => ({
+  document: { id, kind: 'coffee', slug: null, title_ar: '', title_en: 'Client catalog title', summary_ar: '', summary_en: '', search_text: '', source_url: 'https://example.com/client-source', category: null, methods: [], facts: { notes: ['Client catalog fact'] }, offers: [], verified_at: null },
+  matchedTerms: [], allTerms: true, price: null,
+});
 
 function storage() {
   const values = new Map<string, string>();
@@ -82,14 +86,73 @@ describe('grounded remote coffee expert', () => {
   it.each(['guidance_not_found', 'clarification_required', 'catalog_no_matches'])('recognizes a deliberate catalog response: %s', async notice => {
     expect(await converseRemotely(local, [], 'en', { ...options, fetcher: async () => json({ mode: 'catalog', notice }) })).toBeNull();
   });
-  it('sends original language questions and UUID references without client facts or answers', async () => {
+  it('sends original language conversation text and UUID references without client facts, sources or account metadata', async () => {
+    const id = '11111111-1111-4111-8111-111111111111';
+    const previous = { ...local, followUp: 'Which grinder do you use?', matches: [reference(id), reference('private-local-item')], sources: [{ title: 'Client lesson source', url: 'https://example.com/lesson' }], ownerId: 'private-account-id' };
     const fetcher = vi.fn(async (_url: unknown, init?: RequestInit) => {
       const body = JSON.parse(String(init?.body));
-      expect(body).toEqual({ question: 'Comment régler mon espresso ?', locale: 'fr', history: [{ question: local.question, resultIds: [] }] });
-      expect(String(init?.body)).not.toContain('Local answer');
+      expect(body).toEqual({ question: 'Comment régler mon espresso ?', locale: 'fr', history: [{ question: local.question, answer: local.answer, followUp: previous.followUp, resultIds: [id] }] });
       return json({ mode: 'ai', answer: 'Réponse vérifiée', query, matches: [] });
     });
-    expect(await converseRemotely(local, [local], 'fr', { ...options, question: 'Comment régler mon espresso ?', fetcher })).toMatchObject({ mode: 'ai', answer: 'Réponse vérifiée' });
+    expect(await converseRemotely(local, [previous], 'fr', { ...options, question: 'Comment régler mon espresso ?', fetcher })).toMatchObject({ mode: 'ai', answer: 'Réponse vérifiée' });
+  });
+  it('carries the expert’s own question into the reported Arabic follow-up instead of losing the conversation', async () => {
+    const question = 'البن اللي عندي من محمصة جبلة محموص بتاريخ ١/١٠/٢٠٢٦ شنو احسن درجه طحن؟';
+    const followUpQuestion = 'شنو يعني شنو طريقة التحضير و موديل الطحنة!';
+    const answer = 'درجة الطحن تعتمد على طريقة التحضير والمطحنة؛ تاريخ التحميص وحده ما يحدد رقم الطحن.';
+    const followUp = 'شنو طريقة التحضير وموديل المطحنة؟';
+    const explanation = 'طريقة التحضير يعني شلون تسوي قهوتك، مثل V60 أو إسبريسو. موديل المطحنة يعني اسم الجهاز اللي تطحن فيه البن.';
+    const fetcher = vi.fn(async (_url: unknown, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body));
+      if (body.question === question) {
+        expect(body.history).toEqual([]);
+        return json({ mode: 'ai', answer, followUp, query, matches: [] });
+      }
+      expect(body).toEqual({ question: followUpQuestion, locale: 'ar', history: [{ question, answer, followUp, resultIds: [] }] });
+      return json({ mode: 'ai', answer: explanation, query, matches: [] });
+    });
+    const firstDraft = await converseLocally(question, 'ar', [], offline);
+    const first = await converseRemotely(firstDraft, [], 'ar', { ...options, question, fetcher });
+    expect(first).not.toBeNull();
+    const draft = await converseLocally(followUpQuestion, 'ar', [{ ...first!, mode: 'local' }], offline);
+    expect(shouldUseRemoteAssistant(draft)).toBe(true);
+    expect(await converseRemotely(draft, [first!], 'ar', { ...options, question: followUpQuestion, fetcher })).toMatchObject({ mode: 'ai', answer: explanation });
+    expect(fetcher).toHaveBeenCalledTimes(2);
+  });
+  it('keeps only six recent bounded turns within the request byte budget even with JSON-escaped text', async () => {
+    const history = Array.from({ length: 8 }, (_, index) => ({
+      ...local, question: `turn-${index}:` + '\u0001'.repeat(1100), answer: '\u0001'.repeat(2100), followUp: '\u0001'.repeat(300),
+      matches: Array.from({ length: 8 }, (_, match) => reference(`11111111-1111-4111-8111-${String(match).padStart(12, '0')}`)),
+    }));
+    const fetcher = vi.fn(async (_url: unknown, init?: RequestInit) => {
+      const raw = String(init?.body), body = JSON.parse(raw);
+      expect(body.question).toHaveLength(1000);
+      expect(body.history).toHaveLength(6);
+      expect(body.history.map((turn: { question: string }) => turn.question.slice(0, 7))).toEqual(['turn-2:', 'turn-3:', 'turn-4:', 'turn-5:', 'turn-6:', 'turn-7:']);
+      for (const turn of body.history) {
+        expect(turn.question).toHaveLength(1000);
+        expect(turn.answer).toHaveLength(2000);
+        expect(turn.followUp).toHaveLength(220);
+        expect(turn.resultIds).toHaveLength(6);
+        expect(Object.keys(turn).sort()).toEqual(['answer', 'followUp', 'question', 'resultIds']);
+      }
+      expect(Buffer.byteLength(raw, 'utf8')).toBeGreaterThan(100000);
+      expect(Buffer.byteLength(raw, 'utf8')).toBeLessThanOrEqual(131072);
+      return json({ mode: 'ai', answer: 'Grounded answer', query, matches: [] });
+    });
+    await converseRemotely(local, history, 'ar', { ...options, question: '\u0001'.repeat(1100), fetcher });
+    expect(history).toHaveLength(8);
+    expect(history[7].answer).toHaveLength(2100);
+  });
+  it('does not split an emoji when bounding conversation fields', async () => {
+    const previous = { ...local, question: 'q'.repeat(999) + '🫘', answer: 'a'.repeat(1999) + '🫘', followUp: 'f'.repeat(219) + '🫘' };
+    const fetcher = vi.fn(async (_url: unknown, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body));
+      expect(body.question).toBe('q'.repeat(999));
+      expect(body.history).toEqual([{ question: 'q'.repeat(999), answer: 'a'.repeat(1999), followUp: 'f'.repeat(219), resultIds: [] }]);
+      return json({ mode: 'ai', answer: 'Grounded answer', query, matches: [] });
+    });
+    await converseRemotely(local, [previous], 'en', { ...options, question: previous.question, fetcher });
   });
   it('uses only response provenance, never inherited local lesson sources', async () => {
     const result = await converseRemotely({ ...local, intent: 'knowledge', knowledgeTopic: 'espresso-pressure-bar', sources: [{ title: 'Local-only source', url: 'https://example.com/local' }], suggestions: ['Local suggestion'] }, [], 'en', {

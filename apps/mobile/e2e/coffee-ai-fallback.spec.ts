@@ -6,9 +6,15 @@ const user = { id: '11111111-1111-4111-8111-111111111111', aud: 'authenticated',
 const encode = (value: object) => Buffer.from(JSON.stringify(value)).toString('base64url');
 const token = `${encode({ alg: 'HS256', typ: 'JWT' })}.${encode({ sub: user.id, role: 'authenticated', exp: Math.floor(Date.now() / 1000) + 3600 })}.isolated_signature`;
 const query = { kind: 'recipe', category: null, methods: ['espresso'], terms: [], amount: null, currency: null, clarification: null };
+const grindingQuestion = 'البن اللي عندي من محمصة جبلة محموص بتاريخ ١/١٠/٢٠٢٦ شنو احسن درجه طحن؟';
+const grindingAnswer = 'درجة الطحن تعتمد على طريقة التحضير والمطحنة؛ تاريخ التحميص وحده ما يحدد رقم الطحن.';
+const grindingFollowUp = 'شنو طريقة التحضير وموديل المطحنة؟';
+const clarificationQuestion = 'شنو يعني شنو طريقة التحضير و موديل الطحنة!';
+const clarificationAnswer = 'طريقة التحضير يعني شلون تسوي قهوتك، مثل V60 أو إسبريسو. موديل المطحنة يعني اسم الجهاز اللي تطحن فيه البن، وعادة تلقاه مكتوب على الجهاز.';
+type ConversationRequest = { question: string; locale: string; history: { question: string; answer?: string; followUp?: string; resultIds: string[] }[] };
 
 async function setup(page: Page) {
-  const state = { calls: 0, checks: 0, exhausted: false, enabled: true, catalog: false, readiness: null as Promise<void> | null, questions: [] as string[] };
+  const state = { calls: 0, checks: 0, exhausted: false, enabled: true, catalog: false, readiness: null as Promise<void> | null, questions: [] as string[], requests: [] as ConversationRequest[] };
   await page.clock.install();
   await page.addInitScript(({ user, token }) => {
     if (!localStorage.getItem('sb-mobilefixture-auth-token')) localStorage.setItem('sb-mobilefixture-auth-token', JSON.stringify({ access_token: token, refresh_token: 'isolated_refresh', expires_at: Math.floor(Date.now() / 1000) + 3600, expires_in: 3600, token_type: 'bearer', user }));
@@ -22,8 +28,18 @@ async function setup(page: Page) {
       expect(route.request().headers().authorization).toBe('Bearer ' + token);
       if (route.request().method() === 'POST') {
         state.calls++;
-        const request = route.request().postDataJSON(); state.questions.push(request.question);
-        body = state.exhausted ? { error: 'CREDIT_BALANCE_EXHAUSTED' } : state.catalog ? { mode: 'catalog', notice: 'catalog_no_matches' } : { mode: 'ai', answer: request.locale === 'ar' ? request.question.includes('الطحن') ? 'درجة الطحن تعتمد على موديل الطاحونة وطريقة التحضير؛ تاريخ التحميص وحده لا يحدد رقمًا مناسبًا. ما موديل الطاحونة وطريقة التحضير؟' : 'إيحاء الفراولة وصف للمذاق. اختر بنًا منشورًا بهذه الإيحاءات وتحقق من وصف المحمصة.' : 'For your espresso, compare the pressure while brewing. Which gauge are you reading?', query, matches: [], sources: [{ title: 'Reviewed pressure reference', url: 'https://www.breville.com/en-us/product/bes870' }] };
+        const request = route.request().postDataJSON() as ConversationRequest;
+        state.questions.push(request.question); state.requests.push(request);
+        let answer = request.locale === 'ar' ? request.question.includes('الطحن') ? 'درجة الطحن تعتمد على موديل الطاحونة وطريقة التحضير؛ تاريخ التحميص وحده لا يحدد رقمًا مناسبًا. ما موديل الطاحونة وطريقة التحضير؟' : 'إيحاء الفراولة وصف للمذاق. اختر بنًا منشورًا بهذه الإيحاءات وتحقق من وصف المحمصة.' : 'For your espresso, compare the pressure while brewing. Which gauge are you reading?';
+        let followUp: string | undefined;
+        if (request.question === grindingQuestion) { answer = grindingAnswer; followUp = grindingFollowUp; }
+        if (request.question === clarificationQuestion) {
+          // This response is available only when the app carries what the expert
+          // actually asked, rather than just the user's earlier question.
+          expect(request.history.at(-1)).toEqual({ question: grindingQuestion, answer: grindingAnswer, followUp: grindingFollowUp, resultIds: [] });
+          answer = clarificationAnswer;
+        }
+        body = state.exhausted ? { error: 'CREDIT_BALANCE_EXHAUSTED' } : state.catalog ? { mode: 'catalog', notice: 'catalog_no_matches' } : { mode: 'ai', answer, followUp, query, matches: [], sources: [{ title: 'Reviewed pressure reference', url: 'https://www.breville.com/en-us/product/bes870' }] };
         status = state.exhausted ? 429 : 200;
       } else { state.checks++; if (state.readiness) await state.readiness; body = { api_contract: 2, conversation_enabled: state.enabled, authentication_required: true }; }
     }
@@ -72,6 +88,7 @@ test('settings preserve the privacy opt-out while exact calculations remain loca
   await expect(answer).toContainText('288 g'); await expect(answer).toContainText('Local coffee guide');
   expect(fixture.calls).toBe(0); expect(fixture.checks).toBe(0);
   const settings = await openSettings(page), online = settings.getByRole('switch', { name: 'Online answers', exact: true });
+  await expect(settings.getByTestId('settings-coffee-assistant')).toContainText('including assistant replies');
   await expect(online).toBeChecked(); await online.uncheck();
   await settings.getByRole('button', { name: 'Done', exact: true }).click();
   await page.reload(); await openCoffeeShortcut(page, 'Coffee expert');
@@ -143,4 +160,24 @@ test('the reported roast-date grinding question reaches AI with the complete ori
   expect(fixture.questions).toEqual([question]);
   expect(fixture.calls).toBe(1);
   await expect(page.getByRole('button', { name: 'تفعيل المساعدة الذكية', exact: true })).toHaveCount(0);
+});
+
+test('the reported clarification keeps the expert’s previous question and a new conversation clears that context', async ({ page }, info) => {
+  const fixture = await setup(page); await setLanguage(page, 'ar');
+  let answer = await ask(page, grindingQuestion, true);
+  await expect(answer).toContainText('بمساعدة الذكاء الاصطناعي');
+  await expect(answer).toContainText(grindingFollowUp);
+  expect(fixture.requests[0].history).toEqual([]);
+  answer = await ask(page, clarificationQuestion, true);
+  await expect(answer).toContainText('بمساعدة الذكاء الاصطناعي');
+  await expect(answer).toContainText(clarificationAnswer);
+  expect(fixture.calls).toBe(2);
+  expect(fixture.questions).toEqual([grindingQuestion, clarificationQuestion]);
+  await page.screenshot({ path: info.outputPath('coffee-expert-follow-up-ar.png') });
+  await page.getByRole('button', { name: 'محادثة جديدة', exact: true }).click();
+  await expect(page.getByTestId('assistant-latest-answer')).toHaveCount(0);
+  answer = await ask(page, grindingQuestion, true);
+  await expect(answer).toContainText(grindingFollowUp);
+  expect(fixture.requests[2].history).toEqual([]);
+  expect(fixture.calls).toBe(3);
 });
