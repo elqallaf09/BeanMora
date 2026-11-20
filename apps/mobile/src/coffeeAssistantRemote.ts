@@ -14,6 +14,8 @@ export class CoffeeAssistantError extends Error {
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const record = (value: unknown): value is Record<string, unknown> => !!value && typeof value === 'object' && !Array.isArray(value);
 const strings = (value: unknown, max: number, length: number): value is string[] => Array.isArray(value) && value.length <= max && value.every(item => typeof item === 'string' && item.length <= length);
+// Match the server's UTF-16 field limits without cutting an emoji in half.
+const boundedText = (value: string, max: number) => value.slice(0, max).replace(/[\uD800-\uDBFF]$/, '');
 function endpoint(url: string) {
   if (!/^https:\/\/[a-z0-9]+\.supabase\.co$/.test(url)) throw new CoffeeAssistantError('unavailable');
   return `${url}/functions/v1/coffee-assistant`;
@@ -95,8 +97,20 @@ export async function converseRemotely(local: LocalAssistantTurn, history: Coffe
       method: 'POST', signal,
       headers: { apikey: options.publicKey, Authorization: `Bearer ${options.accessToken}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        question: (options.question ?? local.question).slice(0, 1000), locale,
-        history: history.slice(-6).map(turn => ({ question: turn.question.slice(0, 1000), resultIds: turn.matches.map(match => match.document.id).filter(id => uuid.test(id)).slice(0, 6) })),
+        question: boundedText(options.question ?? local.question, 1000), locale,
+        // Prior replies explain what the expert asked the user. They are
+        // conversation context only; catalog facts and sources stay server-owned.
+        // These field caps also fit the server's 128 KiB limit when JSON-escaped.
+        history: history.slice(-6).map(turn => {
+          const answer = boundedText(turn.answer, 2000);
+          const followUp = boundedText(turn.followUp ?? '', 220);
+          return {
+            question: boundedText(turn.question, 1000),
+            resultIds: turn.matches.map(match => match.document.id).filter(id => uuid.test(id)).slice(0, 6),
+            ...(answer.trim() ? { answer } : {}),
+            ...(followUp.trim() ? { followUp } : {}),
+          };
+        }),
       }),
     });
     if (!response.ok) throw await responseError(response);

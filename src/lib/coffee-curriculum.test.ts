@@ -44,9 +44,13 @@ it.each([
   expect(turn.knowledgeTopic).toBe(id);
   expect(turn.sources?.[0]?.url).toMatch(/^https:\/\//);
 });
-it('attributes the new immersion lesson to both reviewed primary sources', () => {
+it('attributes immersion and V60 explanations to their reviewed primary sources', () => {
   const lesson = coffeeLessonById('immersion-percolation', 'en')!;
-  expect(lesson.sources.map(source => new URL(source.url).hostname)).toEqual(['www.aboutcoffee.org', 'www.hario-usa.com']);
+  expect(lesson.sources.map(source => source.url)).toEqual([
+    'https://www.aboutcoffee.org/brewing/french-press-coffee/',
+    'https://www.hario-usa.com/blogs/recipes-and-more-from-friends/v60-switch-recipe-with-partners-coffee',
+    'https://www.hario-usa.com/products/vd-01t',
+  ]);
 });
 it('keeps budgets out of scale education and separates manufacturer water limits', () => {
   expect(coffeeKnowledgeAnswer('خل الميزانية ٣٥٠ دولار', 'ar', 'scales')).toBeNull();

@@ -93,11 +93,11 @@ export const COFFEE_CURRICULUM: CoffeeLesson[] = [
   {
     id: 'immersion-percolation', group: 'brewing', titles: ['النقع والترشيح والفرنش برس', 'Immersion, percolation and French press'], priority: 100,
     keywords: /نقع|النقع|فرنش برس|french press|immersion|percolation/,
-    ar: 'في الفرنش برس ينقع البن في الماء ثم يفصله مكبس بفلتر معدني. في الترشيح يمر الماء عبر طبقة البن. السويتش يجمع المرحلتين بصمامه؛ اتبع أوقات فتحه وإغلاقه في الوصفة. جرعة الإسبريسو وناتجه لا يمثلان ماء النقع؛ سجّل قياسات جديدة عند تغيير الطريقة.',
-    en: 'French press steeps coffee in water before a metal-filter plunger separates it. Percolation moves water through a bed of grounds. A Switch combines stages using its valve; follow the recipe’s open and close times. Espresso yield does not represent steeping water. Record fresh measurements when changing methods.',
+    ar: 'طريقة التحضير هي كيف تصنع القهوة؛ مثل الإسبريسو، أو الترشيح بقمع V60، أو النقع بالفرنش برس. في الفرنش برس ينقع البن في الماء ثم يفصله مكبس بفلتر معدني. في الترشيح يمر الماء عبر طبقة البن. السويتش يجمع المرحلتين بصمامه؛ اتبع أوقات فتحه وإغلاقه في الوصفة. جرعة الإسبريسو وناتجه لا يمثلان ماء النقع؛ سجّل قياسات جديدة عند تغيير الطريقة.',
+    en: 'A brewing method is how coffee is prepared: for example, espresso, pour-over with a V60 dripper, or immersion with a French press. French press steeps coffee in water before a metal-filter plunger separates it. Percolation moves water through a bed of grounds. A Switch combines stages using its valve; follow the recipe’s open and close times. Espresso yield does not represent steeping water. Record fresh measurements when changing methods.',
     more: ['للفرنش برس، اكبس بهدوء وانقل المشروب بعد التحضير. نظّف الإبريق والفلتر بعد الاستخدام؛ بقايا البن والزيوت تؤثر في الكوب التالي.', 'Plunge gently and decant after brewing. Clean the French press and filter after use; leftover grounds and oils affect the next cup.'],
     title: 'NCA — French press', url: 'https://www.aboutcoffee.org/brewing/french-press-coffee/',
-    supportingSources: [{ title: 'HARIO — Switch with Partners Coffee', url: 'https://www.hario-usa.com/blogs/recipes-and-more-from-friends/v60-switch-recipe-with-partners-coffee' }],
+    supportingSources: [{ title: 'HARIO — Switch with Partners Coffee', url: 'https://www.hario-usa.com/blogs/recipes-and-more-from-friends/v60-switch-recipe-with-partners-coffee' }, { title: 'HARIO — V60 pour-over dripper', url: 'https://www.hario-usa.com/products/vd-01t' }],
   },
   {
     id: 'flash-brew', group: 'brewing', titles: ['القهوة المثلجة وماء التحضير والثلج', 'Flash brew, brew water and ice'], priority: 110,

@@ -24,6 +24,6 @@ export function SettingsCoffeeAssistant({ owner }: { owner: string }) {
       setOnline(enabled);
       void saveAssistantPreference(AsyncStorage, assistantPreferenceKey(catalogScope, owner), { ...defaultAssistantPreference(), optedOut: !enabled });
     }} />
-    <Txt style={styles.muted}>{L('تستخدم الإجابات الذكية سؤالك والأسئلة الأخيرة من المحادثة. يمكنك إيقافها هنا للاكتفاء بدليل القهوة.', 'Online AI answers use your question and recent conversation questions. Turn this off to use only the coffee guide.')}</Txt>
+    <Txt style={styles.muted}>{L('تستخدم الإجابات الذكية سؤالك ورسائل المحادثة الأخيرة، بما فيها ردود المساعد. يمكنك إيقافها هنا للاكتفاء بدليل القهوة.', 'Online AI answers use your question and recent conversation messages, including assistant replies. Turn this off to use only the coffee guide.')}</Txt>
   </View>;
 }
