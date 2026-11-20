@@ -8,14 +8,16 @@ This release removes the activation control. Signed-in members automatically che
 
 The reported Arabic strawberry-bean question now searches for coffee with the strawberry note. Flavor phrasing is excluded from search terms; explicit notes remain binding across planning and require published facts for a full match. Ordinary flavor and equipment-budget questions reach AI. Exact calculations, measured brew coaching and advanced recipe filters preserve their deterministic paths.
 
+The follow-up roast-date question exposed a separate client classification bug: `1/10/2026` was interpreted as the brew ratio `1:10`, preventing the question from reaching AI. Complete calendar dates are now excluded from ratio detection while the original question and date are retained for the conversation. Grinding advice asks for the brewing method and grinder when needed; roast date and origin alone do not establish a grinder setting. Genuine ratios alongside a date still use the deterministic calculator.
+
 Successful catalog-only results no longer produce a false connection-error notice. Local answers retain their local provenance. The current cloud integration is OpenAI; the fallback is BeanMora's local coffee guide, not a second cloud vendor.
 
 ## Validation
 
-- Root suite: 1,545 Vitest cases, 31 recommendation checks and 37 brew-outcome checks passed.
+- Root suite: 1,572 Vitest cases, 31 recommendation checks and 37 brew-outcome checks passed.
 - Root TypeScript, ESLint and whitespace checks passed.
 - Mobile TypeScript, shared-core synchronization and all 3,276 registered locale entries passed.
-- Six focused browser cases passed, covering automatic answers, the reported Arabic question, disabled-service recovery, credit cooldown and reload, catalog fallback, privacy Settings and opt-out while readiness is pending.
+- Eight focused browser cases passed, covering automatic answers, both reported Arabic questions, disabled-service recovery, credit cooldown and reload, catalog fallback, privacy Settings, opt-out while readiness is pending and published tasting-note evidence. Date parsing also covers eleven date formats, genuine ratios with dates or sentence punctuation, invalid ratios and a topic change after a calculation.
 - Required GitHub quality and mobile workflows must pass on the final source before advancing release branches.
 
 Browser fixtures do not establish live OpenAI access or physical-device behavior. Record backend deployment, real authenticated conversation verification and actual build/upload receipts separately.

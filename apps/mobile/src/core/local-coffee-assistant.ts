@@ -48,6 +48,13 @@ const textValue = (v: unknown, ar: boolean): string => Array.isArray(v) && v.len
 const title = (d: AssistantDocument, ar: boolean) => ar ? d.title_ar || d.title_en : d.title_en || d.title_ar;
 const positive = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v) && v > 0;
 const number = (v: number) => String(Math.round(v * 100) / 100);
+function brewRatio(q: string) {
+  // A roast date such as 1/10/2026 is not a brewing ratio of 1:10.
+  // Mask complete date tokens only for numeric classification; the original
+  // question and its roast context are retained for advice and the AI request.
+  const withoutDates = q.replace(/(?<!\d)(?:\d{4}\s*[-/.]\s*\d{1,2}\s*[-/.]\s*\d{1,2}|\d{1,2}\s*[-/.]\s*\d{1,2}\s*[-/.]\s*\d{2,4})(?!\d)/g, ' ');
+  return withoutDates.match(/(?<![\d./-])1\s*[:/]\s*(-?\d+(?:\.\d+)?)(?![\d/-]|\.\d)/);
+}
 const massUnits = 'غرام|جرام|غ|جم|grams?|g';
 const brewLiquids = 'ماء|ماي|مويه|مويا|ميه|ثلج|water|ice';
 const quantityWords = 'كم|جم|شكثر|اشكثر|كميه|مقدار|قد ايش|how much|how many';
@@ -236,6 +243,7 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
   const ar = locale === 'ar', q = norm(question), previous = history.at(-1);
   const L=dependencies.translate??((arabic:string,english:string)=>ar?arabic:english);
   const query = parseLocalAssistantQuery(question, previous?.query);
+  const ratioMatch = brewRatio(q);
   const base: LocalAssistantTurn = { question: question.trim().slice(0, 1000), query, matches: [], mode: 'local', intent: 'help', answer: '' };
   const reply = (answer: string, extra: Partial<LocalAssistantTurn> = {}) => ({ ...base, answer:L(answer,answer), ...extra });
   if (!q || question.length > 1000) return reply(L('اكتب سؤالًا عن القهوة لا يزيد على 1000 حرف.', 'Ask a coffee question using no more than 1000 characters.'));
@@ -276,7 +284,7 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
   const pressureFollowUp = previous?.knowledgeTopic === 'espresso-pressure-bar' && q.length < 140
     && /عندي|ماكينتي|مكينتي|profitec|breville|flair|delonghi|lelit|بروفيتك|بريفيل|دي.?لونجي|ليليت|عداد|gauge|reading|i have|my machine|tell me more|اشرح اكثر/.test(q);
   const newPurchase = shopping || query.amount !== null || /ابي.*(?:ماكين|مكين)|ابحث|اشتري|قارن|مقارنه|\b(?:buy|find|recommend|compare|comparison|budget)\b/.test(q);
-  if (!newPurchase && !selection.explicit && !/1\s*[:/]|\bcalculate\b|احسب/.test(q)
+  if (!newPurchase && !selection.explicit && !ratioMatch && !/\bcalculate\b|احسب/.test(q)
     && ((pressureQuestion && (pressureUnit || pressureWord) && (coffeeContext || shortPressure)) || pressureFollowUp)) {
     if (methods.length && !methods.includes('espresso')) return reply(L(
       'البار وحدة ضغط، لكن إعداد الإسبريسو لا ينطبق على كل أدوات التحضير. حدّد الأداة والموديل وما الذي تقيسه؛ اتبع دليلها ولا ترفع الضغط للوصول إلى رقم عام.',
@@ -293,7 +301,6 @@ export async function converseLocally(question: string, locale: 'ar' | 'en', his
   }
   const compare = /قارن|مقارنه|الفرق|compare|comparison|difference/.test(q);
   const explain = /اشرح|تفاصيل|مواصفات|خطوات|explain|details|specs|steps|ليش|why/.test(q);
-  const ratioMatch = q.match(/1\s*[:/]\s*(-?\d+(?:\.\d+)?)/);
   const massMatches = [...q.matchAll(/(?<![\p{L}\p{N}.])(-?\d+(?:\.\d+)?)\s*(?:غرام|جرام|غ|جم|grams?|g)(?=$|[^a-z\p{L}])/gu)];
   const coffeeLabel = /(?:بن|قهوه|جرعه|جرعتي|coffee|dose)\s*[:=]?\s*$/u;
   const otherLabel = new RegExp('(?:' + brewLiquids + ')\\s*[:=]?\\s*$', 'u');

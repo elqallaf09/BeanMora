@@ -32,10 +32,12 @@ async function openAssistant(page: Page, offlineCatalog = false, expiredOffer = 
       const query = route.request().postDataJSON();
       searches.push(query);
       const namedLimu = query.p_terms.includes('ليمو') || query.p_terms.includes('limu');
+      // The unrelated coffee mentions chocolate/winegum in retrieval prose,
+      // but its published tasting note is Walnut. Ground matches in facts.notes.
       data = query.p_kind === 'roaster'
         ? [{ id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa0', kind: 'roaster', title_ar: namedLimu ? 'محمصة ليمو' : query.p_terms.includes('ark') ? 'آرك روسترز' : 'ألتيتيود روسترز', title_en: namedLimu ? 'Limu Roastery' : query.p_terms.includes('ark') ? 'A R K Roasters' : 'Altitude Roasters', search_text: namedLimu ? 'محمصة ليمو Limu Roastery KW' : query.p_terms.includes('ark') ? 'آرك روسترز A R K Roasters KW' : 'Altitude Roasters KW', summary_ar: '', summary_en: '', category: null, methods: [], facts: { country: 'KW' }, offers: [], source_url: namedLimu ? 'https://limukw.com/' : query.p_terms.includes('ark') ? 'https://www.ark.com.kw/pages/about' : 'https://altituderoasters.co/en/' }]
         : query.p_kind === 'coffee' ? [{ id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaac0', kind: 'coffee', title_ar: 'بن مونتيبلانكو التجريبي', title_en: 'Fixture Monteblanco', search_text: 'Fixture Monteblanco Coconut Lemonade', summary_ar: 'جوز الهند والليمونادة؛ تخمير مشترك مع إضافات بحسب المصدر.', summary_en: 'Coconut and lemonade; co-fermented and infused according to the source.', category: null, methods: ['v60'], facts: { notes: ['Coconut', 'Lemonade'] }, offers: [], source_url: 'https://roaster.example/coffee' },
-          ...[['cocoa', 'بن الكاكاو التجريبي', 'Cacao'], ['wine', 'بن واين التجريبي', 'Red Wine'], ['unrelated', 'بن غير مطابق', 'Whole coffee beans chocolate winegum']].map(([id, title, notes]) => ({ id, kind: 'coffee', title_ar: title, title_en: title, search_text: notes, summary_ar: notes, summary_en: notes, category: null, methods: [], facts: { notes: [notes] }, offers: [], source_url: 'https://roaster.example/coffee' }))]
+          ...[['cocoa', 'بن الكاكاو التجريبي', 'Cacao'], ['wine', 'بن واين التجريبي', 'Red Wine'], ['unrelated', 'بن غير مطابق', 'Whole coffee beans chocolate winegum']].map(([id, title, notes]) => ({ id, kind: 'coffee', title_ar: title, title_en: title, search_text: notes, summary_ar: notes, summary_en: notes, category: null, methods: [], facts: { notes: id === 'unrelated' ? ['Walnut'] : [notes] }, offers: [], source_url: 'https://roaster.example/coffee' }))]
         : [300, 400].map((amount, i) => ({ id: `aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa${i}`, kind: 'equipment', title_ar: `ماكينة ${i + 1}`, title_en: `Machine ${i + 1}`, search_text: 'espresso machine manual', summary_ar: 'أداة إسبريسو محمولة بمضخة يدوية وسلة غير مضغوطة؛ لا تسخّن الماء.', summary_en: 'Portable hand-pump espresso maker with an unpressurised basket; does not heat water.', category: 'espresso_machine', methods: ['espresso'], facts: { operation: ['ذراع يدوي','Manual lever'], heats_water:'No', capacity:'80 ml water', ...(i ? {} : { pressure_gauge: ['نعم','Yes'] }) }, offers: [{ amount, currency: 'USD', checked_at: new Date(Date.now() - (expiredOffer ? 30 * 86400000 : 0)).toISOString(), region: 'US', url: 'https://seller.example/machine', availability: 'in_stock' }], source_url: 'https://seller.example/machine' }));
     }
     return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(data) });
@@ -290,6 +292,7 @@ test('reported Arabic cocoa, wine and whisky questions use the same catalog conc
     await ask(page, question);
     await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toHaveCount(1);
     await expect(page.getByTestId('assistant-latest-answer').getByTestId('assistant-result')).toContainText(title);
+    await expect(panel).not.toContainText('بن غير مطابق');
     expect(network.searches.at(-1)).toEqual(expect.objectContaining({ p_kind: 'coffee', p_terms: expect.arrayContaining([term]) }));
     expect((network.searches.at(-1) as { p_terms: string[] }).p_terms).not.toContain('beans');
   }

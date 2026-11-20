@@ -58,6 +58,22 @@ describe('grounded remote coffee expert', () => {
       expect(shouldUseRemoteAssistant(draft), question).toBe(true);
     }
   });
+  it.each([
+    'البن مالي محموص بتاريخ ١/١٠/٢٠٢٦ برازيلي ، جم درجه الطحن اللي تنصح فيه ؟',
+    'My Brazilian coffee was roasted on 1/10/2026. What grind setting do you recommend?',
+    'برازيلي محمص بتاريخ 2026-10-01، شنو درجة الطحن المناسبة؟',
+  ])('routes a roast-date grinding question to AI with its original context: %s', async question => {
+    const draft = await converseLocally(question, 'ar', [], offline);
+    expect(draft.intent).not.toBe('calculate');
+    expect(draft.calculation).toBeUndefined();
+    expect(shouldUseRemoteAssistant(draft)).toBe(true);
+    const fetcher = vi.fn(async (_url: unknown, init?: RequestInit) => {
+      expect(JSON.parse(String(init?.body)).question).toBe(question);
+      return json({ mode: 'ai', answer: 'The grinder and brewing method determine the starting point. Which grinder are you using?', query, matches: [] });
+    });
+    expect(await converseRemotely(draft, [], 'ar', { ...options, question, fetcher })).toMatchObject({ mode: 'ai' });
+    expect(fetcher).toHaveBeenCalledTimes(1);
+  });
   it('distinguishes disabled readiness from a network or authentication failure', async () => {
     expect(await coffeeAssistantReadiness({ ...options, fetcher: async () => json({ api_contract: 2, conversation_enabled: false, authentication_required: true }) })).toBe('disabled');
     await expect(coffeeAssistantReadiness({ ...options, fetcher: async () => json({}, 503) })).rejects.toMatchObject({ reason: 'unavailable' });

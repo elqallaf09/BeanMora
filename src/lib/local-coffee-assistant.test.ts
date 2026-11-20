@@ -496,6 +496,47 @@ describe('local conversational coffee assistant', () => {
     const c = await ask('غير النسبة إلى 1:15', [a,b], offline);
     expect(c.answer).toContain('300 g');
   });
+  it.each(['١/١٠/٢٠٢٦', '1/10/2026', '01/10/2026', '21/10/2026', '1 / 10 / 2026', '1/10/26', '2026/10/01', '2026-10-01', '01-10-2026', '01.10.2026', '۱/۱۰/۲۰۲۶'])('keeps roast date %s in a grind advice question out of the calculator', async date => {
+    const question = `البن مالي محموص بتاريخ ${date} برازيلي ، جم درجه الطحن اللي تنصح فيه ؟`;
+    const turn = await ask(question, [], offline);
+    expect(turn.question).toBe(question);
+    expect(turn).toMatchObject({ intent: 'knowledge', knowledgeTopic: 'grind-size' });
+    expect(turn.calculation).toBeUndefined();
+    expect(turn.answer).toContain('موديل الطاحونة وطريقة التحضير');
+    expect(turn.answer).not.toContain('حدد وزن البن والنسبة');
+    expect(turn.answer).not.toMatch(/\d+\s*(?:كليك|نقر|click)/);
+  });
+  it('switches from a ratio calculation to dated bean grind advice without carrying old measurements', async () => {
+    const previous = await ask('احسب 18 غرام بنسبة 1:16', [], offline);
+    const turn = await ask('البن محمص بتاريخ ١/١٠/٢٠٢٦ برازيلي، جم درجة الطحن؟', [previous], offline);
+    expect(turn).toMatchObject({ intent: 'knowledge', knowledgeTopic: 'grind-size' });
+    expect(turn.calculation).toBeUndefined();
+    expect(turn.answer).not.toContain('288');
+  });
+  it.each([
+    ['احسب ١٨ غرام بنسبة ١/١٦، تاريخ تحميص البن ١/١٠/٢٠٢٦', 16, '288 g'],
+    ['البن محمص بتاريخ 2026-10-01، احسب 18 غرام بنسبة1:16', 16, '288 g'],
+    ['Calculate espresso 18 g at 1:2.5, roasted on 1 / 10 / 2026', 2.5, '45 g'],
+    ['Calculate espresso 18 g at 1/2, roasted on 01/10/2026', 2, '36 g'],
+    ['Calculate 18 g at 1:16.', 16, '288 g'],
+    ['Calculate espresso 18 g at 1:2.5.', 2.5, '45 g'],
+    ['احسب ١٨ غرام بنسبة ١/١٦.', 16, '288 g'],
+  ])('preserves a real ratio with date context or sentence punctuation: %s', async (question, ratio, amount) => {
+    const turn = await ask(question as string, [], offline);
+    expect(turn).toMatchObject({ intent: 'calculate', calculation: { dose: 18, ratio } });
+    expect(turn.answer).toContain(amount as string);
+  });
+  it.each(['-2', '-2.5', '0', '101'])('keeps a sentence-ending invalid ratio %s invalid', async ratio => {
+    const turn = await ask(`Calculate 18 g at 1:${ratio}.`, [], offline, 'en');
+    expect(turn.calculation?.ratio).toBe(Number(ratio));
+    expect(turn.answer).toContain('both greater than zero');
+    expect(turn.answer).not.toContain('Requested ratio calculation');
+  });
+  it('does not accept a numeric continuation as a partial ratio', async () => {
+    const turn = await ask('Calculate espresso 18 g at 1:2.5.6', [], offline, 'en');
+    expect(turn.calculation?.ratio).toBeNull();
+    expect(turn.answer).not.toContain('45 g');
+  });
   it('asks for missing ratios and distinguishes espresso beverage yield', async () => {
     const a = await ask('احسب 18 غرام', [], offline);
     expect(a.calculation?.ratio).toBeNull();

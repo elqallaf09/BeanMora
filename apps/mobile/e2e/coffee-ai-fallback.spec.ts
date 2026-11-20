@@ -23,7 +23,7 @@ async function setup(page: Page) {
       if (route.request().method() === 'POST') {
         state.calls++;
         const request = route.request().postDataJSON(); state.questions.push(request.question);
-        body = state.exhausted ? { error: 'CREDIT_BALANCE_EXHAUSTED' } : state.catalog ? { mode: 'catalog', notice: 'catalog_no_matches' } : { mode: 'ai', answer: request.locale === 'ar' ? 'إيحاء الفراولة وصف للمذاق. اختر بنًا منشورًا بهذه الإيحاءات وتحقق من وصف المحمصة.' : 'For your espresso, compare the pressure while brewing. Which gauge are you reading?', query, matches: [], sources: [{ title: 'Reviewed pressure reference', url: 'https://www.breville.com/en-us/product/bes870' }] };
+        body = state.exhausted ? { error: 'CREDIT_BALANCE_EXHAUSTED' } : state.catalog ? { mode: 'catalog', notice: 'catalog_no_matches' } : { mode: 'ai', answer: request.locale === 'ar' ? request.question.includes('الطحن') ? 'درجة الطحن تعتمد على موديل الطاحونة وطريقة التحضير؛ تاريخ التحميص وحده لا يحدد رقمًا مناسبًا. ما موديل الطاحونة وطريقة التحضير؟' : 'إيحاء الفراولة وصف للمذاق. اختر بنًا منشورًا بهذه الإيحاءات وتحقق من وصف المحمصة.' : 'For your espresso, compare the pressure while brewing. Which gauge are you reading?', query, matches: [], sources: [{ title: 'Reviewed pressure reference', url: 'https://www.breville.com/en-us/product/bes870' }] };
         status = state.exhausted ? 429 : 200;
       } else { state.checks++; if (state.readiness) await state.readiness; body = { api_contract: 2, conversation_enabled: state.enabled, authentication_required: true }; }
     }
@@ -129,4 +129,18 @@ test('switching off online answers while readiness is pending prevents the quest
   expect(fixture.calls).toBe(0);
   const reopened = await openSettings(page);
   await expect(reopened.getByRole('switch', { name: 'Online answers', exact: true })).not.toBeChecked();
+});
+
+
+test('the reported roast-date grinding question reaches AI with the complete original date instead of the calculator', async ({ page }) => {
+  const fixture = await setup(page); await setLanguage(page, 'ar');
+  const question = 'البن مالي محموص بتاريخ ١/١٠/٢٠٢٦ برازيلي ، جم درجه الطحن اللي تنصح فيه ؟';
+  const answer = await ask(page, question, true);
+  await expect(answer).toContainText('بمساعدة الذكاء الاصطناعي');
+  await expect(answer).toContainText('ما موديل الطاحونة وطريقة التحضير؟');
+  await expect(answer).not.toContainText('حدد وزن البن والنسبة');
+  await expect(answer).not.toContainText('1:16');
+  expect(fixture.questions).toEqual([question]);
+  expect(fixture.calls).toBe(1);
+  await expect(page.getByRole('button', { name: 'تفعيل المساعدة الذكية', exact: true })).toHaveCount(0);
 });
