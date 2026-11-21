@@ -12,7 +12,7 @@ import {
 } from './native';
 import * as WebBrowser from 'expo-web-browser';
 import type { Session } from '@supabase/supabase-js';
-import { supabase, authProviderEnabled, finishStoredAuthCallback } from './client';
+import { supabase, getProviderSettings, finishStoredAuthCallback } from './client';
 import {
   cleanOAuthCallbackUrl,
   createOAuthCallbackHandler,
@@ -28,6 +28,7 @@ import { changeSignupPhoneCountry, signupPhoneValue } from './signupPhone';
 import { signupDetails, usernameAvailable } from './core/account-profile';
 import { authFailure } from './authFailure';
 import { passwordFailureMessage, passwordHint } from './passwordGuidance';
+import { visibleSocialProviders, type ProviderSettings, type SocialProvider } from './socialProviders';
 import { openOAuthBrowser } from './oauthBrowser';
 import { useLabels,
   Action,
@@ -92,12 +93,15 @@ export function AccountScreen({
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [show, setShow] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [socialProvider, setSocialProvider] = useState<'apple' | 'google' | null>(null);
+  const [socialProvider, setSocialProvider] = useState<SocialProvider | null>(null);
   const [error, setError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [notice, setNotice] = useState('');
   const [canResend, setCanResend] = useState(false);
-  const [appleEnabled, setAppleEnabled] = useState(false);
+  const [providerSettings, setProviderSettings] = useState<ProviderSettings | null>(null);
+  const [settingsFailed, setSettingsFailed] = useState(false);
+  const [settingsAttempt, setSettingsAttempt] = useState(0);
+  const providers = visibleSocialProviders(Platform.OS, providerSettings);
   const inFlight = useRef(false);
   const emailRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
@@ -108,16 +112,16 @@ export function AccountScreen({
   }
   useEffect(() => {
     let active = true;
-    if (!session && supabase)
-      void authProviderEnabled('apple')
-        .then((enabled) => {
-          if (active) setAppleEnabled(enabled);
-        })
-        .catch(() => {});
-    return () => {
-      active = false;
-    };
-  }, [session]);
+    setProviderSettings(null);
+    setSettingsFailed(false);
+    if (!session && supabase) {
+      void getProviderSettings().then(
+        settings => { if (active) setProviderSettings(settings); },
+        () => { if (active) setSettingsFailed(true); },
+      );
+    }
+    return () => { active = false; };
+  }, [session, settingsAttempt]);
   function authError(error: unknown, context: 'login' | 'signup' | 'recovery' | 'social') {
     const { kind, message } = authFailure(error);
     if (kind === 'emailNotConfirmed') setCanResend(true);
@@ -252,10 +256,23 @@ export function AccountScreen({
       setNotice(L('إذا كان البريد بحاجة إلى تأكيد، ستصلك رسالة جديدة من BeanMora. استخدم أحدث رابط.', 'If your email needs confirmation, a new BeanMora message will arrive. Use the latest link.'));
     }, 'signup');
   }
-  async function social(provider: 'apple' | 'google') {
+  async function social(provider: SocialProvider) {
     await request(async () => {
       setSocialProvider(provider);
-      if (!(await authProviderEnabled(provider))) {
+      let settings: ProviderSettings;
+      try {
+        settings = await getProviderSettings();
+      } catch (cause) {
+        setProviderSettings(null);
+        setSettingsFailed(true);
+        throw cause;
+      }
+      setProviderSettings(settings);
+      if (Platform.OS === 'ios' && !visibleSocialProviders('ios', settings).includes(provider)) {
+        setError(L('تعذّر إكمال تسجيل الدخول. حاول مرة ثانية.', 'Could not complete sign-in. Please try again.'));
+        return;
+      }
+      if (!settings[provider]) {
         setError(
           L('تسجيل ' +
                 (provider === 'apple' ? 'Apple' : 'Google') +
@@ -451,7 +468,7 @@ export function AccountScreen({
                 ]}
               />
             </View>
-            {mode === 'login' ? (
+            {mode === 'login' && providers.includes('google') ? (
               <View testID="login-provider-guidance"><Txt style={s.fieldHint}>
                 {L('حسابك عبر Google؟ تابع باستخدام Google، أو اضغط «تعيين أو استرجاع كلمة المرور» لإنشاء كلمة مرور خاصة بـBeanMora.', 'Google account? Continue with Google, or choose “Set or reset password” to create a BeanMora password.')}
               </Txt></View>
@@ -593,42 +610,49 @@ export function AccountScreen({
                 (mode === 'signup' && (!confirmation || !country || !username.trim()))
               }
             />
-            <View style={s.divider}>
-              <View style={s.rule} />
-              <Txt style={{ fontSize: 13, color: colors.muted }}>
-                {L('أو تابع باستخدام', 'Or continue with')}
-              </Txt>
-              <View style={s.rule} />
-            </View>
-            <View style={s.social}>
-              {(appleEnabled
-                ? (['google', 'apple'] as const)
-                : (['google'] as const)
-              ).map((provider) => (
-                <Pressable
-                  key={provider}
-                  accessibilityRole="button"
-                  accessibilityLabel={
-                    provider === 'apple'
-                      ? L('تابع باستخدام Apple', 'Continue with Apple')
-                      : L('تابع باستخدام Google', 'Continue with Google')
-                  }
-                  disabled={busy}
-                  onPress={() => void social(provider)}
-                  accessibilityState={{ disabled: busy, busy: busy && socialProvider === provider }}
-                  style={s.socialButton}
-                >
-                  <Icon name={provider} size={25} />
-                  <Txt style={{ fontSize: 14, fontWeight: '700' }}>
-                    {busy && socialProvider === provider
-                      ? L('يرجى الانتظار…', 'Please wait…')
-                      : provider === 'google'
-                      ? L('تابع باستخدام Google', 'Continue with Google')
-                      : L('تابع باستخدام Apple', 'Continue with Apple')}
+            {providers.length > 0 && (
+              <>
+                <View style={s.divider}>
+                  <View style={s.rule} />
+                  <Txt style={{ fontSize: 13, color: colors.muted }}>
+                    {L('أو تابع باستخدام', 'Or continue with')}
                   </Txt>
-                </Pressable>
-              ))}
-            </View>
+                  <View style={s.rule} />
+                </View>
+                <View style={s.social}>
+                  {providers.map((provider) => (
+                    <Pressable
+                      key={provider}
+                      accessibilityRole="button"
+                      accessibilityLabel={
+                        provider === 'apple'
+                          ? L('تابع باستخدام Apple', 'Continue with Apple')
+                          : L('تابع باستخدام Google', 'Continue with Google')
+                      }
+                      disabled={busy}
+                      onPress={() => void social(provider)}
+                      accessibilityState={{ disabled: busy, busy: busy && socialProvider === provider }}
+                      style={s.socialButton}
+                    >
+                      <Icon name={provider} size={25} />
+                      <Txt style={{ fontSize: 14, fontWeight: '700' }}>
+                        {busy && socialProvider === provider
+                          ? L('يرجى الانتظار…', 'Please wait…')
+                          : provider === 'google'
+                          ? L('تابع باستخدام Google', 'Continue with Google')
+                          : L('تابع باستخدام Apple', 'Continue with Apple')}
+                      </Txt>
+                    </Pressable>
+                  ))}
+                </View>
+              </>
+            )}
+            {Platform.OS === 'ios' && settingsFailed && (
+              <View>
+                <Txt style={s.fieldHint}>{L('تعذّر بدء تسجيل الدخول عبر Google أو Apple. حاول مجددًا، وإذا استمرت المشكلة حدّث تطبيق BeanMora.', 'Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.')}</Txt>
+                <Action title={t.retry} onPress={() => setSettingsAttempt(value => value + 1)} />
+              </View>
+            )}
             <Txt style={s.terms}>
               {L('بمتابعتك، أنت توافق على شروط الاستخدام\nوسياسة الخصوصية.', 'By continuing, you agree to the terms of use\nand privacy policy.')}
             </Txt>

@@ -16,7 +16,7 @@ export function finishStoredAuthCallback() {
 const key = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? "";
 export const configured =
   /^https:\/\/[a-z0-9]+\.supabase\.co$/.test(url) && isPublicKey(key);
-export async function authProviderEnabled(provider: "apple" | "google") {
+export async function getProviderSettings() {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 12000);
   try {
@@ -26,7 +26,10 @@ export async function authProviderEnabled(provider: "apple" | "google") {
     });
     if (!response.ok) throw new Error("Could not read sign-in settings.");
     const data = await response.json();
-    return data.external?.[provider] === true;
+    if (!data.external || typeof data.external !== "object") {
+      throw new Error("Invalid sign-in settings.");
+    }
+    return { apple: data.external.apple === true, google: data.external.google === true };
   } finally {
     clearTimeout(timer);
   }
