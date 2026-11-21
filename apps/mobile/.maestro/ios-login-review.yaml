@@ -1,0 +1,38 @@
+appId: com.beanmora.mobile
+name: Verify iOS email login and guest access with current production settings
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: home-search-input
+    timeout: 60000
+- tapOn: "فتح حسابي|Open account"
+- assertVisible:
+    id: guest-browse
+- scrollUntilVisible:
+    element:
+      text: "إنشاء حساب|Create account"
+    direction: DOWN
+- tapOn: "إنشاء حساب|Create account"
+- assertVisible: "الدولة|Country"
+- tapOn: "اختيار تسجيل الدخول|Use email sign in"
+- scrollUntilVisible:
+    element:
+      text: "تعيين أو استرجاع كلمة المرور|Set or reset password"
+    direction: DOWN
+- scrollUntilVisible:
+    element:
+      text: "سياسة الخصوصية|Privacy policy"
+    direction: DOWN
+- assertNotVisible: "تابع باستخدام Google|Continue with Google"
+- assertNotVisible: "إعادة المحاولة|Try again"
+- takeScreenshot: beanmora-ios-login
+- scrollUntilVisible:
+    element:
+      id: guest-browse
+    direction: UP
+- tapOn:
+    id: guest-browse
+- assertVisible:
+    id: home-search-input
