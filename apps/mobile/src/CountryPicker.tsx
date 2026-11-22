@@ -9,15 +9,22 @@ export function CountryPicker({ value, onChange, disabled = false }: { value: st
   const locale = useContext(Language), L = useLabels();
   const [open, setOpen] = useState(false), [search, setSearch] = useState('');
   const [limit, setLimit] = useState(40);
-  const indexedCountries = useMemo(() => accountCountries.map(c => {
-    const label = accountCountryName(c.code, locale);
-    return { ...c, label, searchText: deepSearchText([c.code, c.ar, c.en, c.ja, label].join(' ')) };
-  }), [locale]);
+  // The picker is mounted when a user taps Create account. Building a
+  // multilingual search index and sorting 250+ countries before the dropdown
+  // opens can block the JS thread and delay the tab's visual response.
+  const indexedCountries = useMemo(() => {
+    if (!open) return [];
+    return accountCountries.map(c => {
+      const label = accountCountryName(c.code, locale);
+      return { ...c, label, searchText: deepSearchText([c.code, c.ar, c.en, c.ja, label].join(' ')) };
+    });
+  }, [open, locale]);
   const choices = useMemo(() => {
+    if (!open) return [];
     const q = search.trim();
     return indexedCountries.filter(c => !q || matchesIndexedSearch(c.searchText, q))
       .sort((a, b) => a.label.localeCompare(b.label, locale));
-  }, [search, locale, indexedCountries]);
+  }, [open, search, locale, indexedCountries]);
   return <View testID="account-country-picker" style={{ gap: 8 }}>
     <Pressable accessibilityRole="button" accessibilityLabel={L('الدولة', 'Country')} accessibilityState={{ expanded: open, disabled }} disabled={disabled}
       onPress={() => setOpen(v => !v)} style={[styles.input, { minHeight: 50, flexDirection: locale === 'ar' ? 'row-reverse' : 'row', alignItems: 'center', gap: 8 }]}>
