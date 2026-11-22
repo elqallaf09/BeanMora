@@ -57,6 +57,41 @@ the boundary before an external model request.
    testing track. Record the real store receipt and version code. App Store
    review and Google production eligibility remain separate store operations.
 
+## App Review login notes
+
+The observed Apple rejection under guideline 4.8 referred to the earlier build
+39, tested on an iPad Air 11-inch (M3). The selected candidate includes the
+already-merged iOS provider fix from PR #122 and its Node test-runner correction
+from PR #123. iOS offers first-party email sign-in and guest browsing; it does
+not offer Google while an equivalent enabled sign-in provider is unavailable.
+The provider state is checked again before starting OAuth. Android and web keep
+their independently configured sign-in providers.
+
+Suggested review explanation, to use only with this matching candidate:
+
+> The iOS login flow has been revised. Users can browse the public coffee catalog
+> as a guest or sign in directly with email. Google sign-in is not offered on iOS
+> unless an equivalent enabled provider is available. Account creation, password
+> recovery and account deletion remain accessible. Coffee Expert first uses the
+> coffee guide and asks for permission, naming OpenAI and describing the data
+> shared, before online answers. Permission can be withdrawn in Settings.
+
+## Verified release preparation (22 November 2026)
+
+Both required GitHub workflows passed on candidate `6290977f6985c760fc884a230f53d1cab805d231`,
+tree `71c957d3139a5fb0edf0afb73c331024a6f8a53a`. PR #125 merged into PR #124 as
+`d718a41221f0c22dba83cc2a12bc81625714b91f` with the identical tree. Local checks
+passed 1,633 root Vitest tests, recommendation/outcome scripts, mobile type/script
+and locale checks, ten consent UI browser checks, and the transaction-only SQL
+test on PostgreSQL WASM.
+
+The additive registry migration was applied as `20261122133130`; its repository
+filename matches that recorded version. Live readback confirmed RLS, no anon or
+authenticated role access, only SELECT/INSERT/UPDATE for the service role, and
+zero consent rows or residual test identities. The attempted live transaction
+test was interrupted without a result and is not reported as passed. The live
+handler remains API 2 pending coordinated native-candidate delivery.
+
 Prepared artifacts and local validation do not establish that a native build,
 backend rollout, store upload or public submission has occurred. Record those
 outcomes from actual deployment and store receipts.
