@@ -1,6 +1,6 @@
 # BeanMora Privacy Policy / سياسة خصوصية BeanMora
 
-Effective date / تاريخ السريان: 20 November 2026 / 20 نوفمبر 2026
+Effective date / تاريخ السريان: 22 November 2026 / 22 نوفمبر 2026
 
 ## English
 
