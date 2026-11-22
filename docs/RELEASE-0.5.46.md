@@ -44,7 +44,10 @@ the boundary before an external model request.
 
 1. Require successful Quality checks and Expo mobile checks on the final source.
 2. Complete database/handler verification and review the compatibility matrix.
-3. Run `native-0.5.46.yml` from that exact source. It builds a signed production
+3. Run `native-0.5.46.yml` from that exact source, manually or by advancing the
+   dedicated `release/beanmora-native-0.5.46` branch once after verification.
+   Before either trigger, check Expo for an existing or pending matching build.
+   The workflow builds a signed production
    iOS candidate and Android AAB with app identity, dependency, type and script
    checks. It does not choose a public store release or upload by itself.
 4. Use the existing `native-navigation.yml` workflow for source-matched native

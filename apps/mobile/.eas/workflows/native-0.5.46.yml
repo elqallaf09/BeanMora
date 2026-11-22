@@ -3,6 +3,9 @@ name: Build BeanMora 0.5.46 iOS and Android candidates
 
 on:
   workflow_dispatch: {}
+  push:
+    branches:
+      - release/beanmora-native-0.5.46
 
 defaults:
   image: sdk-57
