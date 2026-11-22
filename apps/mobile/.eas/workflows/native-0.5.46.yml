@@ -1,0 +1,62 @@
+# Builds signed candidates only. Select exact verified build IDs for later uploads.
+name: Build BeanMora 0.5.46 iOS and Android candidates
+
+on:
+  workflow_dispatch: {}
+
+defaults:
+  image: sdk-57
+  tools:
+    node: '22.16.0'
+
+jobs:
+  build_ios:
+    name: Build checked BeanMora iOS 0.5.46
+    type: build
+    environment: production
+    runs_on: macos-medium
+    params:
+      platform: ios
+      profile: production
+    hooks:
+      before_install_node_modules:
+        - name: Verify release identity and destination
+          run: node scripts/check-release-0.5.46.mjs
+        - name: Reproducible npm resolver
+          run: npm install --global npm@11.19.1 --ignore-scripts
+      after_install_node_modules:
+        - name: Verify installed security backports
+          run: npm run verify:tooling-security
+        - name: Enforce dependency audit
+          run: node scripts/audit-dependencies.mjs
+        - name: Check mobile TypeScript
+          run: npm run typecheck
+        - name: Run mobile regression checks
+          run: npm test
+        - name: Record actual Apple build toolchain
+          run: |
+            xcodebuild -version
+            xcrun --sdk iphoneos --show-sdk-version
+
+  build_android:
+    name: Build checked BeanMora Android 0.5.46 AAB
+    type: build
+    environment: production
+    params:
+      platform: android
+      profile: production
+    hooks:
+      before_install_node_modules:
+        - name: Verify release identity and destination
+          run: node scripts/check-release-0.5.46.mjs
+        - name: Reproducible npm resolver
+          run: npm install --global npm@11.19.1 --ignore-scripts
+      after_install_node_modules:
+        - name: Verify installed security backports
+          run: npm run verify:tooling-security
+        - name: Enforce dependency audit
+          run: node scripts/audit-dependencies.mjs
+        - name: Check mobile TypeScript
+          run: npm run typecheck
+        - name: Run mobile regression checks
+          run: npm test
