@@ -21,21 +21,41 @@ function endpoint(url: string) {
   return `${url}/functions/v1/coffee-assistant`;
 }
 
-export async function coffeeAssistantReadiness(options: Options & { accessToken?: string }): Promise<'ready' | 'disabled' | 'incompatible'> {
+export const COFFEE_CONSENT_POLICY = 'openai-v1';
+export type ConsentChoice = 'allow' | 'guide';
+export type CoffeeConsent = { available: boolean; choice: ConsentChoice | 'unset'; generation: string | null; revision: string | null };
+type MemberOptions = Options & { accessToken?: string };
+
+async function consentRequest(options: MemberOptions, choice?: ConsentChoice, expected?: string): Promise<CoffeeConsent> {
   if (!options.accessToken) throw new CoffeeAssistantError('signin');
   return withDeadline(async signal => {
-    const response = await (options.fetcher ?? fetch)(endpoint(options.url), { headers: { apikey: options.publicKey, Authorization: `Bearer ${options.accessToken}` }, signal });
+    const response = await (options.fetcher ?? fetch)(endpoint(options.url), {
+      method: choice ? 'PUT' : 'GET',
+      headers: { apikey: options.publicKey, Authorization: `Bearer ${options.accessToken}`,
+        ...(choice ? { 'x-coffee-consent': COFFEE_CONSENT_POLICY + ':' + choice, ...(expected ? { 'x-coffee-consent-expected': expected } : {}) } : {}) },
+      signal,
+    });
     if (!response.ok) throw await responseError(response);
     const data = await response.json();
-    // Version 2 supports grounded brewing conversations and typed failures.
-    if (data.api_contract !== 2 || data.authentication_required !== true) return 'incompatible';
-    return data.conversation_enabled === true ? 'ready' : 'disabled';
+    if (data.api_contract !== 3 || data.authentication_required !== true || data.consent_policy !== COFFEE_CONSENT_POLICY) {
+      if (choice) throw new CoffeeAssistantError('unavailable');
+      return { available: false, choice: 'unset', generation: null, revision: null };
+    }
+    if (!['allow', 'guide', 'unset'].includes(data.consent_choice) || (choice && choice !== data.consent_choice)) throw new CoffeeAssistantError('unavailable');
+    const revision = typeof data.consent_generation === 'string' && uuid.test(data.consent_generation) ? data.consent_generation : null;
+    const generation = data.consent_choice === 'allow' && data.conversation_enabled === true ? revision : null;
+    if (choice === 'allow' && !generation) throw new CoffeeAssistantError('unavailable');
+    return { available: data.consent_available === true, choice: data.consent_choice, generation, revision };
   }, { signal: options.signal, timeoutMs: 7000 });
 }
-
-export async function coffeeAssistantAvailable(options: Options & { accessToken?: string }): Promise<boolean> {
-  if (!options.accessToken) return false;
-  return await coffeeAssistantReadiness(options) === 'ready';
+export const readCoffeeConsent = (options: MemberOptions) => consentRequest(options);
+export const saveCoffeeConsent = (options: MemberOptions, choice: ConsentChoice, expected?: string) => consentRequest(options, choice, expected);
+export async function coffeeAssistantReadiness(options: MemberOptions): Promise<'ready' | 'disabled' | 'incompatible'> {
+  const consent = await readCoffeeConsent(options);
+  return consent.generation ? 'ready' : 'disabled';
+}
+export async function coffeeAssistantAvailable(options: MemberOptions): Promise<boolean> {
+  return !!options.accessToken && await coffeeAssistantReadiness(options) === 'ready';
 }
 
 export function shouldUseRemoteAssistant(turn: LocalAssistantTurn): boolean {
@@ -90,12 +110,12 @@ async function responseError(response: Response): Promise<CoffeeAssistantError> 
   return new CoffeeAssistantError('unavailable');
 }
 
-export async function converseRemotely(local: LocalAssistantTurn, history: CoffeeAssistantTurn[], locale: AppLocale, options: Options & { accessToken: string; question?: string }): Promise<CoffeeAssistantTurn | null> {
-  if (!options.accessToken || !shouldUseRemoteAssistant(local)) return null;
+export async function converseRemotely(local: LocalAssistantTurn, history: CoffeeAssistantTurn[], locale: AppLocale, options: Options & { accessToken: string; consentGeneration?: string; question?: string }): Promise<CoffeeAssistantTurn | null> {
+  if (!options.accessToken || !options.consentGeneration || !uuid.test(options.consentGeneration) || !shouldUseRemoteAssistant(local)) return null;
   return withDeadline(async signal => {
     const response = await (options.fetcher ?? fetch)(endpoint(options.url), {
       method: 'POST', signal,
-      headers: { apikey: options.publicKey, Authorization: `Bearer ${options.accessToken}`, 'Content-Type': 'application/json' },
+      headers: { apikey: options.publicKey, Authorization: `Bearer ${options.accessToken}`, 'Content-Type': 'application/json', 'x-coffee-consent': options.consentGeneration! },
       body: JSON.stringify({
         question: boundedText(options.question ?? local.question, 1000), locale,
         // Prior replies explain what the expert asked the user. They are
@@ -113,6 +133,10 @@ export async function converseRemotely(local: LocalAssistantTurn, history: Coffe
         }),
       }),
     });
+    if (response.status === 403) {
+      const failure = await response.clone().json().catch(() => null);
+      if (failure?.error === 'COFFEE_CONSENT_REQUIRED') return null;
+    }
     if (!response.ok) throw await responseError(response);
     const raw = await response.text();
     if (raw.length > 200000) throw new CoffeeAssistantError('unavailable');

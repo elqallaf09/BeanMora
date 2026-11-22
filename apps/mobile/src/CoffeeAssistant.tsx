@@ -10,8 +10,9 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Linking, ScrollView, View } from "./native";
 import { Action, Field, Language, Txt, colors, styles } from "./ui";
 import { publicSupabase, supabase, catalogScope } from "./client";
-import { CoffeeAssistantError, coffeeAssistantReadiness, converseRemotely, type AssistantFailure, type CoffeeAssistantTurn } from './coffeeAssistantRemote';
-import { assistantPreferenceKey, defaultAssistantPreference, readAssistantPreference, resolveCoffeeAnswer, saveAssistantAvailability, type AssistantPreference } from './coffeeAssistantPolicy';
+import { CoffeeAssistantError, readCoffeeConsent, saveCoffeeConsent, converseRemotely, type ConsentChoice, type AssistantFailure, type CoffeeAssistantTurn } from './coffeeAssistantRemote';
+import { CoffeeConsentChoice } from './CoffeeConsentChoice';
+import { assistantPreferenceKey, defaultAssistantPreference, readAssistantPreference, resolveCoffeeAnswer, saveAssistantAvailability, saveAssistantPreference, type AssistantPreference } from './coffeeAssistantPolicy';
 import { loadCoffeeLessonContent } from './coffeeLessonContent';
 import {
   assistantRecipeServingStyle,
@@ -62,6 +63,10 @@ export function CoffeeAssistant({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [aiNotice, setAiNotice] = useState<AssistantFailure | ''>('');
+  const [consentPrompt, setConsentPrompt] = useState(false);
+  const [consentSaving, setConsentSaving] = useState(false);
+  const consentWrite = useRef<AbortController | null>(null);
+  const remoteHistory = useRef<{ generation: string; turns: CoffeeAssistantTurn[] } | null>(null);
   const member = useRef<string | null>(null);
   const preference = useRef<AssistantPreference>(defaultAssistantPreference());
   const active = useRef<AbortController | null>(null);
@@ -75,6 +80,7 @@ export function CoffeeAssistant({
   useEffect(
     () => () => {
       active.current?.abort();
+      consentWrite.current?.abort();
       if (scrollFrame.current !== null) cancelAnimationFrame(scrollFrame.current);
     },
     [],
@@ -86,6 +92,9 @@ export function CoffeeAssistant({
       if (stopped) return;
       if (member.current !== id) {
         active.current?.abort(); active.current = null;
+        consentWrite.current?.abort(); consentWrite.current = null;
+        remoteHistory.current = null;
+        setConsentPrompt(false); setConsentSaving(false);
         setBusy(false); setAiNotice('');
         preference.current = defaultAssistantPreference();
         if (member.current) { setTurns([]); setQuestion(''); }
@@ -119,6 +128,28 @@ export function CoffeeAssistant({
           ? i18nUi('الإجابات الذكية غير متاحة على الخدمة حاليًا. يعرض خبير القهوة إجابة من الدليل، ويتحقق تلقائيًا مع سؤال لاحق.', 'Online AI answers are not currently enabled by the service. Coffee Expert uses the guide and checks automatically on a later question.')
         : aiNotice === 'unavailable'
           ? i18nUi('تعذّر الاتصال بالمساعدة الذكية مؤقتًا. رجعنا إلى دليل القهوة.', 'AI assistance is temporarily unavailable. We switched to the coffee guide.') : '';
+  async function chooseConsent(choice: ConsentChoice) {
+    const owner = member.current;
+    if (!owner || consentWrite.current) return;
+    const write = new AbortController();
+    consentWrite.current = write;
+    remoteHistory.current = null;
+    setConsentSaving(true);
+    setError('');
+    try {
+      if (choice === 'guide') void saveAssistantPreference(AsyncStorage, assistantPreferenceKey(catalogScope, owner), { ...defaultAssistantPreference(), optedOut: true });
+      const session = (await supabase?.auth.getSession())?.data.session;
+      if (write.signal.aborted || member.current !== owner || session?.user.id !== owner || session.user.is_anonymous) return;
+      await saveCoffeeConsent({ url: catalogScope, publicKey: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '',
+        accessToken: session.access_token, signal: write.signal }, choice, 'unset');
+      if (!write.signal.aborted && member.current === owner) setConsentPrompt(false);
+    } catch {
+      if (!write.signal.aborted && member.current === owner && choice === 'allow') setConsentPrompt(false);
+      if (!write.signal.aborted && member.current === owner) setError(i18nUi('تعذّر حفظ اختيارك. لا يزال دليل القهوة متاحًا.', 'Your choice could not be saved. The coffee guide is still available.'));
+    } finally {
+      if (consentWrite.current === write) { consentWrite.current = null; setConsentSaving(false); }
+    }
+  }
   async function ask(message = question, displayQuestion = message) {
     const text = message.trim();
     if (!text || active.current) return;
@@ -189,21 +220,33 @@ export function CoffeeAssistant({
           const session = (await supabase?.auth.getSession())?.data.session;
           if (controller.signal.aborted || member.current !== owner) throw Object.assign(new Error('Request cancelled'), { name: 'AbortError' });
           if (!session || session.user.is_anonymous || session.user.id !== owner) throw new CoffeeAssistantError('signin');
-          const readiness = await coffeeAssistantReadiness({
+          if (consentWrite.current) return null;
+          const consent = await readCoffeeConsent({
             url: catalogScope, publicKey: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '',
             accessToken: session.access_token, signal: controller.signal,
           });
           if (controller.signal.aborted || member.current !== owner) throw Object.assign(new Error('Request cancelled'), { name: 'AbortError' });
-          if (readiness !== 'ready') throw new CoffeeAssistantError(readiness === 'disabled' ? 'disabled' : 'unavailable');
-          // Settings may change while the readiness request is pending. Check
-          // the latest privacy choice before sending any conversation text.
+          if (consentWrite.current) return null;
+          if (!consent.generation || !consent.available) {
+            remoteHistory.current = null;
+            setConsentPrompt(consent.available && consent.choice === 'unset');
+            if (!consent.available) throw new CoffeeAssistantError('disabled');
+            return null;
+          }
+          // Settings may change during readiness. Honor existing local opt-outs.
           const latest = await readAssistantPreference(AsyncStorage, assistantPreferenceKey(catalogScope, owner));
           if (controller.signal.aborted || member.current !== owner) throw Object.assign(new Error('Request cancelled'), { name: 'AbortError' });
-          if (latest.optedOut) return null;
-          return converseRemotely(draft, turns, locale, {
+          if (latest.optedOut || consentWrite.current) return null;
+          setConsentPrompt(false);
+          const history = remoteHistory.current?.generation === consent.generation ? remoteHistory.current.turns : [];
+          const answer = await converseRemotely(draft, history, locale, {
             url: catalogScope, publicKey: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '',
-            accessToken: session.access_token, signal: controller.signal, question: displayQuestion,
+            accessToken: session.access_token, signal: controller.signal, question: displayQuestion, consentGeneration: consent.generation,
           });
+          if (!controller.signal.aborted && member.current === owner && !consentWrite.current && answer?.mode === 'ai') {
+            remoteHistory.current = { generation: consent.generation, turns: [...history, { ...answer, question: displayQuestion }].slice(-6) };
+          }
+          return answer;
         },
         local: localAnswer,
         onFallback: (reason, next) => {
@@ -269,6 +312,7 @@ export function CoffeeAssistant({
           alignSelf: "center",
         }}
       >
+        {signedIn && consentPrompt ? <CoffeeConsentChoice firstQuestion disabled={busy || consentSaving} onChoice={choice => void chooseConsent(choice)} /> : null}
         {signedIn && aiNoticeText ? <View accessibilityLiveRegion="polite"><Txt style={styles.muted}>{aiNoticeText}</Txt></View> : null}
         {!turns.length ? (
           <View
@@ -578,6 +622,7 @@ export function CoffeeAssistant({
               title={ar ? "محادثة جديدة" : i18nUi("محادثة جديدة", "New conversation")}
               disabled={busy}
               onPress={() => {
+                remoteHistory.current = null;
                 setTurns([]);
                 setQuestion("");
                 setError("");

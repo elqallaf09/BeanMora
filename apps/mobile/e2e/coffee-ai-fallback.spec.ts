@@ -13,8 +13,9 @@ const clarificationQuestion = 'شنو يعني شنو طريقة التحضير 
 const clarificationAnswer = 'طريقة التحضير يعني شلون تسوي قهوتك، مثل V60 أو إسبريسو. موديل المطحنة يعني اسم الجهاز اللي تطحن فيه البن، وعادة تلقاه مكتوب على الجهاز.';
 type ConversationRequest = { question: string; locale: string; history: { question: string; answer?: string; followUp?: string; resultIds: string[] }[] };
 
-async function setup(page: Page) {
-  const state = { calls: 0, checks: 0, exhausted: false, enabled: true, catalog: false, readiness: null as Promise<void> | null, questions: [] as string[], requests: [] as ConversationRequest[] };
+const initialGeneration = '11111111-1111-4111-8111-111111111111';
+async function setup(page: Page, initialChoice: 'allow' | 'guide' | 'unset' = 'allow') {
+  const state = { choice: initialChoice, generation: initialGeneration, calls: 0, checks: 0, exhausted: false, enabled: true, catalog: false, readiness: null as Promise<void> | null, questions: [] as string[], requests: [] as ConversationRequest[] };
   await page.clock.install();
   await page.addInitScript(({ user, token }) => {
     if (!localStorage.getItem('sb-mobilefixture-auth-token')) localStorage.setItem('sb-mobilefixture-auth-token', JSON.stringify({ access_token: token, refresh_token: 'isolated_refresh', expires_at: Math.floor(Date.now() / 1000) + 3600, expires_in: 3600, token_type: 'bearer', user }));
@@ -26,7 +27,14 @@ async function setup(page: Page) {
     if (path.endsWith('/profiles')) body = { username: 'coffee_pilot' };
     if (path.endsWith('/functions/v1/coffee-assistant')) {
       expect(route.request().headers().authorization).toBe('Bearer ' + token);
-      if (route.request().method() === 'POST') {
+      const method = route.request().method(), headers = route.request().headers();
+      const receipt = () => ({ api_contract: 3, conversation_enabled: state.enabled && state.choice === 'allow', authentication_required: true,
+        consent_policy: 'openai-v1', consent_available: state.enabled, consent_choice: state.choice,
+        ...(state.choice === 'unset' ? {} : { consent_generation: state.generation }),
+      });
+      if (method === 'POST') {
+        expect(headers['x-coffee-consent']).toBe(state.generation);
+        expect(state.choice).toBe('allow');
         state.calls++;
         const request = route.request().postDataJSON() as ConversationRequest;
         state.questions.push(request.question); state.requests.push(request);
@@ -41,13 +49,28 @@ async function setup(page: Page) {
         }
         body = state.exhausted ? { error: 'CREDIT_BALANCE_EXHAUSTED' } : state.catalog ? { mode: 'catalog', notice: 'catalog_no_matches' } : { mode: 'ai', answer, followUp, query, matches: [], sources: [{ title: 'Reviewed pressure reference', url: 'https://www.breville.com/en-us/product/bes870' }] };
         status = state.exhausted ? 429 : 200;
-      } else { state.checks++; if (state.readiness) await state.readiness; body = { api_contract: 2, conversation_enabled: state.enabled, authentication_required: true }; }
+      } else if (method === 'PUT') {
+        expect(route.request().postData()).toBeNull();
+        const choice = headers['x-coffee-consent'];
+        expect(['openai-v1:allow', 'openai-v1:guide']).toContain(choice);
+        if (choice === 'openai-v1:allow') expect(headers['x-coffee-consent-expected']).toBe(state.choice === 'unset' ? 'unset' : state.generation);
+        state.choice = choice === 'openai-v1:allow' ? 'allow' : 'guide';
+        state.generation = state.generation === initialGeneration ? '22222222-2222-4222-8222-222222222222' : initialGeneration;
+        body = receipt();
+      } else {
+        state.checks++;
+        const before = receipt();
+        if (state.checks === 1 && state.readiness) await state.readiness;
+        body = before;
+      }
     }
     await route.fulfill({ status, contentType: 'application/json', body: JSON.stringify(body), headers: { 'content-range': '*/0', 'access-control-expose-headers': 'content-range' } });
   });
   await page.goto('/'); await setLanguage(page, 'en'); await openCoffeeShortcut(page, 'Coffee expert');
   await expect(page.getByTestId('coffee-assistant')).toBeVisible();
   await expect(page.getByRole('button', { name: /Enable AI assistance|Use the coffee guide/ })).toHaveCount(0);
+  // setLanguage opens Settings, which reads consent without conversation data.
+  state.checks = 0;
   return state;
 }
 async function ask(page: Page, question: string, ar = false) {
@@ -87,15 +110,17 @@ test('settings preserve the privacy opt-out while exact calculations remain loca
   let answer = await ask(page, 'Calculate 18 g at 1:16');
   await expect(answer).toContainText('288 g'); await expect(answer).toContainText('Local coffee guide');
   expect(fixture.calls).toBe(0); expect(fixture.checks).toBe(0);
-  const settings = await openSettings(page), online = settings.getByRole('switch', { name: 'Online answers', exact: true });
-  await expect(settings.getByTestId('settings-coffee-assistant')).toContainText('including assistant replies');
-  await expect(online).toBeChecked(); await online.uncheck();
+  const settings = await openSettings(page);
+  await settings.getByRole('button', { name: 'Withdraw permission', exact: true }).click();
+  await expect(settings.getByRole('button', { name: 'Privacy choices', exact: true })).toBeEnabled();
   await settings.getByRole('button', { name: 'Done', exact: true }).click();
   await page.reload(); await openCoffeeShortcut(page, 'Coffee expert');
   answer = await ask(page, 'How many bar for espresso?'); await expect(answer).toContainText('9 bar');
-  expect(fixture.calls).toBe(0); expect(fixture.checks).toBe(0);
+  expect(fixture.calls).toBe(0); expect(fixture.checks).toBe(1);
   const reopened = await openSettings(page);
-  await reopened.getByRole('switch', { name: 'Online answers', exact: true }).check();
+  await reopened.getByRole('button', { name: 'Privacy choices', exact: true }).click();
+  await reopened.getByRole('button', { name: 'Allow online answers', exact: true }).click();
+  await expect(reopened.getByRole('button', { name: 'Withdraw permission', exact: true })).toBeEnabled();
   await reopened.getByRole('button', { name: 'Done', exact: true }).click();
   answer = await ask(page, 'How many bar for espresso?'); await expect(answer).toContainText('AI assisted');
   expect(fixture.calls).toBe(1);
@@ -138,14 +163,15 @@ test('switching off online answers while readiness is pending prevents the quest
   await page.getByRole('button', { name: 'Send', exact: true }).click();
   await expect.poll(() => fixture.checks).toBe(1);
   const settings = await openSettings(page);
-  await settings.getByRole('switch', { name: 'Online answers', exact: true }).uncheck();
+  await settings.getByRole('button', { name: 'Withdraw permission', exact: true }).click();
+  await expect(settings.getByRole('button', { name: 'Privacy choices', exact: true })).toBeEnabled();
   await settings.getByRole('button', { name: 'Done', exact: true }).click();
   release();
   await expect(field).toHaveValue('');
   await expect(page.getByTestId('assistant-latest-answer')).toContainText('Local coffee guide');
   expect(fixture.calls).toBe(0);
   const reopened = await openSettings(page);
-  await expect(reopened.getByRole('switch', { name: 'Online answers', exact: true })).not.toBeChecked();
+  await expect(reopened.getByRole('button', { name: 'Withdraw permission', exact: true })).toHaveCount(0);
 });
 
 
@@ -180,4 +206,30 @@ test('the reported clarification keeps the expert’s previous question and a ne
   await expect(answer).toContainText(grindingFollowUp);
   expect(fixture.requests[2].history).toEqual([]);
   expect(fixture.calls).toBe(3);
+});
+
+test('first online choice answers the current question via guide and never replays old text', async ({ page }) => {
+  const f = await setup(page, 'unset');
+  const answer = await ask(page, 'How many bar for espresso?');
+  await expect(answer).toContainText('Local coffee guide');
+  const card = page.getByTestId('coffee-online-permission');
+  await expect(card).toContainText('OpenAI');
+  await expect(card).toContainText('next question');
+  expect(f.calls).toBe(0);
+  await card.getByRole('button', { name: 'Allow online answers', exact: true }).click();
+  await expect(card).toHaveCount(0);
+  expect(f.calls).toBe(0);
+  await expect(await ask(page, 'Which pressure gauge do I read?')).toContainText('AI assisted');
+  expect(f.requests.map(value => [value.question, value.history])).toEqual([['Which pressure gauge do I read?', []]]);
+});
+
+test('decline survives reload and never prompts or sends again', async ({ page }) => {
+  const f = await setup(page, 'unset');
+  await expect(await ask(page, 'How many bar for espresso?')).toContainText('Local coffee guide');
+  const card = page.getByTestId('coffee-online-permission');
+  await card.getByRole('button', { name: 'Use the coffee guide', exact: true }).click();
+  await expect(card).toHaveCount(0);
+  await page.reload(); await openCoffeeShortcut(page, 'Coffee expert');
+  await expect(await ask(page, 'Which pressure gauge do I read?')).toContainText('Local coffee guide');
+  await expect(card).toHaveCount(0); expect(f.calls).toBe(0);
 });

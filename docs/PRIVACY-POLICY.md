@@ -28,7 +28,7 @@ Content that you publish publicly may be displayed with your public profile. Cho
 
 ### Coffee Expert and OpenAI
 
-When a signed-in member asks Coffee Expert, online AI answers are used automatically when available unless disabled in Settings. For these answers, BeanMora sends your question, up to six recent exchanges from the same conversation (including your questions, the assistant’s replies and its follow-up questions), and relevant public coffee information to OpenAI to prepare an answer in your selected language. Text you type can include personal details, so keep questions about coffee and brewing. You can turn off **Online answers** under **Settings → Coffee expert** to stop sending new questions to OpenAI. Existing choices to use only the guide remain respected. The guide can still look up BeanMora’s public catalog.
+Coffee Expert starts with the coffee guide. After you explicitly allow online answers, BeanMora automatically sends your new question, up to six recent exchanges after permission was given (including assistant replies and follow-ups), and relevant public coffee information to OpenAI to prepare an answer. Existing guide-only preferences and earlier conversations are not treated as permission. Avoid entering personal information. You can withdraw permission under **Settings → Coffee expert**. The guide does not send your conversation to OpenAI and may look up information in the public BeanMora catalog. BeanMora keeps an account-linked record of your choice, policy version and decision time; this record contains no conversation text.
 
 BeanMora requests that OpenAI disable response storage for these calls. BeanMora’s usage record contains technical details such as the model, token counts, request status and request identifiers. It excludes the text of questions and answers.
 
@@ -74,7 +74,7 @@ We update this policy when the service's data practices change. The effective da
 
 ### خبير القهوة وOpenAI
 
-عندما يسأل عضو مسجّل الدخول «خبير القهوة»، تُستخدم الإجابات الذكية تلقائيًا عند توفرها ما لم يوقفها من الإعدادات. لإعداد هذه الإجابات، يرسل BeanMora سؤالك وما يصل إلى ست جولات سابقة من المحادثة نفسها، وتشمل أسئلتك وإجابات المساعد وأسئلة المتابعة، ومعلومات القهوة العامة ذات الصلة إلى OpenAI لإعداد إجابة بلغتك المختارة. قد يتضمن ما تكتبه تفاصيل شخصية، لذا يُفضّل أن يقتصر السؤال على القهوة والتحضير. يمكنك إيقاف **الإجابات عبر الإنترنت** من **الإعدادات ← خبير القهوة** لإيقاف إرسال الأسئلة الجديدة إلى OpenAI. تبقى اختيارات الاكتفاء بالدليل المحفوظة سابقًا محترمة. ويستطيع الدليل مواصلة البحث في كتالوج BeanMora العام.
+يبدأ «خبير القهوة» بدليل القهوة. بعد سماحك صراحةً بالإجابات عبر الإنترنت، يرسل BeanMora تلقائيًا سؤالك الجديد وما يصل إلى ست جولات حديثة من المحادثة بعد الموافقة، بما فيها ردود المساعد وأسئلة المتابعة، ومعلومات القهوة العامة ذات الصلة إلى OpenAI لإعداد الإجابة. لا تُعدّ التفضيلات السابقة ولا المحادثات السابقة موافقة. تجنّب كتابة معلومات شخصية. يمكنك سحب موافقتك من **الإعدادات ← خبير القهوة**. لا يرسل الدليل محادثتك إلى OpenAI، وقد يبحث في كتالوج BeanMora العام. يحتفظ BeanMora بسجل لاختيارك وإصدار سياسة الموافقة ووقت القرار مرتبط بحسابك، دون نص المحادثة.
 
 يطلب BeanMora من OpenAI تعطيل تخزين الردود لهذه الطلبات. يقتصر سجل الاستخدام في BeanMora على تفاصيل تقنية مثل النموذج وعدد وحدات النص المستخدمة وحالة الطلب ومعرّفاته، ويستبعد نصوص الأسئلة والأجوبة.
 
