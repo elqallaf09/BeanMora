@@ -13,6 +13,10 @@ export const legalContent = {
           'نستخدم البيانات لتسجيل الدخول، مزامنة محتواك، عرض الميزات التي تطلبها وحماية الخدمة وتشخيص الأعطال. نعتمد على Supabase للمصادقة والبيانات والتخزين، وعلى خدمات توزيع التطبيق. إذا اخترت الدخول الاجتماعي تُطبق أيضًا سياسة مزود الدخول. قد تعالج الخدمة البيانات خارج بلد إقامتك.',
         ],
         [
+          'خبير القهوة وOpenAI',
+          'يعمل دليل القهوة دون إرسال محادثتك إلى OpenAI، وقد يبحث في كتالوج BeanMora العام. بعد موافقتك الصريحة فقط، يرسل BeanMora إلى OpenAI سؤالك الجديد وما يصل إلى ست جولات من المحادثة بعد الموافقة، بما فيها الردود وأسئلة المتابعة، ومعلومات القهوة العامة ذات الصلة لإعداد إجابتك. تجنّب كتابة معلومات شخصية. يمكنك سحب الموافقة من «الإعدادات ← خبير القهوة». يُحفظ اختيارك وإصدار سياسة الموافقة ووقت القرار مع حسابك، دون نص المحادثة.',
+        ],
+        [
           'المحتوى العام والخاص',
           'المحتوى الذي تنشره للعامة قد يظهر للآخرين مع معلومات ملفك العام. راجع خيار الرؤية قبل النشر، ولا تضع بيانات حساسة في منشور عام. لا ترفع ملفات لا تملك حق مشاركتها. الروابط المؤقتة للملفات قد تبقى صالحة حتى تنتهي مدتها.',
         ],
@@ -65,6 +69,10 @@ export const legalContent = {
           'We use data to authenticate you, synchronize your content, deliver requested features, protect the service and diagnose failures. Supabase provides authentication, database and storage services. App distribution services and, if selected, social login providers also process data under their policies. Processing may take place outside your country.',
         ],
         [
+          'Coffee Expert and OpenAI',
+          'The coffee guide does not send your conversation to OpenAI and may look up information in BeanMora’s public catalog. Only after you explicitly allow it does BeanMora send your new question, up to six recent exchanges after you agreed (including replies and follow-ups), and relevant public coffee information to OpenAI to prepare your answer. Avoid entering personal information. You can withdraw permission under Settings → Coffee expert. BeanMora keeps an account-linked record of your choice, policy version and decision time without conversation text.',
+        ],
+        [
           'Public and private content',
           'Content you publish publicly may be visible with your public profile. Check visibility before posting and avoid sensitive information in public content. Only upload files you have permission to share. Temporary media links may remain valid until their expiry.',
         ],
@@ -105,4 +113,4 @@ export const legalContent = {
     },
   },
 } as const;
-export const legalUpdated = '2026-10-09';
+export const legalUpdated = '2026-11-22';

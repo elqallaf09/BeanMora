@@ -1,12 +1,12 @@
 // @vitest-environment node
 import { describe, expect, it, vi } from 'vitest';
-import { CoffeeAssistantError, coffeeAssistantAvailable, coffeeAssistantReadiness, converseRemotely, shouldUseRemoteAssistant } from '../../apps/mobile/src/coffeeAssistantRemote';
+import { CoffeeAssistantError, coffeeAssistantAvailable, coffeeAssistantReadiness, converseRemotely, readCoffeeConsent, saveCoffeeConsent, shouldUseRemoteAssistant } from '../../apps/mobile/src/coffeeAssistantRemote';
 import { CREDIT_RETRY_MS, assistantPreferenceKey, canUseAssistant, defaultAssistantPreference, readAssistantPreference, resolveCoffeeAnswer, saveAssistantAvailability, saveAssistantPreference } from '../../apps/mobile/src/coffeeAssistantPolicy';
 import { converseLocally, type LocalAssistantTurn } from './local-coffee-assistant';
 
 const query = { kind: null, category: null, methods: [], terms: [], amount: null, currency: null, clarification: null };
 const local: LocalAssistantTurn = { question: 'Compare coffee options', answer: 'Local answer', mode: 'local', intent: 'help', query, matches: [] };
-const options = { url: 'https://mobilefixture.supabase.co', publicKey: 'public-test', accessToken: 'user-token' };
+const options = { url: 'https://mobilefixture.supabase.co', publicKey: 'public-test', accessToken: 'user-token', consentGeneration: '11111111-1111-4111-8111-111111111111' };
 const json = (body: unknown, status = 200, headers: Record<string, string> = {}) => new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json', ...headers } });
 const ai = { ...local, mode: 'ai' as const, answer: 'Grounded AI answer' };
 const offline = { search: async () => ({ documents: [], rates: [] }) };
@@ -21,12 +21,29 @@ function storage() {
 }
 
 describe('grounded remote coffee expert', () => {
-  it('requires authenticated availability and the version 2 brewing contract', async () => {
-    for (const version of [undefined, 1]) expect(await coffeeAssistantAvailable({ ...options, fetcher: async () => json({ api_contract: version, conversation_enabled: true, authentication_required: true }) })).toBe(false);
+  it('never sends conversation text without a consent generation and writes choices with no body', async () => {
+    const fetcher = vi.fn(async (_url: unknown, init?: RequestInit) => {
+      expect(init?.method).toBe('PUT');
+      expect(init?.body).toBeUndefined();
+      expect(init?.headers).toMatchObject({ 'x-coffee-consent': 'openai-v1:allow', 'x-coffee-consent-expected': 'unset' });
+      return json({ api_contract: 3, conversation_enabled: true, authentication_required: true, consent_policy: 'openai-v1', consent_available: true, consent_choice: 'allow', consent_generation: options.consentGeneration });
+    });
+    expect(await converseRemotely(local, [], 'en', { ...options, consentGeneration: undefined, fetcher })).toBeNull();
+    expect(fetcher).not.toHaveBeenCalled();
+    expect(await saveCoffeeConsent({ ...options, fetcher }, 'allow', 'unset')).toMatchObject({ generation: options.consentGeneration });
+  });
+
+  it('fails closed for an old readiness contract and a revoked server receipt', async () => {
+    expect(await readCoffeeConsent({ ...options, fetcher: async () => json({ api_contract: 2, conversation_enabled: true, authentication_required: true }) })).toMatchObject({ generation: null });
+    expect(await converseRemotely(local, [], 'en', { ...options, fetcher: async () => json({ error: 'COFFEE_CONSENT_REQUIRED' }, 403) })).toBeNull();
+  });
+
+  it('requires authenticated availability and the version 3 affirmative consent contract', async () => {
+    for (const version of [undefined, 1, 2]) expect(await coffeeAssistantAvailable({ ...options, fetcher: async () => json({ api_contract: version, conversation_enabled: true, authentication_required: true }) })).toBe(false);
     expect(await coffeeAssistantAvailable({ ...options, fetcher: async () => json({ api_contract: 2, conversation_enabled: false, authentication_required: true }) })).toBe(false);
     const fetcher = vi.fn(async (_url: unknown, init?: RequestInit) => {
       expect(init?.headers).toMatchObject({ Authorization: 'Bearer user-token' });
-      return json({ api_contract: 2, conversation_enabled: true, authentication_required: true });
+      return json({ api_contract: 3, conversation_enabled: true, authentication_required: true, consent_policy: 'openai-v1', consent_available: true, consent_choice: 'allow', consent_generation: options.consentGeneration });
     });
     expect(await coffeeAssistantAvailable({ ...options, fetcher })).toBe(true);
     fetcher.mockClear();

@@ -14,7 +14,7 @@ export function coffeeAssistantConfig(env: Environment) {
   // Require an explicit supported model; never silently invoke a retired default.
   const model = value(env, 'COFFEE_ASSISTANT_MODEL');
   const effort = value(env, 'COFFEE_ASSISTANT_REASONING_EFFORT');
-  const reasoningEffort = effort === 'none' || effort === 'low' || effort === 'medium' ? effort : undefined;
+  const reasoningEffort: 'none' | 'low' | 'medium' | undefined = effort === 'none' || effort === 'low' || effort === 'medium' ? effort : undefined;
   const pilot = value(env, 'COFFEE_ASSISTANT_PILOT_USER_IDS');
   const pilotUserIds = pilot ? pilot.split(',').map(id => id.trim()).filter(Boolean) : null;
   const pilotValid = !pilotUserIds || (pilotUserIds.length > 0 && pilotUserIds.every(id => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id)));
