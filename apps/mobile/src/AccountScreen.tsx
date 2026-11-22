@@ -647,6 +647,14 @@ export function AccountScreen({
                 </View>
               </>
             )}
+            {Platform.OS === 'ios' && providerSettings?.apple === false && (
+              <View testID="ios-social-provider-unavailable" accessibilityRole="alert" style={s.statusCard}>
+                <Txt style={s.fieldHint}>
+                  {L('تسجيل الدخول عبر Apple وGoogle غير متاح حاليًا. يمكنك الدخول بالبريد الإلكتروني أو التصفح دون حساب.', 'Apple and Google sign-in are temporarily unavailable. You can sign in with email or browse without an account.')}
+                </Txt>
+                <Action title={t.retry} onPress={() => setSettingsAttempt(value => value + 1)} />
+              </View>
+            )}
             {Platform.OS === 'ios' && settingsFailed && (
               <View>
                 <Txt style={s.fieldHint}>{L('تعذّر بدء تسجيل الدخول عبر Google أو Apple. حاول مجددًا، وإذا استمرت المشكلة حدّث تطبيق BeanMora.', 'Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.')}</Txt>
@@ -692,6 +700,12 @@ const s = StyleSheet.create({
   guestNote: { fontSize: 13, lineHeight: 20, color: colors.muted },
   label: { fontSize: 14, fontWeight: '700', marginTop: 4 },
   fieldHint: { fontSize: 13, lineHeight: 20, color: colors.muted },
+  statusCard: {
+    padding: 12,
+    borderRadius: 12,
+    backgroundColor: '#E6EFEB',
+    gap: 8,
+  },
   notice: {
     padding: 12,
     borderRadius: 12,
