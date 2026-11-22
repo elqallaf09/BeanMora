@@ -647,6 +647,14 @@ export function AccountScreen({
                 </View>
               </>
             )}
+            {Platform.OS === 'ios' && providerSettings?.apple === false && (
+              <View testID="ios-social-provider-unavailable" accessibilityRole="alert" style={s.notice}>
+                <Txt style={s.fieldHint}>
+                  {L('تسجيل الدخول عبر Apple وGoogle غير متاح حالياً. تقدر تدخل بالبريد الإلكتروني أو تتصفح من دون حساب.', 'Apple and Google sign-in are temporarily unavailable. You can sign in with email or browse without an account.')}
+                </Txt>
+                <Action title={t.retry} onPress={() => setSettingsAttempt(value => value + 1)} />
+              </View>
+            )}
             {Platform.OS === 'ios' && settingsFailed && (
               <View>
                 <Txt style={s.fieldHint}>{L('تعذّر بدء تسجيل الدخول عبر Google أو Apple. حاول مجددًا، وإذا استمرت المشكلة حدّث تطبيق BeanMora.', 'Could not start Google or Apple sign-in. Try again, and update BeanMora if the problem continues.')}</Txt>
