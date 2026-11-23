@@ -21,8 +21,10 @@ import { RecipeServingBadge } from './RecipeServingBadge';
 import { CoffeeLabelCropper } from './CoffeeLabelCropper';
 import { RecipeVisual } from './RecipeVisual';
 
-export function ScanCoffeeButton({ openRecipe, coffees = [], method, model = 'all', serving = '', cup }: {
+export function ScanCoffeeButton({ openRecipe, coffees = [], method, model = 'all', serving = '', cup, onMatches }: {
   openRecipe: (recipe: RecipeItem) => void; coffees?: CoffeeItem[]; method?: Method; model?: XBloomModel; serving?: LabelServing; cup?: 'Omni' | 'xPod';
+  /** Hand every close match to a recipe generator instead of opening one. */
+  onMatches?: (recipes: RecipeItem[], coffeeName: string) => void;
 }) {
   const i18nUi = useLabels();
   const ar = useContext(Language) === 'ar';
@@ -30,11 +32,13 @@ export function ScanCoffeeButton({ openRecipe, coffees = [], method, model = 'al
   return <>
     <Action title={ar ? 'صوّر البن واختر الوصفة' : i18nUi('صوّر البن واختر الوصفة', 'Scan coffee for a recipe')} onPress={() => setVisible(true)} />
     {visible ? <CoffeeLabelScanner coffees={coffees} method={method} model={model} initialServing={serving} cup={cup} close={() => setVisible(false)}
-      openRecipe={recipe => { setVisible(false); openRecipe(recipe); }} /> : null}
+      openRecipe={recipe => { setVisible(false); openRecipe(recipe); }}
+      onMatches={onMatches ? (recipes, name) => { setVisible(false); onMatches(recipes, name); } : undefined} /> : null}
   </>;
 }
-function CoffeeLabelScanner({ coffees, method: initialMethod, model, initialServing, cup, close, openRecipe }: {
+function CoffeeLabelScanner({ coffees, method: initialMethod, model, initialServing, cup, close, openRecipe, onMatches }: {
   coffees: CoffeeItem[]; method?: Method; model: XBloomModel; initialServing: LabelServing; cup?: 'Omni' | 'xPod'; close: () => void; openRecipe: (recipe: RecipeItem) => void;
+  onMatches?: (recipes: RecipeItem[], coffeeName: string) => void;
 }) {
   const i18nUi = useLabels();
   const locale = useContext(Language); const ar = locale === 'ar'; const { width } = useWindowDimensions();
@@ -261,6 +265,7 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, model, initialServ
           {matching ? <ActivityIndicator color={colors.teal} /> : null}
           {matchError ? <View style={{ gap: 8 }}><Txt accessibilityRole="alert" style={styles.error}>{ar ? 'تعذّر البحث عن الوصفات. بياناتك موجودة؛ حاول مرة ثانية.' : i18nUi('تعذّر البحث عن الوصفات. بياناتك موجودة؛ حاول مرة ثانية.', 'Recipe search failed. Your details are kept; try again.')}</Txt><Action title={ar ? 'إعادة المحاولة' : i18nUi('إعادة المحاولة', 'Retry')} onPress={() => void find()} /></View> : null}
           {searched && !matching && !matchError && !recipes.length ? <View testID="coffee-label-no-match"><Txt>{ar ? 'ما لقينا وصفة منشورة قريبة لهالبيانات وطريقة التحضير والتقديم. راجع البيانات أو جرّب نوع تقديم آخر.' : i18nUi('ما لقينا وصفة منشورة قريبة لهالبيانات وطريقة التحضير والتقديم. راجع البيانات أو جرّب نوع تقديم آخر.', 'No close published recipe for these details, method and serving. Review the details or try another serving style.')}</Txt></View> : null}
+          {recipes.length && onMatches ? <Action variant="primary" title={ar ? 'حضّر وصفة من هذه النتائج' : i18nUi('حضّر وصفة من هذه النتائج', 'Generate a recipe from these results')} onPress={() => onMatches(recipes, coffee?.name || label.name)} /> : null}
           {recipes.length ? <View style={{ gap: 5 }}>
             <Txt heading style={{ fontSize: 16 }}>{ar ? `الوصفات الأقرب (${recipes.length})` : i18nUi(`الوصفات الأقرب (${recipes.length})`, `Closest recipes (${recipes.length})`)}</Txt>
             <Txt style={{ fontSize: 12, lineHeight: 19, color: colors.muted }}>{ar ? 'الترتيب حسب البيانات المشتركة. وصفات البن المشابه نقطة بداية؛ عدّلها حسب طعم كوبك.' : i18nUi('الترتيب حسب البيانات المشتركة. وصفات البن المشابه نقطة بداية؛ عدّلها حسب طعم كوبك.', 'Ranked by shared details. Similar-coffee recipes are a starting point; adjust to your taste.')}</Txt>
