@@ -20,12 +20,18 @@ const SIZE_DOSE: Record<XBloomPreferences['model'], Record<Exclude<CupSize, 'cus
   Studio: { small: 12, medium: 15, large: 20 }, Original: { small: 15, medium: 18, large: 22 },
 };
 
+// Origins with enough published xBloom recipes to narrow a general recipe.
+const ORIGINS: [string, string][] = [['Ethiopia', 'إثيوبيا'], ['Colombia', 'كولومبيا'], ['Kenya', 'كينيا'], ['Panama', 'بنما'], ['Costa Rica', 'كوستاريكا'],
+  ['Brazil', 'البرازيل'], ['Guatemala', 'غواتيمالا'], ['Honduras', 'هندوراس'], ['Ecuador', 'الإكوادور'], ['Peru', 'بيرو'], ['Indonesia', 'إندونيسيا']];
+const MIN_NARROW_POOL = 3;
+
 export function XBloomPlanner({ openRecipe, coffees = [], onDraft }: {
   openRecipe: (r: RecipeItem) => void; coffees?: CoffeeItem[]; onDraft?: (draft: XBloomDraft) => void;
 }) {
   const L = useLabels(); const locale = useContext(Language); const ar = locale === 'ar';
   const [p, setP] = useState<XBloomPreferences>({ model: 'Studio', cup: 'Omni', serving: 'hot', amount: '15', unit: 'dose', coffee: '', flavor: '' });
   const [size, setSize] = useState<CupSize>('medium'); const [ice, setIce] = useState<IceLevel>('regular');
+  const [origin, setOrigin] = useState(''); const [usedOrigin, setUsedOrigin] = useState('');
   const [rows, setRows] = useState<RecipeItem[]>([]); const [busy, setBusy] = useState(false);
   const [total, setTotal] = useState<number | null>(null); const [page, setPage] = useState(0);
   const [searched, setSearched] = useState(false); const [error, setError] = useState('');
@@ -68,9 +74,9 @@ export function XBloomPlanner({ openRecipe, coffees = [], onDraft }: {
         : L('تعذّر تجهيز وصفة صحيحة من هذه النتائج. جرّب إعدادات ثانية.', 'Could not build a valid recipe from these results. Try other settings.'));
     }
   }
-  async function load(query: string, flavor: string, nextPage: number, pageSize: number, signal: AbortSignal) {
+  async function load(query: string, flavor: string, nextPage: number, pageSize: number, signal: AbortSignal, coffeeOrigin = '') {
     if (!publicSupabase) throw new Error('CONNECTION');
-    const filters = { ...emptyRecipeFilters(), servingStyle: p.serving, flavorFamily: flavor as ReturnType<typeof emptyRecipeFilters>['flavorFamily'] };
+    const filters = { ...emptyRecipeFilters(), servingStyle: p.serving, coffeeOrigin, flavorFamily: flavor as ReturnType<typeof emptyRecipeFilters>['flavorFamily'] };
     const result = await recipeCatalogPage(publicSupabase, { query, method: 'xbloom', deviceModel: p.model, cup: p.cup, filters }, nextPage,
       `${RECIPE_FIELDS},${RECIPE_DISCOVERY_FIELDS}`, signal, pageSize);
     if (result.error) throw result.error;
@@ -89,49 +95,67 @@ export function XBloomPlanner({ openRecipe, coffees = [], onDraft }: {
     finally { if (!controller.signal.aborted) setBusy(false); }
   }
   // Always end with a recipe: the coffee's own matches first, then the general
-  // pool for the same machine, dripper and serving (with, then without, the taste).
+  // pool for the same machine, dripper and serving, narrowed by origin and taste
+  // only while enough published recipes remain.
   async function make() {
     pending.current?.abort(); const controller = new AbortController(); pending.current = controller;
-    setBusy(true); setError(''); setGenerated(null); setRows([]); setSearched(false); setTotal(null);
-    const usable = (items: RecipeItem[]) => items.some(r => !!r.sourceBrew.pours?.length);
+    setBusy(true); setError(''); setGenerated(null); setRows([]); setSearched(false); setTotal(null); setUsedOrigin('');
+    const usable = (items: RecipeItem[]) => items.filter(r => !!r.sourceBrew.pours?.length).length;
     try {
       const named = p.coffee.trim() ? (await load(p.coffee, p.flavor, 0, 12, controller.signal)).matched : [];
       if (controller.signal.aborted) return;
       if (usable(named)) { generate(named); return; }
-      let pool = (await load('', p.flavor, 0, 24, controller.signal)).matched;
-      if (!usable(pool) && p.flavor) pool = (await load('', '', 0, 24, controller.signal)).matched;
-      if (controller.signal.aborted) return;
+      const attempts: [string, string][] = [];
+      for (const attempt of [[origin, p.flavor], [origin, ''], ['', p.flavor], ['', '']] as [string, string][]) {
+        if (!attempts.some(a => a[0] === attempt[0] && a[1] === attempt[1])) attempts.push(attempt);
+      }
+      let pool: RecipeItem[] = []; let from = '';
+      for (const [country, flavor] of attempts) {
+        pool = (await load('', flavor, 0, 30, controller.signal, country)).matched; from = country;
+        if (controller.signal.aborted) return;
+        // A narrowed pool must still hold a few recipes, or one odd recipe decides everything.
+        if (usable(pool) >= (country || flavor ? MIN_NARROW_POOL : 1)) break;
+      }
+      setUsedOrigin(from);
       generate(pool, p.coffee, true);
     } catch { if (!controller.signal.aborted) setError(L('تعذّر تحضير الوصفة. تأكد من النت وحاول.', 'Could not prepare the recipe. Check your connection and retry.')); }
     finally { if (!controller.signal.aborted) setBusy(false); }
   }
+  const chips = { flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8 } as const;
+  const question = { fontSize: 14, lineHeight: 22, fontWeight: '700' } as const;
+  const originName = (id: string) => { const found = ORIGINS.find(o => o[0] === id); return found ? L(found[1], found[0]) : ''; };
   return <Disclosure title={onDraft ? L('أنشئ وصفة xBloom لبنّك', 'Create an xBloom recipe for your coffee') : L('اصنع وصفة xBloom لبنّك', 'Make an xBloom recipe for your coffee')}
     subtitle={L('جاوب على كم سؤال ونجهز لك وصفة كاملة تفتحها في xBloom', 'Answer a few questions and get a full recipe to open in xBloom')} testID="xbloom-planner">
     <Field label={L('اسم البن أو المحمصة (اختياري)', 'Coffee or roaster (optional)')} value={p.coffee} onChangeText={v => change('coffee', v)} maxLength={160} />
-    <SelectionMenu label={L('جهاز xBloom', 'xBloom machine')} value={p.model} items={['Studio', 'Original'].map(id => ({ id, name: id }))} onChange={v => change('model', v as XBloomPreferences['model'])} />
-    <SelectionMenu label={L('القمع', 'Dripper')} value={p.cup} items={['Omni', 'xPod'].map(id => ({ id, name: id }))} onChange={v => change('cup', v as XBloomPreferences['cup'])} />
-    <View style={{ flexDirection: ar ? 'row-reverse' : 'row', gap: 8 }}>
+    <Txt style={question}>{L('جهازك', 'Your machine')}</Txt>
+    <View style={chips}>{(['Studio', 'Original'] as const).map(id => <Action key={id} compact title={id} selected={p.model === id} onPress={() => change('model', id)} />)}</View>
+    <Txt style={question}>{L('القمع', 'Dripper')}</Txt>
+    <View style={chips}>{(['Omni', 'xPod'] as const).map(id => <Action key={id} compact title={id} selected={p.cup === id} onPress={() => change('cup', id)} />)}</View>
+    <Txt style={question}>{L('تبيها حارة أو باردة؟', 'Hot or iced?')}</Txt>
+    <View style={chips}>
       <Action compact title={L('حار', 'Hot')} selected={p.serving === 'hot'} onPress={() => change('serving', 'hot')} />
       <Action compact title={L('بارد ومثلج', 'Cold & iced')} selected={p.serving === 'cold_or_iced'} onPress={() => change('serving', 'cold_or_iced')} />
     </View>
-    <Txt style={{ fontSize: 14, lineHeight: 22, fontWeight: '700' }}>{L('حجم الكوب', 'Cup size')}</Txt>
-    <View style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8 }}>
+    <Txt style={question}>{L('حجم الكوب', 'Cup size')}</Txt>
+    <View style={chips}>
       {(['small', 'medium', 'large'] as const).map(id => <Action key={id} compact selected={size === id} onPress={() => pickSize(id)}
         title={`${id === 'small' ? L('صغير', 'Small') : id === 'medium' ? L('وسط', 'Medium') : L('كبير', 'Large')} · ${SIZE_DOSE[p.model][id]} g`} />)}
       <Action compact selected={size === 'custom'} title={L('أحدد بنفسي', 'Custom')} onPress={() => pickSize('custom')} />
     </View>
     {p.serving !== 'hot' ? <>
-      <Txt style={{ fontSize: 14, lineHeight: 22, fontWeight: '700' }}>{L('كمية الثلج', 'Ice')}</Txt>
-      <View style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8 }}>
+      <Txt style={question}>{L('كمية الثلج', 'Ice')}</Txt>
+      <View style={chips}>
         {(['light', 'regular', 'extra'] as const).map(id => <Action key={id} compact selected={ice === id} onPress={() => { setIce(id); setGenerated(null); }}
           title={id === 'light' ? L('ثلج قليل', 'Light ice') : id === 'regular' ? L('عادي', 'Regular') : L('ثلج وايد', 'Extra ice')} />)}
       </View>
     </> : null}
-    <SelectionMenu label={L('الإيحاء اللي تبيه (اختياري)', 'Flavour you want (optional)')} value={p.flavor} items={[
-      { id: '', name: L('بدون تفضيل', 'No preference') }, { id: 'fruity', name: L('فاكهي', 'Fruity') },
-      { id: 'chocolate', name: L('شوكولاتة', 'Chocolate') }, { id: 'caramel', name: L('كراميل', 'Caramel') },
-      { id: 'floral', name: L('زهري', 'Floral') }, { id: 'citrus', name: L('حمضي', 'Citrus') }, { id: 'nutty', name: L('مكسرات', 'Nutty') },
-    ]} onChange={v => change('flavor', v)} />
+    <Txt style={question}>{L('الإيحاء اللي تبيه (اختياري)', 'Flavour you want (optional)')}</Txt>
+    <View style={chips}>
+      {([['fruity', 'فاكهي', 'Fruity'], ['floral', 'زهري', 'Floral'], ['citrus', 'حمضي', 'Citrus'], ['caramel', 'كراميل', 'Caramel'], ['chocolate', 'شوكولاتة', 'Chocolate'], ['nutty', 'مكسرات', 'Nutty']] as const)
+        .map(([id, arabic, english]) => <Action key={id} compact title={L(arabic, english)} selected={p.flavor === id} onPress={() => change('flavor', p.flavor === id ? '' : id)} />)}
+    </View>
+    <SelectionMenu label={L('منشأ البن (اختياري)', 'Coffee origin (optional)')} value={origin}
+      items={[{ id: '', name: L('ما أدري / غير', 'Not sure / other') }, ...ORIGINS.map(([id, arabic]) => ({ id, name: L(arabic, id) }))]} onChange={v => { setOrigin(v); setGenerated(null); }} />
     {size === 'custom' ? <>
       <SelectionMenu label={L('تحديد الكمية حسب', 'Set amount by')} value={p.unit} items={[{ id: 'water', name: L('ماء الاستخلاص (ml)', 'Brew water (ml)') }, { id: 'dose', name: L('جرعة البن (g)', 'Coffee dose (g)') }]} onChange={v => { change('unit', v as XBloomPreferences['unit']); setP(prev => ({ ...prev, amount: v === 'water' ? '250' : '15' })); }} />
       <Field label={p.unit === 'water' ? L('ماء الاستخلاص دون الثلج (ml)', 'Brew water excluding ice (ml)') : L('جرعة البن (g)', 'Coffee dose (g)')} keyboardType="decimal-pad" value={p.amount} onChangeText={v => change('amount', v)} />
@@ -141,7 +165,7 @@ export function XBloomPlanner({ openRecipe, coffees = [], onDraft }: {
     {onDraft ? <Action disabled={busy} title={L('أو اختر وصفة منشورة كأساس', 'Or pick a published recipe as the base')} onPress={() => void search()} /> : null}
     {busy ? <ActivityIndicator color={colors.teal} /> : null}
     {error ? <Txt accessibilityRole="alert" style={styles.error}>{error}</Txt> : null}
-    {generated ? <GeneratedCard generated={generated.recipe} ar={ar} coffee={p.coffee} rpm={generated.template.sourceBrew.rpm}
+    {generated ? <GeneratedCard generated={generated.recipe} ar={ar} coffee={p.coffee} origin={originName(usedOrigin)} askedOrigin={originName(origin)} rpm={generated.template.sourceBrew.rpm}
       action={onDraft ? L('استخدمها كمسودة', 'Use as my draft') : L('افتح الوصفة الأساس ومصدرها', 'Open the base recipe & source')}
       onAction={() => onDraft ? onDraft(generatedDraft(generated.recipe, generated.template, p.coffee, ar)) : openRecipe(generated.template)} /> : null}
     {searched && !rows.length ? <Txt>{L('لا توجد وصفات مطابقة. جرّب اسم البن فقط أو غيّر المذاق. طحنة Studio لا تُخلط مع Original.', 'No matching recipes. Try the coffee name alone or another taste. Studio and Original grind settings are kept separate.')}</Txt> : null}
@@ -154,7 +178,7 @@ export function XBloomPlanner({ openRecipe, coffees = [], onDraft }: {
   </Disclosure>;
 }
 
-function GeneratedCard({ generated: g, ar, action, onAction, coffee, rpm }: { generated: GeneratedXBloom; ar: boolean; action: string; onAction: () => void; coffee: string; rpm?: number | null }) {
+function GeneratedCard({ generated: g, ar, action, onAction, coffee, rpm, origin, askedOrigin }: { generated: GeneratedXBloom; ar: boolean; action: string; onAction: () => void; coffee: string; rpm?: number | null; origin: string; askedOrigin: string }) {
   const L = useLabels();
   const [sharing, setSharing] = useState(false);
   const [link, setLink] = useState('');
@@ -198,8 +222,11 @@ function GeneratedCard({ generated: g, ar, action, onAction, coffee, rpm }: { ge
       + (pour.temperature !== null ? ` · ${pour.temperature}°C` : '') + (pour.pause_seconds !== null ? ` · ${L('توقف', 'Pause')} ${pour.pause_seconds}s` : '')}</Txt>)}
     {g.ice ? <Txt style={{ fontSize: 14, lineHeight: 22 }}>{L(`حط في الكوب حوالي ${g.ice} g ثلج قبل التحضير (${tag('estimate')}). الماء فوق ماء الاستخلاص فقط.`, `Put about ${g.ice} g of ice in the cup before brewing (${tag('estimate')}). The water above is brew water only.`)}</Txt>
       : g.serving === 'iced' ? <Txt style={styles.muted}>{L('الماء هنا ماء الاستخلاص فقط. أضف الثلج في الكوب.', 'This is brew water only. Add ice to the cup.')}</Txt> : null}
-    {g.basis === 'general' ? <Txt style={{ fontSize: 13, lineHeight: 21, color: colors.muted }}>{L(coffee.trim() ? 'ما لقينا وصفات منشورة لهالبن بالاسم، فهذي وصفة عامة لنفس الجهاز والقمع ونوع التحضير.' : 'وصفة عامة لنفس الجهاز والقمع ونوع التحضير. اكتب اسم البن أو صوّر الكيس لوصفة أقرب.',
-      coffee.trim() ? 'No published recipes matched this coffee by name, so this is a general recipe for the same machine, dripper and serving.' : 'A general recipe for this machine, dripper and serving. Enter the coffee or scan the bag for a closer one.')}</Txt> : null}
+    {g.ice ? <Txt style={{ fontSize: 14, lineHeight: 22 }}>{L(`المجموع في الكوب تقريبًا ${g.water + g.ice} ml بعد ما يذوب الثلج.`, `About ${g.water + g.ice} ml in the cup once the ice melts.`)}</Txt> : null}
+    {g.basis === 'general' ? <Txt style={{ fontSize: 13, lineHeight: 21, color: colors.muted }}>{
+      origin ? L(`ما لقينا وصفات لهالبن بالاسم، فهذي وصفة عامة لبن من ${origin} على نفس الجهاز والقمع.`, `No recipes matched this coffee by name, so this is a general recipe for ${origin} coffee on the same machine and dripper.`)
+      : askedOrigin ? L(`وصفات ${askedOrigin} المنشورة لهالإعدادات قليلة، فهذي وصفة عامة لنفس الجهاز والقمع ونوع التحضير.`, `Too few published ${askedOrigin} recipes for these settings, so this is a general recipe for the same machine, dripper and serving.`)
+      : L('وصفة عامة لنفس الجهاز والقمع ونوع التحضير. اختر منشأ البن أو صوّر الكيس لوصفة أقرب.', 'A general recipe for this machine, dripper and serving. Pick the origin or scan the bag for a closer one.')}</Txt> : null}
     <Txt heading style={{ fontSize: 15 }}>{L('ليش هالإعدادات؟', 'Why these settings?')}</Txt>
     <Txt style={{ fontSize: 13, lineHeight: 21 }}>{`${tag('published')}: `}{g.basis === 'general' ? L(`النسبة والطحنة والحرارة هي الوسيط في ${g.sourceIds.length} وصفة منشورة لنفس الجهاز والقمع.`, `Ratio, grind and temperature are the median of ${g.sourceIds.length} published recipes for the same machine and dripper.`) : L(`النسبة والطحنة والحرارة من أقرب ${g.sourceIds.length} وصفات لنفس الجهاز والقمع.`, `Ratio, grind and temperature come from the ${g.sourceIds.length} closest recipes for the same machine and dripper.`)}</Txt>
     {g.tasteShift.grind || g.tasteShift.temperature ? <Txt style={{ fontSize: 13, lineHeight: 21 }}>{`${tag('preference')}: `}{L('عدّلنا الطحنة أو الحرارة درجة بسيطة حسب المذاق اللي اخترته.', 'Grind or temperature moved one small step for the taste you chose.')}</Txt> : null}

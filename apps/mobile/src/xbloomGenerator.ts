@@ -34,7 +34,7 @@ export type GeneratorOptions = { general?: boolean; ice?: IceLevel };
 // iced ones near 1:10; the difference is the water the ice is expected to add.
 const HOT_RATIO = 16;
 const ICE_FACTOR: Record<IceLevel, number> = { light: 0.7, regular: 1, extra: 1.3 };
-const GENERAL_POOL = 24;
+const GENERAL_POOL = 30;
 const round1 = (value: number) => Math.round(value * 10) / 10;
 const clamp = (value: number, [low, high]: readonly [number, number]) => Math.min(high, Math.max(low, value));
 const digits = (text: string) => Number(text.replace(/[٠-٩]/g, c => String(c.charCodeAt(0) - 1632)).replace('٫', '.').trim());
