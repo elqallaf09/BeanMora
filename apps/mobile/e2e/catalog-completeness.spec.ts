@@ -158,9 +158,20 @@ test('xBloom planner applies machine and cup choices and opens the selected sour
   await page.goto('/');
   await page.getByRole('button', { name: 'xBloom', exact: true }).first().click();
   const planner = page.getByTestId('xbloom-planner');
-  await planner.getByRole('button', { name: 'اعثر على وصفة xBloom لبنّك', exact: true }).click();
-  await planner.getByLabel('اسم البن أو المحمصة أو نص الكيس', { exact: true }).fill('فراولة');
-  await planner.getByRole('button', { name: 'ابحث عن وصفات متوافقة', exact: true }).click();
+  await planner.getByRole('button', { name: 'اصنع وصفة xBloom لبنّك', exact: true }).click();
+  await planner.getByLabel('اسم البن أو المحمصة (اختياري)', { exact: true }).fill('فراولة');
+  // The generator always ends with a recipe built from published ones.
+  await planner.getByRole('button', { name: 'كبير · 20 g', exact: true }).click();
+  await planner.getByRole('button', { name: 'حضّر الوصفة', exact: true }).click();
+  const generated = planner.getByTestId('xbloom-generated');
+  await expect(generated).toBeVisible();
+  await expect(generated).toContainText('20 g');
+  await expect(generated).toContainText('300 ml');
+  await expect(generated).toContainText('1:15');
+  await expect(generated).not.toContainText('undefined');
+  await expect(generated.getByRole('button', { name: 'افتح في xBloom', exact: true })).toBeVisible();
+  requests.length = 0;
+  await planner.getByRole('button', { name: 'عرض الوصفات المنشورة لهالإعدادات', exact: true }).click();
   await expect(planner.getByText(program.title_ar, { exact: true })).toBeVisible();
   expect(requests).toEqual([{ model: 'Studio', cup: 'ilike.Omni', serving: 'hot' }]);
   await expect(page.getByText('إجمالي وصفات xBloom: 3,312', { exact: true })).toBeVisible();

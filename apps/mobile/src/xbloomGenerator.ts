@@ -46,7 +46,7 @@ function basis(recipe: RecipeItem, rank: number): Basis | null {
   const grind = Number(brew.grind_size ?? recipe.grindSetting);
   if (!pours?.length || pours.length > 9 || pours.some(p => !p.volume || p.volume <= 0) || !dose || dose <= 0
     || !Number.isFinite(grind) || grind < 1 || grind > 80) return null;
-  const temperature = pours.find(p => p.temperature !== null)?.temperature;
+  const temperature = pours.find(p => p.temperature != null)?.temperature;
   if (!temperature) return null;
   const score = recipe.labelMatch?.score ?? recipe.coffeeMatch?.score;
   // Rank decay keeps the closest coffee dominant when no similarity score exists.
@@ -113,8 +113,9 @@ export function generateXBloom(matches: RecipeItem[], preferences: XBloomPrefere
   const delta = temperature - template.temperature;
   const pours: GeneratedPour[] = template.pours.map(p => ({
     volume: Math.max(1, Math.round(p.volume! * scale)),
-    temperature: p.temperature === null ? null : clamp(Math.round(p.temperature + delta), limits.temperature),
-    flow_rate: p.flow_rate, pause_seconds: p.pause_seconds, pattern_code: p.pattern_code,
+    temperature: p.temperature == null ? null : clamp(Math.round(p.temperature + delta), limits.temperature),
+    // Sources may omit a field entirely; a missing value is unknown, never zero.
+    flow_rate: p.flow_rate ?? null, pause_seconds: p.pause_seconds ?? null, pattern_code: p.pattern_code ?? null,
   }));
   pours[pours.length - 1].volume = water - pours.slice(0, -1).reduce((sum, p) => sum + p.volume, 0);
   const timed = pours.every(p => p.flow_rate !== null && p.flow_rate > 0 && p.pause_seconds !== null);

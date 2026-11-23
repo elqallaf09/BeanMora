@@ -162,7 +162,7 @@ export function XBloomPlanner({ openRecipe, coffees = [], onDraft }: {
     </> : null}
     <ScanCoffeeButton method="xbloom" coffees={coffees} openRecipe={choose} model={p.model} serving={p.serving} cup={p.cup} onMatches={(recipes, name) => generate(recipes, name || p.coffee)} />
     <Action variant="primary" disabled={busy} title={L('حضّر الوصفة', 'Generate my recipe')} onPress={() => void make()} />
-    {onDraft ? <Action disabled={busy} title={L('أو اختر وصفة منشورة كأساس', 'Or pick a published recipe as the base')} onPress={() => void search()} /> : null}
+    <Action disabled={busy} title={onDraft ? L('أو اختر وصفة منشورة كأساس', 'Or pick a published recipe as the base') : L('عرض الوصفات المنشورة لهالإعدادات', 'Show published recipes for these settings')} onPress={() => void search()} />
     {busy ? <ActivityIndicator color={colors.teal} /> : null}
     {error ? <Txt accessibilityRole="alert" style={styles.error}>{error}</Txt> : null}
     {generated ? <GeneratedCard generated={generated.recipe} ar={ar} coffee={p.coffee} origin={originName(usedOrigin)} askedOrigin={originName(origin)} rpm={generated.template.sourceBrew.rpm}
