@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it, vi } from 'vitest';
-import { CoffeeAssistantError, coffeeAssistantAvailable, coffeeAssistantReadiness, converseRemotely, readCoffeeConsent, saveCoffeeConsent, shouldUseRemoteAssistant } from '../../apps/mobile/src/coffeeAssistantRemote';
+import { CoffeeAssistantError, consentFailure, coffeeAssistantAvailable, coffeeAssistantReadiness, converseRemotely, readCoffeeConsent, saveCoffeeConsent, shouldUseRemoteAssistant } from '../../apps/mobile/src/coffeeAssistantRemote';
 import { CREDIT_RETRY_MS, assistantPreferenceKey, canUseAssistant, defaultAssistantPreference, readAssistantPreference, resolveCoffeeAnswer, saveAssistantAvailability, saveAssistantPreference } from '../../apps/mobile/src/coffeeAssistantPolicy';
 import { converseLocally, type LocalAssistantTurn } from './local-coffee-assistant';
 
@@ -315,5 +315,20 @@ describe('AI to local orchestration', () => {
     const draft = await converseLocally('Calculate 18 g at 1:16', 'en', [], offline), remote = vi.fn();
     const result = await resolveCoffeeAnswer({ draft, available: true, preference: defaultAssistantPreference(), remote, local: async () => draft });
     expect(result.answer).toContain('288'); expect(remote).not.toHaveBeenCalled();
+  });
+});
+
+describe('consent failure reasons', () => {
+  const save = async (response: Response | Error) => {
+    const fetcher = vi.fn(async () => { if (response instanceof Error) throw response; return response; }) as unknown as typeof fetch;
+    return saveCoffeeConsent({ ...options, fetcher }, 'allow', 'unset').then(() => 'saved', consentFailure);
+  };
+  it('explains a conflict, an ineligible account, an expired session and a network failure', async () => {
+    expect(await save(json({ error: 'CONSENT_CHANGED' }, 409))).toBe('changed');
+    expect(await save(json({ error: 'AI_PILOT_ONLY' }, 403))).toBe('account');
+    expect(await save(json({ error: 'SIGN_IN_REQUIRED' }, 401))).toBe('signin');
+    expect(await save(new TypeError('Network request failed'))).toBe('network');
+    expect(await save(json({ error: 'SERVICE_UNAVAILABLE' }, 503))).toBe('unknown');
+    expect(consentFailure(Object.assign(new Error('Request timed out'), { name: 'TimeoutError' }))).toBe('network');
   });
 });
