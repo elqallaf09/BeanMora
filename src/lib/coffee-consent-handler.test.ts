@@ -85,6 +85,17 @@ it('fails closed on receipt read failure and rejects a body on a choice write', 
   expect((await f.handle(req)).status).toBe(503); expect(req.bodyUsed).toBe(false);
   expect(f.quota).not.toHaveBeenCalled(); expect(f.provider).not.toHaveBeenCalled();
 });
+it('accepts a choice write whose body is an empty stream (native iOS PUT) but not one with content', async () => {
+  const f = fixture();
+  const put = (body: string, extra: Record<string, string> = {}) => f.handle(new Request('https://edge.test', {
+    method: 'PUT', body, headers: { authorization: 'Bearer one', 'x-coffee-consent': 'openai-v1:allow', 'x-coffee-consent-expected': 'unset', ...extra },
+  }));
+  expect((await put(' ')).status).toBe(400);
+  expect((await put('', { 'content-length': '5' })).status).toBe(400);
+  const saved = await put('');
+  expect(saved.status).toBe(200);
+  expect((await saved.json()).consent_choice).toBe('allow');
+});
 it('tests the actual handler/provider seam: only an allowed generation dispatches and a late revoke prevents dispatch', async () => {
   const active = fixture();
   const { consent_generation } = await (await active.decide('allow', 'unset')).json();

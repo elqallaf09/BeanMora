@@ -13,6 +13,24 @@ const cors = {
   'Access-Control-Allow-Headers': 'authorization, apikey, x-client-info, content-type, x-coffee-consent, x-coffee-consent-expected',
   'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS',
 };
+// A consent write carries its choice in headers only. Native iOS fetch and some
+// proxies attach an empty stream (Content-Length: 0) to a body-less PUT, so a
+// null check alone rejects real clients; accept zero bytes, refuse any content.
+async function emptyBody(request: Request): Promise<boolean> {
+  if (request.body === null) return true;
+  const length = request.headers.get('content-length');
+  if (length !== null && length.trim() !== '0') return false;
+  const reader = request.body.getReader();
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) return true;
+      if (value && value.byteLength > 0) return false;
+    }
+  } finally {
+    await reader.cancel().catch(() => {});
+  }
+}
 const reply = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { ...cors, 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } });
 export function createCoffeeAssistantHandler(createClient: typeof supabaseCreateClient, env: (name: string) => string | undefined, fetcher: typeof fetch) {
   return async (request: Request) => {
@@ -49,7 +67,7 @@ export function createCoffeeAssistantHandler(createClient: typeof supabaseCreate
     try {
       if (request.method === 'PUT') {
         const choice = request.headers.get(COFFEE_CONSENT_HEADER);
-        if (!['allow', 'guide'].some(value => choice === COFFEE_CONSENT_POLICY + ':' + value) || request.body !== null)
+        if (!['allow', 'guide'].some(value => choice === COFFEE_CONSENT_POLICY + ':' + value) || !(await emptyBody(request)))
           return reply({ error: 'INVALID_INPUT' }, 400);
         const decision = choice === COFFEE_CONSENT_POLICY + ':allow' ? 'allow' : 'guide';
         if (decision === 'allow' && (!allowed || !config.enabled)) return reply({ error: 'AI_PILOT_ONLY' }, 403);
