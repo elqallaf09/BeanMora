@@ -26,17 +26,36 @@ export function createXBloomShareHandler(createClient: typeof supabaseCreateClie
     if (data.result !== 'success' || !Number.isSafeInteger(memberId) || memberId <= 0 || !token) throw new Error('XBLOOM_LOGIN');
     return (cached = { memberId, token });
   };
-  // Save, then read the link back from the account's own list if the save reply lacks it.
-  const save = async (session: Session, recipe: ShareRecipe, cloudName: string): Promise<{ link: string | null; expired: boolean; keys: string[] }> => {
-    const added = await post('tuRecipeAdd.tuhtml', encryptForm({ ...authForm(session.memberId, session.token), ...cloudRecipe(recipe, cloudName, now()) }));
-    if (added.result !== 'success') return { link: null, expired: true, keys: Object.keys(added) };
-    let link = findShareLink(added); let keys = Object.keys(added);
-    if (!link) {
-      const list = await post('tuMyTeaRecipeCreated.tuhtml', encryptForm({ ...authForm(session.memberId, session.token), pageNumber: 1, countPerPage: 100 }));
-      const mine = Array.isArray(list.list) ? list.list.find((item: Record<string, unknown>) => item?.theName === cloudName) : null;
-      link = findShareLink(mine); keys = [...keys, '|', ...Object.keys((mine as object) ?? {})];
+  // The account's own recipe lists carry each recipe's share link. Ask the list
+  // the way the app does (per machine), then unfiltered, and match by id or name.
+  const locate = async (session: Session, recipe: ShareRecipe, cloudName: string, tableId: number | null): Promise<{ link: string | null; found: boolean; expired: boolean; keys: string[] }> => {
+    const keys: string[] = [];
+    for (const adaptedModel of [recipe.model === 'Original' ? 1 : 2, 0, recipe.model === 'Original' ? 2 : 1]) {
+      const list = await post('tuMyTeaRecipeCreated.tuhtml', encryptForm({ ...authForm(session.memberId, session.token), pageNumber: 1, countPerPage: 100, ...(adaptedModel ? { adaptedModel } : {}) }));
+      if (list.result !== 'success') return { link: null, found: false, expired: true, keys: Object.keys(list) };
+      const items = Array.isArray(list.list) ? list.list as Record<string, unknown>[] : [];
+      const mine = items.find(item => (tableId !== null && Number(item?.tableId) === tableId) || item?.theName === cloudName);
+      keys.push(`list${adaptedModel}:${items.length}`, ...(mine ? Object.keys(mine) : Object.keys(items[0] ?? {}).map(key => '~' + key)));
+      if (mine) return { link: findShareLink(mine), found: true, expired: false, keys };
     }
-    return { link, expired: false, keys };
+    return { link: null, found: false, expired: false, keys };
+  };
+  // Reuse a recipe an earlier, interrupted attempt already saved; otherwise save it.
+  const save = async (session: Session, recipe: ShareRecipe, cloudName: string): Promise<{ link: string | null; expired: boolean; keys: string[] }> => {
+    const before = await locate(session, recipe, cloudName, null);
+    if (before.expired || before.link) return before;
+    let tableId: number | null = null; let keys = before.keys;
+    if (!before.found) {
+      const added = await post('tuRecipeAdd.tuhtml', encryptForm({ ...authForm(session.memberId, session.token), ...cloudRecipe(recipe, cloudName, now()) }));
+      if (added.result !== 'success') return { link: null, expired: true, keys: Object.keys(added) };
+      const link = findShareLink(added);
+      if (link) return { link, expired: false, keys: [] };
+      tableId = Number.isSafeInteger(Number(added.tableId)) ? Number(added.tableId) : null;
+      const after = await locate(session, recipe, cloudName, tableId);
+      if (after.link) return after;
+      keys = ['add', ...Object.keys(added), '|', ...after.keys];
+    }
+    return { link: null, expired: false, keys };
   };
 
   return async function handler(request: Request): Promise<Response> {

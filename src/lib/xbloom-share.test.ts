@@ -108,11 +108,11 @@ describe('xbloom-share handler', () => {
     const { call, cloud, rows } = fixture();
     const first = await call(); expect(first.status).toBe(200);
     expect(await first.json()).toEqual({ status: 'ok', api: 1, link: LINK, reused: false });
-    expect(cloud.mock.calls.map(c => String(c[0]).split('/').pop())).toEqual(['tMemberLogin.thtml', 'tuRecipeAdd.tuhtml', 'RecipeDetail.html']);
+    expect(cloud.mock.calls.map(c => String(c[0]).split('/').pop())).toEqual(['tMemberLogin.thtml', 'tuMyTeaRecipeCreated.tuhtml', 'tuMyTeaRecipeCreated.tuhtml', 'tuMyTeaRecipeCreated.tuhtml', 'tuRecipeAdd.tuhtml', 'RecipeDetail.html']);
     const sent = String((cloud.mock.calls[0][1] as RequestInit).body);
     expect(sent).not.toContain('fixture-only'); expect(sent).toMatch(/^[A-Za-z0-9+/]+=*$/);
     const again = await call('user-2'); expect(await again.json()).toMatchObject({ link: LINK, reused: true });
-    expect(cloud).toHaveBeenCalledTimes(3); expect(rows.size).toBe(1);
+    expect(cloud).toHaveBeenCalledTimes(6); expect(rows.size).toBe(1);
   });
   it('requires a signed-in account, valid input and an enabled service', async () => {
     expect((await fixture().call('')).status).toBe(401); expect((await fixture().call('guest')).status).toBe(401); expect((await fixture().call('bad')).status).toBe(401);
@@ -120,16 +120,22 @@ describe('xbloom-share handler', () => {
     const off = fixture({ extraEnv: { XBLOOM_SHARE_ENABLED: 'false' } }); expect(await (await off.call()).json()).toEqual({ error: 'SHARE_DISABLED' }); expect(off.cloud).not.toHaveBeenCalled();
     const limited = fixture({ used: 20 }); expect((await limited.call()).status).toBe(429); expect(limited.cloud).not.toHaveBeenCalled();
   });
-  it('reads the link from the account list when the save reply has none', async () => {
-    const name = `BM ${(await recipeHash(parseShareRecipe(recipe))).slice(0, 8)} Guji`;
+  it('reads the link from the account list by table id when the save reply has none', async () => {
+    let listed = 0;
     const { call, cloud } = fixture({ cloud: endpoint => endpoint === 'tuRecipeAdd.tuhtml' ? { result: 'success', tableId: 99 }
-      : endpoint === 'tuMyTeaRecipeCreated.tuhtml' ? { result: 'success', list: [{ theName: 'someone else', shareRecipeLink: 'https://share-h5.xbloom.com/?id=AAAAAAAAAAAA' }, { theName: name, shareRecipeLink: LINK }] } : undefined });
+      : endpoint === 'tuMyTeaRecipeCreated.tuhtml' ? { result: 'success', list: listed++ < 3 ? [] : [{ tableId: 5, theName: 'someone else', shareRecipeLink: 'https://share-h5.xbloom.com/?id=AAAAAAAAAAAA' }, { tableId: 99, theName: 'renamed by server', shareRecipeLink: LINK }] } : undefined });
     expect(await (await call()).json()).toMatchObject({ link: LINK, reused: false });
-    expect(cloud).toHaveBeenCalledTimes(4);
+    expect(cloud.mock.calls.filter(c => String(c[0]).endsWith('tuRecipeAdd.tuhtml'))).toHaveLength(1);
+  });
+  it('reuses a recipe an interrupted attempt already saved instead of saving it twice', async () => {
+    const name = `BM ${(await recipeHash(parseShareRecipe(recipe))).slice(0, 8)} Guji`;
+    const { call, cloud } = fixture({ cloud: endpoint => endpoint === 'tuMyTeaRecipeCreated.tuhtml' ? { result: 'success', list: [{ tableId: 42, theName: name, shareRecipeLink: LINK }] } : undefined });
+    expect((await call()).status).toBe(200);
+    expect(cloud.mock.calls.some(c => String(c[0]).endsWith('tuRecipeAdd.tuhtml'))).toBe(false);
   });
   it('signs in again once when the cached xBloom session has expired', async () => {
-    let adds = 0;
-    const { call, cloud } = fixture({ cloud: endpoint => endpoint === 'tuRecipeAdd.tuhtml' && adds++ === 0 ? { result: 'fail', code: 10001 } : undefined });
+    let lists = 0;
+    const { call, cloud } = fixture({ cloud: endpoint => endpoint === 'tuMyTeaRecipeCreated.tuhtml' && lists++ === 0 ? { result: 'fail', code: 10001 } : undefined });
     expect((await call()).status).toBe(200);
     expect(cloud.mock.calls.filter(c => String(c[0]).endsWith('tMemberLogin.thtml'))).toHaveLength(2);
   });
