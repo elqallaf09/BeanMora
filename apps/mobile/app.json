@@ -12,6 +12,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.beanmora.mobile",
+      "usesAppleSignIn": true,
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       },
@@ -45,6 +46,7 @@
     "plugins": [
       "./plugins/with-auth-browser.cjs",
       "expo-secure-store",
+      "expo-apple-authentication",
       [
         "expo-image-picker",
         {
