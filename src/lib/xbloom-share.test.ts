@@ -10,7 +10,7 @@ const LINK = 'https://share-h5.xbloom.com/?id=rN3687QQ5UyIyI5Xps9apg%3D%3D';
 
 describe('xBloom cloud encoding', () => {
   it('reads the client public key and produces PKCS#1 v1.5 blocks a private key can open', () => {
-    expect(rsaKey().size).toBe(128); expect(rsaKey().e).toBe(65537n);
+    expect(rsaKey().size).toBe(128); expect(rsaKey().e).toBe(BigInt(65537));
     const { publicKey, privateKey } = generateKeyPairSync('rsa', { modulusLength: 1024 });
     const key = rsaKey(publicKey.export({ type: 'spki', format: 'der' }).toString('base64'));
     const message = new TextEncoder().encode(JSON.stringify({ text: 'قهوة '.repeat(40) }));
@@ -109,7 +109,7 @@ describe('xbloom-share handler', () => {
     const first = await call(); expect(first.status).toBe(200);
     expect(await first.json()).toEqual({ status: 'ok', api: 1, link: LINK, reused: false });
     expect(cloud.mock.calls.map(c => String(c[0]).split('/').pop())).toEqual(['tMemberLogin.thtml', 'tuMyTeaRecipeCreated.tuhtml', 'tuMyTeaRecipeCreated.tuhtml', 'tuMyTeaRecipeCreated.tuhtml', 'tuRecipeAdd.tuhtml', 'RecipeDetail.html']);
-    const sent = String((cloud.mock.calls[0][1] as RequestInit).body);
+    const sent = String((cloud.mock.calls[0] as unknown as [unknown, RequestInit])[1].body);
     expect(sent).not.toContain('fixture-only'); expect(sent).toMatch(/^[A-Za-z0-9+/]+=*$/);
     const again = await call('user-2'); expect(await again.json()).toMatchObject({ link: LINK, reused: true });
     expect(cloud).toHaveBeenCalledTimes(6); expect(rows.size).toBe(1);

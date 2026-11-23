@@ -16,7 +16,9 @@ export type SharePour = { volume: number; temperature: number; flow_rate: number
 export type ShareRecipe = { model: 'Studio' | 'Original'; cup: 'Omni' | 'xPod'; dose: number; ratio: number; grind: number; rpm: number; name: string; pours: SharePour[] };
 
 const bytesOf = (base64: string) => Uint8Array.from(atob(base64), c => c.charCodeAt(0));
-const toBig = (bytes: Uint8Array) => bytes.reduce((n, b) => (n << 8n) | BigInt(b), 0n);
+// BigInt() calls, not literals: the repository type-checks at an ES2017 target.
+const ZERO = BigInt(0), ONE = BigInt(1), EIGHT = BigInt(8), BYTE = BigInt(255);
+const toBig = (bytes: Uint8Array) => bytes.reduce((n, b) => (n << EIGHT) | BigInt(b), ZERO);
 /** Read modulus and exponent out of an SPKI DER key (the last two INTEGERs). */
 export function rsaKey(spkiBase64 = PUBLIC_KEY): { n: bigint; e: bigint; size: number } {
   const der = bytesOf(spkiBase64); const integers: Uint8Array[] = [];
@@ -37,8 +39,8 @@ export function rsaKey(spkiBase64 = PUBLIC_KEY): { n: bigint; e: bigint; size: n
   return { n: toBig(trimmed), e: toBig(integers[integers.length - 1]), size: trimmed.length };
 }
 function modPow(base: bigint, exponent: bigint, modulus: bigint) {
-  let result = 1n; base %= modulus;
-  for (; exponent > 0n; exponent >>= 1n) { if (exponent & 1n) result = result * base % modulus; base = base * base % modulus; }
+  let result = ONE; base %= modulus;
+  for (; exponent > ZERO; exponent >>= ONE) { if (exponent & ONE) result = result * base % modulus; base = base * base % modulus; }
   return result;
 }
 /** RSA PKCS#1 v1.5 encryption in 117-byte blocks, as the xBloom clients do. */
@@ -49,7 +51,7 @@ export function rsaEncrypt(plain: Uint8Array, key = rsaKey()): Uint8Array {
     const filler = crypto.getRandomValues(new Uint8Array(key.size - 3 - message.length)).map(b => b || 1);
     padded[1] = 2; padded.set(filler, 2); padded.set(message, key.size - message.length);
     let value = modPow(toBig(padded), key.e, key.n);
-    for (let j = key.size - 1; j >= 0; j--, value >>= 8n) out[i * key.size + j] = Number(value & 0xffn);
+    for (let j = key.size - 1; j >= 0; j--, value >>= EIGHT) out[i * key.size + j] = Number(value & BYTE);
   }
   return out;
 }
