@@ -82,4 +82,25 @@ describe('xBloom recipe generator', () => {
     expect(draft.brew).toMatchObject({ adapted: true, adapted_from_recipe_id: 'a', poured_water_ml: 240 });
     expect(draft.values.steps.split('\n')).toHaveLength(4);
   });
+  it('falls back to a general pool with equal weights and the most typical pour structure', () => {
+    const pool = [recipe('a', { grind: 40 }), recipe('b', { grind: 56 }), recipe('typical', { grind: 57, pours: [pour(50, 92, 3, 30), pour(95), pour(95)] }), recipe('c', { grind: 58 }), recipe('d', { grind: 70 }),
+      recipe('e', { grind: 57 }), recipe('f', { grind: 57 })];
+    const r = generateXBloom(pool, prefs(), '', { general: true });
+    expect(r.basis).toBe('general'); expect(r.sourceIds).toHaveLength(7); expect(r.grind).toBe(57);
+    expect(['typical', 'e', 'f']).toContain(r.templateId);
+    expect(generateXBloom(pool, prefs()).basis).toBe('coffee');
+    expect(generateXBloom(pool, prefs()).sourceIds).toHaveLength(5);
+  });
+  it('estimates ice only for iced drinks, from the gap to the hot ratio, by chosen level', () => {
+    const iced = [recipe('i', { serving: 'iced', pours: [pour(40, 92, 3, 30), pour(60), pour(65)] })]; // 165 ml on 15 g = 1:11
+    const p = prefs({ serving: 'cold_or_iced', unit: 'dose', amount: '15' });
+    const regular = generateXBloom(iced, p, '', { ice: 'regular' });
+    expect(regular.water).toBe(165); expect(regular.ice).toBe(75);
+    expect(generateXBloom(iced, p, '', { ice: 'light' }).ice).toBe(55);
+    expect(generateXBloom(iced, p, '', { ice: 'extra' }).ice).toBe(100);
+    expect(generateXBloom(iced, p).ice).toBe(75);
+    expect(generateXBloom([recipe('a')], prefs()).ice).toBeNull();
+    const draft = generatedDraft(regular, iced[0], 'Guji', false);
+    expect(draft.values.description).toContain('about 75 g');
+  });
 });
