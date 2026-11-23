@@ -7,7 +7,7 @@ export type CoffeeAssistantTurn = Omit<LocalAssistantTurn, 'mode'> & { mode: 'lo
 type Options = { url: string; publicKey: string; signal?: AbortSignal; fetcher?: typeof fetch };
 export type AssistantFailure = 'credits' | 'rate' | 'signin' | 'disabled' | 'unavailable';
 export class CoffeeAssistantError extends Error {
-  constructor(readonly reason: AssistantFailure, readonly retryAfterMs = 60000) {
+  constructor(readonly reason: AssistantFailure, readonly retryAfterMs = 60000, readonly code?: string) {
     super(reason === 'credits' ? 'CREDIT_BALANCE_EXHAUSTED' : reason === 'rate' ? 'RATE_LIMITED' : reason === 'signin' ? 'SIGN_IN_REQUIRED' : reason === 'disabled' ? 'ASSISTANT_DISABLED' : 'ASSISTANT_UNAVAILABLE');
   }
 }
@@ -107,7 +107,21 @@ async function responseError(response: Response): Promise<CoffeeAssistantError> 
     const seconds = Number(response.headers.get('Retry-After'));
     return new CoffeeAssistantError('rate', Number.isFinite(seconds) && seconds > 0 ? Math.min(seconds * 1000, 86400000) : 60000);
   }
-  return new CoffeeAssistantError('unavailable');
+  return new CoffeeAssistantError('unavailable', 60000, typeof code === 'string' ? code : undefined);
+}
+
+export type ConsentFailure = 'changed' | 'account' | 'signin' | 'network' | 'unknown';
+// Explains why a consent read or write failed, so Settings can say what to do.
+export function consentFailure(error: unknown): ConsentFailure {
+  if (error instanceof CoffeeAssistantError) {
+    if (error.reason === 'signin') return 'signin';
+    if (error.code === 'CONSENT_CHANGED') return 'changed';
+    if (error.code === 'AI_PILOT_ONLY') return 'account';
+    return 'unknown';
+  }
+  const name = error instanceof Error ? error.name : '';
+  if (name === 'TimeoutError' || error instanceof TypeError) return 'network';
+  return 'unknown';
 }
 
 export async function converseRemotely(local: LocalAssistantTurn, history: CoffeeAssistantTurn[], locale: AppLocale, options: Options & { accessToken: string; consentGeneration?: string; question?: string }): Promise<CoffeeAssistantTurn | null> {

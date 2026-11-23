@@ -10,7 +10,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Linking, ScrollView, View } from "./native";
 import { Action, Field, Language, Txt, colors, styles } from "./ui";
 import { publicSupabase, supabase, catalogScope } from "./client";
-import { CoffeeAssistantError, readCoffeeConsent, saveCoffeeConsent, converseRemotely, type ConsentChoice, type AssistantFailure, type CoffeeAssistantTurn } from './coffeeAssistantRemote';
+import { CoffeeAssistantError, consentFailure, readCoffeeConsent, saveCoffeeConsent, converseRemotely, type ConsentChoice, type AssistantFailure, type CoffeeAssistantTurn } from './coffeeAssistantRemote';
 import { CoffeeConsentChoice } from './CoffeeConsentChoice';
 import { assistantPreferenceKey, defaultAssistantPreference, readAssistantPreference, resolveCoffeeAnswer, saveAssistantAvailability, saveAssistantPreference, type AssistantPreference } from './coffeeAssistantPolicy';
 import { loadCoffeeLessonContent } from './coffeeLessonContent';
@@ -143,9 +143,20 @@ export function CoffeeAssistant({
       await saveCoffeeConsent({ url: catalogScope, publicKey: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '',
         accessToken: session.access_token, signal: write.signal }, choice, 'unset');
       if (!write.signal.aborted && member.current === owner) setConsentPrompt(false);
-    } catch {
+    } catch (failure) {
       if (!write.signal.aborted && member.current === owner && choice === 'allow') setConsentPrompt(false);
-      if (!write.signal.aborted && member.current === owner) setError(i18nUi('تعذّر حفظ اختيارك. لا يزال دليل القهوة متاحًا.', 'Your choice could not be saved. The coffee guide is still available.'));
+      if (!write.signal.aborted && member.current === owner) {
+        const reason = consentFailure(failure);
+        setError(reason === 'changed'
+          ? i18nUi('تغيّر اختيارك من جهاز آخر. راجعه من الإعدادات. لا يزال دليل القهوة متاحًا.', 'Your choice was changed on another device. Review it in Settings. The coffee guide is still available.')
+          : reason === 'account'
+            ? i18nUi('الإجابات عبر الإنترنت غير متاحة لحسابك حاليًا. لا يزال دليل القهوة متاحًا.', 'Online answers are not available for your account yet. The coffee guide is still available.')
+            : reason === 'signin'
+              ? i18nUi('انتهت جلسة الدخول. سجّل دخولك مرة ثانية ثم حاول.', 'Your session has ended. Sign in again, then try once more.')
+              : reason === 'network'
+                ? i18nUi('تعذّر الاتصال. تأكد من الإنترنت وحاول مجددًا. لا يزال دليل القهوة متاحًا.', 'Could not connect. Check your internet connection and try again. The coffee guide is still available.')
+                : i18nUi('تعذّر حفظ اختيارك. لا يزال دليل القهوة متاحًا.', 'Your choice could not be saved. The coffee guide is still available.'));
+      }
     } finally {
       if (consentWrite.current === write) { consentWrite.current = null; setConsentSaving(false); }
     }
