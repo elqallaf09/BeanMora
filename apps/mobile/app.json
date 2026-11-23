@@ -12,6 +12,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.beanmora.mobile",
+      "usesAppleSignIn": true,
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       },
@@ -45,6 +46,13 @@
     "plugins": [
       "./plugins/with-auth-browser.cjs",
       "expo-secure-store",
+      "expo-apple-authentication",
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.728537769363-8a8kpqfr4mhg6lk5t8isjlqd1gs5ua5a"
+        }
+      ],
       [
         "expo-image-picker",
         {

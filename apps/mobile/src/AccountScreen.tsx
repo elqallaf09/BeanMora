@@ -30,6 +30,8 @@ import { authFailure } from './authFailure';
 import { passwordFailureMessage, passwordHint } from './passwordGuidance';
 import { visibleSocialProviders, type ProviderSettings, type SocialProvider } from './socialProviders';
 import { openOAuthBrowser } from './oauthBrowser';
+import { signInWithNativeApple } from './appleSignIn';
+import { signInWithNativeGoogle } from './googleSignIn';
 import { useLabels,
   Action,
   Field,
@@ -279,6 +281,24 @@ export function AccountScreen({
                 ' غير مفعّل حالياً. يمكنك الدخول بالبريد الإلكتروني.', (provider === 'apple' ? 'Apple' : 'Google') +
                 ' sign-in is not enabled. Use email to sign in.'),
         );
+        return;
+      }
+      if (Platform.OS === 'ios' && provider === 'apple') {
+        await supabase!.auth.getSession();
+        const outcome = await signInWithNativeApple(supabase!);
+        if (outcome === 'cancelled') {
+          setNotice(L('تم إلغاء تسجيل الدخول. يمكنك المحاولة مجددًا.', 'Sign-in was cancelled. You can try again.'));
+          return;
+        }
+        if (outcome === 'signed-in') return;
+        // 'unavailable' falls through to the web OAuth flow below.
+      }
+      if (Platform.OS === 'ios' && provider === 'google') {
+        await supabase!.auth.getSession();
+        const outcome = await signInWithNativeGoogle(supabase!);
+        if (outcome === 'cancelled') {
+          setNotice(L('تم إلغاء تسجيل الدخول. يمكنك المحاولة مجددًا.', 'Sign-in was cancelled. You can try again.'));
+        }
         return;
       }
       const redirectTo = getAuthRedirect();
