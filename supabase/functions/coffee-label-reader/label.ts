@@ -38,7 +38,7 @@ export const labelInstructions = [
 ].join('\n');
 
 const clean = (value: unknown, max: number) => typeof value === 'string'
-  ? value.replace(/[\u0000-\u001f\u007f‎‏‪-‮⁦-⁩]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, max) : '';
+  ? value.replace(/[\u0000-\u001f\u007f\u200e\u200f\u202a-\u202e\u2066-\u2069]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, max) : '';
 const level = (value: unknown): LabelConfidence => value === 'high' || value === 'medium' ? value : 'low';
 
 /** Reject anything that is not exactly the declared shape; never repair it. */
