@@ -48,6 +48,12 @@
       "expo-secure-store",
       "expo-apple-authentication",
       [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.728537769363-8a8kpqfr4mhg6lk5t8isjlqd1gs5ua5a"
+        }
+      ],
+      [
         "expo-image-picker",
         {
           "photosPermission": "Allow BeanMora to use a photo you select for your coffee or recipe.",
