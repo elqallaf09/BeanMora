@@ -11,6 +11,14 @@ export interface GeneratedXBloom {
   dose: number; water: number; ratio: number; grind: number; temperature: number;
   pours: GeneratedPour[]; seconds: number | null;
   templateId: string; sourceIds: string[];
+  /** 'general' when no published recipe matched the coffee itself. */
+  basis: 'coffee' | 'general';
+  /** Built for a tasting note that has too few published recipes to stand alone. */
+  invented: boolean;
+  /** Published recipes carrying that note that were given extra weight. */
+  favored: number;
+  /** Suggested ice in the cup for iced drinks, in grams. Always an estimate. */
+  ice: number | null;
   provenance: { grind: Provenance; temperature: Provenance; ratio: Provenance; pours: Provenance; seconds: Provenance };
   tasteShift: { grind: number; temperature: number };
 }
@@ -24,6 +32,34 @@ export const XBLOOM_LIMITS = {
   Original: { dose: [15, 25], grind: [1, 80], temperature: [85, 99] },
 } as const;
 const WATER = [50, 500] as const;
+export type IceLevel = 'light' | 'regular' | 'extra';
+/** `drinkSize` is the finished drink in ml: brew water when hot, brew water plus ice when iced. */
+export type GeneratorOptions = { general?: boolean; ice?: IceLevel; drinkSize?: number;
+  /** Recipe ids that carry the wanted tasting note: they count three times and lend the pour structure. */
+  favored?: string[];
+  /** Taste family of the wanted note, applied when the person chose no taste themselves. */
+  noteTaste?: XBloomTaste; invented?: boolean };
+const FAVORED_WEIGHT = 3;
+// Tasting notes grouped by the extraction direction that usually suits them.
+// A rule of thumb for invented recipes, always labelled as a preference.
+const NOTE_FAMILIES: [Exclude<XBloomTaste, ''>, RegExp][] = [
+  ['bright', /orange|lemon|lime|citrus|grapefruit|tangerine|mandarin|برتقال|ليمون|حمضي|يوسفي|جريب/i],
+  ['floral', /jasmine|lavender|hibiscus|rose|floral|tea|bergamot|ياسمين|لافندر|كركديه|ورد|زهر|شاي|برغموت/i],
+  ['chocolate', /chocolate|cocoa|cacao|mocha|شوكولات|كاكاو|موكا/i],
+  ['full', /coconut|nut|hazelnut|almond|walnut|pecan|peanut|tahini|جوز|مكسرات|بندق|لوز|فستق|فول سوداني|طحينة/i],
+  ['sweet', /honey|caramel|sugar|vanilla|toffee|molasses|date|maple|عسل|كراميل|سكر|فانيلا|توفي|دبس|تمر|قيقب/i],
+  ['fruity', /berry|strawberry|cherry|peach|apricot|mango|pineapple|lychee|guava|passion|melon|apple|grape|plum|fig|pomegranate|tropical|fruit|فراول|توت|كرز|خوخ|مشمش|مانجو|أناناس|اناناس|ليتشي|جواف|باشن|بطيخ|شمام|تفاح|عنب|برقوق|تين|رمان|استوائي|فاكه/i],
+];
+/** The taste family a tasting note belongs to, or '' when nothing is known about it. */
+export function tasteForNote(note: string): XBloomTaste {
+  const text = note.trim();
+  return text ? NOTE_FAMILIES.find(([, pattern]) => pattern.test(text))?.[0] ?? '' : '';
+}
+// Hot recipes in the library sit at a median 1:16 on every machine and dripper,
+// iced ones near 1:10; the difference is the water the ice is expected to add.
+const HOT_RATIO = 16;
+const ICE_FACTOR: Record<IceLevel, number> = { light: 0.7, regular: 1, extra: 1.3 };
+const GENERAL_POOL = 30;
 const round1 = (value: number) => Math.round(value * 10) / 10;
 const clamp = (value: number, [low, high]: readonly [number, number]) => Math.min(high, Math.max(low, value));
 const digits = (text: string) => Number(text.replace(/[٠-٩]/g, c => String(c.charCodeAt(0) - 1632)).replace('٫', '.').trim());
@@ -35,7 +71,7 @@ function basis(recipe: RecipeItem, rank: number): Basis | null {
   const grind = Number(brew.grind_size ?? recipe.grindSetting);
   if (!pours?.length || pours.length > 9 || pours.some(p => !p.volume || p.volume <= 0) || !dose || dose <= 0
     || !Number.isFinite(grind) || grind < 1 || grind > 80) return null;
-  const temperature = pours.find(p => p.temperature !== null)?.temperature;
+  const temperature = pours.find(p => p.temperature != null)?.temperature;
   if (!temperature) return null;
   const score = recipe.labelMatch?.score ?? recipe.coffeeMatch?.score;
   // Rank decay keeps the closest coffee dominant when no similarity score exists.
@@ -53,7 +89,7 @@ function weightedMedian(items: { value: number; weight: number }[]): number {
 // One small step in a conventional direction; always labelled as a preference.
 const TASTE: Record<Exclude<XBloomTaste, ''>, { grind: number; temperature: number }> = {
   fruity: { grind: 1, temperature: -1 }, floral: { grind: 1, temperature: -1 }, bright: { grind: 1, temperature: -1 }, light: { grind: 2, temperature: 0 },
-  balanced: { grind: 0, temperature: 0 }, sweet: { grind: 0, temperature: 0 },
+  balanced: { grind: 0, temperature: 0 }, sweet: { grind: -1, temperature: 0 },
   chocolate: { grind: -1, temperature: 1 }, full: { grind: -2, temperature: 0 },
 };
 
@@ -71,43 +107,58 @@ export function validateGenerated(recipe: GeneratedXBloom): void {
 
 /** Blend the closest published recipes for the selected machine, dripper and
  * serving into one recipe. Deterministic: same inputs, same output. */
-export function generateXBloom(matches: RecipeItem[], preferences: XBloomPreferences, taste: XBloomTaste = ''): GeneratedXBloom {
+export function generateXBloom(matches: RecipeItem[], preferences: XBloomPreferences, taste: XBloomTaste = '', options: GeneratorOptions = {}): GeneratedXBloom {
   const limits = XBLOOM_LIMITS[preferences.model];
   const usable = matches.filter(recipe => compatibleXBloom(recipe, preferences))
-    .flatMap((recipe, rank) => basis(recipe, rank) ?? []).slice(0, 5);
+    .flatMap((recipe, rank) => basis(recipe, rank) ?? []).slice(0, options.general ? GENERAL_POOL : 5)
+    // A general pool has no closest coffee, so every recipe counts the same.
+    .map(item => options.general ? { ...item, weight: options.favored?.includes(item.id) ? FAVORED_WEIGHT : 1 } : item);
   if (!usable.length) throw new XBloomGeneratorError('NO_BASIS');
-  const amount = digits(preferences.amount);
+  const sized = options.drinkSize !== undefined;
+  const amount = sized ? options.drinkSize! : digits(preferences.amount);
   if (!Number.isFinite(amount) || amount <= 0) throw new XBloomGeneratorError('AMOUNT');
-  const template = usable.reduce((best, item) => item.weight > best.weight ? item : best);
-  const shift = taste ? TASTE[taste] : { grind: 0, temperature: 0 };
+  const iced = preferences.serving !== 'hot';
+  const iceFactor = ICE_FACTOR[options.ice ?? 'regular'];
+  const appliedTaste = taste || options.noteTaste || '';
+  const shift = appliedTaste ? TASTE[appliedTaste] : { grind: 0, temperature: 0 };
   const baseGrind = Math.round(weightedMedian(usable.map(b => ({ value: b.grind, weight: b.weight }))));
   const baseTemperature = weightedMedian(usable.map(b => ({ value: b.temperature, weight: b.weight })));
   const baseRatio = weightedMedian(usable.map(b => ({ value: b.water / b.dose, weight: b.weight })));
+  // Pour structure: the closest coffee's, or for a general pool the most typical recipe's.
+  const distance = (b: Basis) => Math.abs(b.water / b.dose - baseRatio) / baseRatio + Math.abs(b.grind - baseGrind) / 80;
+  const lending = options.general ? usable.find(item => options.favored?.includes(item.id)) : undefined;
+  const template = lending ?? (options.general ? usable.reduce((best, item) => distance(item) < distance(best) ? item : best)
+    : usable.reduce((best, item) => item.weight > best.weight ? item : best));
   const grind = clamp(baseGrind + shift.grind, limits.grind);
   const temperature = clamp(Math.round(baseTemperature + shift.temperature), limits.temperature);
 
-  let dose = preferences.unit === 'dose' ? round1(amount) : round1(amount / baseRatio);
+  // Ice replaces the water an iced recipe leaves out relative to the hot ratio.
+  const icePerGram = iced ? Math.max(0, HOT_RATIO - baseRatio) * iceFactor : 0;
+  let dose = sized ? round1(amount / (baseRatio + icePerGram)) : preferences.unit === 'dose' ? round1(amount) : round1(amount / baseRatio);
   if (dose < limits.dose[0] || dose > limits.dose[1]) throw new XBloomGeneratorError('DOSE_RANGE');
-  const water = preferences.unit === 'water' ? Math.round(amount) : Math.round(dose * baseRatio);
+  const water = !sized && preferences.unit === 'water' ? Math.round(amount) : Math.round(dose * baseRatio);
   if (water < WATER[0] || water > WATER[1]) throw new XBloomGeneratorError('WATER_RANGE');
-  if (preferences.unit === 'water') dose = round1(water / baseRatio);
+  if (!sized && preferences.unit === 'water') dose = round1(water / baseRatio);
 
   // Keep the best match's pour structure; scale volumes and re-close the sum.
   const scale = water / template.water;
   const delta = temperature - template.temperature;
   const pours: GeneratedPour[] = template.pours.map(p => ({
     volume: Math.max(1, Math.round(p.volume! * scale)),
-    temperature: p.temperature === null ? null : clamp(Math.round(p.temperature + delta), limits.temperature),
-    flow_rate: p.flow_rate, pause_seconds: p.pause_seconds, pattern_code: p.pattern_code,
+    temperature: p.temperature == null ? null : clamp(Math.round(p.temperature + delta), limits.temperature),
+    // Sources may omit a field entirely; a missing value is unknown, never zero.
+    flow_rate: p.flow_rate ?? null, pause_seconds: p.pause_seconds ?? null, pattern_code: p.pattern_code ?? null,
   }));
   pours[pours.length - 1].volume = water - pours.slice(0, -1).reduce((sum, p) => sum + p.volume, 0);
   const timed = pours.every(p => p.flow_rate !== null && p.flow_rate > 0 && p.pause_seconds !== null);
   const seconds = timed ? Math.round(pours.reduce((sum, p) => sum + p.volume / p.flow_rate! + p.pause_seconds!, 0)) : null;
+  const ice = iced ? Math.max(0, Math.round(dose * (HOT_RATIO - water / dose) * iceFactor / 5) * 5) : null;
   const moved = (value: number) => value !== 0 ? 'preference' as const : 'published' as const;
   const result: GeneratedXBloom = {
-    model: preferences.model, cup: preferences.cup, serving: preferences.serving === 'hot' ? 'hot' : 'iced',
+    model: preferences.model, cup: preferences.cup, serving: iced ? 'iced' : 'hot',
     dose, water, ratio: Math.round(water / dose * 10) / 10, grind, temperature, pours, seconds,
-    templateId: template.id, sourceIds: usable.map(b => b.id),
+    templateId: template.id, sourceIds: usable.map(b => b.id), basis: options.general ? 'general' : 'coffee', ice,
+    invented: !!options.invented, favored: usable.filter(b => options.favored?.includes(b.id)).length,
     provenance: { grind: moved(grind - baseGrind), temperature: moved(temperature - Math.round(baseTemperature)), ratio: 'published',
       pours: Math.abs(scale - 1) < 0.001 && delta === 0 ? 'published' : 'estimate', seconds: 'estimate' },
     tasteShift: { grind: grind - baseGrind, temperature: temperature - Math.round(baseTemperature) },
@@ -125,7 +176,7 @@ export function generatedDraft(recipe: GeneratedXBloom, template: RecipeItem, co
     values: { method: 'xbloom', visibility: 'private', name: `${name} · ${recipe.model}`, coffee_name: name, roaster_name: '',
       dose: String(recipe.dose), water: String(recipe.water), temperature: String(recipe.temperature), seconds: recipe.seconds ? String(recipe.seconds) : '',
       grind: String(recipe.grind), steps, source_url: template.sources[0]?.url ?? '',
-      description: `${recipe.model} · ${recipe.cup}\n${ar ? `وصفة مولّدة من أقرب ${recipe.sourceIds.length} وصفات منشورة لنفس الجهاز. لم تُختبر على جهازك؛ عدّلها حسب الطعم.` : `Generated from the ${recipe.sourceIds.length} closest published recipes for the same machine. Not tested on your machine; adjust to taste.`}\n${ar ? 'الماء هو ماء الاستخلاص ولا يشمل الثلج.' : 'Water is brew water and excludes ice.'}` },
+      description: `${recipe.model} · ${recipe.cup}\n${ar ? `وصفة مولّدة من أقرب ${recipe.sourceIds.length} وصفات منشورة لنفس الجهاز. لم تُختبر على جهازك؛ عدّلها حسب الطعم.` : `Generated from the ${recipe.sourceIds.length} closest published recipes for the same machine. Not tested on your machine; adjust to taste.`}\n${recipe.ice ? (ar ? `الماء هو ماء الاستخلاص. الثلج في الكوب: حوالي ${recipe.ice} g (تقدير).` : `Water is brew water. Ice in the cup: about ${recipe.ice} g (estimate).`) : (ar ? 'الماء هو ماء الاستخلاص ولا يشمل الثلج.' : 'Water is brew water and excludes ice.')}` },
     brew: { ...template.sourceBrew, model: recipe.model, cup_type: recipe.cup, dose: recipe.dose, water_ml: recipe.water, poured_water_ml: recipe.water,
       ratio: recipe.water / recipe.dose, grind_size: recipe.grind,
       pours: recipe.pours.map((p, i) => ({ ...template.sourceBrew.pours![i], ...p })),

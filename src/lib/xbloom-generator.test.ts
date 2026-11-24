@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
-import { generateXBloom, generatedDraft, validateGenerated, XBloomGeneratorError, type GeneratedXBloom } from '../../apps/mobile/src/xbloomGenerator';
+import { generateXBloom, generatedDraft, tasteForNote, validateGenerated, XBloomGeneratorError, type GeneratedXBloom } from '../../apps/mobile/src/xbloomGenerator';
 import type { RecipeItem } from '../../apps/mobile/src/data';
 import type { XBloomPreferences } from '../../apps/mobile/src/xbloomDraft';
 
@@ -81,5 +81,60 @@ describe('xBloom recipe generator', () => {
     expect(draft.values.description).toContain('Not tested on your machine');
     expect(draft.brew).toMatchObject({ adapted: true, adapted_from_recipe_id: 'a', poured_water_ml: 240 });
     expect(draft.values.steps.split('\n')).toHaveLength(4);
+  });
+  it('falls back to a general pool with equal weights and the most typical pour structure', () => {
+    const pool = [recipe('a', { grind: 40 }), recipe('b', { grind: 56 }), recipe('typical', { grind: 57, pours: [pour(50, 92, 3, 30), pour(95), pour(95)] }), recipe('c', { grind: 58 }), recipe('d', { grind: 70 }),
+      recipe('e', { grind: 57 }), recipe('f', { grind: 57 })];
+    const r = generateXBloom(pool, prefs(), '', { general: true });
+    expect(r.basis).toBe('general'); expect(r.sourceIds).toHaveLength(7); expect(r.grind).toBe(57);
+    expect(['typical', 'e', 'f']).toContain(r.templateId);
+    expect(generateXBloom(pool, prefs()).basis).toBe('coffee');
+    expect(generateXBloom(pool, prefs()).sourceIds).toHaveLength(5);
+  });
+  it('estimates ice only for iced drinks, from the gap to the hot ratio, by chosen level', () => {
+    const iced = [recipe('i', { serving: 'iced', pours: [pour(40, 92, 3, 30), pour(60), pour(65)] })]; // 165 ml on 15 g = 1:11
+    const p = prefs({ serving: 'cold_or_iced', unit: 'dose', amount: '15' });
+    const regular = generateXBloom(iced, p, '', { ice: 'regular' });
+    expect(regular.water).toBe(165); expect(regular.ice).toBe(75);
+    expect(generateXBloom(iced, p, '', { ice: 'light' }).ice).toBe(55);
+    expect(generateXBloom(iced, p, '', { ice: 'extra' }).ice).toBe(100);
+    expect(generateXBloom(iced, p).ice).toBe(75);
+    expect(generateXBloom([recipe('a')], prefs()).ice).toBeNull();
+    const draft = generatedDraft(regular, iced[0], 'Guji', false);
+    expect(draft.values.description).toContain('about 75 g');
+  });
+  it('sizes the recipe from the finished drink: water when hot, water plus ice when iced', () => {
+    const hot = generateXBloom([recipe('a')], prefs(), '', { drinkSize: 250 });
+    expect(hot.water).toBe(250); expect(hot.dose).toBe(15.6); expect(hot.ice).toBeNull();
+    const iced = [recipe('i', { serving: 'iced', pours: [pour(40, 92, 3, 30), pour(60), pour(65)] })]; // 1:11
+    const p = prefs({ serving: 'cold_or_iced' });
+    for (const [ice, size] of [['regular', 250], ['light', 200], ['extra', 300]] as const) {
+      const r = generateXBloom(iced, p, '', { drinkSize: size, ice });
+      expect(Math.abs(r.water + r.ice! - size)).toBeLessThanOrEqual(6);
+      expect(r.pours.reduce((sum, x) => sum + x.volume, 0)).toBe(r.water);
+    }
+    expect(generateXBloom(iced, p, '', { drinkSize: 250 }).dose).toBe(15.6);
+    expect(reason(() => generateXBloom([recipe('o', { model: 'Original' })], prefs({ model: 'Original' }), '', { drinkSize: 200 }))).toBe('DOSE_RANGE');
+    expect(reason(() => generateXBloom([recipe('a')], prefs(), '', { drinkSize: 0 }))).toBe('AMOUNT');
+  });
+  it('invents a recipe for a rare note: its few recipes count more and lend the pours, and its taste family applies', () => {
+    const general = [recipe('g1', { grind: 56 }), recipe('g2', { grind: 56 }), recipe('g3', { grind: 57 }), recipe('g4', { grind: 58 })];
+    const coconut = recipe('coco', { grind: 60, pours: [pour(60, 93, 3, 30), pour(180)] });
+    const plain = generateXBloom([coconut, ...general], prefs(), '', { general: true });
+    const invented = generateXBloom([coconut, ...general], prefs(), '', { general: true, favored: ['coco'], noteTaste: tasteForNote('coconut'), invented: true });
+    expect(plain.grind).toBe(57); expect(plain.invented).toBe(false); expect(plain.favored).toBe(0);
+    // Counting coco three times moves the median from 57 to 58; the "full" family then goes two steps finer.
+    expect(invented.grind).toBe(56); expect(invented.tasteShift.grind).toBe(-2);
+    expect(invented.templateId).toBe('coco'); expect(invented.pours).toHaveLength(2);
+    expect(invented.invented).toBe(true); expect(invented.favored).toBe(1); expect(invented.provenance.grind).toBe('preference');
+    // The person's own taste wins over the note's family.
+    expect(generateXBloom([coconut, ...general], prefs(), 'fruity', { general: true, favored: ['coco'], noteTaste: 'full' }).tasteShift.grind).toBe(1);
+  });
+  it('maps notes to taste families in Arabic and English and admits when it knows nothing', () => {
+    expect(tasteForNote('coconut')).toBe('full'); expect(tasteForNote('جوز الهند')).toBe('full');
+    expect(tasteForNote('فراولة')).toBe('fruity'); expect(tasteForNote('Passionfruit')).toBe('fruity');
+    expect(tasteForNote('ياسمين')).toBe('floral'); expect(tasteForNote('black tea')).toBe('floral');
+    expect(tasteForNote('تمر')).toBe('sweet'); expect(tasteForNote('dark chocolate')).toBe('chocolate');
+    expect(tasteForNote('ليمون')).toBe('bright'); expect(tasteForNote('زعفران')).toBe(''); expect(tasteForNote('  ')).toBe('');
   });
 });

@@ -158,13 +158,70 @@ test('xBloom planner applies machine and cup choices and opens the selected sour
   await page.goto('/');
   await page.getByRole('button', { name: 'xBloom', exact: true }).first().click();
   const planner = page.getByTestId('xbloom-planner');
-  await planner.getByRole('button', { name: 'اعثر على وصفة xBloom لبنّك', exact: true }).click();
-  await planner.getByLabel('اسم البن أو المحمصة أو نص الكيس', { exact: true }).fill('فراولة');
-  await planner.getByRole('button', { name: 'ابحث عن وصفات متوافقة', exact: true }).click();
-  await expect(planner.getByText(program.title_ar, { exact: true })).toBeVisible();
+  // The generator is open by default on the xBloom tab.
+  await planner.getByLabel('اسم البن أو المحمصة (اختياري)', { exact: true }).fill('فراولة');
+  // The generator always ends with a recipe built from published ones.
+  // Each choice is one line; its questions open in a bottom sheet.
+  const sheet = page.getByTestId('xbloom-sheet');
+  await planner.getByRole('button', { name: 'المشروب: حار · 240 ml', exact: true }).click();
+  await sheet.getByRole('button', { name: '300 ml', exact: true }).click();
+  await sheet.getByRole('button', { name: 'تم', exact: true }).click();
+  await expect(planner.getByRole('button', { name: 'المشروب: حار · 300 ml', exact: true })).toBeVisible();
+  await planner.getByRole('button', { name: 'الإيحاء: بدون', exact: true }).click();
+  await sheet.getByRole('button', { name: 'فراولة', exact: true }).click();
+  await sheet.getByRole('button', { name: 'تم', exact: true }).click();
+  await planner.getByRole('button', { name: 'حضّر الوصفة', exact: true }).click();
+  const generated = planner.getByTestId('xbloom-generated');
+  await expect(generated).toBeVisible();
+  await expect(generated).toContainText('20 g');
+  await expect(generated).toContainText('300 ml');
+  await expect(generated).toContainText('1:15');
+  await expect(generated).not.toContainText('undefined');
+  await expect(generated.getByRole('button', { name: 'افتح في xBloom', exact: true })).toBeVisible();
+  requests.length = 0;
+  // The generated card lists the recipes it builds on, behind its details.
+  await generated.getByRole('button', { name: 'من وين جت الأرقام، ولو الطعم مو مضبوط', exact: true }).click();
+  await expect(generated.getByRole('button', { name: program.title_ar, exact: true })).toBeVisible();
+  await planner.getByRole('button', { name: 'عرض الوصفات المنشورة لهالإعدادات', exact: true }).click();
+  await expect(planner.getByRole('heading', { name: program.title_ar, exact: true })).toBeVisible();
   expect(requests).toEqual([{ model: 'Studio', cup: 'ilike.Omni', serving: 'hot' }]);
   await expect(page.getByText('إجمالي وصفات xBloom: 3,312', { exact: true })).toBeVisible();
   await planner.getByRole('button', { name: 'تفاصيل الوصفة', exact: true }).click();
   await expect(page.getByTestId('recipe-detail')).toBeVisible();
   await expect(page.getByTestId('recipe-detail').getByTestId('coffee-fallback-art')).toBeVisible();
+});
+
+test('a search with no published match hands the coffee to the generator, which still returns a recipe', async ({ page }) => {
+  const program = { ...recipes[0], serving_style: 'hot', source_brew_parameters: { dose: 15, water_ml: 240, grind_size: 55, model: 'Studio', cup_type: 'Omni',
+    pours: [{ volume: 60, temperature: 93, pause_seconds: 20 }, { volume: 90, temperature: 92, pause_seconds: 15 }, { volume: 90, temperature: 90, pause_seconds: 10 }] } };
+  await page.route('https://mobilefixture.supabase.co/**', async route => {
+    const url = new URL(route.request().url());
+    if (url.pathname.endsWith('/recipes') && route.request().method() === 'HEAD') {
+      return route.fulfill({ status: 200, headers: { 'content-range': '*/3312', 'access-control-expose-headers': 'content-range' }, body: '' });
+    }
+    if (url.pathname.endsWith('/rpc/search_public_recipes')) {
+      const body = route.request().postDataJSON();
+      // Nothing published is named like this coffee; the general pool for the machine exists.
+      const found = body.p_query ? [] : [program];
+      return route.fulfill({ status: 200, contentType: 'application/json', headers: { 'content-range': found.length ? '0-0/1' : '*/0', 'access-control-expose-headers': 'content-range' }, body: JSON.stringify(found) });
+    }
+    return route.fulfill({ contentType: 'application/json', body: '[]' });
+  });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'xBloom', exact: true }).first().click();
+  // A note with too few published recipes is invented on top of the general base, and says so.
+  await page.getByTestId('xbloom-planner').getByRole('button', { name: 'الإيحاء: بدون', exact: true }).click();
+  await page.getByTestId('xbloom-sheet').getByRole('button', { name: 'جوز الهند', exact: true }).click();
+  await page.getByTestId('xbloom-sheet').getByRole('button', { name: 'تم', exact: true }).click();
+  await page.getByLabel('ابحث عن وصفة', { exact: true }).fill('كوكونيت');
+  await page.getByRole('button', { name: 'اصنع وصفة xBloom لـ«كوكونيت»', exact: true }).click();
+  const generated = page.getByTestId('xbloom-planner').getByTestId('xbloom-generated');
+  await expect(generated).toBeVisible();
+  // The default 240 ml of water at the published 1:16.
+  await expect(generated).toContainText('15 g');
+  await expect(generated).toContainText('240 ml');
+  await expect(generated).toContainText('1:16');
+  await expect(generated).toContainText('وصفة مخترعة');
+  await expect(generated).toContainText('«جوز الهند»');
+  await expect(generated).not.toContainText('undefined');
 });
