@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
-import { generateXBloom, generatedDraft, validateGenerated, XBloomGeneratorError, type GeneratedXBloom } from '../../apps/mobile/src/xbloomGenerator';
+import { generateXBloom, generatedDraft, tasteForNote, validateGenerated, XBloomGeneratorError, type GeneratedXBloom } from '../../apps/mobile/src/xbloomGenerator';
 import type { RecipeItem } from '../../apps/mobile/src/data';
 import type { XBloomPreferences } from '../../apps/mobile/src/xbloomDraft';
 
@@ -116,5 +116,25 @@ describe('xBloom recipe generator', () => {
     expect(generateXBloom(iced, p, '', { drinkSize: 250 }).dose).toBe(15.6);
     expect(reason(() => generateXBloom([recipe('o', { model: 'Original' })], prefs({ model: 'Original' }), '', { drinkSize: 200 }))).toBe('DOSE_RANGE');
     expect(reason(() => generateXBloom([recipe('a')], prefs(), '', { drinkSize: 0 }))).toBe('AMOUNT');
+  });
+  it('invents a recipe for a rare note: its few recipes count more and lend the pours, and its taste family applies', () => {
+    const general = [recipe('g1', { grind: 56 }), recipe('g2', { grind: 56 }), recipe('g3', { grind: 57 }), recipe('g4', { grind: 58 })];
+    const coconut = recipe('coco', { grind: 60, pours: [pour(60, 93, 3, 30), pour(180)] });
+    const plain = generateXBloom([coconut, ...general], prefs(), '', { general: true });
+    const invented = generateXBloom([coconut, ...general], prefs(), '', { general: true, favored: ['coco'], noteTaste: tasteForNote('coconut'), invented: true });
+    expect(plain.grind).toBe(57); expect(plain.invented).toBe(false); expect(plain.favored).toBe(0);
+    // Counting coco three times moves the median from 57 to 58; the "full" family then goes two steps finer.
+    expect(invented.grind).toBe(56); expect(invented.tasteShift.grind).toBe(-2);
+    expect(invented.templateId).toBe('coco'); expect(invented.pours).toHaveLength(2);
+    expect(invented.invented).toBe(true); expect(invented.favored).toBe(1); expect(invented.provenance.grind).toBe('preference');
+    // The person's own taste wins over the note's family.
+    expect(generateXBloom([coconut, ...general], prefs(), 'fruity', { general: true, favored: ['coco'], noteTaste: 'full' }).tasteShift.grind).toBe(1);
+  });
+  it('maps notes to taste families in Arabic and English and admits when it knows nothing', () => {
+    expect(tasteForNote('coconut')).toBe('full'); expect(tasteForNote('جوز الهند')).toBe('full');
+    expect(tasteForNote('فراولة')).toBe('fruity'); expect(tasteForNote('Passionfruit')).toBe('fruity');
+    expect(tasteForNote('ياسمين')).toBe('floral'); expect(tasteForNote('black tea')).toBe('floral');
+    expect(tasteForNote('تمر')).toBe('sweet'); expect(tasteForNote('dark chocolate')).toBe('chocolate');
+    expect(tasteForNote('ليمون')).toBe('bright'); expect(tasteForNote('زعفران')).toBe(''); expect(tasteForNote('  ')).toBe('');
   });
 });
