@@ -47,7 +47,7 @@ export function createXBloomShareHandler(createClient: typeof supabaseCreateClie
     let tableId: number | null = null; let keys = before.keys;
     if (!before.found) {
       const added = await post('tuRecipeAdd.tuhtml', encryptForm({ ...authForm(session.memberId, session.token), ...cloudRecipe(recipe, cloudName, now()) }));
-      if (added.result !== 'success') return { link: null, expired: true, keys: Object.keys(added) };
+      if (added.result !== 'success') return { link: null, expired: false, keys: Object.keys(added) };
       const link = findShareLink(added);
       if (link) return { link, expired: false, keys: [] };
       tableId = Number.isSafeInteger(Number(added.tableId)) ? Number(added.tableId) : null;
@@ -77,41 +77,44 @@ export function createXBloomShareHandler(createClient: typeof supabaseCreateClie
       recipe = parseShareRecipe(JSON.parse(text)?.recipe);
     } catch { return reply({ error: 'INVALID_INPUT' }, 400); }
 
-    const admin = createClient(url, service), hash = await recipeHash(recipe);
-    const { data: existing, error: lookupError } = await admin.from('xbloom_shared_recipes').select('share_id').eq('recipe_hash', hash).maybeSingle();
+    const admin = createClient(url, service), hash = await recipeHash(recipe, user.id);
+    const cloudName = `BM ${hash.slice(0, 8)} ${recipe.name}`.trim().slice(0, 50);
+    const { data: existing, error: lookupError } = await admin.from('xbloom_shared_recipes').select('share_id').eq('recipe_hash', hash).eq('user_id', user.id).maybeSingle();
     if (lookupError) return reply({ error: 'SERVICE_UNAVAILABLE' }, 503);
-    if (existing?.share_id) return reply({ status: 'ok', api: SHARE_API, link: shareLink(existing.share_id), reused: true });
+    if (existing?.share_id) {
+      try {
+        const detail = await post('RecipeDetail.html', JSON.stringify(publicForm(existing.share_id)), true);
+        if (!matchesShared(detail, recipe, cloudName)) return reply({ error: 'SHARE_UNVERIFIED' }, 502);
+        return reply({ status: 'ok', api: SHARE_API, link: shareLink(existing.share_id), reused: true });
+      } catch { return reply({ error: 'SHARE_UNAVAILABLE' }, 502); }
+    }
 
     const since = new Date(now() - 86400000).toISOString();
     const { count, error: countError } = await admin.from('xbloom_shared_recipes').select('recipe_hash', { count: 'exact', head: true }).eq('user_id', user.id).gte('created_at', since);
     if (countError) return reply({ error: 'SERVICE_UNAVAILABLE' }, 503);
     if ((count ?? 0) >= DAILY_LIMIT) return reply({ error: 'RATE_LIMITED' }, 429);
 
-    // A claim abandoned by a crashed request must not block the recipe forever.
-    await admin.from('xbloom_shared_recipes').delete().eq('recipe_hash', hash).is('share_id', null).lt('created_at', new Date(now() - 120000).toISOString());
+    // Never steal a pending claim: an ambiguous external write may still complete.
     // Claim the hash first so two taps or a retry can never save the recipe twice.
     const { error: claimError } = await admin.from('xbloom_shared_recipes').insert({ recipe_hash: hash, user_id: user.id, model: recipe.model });
     if (claimError) return reply({ error: claimError.code === '23505' ? 'SHARE_IN_PROGRESS' : 'SERVICE_UNAVAILABLE' }, claimError.code === '23505' ? 409 : 503);
-    const release = () => admin.from('xbloom_shared_recipes').delete().eq('recipe_hash', hash).is('share_id', null);
+    // Preserve ambiguous claims for operator reconciliation; never blindly retry an external write.
     try {
-      const cloudName = `BM ${hash.slice(0, 8)} ${recipe.name}`.trim().slice(0, 50);
       let result = await save(cached ?? await login(email, password), recipe, cloudName);
       if (result.expired) result = await save(await login(email, password), recipe, cloudName);
       const id = shareId(result.link);
       if (!id) {
         // Field names only, never values: shows where xBloom put the link if its app changed.
         console.error(JSON.stringify({ event: 'xbloom_share_link_missing', expired: result.expired, keys: result.keys.slice(0, 80) }));
-        await release();
         return reply({ error: 'SHARE_UNAVAILABLE' }, 502);
       }
       const detail = await post('RecipeDetail.html', JSON.stringify(publicForm(id)), true);
-      if (!matchesShared(detail, recipe)) { await release(); return reply({ error: 'SHARE_UNVERIFIED' }, 502); }
-      const { error: storeError } = await admin.from('xbloom_shared_recipes').update({ share_id: id }).eq('recipe_hash', hash);
-      if (storeError) console.error(JSON.stringify({ event: 'xbloom_share_store_failed' }));
+      if (!matchesShared(detail, recipe, cloudName)) { return reply({ error: 'SHARE_UNVERIFIED' }, 502); }
+      const { data: stored, error: storeError } = await admin.from('xbloom_shared_recipes').update({ share_id: id }).eq('recipe_hash', hash).eq('user_id', user.id).select('share_id').maybeSingle();
+      if (storeError || stored?.share_id !== id) return reply({ error: 'SERVICE_UNAVAILABLE' }, 503);
       return reply({ status: 'ok', api: SHARE_API, link: shareLink(id), reused: false });
     } catch (failure) {
       console.error(JSON.stringify({ event: 'xbloom_share_failed', reason: failure instanceof Error ? failure.message.slice(0, 40) : 'unknown' }));
-      await release();
       return reply({ error: 'SHARE_UNAVAILABLE' }, 502);
     }
   };
