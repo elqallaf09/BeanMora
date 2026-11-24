@@ -38,7 +38,7 @@ Reading a coffee bag photo works on your device by default. Smart reading is off
 
 ### xBloom recipes
 
-When you press **Open in xBloom** on a generated recipe, BeanMora saves that recipe (amounts, grind, temperatures, pours and the name you entered) to a BeanMora-owned xBloom account and opens its xBloom share link. This uses an unofficial xBloom interface and is not operated by xBloom. BeanMora keeps a record linking a fingerprint of the recipe to your account so the same recipe is saved only once, and to apply a daily limit. Your BeanMora account details are not sent to xBloom. The xBloom app and its services have their own privacy practices.
+When you press **Open in xBloom** on a generated recipe, BeanMora saves that recipe (amounts, grind, temperatures, pours and the name you entered) to a BeanMora-owned xBloom account and opens its xBloom share link. This uses an unofficial xBloom interface and is not operated by xBloom. BeanMora keeps a record linking a fingerprint of the recipe to your account to reuse verified links for the same named recipe within your account and to apply a daily limit. The external recipe name includes a short technical fingerprint. Anyone with the share link may be able to view the recipe. Avoid personal information in recipe names. Deleting your BeanMora account removes its local sharing records but does not automatically delete recipes or links stored at xBloom; their retention period is not confirmed. Contact BeanMora support for assistance with external removal, which cannot be guaranteed. Your BeanMora account details are not sent to xBloom. The xBloom app and its services have their own privacy practices.
 
 ### Device storage and permissions
 
@@ -92,7 +92,7 @@ We update this policy when the service's data practices change. The effective da
 
 ### وصفات xBloom
 
-عند ضغطك «افتح في xBloom» على وصفة مولّدة، يحفظ BeanMora هذه الوصفة (الكميات والطحنة والحرارة والصبات والاسم الذي كتبته) في حساب xBloom يملكه BeanMora ويفتح رابط مشاركتها في xBloom. يتم ذلك عبر واجهة غير رسمية لا تديرها شركة xBloom. يحتفظ BeanMora بسجل يربط بصمة الوصفة بحسابك حتى لا تُحفظ الوصفة نفسها أكثر من مرة ولتطبيق حد يومي. لا تُرسل بيانات حسابك في BeanMora إلى xBloom. لتطبيق xBloom وخدماته ممارسات خصوصية خاصة بها.
+عند ضغطك «افتح في xBloom» على وصفة مولّدة، يحفظ BeanMora هذه الوصفة (الكميات والطحنة والحرارة والصبات والاسم الذي كتبته) في حساب xBloom يملكه BeanMora ويفتح رابط مشاركتها في xBloom. يتم ذلك عبر واجهة غير رسمية لا تديرها شركة xBloom. يحتفظ BeanMora بسجل يربط بصمة الوصفة بحسابك لإعادة استخدام الروابط المتحقق منها للوصفة نفسها بالاسم نفسه داخل حسابك ولتطبيق حد يومي. يتضمن اسم الوصفة الخارجي بصمة تقنية قصيرة. قد يتمكن أي شخص لديه رابط المشاركة من رؤية الوصفة؛ تجنّب إدخال معلومات شخصية في اسمها. حذف حساب BeanMora يزيل سجلات المشاركة المحلية المرتبطة به، لكنه لا يحذف تلقائيًا الوصفات أو الروابط المحفوظة لدى xBloom، ولم تُتحقق مدة احتفاظه بها. يمكنك التواصل مع دعم BeanMora للمساعدة في طلب الحذف الخارجي دون ضمان إتمامه. لا تُرسل بيانات حسابك في BeanMora إلى xBloom. لتطبيق xBloom وخدماته ممارسات خصوصية خاصة بها.
 
 ### التخزين والأذونات على الجهاز
 
