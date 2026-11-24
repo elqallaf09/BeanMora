@@ -161,7 +161,8 @@ test('xBloom planner applies machine and cup choices and opens the selected sour
   // The generator is open by default on the xBloom tab.
   await planner.getByLabel('اسم البن أو المحمصة (اختياري)', { exact: true }).fill('فراولة');
   // The generator always ends with a recipe built from published ones.
-  await planner.getByRole('button', { name: 'كبير · 300 ml', exact: true }).click();
+  await planner.getByRole('button', { name: '300 ml', exact: true }).click();
+  await planner.getByRole('button', { name: 'فراولة', exact: true }).click();
   await planner.getByRole('button', { name: 'حضّر الوصفة', exact: true }).click();
   const generated = planner.getByTestId('xbloom-generated');
   await expect(generated).toBeVisible();
@@ -198,14 +199,17 @@ test('a search with no published match hands the coffee to the generator, which 
   });
   await page.goto('/');
   await page.getByRole('button', { name: 'xBloom', exact: true }).first().click();
+  // A note with too few published recipes must not decide the recipe alone.
+  await page.getByTestId('xbloom-planner').getByRole('button', { name: 'جوز الهند', exact: true }).click();
   await page.getByLabel('ابحث عن وصفة', { exact: true }).fill('كوكونيت');
   await page.getByRole('button', { name: 'اصنع وصفة xBloom لـ«كوكونيت»', exact: true }).click();
   const generated = page.getByTestId('xbloom-planner').getByTestId('xbloom-generated');
   await expect(generated).toBeVisible();
-  // A 250 ml hot drink at the published 1:16.
-  await expect(generated).toContainText('15.6 g');
-  await expect(generated).toContainText('250 ml');
+  // The default 240 ml of water at the published 1:16.
+  await expect(generated).toContainText('15 g');
+  await expect(generated).toContainText('240 ml');
   await expect(generated).toContainText('1:16');
   await expect(generated).toContainText('وصفة عامة');
+  await expect(generated).toContainText('«جوز الهند»');
   await expect(generated).not.toContainText('undefined');
 });
