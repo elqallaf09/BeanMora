@@ -181,8 +181,8 @@ test('xBloom planner applies machine and cup choices and opens the selected sour
 });
 
 test('a search with no published match hands the coffee to the generator, which still returns a recipe', async ({ page }) => {
-  const program = { ...recipes[0], serving_style: 'iced', source_brew_parameters: { dose: 15, water_ml: 165, grind_size: 55, model: 'Studio', cup_type: 'Omni',
-    pours: [{ volume: 45, temperature: 93, pause_seconds: 20 }, { volume: 60, temperature: 92, pause_seconds: 15 }, { volume: 60, temperature: 90, pause_seconds: 10 }] } };
+  const program = { ...recipes[0], serving_style: 'hot', source_brew_parameters: { dose: 15, water_ml: 240, grind_size: 55, model: 'Studio', cup_type: 'Omni',
+    pours: [{ volume: 60, temperature: 93, pause_seconds: 20 }, { volume: 90, temperature: 92, pause_seconds: 15 }, { volume: 90, temperature: 90, pause_seconds: 10 }] } };
   await page.route('https://mobilefixture.supabase.co/**', async route => {
     const url = new URL(route.request().url());
     if (url.pathname.endsWith('/recipes') && route.request().method() === 'HEAD') {
@@ -198,15 +198,14 @@ test('a search with no published match hands the coffee to the generator, which 
   });
   await page.goto('/');
   await page.getByRole('button', { name: 'xBloom', exact: true }).first().click();
-  await page.getByRole('button', { name: 'بارد ومثلّج', exact: true }).first().click();
   await page.getByLabel('ابحث عن وصفة', { exact: true }).fill('كوكونيت');
   await page.getByRole('button', { name: 'اصنع وصفة xBloom لـ«كوكونيت»', exact: true }).click();
   const generated = page.getByTestId('xbloom-planner').getByTestId('xbloom-generated');
   await expect(generated).toBeVisible();
-  // 250 ml drink at the published 1:11 with regular ice: 15.6 g, 172 ml water, about 80 g ice.
+  // A 250 ml hot drink at the published 1:16.
   await expect(generated).toContainText('15.6 g');
-  await expect(generated).toContainText('172 ml');
-  await expect(generated).toContainText('80 g');
+  await expect(generated).toContainText('250 ml');
+  await expect(generated).toContainText('1:16');
   await expect(generated).toContainText('وصفة عامة');
   await expect(generated).not.toContainText('undefined');
 });
