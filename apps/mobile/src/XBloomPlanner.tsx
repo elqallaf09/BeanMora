@@ -73,8 +73,9 @@ export function XBloomPlanner({ openRecipe, coffees = [], onDraft, initialOpen =
     reset();
     setP(v => {
       const next = { ...v, [key]: value };
-      // A preset water amount has to stay one this machine and serving can brew.
-      if ((key === 'model' || key === 'serving') && !custom && !WATER_ML[next.model][next.serving].includes(Number(next.amount))) {
+      // Hot and iced start from the amount most published recipes use; a machine
+      // change only resets an amount that machine cannot brew.
+      if (!custom && (key === 'serving' ? next.serving !== v.serving : key === 'model' && !WATER_ML[next.model][next.serving].includes(Number(next.amount)))) {
         return { ...next, unit: 'water', amount: String(defaultWater(next.serving)) };
       }
       return next;
