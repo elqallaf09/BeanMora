@@ -172,8 +172,10 @@ test('xBloom planner applies machine and cup choices and opens the selected sour
   await expect(generated).not.toContainText('undefined');
   await expect(generated.getByRole('button', { name: 'افتح في xBloom', exact: true })).toBeVisible();
   requests.length = 0;
+  // The generated card lists the recipes it builds on and opens them.
+  await expect(generated.getByRole('button', { name: program.title_ar, exact: true })).toBeVisible();
   await planner.getByRole('button', { name: 'عرض الوصفات المنشورة لهالإعدادات', exact: true }).click();
-  await expect(planner.getByText(program.title_ar, { exact: true })).toBeVisible();
+  await expect(planner.getByRole('heading', { name: program.title_ar, exact: true })).toBeVisible();
   expect(requests).toEqual([{ model: 'Studio', cup: 'ilike.Omni', serving: 'hot' }]);
   await expect(page.getByText('إجمالي وصفات xBloom: 3,312', { exact: true })).toBeVisible();
   await planner.getByRole('button', { name: 'تفاصيل الوصفة', exact: true }).click();
