@@ -44,16 +44,17 @@ describe('xBloom cloud encoding', () => {
     expect(pours).toHaveLength(2); expect(pours[0]).toMatchObject({ theName: 'Bloom', volume: 45, pattern: 2, pausing: 40, isEnableVibrationAfter: 2 });
     expect(cloudRecipe(parseShareRecipe({ ...recipe, model: 'Original', cup: 'xPod' }), 'x', 1)).toMatchObject({ cupType: 1, adaptedModel: 1 });
   });
-  it('hashes the recipe, not its name, and only trusts share-h5 links', async () => {
+  it('hashes the recipe including its name, and only trusts share-h5 links', async () => {
     const a = await recipeHash(parseShareRecipe(recipe)), b = await recipeHash(parseShareRecipe({ ...recipe, name: 'Other' }));
-    expect(a).toBe(b); expect(a).toMatch(/^[0-9a-f]{64}$/);
+    expect(a).not.toBe(b); expect(await recipeHash(parseShareRecipe(recipe), 'a')).not.toBe(await recipeHash(parseShareRecipe(recipe), 'b')); expect(a).toMatch(/^[0-9a-f]{64}$/);
     expect(await recipeHash(parseShareRecipe({ ...recipe, grind: 58 }))).not.toBe(a);
     expect(shareId(LINK)).toBe('rN3687QQ5UyIyI5Xps9apg==');
     expect(shareId('https://evil.example/?id=rN3687QQ5UyIyI5Xps9apg%3D%3D')).toBeNull();
     expect(shareId('https://share-h5.xbloom.com.evil.example/?id=abcdefgh')).toBeNull();
     expect(findShareLink({ recipeVo: { shareRecipeLink: LINK } })).toBe(LINK);
     expect(findShareLink({ info: LINK })).toBeNull();
-    expect(matchesShared({ result: 'success', recipeVo: { dose: 15, grinderSize: 57, pourList: [{ volume: 45 }, { volume: 195 }] } }, parseShareRecipe(recipe))).toBe(true);
+    expect(matchesShared({ result: 'success', recipeVo: cloudRecipe(parseShareRecipe(recipe), recipe.name, 1) }, parseShareRecipe(recipe))).toBe(true);
+    expect(matchesShared({ result: 'success', recipeVo: { dose: 15, grinderSize: 57, pourList: [{ volume: 45 }, { volume: 195 }] } }, parseShareRecipe(recipe))).toBe(false);
     expect(matchesShared({ result: 'success', recipeVo: { dose: 15, grinderSize: 57, pourList: [{ volume: 45 }, { volume: 190 }] } }, parseShareRecipe(recipe))).toBe(false);
   });
 });
@@ -62,7 +63,7 @@ const env: Record<string, string> = { SUPABASE_URL: 'https://example.test', SUPA
   XBLOOM_SHARE_ENABLED: 'true', XBLOOM_SHARE_EMAIL: 'fixture@example.test', XBLOOM_SHARE_PASSWORD: 'fixture-only' };
 function fixture(options: { cloud?: (endpoint: string) => unknown; extraEnv?: Record<string, string>; used?: number } = {}) {
   const rows = new Map<string, Record<string, unknown>>();
-  const detail = { result: 'success', recipeVo: { dose: 15, grinderSize: 57, pourList: [{ volume: 45 }, { volume: 195 }] } };
+  let detail: unknown;
   const cloud = vi.fn(async (input: RequestInfo | URL) => {
     const endpoint = String(input).split('/').pop()!;
     const custom = options.cloud?.(endpoint);
@@ -83,7 +84,7 @@ function fixture(options: { cloud?: (endpoint: string) => unknown; extraEnv?: Re
         delete() { mode = 'delete'; return chain; },
         eq(column: string, v: string) { if (column === 'recipe_hash') hash = v; return chain; },
         is() { return chain; }, lt() { mode = 'stale'; return chain; }, gte() { return chain; },
-        async maybeSingle() { return { data: rows.get(hash) ?? null, error: null }; },
+        async maybeSingle() { if (mode === 'update' && rows.has(hash)) rows.set(hash, { ...rows.get(hash), ...value }); return { data: rows.get(hash) ?? null, error: null }; },
         then(resolve: (r: unknown) => unknown) {
           if (mode === 'select' && head) return Promise.resolve(resolve({ count: options.used ?? 0, error: null }));
           if (mode === 'insert') { if (rows.has(String(value.recipe_hash))) return Promise.resolve(resolve({ error: { code: '23505' } })); rows.set(String(value.recipe_hash), { ...value }); }
@@ -97,8 +98,10 @@ function fixture(options: { cloud?: (endpoint: string) => unknown; extraEnv?: Re
   });
   const all = { ...env, ...options.extraEnv };
   const handler = createXBloomShareHandler(create as never, name => all[name], cloud as never, () => 1_800_000_000_000);
-  const call = (token = 'user-1', body: unknown = { recipe }) => handler(new Request('https://example.test/functions/v1/xbloom-share', {
-    method: 'POST', headers: { 'content-type': 'application/json', ...(token ? { authorization: `Bearer ${token}` } : {}) }, body: JSON.stringify(body) }));
+  const call = async (token = 'user-1', body: unknown = { recipe }) => {
+    try { const parsed = parseShareRecipe((body as { recipe: unknown }).recipe); detail = { result: 'success', recipeVo: cloudRecipe(parsed, `BM ${(await recipeHash(parsed, token)).slice(0, 8)} ${parsed.name}`.trim().slice(0, 50), 1) }; } catch { /* invalid fixture */ }
+    return handler(new Request('https://example.test/functions/v1/xbloom-share', {
+    method: 'POST', headers: { 'content-type': 'application/json', ...(token ? { authorization: `Bearer ${token}` } : {}) }, body: JSON.stringify(body) })); };
   return { call, cloud, rows };
 }
 
@@ -111,8 +114,30 @@ describe('xbloom-share handler', () => {
     expect(cloud.mock.calls.map(c => String(c[0]).split('/').pop())).toEqual(['tMemberLogin.thtml', 'tuMyTeaRecipeCreated.tuhtml', 'tuMyTeaRecipeCreated.tuhtml', 'tuMyTeaRecipeCreated.tuhtml', 'tuRecipeAdd.tuhtml', 'RecipeDetail.html']);
     const sent = String((cloud.mock.calls[0] as unknown as [unknown, RequestInit])[1].body);
     expect(sent).not.toContain('fixture-only'); expect(sent).toMatch(/^[A-Za-z0-9+/]+=*$/);
-    const again = await call('user-2'); expect(await again.json()).toMatchObject({ link: LINK, reused: true });
-    expect(cloud).toHaveBeenCalledTimes(6); expect(rows.size).toBe(1);
+    const again = await call(); expect(await again.json()).toMatchObject({ link: LINK, reused: true });
+    expect(cloud).toHaveBeenCalledTimes(7); expect(rows.size).toBe(1);
+  });
+  it('rejects mismatches in every brewing field', () => {
+    const parsed = parseShareRecipe(recipe);
+    const body = cloudRecipe(parsed, parsed.name, 1);
+    for (const key of ['theName', 'dose', 'grandWater', 'grinderSize', 'rpm', 'cupType', 'adaptedModel', 'isEnableBypassWater', 'isSetGrinderSize']) {
+      expect(matchesShared({ result: 'success', recipeVo: { ...body, [key]: null } }, parsed)).toBe(false);
+    }
+    for (const key of ['volume', 'temperature', 'flowRate', 'pausing', 'pattern', 'isEnableVibrationBefore', 'isEnableVibrationAfter']) {
+      const pours = JSON.parse(body.pourDataJSONStr as string);
+      pours[0][key] = null;
+      expect(matchesShared({ result: 'success', recipeVo: { ...body, pourDataJSONStr: JSON.stringify(pours) } }, parsed)).toBe(false);
+    }
+  });
+  it('isolates accounts and names and claims simultaneous identical requests once', async () => {
+    const { call, cloud, rows } = fixture();
+    const responses = await Promise.all([call(), call()]);
+    expect(responses.map(r => r.status).sort()).toEqual([200, 409]);
+    expect(cloud.mock.calls.filter(c => String(c[0]).endsWith('tuRecipeAdd.tuhtml'))).toHaveLength(1);
+    expect((await call('user-2')).status).toBe(200);
+    expect((await call('user-1', { recipe: { ...recipe, name: 'Other fixture' } })).status).toBe(200);
+    expect(rows.size).toBe(3);
+    expect(cloud.mock.calls.filter(c => String(c[0]).endsWith('tuRecipeAdd.tuhtml'))).toHaveLength(3);
   });
   it('requires a signed-in account, valid input and an enabled service', async () => {
     expect((await fixture().call('')).status).toBe(401); expect((await fixture().call('guest')).status).toBe(401); expect((await fixture().call('bad')).status).toBe(401);
@@ -128,7 +153,7 @@ describe('xbloom-share handler', () => {
     expect(cloud.mock.calls.filter(c => String(c[0]).endsWith('tuRecipeAdd.tuhtml'))).toHaveLength(1);
   });
   it('reuses a recipe an interrupted attempt already saved instead of saving it twice', async () => {
-    const name = `BM ${(await recipeHash(parseShareRecipe(recipe))).slice(0, 8)} Guji`;
+    const name = `BM ${(await recipeHash(parseShareRecipe(recipe), 'user-1')).slice(0, 8)} Guji`;
     const { call, cloud } = fixture({ cloud: endpoint => endpoint === 'tuMyTeaRecipeCreated.tuhtml' ? { result: 'success', list: [{ tableId: 42, theName: name, shareRecipeLink: LINK }] } : undefined });
     expect((await call()).status).toBe(200);
     expect(cloud.mock.calls.some(c => String(c[0]).endsWith('tuRecipeAdd.tuhtml'))).toBe(false);
@@ -139,12 +164,12 @@ describe('xbloom-share handler', () => {
     expect((await call()).status).toBe(200);
     expect(cloud.mock.calls.filter(c => String(c[0]).endsWith('tMemberLogin.thtml'))).toHaveLength(2);
   });
-  it('fails closed and releases the claim when no verifiable link comes back', async () => {
+  it('fails closed and retains the claim when no verifiable link comes back', async () => {
     const none = fixture({ cloud: endpoint => endpoint === 'tuRecipeAdd.tuhtml' ? { result: 'success' } : undefined });
-    expect(await (await none.call()).json()).toEqual({ error: 'SHARE_UNAVAILABLE' }); expect(none.rows.size).toBe(0);
+    expect(await (await none.call()).json()).toEqual({ error: 'SHARE_UNAVAILABLE' }); expect(none.rows.size).toBe(1);
     resetShareSession();
     const wrong = fixture({ cloud: endpoint => endpoint === 'RecipeDetail.html' ? { result: 'success', recipeVo: { dose: 18, grinderSize: 57, pourList: [] } } : undefined });
-    expect(await (await wrong.call()).json()).toEqual({ error: 'SHARE_UNVERIFIED' }); expect(wrong.rows.size).toBe(0);
+    expect(await (await wrong.call()).json()).toEqual({ error: 'SHARE_UNVERIFIED' }); expect(wrong.rows.size).toBe(1);
     resetShareSession();
     const denied = fixture({ cloud: endpoint => endpoint === 'tMemberLogin.thtml' ? { result: 'fail', info: 'password' } : undefined });
     expect((await denied.call()).status).toBe(502); expect(denied.cloud).toHaveBeenCalledTimes(1);
