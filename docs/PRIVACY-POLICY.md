@@ -1,6 +1,6 @@
 # BeanMora Privacy Policy / سياسة خصوصية BeanMora
 
-Effective date / تاريخ السريان: 22 November 2026 / 22 نوفمبر 2026
+Effective date / تاريخ السريان: 24 November 2026 / 24 نوفمبر 2026
 
 ## English
 
@@ -31,6 +31,14 @@ Content that you publish publicly may be displayed with your public profile. Cho
 Coffee Expert starts with the coffee guide. After you explicitly allow online answers, BeanMora automatically sends your new question, up to six recent exchanges after permission was given (including assistant replies and follow-ups), and relevant public coffee information to OpenAI to prepare an answer. Existing guide-only preferences and earlier conversations are not treated as permission. Avoid entering personal information. You can withdraw permission under **Settings → Coffee expert**. The guide does not send your conversation to OpenAI and may look up information in the public BeanMora catalog. BeanMora keeps an account-linked record of your choice, policy version and decision time; this record contains no conversation text.
 
 BeanMora requests that OpenAI disable response storage for these calls. BeanMora’s usage record contains technical details such as the model, token counts, request status and request identifiers. It excludes the text of questions and answers.
+
+### Smart coffee-bag reading and OpenAI
+
+Reading a coffee bag photo works on your device by default. Smart reading is off until you turn it on while signed in and confirm the disclosure. When it is on, BeanMora sends the bag photo you choose to OpenAI to transcribe the coffee details printed on it, such as name, roaster, origin and roast date. BeanMora does not store the photo, and requests that OpenAI disable response storage for these calls. BeanMora keeps an account-linked record of your choice and a usage record with technical details only (model, token counts, request status), without the photo or the text read from it. You can turn smart reading off in the scanner at any time.
+
+### xBloom recipes
+
+When you press **Open in xBloom** on a generated recipe, BeanMora saves that recipe (amounts, grind, temperatures, pours and the name you entered) to a BeanMora-owned xBloom account and opens its xBloom share link. This uses an unofficial xBloom interface and is not operated by xBloom. BeanMora keeps a record linking a fingerprint of the recipe to your account so the same recipe is saved only once, and to apply a daily limit. Your BeanMora account details are not sent to xBloom. The xBloom app and its services have their own privacy practices.
 
 ### Device storage and permissions
 
@@ -77,6 +85,14 @@ We update this policy when the service's data practices change. The effective da
 يبدأ «خبير القهوة» بدليل القهوة. بعد سماحك صراحةً بالإجابات عبر الإنترنت، يرسل BeanMora تلقائيًا سؤالك الجديد وما يصل إلى ست جولات حديثة من المحادثة بعد الموافقة، بما فيها ردود المساعد وأسئلة المتابعة، ومعلومات القهوة العامة ذات الصلة إلى OpenAI لإعداد الإجابة. لا تُعدّ التفضيلات السابقة ولا المحادثات السابقة موافقة. تجنّب كتابة معلومات شخصية. يمكنك سحب موافقتك من **الإعدادات ← خبير القهوة**. لا يرسل الدليل محادثتك إلى OpenAI، وقد يبحث في كتالوج BeanMora العام. يحتفظ BeanMora بسجل لاختيارك وإصدار سياسة الموافقة ووقت القرار مرتبط بحسابك، دون نص المحادثة.
 
 يطلب BeanMora من OpenAI تعطيل تخزين الردود لهذه الطلبات. يقتصر سجل الاستخدام في BeanMora على تفاصيل تقنية مثل النموذج وعدد وحدات النص المستخدمة وحالة الطلب ومعرّفاته، ويستبعد نصوص الأسئلة والأجوبة.
+
+### القراءة الذكية لكيس القهوة وOpenAI
+
+قراءة صورة كيس القهوة تتم على جهازك افتراضيًا. القراءة الذكية مطفأة حتى تفعّلها وأنت مسجل الدخول وتوافق على الإفصاح. عند تفعيلها يرسل BeanMora صورة الكيس التي تختارها إلى OpenAI لقراءة تفاصيل القهوة المطبوعة عليه، مثل الاسم والمحمصة والمنشأ وتاريخ التحميص. لا يخزّن BeanMora الصورة، ويطلب من OpenAI تعطيل تخزين الردود لهذه الطلبات. يحتفظ BeanMora بسجل لاختيارك مرتبط بحسابك وسجل استخدام بتفاصيل تقنية فقط (النموذج وعدد وحدات النص وحالة الطلب)، دون الصورة أو النص المقروء منها. يمكنك إيقاف القراءة الذكية من الماسح في أي وقت.
+
+### وصفات xBloom
+
+عند ضغطك «افتح في xBloom» على وصفة مولّدة، يحفظ BeanMora هذه الوصفة (الكميات والطحنة والحرارة والصبات والاسم الذي كتبته) في حساب xBloom يملكه BeanMora ويفتح رابط مشاركتها في xBloom. يتم ذلك عبر واجهة غير رسمية لا تديرها شركة xBloom. يحتفظ BeanMora بسجل يربط بصمة الوصفة بحسابك حتى لا تُحفظ الوصفة نفسها أكثر من مرة ولتطبيق حد يومي. لا تُرسل بيانات حسابك في BeanMora إلى xBloom. لتطبيق xBloom وخدماته ممارسات خصوصية خاصة بها.
 
 ### التخزين والأذونات على الجهاز
 
