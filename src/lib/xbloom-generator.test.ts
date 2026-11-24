@@ -103,4 +103,18 @@ describe('xBloom recipe generator', () => {
     const draft = generatedDraft(regular, iced[0], 'Guji', false);
     expect(draft.values.description).toContain('about 75 g');
   });
+  it('sizes the recipe from the finished drink: water when hot, water plus ice when iced', () => {
+    const hot = generateXBloom([recipe('a')], prefs(), '', { drinkSize: 250 });
+    expect(hot.water).toBe(250); expect(hot.dose).toBe(15.6); expect(hot.ice).toBeNull();
+    const iced = [recipe('i', { serving: 'iced', pours: [pour(40, 92, 3, 30), pour(60), pour(65)] })]; // 1:11
+    const p = prefs({ serving: 'cold_or_iced' });
+    for (const [ice, size] of [['regular', 250], ['light', 200], ['extra', 300]] as const) {
+      const r = generateXBloom(iced, p, '', { drinkSize: size, ice });
+      expect(Math.abs(r.water + r.ice! - size)).toBeLessThanOrEqual(6);
+      expect(r.pours.reduce((sum, x) => sum + x.volume, 0)).toBe(r.water);
+    }
+    expect(generateXBloom(iced, p, '', { drinkSize: 250 }).dose).toBe(15.6);
+    expect(reason(() => generateXBloom([recipe('o', { model: 'Original' })], prefs({ model: 'Original' }), '', { drinkSize: 200 }))).toBe('DOSE_RANGE');
+    expect(reason(() => generateXBloom([recipe('a')], prefs(), '', { drinkSize: 0 }))).toBe('AMOUNT');
+  });
 });

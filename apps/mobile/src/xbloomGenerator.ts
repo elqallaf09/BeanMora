@@ -29,7 +29,8 @@ export const XBLOOM_LIMITS = {
 } as const;
 const WATER = [50, 500] as const;
 export type IceLevel = 'light' | 'regular' | 'extra';
-export type GeneratorOptions = { general?: boolean; ice?: IceLevel };
+/** `drinkSize` is the finished drink in ml: brew water when hot, brew water plus ice when iced. */
+export type GeneratorOptions = { general?: boolean; ice?: IceLevel; drinkSize?: number };
 // Hot recipes in the library sit at a median 1:16 on every machine and dripper,
 // iced ones near 1:10; the difference is the water the ice is expected to add.
 const HOT_RATIO = 16;
@@ -89,8 +90,11 @@ export function generateXBloom(matches: RecipeItem[], preferences: XBloomPrefere
     // A general pool has no closest coffee, so every recipe counts the same.
     .map(item => options.general ? { ...item, weight: 1 } : item);
   if (!usable.length) throw new XBloomGeneratorError('NO_BASIS');
-  const amount = digits(preferences.amount);
+  const sized = options.drinkSize !== undefined;
+  const amount = sized ? options.drinkSize! : digits(preferences.amount);
   if (!Number.isFinite(amount) || amount <= 0) throw new XBloomGeneratorError('AMOUNT');
+  const iced = preferences.serving !== 'hot';
+  const iceFactor = ICE_FACTOR[options.ice ?? 'regular'];
   const shift = taste ? TASTE[taste] : { grind: 0, temperature: 0 };
   const baseGrind = Math.round(weightedMedian(usable.map(b => ({ value: b.grind, weight: b.weight }))));
   const baseTemperature = weightedMedian(usable.map(b => ({ value: b.temperature, weight: b.weight })));
@@ -102,11 +106,13 @@ export function generateXBloom(matches: RecipeItem[], preferences: XBloomPrefere
   const grind = clamp(baseGrind + shift.grind, limits.grind);
   const temperature = clamp(Math.round(baseTemperature + shift.temperature), limits.temperature);
 
-  let dose = preferences.unit === 'dose' ? round1(amount) : round1(amount / baseRatio);
+  // Ice replaces the water an iced recipe leaves out relative to the hot ratio.
+  const icePerGram = iced ? Math.max(0, HOT_RATIO - baseRatio) * iceFactor : 0;
+  let dose = sized ? round1(amount / (baseRatio + icePerGram)) : preferences.unit === 'dose' ? round1(amount) : round1(amount / baseRatio);
   if (dose < limits.dose[0] || dose > limits.dose[1]) throw new XBloomGeneratorError('DOSE_RANGE');
-  const water = preferences.unit === 'water' ? Math.round(amount) : Math.round(dose * baseRatio);
+  const water = !sized && preferences.unit === 'water' ? Math.round(amount) : Math.round(dose * baseRatio);
   if (water < WATER[0] || water > WATER[1]) throw new XBloomGeneratorError('WATER_RANGE');
-  if (preferences.unit === 'water') dose = round1(water / baseRatio);
+  if (!sized && preferences.unit === 'water') dose = round1(water / baseRatio);
 
   // Keep the best match's pour structure; scale volumes and re-close the sum.
   const scale = water / template.water;
@@ -120,8 +126,7 @@ export function generateXBloom(matches: RecipeItem[], preferences: XBloomPrefere
   pours[pours.length - 1].volume = water - pours.slice(0, -1).reduce((sum, p) => sum + p.volume, 0);
   const timed = pours.every(p => p.flow_rate !== null && p.flow_rate > 0 && p.pause_seconds !== null);
   const seconds = timed ? Math.round(pours.reduce((sum, p) => sum + p.volume / p.flow_rate! + p.pause_seconds!, 0)) : null;
-  const iced = preferences.serving !== 'hot';
-  const ice = iced ? Math.max(0, Math.round(dose * (HOT_RATIO - water / dose) * ICE_FACTOR[options.ice ?? 'regular'] / 5) * 5) : null;
+  const ice = iced ? Math.max(0, Math.round(dose * (HOT_RATIO - water / dose) * iceFactor / 5) * 5) : null;
   const moved = (value: number) => value !== 0 ? 'preference' as const : 'published' as const;
   const result: GeneratedXBloom = {
     model: preferences.model, cup: preferences.cup, serving: iced ? 'iced' : 'hot',

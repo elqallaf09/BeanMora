@@ -1,4 +1,4 @@
-import { useContext, useState, type ReactNode } from 'react';
+import { useContext, useEffect, useState, type ReactNode } from 'react';
 import { Pressable, View } from './native';
 import { Icon, Language, Txt, colors, styles } from './ui';
 export function Disclosure({
@@ -8,6 +8,7 @@ export function Disclosure({
   initial = false,
   testID,
   primary = false,
+  openSignal,
 }: {
   title: string;
   subtitle?: string;
@@ -15,9 +16,12 @@ export function Disclosure({
   initial?: boolean;
   testID?: string;
   primary?: boolean;
+  /** Changing this value opens the section (it never closes it). */
+  openSignal?: number;
 }) {
   const ar = useContext(Language) === 'ar';
   const [open, setOpen] = useState(initial);
+  useEffect(() => { if (openSignal) setOpen(true); }, [openSignal]);
   return (
     <View
       testID={testID}

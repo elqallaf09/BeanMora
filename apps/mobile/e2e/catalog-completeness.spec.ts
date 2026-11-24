@@ -158,10 +158,10 @@ test('xBloom planner applies machine and cup choices and opens the selected sour
   await page.goto('/');
   await page.getByRole('button', { name: 'xBloom', exact: true }).first().click();
   const planner = page.getByTestId('xbloom-planner');
-  await planner.getByRole('button', { name: 'اصنع وصفة xBloom لبنّك', exact: true }).click();
+  // The generator is open by default on the xBloom tab.
   await planner.getByLabel('اسم البن أو المحمصة (اختياري)', { exact: true }).fill('فراولة');
   // The generator always ends with a recipe built from published ones.
-  await planner.getByRole('button', { name: 'كبير · 20 g', exact: true }).click();
+  await planner.getByRole('button', { name: 'كبير · 300 ml', exact: true }).click();
   await planner.getByRole('button', { name: 'حضّر الوصفة', exact: true }).click();
   const generated = planner.getByTestId('xbloom-generated');
   await expect(generated).toBeVisible();
@@ -178,4 +178,35 @@ test('xBloom planner applies machine and cup choices and opens the selected sour
   await planner.getByRole('button', { name: 'تفاصيل الوصفة', exact: true }).click();
   await expect(page.getByTestId('recipe-detail')).toBeVisible();
   await expect(page.getByTestId('recipe-detail').getByTestId('coffee-fallback-art')).toBeVisible();
+});
+
+test('a search with no published match hands the coffee to the generator, which still returns a recipe', async ({ page }) => {
+  const program = { ...recipes[0], serving_style: 'iced', source_brew_parameters: { dose: 15, water_ml: 165, grind_size: 55, model: 'Studio', cup_type: 'Omni',
+    pours: [{ volume: 45, temperature: 93, pause_seconds: 20 }, { volume: 60, temperature: 92, pause_seconds: 15 }, { volume: 60, temperature: 90, pause_seconds: 10 }] } };
+  await page.route('https://mobilefixture.supabase.co/**', async route => {
+    const url = new URL(route.request().url());
+    if (url.pathname.endsWith('/recipes') && route.request().method() === 'HEAD') {
+      return route.fulfill({ status: 200, headers: { 'content-range': '*/3312', 'access-control-expose-headers': 'content-range' }, body: '' });
+    }
+    if (url.pathname.endsWith('/rpc/search_public_recipes')) {
+      const body = route.request().postDataJSON();
+      // Nothing published is named like this coffee; the general pool for the machine exists.
+      const found = body.p_query ? [] : [program];
+      return route.fulfill({ status: 200, contentType: 'application/json', headers: { 'content-range': found.length ? '0-0/1' : '*/0', 'access-control-expose-headers': 'content-range' }, body: JSON.stringify(found) });
+    }
+    return route.fulfill({ contentType: 'application/json', body: '[]' });
+  });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'xBloom', exact: true }).first().click();
+  await page.getByRole('button', { name: 'بارد ومثلّج', exact: true }).first().click();
+  await page.getByLabel('ابحث عن وصفة', { exact: true }).fill('كوكونيت');
+  await page.getByRole('button', { name: 'اصنع وصفة xBloom لـ«كوكونيت»', exact: true }).click();
+  const generated = page.getByTestId('xbloom-planner').getByTestId('xbloom-generated');
+  await expect(generated).toBeVisible();
+  // 250 ml drink at the published 1:11 with regular ice: 15.6 g, 172 ml water, about 80 g ice.
+  await expect(generated).toContainText('15.6 g');
+  await expect(generated).toContainText('172 ml');
+  await expect(generated).toContainText('80 g');
+  await expect(generated).toContainText('وصفة عامة');
+  await expect(generated).not.toContainText('undefined');
 });

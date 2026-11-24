@@ -46,7 +46,7 @@ import {
 } from './recipeDiscovery';
 import { methods } from './copy';
 import { FLAVORS, type Method } from './core/engine';
-import { XBloomPlanner } from './XBloomPlanner';
+import { XBloomPlanner, type XBloomSeed } from './XBloomPlanner';
 import { ScanCoffeeButton } from './CoffeeLabelScanner';
 type DiscoveredRecipe = RecipeItem & { discovery: RecipeDiscovery; nearMatch?: RecipeNearMatch };
 const flavorLabels = {
@@ -120,6 +120,8 @@ export function RecipeCatalog({
   const [draftFilters, setDraftFilters] = useState(() => restoreRecipeFilters(initialState?.draftFilters));
   useEffect(() => { remember?.({ search, method, filters, draftFilters }); }, [search, method, filters, draftFilters, remember]);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [xbloomSeed, setXbloomSeed] = useState<XBloomSeed>();
+  const listRef = useRef<FlatList<DiscoveredRecipe>>(null);
   const requestGeneration = useRef(0);
   const filterCount = recipeFilterCount(filters);
   const hasSearch = Boolean(
@@ -241,6 +243,7 @@ export function RecipeCatalog({
   return (
     <>
       <FlatList
+        ref={listRef}
         testID={initialMethod === 'xbloom' ? 'xbloom-scroll' : 'recipe-catalog'}
         key={columns}
         numColumns={columns}
@@ -332,7 +335,7 @@ export function RecipeCatalog({
                     : 'Search the full library and open a recipe for its details and sources.')}
             </Txt>
             {method === 'xbloom' && libraryTotal !== null ? <Txt style={styles.muted}>{i18nUi('إجمالي وصفات xBloom: ', 'All xBloom recipes: ') + libraryTotal.toLocaleString('en-US') + (filters.servingStyle === 'cold_or_iced' ? i18nUi(' · المعروض: البارد والمثلج', ' · Showing cold & iced') : filters.servingStyle === 'hot' ? i18nUi(' · المعروض: الساخن', ' · Showing hot') : '')}</Txt> : null}
-            {method === 'xbloom' ? <XBloomPlanner openRecipe={open} coffees={scanCoffees} /> : null}
+            {method === 'xbloom' || (!method && !locked && !coffee) ? <XBloomPlanner openRecipe={open} coffees={scanCoffees} initialOpen={method === 'xbloom'} seed={xbloomSeed} /> : null}
             {!coffee && method !== 'xbloom' ? <ScanCoffeeButton openRecipe={open} method={method} coffees={scanCoffees} /> : null}
             {!locked ? (
               <MethodPicker
@@ -558,6 +561,17 @@ export function RecipeCatalog({
                   ? 'جرّب كلمة أخرى أو قلّل شروط البحث. المعلومات غير المذكورة في المصدر لا تدخل ضمن النتائج المصفّاة.'
                   : i18nUi('جرّب كلمة أخرى أو قلّل شروط البحث. المعلومات غير المذكورة في المصدر لا تدخل ضمن النتائج المصفّاة.', 'Try another term or fewer filters. Recipes without the requested source information do not match that filter.')}
               </Txt>
+              {search.trim() && !coffee && (method === 'xbloom' || (!method && !locked)) ? (
+                <Action
+                  variant="primary"
+                  title={i18nUi('اصنع وصفة xBloom لـ«', 'Make an xBloom recipe for “') + search.trim().slice(0, 40) + i18nUi('»', '”')}
+                  onPress={() => {
+                    // No published recipe matched: hand the coffee to the generator, which always returns one.
+                    setXbloomSeed({ coffee: search.trim(), serving: filters.servingStyle === 'cold_or_iced' ? 'cold_or_iced' : 'hot', nonce: Date.now() });
+                    listRef.current?.scrollToOffset({ offset: 0, animated: true });
+                  }}
+                />
+              ) : null}
               {hasSearch ? (
                 <Action
                   title={ar ? 'مسح البحث والتصفية' : i18nUi('مسح البحث والتصفية', 'Clear search and filters')}
