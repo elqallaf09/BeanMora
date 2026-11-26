@@ -1,3 +1,4 @@
+import { cleanCatalogName, sourceRoasterName } from './localizedContent';
 import { contentLocale, type Locale } from './localeText';
 import { catalogName, localizeStep } from './localizedContent';
 import { sourceBrew, type SourceBrew } from './sourceBrew';
@@ -214,9 +215,11 @@ interface Inventory {
 const one = <T>(v: T | T[] | null): T | null =>
   Array.isArray(v) ? (v[0] ?? null) : v;
 const label = (v: Name | null, ar: boolean) =>
-  (ar
-    ? v?.name_ar || catalogName(v?.name_en, 'ar')
-    : v?.name_en || v?.name_ar) ?? '';
+  cleanCatalogName(
+    (ar
+      ? cleanCatalogName(v?.name_ar) || catalogName(v?.name_en, 'ar')
+      : v?.name_en || v?.name_ar) ?? '',
+  );
 const inferredFlavors = (row: CoffeeRow): string[] =>
   publishedFlavorNotes(
     [row.flavor_notes_on_bag, row.flavors?.map((f) => f.flavor)],
@@ -312,7 +315,7 @@ export function mapRecipe(
     originalTitle: row.title,
     title:
       ar && row.title_ar && /\p{Script=Arabic}/u.test(row.title_ar)
-        ? row.title_ar
+        ? cleanCatalogName(row.title_ar)
         : catalogName(
             (ar ? row.title_ar || row.title : row.title || row.title_ar) ?? '',
             locale,
@@ -563,11 +566,11 @@ export function mapCoffee(
     slug: row.slug,
     kind,
     localeContent: {
-      ar: { name: label(row, true), roaster: (label(one(row.roaster), true) || row.source_name || ''), description: catalogDescription(row, true) },
-      en: { name: label(row, false), roaster: (label(one(row.roaster), false) || row.source_name || ''), description: catalogDescription(row, false) },
+      ar: { name: label(row, true), roaster: (label(one(row.roaster), true) || sourceRoasterName(row.source_name)), description: catalogDescription(row, true) },
+      en: { name: label(row, false), roaster: (label(one(row.roaster), false) || sourceRoasterName(row.source_name)), description: catalogDescription(row, false) },
     },
     name: label(row, ar),
-    roaster: label(one(row.roaster), ar) || row.source_name || '',
+    roaster: label(one(row.roaster), ar) || sourceRoasterName(row.source_name),
     roasterId: row.roaster_id ?? null,
     roasterSite:safeUrl(row.roaster_website_url),
     details:{region:row.origin_region??null,farm:row.farm??null,altitude:row.altitude_meters??null,weight:row.bag_weight_grams??null,roastDate:row.roast_date??null},

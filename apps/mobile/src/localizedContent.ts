@@ -91,3 +91,24 @@ export function localizeStep(
           : description),
   };
 }
+
+// The catalog pipeline tags names it has not reviewed, e.g. "… (غير مؤكد)" or
+// "… [ترجمة غير مؤكدة]", and writes provenance into source_name, e.g.
+// "Roaster — official product page (fetched 2026-11-07)". Those are notes for
+// reviewers. Members should see the name alone.
+const REVIEW_MARKER = /\s*[\[(][^\[\]()]*(?:غير مؤكد|ترجمة|unverified|unconfirmed)[^\[\]()]*[\])]\s*$/iu;
+
+export function cleanCatalogName(value: string | null | undefined): string {
+  let name = (value ?? '').trim();
+  while (REVIEW_MARKER.test(name)) name = name.replace(REVIEW_MARKER, '').trim();
+  return name;
+}
+
+/** The roaster's name out of a provenance line, for beans whose roaster row is not published yet. */
+export function sourceRoasterName(value: string | null | undefined): string {
+  return (value ?? '')
+    .replace(/\s*\((?:fetched|retrieved|accessed)[^)]*\)\s*$/i, '')
+    .replace(/\s+[—–-]+\s+(?:official\s+)?(?:product\s+(?:page|listing)|website|web\s*site|store|shop)\s*$/i, '')
+    .replace(/\s*\((?:https?:\/\/)?[a-z0-9.-]+\.[a-z]{2,}\/?\)\s*$/i, '')
+    .trim();
+}

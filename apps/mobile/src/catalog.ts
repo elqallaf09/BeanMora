@@ -1,3 +1,4 @@
+import { cleanCatalogName } from './localizedContent';
 import { factLabels } from './core/equipment-facts';
 export { factLabels } from './core/equipment-facts';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -321,7 +322,7 @@ export async function loadRoasters(
     id: row.id,
     slug: row.slug,
     localeContent: {
-      ar: { name: row.name_ar || catalogName(row.name_en, 'ar'), description: row.description_ar || '' },
+      ar: { name: cleanCatalogName(row.name_ar) || catalogName(row.name_en, 'ar'), description: row.description_ar || '' },
       en: { name: row.name_en || row.name_ar, description: row.description_en || '' },
     },
     searchDocument: [
@@ -335,7 +336,7 @@ export async function loadRoasters(
       .join(' '),
     name:
       (locale === 'ar'
-        ? row.name_ar || catalogName(row.name_en, locale)
+        ? cleanCatalogName(row.name_ar) || catalogName(row.name_en, locale)
         : row.name_en || row.name_ar) ?? '',
     description:
       (locale === 'ar'

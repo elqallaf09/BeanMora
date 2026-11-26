@@ -437,7 +437,7 @@ export function AccountScreen({
                   }}
                   style={[
                     s.segmentButton,
-                    mode === value && { backgroundColor: colors.brown },
+                    mode === value && { backgroundColor: colors.teal },
                   ]}
                 >
                   <Txt
