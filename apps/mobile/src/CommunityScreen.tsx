@@ -34,6 +34,8 @@ import { Action, Language, Txt, Icon, IconButton, colors, styles } from './ui';
 import { MemberAvatar } from './MemberAvatar';
 import { ConfirmDialog } from './ConfirmDialog';
 import { CoffeeStories } from './CoffeeStories';
+import type { StickerSource } from './StoryComposer';
+import type { StorySticker } from './storyOverlays';
 import { PostComposer, type EditablePost } from './PostComposer';
 import { SocialMediaView } from './SocialMedia';
 import { deleteCommunityPost } from './core/community-social';
@@ -120,7 +122,10 @@ export function CommunityScreen({
   authorId,
   embedded = false,
   postId,
+  openRoaster,
 }: {
+  /** Opens a roastery by id, for roastery stickers on stories. */
+  openRoaster?: (id: string) => void;
   userId: string | null;
   recipes: RecipeItem[];
   coffees: CoffeeItem[];
@@ -170,6 +175,22 @@ export function CommunityScreen({
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const [revision, setRevision] = useState(0);
+  // What a member can stick on a story: the published recipes and coffees
+  // already loaded for this screen, and the roasteries behind those coffees.
+  const stickers = useMemo<StickerSource[]>(() => {
+    const roasters = new Map<string, string>();
+    for (const c of coffees) if (c.roasterId && c.roaster) roasters.set(c.roasterId, c.roaster);
+    return [
+      ...recipes.filter((r) => r.public).map((r) => ({ ref: 'recipe' as const, id: r.id, label: r.title })),
+      ...coffees.map((c) => ({ ref: 'coffee' as const, id: c.id, label: c.name, note: c.roaster ?? undefined })),
+      ...[...roasters].map(([id, label]) => ({ ref: 'roaster' as const, id, label })),
+    ];
+  }, [recipes, coffees]);
+  const openSticker = (sticker: StorySticker) => {
+    if (sticker.ref === 'recipe') { const found = recipes.find((r) => r.id === sticker.id); if (found) openRecipe(found); }
+    else if (sticker.ref === 'coffee') { const found = coffees.find((c) => c.id === sticker.id); if (found) openCoffee(found); }
+    else openRoaster?.(sticker.id);
+  };
   const active = useRef(true);
   const pendingLikes = useRef(new Set<string>());
   const pendingComment = useRef(false);
@@ -441,7 +462,7 @@ export function CommunityScreen({
           onPress={() => write()}
         />
       </View> : null}
-      {!embedded ? <CoffeeStories owner={userId} login={login} /> : null}
+      {!embedded ? <CoffeeStories owner={userId} login={login} stickers={stickers} openSticker={openSticker} /> : null}
       {postId ? <Txt heading style={styles.subtitle}>{ar ? "المنشور" : i18nUi("المنشور", "Post")}</Txt> : null}
       {message ? (
         <View accessibilityLiveRegion="polite">

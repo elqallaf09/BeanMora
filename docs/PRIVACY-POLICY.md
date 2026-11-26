@@ -42,7 +42,7 @@ When you press **Open in xBloom** on a generated recipe, BeanMora saves that rec
 
 ### Device storage and permissions
 
-BeanMora caches language preferences, catalog information and saved content on your device. Native account sessions use protected system storage. Photo, camera or microphone access is requested when the relevant feature needs it; you can decline or change permission in device settings. The app does not request precise device location for its coffee features. Country information, where offered, is selected by the user.
+BeanMora caches language preferences, catalog information and saved content on your device. Native account sessions use protected system storage. Photo, camera or microphone access is requested when the relevant feature needs it; you can decline or change permission in device settings. When you add a coffee story, the app can show your recent photos so you can choose one; the list stays on your device, and only a photo you choose and publish is uploaded. The app does not request precise device location for its coffee features. Country information, where offered, is selected by the user.
 
 ### Retention and deletion
 
@@ -96,7 +96,7 @@ We update this policy when the service's data practices change. The effective da
 
 ### التخزين والأذونات على الجهاز
 
-نخزّن محليًا اللغة ونسخ الكتالوج والمحتوى المحفوظ. تستخدم جلسة الدخول الأصلية مخزن النظام المحمي. نطلب الوصول إلى الصور أو الكاميرا أو الميكروفون عند حاجة الميزة المعنية؛ ويمكنك رفض الإذن أو تعديله من إعدادات الجهاز. لا تتطلب ميزات القهوة تحديد الموقع الدقيق للجهاز. وعند توفر الدولة، يختارها المستخدم بنفسه.
+نخزّن محليًا اللغة ونسخ الكتالوج والمحتوى المحفوظ. تستخدم جلسة الدخول الأصلية مخزن النظام المحمي. نطلب الوصول إلى الصور أو الكاميرا أو الميكروفون عند حاجة الميزة المعنية؛ ويمكنك رفض الإذن أو تعديله من إعدادات الجهاز. عند إضافة قصة قهوة يمكن أن يعرض التطبيق صورك الأخيرة لتختار منها؛ تبقى القائمة على جهازك، ولا تُرفع إلا الصورة التي تختارها وتنشرها. لا تتطلب ميزات القهوة تحديد الموقع الدقيق للجهاز. وعند توفر الدولة، يختارها المستخدم بنفسه.
 
 ### الاحتفاظ والحذف
 
