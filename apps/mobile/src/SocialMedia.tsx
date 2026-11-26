@@ -56,7 +56,7 @@ function MediaIcon({ type, camera, color }: { type: 'image' | 'video'; camera: b
 
 function MediaChoice({ type, camera = false, title, disabled, onPress }: { type: 'image' | 'video'; camera?: boolean; title: string; disabled: boolean; onPress: () => void }) {
   const ar = useContext(Language) === 'ar';
-  const tint = type === 'image' ? colors.teal : colors.brown;
+  const tint = colors.teal;
   return <Pressable accessibilityRole="button" accessibilityLabel={title} accessibilityState={{ disabled }} disabled={disabled} onPress={onPress} style={({ pressed }) => ({
     flex: 1, minWidth: 0, minHeight: camera ? 54 : 96, paddingHorizontal: 10, paddingVertical: camera ? 10 : 16,
     borderRadius: camera ? 16 : 22, borderWidth: 1, borderColor: camera ? colors.line : tint,

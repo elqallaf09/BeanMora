@@ -115,7 +115,9 @@ export function Action({
       >
         <Txt
           style={{
-            color: primary ? '#FFFFFF' : colors.brown,
+            // One colour family for every button: filled teal is the main
+            // action, teal text on paper is everything else.
+            color: primary ? '#FFFFFF' : colors.teal,
             fontWeight: '700',
             textAlign: 'center',
             ...(compact ? { fontSize: 12, lineHeight: 18 } : {}),
