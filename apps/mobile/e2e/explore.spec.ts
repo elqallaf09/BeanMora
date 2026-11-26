@@ -426,6 +426,16 @@ for (const width of [320, 768]) {
     ).toBeVisible();
     await page.getByRole('button', { name: 'Back', exact: true }).click();
     await page.getByRole('button', { name: 'Roasteries', exact: true }).click();
+    // A guest can open the roastery request form; it validates before asking to sign in.
+    await page.getByTestId('roaster-actions').getByRole('button', { name: 'Add my roastery', exact: true }).click();
+    const request = page.getByTestId('roaster-request');
+    await expect(request).toContainText('Sign in to send a request.');
+    await request.getByLabel('Roastery name', { exact: true }).fill('Test Roastery');
+    await request.getByRole('button', { name: 'Send request', exact: true }).click();
+    await expect(request.getByRole('alert')).toContainText('website or Instagram');
+    await request.getByRole('button', { name: 'Cancel', exact: true }).click();
+    await expect(request).toHaveCount(0);
+    await expect(page.getByTestId('roaster-actions').getByRole('button', { name: 'Add my coffee', exact: true })).toBeVisible();
     await page
       .getByRole('button', { name: roaster.name_en, exact: true })
       .click();

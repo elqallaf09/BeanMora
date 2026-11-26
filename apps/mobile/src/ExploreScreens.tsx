@@ -32,6 +32,7 @@ import {
   type EquipmentReview,
   type RoasterItem,
 } from './catalog';
+import { CountryPicker } from './CountryPicker';
 import { searchEquipment } from './equipmentSearch';
 import {
   mapRecipe,
@@ -1273,11 +1274,90 @@ function EquipmentReviews({
     </View>
   );
 }
+// A request is reviewed against the roastery's own site before it is listed;
+// the form says so and nothing appears in the directory from a request alone.
+function RoasterRequestForm({ userId, login, close }: { userId: string | null; login: () => void; close: () => void }) {
+  const L = useLabels();
+  const ar = useContext(Language) === 'ar';
+  const [name, setName] = useState('');
+  const [country, setCountry] = useState('');
+  const [city, setCity] = useState('');
+  const [site, setSite] = useState('');
+  const [instagram, setInstagram] = useState('');
+  const [owner, setOwner] = useState(false);
+  const [state, setState] = useState<'idle' | 'sending' | 'sent'>('idle');
+  const [problem, setProblem] = useState('');
+  async function send() {
+    if (state === 'sending') return;
+    const title = name.trim().replace(/\s+/g, ' ');
+    const url = site.trim();
+    const handle = instagram.trim().replace(/^@/, '').replace(/^https?:\/\/(www\.)?instagram\.com\//i, '').replace(/[/?].*$/, '');
+    if (title.length < 2) return setProblem(L('اكتب اسم المحمصة.', 'Enter the roastery name.'));
+    if (url && !/^https:\/\/\S+$/i.test(url)) return setProblem(L('رابط الموقع لازم يبدأ بـ https://', 'The website link must start with https://'));
+    if (handle && !/^[A-Za-z0-9._]{1,30}$/.test(handle)) return setProblem(L('اكتب اسم حساب إنستغرام فقط، بدون مسافات.', 'Enter only the Instagram username, without spaces.'));
+    if (!url && !handle) return setProblem(L('أضف موقع المحمصة أو حسابها في إنستغرام حتى نتحقق منها.', 'Add the roastery’s website or Instagram account so we can verify it.'));
+    setProblem('');
+    if (!userId) return login();
+    if (!supabase) return;
+    setState('sending');
+    const { error } = await supabase.from('roaster_requests').insert({
+      name: title.slice(0, 120), is_owner: owner,
+      ...(country ? { country } : {}), ...(city.trim() ? { city: city.trim().slice(0, 80) } : {}),
+      ...(url ? { website_url: url.slice(0, 500) } : {}), ...(handle ? { instagram: handle } : {}),
+    });
+    // 23505: this member already sent this roastery.
+    if (!error || error.code === '23505') return setState('sent');
+    setState('idle');
+    setProblem(/ROASTER_REQUEST_LIMIT/.test(error.message)
+      ? L('وصلت حد الطلبات اليومي. جرّب بكرة.', 'Daily request limit reached. Try again tomorrow.')
+      : L('تعذّر إرسال الطلب. حاول مرة ثانية.', 'Could not send the request. Try again.'));
+  }
+  if (state === 'sent')
+    return (
+      <View testID="roaster-request" accessibilityLiveRegion="polite" style={[styles.card, { padding: 16, gap: 10 }]}>
+        <Txt style={styles.success}>{L('وصل طلبك. تظهر المحمصة في الدليل بعد التحقق من موقعها أو حسابها.', 'Request received. The roastery appears in the directory once its website or account is verified.')}</Txt>
+        <Action compact title={L('إغلاق', 'Close')} onPress={close} />
+      </View>
+    );
+  const busy = state === 'sending';
+  return (
+    <View testID="roaster-request" style={[styles.card, { padding: 16, gap: 12 }]}>
+      <Txt heading style={styles.subtitle}>{L('أضف محمصتك', 'Add your roastery')}</Txt>
+      <Txt style={styles.muted}>{L('نراجع الطلب من موقع المحمصة أو حسابها قبل نشرها في الدليل.', 'We check the request against the roastery’s website or account before listing it.')}</Txt>
+      <Field label={L('اسم المحمصة', 'Roastery name')} value={name} onChangeText={setName} maxLength={120} editable={!busy} />
+      <View style={{ gap: 6 }}>
+        <Txt style={styles.label}>{L('الدولة (اختياري)', 'Country (optional)')}</Txt>
+        <CountryPicker value={country} onChange={setCountry} disabled={busy} />
+      </View>
+      <Field label={L('المدينة (اختياري)', 'City (optional)')} value={city} onChangeText={setCity} maxLength={80} editable={!busy} />
+      <Field label={L('موقع المحمصة', 'Roastery website')} value={site} onChangeText={setSite} placeholder="https://" maxLength={500} autoCapitalize="none" autoCorrect={false} editable={!busy} />
+      <Field label={L('حساب إنستغرام', 'Instagram account')} value={instagram} onChangeText={setInstagram} placeholder="@" maxLength={80} autoCapitalize="none" autoCorrect={false} editable={!busy} />
+      <Pressable accessibilityRole="checkbox" accessibilityLabel={L('أنا صاحب المحمصة أو أمثّلها', 'I own or represent this roastery')} accessibilityState={{ checked: owner, disabled: busy }} aria-checked={owner} disabled={busy} onPress={() => setOwner((v) => !v)}
+        style={{ minHeight: 44, flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 10 }}>
+        <View style={{ width: 22, height: 22, borderRadius: 6, borderWidth: 2, borderColor: colors.teal, backgroundColor: owner ? colors.teal : 'transparent', alignItems: 'center', justifyContent: 'center' }}>
+          {owner ? <Txt style={{ color: '#FFFFFF', fontSize: 14, lineHeight: 18, fontWeight: '700' }}>✓</Txt> : null}
+        </View>
+        <Txt style={{ flex: 1 }}>{L('أنا صاحب المحمصة أو أمثّلها', 'I own or represent this roastery')}</Txt>
+      </Pressable>
+      {problem ? <Txt accessibilityRole="alert" style={styles.error}>{problem}</Txt> : null}
+      <Action variant="primary" title={busy ? L('جارٍ الإرسال…', 'Sending…') : L('إرسال الطلب', 'Send request')} disabled={busy} onPress={() => void send()} />
+      {!userId ? <Txt style={[styles.muted, { fontSize: 12 }]}>{L('الطلب يحتاج تسجيل الدخول.', 'Sign in to send a request.')}</Txt> : null}
+      <Action compact title={L('إلغاء', 'Cancel')} disabled={busy} onPress={close} />
+    </View>
+  );
+}
 export function RoasterDirectory({
   open,
   coffees = [],
   initialSearch = '',
+  userId = null,
+  login = () => {},
+  addCoffee,
 }: {
+  userId?: string | null;
+  login?: () => void;
+  /** Opens the member's add-coffee form. */
+  addCoffee?: () => void;
   open: (r: RoasterItem) => void;
   coffees?: CoffeeItem[];
   initialSearch?: string;
@@ -1291,6 +1371,7 @@ export function RoasterDirectory({
   const [busy, setBusy] = useState(true);
   const [error, setError] = useState(false);
   const [revision, setRevision] = useState(0);
+  const [requesting, setRequesting] = useState(false);
   useEffect(() => {
     let active = true;
     setBusy(true);
@@ -1348,6 +1429,20 @@ export function RoasterDirectory({
           ? 'اكتشف المحامص وحبوبها ومصادر معلوماتها في مكان واحد.'
           : i18nUi('اكتشف المحامص وحبوبها ومصادر معلوماتها في مكان واحد.', 'Explore roasters, their coffees and the sources behind each listing.')}
       </Txt>
+      {requesting ? (
+        <RoasterRequestForm userId={userId} login={login} close={() => setRequesting(false)} />
+      ) : (
+        <View testID="roaster-actions" style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 10 }}>
+          <View style={{ flexGrow: 1, flexBasis: 150 }}>
+            <Action variant="primary" title={i18nUi('أضف محمصتي', 'Add my roastery')} onPress={() => setRequesting(true)} />
+          </View>
+          {addCoffee ? (
+            <View style={{ flexGrow: 1, flexBasis: 150 }}>
+              <Action title={i18nUi('أضف محصولي', 'Add my coffee')} onPress={addCoffee} />
+            </View>
+          ) : null}
+        </View>
+      )}
       <Field
         label={ar ? 'ابحث عن محمصة' : i18nUi('ابحث عن محمصة', 'Find a roaster')}
         value={search}
