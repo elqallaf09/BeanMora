@@ -156,12 +156,109 @@ function ToolSymbol({
     </View>
   );
 }
+// Offered whenever a search has no exact match. A request is reviewed against
+// the manufacturer's page before the model appears; nothing is added on the
+// member's word alone, and the screen says so.
+function EquipmentRequest({
+  query,
+  category,
+  userId,
+  login,
+}: {
+  query: string;
+  category: string;
+  userId: string | null;
+  login: () => void;
+}) {
+  const i18nUi = useLabels();
+  const ar = useContext(Language) === 'ar';
+  const name = query.trim().replace(/\s+/g, ' ');
+  const [link, setLink] = useState('');
+  const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'limit' | 'link' | 'failed'>('idle');
+  const [sentName, setSentName] = useState('');
+  if (name.length < 2 || name.length > 120) return null;
+  const done = state === 'sent' && sentName === name;
+  async function send() {
+    if (!userId) return login();
+    if (!supabase || state === 'sending') return;
+    const url = link.trim();
+    if (url && !/^https:\/\/\S+$/i.test(url)) return setState('link');
+    setState('sending');
+    const { error } = await supabase
+      .from('equipment_requests')
+      .insert({ name, category, ...(url ? { reference_url: url.slice(0, 500) } : {}) });
+    // 23505: this member already asked for the same model.
+    if (!error || error.code === '23505') {
+      setSentName(name);
+      setLink('');
+      setState('sent');
+    } else setState(/EQUIPMENT_REQUEST_LIMIT/.test(error.message) ? 'limit' : 'failed');
+  }
+  return (
+    <View testID="equipment-request" style={[styles.card, { padding: 14, gap: 10 }]}>
+      <Txt style={{ fontWeight: '700' }}>{i18nUi('ما لقيت الموديل؟', 'Can’t find the model?')}</Txt>
+      {done ? (
+        <View accessibilityLiveRegion="polite">
+          <Txt style={styles.success}>
+            {ar
+              ? `وصل طلب إضافة «${name}». يظهر في الدليل بعد التحقق من مصدره الرسمي.`
+              : i18nUi(`وصل طلب إضافة «${name}». يظهر في الدليل بعد التحقق من مصدره الرسمي.`, `Request received for "${name}". It appears in the directory once its official source is checked.`)}
+          </Txt>
+        </View>
+      ) : (
+        <>
+          <Txt style={styles.muted}>
+            {i18nUi('اطلب إضافته ونراجعه من موقع الشركة قبل نشره.', 'Request it and we will check the manufacturer’s page before publishing.')}
+          </Txt>
+          <Field
+            label={i18nUi('رابط المنتج الرسمي (اختياري)', 'Official product link (optional)')}
+            value={link}
+            onChangeText={(value) => { setLink(value); if (state !== 'sending') setState('idle'); }}
+            placeholder="https://"
+            maxLength={500}
+            editable={state !== 'sending'}
+          />
+          {state === 'link' || state === 'limit' || state === 'failed' ? (
+            <Txt accessibilityRole="alert" style={styles.error}>
+              {state === 'link'
+                ? i18nUi('الرابط لازم يبدأ بـ https://', 'The link must start with https://')
+                : state === 'limit'
+                  ? i18nUi('وصلت حد الطلبات اليومي. جرّب بكرة.', 'Daily request limit reached. Try again tomorrow.')
+                  : i18nUi('تعذّر إرسال الطلب. حاول مرة ثانية.', 'Could not send the request. Try again.')}
+            </Txt>
+          ) : null}
+          <Action
+            selected
+            title={
+              state === 'sending'
+                ? i18nUi('جارٍ الإرسال…', 'Sending…')
+                : ar
+                  ? `اطلب إضافة «${name}»`
+                  : i18nUi(`اطلب إضافة «${name}»`, `Request "${name}"`)
+            }
+            disabled={state === 'sending'}
+            onPress={() => void send()}
+          />
+          {!userId ? (
+            <Txt style={[styles.muted, { fontSize: 12 }]}>
+              {i18nUi('الطلب يحتاج تسجيل الدخول.', 'Sign in to send a request.')}
+            </Txt>
+          ) : null}
+        </>
+      )}
+    </View>
+  );
+}
 export function EquipmentDirectory({
   category,
   open,
   add,
+  userId = null,
+  login = () => {},
 }: {
   category: string;
+  userId?: string | null;
+  login?: () => void;
   open: (item: EquipmentItem) => void;
   add: (item: EquipmentItem) => void;
 }) {
@@ -311,6 +408,14 @@ export function EquipmentDirectory({
                   {ar ? 'هذه أقرب الموديلات الموجودة:' : i18nUi('هذه أقرب الموديلات الموجودة:', 'These are the closest models we have:')}
                 </Txt>
               </View>
+            ) : null}
+            {search.trim() && !busy && !error && (found.nearest || !visible.length) ? (
+              <EquipmentRequest
+                query={search}
+                category={filter === 'all' ? 'other' : filter}
+                userId={userId}
+                login={login}
+              />
             ) : null}
             <View
               style={{

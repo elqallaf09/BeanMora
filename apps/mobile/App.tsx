@@ -843,6 +843,8 @@ function Shell() {
                   key={equipmentCategory}
                   category={equipmentCategory}
                   add={item => { setEquipmentToAdd(item); navigate('myEquipment'); }}
+                  userId={userId}
+                  login={() => requestLogin()}
                   open={(item) => openDetail({ type: 'equipment', item })}
                 />
               ) : tab === 'roastLab' ? (

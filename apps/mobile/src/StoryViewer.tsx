@@ -20,7 +20,7 @@ import {
   StyleSheet,
   View,
 } from "./native";
-import { IconButton, Language, Txt } from "./ui";
+import { Icon, IconButton, Language, Txt } from "./ui";
 import { MemberAvatar } from "./MemberAvatar";
 import { useContentMedia } from "./useContentMedia";
 import { ViewInsights } from "./ViewInsights";
@@ -64,7 +64,10 @@ export function StoryViewer({
     [foreground, setForeground] = useState(
       AppState.currentState !== "background",
     ),
-    [progress, setProgress] = useState(0);
+    [progress, setProgress] = useState(0),
+    // Kept for the whole viewing session, like other story apps: once the
+    // member silences one clip the next ones stay silent.
+    [silenced, setSilenced] = useState(false);
   const current = stories[index];
   const [viewersOpen, setViewersOpen] = useState(false),
     [readyId, setReadyId] = useState("");
@@ -156,6 +159,7 @@ export function StoryViewer({
               key={current.id}
               story={current}
               paused={Boolean(paused)}
+              muted={silenced || Boolean(current.muted)}
               next={() => step(1)}
               progress={setProgress}
               viewable={() => setReadyId(current.id)}
@@ -264,6 +268,26 @@ export function StoryViewer({
                   color="#FFFFFF"
                   onPress={() => setHeld((v) => !v)}
                 />
+                {current.media_type === "video" ? (
+                  current.muted ? (
+                    <View
+                      testID="story-muted-by-author"
+                      accessible
+                      accessibilityLabel={i18nUi("نُشر هذا الفيديو بدون صوت", "This video was published without sound")}
+                      style={{ minWidth: 44, minHeight: 44, alignItems: "center", justifyContent: "center", opacity: 0.6 }}
+                    >
+                      <Icon name="mute" size={23} color="#FFFFFF" />
+                    </View>
+                  ) : (
+                    <IconButton
+                      name={silenced ? "mute" : "sound"}
+                      color="#FFFFFF"
+                      selected={silenced}
+                      label={silenced ? i18nUi("تشغيل الصوت", "Turn sound on") : i18nUi("كتم الصوت", "Mute sound")}
+                      onPress={() => setSilenced((v) => !v)}
+                    />
+                  )
+                ) : null}
                 {current.user_id === owner ? (
                   <IconButton
                     name="trash"
@@ -344,12 +368,14 @@ export function StoryViewer({
 function StoryMedia({
   story,
   paused,
+  muted,
   next,
   progress,
   viewable,
 }: {
   story: CoffeeStory;
   paused: boolean;
+  muted: boolean;
   next: () => void;
   progress: (n: number) => void;
   viewable: () => void;
@@ -395,6 +421,7 @@ function StoryMedia({
         <StoryVideo
           url={url}
           paused={paused}
+          muted={muted}
           next={next}
           progress={progress}
           failed={() => setFailed(true)}
@@ -458,6 +485,7 @@ function safely(action: () => void) {
 function StoryVideo({
   url,
   paused,
+  muted,
   next,
   progress,
   failed,
@@ -465,6 +493,7 @@ function StoryVideo({
 }: {
   url: string;
   paused: boolean;
+  muted: boolean;
   next: () => void;
   progress: (n: number) => void;
   failed: () => void;
@@ -473,8 +502,14 @@ function StoryVideo({
   const player = useVideoPlayer(url, (p) => {
     p.loop = false;
     p.timeUpdateEventInterval = 0.1;
+    p.muted = muted;
     p.play();
   });
+  useEffect(() => {
+    safely(() => {
+      player.muted = muted;
+    });
+  }, [player, muted]);
   const advance = useRef(next),
     onFail = useRef(failed);
   advance.current = next;
