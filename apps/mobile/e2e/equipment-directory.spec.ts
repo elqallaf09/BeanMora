@@ -68,6 +68,27 @@ for (const width of [390, 1024])
         exact: true,
       })
       .click();
+    // A model the catalog lacks offers the closest ones instead of an empty page.
+    await page
+      .getByLabel('Find equipment', { exact: true })
+      .fill('rocket model 999');
+    await expect(page.getByTestId('equipment-nearest')).toContainText(
+      '"rocket model 999" is not in the directory yet.',
+    );
+    await expect(
+      page.getByText('60 of 120 models', { exact: true }),
+    ).toBeVisible();
+    // A guest sees how to ask for the missing model and that it needs an account.
+    const request = page.getByTestId('equipment-request');
+    await expect(
+      request.getByRole('button', { name: 'Request "rocket model 999"', exact: true }),
+    ).toBeVisible();
+    await expect(request).toContainText('Sign in to send a request.');
+    await page
+      .getByLabel('Find equipment', { exact: true })
+      .fill('00 model');
+    await expect(request).toHaveCount(0);
+    await expect(page.getByTestId('equipment-nearest')).toHaveCount(0);
     await page
       .getByLabel('Find equipment', { exact: true })
       .fill('Model 00');

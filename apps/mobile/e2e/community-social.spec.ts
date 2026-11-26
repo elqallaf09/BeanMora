@@ -287,29 +287,26 @@ test('fullscreen story video autoplays, pauses, resumes and advances when the cl
   const chooser = page.waitForEvent('filechooser');
   await rail.getByRole('button', { name: 'Video', exact: true }).click();
   await (await chooser).setFiles('e2e/fixtures/story-test-video.webm');
+  // The author can publish without sound; left on here, so the viewer starts audible.
+  const silent = rail.getByTestId('story-silent');
+  await expect(silent).toHaveAttribute('aria-checked', 'false');
+  await silent.click(); await expect(silent).toHaveAttribute('aria-checked', 'true');
+  await silent.click(); await expect(silent).toHaveAttribute('aria-checked', 'false');
   await rail.getByRole('button', { name: 'Publish story', exact: true }).click();
   await rail.getByRole('button', { name: 'Story by Coffee Owner', exact: true }).click();
   const viewer = page.getByTestId('story-viewer'), video = viewer.locator('video');
   await expect.poll(() => video.evaluate(v => (v as HTMLVideoElement).currentTime)).toBeGreaterThan(0);
+  expect(await video.evaluate(v => (v as HTMLVideoElement).muted)).toBe(false);
+  await viewer.getByRole('button', { name: 'Mute sound', exact: true }).click();
+  await expect.poll(() => video.evaluate(v => (v as HTMLVideoElement).muted)).toBe(true);
+  await viewer.getByRole('button', { name: 'Turn sound on', exact: true }).click();
+  await expect.poll(() => video.evaluate(v => (v as HTMLVideoElement).muted)).toBe(false);
   await viewer.getByRole('button', { name: 'Pause story', exact: true }).click();
   await expect.poll(() => video.evaluate(v => (v as HTMLVideoElement).paused)).toBe(true);
   const pausedAt = await video.evaluate(v => (v as HTMLVideoElement).currentTime);
   await viewer.getByRole('button', { name: 'Play story', exact: true }).click();
   await expect.poll(() => video.evaluate(v => (v as HTMLVideoElement).currentTime)).toBeGreaterThan(pausedAt);
   await expect(viewer).toHaveCount(0, { timeout: 12000 });
-});
-
-test('gallery caption/file replacement and confirmed deletion retain failures and update the account', async ({ page }) => {
-  const f = await fixture(page); await login(page); await selectProfileExtra(page, 'Brews & coffee corner');
-  await page.getByRole('button', { name: 'Edit gallery photo', exact: true }).click();
-  await page.getByLabel('Edit photo caption', { exact: true }).fill('My updated coffee corner');
-  await pickPhoto(page, () => page.getByRole('button', { name: 'Replace photo', exact: true }).click());
-  f.failPhoto(true); await page.getByRole('button', { name: 'Save photo changes', exact: true }).click();
-  await expect(page.getByRole('alert')).toContainText('Could not confirm action'); await expect(page.getByLabel('Edit photo caption', { exact: true })).toHaveValue('My updated coffee corner');
-  f.failPhoto(false); await page.getByRole('button', { name: 'Save photo changes', exact: true }).click();
-  await expect(page.getByRole('img', { name: 'My updated coffee corner', exact: true })).toBeVisible(); expect(f.uploads.some(u => u.bucket === 'profile-gallery')).toBe(true);
-  await page.getByRole('button', { name: 'Delete gallery photo', exact: true }).click(); await page.getByRole('button', { name: 'Confirm delete photo', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Edit gallery photo', exact: true })).toHaveCount(0);
 });
 
 test('community moderation preserves a failed report, confirms recovery, and keeps blocked content hidden after reload', async ({ page }) => {
@@ -484,8 +481,10 @@ test('DM editing keeps original expiry, failed changes keep drafts, deletion and
 test('all profile sections stay visible and the message entry is an icon above the profile', async ({ page }, info) => {
   await page.setViewportSize({ width: 1536, height: 1009 }); await fixture(page); await login(page); await setLanguage(page, 'ar');
   const primary = page.getByTestId('profile-sections');
-  for (const name of ['المعدات', 'البن', 'الوصفات', 'منشوراتي', 'الوصفات المفضلة', 'التعليقات', 'الاستخلاص وركن القهوة']) await expect(primary.getByRole('button', { name, exact: true })).toBeVisible();
-  await expect(primary.getByRole('button')).toHaveCount(7);
+  for (const name of ['المعدات', 'البن', 'الوصفات', 'منشوراتي', 'الوصفات المفضلة', 'التعليقات']) await expect(primary.getByRole('button', { name, exact: true })).toBeVisible();
+  await expect(primary.getByRole('button')).toHaveCount(6);
+  // The photo gallery duplicated posts and was removed; it must not come back as a section.
+  await expect(primary.getByRole('button', { name: 'الاستخلاص وركن القهوة', exact: true })).toHaveCount(0);
   await expect(primary.getByRole('button', { name: 'المزيد من أقسام الحساب', exact: true })).toHaveCount(0);
   await expect(page.getByTestId('profile-extra-sections')).toHaveCount(0);
   await primary.getByRole('button', { name: 'التعليقات', exact: true }).click();

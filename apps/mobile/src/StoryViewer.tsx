@@ -10,6 +10,7 @@ import {
 import { useVideoPlayer, VideoView } from "expo-video";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
+  ActivityIndicator,
   AppState,
   Image,
   Modal,
@@ -19,7 +20,7 @@ import {
   StyleSheet,
   View,
 } from "./native";
-import { IconButton, Language, Txt } from "./ui";
+import { Icon, IconButton, Language, Txt } from "./ui";
 import { MemberAvatar } from "./MemberAvatar";
 import { useContentMedia } from "./useContentMedia";
 import { ViewInsights } from "./ViewInsights";
@@ -63,7 +64,10 @@ export function StoryViewer({
     [foreground, setForeground] = useState(
       AppState.currentState !== "background",
     ),
-    [progress, setProgress] = useState(0);
+    [progress, setProgress] = useState(0),
+    // Kept for the whole viewing session, like other story apps: once the
+    // member silences one clip the next ones stay silent.
+    [silenced, setSilenced] = useState(false);
   const current = stories[index];
   const [viewersOpen, setViewersOpen] = useState(false),
     [readyId, setReadyId] = useState("");
@@ -155,10 +159,14 @@ export function StoryViewer({
               key={current.id}
               story={current}
               paused={Boolean(paused)}
+              muted={silenced || Boolean(current.muted)}
               next={() => step(1)}
               progress={setProgress}
               viewable={() => setReadyId(current.id)}
             />
+            {stories[index + 1] ? (
+              <StoryPreload key={stories[index + 1].id} story={stories[index + 1]} />
+            ) : null}
             <View style={[StyleSheet.absoluteFill, { flexDirection: "row" }]}>
               {[ar ? 1 : -1, ar ? -1 : 1].map((direction) => (
                 <Pressable
@@ -260,6 +268,26 @@ export function StoryViewer({
                   color="#FFFFFF"
                   onPress={() => setHeld((v) => !v)}
                 />
+                {current.media_type === "video" ? (
+                  current.muted ? (
+                    <View
+                      testID="story-muted-by-author"
+                      accessible
+                      accessibilityLabel={i18nUi("نُشر هذا الفيديو بدون صوت", "This video was published without sound")}
+                      style={{ minWidth: 44, minHeight: 44, alignItems: "center", justifyContent: "center", opacity: 0.6 }}
+                    >
+                      <Icon name="mute" size={23} color="#FFFFFF" />
+                    </View>
+                  ) : (
+                    <IconButton
+                      name={silenced ? "mute" : "sound"}
+                      color="#FFFFFF"
+                      selected={silenced}
+                      label={silenced ? i18nUi("تشغيل الصوت", "Turn sound on") : i18nUi("كتم الصوت", "Mute sound")}
+                      onPress={() => setSilenced((v) => !v)}
+                    />
+                  )
+                ) : null}
                 {current.user_id === owner ? (
                   <IconButton
                     name="trash"
@@ -340,12 +368,14 @@ export function StoryViewer({
 function StoryMedia({
   story,
   paused,
+  muted,
   next,
   progress,
   viewable,
 }: {
   story: CoffeeStory;
   paused: boolean;
+  muted: boolean;
   next: () => void;
   progress: (n: number) => void;
   viewable: () => void;
@@ -358,6 +388,7 @@ function StoryMedia({
   const elapsed = useRef(0),
     advance = useRef(next);
   advance.current = next;
+  const loadingLabel = ar ? "جارٍ تحميل القصة…" : i18nUi("جارٍ تحميل القصة…", "Loading story…");
   useEffect(() => {
     if (story.media_type !== "image" || paused || !ready || failed) return;
     let last = Date.now();
@@ -383,40 +414,78 @@ function StoryMedia({
         </Txt>
       </View>
     );
-  if (!url)
-    return (
-      <View style={{ flex: 1, justifyContent: "center", padding: 20 }}>
-        <Txt style={{ color: "#FFFFFF" }}>
-          {ar ? "جارٍ تحميل القصة…" : i18nUi("جارٍ تحميل القصة…", "Loading story…")}
-        </Txt>
-      </View>
-    );
-  return story.media_type === "video" ? (
-    <StoryVideo
-      url={url}
-      paused={paused}
-      next={next}
-      progress={progress}
-      failed={() => setFailed(true)}
-      viewable={viewable}
-    />
-  ) : (
-    <Image
-      source={{ uri: url }}
-      resizeMode="contain"
-      accessibilityLabel={story.caption || (ar ? "قصة قهوة" : i18nUi("قصة قهوة", "Coffee story"))}
-      style={{ flex: 1, width: "100%" }}
-      onLoad={() => {
-        setReady(true);
-        viewable();
-      }}
-      onError={() => setFailed(true)}
-    />
+  if (!url) return <StoryLoading label={loadingLabel} />;
+  return (
+    <View style={{ flex: 1 }}>
+      {story.media_type === "video" ? (
+        <StoryVideo
+          url={url}
+          paused={paused}
+          muted={muted}
+          next={next}
+          progress={progress}
+          failed={() => setFailed(true)}
+          viewable={() => {
+            setReady(true);
+            viewable();
+          }}
+        />
+      ) : (
+        <Image
+          source={{ uri: url }}
+          resizeMode="contain"
+          accessibilityLabel={story.caption || (ar ? "قصة قهوة" : i18nUi("قصة قهوة", "Coffee story"))}
+          style={{ flex: 1, width: "100%" }}
+          onLoad={() => {
+            setReady(true);
+            viewable();
+          }}
+          onError={() => setFailed(true)}
+        />
+      )}
+      {ready ? null : (
+        <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+          <StoryLoading label={loadingLabel} />
+        </View>
+      )}
+    </View>
   );
+}
+// The media can take a few seconds on mobile data. A black screen with no
+// indicator reads as a frozen app, so the wait is always labelled.
+function StoryLoading({ label }: { label: string }) {
+  return (
+    <View
+      testID="story-loading"
+      accessibilityRole="progressbar"
+      accessibilityLabel={label}
+      style={{ flex: 1, alignItems: "center", justifyContent: "center", gap: 12, padding: 20 }}
+    >
+      <ActivityIndicator size="large" color="#FFFFFF" />
+      <Txt style={{ color: "#FFFFFF" }}>{label}</Txt>
+    </View>
+  );
+}
+// Resolves and warms the next story while the current one plays, so moving on
+// does not start from an empty screen.
+function StoryPreload({ story }: { story: CoffeeStory }) {
+  const url = useContentMedia("storage://coffee-stories/" + story.media_path);
+  useEffect(() => {
+    if (url && story.media_type === "image") void Image.prefetch(url).catch(() => undefined);
+  }, [url, story.media_type]);
+  return null;
+}
+function safely(action: () => void) {
+  try {
+    action();
+  } catch {
+    // The player is already released; there is nothing left to stop.
+  }
 }
 function StoryVideo({
   url,
   paused,
+  muted,
   next,
   progress,
   failed,
@@ -424,6 +493,7 @@ function StoryVideo({
 }: {
   url: string;
   paused: boolean;
+  muted: boolean;
   next: () => void;
   progress: (n: number) => void;
   failed: () => void;
@@ -432,8 +502,14 @@ function StoryVideo({
   const player = useVideoPlayer(url, (p) => {
     p.loop = false;
     p.timeUpdateEventInterval = 0.1;
+    p.muted = muted;
     p.play();
   });
+  useEffect(() => {
+    safely(() => {
+      player.muted = muted;
+    });
+  }, [player, muted]);
   const advance = useRef(next),
     onFail = useRef(failed);
   advance.current = next;
@@ -441,9 +517,12 @@ function StoryVideo({
   const onViewable = useRef(viewable);
   onViewable.current = viewable;
   useEffect(() => {
-    if (paused) player.pause();
-    else player.play();
-    return () => player.pause();
+    // expo-video releases the native player when this view unmounts, and that
+    // can happen before this cleanup runs. Touching a released player throws,
+    // which used to replace the whole screen with the recovery page when the
+    // last story finished.
+    safely(() => (paused ? player.pause() : player.play()));
+    return () => safely(() => player.pause());
   }, [player, paused]);
   useEffect(() => {
     const end = player.addListener("playToEnd", () => advance.current());
@@ -456,9 +535,9 @@ function StoryVideo({
       if (event.status === "error") onFail.current();
     });
     return () => {
-      end.remove();
-      time.remove();
-      status.remove();
+      safely(() => end.remove());
+      safely(() => time.remove());
+      safely(() => status.remove());
     };
   }, [player, progress]);
   return (

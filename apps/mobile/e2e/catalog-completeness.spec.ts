@@ -225,3 +225,43 @@ test('a search with no published match hands the coffee to the generator, which 
   await expect(generated).toContainText('«جوز الهند»');
   await expect(generated).not.toContainText('undefined');
 });
+
+test('a scanned bag with no published recipe nearby still gets a recipe from its origin and first note', async ({ page }) => {
+  const program = { ...recipes[0], serving_style: 'hot', source_brew_parameters: { dose: 15, water_ml: 240, grind_size: 55, model: 'Studio', cup_type: 'Omni',
+    pours: [{ volume: 60, temperature: 93, pause_seconds: 20 }, { volume: 90, temperature: 92, pause_seconds: 15 }, { volume: 90, temperature: 90, pause_seconds: 10 }] } };
+  await page.route('https://mobilefixture.supabase.co/**', async route => {
+    const url = new URL(route.request().url());
+    if (url.pathname.endsWith('/recipes') && route.request().method() === 'HEAD') {
+      return route.fulfill({ status: 200, headers: { 'content-range': '*/3312', 'access-control-expose-headers': 'content-range' }, body: '' });
+    }
+    if (url.pathname.endsWith('/rpc/search_public_recipes')) {
+      const body = route.request().postDataJSON();
+      const found = body.p_query ? [] : [program];
+      return route.fulfill({ status: 200, contentType: 'application/json', headers: { 'content-range': found.length ? '0-0/1' : '*/0', 'access-control-expose-headers': 'content-range' }, body: JSON.stringify(found) });
+    }
+    // No published recipe matches the bag's label.
+    return route.fulfill({ contentType: 'application/json', body: '[]' });
+  });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'xBloom', exact: true }).first().click();
+  const planner = page.getByTestId('xbloom-planner');
+  await planner.getByRole('button', { name: 'صوّر البن واختر الوصفة', exact: true }).click();
+  const panel = page.getByTestId('coffee-label-scanner');
+  // The reader choice is automatic; a guest reads on the device and sees no mode buttons.
+  await expect(panel.getByRole('button', { name: 'قراءة ذكية', exact: true })).toHaveCount(0);
+  await expect(panel.getByRole('button', { name: 'على الجهاز', exact: true })).toHaveCount(0);
+  await panel.getByLabel('اسم البن', { exact: true }).fill('بن تجربة');
+  await panel.getByLabel('منشأ البن', { exact: true }).fill('إثيوبيا');
+  await panel.getByLabel('الإيحاءات والطعم المكتوب على الكيس', { exact: true }).fill('فراولة، ياسمين');
+  await panel.getByRole('button', { name: 'اعثر على أقرب وصفة', exact: true }).click();
+  await panel.getByTestId('coffee-label-no-match').getByRole('button', { name: 'اصنع وصفة لهذا الكيس', exact: true }).click();
+  await expect(panel).toHaveCount(0);
+  const generated = planner.getByTestId('xbloom-generated');
+  await expect(generated).toBeVisible();
+  await expect(generated).toContainText('وصفة مخترعة');
+  await expect(generated).toContainText('«فراولة»');
+  await expect(generated).not.toContainText('undefined');
+  await expect(planner.getByRole('button', { name: 'المنشأ: إثيوبيا', exact: true })).toBeVisible();
+  await expect(planner.getByRole('button', { name: 'الإيحاء: فراولة', exact: true })).toBeVisible();
+  await expect(planner.getByLabel('اسم البن أو المحمصة (اختياري)', { exact: true })).toHaveValue('بن تجربة');
+});

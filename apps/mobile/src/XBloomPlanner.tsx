@@ -4,6 +4,8 @@ import { Action, Field, Icon, Language, Txt, colors, styles, useLabels } from '.
 import { SelectionMenu } from './SelectionMenu';
 import { Disclosure } from './Disclosure';
 import { ScanCoffeeButton } from './CoffeeLabelScanner';
+import type { CoffeeLabel } from './coffeeLabel';
+import { normalizeSearch as searchKey } from './core/deepSearch';
 import { publicSupabase, supabase, catalogScope } from './client';
 import { shareToXBloom, XBloomShareError } from './xbloomShare';
 import { mapRecipe, RECIPE_FIELDS, type CoffeeItem, type RecipeItem, type RecipeRow } from './data';
@@ -101,6 +103,18 @@ export function XBloomPlanner({ openRecipe, coffees = [], onDraft, initialOpen =
     setTaste(chosen); change('flavor', chosen ? TASTES.find(t => t[0] === chosen)![3] : '');
   }
   const wantedNote = (otherNote.trim() || note).slice(0, 60);
+  // A scanned bag with no published recipe nearby still gets a recipe: its
+  // name, growing country and first tasting note steer the invented one.
+  function inventFromBag(label: CoffeeLabel) {
+    const first = label.notes.split(/[,،\n]/).map(part => part.trim()).filter(Boolean)[0] ?? '';
+    const key = searchKey(first);
+    const known = NOTES.find(([id, arabic]) => searchKey(id) === key || searchKey(arabic) === key)?.[0] ?? '';
+    const country = searchKey(label.origin);
+    const from = ORIGINS.find(([id, arabic]) => country.includes(searchKey(id)) || country.includes(searchKey(arabic)))?.[0] ?? '';
+    const prefs = { ...p, coffee: label.name.slice(0, 160) };
+    setP(prefs); setNote(known); setOtherNote(known ? '' : first.slice(0, 60)); setOrigin(from);
+    void make(prefs, { origin: from, note: (known || first).slice(0, 60) });
+  }
   function choose(recipe: RecipeItem) {
     setError('');
     if (!compatibleXBloom(recipe, p)) { setError(L('الوصفة لا تطابق الجهاز أو القمع أو نوع التحضير المحدد.', 'This recipe does not match the selected machine, dripper or serving style.')); return; }
@@ -150,7 +164,10 @@ export function XBloomPlanner({ openRecipe, coffees = [], onDraft, initialOpen =
   // by origin and taste while a few recipes remain). A wanted note with enough
   // published recipes replaces that base; a rare or unknown note is invented on
   // top of it: its few recipes count more and its taste family nudges the cup.
-  async function make(prefs = p) {
+  async function make(prefs = p, basis?: Basis) {
+    // Named apart from the component state so a caller can pass a basis it has
+    // only just set, before React re-renders.
+    const fromOrigin = basis ? basis.origin : origin, askedNote = basis ? basis.note : wantedNote;
     pending.current?.abort(); const controller = new AbortController(); pending.current = controller;
     setBusy(true); setError(''); setGenerated(null); setRows([]); setSearched(false); setTotal(null); setUsed({ origin: '', note: '' }); setMade({ note: '', rule: '' });
     const usable = (items: RecipeItem[]) => items.filter(r => !!r.sourceBrew.pours?.length);
@@ -158,11 +175,11 @@ export function XBloomPlanner({ openRecipe, coffees = [], onDraft, initialOpen =
       const named = prefs.coffee.trim() ? (await load(prefs.coffee, prefs.flavor, 0, 12, controller.signal, undefined, prefs)).matched : [];
       if (controller.signal.aborted) return;
       if (usable(named).length) { generate(named, prefs.coffee, {}, prefs); return; }
-      const notePool = wantedNote ? (await load('', '', 0, 30, controller.signal, { origin: '', note: wantedNote }, prefs)).matched : [];
+      const notePool = askedNote ? (await load('', '', 0, 30, controller.signal, { origin: '', note: askedNote }, prefs)).matched : [];
       if (controller.signal.aborted) return;
-      if (usable(notePool).length >= MIN_NARROW_POOL) { setUsed({ origin: '', note: wantedNote }); generate(notePool, prefs.coffee, { general: true }, prefs); return; }
+      if (usable(notePool).length >= MIN_NARROW_POOL) { setUsed({ origin: '', note: askedNote }); generate(notePool, prefs.coffee, { general: true }, prefs); return; }
       const attempts: [string, string][] = [];
-      for (const o of origin ? [origin, ''] : ['']) for (const f of prefs.flavor ? [prefs.flavor, ''] : ['']) attempts.push([o, f]);
+      for (const o of fromOrigin ? [fromOrigin, ''] : ['']) for (const f of prefs.flavor ? [prefs.flavor, ''] : ['']) attempts.push([o, f]);
       let pool: RecipeItem[] = []; let from = '';
       for (const [o, f] of attempts) {
         pool = (await load('', f, 0, 30, controller.signal, { origin: o, note: '' }, prefs)).matched; from = o;
@@ -171,9 +188,9 @@ export function XBloomPlanner({ openRecipe, coffees = [], onDraft, initialOpen =
         if (usable(pool).length >= (o || f ? MIN_NARROW_POOL : 1)) break;
       }
       setUsed({ origin: from, note: '' });
-      if (!wantedNote) { generate(pool, prefs.coffee, { general: true }, prefs); return; }
-      const favored = usable(notePool).map(r => r.id), rule = taste ? '' : tasteForNote(wantedNote);
-      setMade({ note: wantedNote, rule });
+      if (!askedNote) { generate(pool, prefs.coffee, { general: true }, prefs); return; }
+      const favored = usable(notePool).map(r => r.id), rule = taste ? '' : tasteForNote(askedNote);
+      setMade({ note: askedNote, rule });
       generate([...notePool, ...pool.filter(r => !favored.includes(r.id))], prefs.coffee, { general: true, favored, noteTaste: rule as XBloomTaste, invented: true }, prefs);
     } catch { if (!controller.signal.aborted) setError(L('تعذّر تحضير الوصفة. تأكد من النت وحاول.', 'Could not prepare the recipe. Check your connection and retry.')); }
     finally { if (!controller.signal.aborted) setBusy(false); }
@@ -201,7 +218,7 @@ export function XBloomPlanner({ openRecipe, coffees = [], onDraft, initialOpen =
   return <Disclosure title={onDraft ? L('أنشئ وصفة xBloom لبنّك', 'Create an xBloom recipe for your coffee') : L('اصنع وصفة xBloom لبنّك', 'Make an xBloom recipe for your coffee')}
     subtitle={L('اختياراتك في شاشة وحدة. اضغط أي سطر تغيره.', 'All your choices on one screen. Press a line to change it.')} testID="xbloom-planner" initial={initialOpen} openSignal={seed?.nonce}>
     <Field label={L('اسم البن أو المحمصة (اختياري)', 'Coffee or roaster (optional)')} value={p.coffee} onChangeText={v => change('coffee', v)} maxLength={160} />
-    <ScanCoffeeButton method="xbloom" coffees={coffees} openRecipe={choose} model={p.model} serving={p.serving} cup={p.cup} onMatches={(recipes, name) => generate(recipes, name || p.coffee)} />
+    <ScanCoffeeButton method="xbloom" coffees={coffees} openRecipe={choose} model={p.model} serving={p.serving} cup={p.cup} onMatches={(recipes, name) => generate(recipes, name || p.coffee)} onInvent={inventFromBag} />
     <View style={{ borderWidth: 1, borderColor: colors.line, borderRadius: 16, paddingHorizontal: 12, backgroundColor: colors.paper }}>
       <Row label={L('الجهاز', 'Machine')} value={`${p.model} · ${p.cup}`} onPress={() => setSheet('machine')} />
       <Row label={L('المشروب', 'Drink')} value={`${iced ? L('بارد', 'Iced') : L('حار', 'Hot')} · ${p.amount} ${p.unit === 'water' ? 'ml' : 'g'}`} onPress={() => setSheet('drink')} />

@@ -789,9 +789,9 @@ for (const scenario of [
     await expect(page.getByTestId("profile-stats")).toHaveCount(0);
     await expect(
       page.getByTestId("profile-sections").getByRole("button"),
-    ).toHaveCount(7);
+    ).toHaveCount(6);
     const sections = page.getByTestId("profile-sections");
-    for (const name of ar ? ["المعدات", "البن", "الوصفات", "منشوراتي", "الوصفات المفضلة", "التعليقات", "الاستخلاص وركن القهوة"] : ["Equipment", "Coffee", "Recipes", "Posts", "Favorite recipes", "Comments", "Brews & coffee corner"]) {
+    for (const name of ar ? ["المعدات", "البن", "الوصفات", "منشوراتي", "الوصفات المفضلة", "التعليقات"] : ["Equipment", "Coffee", "Recipes", "Posts", "Favorite recipes", "Comments"]) {
       await expect(profile.getByRole("button", { name, exact: true })).toHaveCount(1);
     }
     for (const name of ar ? ["المعدات", "البن"] : ["Equipment", "Coffee"]) {
@@ -843,7 +843,7 @@ for (const scenario of [
         `approved-profile-${width}-${ar ? "ar" : "en"}-${dark ? "dark" : "light"}.png`,
       ),
     });
-    for (const name of ar ? ["الوصفات المفضلة", "التعليقات", "الاستخلاص وركن القهوة"] : ["Favorite recipes", "Comments", "Brews & coffee corner"]) {
+    for (const name of ar ? ["الوصفات المفضلة", "التعليقات"] : ["Favorite recipes", "Comments"]) {
       await expect(sections.getByRole("button", { name, exact: true })).toBeVisible();
     }
     await selectProfileExtra(

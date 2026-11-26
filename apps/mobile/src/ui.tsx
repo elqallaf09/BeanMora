@@ -115,7 +115,9 @@ export function Action({
       >
         <Txt
           style={{
-            color: primary ? '#FFFFFF' : colors.brown,
+            // One colour family for every button: filled teal is the main
+            // action, teal text on paper is everything else.
+            color: primary ? '#FFFFFF' : colors.teal,
             fontWeight: '700',
             textAlign: 'center',
             ...(compact ? { fontSize: 12, lineHeight: 18 } : {}),
@@ -185,6 +187,8 @@ export type IconName =
   | 'clock'
   | 'play'
   | 'pause'
+  | 'sound'
+  | 'mute'
   | 'close'
   | 'more'
   | 'edit'
@@ -216,6 +220,8 @@ export function Icon({
     roaster: <><Rect x="3" y="8" width="18" height="13" rx="3" /><Circle cx="12" cy="14" r="4" /><Path d="M8 5V2m4 3V1m4 4V2M5 21v2m14-2v2" /></>,
     close: <Path d="m6 6 12 12M18 6 6 18" />,
     pause: <><Path d="M8 5v14M16 5v14" /></>,
+    sound: <><Path d="M4 9v6h4l5 4V5L8 9H4Z" /><Path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" /></>,
+    mute: <><Path d="M4 9v6h4l5 4V5L8 9H4Z" /><Path d="m17 9.5 5 5M22 9.5l-5 5" /></>,
     inbox: <><Path d="m4 4-2 10v6h20v-6L20 4H4Z" /><Path d="M2 14h6l2 3h4l2-3h6" /></>,
     story: <><Circle cx="12" cy="12" r="9" strokeDasharray="4 3" /><Rect x="6" y="8" width="12" height="9" rx="2" /><Circle cx="12" cy="12.5" r="2.5" /><Path d="m9 8 1-2h4l1 2" /></>,
     trash: <><Path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7" /></>,

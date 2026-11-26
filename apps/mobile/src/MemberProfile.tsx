@@ -6,8 +6,6 @@ import {
   View,
   useWindowDimensions,
 } from "./native";
-import * as ImagePicker from "expo-image-picker";
-import { randomUUID } from "expo-crypto";
 import { supabase } from "./client";
 import {
   useLabels,
@@ -24,7 +22,6 @@ import {
 import { AvatarEditor } from "./AvatarEditor";
 import { MemberAvatar } from "./MemberAvatar";
 import { ProfileCover } from "./ProfileCover";
-import { ProfilePhotoActions } from "./ProfilePhotoActions";
 import { ViewInsights } from "./ViewInsights";
 import { CommunityScreen } from "./CommunityScreen";
 import type { CoffeeItem, RecipeItem } from "./data";
@@ -37,8 +34,6 @@ import { CatalogPhoto } from "./CatalogPhoto";
 import { safeUrl } from "./guards";
 import { accountCountryFlag, accountCountryName } from "./core/account-profile";
 import {
-  contributionImage,
-  uploadContributionImage,
 } from "./core/member-contributions";
 import {
   memberDirectory,
@@ -48,7 +43,6 @@ import {
   updateMemberProfile,
   changeMemberFollow,
   decideMemberRequest,
-  saveProfilePhoto,
   type MemberIdentity,
   type MemberProfileData,
 } from "./core/member-social";
@@ -180,19 +174,6 @@ function MemberLink({
     </Pressable>
   );
 }
-function ProfileImage({ url, caption }: { url: string; caption: string }) {
-  const uri = useContentMedia(url);
-  return uri ? (
-    <Image
-      source={{ uri }}
-      accessibilityLabel={caption}
-      resizeMode="cover"
-      style={{ height: 240, width: "100%", borderRadius: 14 }}
-    />
-  ) : (
-    <View style={{ height: 80, backgroundColor: colors.paper }} />
-  );
-}
 function CollectionPhoto({
   url,
   status,
@@ -274,19 +255,6 @@ export function MemberProfile({
     hide_followers: false,
     hide_following: false,
   });
-  const [photo, setPhoto] = useState<{ uri: string; bytes: Uint8Array } | null>(
-      null,
-    ),
-    [kind, setKind] = useState<"extraction" | "corner">("extraction"),
-    [caption, setCaption] = useState(""),
-    [rights, setRights] = useState(false),
-    [locked, setLocked] = useState(false);
-  const photoAttempt = useRef<{
-    id: string;
-    kind: "extraction" | "corner";
-    caption: string;
-    path?: string;
-  } | null>(null);
   useEffect(() => {
     let active = true;
     setData(null);
@@ -364,30 +332,6 @@ export function MemberProfile({
       setBusy(false);
     }
   };
-  const selectPhoto = async () => {
-    try {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ["images"],
-        base64: true,
-        exif: false,
-        quality: 0.85,
-      });
-      if (result.canceled) return;
-      const a = result.assets[0];
-      if (!a.base64) throw Error();
-      const bytes = Uint8Array.from(atob(a.base64), (c) => c.charCodeAt(0));
-      contributionImage(bytes);
-      setPhoto({ uri: a.uri, bytes });
-      setRights(false);
-    } catch {
-      setError(
-        L(
-          "اختر صورة JPEG أو PNG أو WebP لا تتجاوز ٥ ميغابايت.",
-          "Choose JPEG, PNG or WebP under 5 MB.",
-        ),
-      );
-    }
-  };
   if (loading) return <Txt>{L("جارٍ تحميل الملف…", "Loading profile…")}</Txt>;
   if (!data)
     return (
@@ -408,13 +352,11 @@ export function MemberProfile({
     ["posts", "منشوراتي", "Posts"],
     ["favorites", "الوصفات المفضلة", "Favorite recipes"],
     ["comments", "التعليقات", "Comments"],
-    ["photos", "الاستخلاص وركن القهوة", "Brews & coffee corner"],
   ];
   const sectionCounts: Record<string, number | undefined> = {
     equipment: data.equipment?.length ?? 0,
     beans: data.beans?.length ?? 0,
     recipes: data.recipes?.length ?? 0,
-    photos: data.photos?.length ?? 0,
   };
   const wide = width >= 700;
   const avatarSize = wide ? 112 : 80;
@@ -1066,7 +1008,6 @@ export function MemberProfile({
               </View>
               {own ? (
                 <ProfileAction
-                  dashed
                   title={L("إضافة معدة", "Add equipment")}
                   variant="primary"
                   icon="plus"
@@ -1097,8 +1038,8 @@ export function MemberProfile({
               {!data.beans?.length ? <Empty ar={ar} /> : null}
               {own ? (
                 <ProfileAction
-                  dashed
                   title={L("إدارة أكياسي", "Manage my bags")}
+                  variant="primary"
                   icon="bean"
                   onPress={() => manage("bags")}
                 />
@@ -1185,141 +1126,6 @@ export function MemberProfile({
                   ) : null}
                 </>
               )}
-            </View>
-          ) : null}
-          {tab === "photos" ? (
-            <View style={{ gap: 14 }}>
-              {own ? (
-                <View style={[styles.card, { padding: 14, gap: 10 }]}>
-                  <View style={styles.row}>
-                    <Action
-                      compact
-                      title={L("صورة استخلاص", "Brew photo")}
-                      selected={kind === "extraction"}
-                      disabled={locked}
-                      onPress={() => setKind("extraction")}
-                    />
-                    <Action
-                      compact
-                      title={L("ركن القهوة", "Coffee corner")}
-                      selected={kind === "corner"}
-                      disabled={locked}
-                      onPress={() => setKind("corner")}
-                    />
-                  </View>
-                  <Field
-                    label={L("وصف الصورة", "Photo caption")}
-                    value={caption}
-                    onChangeText={setCaption}
-                    maxLength={2000}
-                    editable={!locked}
-                  />
-                  <Action
-                    title={L("اختيار صورة", "Choose photo")}
-                    disabled={locked || busy}
-                    onPress={() => void selectPhoto()}
-                  />
-                  {photo ? (
-                    <>
-                      <Image
-                        source={{ uri: photo.uri }}
-                        accessibilityLabel={L(
-                          "الصورة المختارة",
-                          "Selected photo",
-                        )}
-                        style={{ height: 180, width: "100%" }}
-                        resizeMode="contain"
-                      />
-                      <Pressable
-                        accessibilityRole="checkbox"
-                        accessibilityState={{ checked: rights }}
-                        disabled={locked}
-                        onPress={() => setRights((v) => !v)}
-                        style={{ padding: 12 }}
-                      >
-                        <Txt>
-                          {(rights ? "☑ " : "☐ ") +
-                            L(
-                              "أملك حق مشاركة الصورة",
-                              "I have permission to share the photo",
-                            )}
-                        </Txt>
-                      </Pressable>
-                      <Action
-                        selected
-                        disabled={busy || !rights}
-                        title={
-                          locked
-                            ? L("إعادة حفظ الصورة", "Retry photo")
-                            : L("حفظ الصورة", "Save photo")
-                        }
-                        onPress={() =>
-                          void run(async () => {
-                            if (!photoAttempt.current) {
-                              photoAttempt.current = {
-                                id: randomUUID(),
-                                kind,
-                                caption,
-                              };
-                              setLocked(true);
-                            }
-                            const a = photoAttempt.current;
-                            if (!a.path)
-                              a.path = await uploadContributionImage(
-                                supabase!,
-                                userId!,
-                                a.id,
-                                photo.bytes,
-                                "profile-gallery",
-                              );
-                            await saveProfilePhoto(
-                              supabase!,
-                              userId!,
-                              a.id,
-                              a.kind,
-                              a.path,
-                              a.caption,
-                            );
-                            photoAttempt.current = null;
-                            setPhoto(null);
-                            setCaption("");
-                            setRights(false);
-                            setLocked(false);
-                            setRevision((n) => n + 1);
-                          })
-                        }
-                      />
-                    </>
-                  ) : null}
-                </View>
-              ) : null}
-              {data.photos?.map((p) => (
-                <View key={p.id} style={{ gap: 8 }}>
-                  <ProfileImage
-                    url={p.image_url}
-                    caption={
-                      p.caption ||
-                      (p.kind === "corner"
-                        ? L("ركن القهوة", "Coffee corner")
-                        : L("صورة استخلاص", "Brew photo"))
-                    }
-                  />
-                  <Txt>
-                    {p.kind === "corner"
-                      ? L("ركن القهوة", "Coffee corner")
-                      : L("استخلاص", "Brew")}
-                  </Txt>
-                  {p.caption ? <Txt>{p.caption}</Txt> : null}
-                  {own && userId ? (
-                    <ProfilePhotoActions
-                      owner={userId}
-                      photo={p}
-                      saved={() => setRevision((n) => n + 1)}
-                    />
-                  ) : null}
-                </View>
-              ))}
-              {!data.photos?.length ? <Empty ar={ar} /> : null}
             </View>
           ) : null}
         </>

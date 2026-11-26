@@ -16,7 +16,10 @@ export async function chooseSocialMedia(type: 'image' | 'video', camera = false)
     if (!permission.granted) throw new Error('CAMERA_PERMISSION');
   }
   const options: ImagePicker.ImagePickerOptions = {
-    mediaTypes: type === 'image' ? ['images'] : ['videos'], quality: 0.85,
+    mediaTypes: type === 'image' ? ['images'] : ['videos'],
+    // Phone cameras produce 12 MP+ photos; 0.7 roughly halves the upload
+    // and the time a story takes to open, with no visible loss on a phone.
+    quality: 0.7,
     base64: type === 'image', exif: false, videoMaxDuration: 60,
     videoExportPreset: ImagePicker.VideoExportPreset.H264_1280x720,
   };
@@ -53,7 +56,7 @@ function MediaIcon({ type, camera, color }: { type: 'image' | 'video'; camera: b
 
 function MediaChoice({ type, camera = false, title, disabled, onPress }: { type: 'image' | 'video'; camera?: boolean; title: string; disabled: boolean; onPress: () => void }) {
   const ar = useContext(Language) === 'ar';
-  const tint = type === 'image' ? colors.teal : colors.brown;
+  const tint = colors.teal;
   return <Pressable accessibilityRole="button" accessibilityLabel={title} accessibilityState={{ disabled }} disabled={disabled} onPress={onPress} style={({ pressed }) => ({
     flex: 1, minWidth: 0, minHeight: camera ? 54 : 96, paddingHorizontal: 10, paddingVertical: camera ? 10 : 16,
     borderRadius: camera ? 16 : 22, borderWidth: 1, borderColor: camera ? colors.line : tint,

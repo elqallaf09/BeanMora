@@ -2,7 +2,7 @@ import type { XBloomModel } from './xbloomMatching';
 import { useLabels } from './ui';
 import { useContext, useEffect, useRef, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import { ActivityIndicator, Image, KeyboardAvoidingView, Modal, Platform, ScrollView, View, useWindowDimensions } from './native';
+import { ActivityIndicator, Image, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, View, useWindowDimensions } from './native';
 import { Action, Field, Language, Txt, colors, styles } from './ui';
 import type { CoffeeItem, RecipeItem } from './data';
 import type { Method } from './core/engine';
@@ -21,10 +21,12 @@ import { RecipeServingBadge } from './RecipeServingBadge';
 import { CoffeeLabelCropper } from './CoffeeLabelCropper';
 import { RecipeVisual } from './RecipeVisual';
 
-export function ScanCoffeeButton({ openRecipe, coffees = [], method, model = 'all', serving = '', cup, onMatches }: {
+export function ScanCoffeeButton({ openRecipe, coffees = [], method, model = 'all', serving = '', cup, onMatches, onInvent }: {
   openRecipe: (recipe: RecipeItem) => void; coffees?: CoffeeItem[]; method?: Method; model?: XBloomModel; serving?: LabelServing; cup?: 'Omni' | 'xPod';
   /** Hand every close match to a recipe generator instead of opening one. */
   onMatches?: (recipes: RecipeItem[], coffeeName: string) => void;
+  /** Build a recipe from the reviewed bag details when no published recipe is close. */
+  onInvent?: (label: CoffeeLabel) => void;
 }) {
   const i18nUi = useLabels();
   const ar = useContext(Language) === 'ar';
@@ -33,12 +35,14 @@ export function ScanCoffeeButton({ openRecipe, coffees = [], method, model = 'al
     <Action title={ar ? 'صوّر البن واختر الوصفة' : i18nUi('صوّر البن واختر الوصفة', 'Scan coffee for a recipe')} onPress={() => setVisible(true)} />
     {visible ? <CoffeeLabelScanner coffees={coffees} method={method} model={model} initialServing={serving} cup={cup} close={() => setVisible(false)}
       openRecipe={recipe => { setVisible(false); openRecipe(recipe); }}
-      onMatches={onMatches ? (recipes, name) => { setVisible(false); onMatches(recipes, name); } : undefined} /> : null}
+      onMatches={onMatches ? (recipes, name) => { setVisible(false); onMatches(recipes, name); } : undefined}
+      onInvent={onInvent ? label => { setVisible(false); onInvent(label); } : undefined} /> : null}
   </>;
 }
-function CoffeeLabelScanner({ coffees, method: initialMethod, model, initialServing, cup, close, openRecipe, onMatches }: {
+function CoffeeLabelScanner({ coffees, method: initialMethod, model, initialServing, cup, close, openRecipe, onMatches, onInvent }: {
   coffees: CoffeeItem[]; method?: Method; model: XBloomModel; initialServing: LabelServing; cup?: 'Omni' | 'xPod'; close: () => void; openRecipe: (recipe: RecipeItem) => void;
   onMatches?: (recipes: RecipeItem[], coffeeName: string) => void;
+  onInvent?: (label: CoffeeLabel) => void;
 }) {
   const i18nUi = useLabels();
   const locale = useContext(Language); const ar = locale === 'ar'; const { width } = useWindowDimensions();
@@ -53,9 +57,13 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, model, initialServ
   const [progress, setProgress] = useState(0);
   const [ocrError, setOcrError] = useState('');
   const [pickBusy, setPickBusy] = useState(false);
-  // AI reading uploads the photo, so it is off until the member turns it on.
-  const [aiMode, setAiMode] = useState(false);
+  // AI reading uploads the photo to OpenAI, so it needs the member's one-time
+  // permission. After that the choice of reader is automatic: AI first, and
+  // the on-device reader takes over whenever AI cannot read the bag.
+  const [aiConsent, setAiConsent] = useState<'unknown' | 'granted' | 'declined'>('unknown');
   const [member, setMember] = useState<string | null>(null);
+  const aiMode = !!member && aiConsent === 'granted';
+  const [fallback, setFallback] = useState(false);
   const [aiBusy, setAiBusy] = useState(false);
   const [extras, setExtras] = useState<LabelExtras>(emptyLabelExtras);
   const [confidence, setConfidence] = useState<AiLabelReading['confidence']>({});
@@ -77,7 +85,8 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, model, initialServ
         const user = (await supabase?.auth.getSession())?.data.session?.user;
         if (!mounted.current || !user || user.is_anonymous) return;
         setMember(user.id);
-        if (await AsyncStorage.getItem(aiKey(user.id)) === '1' && mounted.current) setAiMode(true);
+        const stored = await AsyncStorage.getItem(aiKey(user.id));
+        if (mounted.current && stored) setAiConsent(stored === '1' ? 'granted' : 'declined');
       } catch { /* On-device reading stays available. */ }
     })();
   }, []);
@@ -86,14 +95,13 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, model, initialServ
     if (!session || session.user.is_anonymous) throw new AiLabelError('signin');
     return { url: catalogScope, publicKey: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '', accessToken: session.access_token };
   };
-  const chooseMode = (ai: boolean) => {
-    if (job || aiBusy || ai === aiMode) return;
-    setOcrError('');
-    if (ai && !member) { setOcrError(ar ? 'سجّل دخولك لاستخدام القراءة الذكية. القراءة على الجهاز متاحة بدون حساب.' : i18nUi('سجّل دخولك لاستخدام القراءة الذكية. القراءة على الجهاز متاحة بدون حساب.', 'Sign in to use smart reading. On-device reading works without an account.')); return; }
-    setAiMode(ai);
-    if (member) void AsyncStorage.setItem(aiKey(member), ai ? '1' : '0').catch(() => {});
+  const decide = (allow: boolean) => {
+    if (job || aiBusy || !member) return;
+    setOcrError(''); setFallback(false);
+    setAiConsent(allow ? 'granted' : 'declined');
+    void AsyncStorage.setItem(aiKey(member), allow ? '1' : '0').catch(() => {});
     // Turning it off also withdraws the recorded permission on the server.
-    if (!ai) void aiOptions().then(withdrawAiLabelConsent).catch(() => {});
+    if (!allow) void aiOptions().then(withdrawAiLabelConsent).catch(() => {});
   };
   const aiMessage = (error: unknown) => {
     const reason = error instanceof AiLabelError ? error.reason : 'unknown';
@@ -120,8 +128,9 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, model, initialServ
       if (!hasCoffeeLabelFacts(result.label)) setOcrError(ar ? 'ما لقينا بيانات مكتوبة على الكيس في هالصورة. صوّر الملصق من قريب أو اكتب البيانات.' : i18nUi('ما لقينا بيانات مكتوبة على الكيس في هالصورة. صوّر الملصق من قريب أو اكتب البيانات.', 'No printed coffee details were found in this photo. Take a closer label photo or type the details.'));
     } catch (error) {
       if (!mounted.current || request.signal.aborted) return;
-      // Keep the photo: the member can still read it on the device.
-      setOcrError(aiMessage(error)); setCropping(true);
+      // AI could not read it, so the on-device reader takes the same photo
+      // without asking. The reason stays visible above the progress.
+      setOcrError(aiMessage(error)); setFallback(true); startOcr(image);
     } finally { if (aiRequest.current === request) { aiRequest.current = null; if (mounted.current) setAiBusy(false); } }
   };
   const invalidate = () => { generation.current += 1; controller.current?.abort(); setMatching(false); setRecipes([]); setMatchError(false); setSearched(false); };
@@ -131,6 +140,8 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, model, initialServ
     if (event.type === 'progress') { setProgress(event.progress); return; }
     reading.current = null; setJob(null);
     if (event.type === 'error') { setOcrError(ar ? 'تعذّرت قراءة الصورة. أعد التصوير أو اكتب بيانات الكيس.' : i18nUi('تعذّرت قراءة الصورة. أعد التصوير أو اكتب بيانات الكيس.', 'Could not read the photo. Try again or enter the label details.')); return; }
+    // A reading arrived, so an earlier smart-reading failure no longer applies.
+    setOcrError(''); setFallback(false);
     const parsed = readCoffeeLabel(event.text, event.titles);
     // Product names have no finite vocabulary to validate against. Do not turn
     // a weak reading of a logo/title into an asserted product identity.
@@ -147,14 +158,15 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, model, initialServ
   }, [job]);
   const pick = async (camera: boolean) => {
     if (picking.current || job || aiBusy) return;
-    picking.current = true; setPickBusy(true); setOcrError('');
+    picking.current = true; setPickBusy(true); setOcrError(''); setFallback(false);
     try {
       if (camera && Platform.OS !== 'web') {
         const permission = await ImagePicker.requestCameraPermissionsAsync();
         if (!permission.granted) throw new Error('CAMERA_PERMISSION');
       }
-      // A smaller upload for AI reading; full quality helps the on-device reader.
-      const options: ImagePicker.ImagePickerOptions = { mediaTypes: ['images'], base64: true, quality: aiMode ? 0.5 : 1, exif: false,
+      // A smaller upload for AI reading that the on-device reader can still use
+      // if it has to take over; full quality when it reads alone.
+      const options: ImagePicker.ImagePickerOptions = { mediaTypes: ['images'], base64: true, quality: aiMode ? 0.7 : 1, exif: false,
         cameraType: ImagePicker.CameraType.back };
       const result = camera ? await ImagePicker.launchCameraAsync(options) : await ImagePicker.launchImageLibraryAsync(options);
       if (!mounted.current || result.canceled) return;
@@ -175,13 +187,16 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, model, initialServ
         : ar ? 'اختر صورة واضحة بصيغة JPEG أو PNG أو WebP بحجم أقل من 10 ميغابايت.' : i18nUi('اختر صورة واضحة بصيغة JPEG أو PNG أو WebP بحجم أقل من 10 ميغابايت.', 'Choose a clear JPEG, PNG or WebP photo under 10 MB.'));
     } finally { picking.current = false; if (mounted.current) setPickBusy(false); }
   };
-  const readCrop = (crop: CoffeeOcrCrop) => {
-    if (!photo || job || aiBusy) return;
-    invalidate(); setCoffee(null); setCandidates([]); setLabel(emptyCoffeeLabel()); setRawText(''); setOcrError(''); setExtras(emptyLabelExtras()); setConfidence({});
+  function startOcr(image: string, crop?: CoffeeOcrCrop) {
     setCropping(false); setNeedsReview(true); setProgress(0);
     const id = String(++generation.current); reading.current = id;
+    setJob({ id, image, ...(crop ? { crop } : {}) });
+  }
+  const readCrop = (crop: CoffeeOcrCrop) => {
+    if (!photo || job || aiBusy) return;
+    invalidate(); setCoffee(null); setCandidates([]); setLabel(emptyCoffeeLabel()); setRawText(''); setOcrError(''); setFallback(false); setExtras(emptyLabelExtras()); setConfidence({});
     const full = crop.left === 0 && crop.top === 0 && crop.width === 1 && crop.height === 1;
-    setJob({ id, image: photo.image, ...(full ? {} : { crop }) });
+    startOcr(photo.image, full ? undefined : crop);
   };
   const find = async () => {
     if (matching || job || aiBusy || needsReview || cropping || (!coffee && !hasCoffeeLabelFacts(label))) return;
@@ -208,13 +223,23 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, model, initialServ
         <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ padding: 12, gap: 10 }}>
           <Txt style={{ fontSize: 14, lineHeight: 22 }}>{ar ? 'صوّر الملصق بوضوح، وراجع البيانات ثم اختر أقرب وصفة لبنك.' : i18nUi('صوّر الملصق بوضوح، وراجع البيانات ثم اختر أقرب وصفة لبنك.', 'Take a clear label photo, review the details, then find the closest recipe for your coffee.')}</Txt>
           <Txt style={{ fontSize: 12, lineHeight: 19, color: colors.muted }}>{ar ? 'افرد الملصق، وقرّب الكتابة داخل الصورة، وتجنّب انعكاس الإضاءة.' : i18nUi('افرد الملصق، وقرّب الكتابة داخل الصورة، وتجنّب انعكاس الإضاءة.', 'Keep the label flat, fill the frame with text, and avoid glare.')}</Txt>
-          <View testID="coffee-label-mode" style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8 }}>
-            <Action compact title={ar ? 'قراءة ذكية' : i18nUi('قراءة ذكية', 'Smart reading')} selected={aiMode} disabled={!!job || aiBusy} onPress={() => chooseMode(true)} />
-            <Action compact title={ar ? 'على الجهاز' : i18nUi('على الجهاز', 'On device')} selected={!aiMode} disabled={!!job || aiBusy} onPress={() => chooseMode(false)} />
-          </View>
-          <Txt style={{ fontSize: 12, lineHeight: 19, color: colors.muted }}>{aiMode
-            ? ar ? 'القراءة الذكية ترسل صورة الكيس إلى OpenAI لقراءتها، ولا نحفظ الصورة. لا تصوّر معلومات شخصية. تقدر توقفها باختيار «على الجهاز».' : i18nUi('القراءة الذكية ترسل صورة الكيس إلى OpenAI لقراءتها، ولا نحفظ الصورة. لا تصوّر معلومات شخصية. تقدر توقفها باختيار «على الجهاز».', 'Smart reading sends your bag photo to OpenAI to read it; we do not keep the photo. Do not photograph personal information. Choose “On device” to stop.')
-            : ar ? 'مجاني. تُقرأ الصورة على جهازك ولا تُرفع. يحتاج قارئ النص اتصالًا عند تحميله.' : i18nUi('مجاني. تُقرأ الصورة على جهازك ولا تُرفع. يحتاج قارئ النص اتصالًا عند تحميله.', 'Free. Your photo is read on your device and is never uploaded. Loading the text reader needs a connection.')}</Txt>
+          {member && aiConsent === 'unknown' ? <View testID="coffee-label-consent" style={[styles.card, { padding: 12, gap: 8, marginBottom: 0 }]}>
+            <Txt heading style={{ fontSize: 15 }}>{i18nUi('قراءة أدق للكيس؟', 'Read the bag more accurately?')}</Txt>
+            <Txt style={{ fontSize: 12, lineHeight: 19, color: colors.muted }}>{i18nUi('القراءة الذكية ترسل صورة الكيس إلى OpenAI لقراءتها، ولا نحفظ الصورة. لا تصوّر معلومات شخصية. إذا ما ضبطت، يقرأ التطبيق الكيس على جهازك تلقائيًا.', 'Smart reading sends the bag photo to OpenAI to read it; we do not keep the photo. Do not photograph personal information. If it fails, the app reads the bag on your device automatically.')}</Txt>
+            <View style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8 }}>
+              <Action compact variant="primary" title={i18nUi('موافق، فعّلها', 'Agree and turn on')} disabled={!!job || aiBusy} onPress={() => decide(true)} />
+              <Action compact title={i18nUi('لا، على جهازي فقط', 'No, on my device only')} disabled={!!job || aiBusy} onPress={() => decide(false)} />
+            </View>
+          </View> : <View testID="coffee-label-mode" style={{ gap: 2 }}>
+            <Txt style={{ fontSize: 12, lineHeight: 19, color: colors.muted }}>{aiMode
+              ? i18nUi('القراءة تلقائية: ذكية أولًا عبر OpenAI (لا نحفظ الصورة)، وإذا ما ضبطت يقرأها التطبيق على جهازك.', 'Reading is automatic: smart reading through OpenAI first (we do not keep the photo), then on your device if that fails.')
+              : member
+                ? i18nUi('تُقرأ الصورة على جهازك ولا تُرفع.', 'Your photo is read on your device and is not uploaded.')
+                : i18nUi('تُقرأ الصورة على جهازك ولا تُرفع. سجّل دخولك لتفعيل القراءة الذكية.', 'Your photo is read on your device and is not uploaded. Sign in to turn on smart reading.')}</Txt>
+            {member ? <Pressable accessibilityRole="button" disabled={!!job || aiBusy} onPress={() => decide(!aiMode)} style={{ minHeight: 44, justifyContent: 'center', alignSelf: ar ? 'flex-end' : 'flex-start' }}><Txt style={{ fontSize: 12, color: colors.teal, fontWeight: '700' }}>{aiMode
+              ? i18nUi('إيقاف القراءة الذكية', 'Turn smart reading off')
+              : i18nUi('تفعيل القراءة الذكية', 'Turn smart reading on')}</Txt></Pressable> : null}
+          </View>}
           <View style={{ flexDirection: ar ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8 }}>
             <Action compact title={ar ? 'تصوير الكيس' : i18nUi('تصوير الكيس', 'Take a label photo')} disabled={pickBusy || !!job || aiBusy} onPress={() => void pick(true)} />
             <Action compact title={ar ? 'اختيار صورة' : i18nUi('اختيار صورة', 'Choose a photo')} disabled={pickBusy || !!job || aiBusy} onPress={() => void pick(false)} />
@@ -225,7 +250,7 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, model, initialServ
               <Action compact title={ar ? 'تحديد الملصق وإعادة القراءة' : i18nUi('تحديد الملصق وإعادة القراءة', 'Crop label and reread')} disabled={!!job || aiBusy} onPress={() => { invalidate(); setCropping(true); }} /></View>
           </View> : null}
           {photo && cropping ? <CoffeeLabelCropper photo={photo} apply={readCrop} cancel={() => setCropping(false)} /> : null}
-          {job ? <View accessibilityLiveRegion="polite" style={{ gap: 8 }}><ActivityIndicator color={colors.teal} /><Txt>{ar ? 'جارٍ قراءة الملصق… ' : i18nUi('جارٍ قراءة الملصق… ', 'Reading the label… ')}{Math.round(progress * 100)}%</Txt>
+          {job ? <View accessibilityLiveRegion="polite" style={{ gap: 8 }}><ActivityIndicator color={colors.teal} />{fallback ? <Txt style={{ fontSize: 12, color: colors.muted }}>{i18nUi('نكمل القراءة على جهازك…', 'Continuing on your device…')}</Txt> : null}<Txt>{ar ? 'جارٍ قراءة الملصق… ' : i18nUi('جارٍ قراءة الملصق… ', 'Reading the label… ')}{Math.round(progress * 100)}%</Txt>
             <Action compact title={ar ? 'إلغاء القراءة' : i18nUi('إلغاء القراءة', 'Cancel reading')} onPress={() => { reading.current = null; setJob(null); }} /></View> : null}
           {aiBusy ? <View accessibilityLiveRegion="polite" style={{ gap: 8 }}><ActivityIndicator color={colors.teal} /><Txt>{ar ? 'جارٍ قراءة الكيس…' : i18nUi('جارٍ قراءة الكيس…', 'Reading the bag…')}</Txt>
             <Action compact title={ar ? 'إلغاء القراءة' : i18nUi('إلغاء القراءة', 'Cancel reading')} onPress={() => { aiRequest.current?.abort(); aiRequest.current = null; setAiBusy(false); setCropping(true); }} /></View> : null}
@@ -264,7 +289,11 @@ function CoffeeLabelScanner({ coffees, method: initialMethod, model, initialServ
           <Action title={ar ? 'اعثر على أقرب وصفة' : i18nUi('اعثر على أقرب وصفة', 'Find the closest recipe')} variant="primary" disabled={matching || !!job || aiBusy || needsReview || cropping || (!coffee && !hasCoffeeLabelFacts(label))} onPress={() => void find()} />
           {matching ? <ActivityIndicator color={colors.teal} /> : null}
           {matchError ? <View style={{ gap: 8 }}><Txt accessibilityRole="alert" style={styles.error}>{ar ? 'تعذّر البحث عن الوصفات. بياناتك موجودة؛ حاول مرة ثانية.' : i18nUi('تعذّر البحث عن الوصفات. بياناتك موجودة؛ حاول مرة ثانية.', 'Recipe search failed. Your details are kept; try again.')}</Txt><Action title={ar ? 'إعادة المحاولة' : i18nUi('إعادة المحاولة', 'Retry')} onPress={() => void find()} /></View> : null}
-          {searched && !matching && !matchError && !recipes.length ? <View testID="coffee-label-no-match"><Txt>{ar ? 'ما لقينا وصفة منشورة قريبة لهالبيانات وطريقة التحضير والتقديم. راجع البيانات أو جرّب نوع تقديم آخر.' : i18nUi('ما لقينا وصفة منشورة قريبة لهالبيانات وطريقة التحضير والتقديم. راجع البيانات أو جرّب نوع تقديم آخر.', 'No close published recipe for these details, method and serving. Review the details or try another serving style.')}</Txt></View> : null}
+          {searched && !matching && !matchError && !recipes.length ? <View testID="coffee-label-no-match"><Txt>{ar ? 'ما لقينا وصفة منشورة قريبة لهالبيانات وطريقة التحضير والتقديم. راجع البيانات أو جرّب نوع تقديم آخر.' : i18nUi('ما لقينا وصفة منشورة قريبة لهالبيانات وطريقة التحضير والتقديم. راجع البيانات أو جرّب نوع تقديم آخر.', 'No close published recipe for these details, method and serving. Review the details or try another serving style.')}</Txt>
+            {onInvent ? <View style={{ gap: 6, marginTop: 8 }}>
+              <Action variant="primary" title={i18nUi('اصنع وصفة لهذا الكيس', 'Make a recipe for this bag')} onPress={() => onInvent(coffee ? { ...label, name: coffee.name } : label)} />
+              <Txt style={{ fontSize: 12, lineHeight: 19, color: colors.muted }}>{i18nUi('وصفة مخترعة من اسم البن ومنشئه وإيحاءاته، مبنية على وصفات منشورة قريبة. جرّبها وعدّل حسب طعم كوبك.', 'An invented recipe from the bag’s name, origin and notes, built on nearby published recipes. Try it and adjust to taste.')}</Txt>
+            </View> : null}</View> : null}
           {recipes.length && onMatches ? <Action variant="primary" title={ar ? 'حضّر وصفة من هذه النتائج' : i18nUi('حضّر وصفة من هذه النتائج', 'Generate a recipe from these results')} onPress={() => onMatches(recipes, coffee?.name || label.name)} /> : null}
           {recipes.length ? <View style={{ gap: 5 }}>
             <Txt heading style={{ fontSize: 16 }}>{ar ? `الوصفات الأقرب (${recipes.length})` : i18nUi(`الوصفات الأقرب (${recipes.length})`, `Closest recipes (${recipes.length})`)}</Txt>
