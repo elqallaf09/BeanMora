@@ -16,7 +16,10 @@ export async function chooseSocialMedia(type: 'image' | 'video', camera = false)
     if (!permission.granted) throw new Error('CAMERA_PERMISSION');
   }
   const options: ImagePicker.ImagePickerOptions = {
-    mediaTypes: type === 'image' ? ['images'] : ['videos'], quality: 0.85,
+    mediaTypes: type === 'image' ? ['images'] : ['videos'],
+    // Phone cameras produce 12 MP+ photos; 0.7 roughly halves the upload
+    // and the time a story takes to open, with no visible loss on a phone.
+    quality: 0.7,
     base64: type === 'image', exif: false, videoMaxDuration: 60,
     videoExportPreset: ImagePicker.VideoExportPreset.H264_1280x720,
   };

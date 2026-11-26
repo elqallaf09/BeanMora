@@ -32,7 +32,7 @@ import {
   type EquipmentReview,
   type RoasterItem,
 } from './catalog';
-import { searchText } from './guards';
+import { searchEquipment } from './equipmentSearch';
 import {
   mapRecipe,
   RECIPE_FIELDS,
@@ -236,19 +236,22 @@ export function EquipmentDirectory({
       ].sort(),
     [rows],
   );
-  const visible = rows.filter(
+  const found = searchEquipment(
+    rows.filter(
+      (row) =>
+        (filter === 'all' || equipmentKind(row) === filter) &&
+        (brand === 'all' || row.brand === brand),
+    ),
     (row) =>
-      (filter === 'all' || equipmentKind(row) === filter) &&
-      (brand === 'all' || row.brand === brand) &&
-      searchText(
-        [
-          row.name,
-          row.originalName ?? '',
-          row.brand ?? '',
-          categoryLabel(equipmentKind(row), locale),
-        ].join(' '),
-      ).includes(searchText(search)),
+      [
+        row.name,
+        row.originalName ?? '',
+        row.brand ?? '',
+        categoryLabel(equipmentKind(row), locale),
+      ].join(' '),
+    search,
   );
+  const visible = found.rows;
   const cols = width >= 1000 ? 3 : width >= 700 ? 2 : 1;
   const cardWidth = (Math.min(width, 1120) - 36 - (cols - 1) * 12) / cols;
   return (
@@ -297,6 +300,18 @@ export function EquipmentDirectory({
               <SelectionMenu style={{ flexGrow: 1, flexBasis: 180 }} label={ar ? 'نوع الأداة' : i18nUi('نوع الأداة', 'Equipment type')} items={kinds.map(id => ({ id, name: categoryLabel(id, locale) }))} value={filter} onChange={value => { setFilter(value); list.current?.scrollToOffset({ offset: 0, animated: false }); }} />
               {brands.length > 1 ? <SelectionMenu style={{ flexGrow: 1, flexBasis: 180 }} label={ar ? 'الشركة' : i18nUi('الشركة', 'Brand')} items={[{ id: 'all', name: ar ? 'كل الشركات' : i18nUi('كل الشركات', 'All brands') }, ...brands.map(id => ({ id, name: id }))]} value={brand} onChange={value => { setBrand(value); list.current?.scrollToOffset({ offset: 0, animated: false }); }} /> : null}
             </View>
+            {found.nearest ? (
+              <View testID="equipment-nearest" accessibilityLiveRegion="polite" style={[styles.card, { padding: 14, gap: 4 }]}>
+                <Txt style={{ fontWeight: '700' }}>
+                  {ar
+                    ? `«${search.trim()}» غير موجود في الدليل حاليًا.`
+                    : i18nUi(`«${search.trim()}» غير موجود في الدليل حاليًا.`, `"${search.trim()}" is not in the directory yet.`)}
+                </Txt>
+                <Txt style={styles.muted}>
+                  {ar ? 'هذه أقرب الموديلات الموجودة:' : i18nUi('هذه أقرب الموديلات الموجودة:', 'These are the closest models we have:')}
+                </Txt>
+              </View>
+            ) : null}
             <View
               style={{
                 flexDirection: ar ? 'row-reverse' : 'row',

@@ -1,6 +1,6 @@
 import { useLabels } from './ui';
 import { useContext, useEffect, useState } from 'react';
-import { ScrollView, Pressable, View } from './native';
+import { ActivityIndicator, ScrollView, Pressable, View } from './native';
 import { supabase } from './client';
 import { Action, Field, Icon, Language, Txt, colors, styles } from './ui';
 import { ConfirmDialog } from './ConfirmDialog';
@@ -17,7 +17,7 @@ export function CoffeeStories({ owner, login }: { owner: string | null; login: (
   const [rows, setRows] = useState<CoffeeStory[]>([]), [profiles, setProfiles] = useState<Record<string, MemberIdentity>>({});
   const [sanction, setSanction] = useState<SocialSanction | null>(null), [open, setOpen] = useState(false), [selected, setSelected] = useState<CoffeeStory | null>(null);
   const [draft, setDraft] = useState<SocialMedia | null>(null), [caption, setCaption] = useState(''), [category, setCategory] = useState<CoffeeStory['category']>('coffee');
-  const [busy, setBusy] = useState(false), [error, setError] = useState(''), [notice, setNotice] = useState(''), [revision, setRevision] = useState(0), [confirmDelete, setConfirmDelete] = useState<CoffeeStory | null>(null), [reporting, setReporting] = useState<CoffeeStory | null>(null), [discard, setDiscard] = useState(false);
+  const [busy, setBusy] = useState(false), [working, setWorking] = useState<'' | 'media' | 'publish'>(''), [error, setError] = useState(''), [notice, setNotice] = useState(''), [revision, setRevision] = useState(0), [confirmDelete, setConfirmDelete] = useState<CoffeeStory | null>(null), [reporting, setReporting] = useState<CoffeeStory | null>(null), [discard, setDiscard] = useState(false);
   useEffect(() => {
     if (!supabase) return; let active = true; const db = supabase;
     void (async () => {
@@ -35,17 +35,17 @@ export function CoffeeStories({ owner, login }: { owner: string | null; login: (
     return () => { active = false; };
   }, [owner, revision, ar, i18nUi]);
   async function choose(type: 'image' | 'video', camera = false) {
-    setError(''); setBusy(true);
+    setError(''); setNotice(''); setBusy(true); setWorking('media');
     try { const media = await chooseSocialMedia(type, camera); if (media) { setDraft(media); } }
     catch { setError(ar ? 'اختر صورة حتى 5 MB أو فيديو MP4 / WebM حتى 15 MB، واسمح بالكاميرا عند التصوير.' : i18nUi('اختر صورة حتى 5 MB أو فيديو MP4 / WebM حتى 15 MB، واسمح بالكاميرا عند التصوير.', 'Choose a photo up to 5 MB or MP4 / WebM video up to 15 MB, and allow the camera when capturing.')); }
-    finally { setBusy(false); }
+    finally { setBusy(false); setWorking(''); }
   }
   async function publish() {
     if (!owner || !supabase || !draft || busy) return;
-    setBusy(true); setError('');
+    setBusy(true); setWorking('publish'); setError('');
     try { await submitCoffeeStory(supabase, owner, draft, category, caption); setDraft(null); setCaption(''); setOpen(false); setNotice(ar ? 'تم نشر قصتك. تظهر لمدة 24 ساعة.' : i18nUi('تم نشر قصتك. تظهر لمدة 24 ساعة.', 'Your story is published for 24 hours.')); setRevision(n => n + 1); }
     catch { setError(ar ? 'تعذّر حفظ القصة. مسودتك موجودة للمحاولة مرة ثانية.' : i18nUi('تعذّر حفظ القصة. مسودتك موجودة للمحاولة مرة ثانية.', 'Could not save story. Your draft is kept for retry.')); }
-    finally { setBusy(false); }
+    finally { setBusy(false); setWorking(''); }
   }
   const visibleStories = rows.filter(s => s.status === 'approved' && s.expires_at && Date.parse(s.expires_at) > Date.now()).sort((a, b) => Date.parse(a.created_at) - Date.parse(b.created_at));
   const authors = [...new Set(visibleStories.map(s => s.user_id))];
@@ -96,10 +96,15 @@ export function CoffeeStories({ owner, login }: { owner: string | null; login: (
       </View>
       <StoryTopics value={category} onChange={setCategory} disabled={busy} />
       <MediaChoices camera choose={(type, camera) => void choose(type, camera)} disabled={busy} />
-      {draft ? <SocialMediaView source={draft.uri} type={draft.type} label={ar ? 'معاينة القصة' : i18nUi('معاينة القصة', 'Story preview')} /> : null}
+      {working === 'media' ? <View accessibilityLiveRegion="polite" style={{ flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 8 }}><ActivityIndicator size="small" color={colors.teal} /><Txt style={styles.muted}>{i18nUi('جارٍ تجهيز الوسائط…', 'Preparing your media…')}</Txt></View> : null}
+      {draft ? <View style={{ gap: 8 }}>
+        <SocialMediaView source={draft.uri} type={draft.type} label={ar ? 'معاينة القصة' : i18nUi('معاينة القصة', 'Story preview')} />
+        <Action compact title={i18nUi('إزالة الوسائط', 'Remove media')} disabled={busy} onPress={() => setDraft(null)} />
+      </View> : null}
       <Field label={ar ? 'وصف القصة' : i18nUi('وصف القصة', 'Story caption')} value={caption} onChangeText={setCaption} maxLength={1000} editable={!busy} />
       <Txt style={[styles.muted, { fontSize: 13 }]}>{i18nUi('بنشر القصة، تؤكد حقك في مشاركة محتواها.', 'By publishing, you confirm you have permission to share this content.')}</Txt>
-      <Action selected title={ar ? 'نشر القصة' : i18nUi('نشر القصة', 'Publish story')} disabled={busy || !draft} onPress={() => void publish()} />
+      {working === 'publish' ? <View accessibilityLiveRegion="polite" style={{ flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 8 }}><ActivityIndicator size="small" color={colors.teal} /><Txt style={styles.muted}>{i18nUi('جارٍ رفع القصة، لا تغلق الصفحة…', 'Uploading your story, keep this page open…')}</Txt></View> : !draft && working !== 'media' ? <Txt style={[styles.muted, { fontSize: 13 }]}>{i18nUi('اختر صورة أو فيديو لتفعيل زر النشر.', 'Choose a photo or video to enable publishing.')}</Txt> : null}
+      <Action selected title={working === 'publish' ? i18nUi('جارٍ النشر…', 'Publishing…') : ar ? 'نشر القصة' : i18nUi('نشر القصة', 'Publish story')} disabled={busy || !draft} onPress={() => void publish()} />
       <Action compact title={ar ? 'إغلاق القصة' : i18nUi('إغلاق القصة', 'Close story composer')} disabled={busy} onPress={discardComposer} />
     </View> : null}
     {selected ? <StoryViewer key={selected.id} stories={visibleStories} initialId={selected.id} profiles={profiles} owner={owner} close={() => setSelected(null)} remove={setConfirmDelete} report={setReporting} busy={busy} suspended={Boolean(confirmDelete || reporting)} overlay={<>{deleteDialog}{reportDialog}</>} /> : <>{deleteDialog}{reportDialog}</>}
