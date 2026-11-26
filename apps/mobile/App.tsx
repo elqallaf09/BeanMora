@@ -864,6 +864,9 @@ function Shell() {
                 />
               ) : tab === 'roasters' ? (
                 <RoasterDirectory
+                  userId={userId}
+                  login={() => requestLogin()}
+                  addCoffee={() => navigate('addBean')}
                                     coffees={data?.coffees ?? []}
                   initialSearch={search}
                   open={(item) => openDetail({ type: 'roaster', item })}
@@ -1019,6 +1022,7 @@ function Shell() {
                           : t.beans}
                       </Txt>
                       <ScanCoffeeButton openRecipe={openRecipe} coffees={coffees} method={method} />
+                      {tab === 'beans' ? <Action title={L('أضف البن', 'Add a coffee')} onPress={() => navigate('addBean')} /> : null}
                       <MethodPicker value={method} onChange={setMethod} />
                       {tab !== 'favorites' ? <MethodGuide
                         key={method ?? 'all'}
