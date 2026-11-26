@@ -85,7 +85,7 @@ for (const ar of [false,true]) test(`independent list privacy, unique header lin
   await page.setViewportSize({width:ar?1536:390,height:950});
   const f = await fixture(page); await login(page,ar);
   const profile = page.getByTestId('member-profile'), sections = page.getByTestId('profile-sections');
-  await expect(sections.getByRole('button')).toHaveCount(7);
+  await expect(sections.getByRole('button')).toHaveCount(6);
   for (const name of ar?['المتابعون','أتابع']:['Followers','Following']) await expect(sections.getByRole('button',{name,exact:true})).toHaveCount(0);
   await profile.getByRole('button',{name:ar?'تعديل الملف':'Edit profile',exact:true}).click();
   await page.getByRole('checkbox',{name:ar?'إخفاء المتابعين':'Hide followers',exact:true}).click();
