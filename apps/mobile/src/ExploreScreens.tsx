@@ -34,6 +34,7 @@ import {
 } from './catalog';
 import { CountryPicker } from './CountryPicker';
 import { searchEquipment } from './equipmentSearch';
+import { RoasterLogo } from './RoasterLogo';
 import {
   mapRecipe,
   RECIPE_FIELDS,
@@ -1460,9 +1461,14 @@ export function RoasterDirectory({
         >
           <View style={s.cardTop}>
             <View style={{ width: 74, height: 74 }}>
+              {/* With a logo: our illustration carries the roaster's mark.
+                  Without one: the roaster's first coffee photo, as before. */}
               <CoffeePhoto
-                uri={coffees.find((c) => c.roasterId === r.id)?.imageUrl}
+                uri={r.logoUrl ? undefined : coffees.find((c) => c.roasterId === r.id)?.imageUrl}
                 seed={r.id}
+                logo={r.logoUrl}
+                logoName={r.name}
+                logoSize={46}
               />
             </View>
             <View style={{ flex: 1 }}>
@@ -1521,7 +1527,7 @@ export function RoasterDetail({
   return (
     <ScrollView contentContainerStyle={[coffeeStyles.page, { maxWidth: 780 }]}>
       <View style={s.roasterHero}>
-        <Icon name="bean" size={42} color="#FFF" />
+        {item.logoUrl ? <RoasterLogo uri={item.logoUrl} name={item.name} size={64} /> : <Icon name="bean" size={42} color="#FFF" />}
         <Txt heading style={[styles.title, { color: '#FFF' }]}>
           {item.name}
         </Txt>
