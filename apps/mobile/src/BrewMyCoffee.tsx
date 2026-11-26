@@ -656,7 +656,7 @@ const s = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  servingActive: { backgroundColor: colors.brown, borderColor: colors.brown },
+  servingActive: { backgroundColor: colors.teal, borderColor: colors.teal },
   servingText: { fontSize: 12, lineHeight: 18, fontWeight: '800' },
   recommend: {
     backgroundColor: colors.paper,

@@ -1069,8 +1069,8 @@ const s = StyleSheet.create({
     gap: 8,
   },
   methodActive: {
-    backgroundColor: colors.brown,
-    borderColor: colors.brown,
+    backgroundColor: colors.teal,
+    borderColor: colors.teal,
   },
   grid: {
     flexDirection: 'row',
