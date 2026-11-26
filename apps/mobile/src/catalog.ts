@@ -47,6 +47,8 @@ export interface RoasterItem {
   description: string;
   country: string;
   websiteUrl: string | null;
+  /** Shown only with the owner's recorded permission for that exact asset. */
+  logoUrl: string | null;
   instagramUrl: string | null;
   sourceUrl: string | null;
   verifiedAt: string | null;
@@ -312,7 +314,7 @@ export async function loadRoasters(
   const { data, error } = await db
     .from('roasters')
     .select(
-      'id,slug,name_ar,name_en,description_ar,description_en,country,website_url,instagram_url,source_url,is_verified,last_verified_at,data_confidence,requires_review,has_physical_store,ships_to_gcc,locations:roaster_locations(label,address,latitude,longitude)',
+      'id,slug,name_ar,name_en,description_ar,description_en,country,logo_url,logo_usage_status,logo_permission_ref,website_url,instagram_url,source_url,is_verified,last_verified_at,data_confidence,requires_review,has_physical_store,ships_to_gcc,locations:roaster_locations(label,address,latitude,longitude)',
     )
     .eq('requires_review', false)
     .order(locale === 'ar' ? 'name_ar' : 'name_en')
@@ -344,6 +346,7 @@ export async function loadRoasters(
         : row.description_en || row.description_ar) ?? '',
     country: row.country ?? '',
     websiteUrl: safeUrl(row.website_url),
+    logoUrl: licensedCatalogImage(row.logo_url, row.logo_usage_status, row.logo_permission_ref),
     instagramUrl: safeUrl(row.instagram_url),
     sourceUrl: safeUrl(row.source_url),
     verifiedAt: row.last_verified_at,

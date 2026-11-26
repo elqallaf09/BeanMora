@@ -37,6 +37,7 @@ import { GrinderSettings } from './GrinderSettings';
 import { SourceLink } from './SourceLink';
 import { useBrewStarter } from './useBrewStarter';
 import { recipeQuickFacts } from './recipeQuickFacts';
+import { RoasterLogo } from './RoasterLogo';
 import { CoffeePhoto } from './CoffeePhoto';
 export { CoffeePhoto } from './CoffeePhoto';
 import { useRotatingPicks } from './useRotatingPicks';
@@ -185,12 +186,17 @@ export function CoffeeCard({
             uri={item.imageUrl}
             uris={item.images}
             kind={item.imageKind}
+            logo={item.logoUrl}
+            logoName={item.roaster ?? ''}
           />
         </View>
         <View style={s.coffeeCopy}>
-          <Txt numberOfLines={1} style={s.coffeeFlavors}>
-            {item.roaster}
-          </Txt>
+          <View style={{ flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 6 }}>
+            <RoasterLogo uri={item.logoUrl} name={item.roaster ?? ''} size={22} />
+            <Txt numberOfLines={1} style={[s.coffeeFlavors, { flex: 1 }]}>
+              {item.roaster}
+            </Txt>
+          </View>
           <Txt numberOfLines={2} style={s.coffeeName}>
             {item.name}
           </Txt>

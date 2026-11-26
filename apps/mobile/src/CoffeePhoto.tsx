@@ -4,18 +4,22 @@ import type { CoffeeImageKind } from './data';
 import { colors, Txt, useLabels } from './ui';
 import { useContentMedia } from './useContentMedia';
 import { catalogPhotoSource } from './catalogPhotoSource';
+import { RoasterLogo } from './RoasterLogo';
 
-export function CoffeePhoto({ uri, uris = [], kind = 'unclassified', fallback }: {
+export function CoffeePhoto({ uri, uris = [], kind = 'unclassified', fallback, logo, logoName = '', logoSize = 54 }: {
   uri?: string | null; uris?: string[]; kind?: CoffeeImageKind;
   seed?: string; detail?: boolean; fallback?: ReactNode;
+  /** Roaster logo shown over the BeanMora illustration when there is no product photo. */
+  logo?: string | null; logoName?: string; logoSize?: number;
 }) {
   const candidates = [...new Set([uri, ...uris].filter((value): value is string => !!value))];
   // A new product starts from its first image without showing the old one.
-  return <PhotoAttempt key={JSON.stringify(candidates)} candidates={candidates} kind={kind} fallback={fallback} />;
+  return <PhotoAttempt key={JSON.stringify(candidates)} candidates={candidates} kind={kind} fallback={fallback} logo={logo} logoName={logoName} logoSize={logoSize} />;
 }
 
-function PhotoAttempt({ candidates, kind, fallback }: {
+function PhotoAttempt({ candidates, kind, fallback, logo, logoName, logoSize }: {
   candidates: string[]; kind: CoffeeImageKind; fallback?: ReactNode;
+  logo?: string | null; logoName: string; logoSize: number;
 }) {
   const L = useLabels();
   const [attempt, setAttempt] = useState(0);
@@ -37,6 +41,9 @@ function PhotoAttempt({ candidates, kind, fallback }: {
       <Image testID="coffee-fallback-art" source={require('../assets/images/coffee-bag.jpg')} resizeMode="cover"
         accessibilityLabel={L('صورة توضيحية · BeanMora', 'Illustration · BeanMora')}
         style={{ width: '100%', height: '100%' }} />
+      {logo && !candidate ? <View pointerEvents="none" style={[StyleSheet.absoluteFill, { alignItems: 'center', justifyContent: 'center' }]}>
+        <RoasterLogo uri={logo} name={logoName} size={logoSize} />
+      </View> : null}
       <View style={{ position: 'absolute', bottom: 6, right: 6, backgroundColor: '#FFF6E7E8', borderRadius: 6, paddingHorizontal: 7, paddingVertical: 2 }}>
         <Txt style={{ fontSize: 10, lineHeight: 14 }}>{L('صورة توضيحية · BeanMora', 'Illustration · BeanMora')}</Txt>
       </View>
