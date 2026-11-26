@@ -88,8 +88,14 @@ for (const ar of [false,true]) test(`independent list privacy, unique header lin
   await expect(sections.getByRole('button')).toHaveCount(6);
   for (const name of ar?['المتابعون','أتابع']:['Followers','Following']) await expect(sections.getByRole('button',{name,exact:true})).toHaveCount(0);
   await profile.getByRole('button',{name:ar?'تعديل الملف':'Edit profile',exact:true}).click();
-  await page.getByRole('checkbox',{name:ar?'إخفاء المتابعين':'Hide followers',exact:true}).click();
-  await page.getByRole('button',{name:ar?'حفظ الملف':'Save profile',exact:true}).click();
+  // Editing opens its own sheet with the save button fixed at the bottom.
+  const editor = page.getByTestId('profile-editor'); await expect(editor).toBeVisible();
+  await expect(editor.getByRole('button',{name:ar?'عام':'Public',exact:true})).toHaveAttribute('aria-pressed','true');
+  await expect(editor.getByRole('button',{name:ar?'خاص':'Private',exact:true})).toHaveAttribute('aria-pressed','false');
+  const hide = editor.getByRole('checkbox',{name:ar?'إخفاء المتابعين':'Hide followers',exact:true});
+  await expect(hide).not.toBeChecked(); await hide.click(); await expect(hide).toBeChecked();
+  await editor.getByRole('button',{name:ar?'حفظ الملف':'Save profile',exact:true}).click();
+  await expect(editor).toHaveCount(0);
   await expect.poll(()=>f.profile.hide_followers).toBe(true); expect(f.profile.hide_following).toBe(false);
   await page.getByTestId('profile-visitors').click();
   await expect(page.getByTestId('view-insights-count')).toContainText('1');

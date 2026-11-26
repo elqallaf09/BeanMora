@@ -1,6 +1,9 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import {
   Image,
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
   Pressable,
   ScrollView,
   View,
@@ -345,6 +348,20 @@ export function MemberProfile({
     );
   const { profile: p } = data,
     own = data.is_owner;
+  const cancelEdit = () => {
+    if (busy) return;
+    setDraft({
+      name: p.name,
+      username: p.username,
+      bio: p.bio ?? "",
+      is_private: p.is_private,
+      share_collection: p.share_collection ?? false,
+      hide_followers: p.hide_followers ?? false,
+      hide_following: p.hide_following ?? false,
+    });
+    setEditing(false);
+    setError("");
+  };
   const sections = [
     ["equipment", "المعدات", "Equipment"],
     ["beans", "البن", "Coffee"],
@@ -662,160 +679,169 @@ export function MemberProfile({
         </Txt>
       ) : null}
       {own && editing ? (
-        <View style={[styles.card, { padding: 15, gap: 12 }]}>
-          <Field
-            label={L("الاسم", "Name")}
-            value={draft.name}
-            onChangeText={(name) => setDraft((v) => ({ ...v, name }))}
-            maxLength={100}
-            editable={!busy}
-          />
-          <Field
-            label={L("اسم المستخدم", "Username")}
-            value={draft.username}
-            onChangeText={(username) => setDraft((v) => ({ ...v, username }))}
-            autoCapitalize="none"
-            autoCorrect={false}
-            maxLength={30}
-            editable={!busy}
-          />
-          <Txt style={styles.muted}>
-            {L(
-              "من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية. يظهر اسم المستخدم في ملفك وبحث BeanMora.",
-              "3–30 letters, numbers or underscores. Your username appears on your profile and in BeanMora search.",
-            )}
-          </Txt>
-          <Field
-            label={L("نبذة عني", "Bio")}
-            value={draft.bio}
-            onChangeText={(bio) => setDraft((v) => ({ ...v, bio }))}
-            multiline
-            maxLength={2000}
-            editable={!busy}
-            placeholder={L(
-              "عرّف بنفسك واهتماماتك بالقهوة…",
-              "Tell us about yourself and your coffee interests…",
-              "あなた自身やコーヒーの好みを紹介しましょう…",
-            )}
-            style={{ minHeight: 96, textAlignVertical: "top" }}
-          />
-          <Txt style={styles.muted}>{draft.bio.length} / 2000</Txt>
-          <View style={styles.row}>
-            <Action
-              title={L("عام", "Public")}
-              selected={!draft.is_private}
-              onPress={() => setDraft((v) => ({ ...v, is_private: false }))}
-            />
-            <Action
-              title={L("خاص", "Private")}
-              selected={draft.is_private}
-              onPress={() => setDraft((v) => ({ ...v, is_private: true }))}
-            />
-          </View>
-          <Txt style={styles.muted}>
-            {L(
-              "الاسم واسم المستخدم ظاهران في البحث. الحساب الخاص يعرض محتوى ملفك للمتابعين المقبولين فقط.",
-              "Name and username remain searchable. Private profile content is visible only to approved followers.",
-            )}
-          </Txt>
-          {(["hide_followers", "hide_following"] as const).map((key) => (
-            <Pressable
-              key={key}
-              accessibilityRole="checkbox"
-              disabled={busy}
-              accessibilityLabel={
-                key === "hide_followers"
-                  ? L("إخفاء المتابعين", "Hide followers", "フォロワーを非表示")
-                  : L("إخفاء من أتابع", "Hide following", "フォロー中を非表示")
-              }
-              accessibilityState={{ checked: draft[key], disabled: busy }}
-              onPress={() => setDraft((v) => ({ ...v, [key]: !v[key] }))}
-              style={{ paddingVertical: 10 }}
-            >
-              <Txt>
-                {(draft[key] ? "☑ " : "☐ ") +
-                  (key === "hide_followers"
-                    ? L(
-                        "إخفاء المتابعين",
-                        "Hide followers",
-                        "フォロワーを非表示",
-                      )
-                    : L(
-                        "إخفاء من أتابع",
-                        "Hide following",
-                        "フォロー中を非表示",
-                      ))}
-              </Txt>
-            </Pressable>
-          ))}
-          <Txt style={styles.muted}>
-            {L(
-              "القائمة المخفية وعددها يظهران لك وحدك، حتى عن المتابعين المقبولين.",
-              "A hidden list and its count are visible only to you, including for approved followers.",
-              "非表示の一覧と人数は、承認済みフォロワーも含め、あなた以外には表示されません。",
-            )}
-          </Txt>
-          <Pressable
-            accessibilityRole="checkbox"
-            accessibilityLabel={L(
-              "مشاركة معداتي والبن والمفضلة",
-              "Share equipment, coffee and favorites",
-            )}
-            accessibilityState={{ checked: draft.share_collection }}
-            onPress={() =>
-              setDraft((v) => ({ ...v, share_collection: !v.share_collection }))
-            }
-            style={{ paddingVertical: 12 }}
+        <Modal transparent visible animationType="slide" onRequestClose={cancelEdit}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
+            style={{ flex: 1, backgroundColor: "#201A1570", justifyContent: wide ? "center" : "flex-end", alignItems: "center", padding: wide ? 20 : 0 }}
           >
-            <Txt>
-              {(draft.share_collection ? "☑ " : "☐ ") +
-                L(
-                  "عرض معداتي والبن والمفضلة لمن يستطيع مشاهدة ملفي",
-                  "Show equipment, coffee and favorites to people who can view my profile",
+            <View
+              testID="profile-editor"
+              accessibilityViewIsModal
+              style={{ width: "100%", maxWidth: 560, maxHeight: "94%", backgroundColor: colors.cream, borderTopLeftRadius: 24, borderTopRightRadius: 24, borderBottomLeftRadius: wide ? 24 : 0, borderBottomRightRadius: wide ? 24 : 0, overflow: "hidden" }}
+            >
+              <View style={{ flexDirection: ar ? "row-reverse" : "row", alignItems: "center", gap: 10, paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: colors.line }}>
+                <Txt heading style={{ flex: 1, fontSize: 19, lineHeight: 28 }}>
+                  {L("تعديل الملف", "Edit profile")}
+                </Txt>
+                <Action compact title={L("إلغاء التعديل", "Cancel editing")} disabled={busy} onPress={cancelEdit} />
+              </View>
+              <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ padding: 16, gap: 18 }}>
+                <View style={{ gap: 12 }}>
+                  <Txt style={editStyle.section}>{L("معلوماتك", "About you")}</Txt>
+              <Field
+                label={L("الاسم", "Name")}
+                value={draft.name}
+                onChangeText={(name) => setDraft((v) => ({ ...v, name }))}
+                maxLength={100}
+                editable={!busy}
+              />
+              <Field
+                label={L("اسم المستخدم", "Username")}
+                value={draft.username}
+                onChangeText={(username) => setDraft((v) => ({ ...v, username }))}
+                autoCapitalize="none"
+                autoCorrect={false}
+                maxLength={30}
+                editable={!busy}
+              />
+              <Txt style={styles.muted}>
+                {L(
+                  "من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية. يظهر اسم المستخدم في ملفك وبحث BeanMora.",
+                  "3–30 letters, numbers or underscores. Your username appears on your profile and in BeanMora search.",
                 )}
-            </Txt>
-          </Pressable>
-          <Action
-            selected
-            disabled={busy}
-            title={L("حفظ الملف", "Save profile")}
-            onPress={() =>
-              void run(async () => {
-                const handle = await updateMemberProfile(
-                  supabase!,
-                  userId!,
-                  draft,
-                );
-                setEditing(false);
-                setNotice(
-                  L(
-                    "تم تحديث الاسم واسم المستخدم وإعدادات الملف.",
-                    "Name, username and profile settings updated.",
-                  ),
-                );
-                if (username && handle !== username) openMember(handle);
-                else setRevision((n) => n + 1);
-              })
-            }
-          />
-          <Action
-            title={L("إلغاء التعديل", "Cancel editing")}
-            disabled={busy}
-            onPress={() => {
-              setDraft({
-                name: p.name,
-                username: p.username,
-                bio: p.bio ?? "",
-                is_private: p.is_private,
-                share_collection: p.share_collection ?? false,
-                hide_followers: p.hide_followers ?? false,
-                hide_following: p.hide_following ?? false,
-              });
-              setEditing(false);
-              setError("");
-            }}
-          />
-        </View>
+              </Txt>
+              <Field
+                label={L("نبذة عني", "Bio")}
+                value={draft.bio}
+                onChangeText={(bio) => setDraft((v) => ({ ...v, bio }))}
+                multiline
+                maxLength={2000}
+                editable={!busy}
+                placeholder={L(
+                  "عرّف بنفسك واهتماماتك بالقهوة…",
+                  "Tell us about yourself and your coffee interests…",
+                  "あなた自身やコーヒーの好みを紹介しましょう…",
+                )}
+                style={{ minHeight: 96, textAlignVertical: "top" }}
+              />
+              <Txt style={styles.muted}>{draft.bio.length} / 2000</Txt>
+                </View>
+                <View style={{ gap: 12 }}>
+                  <Txt style={editStyle.section}>{L("من يشوف ملفك", "Who can see your profile")}</Txt>
+                  <View accessibilityRole="radiogroup" style={{ flexDirection: ar ? "row-reverse" : "row", gap: 10 }}>
+                    {([[false, L("عام", "Public"), L("أي عضو يشوف محتوى ملفك", "Any member can see your profile"), "globe"], [true, L("خاص", "Private"), L("المتابعون المقبولون فقط", "Approved followers only"), "lock"]] as const).map(([value, title, note, icon]) => {
+                      const on = draft.is_private === value;
+                      return (
+                        <Pressable
+                          key={title}
+                          accessibilityRole="button"
+                          accessibilityLabel={title}
+                          accessibilityState={{ selected: on, disabled: busy }}
+                          aria-pressed={on}
+                          disabled={busy}
+                          onPress={() => setDraft((v) => ({ ...v, is_private: value }))}
+                          style={{ flex: 1, minHeight: 84, padding: 12, gap: 6, borderRadius: 16, borderWidth: on ? 2 : 1, borderColor: on ? colors.teal : colors.line, backgroundColor: on ? colors.chip : colors.paper }}
+                        >
+                          <View style={{ flexDirection: ar ? "row-reverse" : "row", alignItems: "center", gap: 8 }}>
+                            <Icon name={icon} size={18} color={colors.teal} />
+                            <Txt style={{ flex: 1, fontWeight: "700", fontSize: 16 }}>{title}</Txt>
+                            <View style={{ width: 20, height: 20, borderRadius: 10, borderWidth: 2, borderColor: colors.teal, alignItems: "center", justifyContent: "center" }}>
+                              {on ? <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: colors.teal }} /> : null}
+                            </View>
+                          </View>
+                          <Txt style={[styles.muted, { fontSize: 12, lineHeight: 18 }]}>{note}</Txt>
+                        </Pressable>
+                      );
+                    })}
+                  </View>
+                  <Txt style={[styles.muted, { fontSize: 12, lineHeight: 19 }]}>
+                    {L(
+                      "الاسم واسم المستخدم ظاهران في البحث. الحساب الخاص يعرض محتوى ملفك للمتابعين المقبولين فقط.",
+                      "Name and username remain searchable. Private profile content is visible only to approved followers.",
+                    )}
+                  </Txt>
+                </View>
+                <View style={{ gap: 4 }}>
+                  <Txt style={editStyle.section}>{L("ما يظهر للآخرين", "What others can see")}</Txt>
+                  <View style={{ borderWidth: 1, borderColor: colors.line, borderRadius: 16, backgroundColor: colors.paper, paddingHorizontal: 12 }}>
+                    {([
+                      ["hide_followers", L("إخفاء المتابعين", "Hide followers", "フォロワーを非表示"), L("إخفاء المتابعين", "Hide followers", "フォロワーを非表示"), L("قائمة متابعيك وعددهم لك وحدك", "Only you see who follows you and how many")],
+                      ["hide_following", L("إخفاء من أتابع", "Hide following", "フォロー中を非表示"), L("إخفاء من أتابع", "Hide following", "フォロー中を非表示"), L("قائمة من تتابعهم وعددهم لك وحدك", "Only you see who you follow and how many")],
+                      ["share_collection", L("مشاركة معداتي والبن والمفضلة", "Share equipment, coffee and favorites"), L("عرض معداتي والبن والمفضلة", "Show my equipment, coffee and favorites"), L("لمن يستطيع مشاهدة ملفك", "To people who can view your profile")],
+                    ] as const).map(([key, label, title, note], index) => (
+                      <Pressable
+                        key={key}
+                        accessibilityRole="checkbox"
+                        accessibilityLabel={label}
+                        accessibilityState={{ checked: draft[key], disabled: busy }}
+                        aria-checked={draft[key]}
+                        disabled={busy}
+                        onPress={() => setDraft((v) => ({ ...v, [key]: !v[key] }))}
+                        style={{ minHeight: 60, paddingVertical: 10, flexDirection: ar ? "row-reverse" : "row", alignItems: "center", gap: 12, borderTopWidth: index ? 1 : 0, borderTopColor: colors.line }}
+                      >
+                        <View style={{ flex: 1, gap: 2 }}>
+                          <Txt style={{ fontWeight: "700" }}>{title}</Txt>
+                          <Txt style={[styles.muted, { fontSize: 12, lineHeight: 18 }]}>{note}</Txt>
+                        </View>
+                        <View style={{ width: 46, height: 28, borderRadius: 14, padding: 3, backgroundColor: draft[key] ? colors.teal : colors.line, alignItems: draft[key] === ar ? "flex-start" : "flex-end" }}>
+                          <View style={{ width: 22, height: 22, borderRadius: 11, backgroundColor: "#FFFFFF" }} />
+                        </View>
+                      </Pressable>
+                    ))}
+                  </View>
+                  <Txt style={[styles.muted, { fontSize: 12, lineHeight: 19, marginTop: 6 }]}>
+                    {L(
+                      "القائمة المخفية وعددها يظهران لك وحدك، حتى عن المتابعين المقبولين.",
+                      "A hidden list and its count are visible only to you, including for approved followers.",
+                      "非表示の一覧と人数は、承認済みフォロワーも含め、あなた以外には表示されません。",
+                    )}
+                  </Txt>
+                </View>
+              </ScrollView>
+              <View style={{ padding: 14, gap: 8, borderTopWidth: 1, borderTopColor: colors.line, backgroundColor: colors.cream }}>
+                {error ? (
+                  <Txt accessibilityRole="alert" style={styles.error}>
+                    {error}
+                  </Txt>
+                ) : null}
+                <Action
+                  variant="primary"
+                  disabled={busy}
+                  title={busy ? L("جارٍ الحفظ…", "Saving…") : L("حفظ الملف", "Save profile")}
+                  accessibilityLabel={L("حفظ الملف", "Save profile")}
+                  onPress={() =>
+                    void run(async () => {
+                      const handle = await updateMemberProfile(
+                        supabase!,
+                        userId!,
+                        draft,
+                      );
+                      setEditing(false);
+                      setNotice(
+                        L(
+                          "تم تحديث الاسم واسم المستخدم وإعدادات الملف.",
+                          "Name, username and profile settings updated.",
+                        ),
+                      );
+                      if (username && handle !== username) openMember(handle);
+                      else setRevision((n) => n + 1);
+                    })
+                  }
+                />
+              </View>
+            </View>
+          </KeyboardAvoidingView>
+        </Modal>
       ) : null}
       {own && (data.requests?.length ?? 0) > 0 ? (
         <View style={{ gap: 9 }}>
@@ -1301,3 +1327,6 @@ function Empty({ ar }: { ar: boolean }) {
     </Txt>
   );
 }
+const editStyle = {
+  section: { fontSize: 13, lineHeight: 20, fontWeight: "700" as const, color: colors.muted },
+};
