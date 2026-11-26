@@ -7,7 +7,7 @@ export type SocialMedia = { id: string; uri: string; bytes: Uint8Array; type: 'i
 export type DirectAudience = 'everyone' | 'followers' | 'off';
 export type DirectConversation = { id: string; user_a: string; user_b: string; created_at: string };
 export type DirectMessage = { id: string; conversation_id: string; sender_id: string; kind: 'text' | 'post' | 'audio'; body: string | null; post_id: string | null; audio_path: string | null; duration_seconds: number | null; expires_at: string; created_at: string; edited_at: string | null };
-export type CoffeeStory = { id: string; user_id: string; media_path: string; media_type: 'image' | 'video'; category: 'coffee' | 'brewing' | 'equipment' | 'coffee_corner'; caption: string; status: 'pending' | 'approved' | 'rejected'; expires_at: string | null; created_at: string; review_reason: string | null; muted?: boolean };
+export type CoffeeStory = { id: string; user_id: string; media_path: string; media_type: 'image' | 'video'; category: 'coffee' | 'brewing' | 'equipment' | 'coffee_corner'; caption: string; status: 'pending' | 'approved' | 'rejected'; expires_at: string | null; created_at: string; review_reason: string | null; muted?: boolean; overlays?: unknown };
 export type SocialSanction = { strikes: number; banned_at: string | null; reason: string | null };
 
 export async function recordStoryView(db: SupabaseClient, storyId: string) {
@@ -118,7 +118,7 @@ export async function deleteDirect(db: SupabaseClient, owner: string, message: D
   if (error || data?.id !== message.id) throw error ?? new Error('MESSAGE_DELETE');
   if (message.audio_path) await db.storage.from('direct-audio').remove([message.audio_path]);
 }
-export async function submitCoffeeStory(db: SupabaseClient, owner: string, media: SocialMedia, category: CoffeeStory['category'], caption: string, muted = false) {
+export async function submitCoffeeStory(db: SupabaseClient, owner: string, media: SocialMedia, category: CoffeeStory['category'], caption: string, muted = false, overlays: Record<string, unknown> | null = null) {
   await requireMember(db, owner);
   const path = await uploadSocialMedia(db, owner, 'coffee-stories', media);
   // Publication and the 24-hour lifetime are assigned by the server, including
@@ -126,7 +126,8 @@ export async function submitCoffeeStory(db: SupabaseClient, owner: string, media
   const values = { id: media.id, user_id: owner, media_path: path, media_type: media.type, category, caption: caption.trim(), rights_confirmed: true,
     // Only video stories carry the flag, and only when asked for, so the insert
     // stays identical to earlier clients in every other case.
-    ...(muted && media.type === 'video' ? { muted: true } : {}) };
+    ...(muted && media.type === 'video' ? { muted: true } : {}),
+    ...(overlays ? { overlays } : {}) };
   const { data, error } = await db.from('coffee_stories').insert(values).select('id').single();
   if (error?.code === '23505') {
     const retry = await db.from('coffee_stories').select('id,user_id,media_path').eq('id', media.id).single();

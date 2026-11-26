@@ -25,10 +25,10 @@ import {
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
 import type { Session } from '@supabase/supabase-js';
-import { configured, supabase } from './src/client';
+import { configured, publicSupabase, supabase } from './src/client';
 import { mapCoffee, mapRecipe, RECIPE_FIELDS, type CoffeeRow, type RecipeRow, type CoffeeItem, type RecipeItem } from './src/data';
 import { MemberDirectory, MemberProfile } from './src/MemberProfile';
-import {loadEquipment} from './src/catalog';
+import {loadEquipment, loadRoasters} from './src/catalog';
 import {
   emptyProfile,
   type Method,
@@ -962,6 +962,7 @@ function Shell() {
                   messages={() => showMessages()}
                   shareDirect={shareToDirect}
                   postId={communityPost}
+                  openRoaster={(id) => { if (publicSupabase) void loadRoasters(publicSupabase, locale).then((list) => { const item = list.find((r) => r.id === id); if (item) openDetail({ type: 'roaster', item }); }).catch(() => undefined); }}
                 />
               ) : tab === 'account' ? (
                 <AccountScreen

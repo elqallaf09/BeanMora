@@ -62,6 +62,17 @@
         }
       ],
       [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow BeanMora to show your recent photos so you can choose one for a coffee story.",
+          "savePhotosPermission": false,
+          "isAccessMediaLocationEnabled": false,
+          "granularPermissions": [
+            "photo"
+          ]
+        }
+      ],
+      [
         "expo-audio",
         {
           "microphonePermission": "Allow BeanMora to record private voice messages of up to one minute.",

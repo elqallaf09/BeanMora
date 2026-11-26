@@ -28,6 +28,8 @@ import { supabase } from "./client";
 import { recordStoryView } from "./core/community-social";
 import type { CoffeeStory } from "./core/community-social";
 import type { MemberIdentity } from "./core/member-social";
+import { StoryOverlayLayer } from "./StoryOverlayLayer";
+import { parseStoryOverlays, type StorySticker } from "./storyOverlays";
 
 export function StoryViewer({
   stories,
@@ -40,7 +42,10 @@ export function StoryViewer({
   busy,
   suspended,
   overlay,
+  openSticker,
 }: {
+  /** Opens the recipe, coffee or roastery a story sticker points to. */
+  openSticker?: (sticker: StorySticker) => void;
   stories: CoffeeStory[];
   initialId: string;
   profiles: Record<string, MemberIdentity>;
@@ -130,6 +135,7 @@ export function StoryViewer({
   });
   if (!current) return null;
   const member = profiles[current.user_id];
+  const drawn = parseStoryOverlays(current.overlays);
   return (
     <Modal
       visible
@@ -159,6 +165,7 @@ export function StoryViewer({
               key={current.id}
               story={current}
               paused={Boolean(paused)}
+              background={drawn?.bg}
               muted={silenced || Boolean(current.muted)}
               next={() => step(1)}
               progress={setProgress}
@@ -188,6 +195,11 @@ export function StoryViewer({
                 />
               ))}
             </View>
+            <StoryOverlayLayer
+              key={"overlays" + current.id}
+              overlays={drawn}
+              onSticker={openSticker ? (sticker) => { close(); openSticker(sticker); } : undefined}
+            />
             <View
               style={{
                 position: "absolute",
@@ -369,6 +381,7 @@ function StoryMedia({
   story,
   paused,
   muted,
+  background,
   next,
   progress,
   viewable,
@@ -376,6 +389,8 @@ function StoryMedia({
   story: CoffeeStory;
   paused: boolean;
   muted: boolean;
+  /** A text-only story: the colour is the whole picture, so nothing is downloaded. */
+  background?: string;
   next: () => void;
   progress: (n: number) => void;
   viewable: () => void;
@@ -383,8 +398,14 @@ function StoryMedia({
   const i18nUi = useLabels();
   const ar = useContext(Language) === "ar";
   const url = useContentMedia("storage://coffee-stories/" + story.media_path);
-  const [ready, setReady] = useState(false),
+  const plain = story.media_type === "image" && !!background;
+  const [ready, setReady] = useState(plain),
     [failed, setFailed] = useState(false);
+  const shown = useRef(viewable);
+  shown.current = viewable;
+  useEffect(() => {
+    if (plain) shown.current();
+  }, [plain]);
   const elapsed = useRef(0),
     advance = useRef(next);
   advance.current = next;
@@ -414,6 +435,7 @@ function StoryMedia({
         </Txt>
       </View>
     );
+  if (plain) return <View testID="story-text-background" style={{ flex: 1, backgroundColor: background }} />;
   if (!url) return <StoryLoading label={loadingLabel} />;
   return (
     <View style={{ flex: 1 }}>

@@ -1,23 +1,28 @@
 import { useLabels } from './ui';
 import { useContext, useEffect, useState } from 'react';
-import { ActivityIndicator, ScrollView, Pressable, View } from './native';
+import { ScrollView, Pressable, View } from './native';
 import { supabase } from './client';
 import { Action, Field, Icon, Language, Txt, colors, styles } from './ui';
+import { StoryComposer, type StickerSource } from './StoryComposer';
+import { parseStoryOverlays, type StorySticker } from './storyOverlays';
 import { ConfirmDialog } from './ConfirmDialog';
 import { StoryViewer } from './StoryViewer';
 import { MemberAvatar } from './MemberAvatar';
-import { StoryTopics } from './StoryTopics';
-import { chooseSocialMedia, MediaChoices, SocialMediaView } from './SocialMedia';
-import { submitCoffeeStory, type CoffeeStory, type SocialMedia, type SocialSanction } from './core/community-social';
+import { SocialMediaView } from './SocialMedia';
+import type { CoffeeStory, SocialSanction } from './core/community-social';
 import type { MemberIdentity } from './core/member-social';
 
-export function CoffeeStories({ owner, login }: { owner: string | null; login: () => void }) {
+export function CoffeeStories({ owner, login, stickers = [], openSticker }: {
+  owner: string | null; login: () => void;
+  /** Recipes, coffees and roasteries a member can place on a story. */
+  stickers?: StickerSource[];
+  openSticker?: (sticker: StorySticker) => void;
+}) {
   const i18nUi = useLabels();
   const ar = useContext(Language) === 'ar';
   const [rows, setRows] = useState<CoffeeStory[]>([]), [profiles, setProfiles] = useState<Record<string, MemberIdentity>>({});
   const [sanction, setSanction] = useState<SocialSanction | null>(null), [open, setOpen] = useState(false), [selected, setSelected] = useState<CoffeeStory | null>(null);
-  const [draft, setDraft] = useState<SocialMedia | null>(null), [caption, setCaption] = useState(''), [category, setCategory] = useState<CoffeeStory['category']>('coffee');
-  const [busy, setBusy] = useState(false), [working, setWorking] = useState<'' | 'media' | 'publish'>(''), [silent, setSilent] = useState(false), [error, setError] = useState(''), [notice, setNotice] = useState(''), [revision, setRevision] = useState(0), [confirmDelete, setConfirmDelete] = useState<CoffeeStory | null>(null), [reporting, setReporting] = useState<CoffeeStory | null>(null), [discard, setDiscard] = useState(false);
+  const [busy, setBusy] = useState(false), [error, setError] = useState(''), [notice, setNotice] = useState(''), [revision, setRevision] = useState(0), [confirmDelete, setConfirmDelete] = useState<CoffeeStory | null>(null), [reporting, setReporting] = useState<CoffeeStory | null>(null);
   useEffect(() => {
     if (!supabase) return; let active = true; const db = supabase;
     void (async () => {
@@ -34,22 +39,8 @@ export function CoffeeStories({ owner, login }: { owner: string | null; login: (
     })().catch(() => { if (active) setError(ar ? 'تعذّر تحميل القصص. حاول التحديث.' : i18nUi('تعذّر تحميل القصص. حاول التحديث.', 'Could not load stories. Try refreshing.')); });
     return () => { active = false; };
   }, [owner, revision, ar, i18nUi]);
-  async function choose(type: 'image' | 'video', camera = false) {
-    setError(''); setNotice(''); setBusy(true); setWorking('media');
-    try { const media = await chooseSocialMedia(type, camera); if (media) { setDraft(media); setSilent(false); } }
-    catch { setError(ar ? 'اختر صورة حتى 5 MB أو فيديو MP4 / WebM حتى 15 MB، واسمح بالكاميرا عند التصوير.' : i18nUi('اختر صورة حتى 5 MB أو فيديو MP4 / WebM حتى 15 MB، واسمح بالكاميرا عند التصوير.', 'Choose a photo up to 5 MB or MP4 / WebM video up to 15 MB, and allow the camera when capturing.')); }
-    finally { setBusy(false); setWorking(''); }
-  }
-  async function publish() {
-    if (!owner || !supabase || !draft || busy) return;
-    setBusy(true); setWorking('publish'); setError('');
-    try { await submitCoffeeStory(supabase, owner, draft, category, caption, silent); setDraft(null); setSilent(false); setCaption(''); setOpen(false); setNotice(ar ? 'تم نشر قصتك. تظهر لمدة 24 ساعة.' : i18nUi('تم نشر قصتك. تظهر لمدة 24 ساعة.', 'Your story is published for 24 hours.')); setRevision(n => n + 1); }
-    catch { setError(ar ? 'تعذّر حفظ القصة. مسودتك موجودة للمحاولة مرة ثانية.' : i18nUi('تعذّر حفظ القصة. مسودتك موجودة للمحاولة مرة ثانية.', 'Could not save story. Your draft is kept for retry.')); }
-    finally { setBusy(false); setWorking(''); }
-  }
   const visibleStories = rows.filter(s => s.status === 'approved' && s.expires_at && Date.parse(s.expires_at) > Date.now()).sort((a, b) => Date.parse(a.created_at) - Date.parse(b.created_at));
   const authors = [...new Set(visibleStories.map(s => s.user_id))];
-  const discardComposer = () => { if (draft || caption.trim()) setDiscard(true); else setOpen(false); };
   async function deleteStory() {
     if (!supabase || !owner || !confirmDelete || busy) return;
     setBusy(true); setError('');
@@ -86,36 +77,9 @@ export function CoffeeStories({ owner, login }: { owner: string | null; login: (
     </ScrollView>
     {notice ? <View accessibilityLiveRegion="polite"><Txt style={styles.success}>{notice}</Txt></View> : null}
     {error ? <View><Txt accessibilityRole="alert" style={styles.error}>{error}</Txt><Action compact title={ar ? 'تحديث القصص' : i18nUi('تحديث القصص', 'Refresh stories')} onPress={() => { setError(''); setRevision(n => n + 1); }} /></View> : null}
-    {open ? <View testID="story-composer" style={[styles.card, { padding: 18, gap: 16, borderRadius: 24 }]}>
-      <View style={{ flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 12 }}>
-        <View style={{ width: 46, height: 46, borderRadius: 16, backgroundColor: colors.chip, alignItems: 'center', justifyContent: 'center' }}><Icon name="story" size={28} color={colors.teal} /></View>
-        <View style={{ flex: 1, gap: 2 }}>
-          <Txt heading style={styles.subtitle}>{i18nUi('قصتك مع القهوة', 'Your coffee story')}</Txt>
-          <Txt style={styles.muted}>{i18nUi('شارك لحظتك مع القهوة لمدة 24 ساعة.', 'Share your coffee moment for 24 hours.')}</Txt>
-        </View>
-      </View>
-      <StoryTopics value={category} onChange={setCategory} disabled={busy} />
-      <MediaChoices camera choose={(type, camera) => void choose(type, camera)} disabled={busy} />
-      {working === 'media' ? <View accessibilityLiveRegion="polite" style={{ flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 8 }}><ActivityIndicator size="small" color={colors.teal} /><Txt style={styles.muted}>{i18nUi('جارٍ تجهيز الوسائط…', 'Preparing your media…')}</Txt></View> : null}
-      {draft ? <View style={{ gap: 8 }}>
-        <SocialMediaView source={draft.uri} type={draft.type} label={ar ? 'معاينة القصة' : i18nUi('معاينة القصة', 'Story preview')} />
-        {draft.type === 'video' ? <Pressable testID="story-silent" accessibilityRole="switch" accessibilityLabel={i18nUi('نشر الفيديو بدون صوت', 'Publish the video without sound')} accessibilityState={{ checked: silent, disabled: busy }} aria-checked={silent} disabled={busy} onPress={() => setSilent(v => !v)} style={({ pressed }) => ({ minHeight: 50, paddingHorizontal: 14, borderRadius: 16, borderWidth: 1, borderColor: silent ? colors.teal : colors.line, backgroundColor: silent ? colors.chip : pressed ? colors.chip : colors.cream, flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 10, opacity: busy ? 0.5 : 1 })}>
-          <Icon name={silent ? 'mute' : 'sound'} size={22} color={colors.teal} />
-          <View style={{ flex: 1 }}>
-            <Txt style={{ fontWeight: '700', fontSize: 14 }}>{silent ? i18nUi('الفيديو بدون صوت', 'Video without sound') : i18nUi('الفيديو بالصوت', 'Video with sound')}</Txt>
-            <Txt style={[styles.muted, { fontSize: 12 }]}>{silent ? i18nUi('اضغط لتشغيل الصوت.', 'Tap to turn sound on.') : i18nUi('اضغط لكتم الصوت قبل النشر.', 'Tap to mute before publishing.')}</Txt>
-          </View>
-        </Pressable> : null}
-        <Action compact title={i18nUi('إزالة الوسائط', 'Remove media')} disabled={busy} onPress={() => { setDraft(null); setSilent(false); }} />
-      </View> : null}
-      <Field label={ar ? 'وصف القصة' : i18nUi('وصف القصة', 'Story caption')} value={caption} onChangeText={setCaption} maxLength={1000} editable={!busy} />
-      <Txt style={[styles.muted, { fontSize: 13 }]}>{i18nUi('بنشر القصة، تؤكد حقك في مشاركة محتواها.', 'By publishing, you confirm you have permission to share this content.')}</Txt>
-      {working === 'publish' ? <View accessibilityLiveRegion="polite" style={{ flexDirection: ar ? 'row-reverse' : 'row', alignItems: 'center', gap: 8 }}><ActivityIndicator size="small" color={colors.teal} /><Txt style={styles.muted}>{i18nUi('جارٍ رفع القصة، لا تغلق الصفحة…', 'Uploading your story, keep this page open…')}</Txt></View> : !draft && working !== 'media' ? <Txt style={[styles.muted, { fontSize: 13 }]}>{i18nUi('اختر صورة أو فيديو لتفعيل زر النشر.', 'Choose a photo or video to enable publishing.')}</Txt> : null}
-      <Action selected title={working === 'publish' ? i18nUi('جارٍ النشر…', 'Publishing…') : ar ? 'نشر القصة' : i18nUi('نشر القصة', 'Publish story')} disabled={busy || !draft} onPress={() => void publish()} />
-      <Action compact title={ar ? 'إغلاق القصة' : i18nUi('إغلاق القصة', 'Close story composer')} disabled={busy} onPress={discardComposer} />
-    </View> : null}
-    {selected ? <StoryViewer key={selected.id} stories={visibleStories} initialId={selected.id} profiles={profiles} owner={owner} close={() => setSelected(null)} remove={setConfirmDelete} report={setReporting} busy={busy} suspended={Boolean(confirmDelete || reporting)} overlay={<>{deleteDialog}{reportDialog}</>} /> : <>{deleteDialog}{reportDialog}</>}
-    <ConfirmDialog visible={discard} title={ar ? 'مسح مسودة القصة' : i18nUi('مسح مسودة القصة', 'Discard story draft')} message={ar ? 'مسح القصة التي لم تنشرها؟' : i18nUi('مسح القصة التي لم تنشرها؟', 'Discard this unpublished story?')} busy={busy} onCancel={() => setDiscard(false)} onConfirm={() => { setDraft(null); setSilent(false); setCaption(''); setOpen(false); setDiscard(false); }} />
+    {open && owner ? <StoryComposer owner={owner} stickers={stickers} close={() => setOpen(false)}
+      published={count => { if (count) { setOpen(false); setNotice(count > 1 ? i18nUi(`تم نشر ${count} قصص. تظهر لمدة 24 ساعة.`, `${count} stories published for 24 hours.`) : ar ? 'تم نشر قصتك. تظهر لمدة 24 ساعة.' : i18nUi('تم نشر قصتك. تظهر لمدة 24 ساعة.', 'Your story is published for 24 hours.')); } setRevision(n => n + 1); }} /> : null}
+    {selected ? <StoryViewer key={selected.id} stories={visibleStories} initialId={selected.id} profiles={profiles} owner={owner} close={() => setSelected(null)} remove={setConfirmDelete} report={setReporting} busy={busy} openSticker={openSticker} suspended={Boolean(confirmDelete || reporting)} overlay={<>{deleteDialog}{reportDialog}</>} /> : <>{deleteDialog}{reportDialog}</>}
   </View>;
 }
 
@@ -149,7 +113,7 @@ export function StoryModeration({ owner }: { owner: string }) {
   return <View style={{ gap: 10 }}><Action title={ar ? 'مراجعة قصص القهوة' : i18nUi('مراجعة قصص القهوة', 'Review coffee stories')} onPress={() => setOpen(!open)} />{open ? <>
     {error ? <Txt style={styles.error}>{error}</Txt> : null}
     <Txt style={styles.muted}>{ar ? 'راجع الوسائط نفسها قبل القرار. رفض محتوى خارج موضوع القهوة يسجّل مخالفة: تحذير أولًا ثم إيقاف عند التكرار.' : i18nUi('راجع الوسائط نفسها قبل القرار. رفض محتوى خارج موضوع القهوة يسجّل مخالفة: تحذير أولًا ثم إيقاف عند التكرار.', 'Inspect the media before deciding. Off-topic rejection records a strike: warning first, then suspension after repetition.')}</Txt>
-    {rows.map(story => <View key={story.id} style={[styles.card, { padding: 12, gap: 10 }]}><SocialMediaView source={'storage://coffee-stories/' + story.media_path} type={story.media_type} label={story.caption || 'Coffee story review'} /><Txt>{story.caption}</Txt><Field label={ar ? 'سبب المخالفة المؤكدة' : i18nUi('سبب المخالفة المؤكدة', 'Reason for confirmed violation')} value={reason} onChangeText={setReason} maxLength={1000} /><Action title={ar ? 'اعتماد القصة' : i18nUi('اعتماد القصة', 'Approve story')} disabled={busy} onPress={() => void review(story.id, true)} /><Action title={ar ? 'رفض: خارج موضوع القهوة' : i18nUi('رفض: خارج موضوع القهوة', 'Reject: off-topic')} disabled={busy || reason.trim().length < 3} onPress={() => void review(story.id, false)} /></View>)}
+    {rows.map(story => <View key={story.id} style={[styles.card, { padding: 12, gap: 10 }]}><SocialMediaView source={'storage://coffee-stories/' + story.media_path} type={story.media_type} label={story.caption || 'Coffee story review'} /><Txt>{story.caption}</Txt>{/* Text and stickers are part of what members see, so the reviewer reads them too. */}{parseStoryOverlays(story.overlays)?.items.map((item, i) => <Txt key={i} style={styles.muted}>{(item.kind === 'text' ? i18nUi('نص على القصة: ', 'Text on story: ') + item.text : i18nUi('ملصق: ', 'Sticker: ') + item.label)}</Txt>)}<Field label={ar ? 'سبب المخالفة المؤكدة' : i18nUi('سبب المخالفة المؤكدة', 'Reason for confirmed violation')} value={reason} onChangeText={setReason} maxLength={1000} /><Action title={ar ? 'اعتماد القصة' : i18nUi('اعتماد القصة', 'Approve story')} disabled={busy} onPress={() => void review(story.id, true)} /><Action title={ar ? 'رفض: خارج موضوع القهوة' : i18nUi('رفض: خارج موضوع القهوة', 'Reject: off-topic')} disabled={busy || reason.trim().length < 3} onPress={() => void review(story.id, false)} /></View>)}
     {!rows.length ? <Txt style={styles.muted}>{ar ? 'تمت مراجعة جميع القصص.' : i18nUi('تمت مراجعة جميع القصص.', 'All stories have been reviewed.')}</Txt> : null}
   </> : null}</View>;
 }
