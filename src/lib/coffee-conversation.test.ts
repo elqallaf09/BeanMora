@@ -103,4 +103,33 @@ describe('grounded coffee conversation contract', () => {
     const result = await converse({ question: 'Find a grinder', locale: 'en', history: [] }, deps);
     expect(result).toMatchObject({ mode: 'ai', answer: expect.stringContaining('manual operation'), sources: [{ title: 'Reviewed grinder', url: document.source_url }] });
   });
+  it('answers about a listed product that has no reviewed facts yet, without inventing specifications', async () => {
+    const document: AssistantDocument = {
+      id: '22222222-2222-4222-8222-222222222222', kind: 'equipment', slug: null as unknown as string,
+      title_ar: 'Listed scale', title_en: 'Listed scale', summary_ar: '', summary_en: '', search_text: 'listed scale',
+      source_url: 'https://manufacturer.example/scale', category: 'scale', methods: ['espresso'], facts: {}, offers: [], verified_at: null,
+    };
+    const plan = { ...guidePlan, intent: 'search', query: { ...query, kind: 'equipment', category: 'scale', terms: ['scale'] }, guidance_ids: [] };
+    const honest = dependencies([plan,
+      { selected_ids: [document.id], evidence: [{ id: document.id, keys: [] }], answer: 'BeanMora lists this scale for espresso, but has no reviewed specifications for it yet.', follow_up: '' }]);
+    honest.search.mockResolvedValue({ documents: [document], rates: [] });
+    await expect(converse({ question: 'What do you think of this scale?', locale: 'en', history: [] }, honest))
+      .resolves.toMatchObject({ mode: 'ai', answer: expect.stringContaining('no reviewed specifications') });
+    const invented = dependencies([plan,
+      { selected_ids: [document.id], evidence: [{ id: document.id, keys: [] }], answer: 'It reads to 0.1 g and responds quickly.', follow_up: '' }]);
+    invented.search.mockResolvedValue({ documents: [document], rates: [] });
+    await expect(converse({ question: 'What do you think of this scale?', locale: 'en', history: [] }, invented)).rejects.toThrow('MODEL_UNKNOWN_FACT');
+  });
+  it('still requires a cited fact for a record that has reviewed facts', async () => {
+    const document: AssistantDocument = {
+      id: '11111111-1111-4111-8111-111111111111', kind: 'equipment', slug: 'reviewed-grinder',
+      title_ar: 'Reviewed grinder', title_en: 'Reviewed grinder', summary_ar: '', summary_en: '', search_text: 'reviewed grinder',
+      source_url: 'https://manufacturer.example/grinder', category: 'grinder', methods: ['espresso'], facts: { operation: 'manual' }, offers: [], verified_at: null,
+    };
+    const deps = dependencies([
+      { ...guidePlan, intent: 'search', query: { ...query, kind: 'equipment', category: 'grinder', terms: ['grinder'] }, guidance_ids: [] },
+      { selected_ids: [document.id], evidence: [{ id: document.id, keys: [] }], answer: 'A fine grinder.', follow_up: '' }]);
+    deps.search.mockResolvedValue({ documents: [document], rates: [] });
+    await expect(converse({ question: 'Find a grinder', locale: 'en', history: [] }, deps)).rejects.toThrow('MODEL_UNKNOWN_FACT');
+  });
 });
