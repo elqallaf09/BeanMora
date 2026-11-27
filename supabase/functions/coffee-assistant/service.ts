@@ -7,7 +7,7 @@ import { EXPERT_BRIEF, briefLessons } from './brief.ts';
  * timeouts, withdrawn consent and invented references are not. */
 export const worthRetrying = (error: unknown) => error instanceof Error && ['MODEL_INVALID', 'MODEL_EMPTY', 'MODEL_INCOMPLETE'].includes(error.message);
 
-const languages = { ar: 'natural conversational Arabic (Kuwaiti when appropriate)', en: 'English', ja: 'Japanese', fr: 'French', it: 'Italian', es: 'Spanish', 'pt-BR': 'Brazilian Portuguese', 'zh-CN': 'Simplified Chinese' } as const;
+const languages = { ar: 'natural conversational Arabic (Kuwaiti when appropriate). Never guess the member\'s gender: address them in the general-audience form Gulf Arabic uses by default (تسوي، تبي، حاجتك، جرّب), not feminine forms (تسوين، تبين، حاجتچ، جرّبي), unless the member\'s own words in this conversation use the feminine for themselves', en: 'English', ja: 'Japanese', fr: 'French', it: 'Italian', es: 'Spanish', 'pt-BR': 'Brazilian Portuguese', 'zh-CN': 'Simplified Chinese' } as const;
 
 export interface ConversationInput {
   question: string; locale: keyof typeof languages;

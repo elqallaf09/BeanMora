@@ -132,6 +132,14 @@ describe('grounded coffee conversation contract', () => {
     deps.search.mockResolvedValue({ documents: [document], rates: [] });
     await expect(converse({ question: 'Find a grinder', locale: 'en', history: [] }, deps)).rejects.toThrow('MODEL_UNKNOWN_FACT');
   });
+  it('tells every Arabic step not to guess the member\'s gender', async () => {
+    const deps = dependencies([guidePlan, guidedAnswer]);
+    await converse(input, deps);
+    for (const call of deps.model.generate.mock.calls) expect(call[2]).toContain("Never guess the member's gender");
+    const english = dependencies([guidePlan, { ...guidedAnswer, answer: 'Use 9 bar as a common reference.', follow_up: '' }]);
+    await converse({ ...input, locale: 'en' }, english);
+    expect(english.model.generate.mock.calls[1][2]).not.toContain('gender');
+  });
   describe('example bank hints', () => {
     const row = { question: 'شنو رأيك بفلير 58؟', answer: 'ignored', plan: { intent: 'search', kind: 'equipment', category: 'espresso_machine', methods: [], terms: ['Flair 58'] } };
     it('gives the planner the closest bank phrasings and their routing, never their answers', async () => {
