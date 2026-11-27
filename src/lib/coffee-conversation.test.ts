@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, expect, it, vi } from 'vitest';
 import { execFileSync } from 'node:child_process';
-import { converse, parseConversationInput, type ConversationInput } from '../../supabase/functions/coffee-assistant/service';
+import { converse, exampleHints, parseConversationInput, type ConversationInput } from '../../supabase/functions/coffee-assistant/service';
 import { hasUnsupportedNumbers } from '../../supabase/functions/coffee-assistant/guidance';
 import type { AssistantDocument } from '../../supabase/functions/_shared/coffee-assistant';
 import { openAIModel, researchProse, type StructuredModel } from '../../supabase/functions/coffee-assistant/model';
@@ -131,6 +131,24 @@ describe('grounded coffee conversation contract', () => {
       { selected_ids: [document.id], evidence: [{ id: document.id, keys: [] }], answer: 'A fine grinder.', follow_up: '' }]);
     deps.search.mockResolvedValue({ documents: [document], rates: [] });
     await expect(converse({ question: 'Find a grinder', locale: 'en', history: [] }, deps)).rejects.toThrow('MODEL_UNKNOWN_FACT');
+  });
+  describe('example bank hints', () => {
+    const row = { question: 'شنو رأيك بفلير 58؟', answer: 'ignored', plan: { intent: 'search', kind: 'equipment', category: 'espresso_machine', methods: [], terms: ['Flair 58'] } };
+    it('gives the planner the closest bank phrasings and their routing, never their answers', async () => {
+      const deps = { ...dependencies([guidePlan, guidedAnswer]), examples: vi.fn(async () => [row, { question: 'x', plan: { kind: 'weapon', category: null, methods: [], terms: ['x'] } }]) };
+      await converse(input, deps);
+      expect(deps.examples).toHaveBeenCalledWith(input.question, 'ar');
+      const sent = deps.model.generate.mock.calls[0][3] as { similar_examples: unknown };
+      expect(sent.similar_examples).toEqual([{ question: row.question, plan: { kind: 'equipment', category: 'espresso_machine', methods: [], terms: ['Flair 58'] } }]);
+      expect(JSON.stringify(deps.model.generate.mock.calls)).not.toContain('ignored');
+    });
+    it('answers normally when the bank is unavailable or returns junk', async () => {
+      const failing = { ...dependencies([guidePlan, guidedAnswer]), examples: vi.fn(async () => { throw new Error('down'); }) };
+      await expect(converse(input, failing)).resolves.toMatchObject({ mode: 'ai' });
+      expect((failing.model.generate.mock.calls[0][3] as { similar_examples: unknown[] }).similar_examples).toEqual([]);
+      for (const junk of [null, 'x', [null, 5, { question: 5 }, { question: 'q', plan: { kind: 'recipe', category: 'DROP TABLE', methods: [], terms: ['a'] } }, { question: 'q', plan: { kind: 'recipe', category: null, methods: [], terms: [] } }]]) expect(exampleHints(junk)).toEqual([]);
+      expect(exampleHints(Array(9).fill(row))).toHaveLength(3);
+    });
   });
   describe('web research when BeanMora has nothing reviewed', () => {
     const scale: AssistantDocument = {
