@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, expect, it, vi } from 'vitest';
 import { execFileSync } from 'node:child_process';
-import { converse, parseConversationInput, type ConversationInput } from '../../supabase/functions/coffee-assistant/service';
+import { converse, exampleHints, parseConversationInput, type ConversationInput } from '../../supabase/functions/coffee-assistant/service';
 import { hasUnsupportedNumbers } from '../../supabase/functions/coffee-assistant/guidance';
 import type { AssistantDocument } from '../../supabase/functions/_shared/coffee-assistant';
 import { openAIModel, researchProse, type StructuredModel } from '../../supabase/functions/coffee-assistant/model';
@@ -132,6 +132,24 @@ describe('grounded coffee conversation contract', () => {
     deps.search.mockResolvedValue({ documents: [document], rates: [] });
     await expect(converse({ question: 'Find a grinder', locale: 'en', history: [] }, deps)).rejects.toThrow('MODEL_UNKNOWN_FACT');
   });
+  describe('example bank hints', () => {
+    const row = { question: 'شنو رأيك بفلير 58؟', answer: 'ignored', plan: { intent: 'search', kind: 'equipment', category: 'espresso_machine', methods: [], terms: ['Flair 58'] } };
+    it('gives the planner the closest bank phrasings and their routing, never their answers', async () => {
+      const deps = { ...dependencies([guidePlan, guidedAnswer]), examples: vi.fn(async () => [row, { question: 'x', plan: { kind: 'weapon', category: null, methods: [], terms: ['x'] } }]) };
+      await converse(input, deps);
+      expect(deps.examples).toHaveBeenCalledWith(input.question, 'ar');
+      const sent = deps.model.generate.mock.calls[0][3] as { similar_examples: unknown };
+      expect(sent.similar_examples).toEqual([{ question: row.question, plan: { kind: 'equipment', category: 'espresso_machine', methods: [], terms: ['Flair 58'] } }]);
+      expect(JSON.stringify(deps.model.generate.mock.calls)).not.toContain('ignored');
+    });
+    it('answers normally when the bank is unavailable or returns junk', async () => {
+      const failing = { ...dependencies([guidePlan, guidedAnswer]), examples: vi.fn(async () => { throw new Error('down'); }) };
+      await expect(converse(input, failing)).resolves.toMatchObject({ mode: 'ai' });
+      expect((failing.model.generate.mock.calls[0][3] as { similar_examples: unknown[] }).similar_examples).toEqual([]);
+      for (const junk of [null, 'x', [null, 5, { question: 5 }, { question: 'q', plan: { kind: 'recipe', category: 'DROP TABLE', methods: [], terms: ['a'] } }, { question: 'q', plan: { kind: 'recipe', category: null, methods: [], terms: [] } }]]) expect(exampleHints(junk)).toEqual([]);
+      expect(exampleHints(Array(9).fill(row))).toHaveLength(3);
+    });
+  });
   describe('web research when BeanMora has nothing reviewed', () => {
     const scale: AssistantDocument = {
       id: '22222222-2222-4222-8222-222222222222', kind: 'equipment', slug: null as unknown as string,
@@ -175,8 +193,43 @@ describe('grounded coffee conversation contract', () => {
       for (const bad of [{ text: 'Fine scale.', sources: [] }, { text: 'Fine scale.', sources: [{ title: 'x', url: 'http://plain.example' }] }, { text: 'See https://x.example', sources: found.sources }]) {
         const deps = researching([searchPlan], bad);
         deps.search.mockResolvedValue({ documents: [scale], rates: [] });
+        // Unusable research is dropped; with no grounded answer queued the request still fails closed.
         await expect(converse({ question: 'This scale?', locale: 'en', history: [] }, deps)).rejects.toThrow('MODEL_INVALID');
+        expect(deps.model.generate.mock.calls.map(call => call[0])).toEqual(['coffee_plan', 'coffee_evidence']);
       }
+    });
+    it('frames research with the expert brief and the reviewed lesson for the product kind', async () => {
+      const deps = researching([searchPlan]);
+      deps.search.mockResolvedValue({ documents: [scale], rates: [] });
+      await converse({ question: 'What do you think of this scale?', locale: 'en', history: [] }, deps);
+      expect(deps.research.mock.calls[0][1]).toContain('How to judge equipment');
+      expect(deps.research.mock.calls[0][2]).toMatchObject({ reviewed_lessons: [{ title: expect.any(String), body: expect.any(String) }] });
+    });
+    it('falls back to the grounded answer when research returns nothing usable', async () => {
+      const deps = researching([searchPlan, { selected_ids: [scale.id], evidence: [{ id: scale.id, keys: [] }], answer: 'BeanMora lists this scale but has no reviewed specifications yet.', follow_up: '' }]);
+      deps.research.mockRejectedValue(new Error('MODEL_INVALID'));
+      deps.search.mockResolvedValue({ documents: [scale], rates: [] });
+      await expect(converse({ question: 'This scale?', locale: 'en', history: [] }, deps)).resolves.toMatchObject({ mode: 'ai', answer: expect.stringContaining('no reviewed specifications') });
+      const unlisted = researching([searchPlan]);
+      unlisted.research.mockRejectedValue(Object.assign(new Error('timed out'), { name: 'TimeoutError' }));
+      await expect(converse({ question: 'Which scale?', locale: 'en', history: [] }, unlisted)).resolves.toEqual({ mode: 'catalog', notice: 'catalog_no_matches' });
+    });
+    it('retries a malformed plan or answer once under its own metered name, and no more', async () => {
+      // The provider adapter throws these codes for an empty or unparsable reply.
+      const failing = (outputs: unknown[]) => {
+        const deps = dependencies(outputs);
+        deps.model.generate.mockImplementation(async () => { const next = outputs.shift(); if (next instanceof Error) throw next; return next; });
+        return deps;
+      };
+      const deps = failing([new Error('MODEL_EMPTY'), guidePlan, new Error('MODEL_INVALID'), guidedAnswer]);
+      await expect(converse(input, deps)).resolves.toMatchObject({ mode: 'ai', answer: guidedAnswer.answer });
+      expect(deps.model.generate.mock.calls.map(call => call[0])).toEqual(['coffee_plan', 'coffee_plan_retry', 'coffee_evidence', 'coffee_evidence_retry']);
+      const broken = failing([new Error('MODEL_EMPTY'), new Error('MODEL_EMPTY'), guidePlan]);
+      await expect(converse(input, broken)).rejects.toThrow('MODEL_EMPTY');
+      expect(broken.model.generate).toHaveBeenCalledTimes(2);
+      const limited = failing([new Error('RATE_LIMITED'), guidePlan]);
+      await expect(converse(input, limited)).rejects.toThrow('RATE_LIMITED');
+      expect(limited.model.generate).toHaveBeenCalledOnce();
     });
     it('strips citation markers and links from researched prose', () => {
       const text = 'Reads 0.1 g ([maker.example](https://maker.example/a?utm_source=openai)). See [the manual](https://maker.example/m) or https://x.example now.';
