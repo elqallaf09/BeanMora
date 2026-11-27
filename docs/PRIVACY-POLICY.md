@@ -30,6 +30,8 @@ Content that you publish publicly may be displayed with your public profile. Cho
 
 Coffee Expert starts with the coffee guide. After you explicitly allow online answers, BeanMora automatically sends your new question, up to six recent exchanges after permission was given (including assistant replies and follow-ups), and relevant public coffee information to OpenAI to prepare an answer. Existing guide-only preferences and earlier conversations are not treated as permission. Avoid entering personal information. You can withdraw permission under **Settings → Coffee expert**. The guide does not send your conversation to OpenAI and may look up information in the public BeanMora catalog. BeanMora keeps an account-linked record of your choice, policy version and decision time; this record contains no conversation text.
 
+When BeanMora has no reviewed information for your question, OpenAI may search the public web to prepare the answer; such an answer is marked as web research and lists the pages it cited, which BeanMora has not reviewed.
+
 BeanMora requests that OpenAI disable response storage for these calls. BeanMora’s usage record contains technical details such as the model, token counts, request status and request identifiers. It excludes the text of questions and answers.
 
 ### Smart coffee-bag reading and OpenAI
@@ -83,6 +85,8 @@ We update this policy when the service's data practices change. The effective da
 ### خبير القهوة وOpenAI
 
 يبدأ «خبير القهوة» بدليل القهوة. بعد سماحك صراحةً بالإجابات عبر الإنترنت، يرسل BeanMora تلقائيًا سؤالك الجديد وما يصل إلى ست جولات حديثة من المحادثة بعد الموافقة، بما فيها ردود المساعد وأسئلة المتابعة، ومعلومات القهوة العامة ذات الصلة إلى OpenAI لإعداد الإجابة. لا تُعدّ التفضيلات السابقة ولا المحادثات السابقة موافقة. تجنّب كتابة معلومات شخصية. يمكنك سحب موافقتك من **الإعدادات ← خبير القهوة**. لا يرسل الدليل محادثتك إلى OpenAI، وقد يبحث في كتالوج BeanMora العام. يحتفظ BeanMora بسجل لاختيارك وإصدار سياسة الموافقة ووقت القرار مرتبط بحسابك، دون نص المحادثة.
+
+إذا لم تتوفر لدى BeanMora معلومات مراجَعة عن سؤالك، قد يبحث OpenAI في الويب العام لإعداد الإجابة؛ وتُعلَّم هذه الإجابة بأنها من بحث الويب وتُعرض معها الصفحات التي استشهدت بها، وهي صفحات لم يراجعها BeanMora.
 
 يطلب BeanMora من OpenAI تعطيل تخزين الردود لهذه الطلبات. يقتصر سجل الاستخدام في BeanMora على تفاصيل تقنية مثل النموذج وعدد وحدات النص المستخدمة وحالة الطلب ومعرّفاته، ويستبعد نصوص الأسئلة والأجوبة.
 

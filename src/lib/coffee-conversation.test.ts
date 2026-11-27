@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { converse, parseConversationInput, type ConversationInput } from '../../supabase/functions/coffee-assistant/service';
 import { hasUnsupportedNumbers } from '../../supabase/functions/coffee-assistant/guidance';
 import type { AssistantDocument } from '../../supabase/functions/_shared/coffee-assistant';
-import type { StructuredModel } from '../../supabase/functions/coffee-assistant/model';
+import { openAIModel, researchProse, type StructuredModel } from '../../supabase/functions/coffee-assistant/model';
 
 const query = { kind: null, category: null, methods: [], terms: [], amount: null, currency: null, clarification: null };
 const input: ConversationInput = { question: 'شلون أضبط القهوة جم بار؟', locale: 'ar', history: [] };
@@ -131,5 +131,71 @@ describe('grounded coffee conversation contract', () => {
       { selected_ids: [document.id], evidence: [{ id: document.id, keys: [] }], answer: 'A fine grinder.', follow_up: '' }]);
     deps.search.mockResolvedValue({ documents: [document], rates: [] });
     await expect(converse({ question: 'Find a grinder', locale: 'en', history: [] }, deps)).rejects.toThrow('MODEL_UNKNOWN_FACT');
+  });
+  describe('web research when BeanMora has nothing reviewed', () => {
+    const scale: AssistantDocument = {
+      id: '22222222-2222-4222-8222-222222222222', kind: 'equipment', slug: null as unknown as string,
+      title_ar: 'Listed scale', title_en: 'Listed scale', summary_ar: '', summary_en: '', search_text: 'listed scale',
+      source_url: 'https://manufacturer.example/scale', category: 'scale', methods: ['espresso'], facts: {}, offers: [], verified_at: null,
+    };
+    const found = { text: 'It reads in 0.1 g steps.', sources: [{ title: 'Maker', url: 'https://manufacturer.example/scale' }] };
+    const searchPlan = { ...guidePlan, intent: 'search', query: { ...query, kind: 'equipment', category: 'scale', terms: ['scale'] }, guidance_ids: [] };
+    function researching(outputs: unknown[], result: unknown = found) {
+      const deps = dependencies(outputs);
+      const research = vi.fn(async (...args: unknown[]) => { void args; return result as { text: string; sources: { title: string; url: string }[] }; });
+      return { ...deps, model: { ...deps.model, research }, research };
+    }
+    it('looks up a listed product that has no reviewed facts and labels the answer as web research', async () => {
+      const deps = researching([searchPlan]);
+      deps.search.mockResolvedValue({ documents: [scale], rates: [] });
+      const result = await converse({ question: 'What do you think of this scale?', locale: 'en', history: [] }, deps);
+      expect(result).toMatchObject({ mode: 'ai', sources: found.sources, matches: [{ document: { id: scale.id } }] });
+      expect(result.answer).toMatch(/^From a web search, not information reviewed by BeanMora:\nIt reads in 0\.1 g steps\.$/);
+      expect(deps.model.generate).toHaveBeenCalledOnce();
+      expect(deps.research.mock.calls[0][2]).toMatchObject({ listed_products: [{ title: 'Listed scale', category: 'scale' }] });
+    });
+    it('keeps the reviewed path for records that have facts', async () => {
+      const grinder = { ...scale, id: '11111111-1111-4111-8111-111111111111', title_ar: 'Reviewed grinder', title_en: 'Reviewed grinder', search_text: 'reviewed grinder', category: 'grinder', facts: { operation: 'manual' } };
+      const deps = researching([{ ...searchPlan, query: { ...searchPlan.query, category: 'grinder', terms: ['grinder'] } },
+        { selected_ids: [grinder.id], evidence: [{ id: grinder.id, keys: ['operation'] }], answer: 'Manual operation.', follow_up: '' }]);
+      deps.search.mockResolvedValue({ documents: [grinder], rates: [] });
+      await expect(converse({ question: 'Find a grinder', locale: 'en', history: [] }, deps)).resolves.toMatchObject({ answer: 'Manual operation.' });
+      expect(deps.research).not.toHaveBeenCalled();
+    });
+    it('looks up unlisted equipment and uncovered topics, but leaves beans to the catalog guide', async () => {
+      const gear = researching([searchPlan]);
+      await expect(converse({ question: 'Which scale is good?', locale: 'en', history: [] }, gear)).resolves.toMatchObject({ mode: 'ai', matches: [] });
+      const topic = researching([{ ...guidePlan, guidance_ids: [] }]);
+      await expect(converse(input, topic)).resolves.toMatchObject({ mode: 'ai', answer: expect.stringMatching(/^من بحث الويب/) });
+      const beans = researching([{ ...guidePlan, intent: 'search', query: { ...query, kind: 'coffee', terms: ['strawberry'] }, guidance_ids: [] }]);
+      await expect(converse({ question: 'أبي بن بإيحاء فراولة', locale: 'ar', history: [] }, beans)).resolves.toEqual({ mode: 'catalog', notice: 'catalog_no_matches' });
+      expect(beans.research).not.toHaveBeenCalled();
+    });
+    it('rejects research without a cited https page or with a link left in the prose', async () => {
+      for (const bad of [{ text: 'Fine scale.', sources: [] }, { text: 'Fine scale.', sources: [{ title: 'x', url: 'http://plain.example' }] }, { text: 'See https://x.example', sources: found.sources }]) {
+        const deps = researching([searchPlan], bad);
+        deps.search.mockResolvedValue({ documents: [scale], rates: [] });
+        await expect(converse({ question: 'This scale?', locale: 'en', history: [] }, deps)).rejects.toThrow('MODEL_INVALID');
+      }
+    });
+    it('strips citation markers and links from researched prose', () => {
+      const text = 'Reads 0.1 g ([maker.example](https://maker.example/a?utm_source=openai)). See [the manual](https://maker.example/m) or https://x.example now.';
+      const start = text.indexOf('([');
+      expect(researchProse(text, [{ start, end: text.indexOf('))') + 2 }])).toBe('Reads 0.1 g. See the manual or now.');
+    });
+    it('requires a completed search and a citation from the provider, and meters the call', async () => {
+      const usage: string[] = [];
+      const reply = (output: unknown[]) => vi.fn(async () => new Response(JSON.stringify({ status: 'completed', model: 'm', output, usage: {} }), { headers: { 'x-request-id': 'req_1' } })) as unknown as typeof fetch;
+      const message = (annotations: unknown[]) => ({ type: 'message', content: [{ type: 'output_text', text: 'Reads 0.1 g (maker).', annotations }] });
+      const cite = { type: 'url_citation', url: 'https://maker.example/a?utm_source=openai', title: 'Maker', start_index: 11, end_index: 19 };
+      const good = reply([{ type: 'web_search_call', status: 'completed' }, message([cite])]);
+      const model = openAIModel('k', 'm', good, { onUsage: async row => { usage.push(row.operation + ':' + row.outcome); } });
+      await expect(model.research!('coffee_research', 'i', {})).resolves.toEqual({ text: 'Reads 0.1 g.', sources: [{ title: 'Maker', url: 'https://maker.example/a' }] });
+      const sent = JSON.parse((good as unknown as { mock: { calls: [string, { body: string }][] } }).mock.calls[0][1].body);
+      expect(sent).toMatchObject({ store: false, tool_choice: 'required', tools: [{ type: 'web_search' }] });
+      await expect(openAIModel('k', 'm', reply([message([cite])])).research!('coffee_research', 'i', {})).rejects.toThrow('MODEL_INVALID');
+      await expect(openAIModel('k', 'm', reply([{ type: 'web_search_call' }, message([])])).research!('coffee_research', 'i', {})).rejects.toThrow('MODEL_INVALID');
+      expect(usage).toEqual(['coffee_research:completed']);
+    });
   });
 });
