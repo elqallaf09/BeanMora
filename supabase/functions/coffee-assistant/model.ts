@@ -134,8 +134,9 @@ export function openAIModel(apiKey: string, model: string, fetcher: typeof fetch
         text: { format: { type: 'json_schema', name, strict: true, schema } },
       }, 8500, parts => {
         const text = parts.map(part => part.text ?? '').join('');
-        if (!text || text.length > 16000) throw new Error('MODEL_INVALID');
-        return JSON.parse(text) as unknown;
+        if (!text) throw new Error('MODEL_EMPTY');
+        if (text.length > 16000) throw new Error('MODEL_INVALID');
+        try { return JSON.parse(text) as unknown; } catch { throw new Error('MODEL_INVALID'); }
       });
     },
     research(name, instructions, input) {
@@ -146,7 +147,7 @@ export function openAIModel(apiKey: string, model: string, fetcher: typeof fetch
         tools: [{ type: 'web_search', search_context_size: 'low' }], tool_choice: 'required',
         instructions,
         input: [{ role: 'user', content: JSON.stringify(input) }],
-      }, 20000, (parts, data) => {
+      }, 18000, (parts, data) => {
         const searched = (data.output ?? []).some(item => (item as { type?: string }).type === 'web_search_call');
         const sources = new Map<string, { title: string; url: string }>();
         let text = '';

@@ -153,6 +153,9 @@ export function createCoffeeAssistantHandler(createClient: typeof supabaseCreate
       // No questions, catalog text, identifiers, tokens or provider responses in logs.
       if (error instanceof CoffeeConsentRequired) return reply({ error: 'COFFEE_CONSENT_REQUIRED' }, 403);
       const failure = publicAssistantFailure(error);
+      // A fixed failure code only, so an outage can be diagnosed from the logs.
+      const code = error instanceof Error && /^[A-Z_]{3,40}$/.test(error.message) ? error.message : error instanceof Error ? error.name : 'UNKNOWN';
+      console.error(JSON.stringify({ event: 'coffee_assistant_failed', request_id: requestId, code, status: failure.status }));
       return reply(failure.body, failure.status);
     }
   };

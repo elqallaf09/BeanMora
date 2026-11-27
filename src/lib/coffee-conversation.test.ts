@@ -175,8 +175,43 @@ describe('grounded coffee conversation contract', () => {
       for (const bad of [{ text: 'Fine scale.', sources: [] }, { text: 'Fine scale.', sources: [{ title: 'x', url: 'http://plain.example' }] }, { text: 'See https://x.example', sources: found.sources }]) {
         const deps = researching([searchPlan], bad);
         deps.search.mockResolvedValue({ documents: [scale], rates: [] });
+        // Unusable research is dropped; with no grounded answer queued the request still fails closed.
         await expect(converse({ question: 'This scale?', locale: 'en', history: [] }, deps)).rejects.toThrow('MODEL_INVALID');
+        expect(deps.model.generate.mock.calls.map(call => call[0])).toEqual(['coffee_plan', 'coffee_evidence']);
       }
+    });
+    it('frames research with the expert brief and the reviewed lesson for the product kind', async () => {
+      const deps = researching([searchPlan]);
+      deps.search.mockResolvedValue({ documents: [scale], rates: [] });
+      await converse({ question: 'What do you think of this scale?', locale: 'en', history: [] }, deps);
+      expect(deps.research.mock.calls[0][1]).toContain('How to judge equipment');
+      expect(deps.research.mock.calls[0][2]).toMatchObject({ reviewed_lessons: [{ title: expect.any(String), body: expect.any(String) }] });
+    });
+    it('falls back to the grounded answer when research returns nothing usable', async () => {
+      const deps = researching([searchPlan, { selected_ids: [scale.id], evidence: [{ id: scale.id, keys: [] }], answer: 'BeanMora lists this scale but has no reviewed specifications yet.', follow_up: '' }]);
+      deps.research.mockRejectedValue(new Error('MODEL_INVALID'));
+      deps.search.mockResolvedValue({ documents: [scale], rates: [] });
+      await expect(converse({ question: 'This scale?', locale: 'en', history: [] }, deps)).resolves.toMatchObject({ mode: 'ai', answer: expect.stringContaining('no reviewed specifications') });
+      const unlisted = researching([searchPlan]);
+      unlisted.research.mockRejectedValue(Object.assign(new Error('timed out'), { name: 'TimeoutError' }));
+      await expect(converse({ question: 'Which scale?', locale: 'en', history: [] }, unlisted)).resolves.toEqual({ mode: 'catalog', notice: 'catalog_no_matches' });
+    });
+    it('retries a malformed plan or answer once under its own metered name, and no more', async () => {
+      // The provider adapter throws these codes for an empty or unparsable reply.
+      const failing = (outputs: unknown[]) => {
+        const deps = dependencies(outputs);
+        deps.model.generate.mockImplementation(async () => { const next = outputs.shift(); if (next instanceof Error) throw next; return next; });
+        return deps;
+      };
+      const deps = failing([new Error('MODEL_EMPTY'), guidePlan, new Error('MODEL_INVALID'), guidedAnswer]);
+      await expect(converse(input, deps)).resolves.toMatchObject({ mode: 'ai', answer: guidedAnswer.answer });
+      expect(deps.model.generate.mock.calls.map(call => call[0])).toEqual(['coffee_plan', 'coffee_plan_retry', 'coffee_evidence', 'coffee_evidence_retry']);
+      const broken = failing([new Error('MODEL_EMPTY'), new Error('MODEL_EMPTY'), guidePlan]);
+      await expect(converse(input, broken)).rejects.toThrow('MODEL_EMPTY');
+      expect(broken.model.generate).toHaveBeenCalledTimes(2);
+      const limited = failing([new Error('RATE_LIMITED'), guidePlan]);
+      await expect(converse(input, limited)).rejects.toThrow('RATE_LIMITED');
+      expect(limited.model.generate).toHaveBeenCalledOnce();
     });
     it('strips citation markers and links from researched prose', () => {
       const text = 'Reads 0.1 g ([maker.example](https://maker.example/a?utm_source=openai)). See [the manual](https://maker.example/m) or https://x.example now.';
