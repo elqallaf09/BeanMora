@@ -34,6 +34,8 @@ When BeanMora has no reviewed information for your question, OpenAI may search t
 
 BeanMora requests that OpenAI disable response storage for these calls. BeanMora’s usage record contains technical details such as the model, token counts, request status and request identifiers. It excludes the text of questions and answers.
 
+When you are signed in, BeanMora saves your Coffee Expert conversations to your account so you can reopen them on any of your devices: your questions, the answers, their sources and the result cards shown. Only you can read them. BeanMora keeps your 50 most recent conversations. You can delete one conversation or all of them under **Coffee Expert → My conversations**, and they are deleted with your account. Guests' conversations are not saved.
+
 ### Smart coffee-bag reading and OpenAI
 
 Reading a coffee bag photo works on your device by default. Smart reading is off until you turn it on while signed in and confirm the disclosure. When it is on, BeanMora sends the bag photo you choose to OpenAI to transcribe the coffee details printed on it, such as name, roaster, origin and roast date. BeanMora does not store the photo, and requests that OpenAI disable response storage for these calls. BeanMora keeps an account-linked record of your choice and a usage record with technical details only (model, token counts, request status), without the photo or the text read from it. You can turn smart reading off in the scanner at any time.
@@ -89,6 +91,8 @@ We update this policy when the service's data practices change. The effective da
 إذا لم تتوفر لدى BeanMora معلومات مراجَعة عن سؤالك، قد يبحث OpenAI في الويب العام لإعداد الإجابة؛ وتُعلَّم هذه الإجابة بأنها من بحث الويب وتُعرض معها الصفحات التي استشهدت بها، وهي صفحات لم يراجعها BeanMora.
 
 يطلب BeanMora من OpenAI تعطيل تخزين الردود لهذه الطلبات. يقتصر سجل الاستخدام في BeanMora على تفاصيل تقنية مثل النموذج وعدد وحدات النص المستخدمة وحالة الطلب ومعرّفاته، ويستبعد نصوص الأسئلة والأجوبة.
+
+عند تسجيل دخولك، يحفظ BeanMora محادثاتك مع «خبير القهوة» في حسابك لتعود إليها من أي جهاز لك: أسئلتك والإجابات ومصادرها وبطاقات النتائج المعروضة. لا يستطيع قراءتها أحد غيرك. يحتفظ BeanMora بآخر ٥٠ محادثة. يمكنك حذف محادثة واحدة أو كل المحادثات من **خبير القهوة ← محادثاتي**، وتُحذف مع حذف حسابك. لا تُحفظ محادثات الزوار.
 
 ### القراءة الذكية لكيس القهوة وOpenAI
 

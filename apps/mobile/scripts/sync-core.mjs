@@ -19,6 +19,7 @@ const pairs = [
   ['../../../src/lib/espresso-control-advice.ts', '../src/core/espresso-control-advice.ts'],
   ['../../../src/lib/local-coffee-assistant.ts', '../src/core/local-coffee-assistant.ts'],
   ['../../../src/lib/coffee-assistant.ts', '../src/core/coffee-assistant.ts'],
+  ['../../../src/lib/coffee-conversations.ts', '../src/core/coffee-conversations.ts'],
   ['../../../src/lib/catalog-comments.ts', '../src/core/catalog-comments.ts'],
   ['../../../src/lib/member-social.ts', '../src/core/member-social.ts'],
   ['../../../src/lib/equipment-facts.ts', '../src/core/equipment-facts.ts'],

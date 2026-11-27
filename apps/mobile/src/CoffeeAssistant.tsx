@@ -26,6 +26,12 @@ import {
 import methodGuides from "./methodGuides.json";
 import { factLabels } from "./core/equipment-facts";
 import { useReducedMotion } from "./Motion";
+import { CoffeeConversationList } from './CoffeeConversationList';
+import { loadConversation, saveConversation } from './coffeeConversationStore';
+import { conversationTitle } from './core/coffee-conversations';
+
+// The open saved conversation outlives this screen, as the turns do in the app shell.
+let openConversation: { owner: string; id: string; title: string } | null = null;
 
 export type AssistantTurn = CoffeeAssistantTurn & { localization?: MessageTrace };
 function AnswerText({ text }: { text: string }) {
@@ -77,6 +83,50 @@ export function CoffeeAssistant({
   const [expandedResults, setExpandedResults] = useState<
     Record<number, boolean>
   >({});
+  const [conversationsOpen, setConversationsOpen] = useState(false);
+  const [saveNotice, setSaveNotice] = useState('');
+  const [currentConversation, setCurrentConversation] = useState<string | null>(null);
+  // Saves the visible turns to the member's account. A failed save never loses
+  // the answer on screen; it only says the conversation is not saved.
+  function remember(owner: string, next: AssistantTurn[]) {
+    if (!supabase || member.current !== owner || !next.length) return;
+    if (!openConversation || openConversation.owner !== owner) openConversation = { owner, id: randomUUID(), title: conversationTitle(next[0].question) };
+    const target = openConversation;
+    setCurrentConversation(target.id);
+    void saveConversation(supabase, { id: target.id, title: target.title, generation: remoteHistory.current?.generation ?? null, turns: next })
+      .then(saved => { if (member.current === owner) setSaveNotice(saved ? '' : i18nUi('هذه المحادثة أكبر من أن تُحفظ.', 'This conversation is too large to save.')); })
+      .catch(() => { if (member.current === owner) setSaveNotice(i18nUi('تعذّر حفظ المحادثة في حسابك الآن. الإجابة باقية أمامك.', 'The conversation could not be saved to your account right now. The answer stays on screen.')); });
+  }
+  function startNew() {
+    remoteHistory.current = null;
+    openConversation = null;
+    setCurrentConversation(null);
+    setTurns([]);
+    setQuestion("");
+    setError("");
+    setSaveNotice('');
+    setExpandedResults({});
+  }
+  async function openSaved(id: string) {
+    const owner = member.current;
+    if (!owner || !supabase || active.current) return;
+    setError('');
+    try {
+      const saved = await loadConversation(supabase, id);
+      if (member.current !== owner) return;
+      if (!saved) { setError(i18nUi('تعذّر فتح هذه المحادثة.', 'This conversation could not be opened.')); return; }
+      const restored = saved.turns as AssistantTurn[];
+      openConversation = { owner, id: saved.id, title: saved.title };
+      setCurrentConversation(saved.id);
+      // Online context continues only under the same permission receipt.
+      remoteHistory.current = saved.generation ? { generation: saved.generation, turns: restored.filter(turn => turn.mode === 'ai').slice(-6) } : null;
+      setTurns(restored);
+      setQuestion(''); setSaveNotice(''); setExpandedResults({});
+      setConversationsOpen(false);
+    } catch {
+      if (member.current === owner) setError(i18nUi('تعذّر فتح المحادثة. تأكد من الاتصال وحاول مجددًا.', 'The conversation could not be opened. Check your connection and try again.'));
+    }
+  }
   useEffect(
     () => () => {
       active.current?.abort();
@@ -98,6 +148,8 @@ export function CoffeeAssistant({
         setBusy(false); setAiNotice('');
         preference.current = defaultAssistantPreference();
         if (member.current) { setTurns([]); setQuestion(''); }
+        if (openConversation && openConversation.owner !== id) openConversation = null;
+        setCurrentConversation(openConversation?.id ?? null); setSaveNotice(''); setConversationsOpen(false);
         member.current = id;
       }
     };
@@ -276,7 +328,9 @@ export function CoffeeAssistant({
       if (controller.signal.aborted) return;
       const localization = usedAi ? undefined : trace.snapshot(turn.answer, turn.suggestions, turn.followUp);
       const canonical = (text:string) => localization ? tracedMessage(localization,text,contentLocale(locale)) : text;
-      setTurns([...turns, { ...turn, question: displayQuestion.trim().slice(0,1000), answer: canonical(turn.answer), suggestions: turn.suggestions?.map(canonical), followUp: turn.followUp ? canonical(turn.followUp) : undefined, localization }].slice(-6));
+      const nextTurns = [...turns, { ...turn, question: displayQuestion.trim().slice(0,1000), answer: canonical(turn.answer), suggestions: turn.suggestions?.map(canonical), followUp: turn.followUp ? canonical(turn.followUp) : undefined, localization }].slice(-6);
+      setTurns(nextTurns);
+      if (signedIn && owner) remember(owner, nextTurns);
       setQuestion("");
       setExpandedResults({});
     } catch {
@@ -593,6 +647,7 @@ export function CoffeeAssistant({
           </View>
         ) : null}
         {error ? <Txt style={styles.error}>{error}</Txt> : null}
+        {signedIn && saveNotice ? <View accessibilityLiveRegion="polite"><Txt style={styles.muted}>{saveNotice}</Txt></View> : null}
       </ScrollView>
       <View
         testID="assistant-composer"
@@ -619,7 +674,7 @@ export function CoffeeAssistant({
           editable={!busy}
           style={{ minHeight: 52, maxHeight: 110 }}
         />
-        <View style={{ flexDirection: ar ? "row-reverse" : "row", gap: 8 }}>
+        <View style={{ flexDirection: ar ? "row-reverse" : "row", gap: 8, flexWrap: "wrap" }}>
           <Action
             compact
             title={ar ? "إرسال" : i18nUi("إرسال", "Send")}
@@ -632,17 +687,33 @@ export function CoffeeAssistant({
               compact
               title={ar ? "محادثة جديدة" : i18nUi("محادثة جديدة", "New conversation")}
               disabled={busy}
-              onPress={() => {
-                remoteHistory.current = null;
-                setTurns([]);
-                setQuestion("");
-                setError("");
-                setExpandedResults({});
-              }}
+              onPress={startNew}
+            />
+          ) : null}
+          {signedIn ? (
+            <Action
+              compact
+              title={i18nUi("محادثاتي", "My conversations")}
+              disabled={busy}
+              onPress={() => setConversationsOpen(true)}
             />
           ) : null}
         </View>
       </View>
+      {signedIn && conversationsOpen && member.current ? (
+        <CoffeeConversationList
+          owner={member.current}
+          currentId={currentConversation}
+          busy={busy}
+          onOpen={id => void openSaved(id)}
+          onNew={() => { startNew(); setConversationsOpen(false); }}
+          onRemoved={ids => {
+            // The answer on screen stays; it is simply no longer a saved conversation.
+            if (openConversation && (ids === 'all' || ids.includes(openConversation.id))) { openConversation = null; setCurrentConversation(null); }
+          }}
+          onClose={() => setConversationsOpen(false)}
+        />
+      ) : null}
     </View>
   );
 }

@@ -14,7 +14,7 @@ export const legalContent = {
         ],
         [
           'خبير القهوة وOpenAI',
-          'يعمل دليل القهوة دون إرسال محادثتك إلى OpenAI، وقد يبحث في كتالوج BeanMora العام. بعد موافقتك الصريحة فقط، يرسل BeanMora إلى OpenAI سؤالك الجديد وما يصل إلى ست جولات من المحادثة بعد الموافقة، بما فيها الردود وأسئلة المتابعة، ومعلومات القهوة العامة ذات الصلة لإعداد إجابتك. تجنّب كتابة معلومات شخصية. يمكنك سحب الموافقة من «الإعدادات ← خبير القهوة». يُحفظ اختيارك وإصدار سياسة الموافقة ووقت القرار مع حسابك، دون نص المحادثة.',
+          'يعمل دليل القهوة دون إرسال محادثتك إلى OpenAI، وقد يبحث في كتالوج BeanMora العام. بعد موافقتك الصريحة فقط، يرسل BeanMora إلى OpenAI سؤالك الجديد وما يصل إلى ست جولات من المحادثة بعد الموافقة، بما فيها الردود وأسئلة المتابعة، ومعلومات القهوة العامة ذات الصلة لإعداد إجابتك. تجنّب كتابة معلومات شخصية. يمكنك سحب الموافقة من «الإعدادات ← خبير القهوة». يُحفظ اختيارك وإصدار سياسة الموافقة ووقت القرار مع حسابك، دون نص المحادثة. إذا لم تتوفر معلومات مراجَعة عن سؤالك، قد يبحث OpenAI في الويب العام، وتُعلَّم الإجابة بأنها من بحث الويب مع مصادرها. عند تسجيل دخولك تُحفظ محادثاتك مع خبير القهوة في حسابك (أسئلتك والإجابات ومصادرها) لتعود إليها من أي جهاز لك، ولا يقرؤها غيرك؛ يُحتفظ بآخر ٥٠ محادثة، وتحذفها متى شئت من «خبير القهوة ← محادثاتي»، وتُحذف مع حسابك.',
         ],
         [
           'المحتوى العام والخاص',
@@ -70,7 +70,7 @@ export const legalContent = {
         ],
         [
           'Coffee Expert and OpenAI',
-          'The coffee guide does not send your conversation to OpenAI and may look up information in BeanMora’s public catalog. Only after you explicitly allow it does BeanMora send your new question, up to six recent exchanges after you agreed (including replies and follow-ups), and relevant public coffee information to OpenAI to prepare your answer. Avoid entering personal information. You can withdraw permission under Settings → Coffee expert. BeanMora keeps an account-linked record of your choice, policy version and decision time without conversation text.',
+          'The coffee guide does not send your conversation to OpenAI and may look up information in BeanMora’s public catalog. Only after you explicitly allow it does BeanMora send your new question, up to six recent exchanges after you agreed (including replies and follow-ups), and relevant public coffee information to OpenAI to prepare your answer. Avoid entering personal information. You can withdraw permission under Settings → Coffee expert. BeanMora keeps an account-linked record of your choice, policy version and decision time without conversation text. When no reviewed information covers your question, OpenAI may search the public web; that answer is marked as web research and lists its sources. When you are signed in, your Coffee Expert conversations (your questions, the answers and their sources) are saved to your account so you can reopen them on any of your devices; only you can read them, the 50 most recent are kept, and you can delete them at any time under Coffee Expert → My conversations. They are deleted with your account.',
         ],
         [
           'Public and private content',
