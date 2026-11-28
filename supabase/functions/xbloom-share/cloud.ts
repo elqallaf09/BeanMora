@@ -81,9 +81,9 @@ export function parseShareRecipe(input: unknown): ShareRecipe {
   if (water < 50 || water > 500) throw new Error('INVALID_INPUT');
   return { model, cup, dose, ratio: Math.round(water / dose * 10) / 10, grind, rpm: Math.round(rpm), name, pours };
 }
-/** Stable identity: the same recipe is saved to xBloom once, whoever asks. */
-export async function recipeHash(recipe: ShareRecipe): Promise<string> {
-  const identity = { ...recipe, name: '' };
+/** Versioned identity, including the normalized recipe name and account scope. */
+export async function recipeHash(recipe: ShareRecipe, accountScope: string = ''): Promise<string> {
+  const identity = { version: 2, accountScope, recipe };
   const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(identity)));
   return [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2, '0')).join('');
 }
@@ -125,11 +125,18 @@ export function findShareLink(value: unknown, depth = 0): string | null {
   return null;
 }
 /** The shared page must describe exactly the recipe we saved. */
-export function matchesShared(detail: unknown, recipe: ShareRecipe): boolean {
+export function matchesShared(detail: unknown, recipe: ShareRecipe, expectedName = recipe.name): boolean {
   const vo = (detail as { recipeVo?: Record<string, unknown> })?.recipeVo;
   if ((detail as { result?: unknown })?.result !== 'success' || !vo) return false;
+  const equal = (actual: unknown, expected: unknown) =>
+    typeof expected === 'number' ? (typeof actual === 'number' || (typeof actual === 'string' && actual.trim() !== '')) && Number(actual) === expected : actual === expected;
+  const expected = cloudRecipe(recipe, expectedName, 0);
+  for (const key of ['theName', 'dose', 'grandWater', 'grinderSize', 'rpm', 'cupType', 'adaptedModel', 'isEnableBypassWater', 'isSetGrinderSize']) {
+    if (!equal(vo[key], expected[key])) return false;
+  }
   let pours: unknown = vo.pourList;
   if (typeof vo.pourDataJSONStr === 'string') { try { pours = JSON.parse(vo.pourDataJSONStr); } catch { return false; } }
-  return Number(vo.dose) === recipe.dose && Number(vo.grinderSize) === recipe.grind && Array.isArray(pours) && pours.length === recipe.pours.length
-    && pours.every((p, i) => Number((p as { volume?: unknown })?.volume) === recipe.pours[i].volume);
+  const expectedPours = JSON.parse(expected.pourDataJSONStr as string) as Record<string, unknown>[];
+  return Array.isArray(pours) && pours.length === expectedPours.length && pours.every((p, i) =>
+    p !== null && typeof p === 'object' && Object.entries(expectedPours[i]).every(([key, value]) => equal(p[key], value)));
 }
